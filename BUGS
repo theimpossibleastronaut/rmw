@@ -1,0 +1,24 @@
+Bugs preceded by the minus sign have been fixed.
+
+Apr 04, 2012
+
+-RecursiveRMDir() broken, purge failing miserably under certain conditions
+
+Mar 27, 2012
+
+-Improper handling of symlinks
+
+Mar 13, 2012
+
++ Won't restore files if the top level dirs don't exist.
+
+Mar 12, 2012
+
+- Segault if rmw tries to remove a WASTE directory that's in the config file
+
+Mar 10, 2012
+
+- Segfault if ~ or $HOME is used in cfg file.
+
+
+This file last updated May 1, 2013

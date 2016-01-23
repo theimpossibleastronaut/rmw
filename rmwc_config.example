@@ -1,0 +1,12 @@
+#
+WASTE = $HOME/.ctrash
+WASTE=/media/home_/andy/.ctrash
+WASTE = /mnt/fs3/.ctrash
+#
+# Desktop Trash folders, for autoPurge
+#
+WASTE = ~/.local/share/Trash
+WASTE=/media/home_/andy/.Trash-1000
+
+# '0' to disable
+purgeDays = 30

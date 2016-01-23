@@ -1,0 +1,4 @@
+rmw (ReMove to Waste) functions as a command line recycle bin/trash can 
+utility. Optionally, it can ReMove files to Desktop trash and has been 
+tested on GNOME, KDE, and Xfce. This is the binary version, not the 
+bash script

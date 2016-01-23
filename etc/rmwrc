@@ -1,0 +1,5 @@
+WASTE = $HOME/.trash.rmw
+#WASTE=$HOME/.local/share/Trash
+
+# '0' to disable
+purgeDays = 90
