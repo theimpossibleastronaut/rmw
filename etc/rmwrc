@@ -1,5 +1,11 @@
-WASTE = $HOME/.trash.rmw
+# Don't use spaces, $HOME, or ~
+
+# uncomment and edit
+#WASTE=/home/<username/.trash.rmw
+
+# rmw will ignore this folder if it's on the same filesystem as the folder above.
 #WASTE=$HOME/.local/share/Trash
 
+# spaces here are okay
 # '0' to disable
 purgeDays = 90
