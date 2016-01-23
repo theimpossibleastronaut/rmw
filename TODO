@@ -1,0 +1,22 @@
+Mar 25, 2012
+
+-change input routine when selecting a file to restore so user can confirm
+or abort (if a typo has taken place)
+
+March 17, 2012
+
+-rmw needs support for files larger than 2G. Compiling
+with -D_FILE_OFFSET_BITS=64 is the temporary workaround.
+
+March 15, 2012
+
+-add protection of WASTE folders and other specified folders
+-add cmd line option to list WASTE folders.
+
+March 13, 2012
+
++Add ability to ReMove files to different filesystems
+-Add checks when creating and opening info file
+
+
+This file last updated Apr 5, 2012

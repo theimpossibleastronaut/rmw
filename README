@@ -1,0 +1,22 @@
+rmw (ReMove to Waste) functions as a command line recycle bin/trash can 
+utility. Optionally, it can ReMove files to Desktop trash and has been 
+tested on GNOME, KDE, and Xfce. This is the binary version, not the 
+bash script
+
+rmw will read the system wide configuration file if $HOME/config/rmw
+isn't present. (./configure --sysconfdir=...) If sysconfdir isn't specified
+rmw defaults to /usr/local/etc
+
+A generic configuration file looks like this:
+
+WASTE = $HOME/.trash.rmw
+#WASTE = $HOME/.local/share/Trash
+purgeDays = 90
+
+Purging can be disabled by using 'purgeDays = 0' in configuration file.
+
+The C version of rmw can remove files in desktop trash automatically
+after 'x' number of days.
+
+This file was last updated May 3, 2013
+
