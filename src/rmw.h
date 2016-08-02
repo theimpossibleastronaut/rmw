@@ -46,7 +46,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "2016.08.02.01a"
+#define VERSION "2016.08.02.02a"
 #endif
 
 #define DEBUG 0
@@ -55,8 +55,9 @@
 #define SYSCONFDIR "/usr/local/etc"
 #endif
 
-  /* datadir also the user's config directory */
+/* datadir also the user's config directory */
 #define DATADIR "/.config/rmw/"
+
   /* 'config' file will be in DATADIR */
 #define CFG DATADIR"config"
 #define UNDOFILE DATADIR"lastrmw"
@@ -65,10 +66,10 @@
 /* Max depth for recursive directory purge function */
 #define DEPTH_MAX 128
 
-
 /* Set a sane limit on maximum number of Waste dirs */
 /* Not yet implemented */
 #define WASTENUM_MAX 16
+
 // shorten PATH_MAX to two characters
 enum
 { MP = PATH_MAX + 1 };
@@ -81,13 +82,15 @@ char file_bn[MP];		/* file base name */
 char cur_file[MP];		/* current file   */
 
 /* rmw info file extension */
-const char info_EXT[] = ".trashinfo";
+/* NOTE: make this non-global */
+/* extern const char info_EXT[] = ".trashinfo"; */
+#define info_EXT ".trashinfo"
 
 
 // Delete files from Waste after x number of days
 // this default value can be overwritten by adding a
 // 'purgeDays=' line to config file
-uint purgeDays = 90;
+uint purgeDays;
 
 char W_cfg[WASTENUM_MAX][MP];
 char W_files[WASTENUM_MAX][MP];
@@ -95,7 +98,7 @@ char W_info[WASTENUM_MAX][MP];
 
 uint W_devnum[WASTENUM_MAX];
 
-ushort wasteNum = 0, curWasteNum = 0;
+ushort wasteNum, curWasteNum;
 
 // for buf_check_with_strop()
 enum
@@ -121,8 +124,8 @@ char present_time[21];
 /* time string to append */
 char appended_time[16];
 
-bool verbose = 0;
-bool bypass = 0;
-bool list = 0;
+bool verbose;
+bool bypass;
+bool list;
 
 #endif

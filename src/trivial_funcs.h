@@ -23,9 +23,11 @@
  *
  */
 
+#ifndef INC_TRIVIAL_FUNCS_H
+#define INC_TRIVIAL_FUNCS_H
 
 void print_usage (void);
-
 void warranty (void);
-
 void version (void);
+
+#endif

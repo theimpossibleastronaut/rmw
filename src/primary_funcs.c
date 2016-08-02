@@ -24,10 +24,60 @@
  */
 
 #include "rmw.h"
+#include "function_prototypes.h"
 
 
-void
-get_config (const char *alt_config)
+/* Before copying or catting strings, make sure str1 won't exceed
+ * PATH_MAX + 1
+ * */
+
+bool buf_check_with_strop (char *s1, const char *s2, bool mode)
+{
+  unsigned int len1, len2;
+  len1 = strlen (s1);
+  len2 = strlen (s2);
+  if (len2 < MP && mode == CPY)
+    {
+      strcpy (s1, s2);
+      return 0;
+    }
+  else if (len1 + len2 < MP && mode == CAT)
+    {
+      strcat (s1, s2);
+      return 0;
+    }
+
+  else if (mode > CAT || mode < CPY)
+    {
+      printf
+	("error in function: buf_check_with_strop() - mode must be either CPY (0) or CAT (1)");
+      abort ();
+    }
+
+  else
+    {
+      printf ("Potential buffer overflow caught. rmw terminating.\n");
+      exit (-1);
+      return 1;
+    }
+
+}
+
+bool buf_check (const char *str, unsigned short boundary)
+{
+
+  unsigned short len = strlen (str);
+
+  if (len >= boundary)
+    {
+      printf ("Potential buffer overrun caught; rmw terminating.\n");
+      exit (1);
+    }
+
+  return 0;
+}
+
+void get_config (const char *alt_config)
 {
 
   struct stat st;
@@ -41,8 +91,11 @@ get_config (const char *alt_config)
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
     {
-      /* Besides boundary checking, buf_check_with_strop()
-       * will perform the strcpy or strcat) */
+	/**
+	 * Besides boundary checking, buf_check_with_strop()
+	 * will perform the strcpy or strcat)
+	 */
+
       /* copy $HOMEDIR to configFile */
       buf_check_with_strop (configFile, HOMEDIR, CPY);
 
@@ -257,47 +310,42 @@ remove_to_waste (void)
 
 }
 
-int
-mkinfo (bool dup_filename)
+int mkinfo (bool dup_filename)
 {
+	FILE *fp;
+	 bool bufstat = 0;
+	 char finalInfoDest[PATH_MAX + 1];
 
-  FILE *fp;
-  bool bufstat = 0;
-  char finalInfoDest[PATH_MAX + 1];
+	 bufstat = buf_check_with_strop (finalInfoDest, W_info[curWasteNum], CPY);
+	 bufstat = buf_check_with_strop (finalInfoDest, file_bn, CAT);
 
-  bufstat = buf_check_with_strop (finalInfoDest, W_info[curWasteNum], CPY);
-  bufstat = buf_check_with_strop (finalInfoDest, file_bn, CAT);
+	if (dup_filename)
+	{
+		buf_check_with_strop (finalInfoDest, appended_time, CAT);
+	}
 
-  if (dup_filename)
+	bufstat = buf_check_with_strop (finalInfoDest, info_EXT, CAT);
+
+	char real_path[PATH_MAX + 1];
+	realpath (cur_file, real_path);
+	fp = fopen (finalInfoDest, "w");
+
+	if (fp != NULL)
+	{
+		fprintf (fp, "[Trash Info]\n");
+		fprintf (fp, "Path=%s\n", real_path);
+		fprintf (fp, "DeletionDate=%s", present_time);
+		fclose (fp);
+		return 0;
+	}
+	else
     {
-      buf_check_with_strop (finalInfoDest, appended_time, CAT);
+		printf ("Unable to create info file: %s\n", finalInfoDest);
+		printf ("Press the enter key to continue...");
+		getchar ();
 
-    }
-
-  bufstat = buf_check_with_strop (finalInfoDest, info_EXT, CAT);
-
-  char real_path[PATH_MAX + 1];
-
-  realpath (cur_file, real_path);
-
-  fp = fopen (finalInfoDest, "w");
-  if (fp != NULL)
-    {
-
-      fprintf (fp, "[Trash Info]\n");
-      fprintf (fp, "Path=%s\n", real_path);
-      fprintf (fp, "DeletionDate=%s", present_time);
-
-      fclose (fp);
-      return 0;
-    }
-  else
-    {
-      printf ("Unable to create info file: %s\n", finalInfoDest);
-      printf ("Press the enter key to continue...");
-      getchar ();
-      return 1;
-    }
+		return 1;
+	}
 }
 
 void
@@ -743,56 +791,7 @@ getche (void)
   return ch;
 }
 
-/* Before copying or catting strings, make sure str1 won't exceed
- * PATH_MAX + 1
- * */
-bool
-buf_check_with_strop (char *s1, const char *s2, bool mode)
-{
-  unsigned int len1, len2;
-  len1 = strlen (s1);
-  len2 = strlen (s2);
-  if (len2 < MP && mode == CPY)
-    {
-      strcpy (s1, s2);
-      return 0;
-    }
-  else if (len1 + len2 < MP && mode == CAT)
-    {
-      strcat (s1, s2);
-      return 0;
-    }
 
-  else if (mode > CAT || mode < CPY)
-    {
-      printf
-	("error in function: buf_check_with_strop() - mode must be either CPY (0) or CAT (1)");
-      abort ();
-    }
-
-  else
-    {
-      printf ("Potential buffer overflow caught. rmw terminating.\n");
-      exit (-1);
-      return 1;
-    }
-
-}
-
-bool
-buf_check (const char *str, unsigned short boundary)
-{
-
-  unsigned short len = strlen (str);
-
-  if (len >= boundary)
-    {
-      printf ("Potential buffer overrun caught; rmw terminating.\n");
-      exit (1);
-    }
-
-  return 0;
-}
 
 /*
  int cp(const char *from, const char *to) { */

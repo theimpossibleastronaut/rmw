@@ -24,9 +24,9 @@
  */
 
 #include "rmw.h"
+#include "function_prototypes.h"
 
-void
-print_usage (void)
+void print_usage (void)
 {
   printf ("-h, --help\n");
   printf ("-c, --config filename     use an alternate configuration\n");
@@ -46,10 +46,7 @@ print_usage (void)
     ("-V, --version             display version and license information\n");
 }
 
-
-
-void
-warranty (void)
+void warranty (void)
 {
   printf
     ("THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n");
@@ -69,8 +66,7 @@ warranty (void)
   exit (0);
 }
 
-void
-version (void)
+void version (void)
 {
 
   printf ("rmw %s\n", VERSION);

@@ -1,5 +1,5 @@
 /*
- * str_funcs.h
+ * primary_funcs.c
  *
  * This file is part of rmw (https://rmw.sf.net)
  *
@@ -23,8 +23,9 @@
  *
  */
 
-#ifndef INC_STR_FUNCS_H
-#define INC_STR_FUNCS_H
+#include "rmw.h"
+#include "str_funcs.h"
+#include "primary_funcs.h"
 
 #include "rmw.h"
 #include "str_funcs.h"
@@ -40,4 +41,48 @@ int trim_slash (char s[]);
 
 void truncate_str (char *str, short len);
 
-#endif
+void get_config (const char *alt_config);
+
+bool pre_rmw_check (const char *cmdargv);
+
+int remove_to_waste (void);
+
+int mkinfo (bool dup_filename);
+
+void Restore (int argc, char *argv[], int optind);
+
+int purge (void);
+
+bool purgeD (void);
+
+void undo_last_rmw (void);
+
+int getch (void);
+
+/* reads from keypress, echoes */
+int getche (void);
+
+/* Before copying or catting strings, make sure str1 won't exceed
+ * PATH_MAX + 1
+ * */
+bool buf_check_with_strop (char *s1, const char *s2, bool mode);
+
+bool buf_check (const char *str, unsigned short boundary);
+
+int rmdir_recursive (char *path, bool isTop);
+
+void mkdirErr (const char *dirname, const char *text_string);
+
+void waste_check (const char *p);
+
+bool isProtected (void);
+
+void restore_select (void);
+
+bool file_exist (const char *filename);
+
+void get_time_string (char *tm_str, unsigned short len, const char *format);
+
+void print_usage (void);
+void warranty (void);
+void version (void);

@@ -23,6 +23,12 @@
  *
  */
 
+#ifndef INC_PRIMARY_FUNCS_H
+#define INC_PRIMARY_FUNCS_H
+
+#include "rmw.h"
+#include "str_funcs.h"
+#include "primary_funcs.h"
 
 void get_config (const char *alt_config);
 
@@ -34,9 +40,9 @@ int mkinfo (bool dup_filename);
 
 void Restore (int argc, char *argv[], int optind);
 
-bool purgeD (void);
-
 int purge (void);
+
+bool purgeD (void);
 
 void undo_last_rmw (void);
 
@@ -65,3 +71,5 @@ void restore_select (void);
 bool file_exist (const char *filename);
 
 void get_time_string (char *tm_str, unsigned short len, const char *format);
+
+#endif

@@ -24,6 +24,7 @@
  */
 
 #include "rmw.h"
+#include "function_prototypes.h"
 
 // str_funcs.c
 // string handling functions for rmw

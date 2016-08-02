@@ -23,14 +23,16 @@
  *
  */
 
-#include "trivial_funcs.h"
-#include "str_funcs.h"
-#include "primary_funcs.h"
+#include "function_prototypes.h"
 
-
-int
-main (int argc, char *argv[])
+int main (int argc, char *argv[])
 {
+	verbose = 0;
+	bypass = 0;
+	list = 0;
+	purgeDays = 90;
+	wasteNum = 0;
+	curWasteNum = 0;
 
   const char *const short_options = "hvc:pgzlsuBa:wV";
 
