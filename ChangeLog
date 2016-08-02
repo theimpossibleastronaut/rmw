@@ -1,3 +1,8 @@
+August 02, 2016
+
+Addressed issues with how the code had been split, updated Makefile to reflect changes
+
+
 June 12, 2013
 
 Purge will no longer run if -z or -s option is
@@ -13,7 +18,7 @@ Changed $HOME/.crmw config directory to $HOME/.config/rmw
 May 1, 2013
 Fixed problem where rmw doesn't honor --sysconfdir
 Switched version numbering system to YYYY.MM.DD.HH format
-  
+
 April 29, 2013
 Bugfix: restoring more than 1020 files at a time would fail,
 caused by too many open files at once. Added fclose(fp) to
@@ -46,7 +51,7 @@ Apr 11, 2012
 
 Apr 6, 2012
 
-Eliminated DEPTH_MAX for rmdir_recursive(), function works but doesn't 
+Eliminated DEPTH_MAX for rmdir_recursive(), function works but doesn't
 protect against possible infinite recursion
 
 Symlink restoration fixed?
@@ -91,7 +96,7 @@ Fixed a few recently created major bugs.
 
 Mar 25, 2012
 
-+Upon restore, time string will be added if a duplicate filename exists 
++Upon restore, time string will be added if a duplicate filename exists
 at destination
 
 +option to undo last ReMove, -u, --undo-last

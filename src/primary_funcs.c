@@ -1,3 +1,30 @@
+/*
+ * primary_funcs.c
+ *
+ * This file is part of rmw (https://rmw.sf.net)
+ *
+ *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ *
+ *
+ */
+
+#include "rmw.h"
+
 
 void
 get_config (const char *alt_config)
@@ -60,7 +87,7 @@ get_config (const char *alt_config)
 	  purgeDays = atoi (tokenPtr);
 	}
       else
-	/* if (strncmp ("PROTECT", confLine, 7) == 0) 
+	/* if (strncmp ("PROTECT", confLine, 7) == 0)
 	   parse_protected (confLine); */
 
       if (wasteNum < WASTENUM_MAX)
@@ -160,7 +187,7 @@ remove_to_waste (void)
   bool dfn = 0;
 
   // cycle through wasteDirs to see which one matches
-  // device number of file                      
+  // device number of file
 
   for (i = 0; i < wasteNum; i++)
     {
@@ -946,7 +973,7 @@ isProtected (void)
  tokenPtr = strtok (line, "=");
  tokenPtr = strtok (NULL, "=");
  tokenPtr = strtok (tokenPtr, ",");
- 
+
  printf ("tokenPtr = '%s'\n", tokenPtr);
  trim (tokenPtr);
  //strncpy (protected[0], tokenPtr, strlen(tokenPtr) );
@@ -956,7 +983,7 @@ isProtected (void)
  // printf("zero = %s\n", protected[0]);
  // tokenPtr = strtok (NULL, ",");
  // protected[1] = tokenPtr;
- //for ( i = 0; i < 2; i++) 
+ //for ( i = 0; i < 2; i++)
  printf("tokenPtr = %s\n", protected[0]);
  printf("tokenPtr = %s\n", protected[1]);
  } */
