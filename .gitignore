@@ -30,3 +30,6 @@
 
 # Debug files
 *.dSYM/
+/config.log
+/config.status
+/src/.deps/rmw-rmw.Po
