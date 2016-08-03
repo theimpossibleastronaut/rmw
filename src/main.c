@@ -27,13 +27,6 @@
 
 int main (int argc, char *argv[])
 {
-	verbose = 0;
-	bypass = 0;
-	list = 0;
-	purgeDays = 90;
-	wasteNum = 0;
-	curWasteNum = 0;
-
   const char *const short_options = "hvc:pgzlsuBa:wV";
 
   const struct option long_options[] = {
@@ -63,6 +56,12 @@ int main (int argc, char *argv[])
 
   const char *alt_config = NULL;
   const char *W_addition = NULL;
+
+  verbose = 0;
+  bypass = 0;
+  list = 0;
+  wasteNum = 0;
+  curWasteNum = 0;
 
   do
     {
@@ -185,15 +184,18 @@ int main (int argc, char *argv[])
 
   int i = 0;
 
-  int status = 0;
 
-  get_config (alt_config);
+  int purge_after = 90;
+
+  get_config (alt_config, purge_after);
 
 // String appended to duplicate filenames
-  get_time_string (appended_time, 16, "_%H%M%S-%y%m%d");
+  get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
 
 // used for DeletionDate in info file
-  get_time_string (present_time, 21, "%FT%T");
+  get_time_string (time_now, 21, "%FT%T");
+
+  int status = 0;
 
   if (optind < argc && !restoreYes && !select && !undo_last)
     {
@@ -271,15 +273,13 @@ int main (int argc, char *argv[])
 	}
     }
 
-  if (purgeYes != 0 && purgeDays == 0)
-    printf ("purging is disabled, 'purgeDays' is set to '0'\n");
+  if (purgeYes != 0 && purge_after == 0)
+    printf ("purging is disabled, 'purge_after' is set to '0'\n");
 
-  if (purgeDays != 0 && restoreYes == 0 && select == 0) {
+  if (purge_after != 0 && restoreYes == 0 && select == 0) {
     if (purgeD () != 0 || purgeYes != 0)
-      status = purge ();
+      status = purge (purge_after);
     }
-
-// pause before exit
 
   if (pause)
     {

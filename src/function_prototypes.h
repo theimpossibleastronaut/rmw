@@ -24,12 +24,6 @@
  */
 
 #include "rmw.h"
-#include "str_funcs.h"
-#include "primary_funcs.h"
-
-#include "rmw.h"
-#include "str_funcs.h"
-#include "primary_funcs.h"
 
 int trim (char s[]);
 
@@ -41,7 +35,7 @@ int trim_slash (char s[]);
 
 void truncate_str (char *str, short len);
 
-void get_config (const char *alt_config);
+void get_config (const char *alt_config, int purge_after);
 
 bool pre_rmw_check (const char *cmdargv);
 
@@ -51,7 +45,7 @@ int mkinfo (bool dup_filename);
 
 void Restore (int argc, char *argv[], int optind);
 
-int purge (void);
+int purge (int purge_after);
 
 bool purgeD (void);
 

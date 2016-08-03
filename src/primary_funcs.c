@@ -77,7 +77,7 @@ bool buf_check (const char *str, unsigned short boundary)
   return 0;
 }
 
-void get_config (const char *alt_config)
+void get_config (const char *alt_config, int purge_after)
 {
 
   struct stat st;
@@ -129,7 +129,7 @@ void get_config (const char *alt_config)
       trim (confLine);
       erase_char (' ', confLine);
 
-      if (strncmp (confLine, "purgeDays", 9) == 0)
+      if (strncmp (confLine, "purge_after", 9) == 0)
 	{
 
 	  tokenPtr = strtok (confLine, "=");
@@ -137,7 +137,7 @@ void get_config (const char *alt_config)
 	  // buf_check (tokenPtr, 4096);
 	  erase_char (' ', tokenPtr);
 	  buf_check (tokenPtr, 6);
-	  purgeDays = atoi (tokenPtr);
+	  purge_after = atoi (tokenPtr);
 	}
       else
 	/* if (strncmp ("PROTECT", confLine, 7) == 0)
@@ -221,7 +221,7 @@ pre_rmw_check (const char *cmdargv)
     {
 
       strcpy (cur_file, cmdargv);
-      strcpy (file_bn, basename (cur_file));
+      strcpy (file_basename, basename (cur_file));
       return isProtected ();
     }
 
@@ -250,12 +250,12 @@ remove_to_waste (void)
 	  // used by mkinfo
 	  curWasteNum = i;
 	  buf_check_with_strop (finalDest, W_files[i], CPY);
-	  buf_check_with_strop (finalDest, file_bn, CAT);
+	  buf_check_with_strop (finalDest, file_basename, CAT);
 	  // If a duplicate file exists
 	  if (file_exist (finalDest) == 0)
 	    {
 	      // append a time string
-	      buf_check_with_strop (finalDest, appended_time, CAT);
+	      buf_check_with_strop (finalDest, time_str_appended, CAT);
 
 	      // tell make info there's a duplicate
 	      dfn = 1;
@@ -317,11 +317,11 @@ int mkinfo (bool dup_filename)
 	 char finalInfoDest[PATH_MAX + 1];
 
 	 bufstat = buf_check_with_strop (finalInfoDest, W_info[curWasteNum], CPY);
-	 bufstat = buf_check_with_strop (finalInfoDest, file_bn, CAT);
+	 bufstat = buf_check_with_strop (finalInfoDest, file_basename, CAT);
 
 	if (dup_filename)
 	{
-		buf_check_with_strop (finalInfoDest, appended_time, CAT);
+		buf_check_with_strop (finalInfoDest, time_str_appended, CAT);
 	}
 
 	bufstat = buf_check_with_strop (finalInfoDest, info_EXT, CAT);
@@ -334,7 +334,7 @@ int mkinfo (bool dup_filename)
 	{
 		fprintf (fp, "[Trash Info]\n");
 		fprintf (fp, "Path=%s\n", real_path);
-		fprintf (fp, "DeletionDate=%s", present_time);
+		fprintf (fp, "DeletionDate=%s", time_now);
 		fclose (fp);
 		return 0;
 	}
@@ -442,7 +442,7 @@ Restore (int argc, char *argv[], int optind)
 
 		  if (onDrive == 0)
 		    {
-		      buf_check_with_strop (fn_to_restore, appended_time,
+		      buf_check_with_strop (fn_to_restore, time_str_appended,
 					    CAT);
 		      if (verbose == 1)
 			{
@@ -551,13 +551,12 @@ purgeD (void)
     }
 }
 
-int
-purge (void)
+int purge (int purge_after)
 {
 
-  if (purgeDays > UINT_MAX)
+  if (purge_after > UINT_MAX)
     {
-      printf ("purgeDays can't be greater than %u\n", UINT_MAX);
+      printf ("purge_after can't be greater than %u\n", UINT_MAX);
       exit (1);
     }
 
@@ -577,10 +576,10 @@ purge (void)
   time_t now;
   time_t then;
 
-  strptime (present_time, "%Y-%m-%dT%H:%M:%S", &tmPtr);
+  strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
 
-  printf ("\nPurging files older than %u days...\n", purgeDays);
+  printf ("\nPurging files older than %u days...\n", purge_after);
 
   /* Read each Waste directory */
   while (p < wasteNum && p < WASTENUM_MAX)
@@ -655,7 +654,7 @@ purge (void)
 	      strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
 	      then = mktime (&tm_then);
 
-	      if (then + (86400 * purgeDays) <= now)
+	      if (then + (86400 * purge_after) <= now)
 		{
 		  // if (then  <= now) { /* For debugging */
 		  success = 0;

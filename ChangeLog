@@ -74,7 +74,7 @@ Path in info file now the real path without time string appended
 
 Mar 29, 2012
 
-Purging can be turned off by using 'purgeDays=0' in configuration file
+Purging can be turned off by using 'purge_after=0' in configuration file
 +option to add Waste directory from command line, -a, --add-waste
 
 

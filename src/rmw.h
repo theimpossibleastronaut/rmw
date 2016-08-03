@@ -46,7 +46,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "2016.08.02.02a"
+#define VERSION "testing"
 #endif
 
 #define DEBUG 0
@@ -78,7 +78,7 @@ enum
 typedef unsigned int uint;
 typedef unsigned short ushort;
 
-char file_bn[MP];		/* file base name */
+char file_basename[MP];		/* file base name */
 char cur_file[MP];		/* current file   */
 
 /* rmw info file extension */
@@ -86,12 +86,7 @@ char cur_file[MP];		/* current file   */
 /* extern const char info_EXT[] = ".trashinfo"; */
 #define info_EXT ".trashinfo"
 
-
-// Delete files from Waste after x number of days
-// this default value can be overwritten by adding a
-// 'purgeDays=' line to config file
-uint purgeDays;
-
+/* TODO: make a structure out of this */
 char W_cfg[WASTENUM_MAX][MP];
 char W_files[WASTENUM_MAX][MP];
 char W_info[WASTENUM_MAX][MP];
@@ -111,18 +106,18 @@ enum
 #define PROTECT_MAX 64
 
 // for command line options
-extern bool list;
+/*extern bool list;
 extern bool verbose;
-extern bool bypass;
+extern bool bypass; */
 
 
 FILE *undo_file_ptr;
 
 char HOMEDIR[MP];
 
-char present_time[21];
-/* time string to append */
-char appended_time[16];
+char time_now[21];
+
+char time_str_appended[16];
 
 bool verbose;
 bool bypass;
