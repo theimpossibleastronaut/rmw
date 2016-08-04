@@ -27,6 +27,9 @@
 
 int main (int argc, char *argv[])
 {
+  char file_basename[MP];
+  char cur_file[MP];
+
   const char *const short_options = "hvc:pgzlsuBa:wV";
 
   const struct option long_options[] = {
@@ -187,7 +190,7 @@ int main (int argc, char *argv[])
 
   int purge_after = 90;
 
-  get_config (alt_config, purge_after);
+  purge_after = get_config (alt_config, purge_after);
 
 // String appended to duplicate filenames
   get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
@@ -209,7 +212,7 @@ int main (int argc, char *argv[])
       for (i = optind; i < argc; i++)
 	{
 
-	  if (pre_rmw_check (argv[i]) == 0)
+	  if (pre_rmw_check (argv[i], file_basename, cur_file) == 0)
 	    {
 
 	      // If the file hasn't been opened yet (should only happen on the
@@ -231,7 +234,7 @@ int main (int argc, char *argv[])
 
 	      // reset status to zero
 	      status = 0;
-	      status = remove_to_waste ();
+	      status = remove_to_waste (file_basename, cur_file);
 
 	      // we only need this once
 	      /* if (count == 0)

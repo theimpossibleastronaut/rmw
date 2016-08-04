@@ -35,13 +35,13 @@ int trim_slash (char s[]);
 
 void truncate_str (char *str, short len);
 
-void get_config (const char *alt_config, int purge_after);
+int get_config (const char *alt_config, int purge_after);
 
-bool pre_rmw_check (const char *cmdargv);
+bool pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file);
 
-int remove_to_waste (void);
+int remove_to_waste (char *file_basename, char *cur_file);
 
-int mkinfo (bool dup_filename);
+int mkinfo (bool dup_filename, char *file_basename, char *cur_file);
 
 void Restore (int argc, char *argv[], int optind);
 
@@ -69,7 +69,7 @@ void mkdirErr (const char *dirname, const char *text_string);
 
 void waste_check (const char *p);
 
-bool isProtected (void);
+bool isProtected (char *cur_file);
 
 void restore_select (void);
 

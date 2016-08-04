@@ -77,7 +77,7 @@ bool buf_check (const char *str, unsigned short boundary)
   return 0;
 }
 
-void get_config (const char *alt_config, int purge_after)
+int get_config (const char *alt_config, int purge_after)
 {
 
   struct stat st;
@@ -199,12 +199,15 @@ void get_config (const char *alt_config, int purge_after)
       exit (1);
     }
 
+  return purge_after;
+
   // From this point on, wasteNum must not be altered
+  /* UPDATE 2016-08-03.. Create a non-global from wasteNum */
 
 }
 
 bool
-pre_rmw_check (const char *cmdargv)
+pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file)
 {
 
   bool onDrive = 0;
@@ -222,13 +225,12 @@ pre_rmw_check (const char *cmdargv)
 
       strcpy (cur_file, cmdargv);
       strcpy (file_basename, basename (cur_file));
-      return isProtected ();
+      return isProtected (cur_file);
     }
 
 }
 
-int
-remove_to_waste (void)
+int remove_to_waste (char *file_basename, char *cur_file)
 {
 
   struct stat st;
@@ -267,7 +269,7 @@ remove_to_waste (void)
 	      printf ("'%s' -> '%s'\n", cur_file, finalDest);
 	      fprintf (undo_file_ptr, "%s\n", finalDest);
 
-	      info_st = mkinfo (dfn);
+	      info_st = mkinfo (dfn, file_basename, cur_file);
 	    }
 	  else
 	    {
@@ -310,7 +312,7 @@ remove_to_waste (void)
 
 }
 
-int mkinfo (bool dup_filename)
+int mkinfo (bool dup_filename, char *file_basename, char *cur_file)
 {
 	FILE *fp;
 	 bool bufstat = 0;
@@ -324,7 +326,7 @@ int mkinfo (bool dup_filename)
 		buf_check_with_strop (finalInfoDest, time_str_appended, CAT);
 	}
 
-	bufstat = buf_check_with_strop (finalInfoDest, info_EXT, CAT);
+	bufstat = buf_check_with_strop (finalInfoDest, DOT_TRASHINFO, CAT);
 
 	char real_path[PATH_MAX + 1];
 	realpath (cur_file, real_path);
@@ -381,7 +383,7 @@ Restore (int argc, char *argv[], int optind)
 	  strcpy (r.ip, r.rp);
 	  strcat (r.ip, "info/");
 	  strcat (r.ip, r.bfn);
-	  strcat (r.ip, info_EXT);
+	  strcat (r.ip, DOT_TRASHINFO);
 
 	  f_state = file_exist (r.ip);
 	  if (f_state != 0)
@@ -661,7 +663,7 @@ int purge (int purge_after)
 		  strcpy (purgeFile, W_files[p]);
 		  char temp[MP];
 		  strcpy (temp, entry->d_name);
-		  truncate_str (temp, strlen (info_EXT));
+		  truncate_str (temp, strlen (DOT_TRASHINFO));
 		  // printf("%s\n", temp);
 		  strcat (purgeFile, temp);
 
@@ -930,8 +932,7 @@ waste_check (const char *p)
     }
 }
 
-bool
-isProtected (void)
+bool isProtected (char *cur_file)
 {
 
   if (bypass == 0)
@@ -944,9 +945,8 @@ isProtected (void)
 	{
 	  short len = strlen (W_cfg[i]);
 	  if (strncmp (rp, W_cfg[i], len) == 0)
-	    {
-	      break;
-	    }
+	    break;
+
 	}
 
       if (i == wasteNum)

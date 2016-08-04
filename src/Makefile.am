@@ -1,6 +1,6 @@
 #packextrasdir=$(docdir)/src
 #SUBDIRS = 
-#EXTRA_DIST=rmw.c funcs.c funcs02.c Makefile.am Makefile.in
+#EXTRA_DIST=rmw.h main.c function_prototypes.h primary_funcs.c Makefile.am Makefile.in
 #packextras_DATA=$(EXTRA_DIST)
 bin_PROGRAMS=rmw
 #AM_CXXFLAGS=$(INTI_CFLAGS)

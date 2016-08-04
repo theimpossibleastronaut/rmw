@@ -74,17 +74,10 @@
 enum
 { MP = PATH_MAX + 1 };
 
-
 typedef unsigned int uint;
 typedef unsigned short ushort;
 
-char file_basename[MP];		/* file base name */
-char cur_file[MP];		/* current file   */
-
-/* rmw info file extension */
-/* NOTE: make this non-global */
-/* extern const char info_EXT[] = ".trashinfo"; */
-#define info_EXT ".trashinfo"
+#define DOT_TRASHINFO ".trashinfo"
 
 /* TODO: make a structure out of this */
 char W_cfg[WASTENUM_MAX][MP];
