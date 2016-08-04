@@ -1,4 +1,13 @@
-August 02, 2016
+=== rmw ChangeLog ===
+
+-- August 04, 2016 --
+
+The trash directory string issues seems to be fixed. I'm not sure why. I
+moved some global variables into main() - maybe that helped. ;)
+
+I moved some functions into the main() part of the code.
+
+-- August 02, 2016 --
 
 Addressed issues with how the code had been split, updated Makefile to reflect changes
 
@@ -7,6 +16,7 @@ June 12, 2013
 
 Purge will no longer run if -z or -s option is
 given at runtime.
+
 
 May 7, 2013
 Minor changes and code clean-up, committed to SVN
@@ -76,8 +86,6 @@ Mar 29, 2012
 
 Purging can be turned off by using 'purge_after=0' in configuration file
 +option to add Waste directory from command line, -a, --add-waste
-
-
 
 
 Mar 27, 2012

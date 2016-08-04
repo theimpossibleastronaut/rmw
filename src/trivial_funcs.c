@@ -1,7 +1,7 @@
 /*
  * trivial_funcs.c
  *
- * This file is part of rmw (https://rmw.sf.net)
+ * This file is part of rmw (http://rmw.sf.net)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *

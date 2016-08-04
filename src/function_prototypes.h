@@ -1,7 +1,7 @@
 /*
  * primary_funcs.c
  *
- * This file is part of rmw (https://rmw.sf.net)
+ * This file is part of rmw (http://rmw.sf.net)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *
@@ -35,11 +35,7 @@ int trim_slash (char s[]);
 
 void truncate_str (char *str, short len);
 
-int get_config (const char *alt_config, int purge_after);
-
 bool pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file);
-
-int remove_to_waste (char *file_basename, char *cur_file);
 
 int mkinfo (bool dup_filename, char *file_basename, char *cur_file);
 
