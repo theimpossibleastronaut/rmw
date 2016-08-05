@@ -227,7 +227,7 @@ int main (int argc, char *argv[])
     trim (confLine);
     erase_char (' ', confLine);
 
-    if (strncmp (confLine, "purge_after", 9) == 0)
+    if (strncmp (confLine, "purge_after", 11) == 0 || strncmp(confLine, "purgeDays", 9) == 0)
     {
 
       tokenPtr = strtok (confLine, "=");

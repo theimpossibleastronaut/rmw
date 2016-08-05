@@ -1,11 +1,13 @@
-# Don't use spaces, $HOME, or ~
+# rmw configuration file
+# http://rmw.sf.net/
 
-# uncomment and edit
-#WASTE=/home/<username/.trash.rmw
+WASTE = $HOME/.trash.rmw
 
-# rmw will ignore this folder if it's on the same filesystem as the folder above.
+# rmw will not ReMove files to this folder if it's on the same filesystem
+# as the folder used above.
+# But it will check for files ready to be purged if it's uncommented.
 #WASTE=$HOME/.local/share/Trash
 
 # spaces here are okay
 # '0' to disable
-purgeDays = 90
+purge_after = 90

@@ -1,6 +1,8 @@
-#
+# rmw example configuration file
+# http://rmw.sf.net/
+
 WASTE = $HOME/.ctrash
-WASTE=/media/home_/andy/.ctrash
+WASTE = /media/home_/andy/.ctrash
 WASTE = /mnt/fs3/.ctrash
 #
 # Desktop Trash folders, for autoPurge

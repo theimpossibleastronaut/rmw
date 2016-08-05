@@ -1,6 +1,6 @@
 packextrasdir=@docdir@
 SUBDIRS = src etc
-EXTRA_DIST=COPYING ChangeLog README.txt AUTHORS BUGS TODO INSTALL rmwc_config.example
+EXTRA_DIST=BUGS rmwc_config.example
 packextras_DATA=$(EXTRA_DIST)
 #bin_PROGRAMS=rmw
 #AM_CXXFLAGS=$(INTI_CFLAGS)

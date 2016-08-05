@@ -1,6 +1,6 @@
-AC_INIT(rmw, 2016.08.02.01a, andyqwerty@users.sourceforge.net)
+AC_INIT(rmw, 2016.08.05.01a, andyqwerty@users.sourceforge.net)
 PACKAGE=rmw
-VERSION=2016.08.02.01a
+VERSION=2016.08.05.01a
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 AC_PREREQ(2.59)
 AC_PROG_CC([cc])
