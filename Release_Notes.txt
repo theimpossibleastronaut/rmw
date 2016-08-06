@@ -1,0 +1,10 @@
+=== RMW Release Notes ===
+
+-- August 5, 2016 --
+-Version 2016.08.05.01a-
+
+I'm not seeing a problem anymore with the trash directory string
+getting mangled.
+
+This is a minor update to the last release from 2013. Besides the bug-fix,
+I've been working at cleaning up the code, and plan to continue.
