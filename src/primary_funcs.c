@@ -31,53 +31,56 @@
  * PATH_MAX + 1
  * */
 
-bool buf_check_with_strop (char *s1, const char *s2, bool mode)
+bool
+buf_check_with_strop (char *s1, const char *s2, bool mode)
 {
   unsigned int len1, len2;
   len1 = strlen (s1);
   len2 = strlen (s2);
   if (len2 < MP && mode == CPY)
-    {
-      strcpy (s1, s2);
-      return 0;
-    }
+  {
+    strcpy (s1, s2);
+    return 0;
+  }
   else if (len1 + len2 < MP && mode == CAT)
-    {
-      strcat (s1, s2);
-      return 0;
-    }
+  {
+    strcat (s1, s2);
+    return 0;
+  }
 
   else if (mode > CAT || mode < CPY)
-    {
-      printf
-	("error in function: buf_check_with_strop() - mode must be either CPY (0) or CAT (1)");
-      abort ();
-    }
+  {
+    printf
+      ("error in function: buf_check_with_strop() - mode must be either CPY (0) or CAT (1)");
+    abort ();
+  }
 
   else
-    {
-      printf ("Potential buffer overflow caught. rmw terminating.\n");
-      exit (-1);
-      return 1;
-    }
+  {
+    printf ("Potential buffer overflow caught. rmw terminating.\n");
+    exit (-1);
+    return 1;
+  }
 
 }
 
-bool buf_check (const char *str, unsigned short boundary)
+bool
+buf_check (const char *str, unsigned short boundary)
 {
 
   unsigned short len = strlen (str);
 
   if (len >= boundary)
-    {
-      printf ("Potential buffer overrun caught; rmw terminating.\n");
-      exit (1);
-    }
+  {
+    printf ("Potential buffer overrun caught; rmw terminating.\n");
+    exit (1);
+  }
 
   return 0;
 }
 
-bool pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file)
+bool
+pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file)
 {
 
   bool onDrive = 0;
@@ -86,57 +89,58 @@ bool pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file)
 
   onDrive = file_exist (cmdargv);
   if (onDrive == 1)
-    {
-      fprintf (stderr, "File not found: '%s'\n", cmdargv);
-      return 1;
-    }
+  {
+    fprintf (stderr, "File not found: '%s'\n", cmdargv);
+    return 1;
+  }
   else
-    {
+  {
 
-      strcpy (cur_file, cmdargv);
-      strcpy (file_basename, basename (cur_file));
-      return isProtected (cur_file);
-    }
+    strcpy (cur_file, cmdargv);
+    strcpy (file_basename, basename (cur_file));
+    return isProtected (cur_file);
+  }
 
 }
 
 
-int mkinfo (bool dup_filename, char *file_basename, char *cur_file)
+int
+mkinfo (bool dup_filename, char *file_basename, char *cur_file)
 {
-	FILE *fp;
-	 bool bufstat = 0;
-	 char finalInfoDest[PATH_MAX + 1];
+  FILE *fp;
+  bool bufstat = 0;
+  char finalInfoDest[PATH_MAX + 1];
 
-	 bufstat = buf_check_with_strop (finalInfoDest, W_info[curWasteNum], CPY);
-	 bufstat = buf_check_with_strop (finalInfoDest, file_basename, CAT);
+  bufstat = buf_check_with_strop (finalInfoDest, W_info[curWasteNum], CPY);
+  bufstat = buf_check_with_strop (finalInfoDest, file_basename, CAT);
 
-	if (dup_filename)
-	{
-		buf_check_with_strop (finalInfoDest, time_str_appended, CAT);
-	}
+  if (dup_filename)
+  {
+    buf_check_with_strop (finalInfoDest, time_str_appended, CAT);
+  }
 
-	bufstat = buf_check_with_strop (finalInfoDest, DOT_TRASHINFO, CAT);
+  bufstat = buf_check_with_strop (finalInfoDest, DOT_TRASHINFO, CAT);
 
-	char real_path[PATH_MAX + 1];
-	realpath (cur_file, real_path);
-	fp = fopen (finalInfoDest, "w");
+  char real_path[PATH_MAX + 1];
+  realpath (cur_file, real_path);
+  fp = fopen (finalInfoDest, "w");
 
-	if (fp != NULL)
-	{
-		fprintf (fp, "[Trash Info]\n");
-		fprintf (fp, "Path=%s\n", real_path);
-		fprintf (fp, "DeletionDate=%s", time_now);
-		fclose (fp);
-		return 0;
-	}
-	else
-    {
-		printf ("Unable to create info file: %s\n", finalInfoDest);
-		printf ("Press the enter key to continue...");
-		getchar ();
+  if (fp != NULL)
+  {
+    fprintf (fp, "[Trash Info]\n");
+    fprintf (fp, "Path=%s\n", real_path);
+    fprintf (fp, "DeletionDate=%s", time_now);
+    fclose (fp);
+    return 0;
+  }
+  else
+  {
+    printf ("Unable to create info file: %s\n", finalInfoDest);
+    printf ("Press the enter key to continue...");
+    getchar ();
 
-		return 1;
-	}
+    return 1;
+  }
 }
 
 void
@@ -160,118 +164,115 @@ Restore (int argc, char *argv[], int optind)
   char line[MP + 5];
 
   for (i = optind; i < argc; i++)
+  {
+
+    if (file_exist (argv[i]) == 0)
     {
+      buf_check (argv[i], PATH_MAX);
+      realpath (argv[i], r.rp);
+      r.bfn = basename (argv[i]);
 
-      if (file_exist (argv[i]) == 0)
-	{
-	  buf_check (argv[i], PATH_MAX);
-	  realpath (argv[i], r.rp);
-	  r.bfn = basename (argv[i]);
+      truncate_str (r.rp, strlen ("files/") + strlen (r.bfn));
+      strcpy (r.ip, r.rp);
+      strcat (r.ip, "info/");
+      strcat (r.ip, r.bfn);
+      strcat (r.ip, DOT_TRASHINFO);
 
-	  truncate_str (r.rp, strlen ("files/") + strlen (r.bfn));
-	  strcpy (r.ip, r.rp);
-	  strcat (r.ip, "info/");
-	  strcat (r.ip, r.bfn);
-	  strcat (r.ip, DOT_TRASHINFO);
-
-	  f_state = file_exist (r.ip);
-	  if (f_state != 0)
-	    {
-	      printf ("no info file found for %s\n", argv[i]);
-	      break;
-	    }
-	  else
-	    {
-	      fp = fopen (r.ip, "r");
-	      if (fp == NULL)
-		{
-		  fprintf (stderr, "Error opening info file: %s\n", r.ip);
-		  break;
-		}
-	      else
-		{
-		  // Not using the "[Trash Info]" line, but reading the file
-		  // sequentially
-		  if (fgets (line, 14, fp) == NULL)
-		    {
-		      fprintf (stderr, "Error reading restore file %s\n",
-			       r.ip);
-		      fclose (fp);
-		      break;
-		    }
-		  else if (strncmp (line, "[Trash Info]", 12) != 0)
-		    {
-		      fprintf (stderr,
-			       "Info file error; format not correct (Line 1): %s\n",
-			       r.ip);
-		      fclose (fp);
-		      break;
-		    }
-
-		  // adding 5 for the 'Path=' preceding the path.
-		  if (fgets (line, MP + 6, fp) != NULL)
-		    {
-		      tokenPtr = strtok (line, "=");
-		      tokenPtr = strtok (NULL, "=");
-		      // tokenPtr now equals the absolute path from the info file
-		      // truncating '\n'
-		      buf_check_with_strop (fn_to_restore, tokenPtr, CPY);
-		      tokenPtr = NULL;
-		      trim (fn_to_restore);
-		      fclose (fp);
-
-		    }
-		  else
-		    {
-		      printf ("error on line 2 in %s\n", r.ip);
-		      fclose (fp);
-		      break;
-		    }
-
-		  /* Check for duplicate filename */
-		  bool onDrive = file_exist (fn_to_restore);
-
-		  if (onDrive == 0)
-		    {
-		      buf_check_with_strop (fn_to_restore, time_str_appended,
-					    CAT);
-		      if (verbose == 1)
-			{
-			  fprintf (stdout,
-				   "Duplicate filename at destination - appending time string...\n");
-			}
-
-		    }
-
-		  /* end check                                  */
-
-		  if (rename (argv[i], fn_to_restore) == 0)
-		    {
-		      printf ("+'%s' -> '%s'\n", argv[i], fn_to_restore);
-		      if (remove (r.ip) != 0)
-			{
-			  fprintf (stderr, "error removing info file: '%s'\n",
-				   r.ip);
-			}
-		      else
-			{
-			  if (verbose)
-			    printf ("-%s\n", r.ip);
-			}
-		    }
-
-		  else
-		    {
-		      fprintf (stderr, "Restore failed: %s\n", fn_to_restore);
-		    }
-		}
-	    }
-	}
+      f_state = file_exist (r.ip);
+      if (f_state != 0)
+      {
+        printf ("no info file found for %s\n", argv[i]);
+        break;
+      }
       else
-	{
-	  printf ("%s not found\n", argv[i]);
-	}
+      {
+        fp = fopen (r.ip, "r");
+        if (fp == NULL)
+        {
+          fprintf (stderr, "Error opening info file: %s\n", r.ip);
+          break;
+        }
+        else
+        {
+          // Not using the "[Trash Info]" line, but reading the file
+          // sequentially
+          if (fgets (line, 14, fp) == NULL)
+          {
+            fprintf (stderr, "Error reading restore file %s\n", r.ip);
+            fclose (fp);
+            break;
+          }
+          else if (strncmp (line, "[Trash Info]", 12) != 0)
+          {
+            fprintf (stderr,
+                     "Info file error; format not correct (Line 1): %s\n",
+                     r.ip);
+            fclose (fp);
+            break;
+          }
+
+          // adding 5 for the 'Path=' preceding the path.
+          if (fgets (line, MP + 6, fp) != NULL)
+          {
+            tokenPtr = strtok (line, "=");
+            tokenPtr = strtok (NULL, "=");
+            // tokenPtr now equals the absolute path from the info file
+            // truncating '\n'
+            buf_check_with_strop (fn_to_restore, tokenPtr, CPY);
+            tokenPtr = NULL;
+            trim (fn_to_restore);
+            fclose (fp);
+
+          }
+          else
+          {
+            printf ("error on line 2 in %s\n", r.ip);
+            fclose (fp);
+            break;
+          }
+
+          /* Check for duplicate filename */
+          bool onDrive = file_exist (fn_to_restore);
+
+          if (onDrive == 0)
+          {
+            buf_check_with_strop (fn_to_restore, time_str_appended, CAT);
+            if (verbose == 1)
+            {
+              fprintf (stdout,
+                       "Duplicate filename at destination - appending time string...\n");
+            }
+
+          }
+
+          /* end check                                  */
+
+          if (rename (argv[i], fn_to_restore) == 0)
+          {
+            printf ("+'%s' -> '%s'\n", argv[i], fn_to_restore);
+            if (remove (r.ip) != 0)
+            {
+              fprintf (stderr, "error removing info file: '%s'\n", r.ip);
+            }
+            else
+            {
+              if (verbose)
+                printf ("-%s\n", r.ip);
+            }
+          }
+
+          else
+          {
+            fprintf (stderr, "Restore failed: %s\n", fn_to_restore);
+          }
+        }
+      }
     }
+    else
+    {
+      printf ("%s not found\n", argv[i]);
+    }
+  }
 }
 
 bool
@@ -294,62 +295,63 @@ purgeD (void)
   trim (purgeDpath);
 
   if (file_exist (purgeDpath) == 0)
+  {
+    fp = fopen (purgeDpath, "r");
+    fgets (lastDay, 3, fp);
+    buf_check (lastDay, 3);
+    trim (lastDay);
+    fclose (fp);
+
+    if (!strcmp (nowD, lastDay))
+      // Same day
+      return 0;
+
+    // Days differ, run purge
+    else
     {
-      fp = fopen (purgeDpath, "r");
-      fgets (lastDay, 3, fp);
-      buf_check (lastDay, 3);
-      trim (lastDay);
-      fclose (fp);
-
-      if (!strcmp (nowD, lastDay))
-	// Same day
-	return 0;
-
-      // Days differ, run purge
-      else
-	{
-	  fp = fopen (purgeDpath, "w");
-	  if (fp != NULL)
-	    {
-	      fprintf (fp, "%s\n", nowD);
-	      fclose (fp);
-	      return 1;
-	    }
-	  else
-	    {
-	      fprintf (stderr, "Unknown error creating %s\n", purgeDpath);
-	      exit (1);
-	    }
-	}
-
-    }
-  else
-    {
-      // Create file if it doesn't exist and write DD to it.
       fp = fopen (purgeDpath, "w");
-
       if (fp != NULL)
-	{
-	  fprintf (fp, "%s\n", nowD);
-	  return 1;
-	  fclose (fp);
-	}
+      {
+        fprintf (fp, "%s\n", nowD);
+        fclose (fp);
+        return 1;
+      }
       else
-	{
-	  fprintf (stderr, "Unknown error creating %s\n", purgeDpath);
-	  exit (1);
-	}
+      {
+        fprintf (stderr, "Unknown error creating %s\n", purgeDpath);
+        exit (1);
+      }
     }
+
+  }
+  else
+  {
+    // Create file if it doesn't exist and write DD to it.
+    fp = fopen (purgeDpath, "w");
+
+    if (fp != NULL)
+    {
+      fprintf (fp, "%s\n", nowD);
+      return 1;
+      fclose (fp);
+    }
+    else
+    {
+      fprintf (stderr, "Unknown error creating %s\n", purgeDpath);
+      exit (1);
+    }
+  }
 }
 
-int purge (int purge_after)
+int
+purge (int purge_after)
 {
 
   if (purge_after > UINT_MAX)
-    {
-      printf ("purge_after can't be greater than %u\n", UINT_MAX);
-      exit (1);
-    }
+  {
+    printf ("purge_after can't be greater than %u\n", UINT_MAX);
+    exit (1);
+  }
 
   struct stat st;
   // int i = 0;
@@ -374,139 +376,138 @@ int purge (int purge_after)
 
   /* Read each Waste directory */
   while (p < wasteNum && p < WASTENUM_MAX)
+  {
+
+    DIR *dir = opendir (W_info[p]);
+    /* Read each file/dir in Waste directory */
+    while ((entry = readdir (dir)) != NULL)
     {
 
-      DIR *dir = opendir (W_info[p]);
-      /* Read each file/dir in Waste directory */
-      while ((entry = readdir (dir)) != NULL)
-	{
+      buf_check (entry->d_name, MP);
 
-	  buf_check (entry->d_name, MP);
+      if (strcmp (entry->d_name, ".") != 0 && strcmp (entry->d_name, "..")
+          != 0)
+      {
+        FILE *info_file_ptr;
+        const short timeLine = 40;
+        char entry_path[MP];
+        char infoLine[MP + 5];
+        // char *infoLine = NULL;
+        trim (entry->d_name);
+        buf_check_with_strop (entry_path, W_info[p], CPY);
+        buf_check_with_strop (entry_path, entry->d_name, CAT);
 
-	  if (strcmp (entry->d_name, ".") != 0 && strcmp (entry->d_name, "..")
-	      != 0)
-	    {
-	      FILE *info_file_ptr;
-	      const short timeLine = 40;
-	      char entry_path[MP];
-	      char infoLine[MP + 5];
-	      // char *infoLine = NULL;
-	      trim (entry->d_name);
-	      buf_check_with_strop (entry_path, W_info[p], CPY);
-	      buf_check_with_strop (entry_path, entry->d_name, CAT);
+        info_file_ptr = fopen (entry_path, "r");
+        if (info_file_ptr != NULL)
+        {
+          // unused  and unneeded Trash Info line
+          fgets (infoLine, 14, info_file_ptr);
+          if (strncmp (infoLine, "[Trash Info]", 12) != 0)
+          {
+            fprintf (stderr,
+                     "Info file error; format not correct (Line 1)\n");
+            exit (1);
+          }
 
-	      info_file_ptr = fopen (entry_path, "r");
-	      if (info_file_ptr != NULL)
-		{
-		  // unused  and unneeded Trash Info line
-		  fgets (infoLine, 14, info_file_ptr);
-		  if (strncmp (infoLine, "[Trash Info]", 12) != 0)
-		    {
-		      fprintf (stderr,
-			       "Info file error; format not correct (Line 1)\n");
-		      exit (1);
-		    }
+          // The second line is unneeded at this point
+          fgets (infoLine, MP + 5, info_file_ptr);
 
-		  // The second line is unneeded at this point
-		  fgets (infoLine, MP + 5, info_file_ptr);
+          if (strncmp (infoLine, "Path=", 5) != 0)
+          {
+            fprintf (stderr,
+                     "Info file error; format not correct (Line 2) : %s\n",
+                     entry_path);
+            exit (1);
+          }
 
-		  if (strncmp (infoLine, "Path=", 5) != 0)
-		    {
-		      fprintf (stderr,
-			       "Info file error; format not correct (Line 2) : %s\n",
-			       entry_path);
-		      exit (1);
-		    }
+          // The third line is needed for the deletion time
+          fgets (infoLine, timeLine, info_file_ptr);
+          buf_check (infoLine, 40);
+          trim (infoLine);
+          if (strncmp (infoLine, "DeletionDate=", 13) != 0
+              || strlen (infoLine) != 32)
+          {
+            fprintf (stderr,
+                     "Info file error; format not correct (Line 3)\n");
+            exit (1);
+          }
 
-		  // The third line is needed for the deletion time
-		  fgets (infoLine, timeLine, info_file_ptr);
-		  buf_check (infoLine, 40);
-		  trim (infoLine);
-		  if (strncmp (infoLine, "DeletionDate=", 13) != 0
-		      || strlen (infoLine) != 32)
-		    {
-		      fprintf (stderr,
-			       "Info file error; format not correct (Line 3)\n");
-		      exit (1);
-		    }
+          fclose (info_file_ptr);
 
-		  fclose (info_file_ptr);
+        }
+        else
+        {
+          printf ("^ An unknown error occurred");
+          exit (1);
+        }
 
-		}
-	      else
-		{
-		  printf ("^ An unknown error occurred");
-		  exit (1);
-		}
+        tokenPtr = strtok (infoLine, "=");
+        tokenPtr = strtok (NULL, "=");
 
-	      tokenPtr = strtok (infoLine, "=");
-	      tokenPtr = strtok (NULL, "=");
+        strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
+        then = mktime (&tm_then);
 
-	      strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
-	      then = mktime (&tm_then);
+        if (then + (86400 * purge_after) <= now)
+        {
+          // if (then  <= now) { /* For debugging */
+          success = 0;
+          strcpy (purgeFile, W_files[p]);
+          char temp[MP];
+          strcpy (temp, entry->d_name);
+          truncate_str (temp, strlen (DOT_TRASHINFO));
+          // printf("%s\n", temp);
+          strcat (purgeFile, temp);
 
-	      if (then + (86400 * purge_after) <= now)
-		{
-		  // if (then  <= now) { /* For debugging */
-		  success = 0;
-		  strcpy (purgeFile, W_files[p]);
-		  char temp[MP];
-		  strcpy (temp, entry->d_name);
-		  truncate_str (temp, strlen (DOT_TRASHINFO));
-		  // printf("%s\n", temp);
-		  strcat (purgeFile, temp);
+          lstat (purgeFile, &st);
 
-		  lstat (purgeFile, &st);
+          if (S_ISDIR (st.st_mode))
+          {
+            rmdir_recursive (purgeFile, 1);
+            if (rmdir (purgeFile) != 0)
+            {
+              printf ("Unknown error purging '%s'\n", purgeFile);
+            }
+            else
+            {
+              success = 1;
+            }
 
-		  if (S_ISDIR (st.st_mode))
-		    {
-		      rmdir_recursive (purgeFile, 1);
-		      if (rmdir (purgeFile) != 0)
-			{
-			  printf ("Unknown error purging '%s'\n", purgeFile);
-			}
-		      else
-			{
-			  success = 1;
-			}
+          }
+          else
+          {
 
-		    }
-		  else
-		    {
+            if (remove (purgeFile) != 0)
+            {
+              printf ("Unknown error purging '%s'\n", purgeFile);
+            }
+            else
+            {
+              success = 1;
+            }
+          }
 
-		      if (remove (purgeFile) != 0)
-			{
-			  printf ("Unknown error purging '%s'\n", purgeFile);
-			}
-		      else
-			{
-			  success = 1;
-			}
-		    }
+          if (success)
+          {
+            printf ("-%s\n", purgeFile);
+            if (remove (entry_path) != 0)
+            {
+              printf ("Unknown error deleting '%s'\n", entry_path);
+            }
+            if (verbose)
+            {
+              printf ("-%s\n", entry_path);
+            }
+            numPurged++;
 
-		  if (success)
-		    {
-		      printf ("-%s\n", purgeFile);
-		      if (remove (entry_path) != 0)
-			{
-			  printf ("Unknown error deleting '%s'\n",
-				  entry_path);
-			}
-		      if (verbose)
-			{
-			  printf ("-%s\n", entry_path);
-			}
-		      numPurged++;
-
-		    }
-		}
-	    }
-	}
-
-      closedir (dir);
-
-      p++;
+          }
+        }
+      }
     }
+
+    closedir (dir);
+
+    p++;
+  }
 
   printf ("%d files purged\n", numPurged);
   return 0;
@@ -527,20 +528,20 @@ undo_last_rmw (void)
   buf_check_with_strop (undo_path, UNDOFILE, CAT);
   undo_file_ptr = fopen (undo_path, "r");
   if (undo_file_ptr == NULL)
-    {
-      fprintf (stderr, "Error opening %s for reading\n", undo_path);
-      exit (1);
-    }
+  {
+    fprintf (stderr, "Error opening %s for reading\n", undo_path);
+    exit (1);
+  }
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
-    {
-      trim (line);
+  {
+    trim (line);
 
-      destiny[0] = line;
+    destiny[0] = line;
 
-      /* using 0 for third arg so 'for' loop in Restore() will run
-       * at least once */
-      Restore (1, destiny, 0);
-    }
+    /* using 0 for third arg so 'for' loop in Restore() will run
+     * at least once */
+    Restore (1, destiny, 0);
+  }
   fclose (undo_file_ptr);
 
 }
@@ -651,49 +652,48 @@ rmdir_recursive (char *path, bool isTop)
 
   dir = opendir (path);
   while ((entry = readdir (dir)) != NULL)
+  {
+
+    /*        if (isTop)
+       depth = 0;  */
+
+    /*        if (depth++ >= DEPTH_MAX) {
+       printf("Cannot descend into directory more than %d levels.\n",
+       DEPTH_MAX);
+       printf("Can't remove %s\n", path);
+       break;
+       }
+     */
+
+    strcpy (dir_path, path);
+
+    short pathLen = strlen (dir_path);
+    if (dir_path[pathLen - 1] != '/')
+    {
+      dir_path[pathLen] = '/';
+      pathLen++;
+      dir_path[pathLen] = '\0';
+    }
+
+    strcat (dir_path, entry->d_name);
+    if (strcmp (entry->d_name, ".") != 0 && strcmp (entry->d_name, "..") != 0)
     {
 
-      /*        if (isTop)
-         depth = 0;  */
-
-      /*        if (depth++ >= DEPTH_MAX) {
-         printf("Cannot descend into directory more than %d levels.\n",
-         DEPTH_MAX);
-         printf("Can't remove %s\n", path);
-         break;
-         }
-       */
-
-      strcpy (dir_path, path);
-
-      short pathLen = strlen (dir_path);
-      if (dir_path[pathLen - 1] != '/')
-	{
-	  dir_path[pathLen] = '/';
-	  pathLen++;
-	  dir_path[pathLen] = '\0';
-	}
-
-      strcat (dir_path, entry->d_name);
-      if (strcmp (entry->d_name, ".") != 0
-	  && strcmp (entry->d_name, "..") != 0)
-	{
-
-	  lstat (dir_path, &st);
-	  if (S_ISDIR (st.st_mode))
-	    {
-	      rmdir_recursive (dir_path, 0);
-	      // depth--;
-	    }
-	  else
-	    remove (dir_path);
-	}
+      lstat (dir_path, &st);
+      if (S_ISDIR (st.st_mode))
+      {
+        rmdir_recursive (dir_path, 0);
+        // depth--;
+      }
+      else
+        remove (dir_path);
     }
+  }
   closedir (dir);
   if (!isTop)
-    {
-      rmdir (path);
-    }
+  {
+    rmdir (path);
+  }
 
   // need to do some error checking in this function
   return 0;
@@ -713,41 +713,42 @@ waste_check (const char *p)
 {
   struct stat st;
   if (stat (p, &st) != 0)
+  {
+    if (mkdir (p, S_IRWXU))
     {
-      if (mkdir (p, S_IRWXU))
-	{
-	  mkdirErr (p, "Check your configuration file or permissions\n");
-	}
+      mkdirErr (p, "Check your configuration file or permissions\n");
     }
+  }
 }
 
-bool isProtected (char *cur_file)
+bool
+isProtected (char *cur_file)
 {
 
   if (bypass == 0)
+  {
+    int i;
+    char rp[MP];
+    realpath (cur_file, rp);
+
+    for (i = 0; i < wasteNum; i++)
     {
-      int i;
-      char rp[MP];
-      realpath (cur_file, rp);
+      short len = strlen (W_cfg[i]);
+      if (strncmp (rp, W_cfg[i], len) == 0)
+        break;
 
-      for (i = 0; i < wasteNum; i++)
-	{
-	  short len = strlen (W_cfg[i]);
-	  if (strncmp (rp, W_cfg[i], len) == 0)
-	    break;
-
-	}
-
-      if (i == wasteNum)
-	{
-	  return 0;
-	}
-      else
-	{
-	  printf ("File is in protected directory: %s\n", W_cfg[i]);
-	  return 1;
-	}
     }
+
+    if (i == wasteNum)
+    {
+      return 0;
+    }
+    else
+    {
+      printf ("File is in protected directory: %s\n", W_cfg[i]);
+      return 1;
+    }
+  }
   else
     /* If bypass == 0 */
     return 0;
@@ -792,108 +793,107 @@ restore_select (void)
   short choice = 0;
 
   while (w < wasteNum)
+  {
+    DIR *dir = opendir (W_files[w]);
+    count = 0;
+    if (!choice)
     {
-      DIR *dir = opendir (W_files[w]);
-      count = 0;
-      if (!choice)
-	{
-	  printf ("\t>-- %s --<\n", W_files[w]);
-
-	}
-      while ((entry = readdir (dir)) != NULL)
-	{
-	  if (strcmp (entry->d_name, ".") != 0 && strcmp (entry->d_name, "..")
-	      != 0)
-	    {
-	      count++;
-	      if (count == choice || choice == 0)
-		{
-		  buf_check_with_strop (path_to_file, W_files[w], CPY);
-		  /* Not yet sure if 'trim' is needed yet; using it
-		   *  until I get smarter */
-		  trim (entry->d_name);
-		  buf_check_with_strop (path_to_file, entry->d_name, CAT);
-		  trim (path_to_file);
-		  lstat (path_to_file, &st);
-		}
-	      if (count == choice)
-		{
-		  destiny[0] = path_to_file;
-		  printf ("\n");
-		  /* using 0 for third arg so 'for' loop in Restore() will run
-		   *  at least once */
-		  Restore (1, destiny, 0);
-		  break;
-		}
-	      if (!choice)
-		{
-		  printf ("%3d. %s", count, entry->d_name);
-		  if (S_ISDIR (st.st_mode))
-		    printf (" (D)");
-		  if (S_ISLNK (st.st_mode))
-		    printf (" (L)");
-		  printf ("\n");
-		}
-
-	    }
-	}
-      closedir (dir);
-      if (choice)
-	break;
-
-      do
-	{
-
-	  printf
-	    ("Input number to restore, 'enter' to continue, 'q' to quit) ");
-	  char_count = 0;
-	  input[0] = '\0';
-	  choice = 0;
-
-	  while ((c = getche ()) != '\n' && char_count < 9 && c >= '0' && c
-		 <= '9')
-	    {
-	      input[char_count++] = c;
-	    }
-
-	  if (c == 'q' && char_count == 0)
-	    break;
-
-	  if (c != '\n')
-	    {
-	      char_count = 0;
-	    }
-
-	  if (c == '\n' && char_count == 0)
-	    {
-	      break;
-	    }
-
-	  if (char_count == 0)
-	    {
-	      printf ("\n");
-	    }
-	  else
-	    {
-
-	      input[char_count] = '\0';
-	      choice = atoi (input);
-	    }
-
-	}
-      while (choice > count || choice < 1);
-
-      /* If user selects 'q' to abort */
-      if (c == 'q')
-	{
-	  printf ("\n");
-	  break;
-	}
-
-      if (choice == 0)
-	w++;
+      printf ("\t>-- %s --<\n", W_files[w]);
 
     }
+    while ((entry = readdir (dir)) != NULL)
+    {
+      if (strcmp (entry->d_name, ".") != 0 && strcmp (entry->d_name, "..")
+          != 0)
+      {
+        count++;
+        if (count == choice || choice == 0)
+        {
+          buf_check_with_strop (path_to_file, W_files[w], CPY);
+          /* Not yet sure if 'trim' is needed yet; using it
+           *  until I get smarter */
+          trim (entry->d_name);
+          buf_check_with_strop (path_to_file, entry->d_name, CAT);
+          trim (path_to_file);
+          lstat (path_to_file, &st);
+        }
+        if (count == choice)
+        {
+          destiny[0] = path_to_file;
+          printf ("\n");
+          /* using 0 for third arg so 'for' loop in Restore() will run
+           *  at least once */
+          Restore (1, destiny, 0);
+          break;
+        }
+        if (!choice)
+        {
+          printf ("%3d. %s", count, entry->d_name);
+          if (S_ISDIR (st.st_mode))
+            printf (" (D)");
+          if (S_ISLNK (st.st_mode))
+            printf (" (L)");
+          printf ("\n");
+        }
+
+      }
+    }
+    closedir (dir);
+    if (choice)
+      break;
+
+    do
+    {
+
+      printf ("Input number to restore, 'enter' to continue, 'q' to quit) ");
+      char_count = 0;
+      input[0] = '\0';
+      choice = 0;
+
+      while ((c = getche ()) != '\n' && char_count < 9 && c >= '0' && c
+             <= '9')
+      {
+        input[char_count++] = c;
+      }
+
+      if (c == 'q' && char_count == 0)
+        break;
+
+      if (c != '\n')
+      {
+        char_count = 0;
+      }
+
+      if (c == '\n' && char_count == 0)
+      {
+        break;
+      }
+
+      if (char_count == 0)
+      {
+        printf ("\n");
+      }
+      else
+      {
+
+        input[char_count] = '\0';
+        choice = atoi (input);
+      }
+
+    }
+    while (choice > count || choice < 1);
+
+    /* If user selects 'q' to abort */
+    if (c == 'q')
+    {
+      printf ("\n");
+      break;
+    }
+
+    if (choice == 0)
+      w++;
+
+  }
 
 }
 

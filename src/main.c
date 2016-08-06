@@ -124,12 +124,18 @@ int main (int argc, char *argv[])
   while (next_option != -1);
 
   buf_check_with_strop (HOMEDIR, getenv ("HOME"), MP);
+
+
   trim (HOMEDIR);
+
+
 
   char *data_dir = malloc (MP * sizeof (char));
 
   buf_check_with_strop (data_dir, getenv ("HOME"), CPY);
+
   buf_check_with_strop (data_dir, DATADIR, CAT);
+
 
   if (file_exist (data_dir) == 1)
   {
@@ -198,7 +204,7 @@ int main (int argc, char *argv[])
     buf_check_with_strop (configFile, HOMEDIR, CPY);
 
     // CFG is the file name of the rmw config file relative to
-    // the $HOME directory, defined at the top of rmw.c
+    // the $HOME directory, defined at the top of rmw.h
     /* create full path to configFile */
     buf_check_with_strop (configFile, CFG, CAT);
   }
@@ -245,29 +251,36 @@ int main (int argc, char *argv[])
     {
       if (strncmp ("WASTE", confLine, 5) == 0)
       {
-
         tokenPtr = strtok (confLine, "=");
         tokenPtr = strtok (NULL, "=");
 
         trim_slash (tokenPtr);
         erase_char (' ', tokenPtr);
-
         change_HOME (tokenPtr);
-
-        buf_check_with_strop (W_cfg[wasteNum], tokenPtr, CPY);
+        buf_check_with_strop (W_cfg[wasteNum], tokenPtr, CAT);
 
         // Make WASTE/files string
         /* No need to check boundaries for the copy */
         strcpy (W_files[wasteNum], W_cfg[wasteNum]);
         buf_check_with_strop (W_files[wasteNum], "/files/", CAT);
+        #if DEBUG == 1
+          printf("%s %d\n", W_files[wasteNum], wasteNum);
+          printf("PATH_MAX %d\n", PATH_MAX);
+        #endif
 
         // Make WASTE/info string
         /* No need to check boundaries for the copy */
         strcpy (W_info[wasteNum], W_cfg[wasteNum]);
         buf_check_with_strop (W_info[wasteNum], "/info/", CAT);
+        #if DEBUG == 1
+          printf("%s %d %d\n", W_info[wasteNum], wasteNum, WASTENUM_MAX);
+        #endif
 
         // Create WASTE if it doesn't exit
         waste_check (W_cfg[wasteNum]);
+        #if DEBUG == 1
+          printf("%s %d %d\n", W_cfg[wasteNum], wasteNum, WASTENUM_MAX);
+        #endif
 
         // Create WASTE/files if it doesn't exit
         waste_check (W_files[wasteNum]);

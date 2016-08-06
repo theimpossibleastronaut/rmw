@@ -38,72 +38,84 @@ trim (char s[])
   int n;
 
   for (n = strlen (s) - 1; n >= 0; n--)
+  {
+    if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
     {
-      if (s[n] != ' ' && s[n] != '\t' && s[n] != '\n')
-	{
-	  // Add null terminator regardless
-	  s[n + 1] = '\0';
-	  break;
-	}
-      s[n] = '\0';
+      // Add null terminator regardless
+      s[n + 1] = '\0';
+      break;
     }
+    s[n] = '\0';
+  }
   return n;
 }
 
+/**
+ * Erases characters from the beginning of a string
+ * (i.e. shifts the rest of the string to the left
+ */
 void
 erase_char (char c, char *str)
 {
   int inc = 0;
-  /* int i;
-     int n; */
 
   while (str[inc] == c)
     inc++;
 
-  strcpy (str, str + inc);
+  /* strcpy (str, str + inc); */
+#if DEBUG == 1
+  printf ("%s = str / %d = inc\n", str, inc);
+#endif
 
-  /* n = strlen (str);
-     for (i = 0; i < n - inc; i++)
-     {
-     str[i] = str[i + inc];
-     }
+  int n = strlen (str);
+  int i;
 
-     str[n - inc] = '\0'; */
+  for (i = 0; i < strlen (str) - inc; i++)
+    str[i] = str[i + inc];
 
+  str[n - inc] = '\0';
 }
 
-/* change_HOME()
+/**
  * if "$HOME" or "~" is used on configuration file
- * change to "HOMEDIR" */
+ * change to "HOMEDIR"
+ */
+
 bool
 change_HOME (char *t)
 {
   bool status = 0;
   if (t[0] == '~')
-    {
-      erase_char ('~', t);
+  {
+    erase_char ('~', t);
 
-      status = 1;
-    }
+    status = 1;
+  }
   else if (strncmp (t, "$HOME", 5) == 0)
+  {
+    int i;
+    for (i = 0; i < 5; i++)
     {
-      int i;
-      for (i = 0; i < 5; i++)
-	{
-	  erase_char (t[0], t);
+#if DEBUG == 1
+      printf ("erase_char %c\n", t[0]);
+#endif
+      erase_char (t[0], t);
 
-	}
-      status = 1;
     }
+    status = 1;
+  }
 
   if (status == 1)
-    {
-      char temp[MP];
-      buf_check_with_strop (temp, HOMEDIR, CPY);
-      buf_check_with_strop (temp, t, CAT);
-      strcpy (t, temp);
+  {
+    char temp[MP];
+    buf_check_with_strop (temp, HOMEDIR, CPY);
+    buf_check_with_strop (temp, t, CAT);
+    strcpy (t, temp);
+#if DEBUG == 1
+    printf ("t = %s %d\n\n\n", t, strlen (t));
+#endif
 
-    }
+  }
 
   return status;
 
@@ -114,13 +126,13 @@ trim_slash (char s[])
 {
   int n;
   for (n = strlen (s) - 1; n >= 0; n--)
+  {
+    if (s[n] != '/')
     {
-      if (s[n] != '/')
-	{
-	  break;
-	}
-      s[n] = '\0';
+      break;
     }
+    s[n] = '\0';
+  }
   return n;
 }
 

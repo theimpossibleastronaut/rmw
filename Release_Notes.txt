@@ -1,5 +1,11 @@
 === RMW Release Notes ===
 
+-- August 6, 2016 --
+
+The potential mangling of the trash directory string when using "$HOME"
+in the config file is now fixed!
+https://github.com/andy5995/rmw/issues/2
+
 -- August 5, 2016 --
 -Version 2016.08.05.01a-
 

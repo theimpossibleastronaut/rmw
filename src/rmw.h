@@ -46,7 +46,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "2016.08.05.01a"
+#define VERSION "2016.08.06.01a"
 #endif
 
 #define DEBUG 0

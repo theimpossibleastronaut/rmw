@@ -1,5 +1,18 @@
 === rmw ChangeLog ===
 
+-- August 06, 2016 --
+
+The potential mangling of the trash directory string when using "$HOME"
+in the config file is now fixed!
+https://github.com/andy5995/rmw/issues/2
+
+Release issued.
+
+-- August 05, 2016 --
+
+Release issued.
+
+
 -- August 04, 2016 --
 
 The trash directory string issues seems to be fixed. I'm not sure why. I
