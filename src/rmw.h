@@ -81,11 +81,15 @@ typedef unsigned short ushort;
 
 #define DOT_TRASHINFO ".trashinfo"
 
-struct waste_containers {
-  char dir[WASTENUM_MAX][MP];
+struct waste_containers
+{
+  char parent[MP];
+  char info[MP];
+  char files[MP];
 };
 
-enum {
+enum
+{
   parent, info, files
 };
 
@@ -94,23 +98,15 @@ uint W_devnum[WASTENUM_MAX];
 ushort wasteNum, curWasteNum;
 
 // for buf_check_with_strop()
-enum {
+enum
+{
   CPY, CAT
 };
-
 
 /* char protected[PROTECT_MAX][MP];
  unsigned int protected_num = 0; */
 #define PROTECT_MAX 64
 
-FILE *undo_file_ptr;
-
-char time_now[21];
-
-char time_str_appended[16];
-
 bool verbose;
-bool bypass;
-bool list;
 
 #endif

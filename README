@@ -30,10 +30,15 @@ rmw options:
 -w, --warranty            display warranty
 -V, --version             display version and license information
 
-Web site: http://rmw.sf.net/
+Web site: https://github.com/andy5995/rmw/releases
+
+Forum: https://sourceforge.net/p/rmw/discussion/
 
 IRC: Quakenet IRC network - #rmw
 http://webchat.quakenet.org/?channels=rmw
 
-This file was last updated Aug 04, 2016
+Mailing list (new releases):
+https://lists.sourceforge.net/lists/listinfo/rmw-announce
+
+This file was last updated Aug 07, 2016
 

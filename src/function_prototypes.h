@@ -37,20 +37,20 @@ void truncate_str (char *str, short len);
 
 bool
 pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
-               struct waste_containers w_parent);
+               struct waste_containers *waste, bool bypass);
 
 int
 mkinfo (bool dup_filename, char *file_basename, char *cur_file,
-        struct waste_containers w_info);
+        struct waste_containers *waste, char *time_now,
+        char *time_str_appended);
 
 int
-purge (int purge_after, struct waste_containers w_info,
-       struct waste_containers w_files);
+purge (int purge_after, struct waste_containers *waste, char *time_now);
 
 bool purgeD (const char *HOMEDIR);
 
 void
-undo_last_rmw (const char *HOMEDIR);
+undo_last_rmw (const char *HOMEDIR, char *time_str_appended);
 
 int getch (void);
 
@@ -71,17 +71,21 @@ void mkdirErr (const char *dirname, const char *text_string);
 void waste_check (const char *p);
 
 bool
-isProtected (char *cur_file, struct waste_containers w_parent);
+isProtected (char *cur_file, struct waste_containers *waste, bool bypass);
 
 void
-Restore (int argc, char *argv[], int optind);
+Restore (int argc, char *argv[], int optind, char *time_str_appended);
 
 void
-restore_select (struct waste_containers w_files);
+restore_select (struct waste_containers *waste, char *time_str_appended);
 
 bool file_exist (const char *filename);
 
 void get_time_string (char *tm_str, unsigned short len, const char *format);
+
+int
+remove_to_waste(char *cur_file, char *file_basename, struct waste_containers *waste,
+                char *time_now, char *time_str_appended, FILE *undo_file_ptr);
 
 void print_usage (void);
 void warranty (void);

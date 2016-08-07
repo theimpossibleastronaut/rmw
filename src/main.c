@@ -27,8 +27,7 @@
 
 int main (int argc, char *argv[])
 {
-  struct waste_containers waste[3];
-
+  struct waste_containers waste[WASTENUM_MAX];
 
   char file_basename[MP];
   char cur_file[MP];
@@ -59,13 +58,13 @@ int main (int argc, char *argv[])
   bool restoreYes = 0;
   bool select = 0;
   bool undo_last = 0;
+  verbose = 0;
+  bool bypass = 0;
+  bool list = 0;
 
   const char *alt_config = NULL;
   const char *W_addition = NULL;
 
-  verbose = 0;
-  bypass = 0;
-  list = 0;
   wasteNum = 0;
   curWasteNum = 0;
 
@@ -126,8 +125,7 @@ int main (int argc, char *argv[])
   }
   while (next_option != -1);
 
-
-  char HOMEDIR[sizeof (getenv ("HOME")) * 2];
+  char HOMEDIR[strlen (getenv ("HOME")) + 1];
   strcpy (HOMEDIR, getenv ("HOME"));
 
   buf_check (HOMEDIR, MP);
@@ -259,34 +257,34 @@ int main (int argc, char *argv[])
         trim_slash (tokenPtr);
         erase_char (' ', tokenPtr);
         change_HOME (tokenPtr, HOMEDIR);
-        buf_check_with_strop (waste[parent].dir[wasteNum], tokenPtr, CAT);
+        buf_check_with_strop (waste[wasteNum].parent, tokenPtr, CAT);
 
         // Make WASTE/files string
         /* No need to check boundaries for the copy */
-        strcpy (waste[files].dir[wasteNum], waste[parent].dir[wasteNum]);
-        buf_check_with_strop (waste[files].dir[wasteNum], "/files/", CAT);
+        strcpy (waste[wasteNum].files, waste[wasteNum].parent);
+        buf_check_with_strop (waste[wasteNum].files, "/files/", CAT);
 
         // Make WASTE/info string
         /* No need to check boundaries for the copy */
-        strcpy (waste[info].dir[wasteNum], waste[parent].dir[wasteNum]);
-        buf_check_with_strop (waste[info].dir[wasteNum], "/info/", CAT);
+        strcpy (waste[wasteNum].info, waste[wasteNum].parent);
+        buf_check_with_strop (waste[wasteNum].info, "/info/", CAT);
 
 
         // Create WASTE if it doesn't exit
-        waste_check (waste[parent].dir[wasteNum]);
+        waste_check (waste[wasteNum].parent);
 
 
         // Create WASTE/files if it doesn't exit
-        waste_check (waste[files].dir[wasteNum]);
+        waste_check (waste[wasteNum].files);
 
         // Create WASTE/info if it doesn't exit
-        waste_check (waste[info].dir[wasteNum]);
+        waste_check (waste[wasteNum].info);
 
         // get device number to use later for rename
-        lstat (waste[parent].dir[wasteNum], &st);
+        lstat (waste[wasteNum].parent, &st);
         W_devnum[wasteNum] = st.st_dev;
         if (list)
-          printf ("%s\n", waste[parent].dir[wasteNum]);
+          printf ("%s\n", waste[wasteNum].parent);
         wasteNum++;
 
       }
@@ -314,15 +312,19 @@ int main (int argc, char *argv[])
  */
 
 // String appended to duplicate filenames
+  char time_str_appended[16];
   get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
 
 // used for DeletionDate in info file
+  char time_now[21];
   get_time_string (time_now, 21, "%FT%T");
 
   int status = 0;
 
   if (optind < argc && !restoreYes && !select && !undo_last)
   {
+    FILE *undo_file_ptr;
+
     char undo_path[MP];
     bool undo_opened = 0;
 
@@ -333,7 +335,8 @@ int main (int argc, char *argv[])
     for (i = optind; i < argc; i++)
     {
 
-      if (pre_rmw_check (argv[i], file_basename, cur_file, waste[parent]) == 0)
+      if (pre_rmw_check (argv[i], file_basename, cur_file, waste,
+                         bypass) == 0)
       {
 
         // If the file hasn't been opened yet (should only happen on the
@@ -352,81 +355,9 @@ int main (int argc, char *argv[])
           }
         }
 
-
-        status = 0;
-/**
- * ReMove to the the Waste folder
- */
-
-        struct stat st;
-        char finalDest[MP];
-        int i = 0;
-        bool match = 0;
-        short statRename = 0;
-        bool info_st = 0;
-        bool dfn = 0;
-
-        // cycle through wasteDirs to see which one matches
-        // device number of file
-
-        for (i = 0; i < wasteNum; i++)
-        {
-          lstat (cur_file, &st);
-          if (W_devnum[i] == st.st_dev)
-          {
-            // used by mkinfo
-            curWasteNum = i;
-            buf_check_with_strop (finalDest, waste[files].dir[i], CPY);
-            buf_check_with_strop (finalDest, file_basename, CAT);
-            // If a duplicate file exists
-            if (file_exist (finalDest) == 0)
-            {
-              // append a time string
-              buf_check_with_strop (finalDest, time_str_appended, CAT);
-
-              // tell make info there's a duplicate
-              dfn = 1;
-            }
-
-            statRename = rename (cur_file, finalDest);
-            if (statRename == 0)
-            {
-              printf ("'%s' -> '%s'\n", cur_file, finalDest);
-              fprintf (undo_file_ptr, "%s\n", finalDest);
-
-              info_st = mkinfo (dfn, file_basename, cur_file, waste[info]);
-            }
-            else
-            {
-              fprintf (stderr,
-                       "Move error or permission denied for '%s'\n",
-                       cur_file);
-            }
-
-            match = 1;
-            // match found (same filesystem). Break from for loop
-            break;
-          }
-
-        }                       // end -for
-
-        if (!match && !statRename)
-        {
-          statRename = 1;
-          printf ("No suitable filesystem found for \"%s\"\n", cur_file);
-        }
-
-        status = statRename + info_st;
-
- /**
-  * END ReMove
-  */
-
-
-
-
+        status = remove_to_waste (cur_file, file_basename, waste, time_now,
+                                  time_str_appended, undo_file_ptr);
       }
-
     }                           // end big for
 
 
@@ -436,12 +367,12 @@ int main (int argc, char *argv[])
   }
 
   else if (restoreYes)
-    Restore (argc, argv, optind);
+    Restore (argc, argv, optind, time_str_appended);
 
   else if (select)
-    restore_select (waste[files]);
+    restore_select (waste, time_str_appended);
   else if (undo_last)
-    undo_last_rmw (HOMEDIR);
+    undo_last_rmw (HOMEDIR, time_str_appended);
 
   else
   {
@@ -458,7 +389,7 @@ int main (int argc, char *argv[])
   if (purge_after != 0 && restoreYes == 0 && select == 0)
   {
     if (purgeD (HOMEDIR) != 0 || purgeYes != 0)
-      status = purge (purge_after, waste[info], waste[files] );
+      status = purge (purge_after, waste, time_now);
     }
 
   if (pause)

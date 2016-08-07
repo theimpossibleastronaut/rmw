@@ -1,5 +1,12 @@
 === rmw ChangeLog ===
 
+-- August 07, 2016
+
+I've gotten rid of more global variables
+
+the w_X paths are now in a structure
+
+
 -- August 06, 2016 --
 
 The potential mangling of the trash directory string when using "$HOME"

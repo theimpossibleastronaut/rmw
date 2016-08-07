@@ -81,7 +81,7 @@ buf_check (const char *str, unsigned short boundary)
 
 bool
 pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
-               struct waste_containers w_parent)
+               struct waste_containers * waste, bool bypass)
 {
 
   bool onDrive = 0;
@@ -99,7 +99,7 @@ pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
 
     strcpy (cur_file, cmdargv);
     strcpy (file_basename, basename (cur_file));
-    return isProtected (cur_file, w_parent);
+    return isProtected (cur_file, waste, bypass);
   }
 
 }
@@ -107,13 +107,15 @@ pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
 
 int
 mkinfo (bool dup_filename, char *file_basename, char *cur_file,
-        struct waste_containers w_info)
+        struct waste_containers *waste, char *time_now,
+        char *time_str_appended)
 {
   FILE *fp;
   bool bufstat = 0;
   char finalInfoDest[PATH_MAX + 1];
 
-  bufstat = buf_check_with_strop (finalInfoDest, w_info.dir[curWasteNum], CPY);
+  bufstat =
+    buf_check_with_strop (finalInfoDest, waste[curWasteNum].info, CPY);
   bufstat = buf_check_with_strop (finalInfoDest, file_basename, CAT);
 
   if (dup_filename)
@@ -147,7 +149,7 @@ mkinfo (bool dup_filename, char *file_basename, char *cur_file,
 }
 
 void
-Restore (int argc, char *argv[], int optind)
+Restore (int argc, char *argv[], int optind, char *time_str_appended)
 {
 
   FILE *fp;
@@ -347,8 +349,7 @@ purgeD (const char *HOMEDIR)
 }
 
 int
-purge (int purge_after, struct waste_containers w_info,
-       struct waste_containers w_files)
+purge (int purge_after, struct waste_containers *waste, char *time_now)
 {
 
   if (purge_after > UINT_MAX)
@@ -382,7 +383,7 @@ purge (int purge_after, struct waste_containers w_info,
   while (p < wasteNum && p < WASTENUM_MAX)
   {
 
-    DIR *dir = opendir (w_info.dir[p]);
+    DIR *dir = opendir (waste[p].info);
     /* Read each file/dir in Waste directory */
     while ((entry = readdir (dir)) != NULL)
     {
@@ -398,7 +399,7 @@ purge (int purge_after, struct waste_containers w_info,
         char infoLine[MP + 5];
         // char *infoLine = NULL;
         trim (entry->d_name);
-        buf_check_with_strop (entry_path, w_info.dir[p], CPY);
+        buf_check_with_strop (entry_path, waste[p].info, CPY);
         buf_check_with_strop (entry_path, entry->d_name, CAT);
 
         info_file_ptr = fopen (entry_path, "r");
@@ -455,7 +456,7 @@ purge (int purge_after, struct waste_containers w_info,
         {
           // if (then  <= now) { /* For debugging */
           success = 0;
-          strcpy (purgeFile, w_files.dir[p]);
+          strcpy (purgeFile, waste[p].files);
           char temp[MP];
           strcpy (temp, entry->d_name);
           truncate_str (temp, strlen (DOT_TRASHINFO));
@@ -520,7 +521,7 @@ purge (int purge_after, struct waste_containers w_info,
 
 
 void
-undo_last_rmw (const char *HOMEDIR)
+undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
 {
   FILE *undo_file_ptr;
   char undo_path[MP];
@@ -545,7 +546,7 @@ undo_last_rmw (const char *HOMEDIR)
 
     /* using 0 for third arg so 'for' loop in Restore() will run
      * at least once */
-    Restore (1, destiny, 0);
+    Restore (1, destiny, 0, time_str_appended);
   }
 
   fclose (undo_file_ptr);
@@ -724,7 +725,7 @@ waste_check (const char *p)
 }
 
 bool
-isProtected (char *cur_file, struct waste_containers w_parent)
+isProtected (char *cur_file, struct waste_containers *waste, bool bypass)
 {
 
   if (bypass == 0)
@@ -735,8 +736,8 @@ isProtected (char *cur_file, struct waste_containers w_parent)
 
     for (i = 0; i < wasteNum; i++)
     {
-      short len = strlen (w_parent.dir[i]);
-      if (strncmp (rp, w_parent.dir[i], len) == 0)
+      short len = strlen (waste[i].parent);
+      if (strncmp (rp, waste[i].parent, len) == 0)
         break;
 
     }
@@ -747,7 +748,7 @@ isProtected (char *cur_file, struct waste_containers w_parent)
     }
     else
     {
-      printf ("File is in protected directory: %s\n", w_parent.dir[i]);
+      printf ("File is in protected directory: %s\n", waste[i].parent);
       return 1;
     }
   }
@@ -779,7 +780,7 @@ isProtected (char *cur_file, struct waste_containers w_parent)
  } */
 
 void
-restore_select (struct waste_containers w_files)
+restore_select (struct waste_containers *waste, char *time_str_appended)
 {
   struct stat st;
   struct dirent *entry;
@@ -796,11 +797,11 @@ restore_select (struct waste_containers w_files)
 
   while (w < wasteNum)
   {
-    DIR *dir = opendir (w_files.dir[w]);
+    DIR *dir = opendir (waste[w].files);
     count = 0;
 
     if (!choice)
-     printf ("\t>-- %s --<\n", w_files.dir[w]);
+      printf ("\t>-- %s --<\n", waste[w].files);
 
     while ((entry = readdir (dir)) != NULL)
     {
@@ -811,7 +812,7 @@ restore_select (struct waste_containers w_files)
 
         if (count == choice || choice == 0)
         {
-          buf_check_with_strop (path_to_file, w_files.dir[w], CPY);
+          buf_check_with_strop (path_to_file, waste[w].files, CPY);
           /* Not yet sure if 'trim' is needed yet; using it
            *  until I get smarter */
           trim (entry->d_name);
@@ -826,7 +827,7 @@ restore_select (struct waste_containers w_files)
           printf ("\n");
           /* using 0 for third arg so 'for' loop in Restore() will run
            *  at least once */
-          Restore (1, destiny, 0);
+          Restore (1, destiny, 0, time_str_appended);
           break;
         }
 
@@ -915,4 +916,72 @@ get_time_string (char *tm_str, unsigned short len, const char *format)
   buf_check (tm_str, len);
   trim (tm_str);
 
+}
+
+int
+remove_to_waste (char *cur_file, char *file_basename,
+                 struct waste_containers *waste, char *time_now,
+                 char *time_str_appended, FILE * undo_file_ptr)
+{
+
+
+  struct stat st;
+  char finalDest[MP];
+  int i = 0;
+  bool match = 0;
+  short statRename = 0;
+  bool info_st = 0;
+  bool dfn = 0;
+
+  // cycle through wasteDirs to see which one matches
+  // device number of file
+
+  for (i = 0; i < wasteNum; i++)
+  {
+    lstat (cur_file, &st);
+    if (W_devnum[i] == st.st_dev)
+    {
+      // used by mkinfo
+      curWasteNum = i;
+      buf_check_with_strop (finalDest, waste[i].files, CPY);
+      buf_check_with_strop (finalDest, file_basename, CAT);
+      // If a duplicate file exists
+      if (file_exist (finalDest) == 0)
+      {
+        // append a time string
+        buf_check_with_strop (finalDest, time_str_appended, CAT);
+
+        // tell make info there's a duplicate
+        dfn = 1;
+      }
+
+      statRename = rename (cur_file, finalDest);
+      if (statRename == 0)
+      {
+        printf ("'%s' -> '%s'\n", cur_file, finalDest);
+        fprintf (undo_file_ptr, "%s\n", finalDest);
+
+        info_st = mkinfo (dfn, file_basename, cur_file, waste,
+                          time_now, time_str_appended);
+      }
+      else
+      {
+        fprintf (stderr,
+                 "Move error or permission denied for '%s'\n", cur_file);
+      }
+
+      match = 1;
+      // match found (same filesystem). Break from for loop
+      break;
+    }
+
+  }                             // end -for
+
+  if (!match && !statRename)
+  {
+    statRename = 1;
+    printf ("No suitable filesystem found for \"%s\"\n", cur_file);
+  }
+
+  return statRename + info_st;
 }
