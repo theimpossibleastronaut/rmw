@@ -26,12 +26,11 @@
 #include "rmw.h"
 #include "function_prototypes.h"
 
-// str_funcs.c
-// string handling functions for rmw
-
-/* trim: remove trailing blanks, tabs, newlines */
-/* Adapted from The ANSI C Programming Language, 2nd Edition (p. 65) */
-/* Brian W. Kernighan & Dennis M. Ritchie */
+/**
+ * trim: remove trailing blanks, tabs, newlines
+ * Adapted from The ANSI C Programming Language, 2nd Edition (p. 65)
+ * Brian W. Kernighan & Dennis M. Ritchie
+ */
 int
 trim (char s[])
 {
@@ -52,7 +51,7 @@ trim (char s[])
 
 /**
  * Erases characters from the beginning of a string
- * (i.e. shifts the rest of the string to the left
+ * (i.e. shifts the remaining string to the left
  */
 void
 erase_char (char c, char *str)
@@ -62,15 +61,13 @@ erase_char (char c, char *str)
   while (str[inc] == c)
     inc++;
 
-  /* strcpy (str, str + inc); */
-#if DEBUG == 1
-  printf ("%s = str / %d = inc\n", str, inc);
-#endif
+  if (!inc)
+    return;
 
   int n = strlen (str);
   int i;
 
-  for (i = 0; i < strlen (str) - inc; i++)
+  for (i = 0; i < n - inc; i++)
     str[i] = str[i + inc];
 
   str[n - inc] = '\0';
@@ -82,67 +79,60 @@ erase_char (char c, char *str)
  */
 
 bool
-change_HOME (char *t)
+change_HOME (char *t, const char *HOMEDIR)
 {
   bool status = 0;
   if (t[0] == '~')
   {
     erase_char ('~', t);
-
     status = 1;
   }
   else if (strncmp (t, "$HOME", 5) == 0)
   {
     int i;
+
     for (i = 0; i < 5; i++)
-    {
-#if DEBUG == 1
-      printf ("erase_char %c\n", t[0]);
-#endif
       erase_char (t[0], t);
 
-    }
     status = 1;
   }
+  else
+    return;
 
-  if (status == 1)
-  {
-    char temp[MP];
-    buf_check_with_strop (temp, HOMEDIR, CPY);
-    buf_check_with_strop (temp, t, CAT);
-    strcpy (t, temp);
-#if DEBUG == 1
-    printf ("t = %s %d\n\n\n", t, strlen (t));
-#endif
-
-  }
-
-  return status;
+  char temp[MP];
+  buf_check_with_strop (temp, HOMEDIR, CPY);
+  buf_check_with_strop (temp, t, CAT);
+  strcpy (t, temp);
 
 }
 
+/**
+ * Trim a trailing slash if present. Only checks for 1
+ */
 int
 trim_slash (char s[])
 {
   int n;
-  for (n = strlen (s) - 1; n >= 0; n--)
-  {
-    if (s[n] != '/')
+  n = strlen (s);
+
+  if (s[n - 1] != '/')
+    return n;
+
+  for (n - 1; n >= 0; n--)
+    if (s[n] == '/')
     {
-      break;
+      s[n] = '\0';
+      return n;
     }
-    s[n] = '\0';
-  }
-  return n;
 }
 
-
-/* truncate_str() */
-/* adding the null terminator to chop off part of a string
- * at a given point */
+/**
+ * adding the null terminator to chop off part of a string
+ * at a given point
+ */
 void
 truncate_str (char *str, short len)
 {
-  short offset = strlen (str) - len;
-  str[offset] = '\0';
+  /* short offset = strlen (str) - len; */
+  str[strlen (str) - len] = '\0';
 }

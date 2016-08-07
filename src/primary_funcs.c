@@ -80,7 +80,8 @@ buf_check (const char *str, unsigned short boundary)
 }
 
 bool
-pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file)
+pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
+               struct waste_containers w_parent)
 {
 
   bool onDrive = 0;
@@ -98,20 +99,21 @@ pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file)
 
     strcpy (cur_file, cmdargv);
     strcpy (file_basename, basename (cur_file));
-    return isProtected (cur_file);
+    return isProtected (cur_file, w_parent);
   }
 
 }
 
 
 int
-mkinfo (bool dup_filename, char *file_basename, char *cur_file)
+mkinfo (bool dup_filename, char *file_basename, char *cur_file,
+        struct waste_containers w_info)
 {
   FILE *fp;
   bool bufstat = 0;
   char finalInfoDest[PATH_MAX + 1];
 
-  bufstat = buf_check_with_strop (finalInfoDest, W_info[curWasteNum], CPY);
+  bufstat = buf_check_with_strop (finalInfoDest, w_info.dir[curWasteNum], CPY);
   bufstat = buf_check_with_strop (finalInfoDest, file_basename, CAT);
 
   if (dup_filename)
@@ -123,6 +125,7 @@ mkinfo (bool dup_filename, char *file_basename, char *cur_file)
 
   char real_path[PATH_MAX + 1];
   realpath (cur_file, real_path);
+
   fp = fopen (finalInfoDest, "w");
 
   if (fp != NULL)
@@ -276,7 +279,7 @@ Restore (int argc, char *argv[], int optind)
 }
 
 bool
-purgeD (void)
+purgeD (const char *HOMEDIR)
 {
 
   FILE *fp;
@@ -344,7 +347,8 @@ purgeD (void)
 }
 
 int
-purge (int purge_after)
+purge (int purge_after, struct waste_containers w_info,
+       struct waste_containers w_files)
 {
 
   if (purge_after > UINT_MAX)
@@ -378,7 +382,7 @@ purge (int purge_after)
   while (p < wasteNum && p < WASTENUM_MAX)
   {
 
-    DIR *dir = opendir (W_info[p]);
+    DIR *dir = opendir (w_info.dir[p]);
     /* Read each file/dir in Waste directory */
     while ((entry = readdir (dir)) != NULL)
     {
@@ -394,7 +398,7 @@ purge (int purge_after)
         char infoLine[MP + 5];
         // char *infoLine = NULL;
         trim (entry->d_name);
-        buf_check_with_strop (entry_path, W_info[p], CPY);
+        buf_check_with_strop (entry_path, w_info.dir[p], CPY);
         buf_check_with_strop (entry_path, entry->d_name, CAT);
 
         info_file_ptr = fopen (entry_path, "r");
@@ -451,7 +455,7 @@ purge (int purge_after)
         {
           // if (then  <= now) { /* For debugging */
           success = 0;
-          strcpy (purgeFile, W_files[p]);
+          strcpy (purgeFile, w_files.dir[p]);
           char temp[MP];
           strcpy (temp, entry->d_name);
           truncate_str (temp, strlen (DOT_TRASHINFO));
@@ -516,7 +520,7 @@ purge (int purge_after)
 
 
 void
-undo_last_rmw (void)
+undo_last_rmw (const char *HOMEDIR)
 {
   FILE *undo_file_ptr;
   char undo_path[MP];
@@ -524,35 +528,35 @@ undo_last_rmw (void)
   /* using destiny because the second arg for Restore() must be
    * a *char[] not a *char */
   char *destiny[1];
-  buf_check_with_strop (undo_path, getenv ("HOME"), CPY);
+  buf_check_with_strop (undo_path, HOMEDIR, CPY);
   buf_check_with_strop (undo_path, UNDOFILE, CAT);
   undo_file_ptr = fopen (undo_path, "r");
+
   if (undo_file_ptr == NULL)
   {
     fprintf (stderr, "Error opening %s for reading\n", undo_path);
     exit (1);
   }
+
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
   {
     trim (line);
-
     destiny[0] = line;
 
     /* using 0 for third arg so 'for' loop in Restore() will run
      * at least once */
     Restore (1, destiny, 0);
   }
-  fclose (undo_file_ptr);
 
+  fclose (undo_file_ptr);
 }
 
-
-
-
-/* getch() and getche()
- AUTHOR: zobayer
+/**
+ * getch() and getche()
+ * AUTHOR: zobayer
+ *
+ * reads from keypress, doesn't echo
  */
-/* reads from keypress, doesn't echo */
 int
 getch (void)
 {
@@ -581,8 +585,6 @@ getche (void)
   tcsetattr (STDIN_FILENO, TCSANOW, &oldattr);
   return ch;
 }
-
-
 
 /*
  int cp(const char *from, const char *to) { */
@@ -722,7 +724,7 @@ waste_check (const char *p)
 }
 
 bool
-isProtected (char *cur_file)
+isProtected (char *cur_file, struct waste_containers w_parent)
 {
 
   if (bypass == 0)
@@ -733,8 +735,8 @@ isProtected (char *cur_file)
 
     for (i = 0; i < wasteNum; i++)
     {
-      short len = strlen (W_cfg[i]);
-      if (strncmp (rp, W_cfg[i], len) == 0)
+      short len = strlen (w_parent.dir[i]);
+      if (strncmp (rp, w_parent.dir[i], len) == 0)
         break;
 
     }
@@ -745,7 +747,7 @@ isProtected (char *cur_file)
     }
     else
     {
-      printf ("File is in protected directory: %s\n", W_cfg[i]);
+      printf ("File is in protected directory: %s\n", w_parent.dir[i]);
       return 1;
     }
   }
@@ -777,7 +779,7 @@ isProtected (char *cur_file)
  } */
 
 void
-restore_select (void)
+restore_select (struct waste_containers w_files)
 {
   struct stat st;
   struct dirent *entry;
@@ -794,22 +796,22 @@ restore_select (void)
 
   while (w < wasteNum)
   {
-    DIR *dir = opendir (W_files[w]);
+    DIR *dir = opendir (w_files.dir[w]);
     count = 0;
-    if (!choice)
-    {
-      printf ("\t>-- %s --<\n", W_files[w]);
 
-    }
+    if (!choice)
+     printf ("\t>-- %s --<\n", w_files.dir[w]);
+
     while ((entry = readdir (dir)) != NULL)
     {
       if (strcmp (entry->d_name, ".") != 0 && strcmp (entry->d_name, "..")
           != 0)
       {
         count++;
+
         if (count == choice || choice == 0)
         {
-          buf_check_with_strop (path_to_file, W_files[w], CPY);
+          buf_check_with_strop (path_to_file, w_files.dir[w], CPY);
           /* Not yet sure if 'trim' is needed yet; using it
            *  until I get smarter */
           trim (entry->d_name);
@@ -817,6 +819,7 @@ restore_select (void)
           trim (path_to_file);
           lstat (path_to_file, &st);
         }
+
         if (count == choice)
         {
           destiny[0] = path_to_file;
@@ -826,6 +829,7 @@ restore_select (void)
           Restore (1, destiny, 0);
           break;
         }
+
         if (!choice)
         {
           printf ("%3d. %s", count, entry->d_name);
@@ -835,9 +839,9 @@ restore_select (void)
             printf (" (L)");
           printf ("\n");
         }
-
       }
     }
+
     closedir (dir);
     if (choice)
       break;
@@ -852,49 +856,40 @@ restore_select (void)
 
       while ((c = getche ()) != '\n' && char_count < 9 && c >= '0' && c
              <= '9')
-      {
         input[char_count++] = c;
-      }
 
       if (c == 'q' && char_count == 0)
         break;
 
       if (c != '\n')
-      {
         char_count = 0;
-      }
 
       if (c == '\n' && char_count == 0)
-      {
         break;
-      }
 
       if (char_count == 0)
-      {
         printf ("\n");
-      }
+
       else
       {
-
         input[char_count] = '\0';
         choice = atoi (input);
       }
-
     }
+
     while (choice > count || choice < 1);
 
     /* If user selects 'q' to abort */
     if (c == 'q')
     {
       printf ("\n");
-      break;
+      return;
     }
 
     if (choice == 0)
       w++;
 
   }
-
 }
 
 bool
@@ -907,16 +902,6 @@ file_exist (const char *filename)
     return 0;
   else
     return 1;
-
-  /* FILE *fp;
-     fp = fopen(filename, "r");
-     if (fp != NULL) {
-     fclose(fp);
-     return 0;
-     } else {
-
-     return 1;
-     }  */
 }
 
 void

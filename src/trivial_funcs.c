@@ -30,9 +30,9 @@ void print_usage (void)
 {
   printf ("-h, --help\n");
   printf ("-c, --config filename     use an alternate configuration\n");
-  printf ("-l, --list                list waste directories\n");
+  printf ("-l, --list                list waste[parent].dir directories\n");
   printf
-    ("-a, --add-waste dir       add waste directory to configuration file\n");
+    ("-a, --add-waste[parent].dir dir       add waste[parent].dir directory to configuration file\n");
   printf ("-p, --pause               wait for a keypress before exiting\n");
   printf
     ("-g, --purge               run purge even if it's been run today\n");

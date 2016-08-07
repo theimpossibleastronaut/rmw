@@ -1990,7 +1990,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 PACKAGE=rmw
-VERSION=2016.08.06.01a
+#VERSION=2016.08.06.01a
+VERSION=testing
 am__api_version='1.14'
 
 ac_aux_dir=

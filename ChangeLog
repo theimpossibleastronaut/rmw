@@ -98,7 +98,7 @@ Path in info file now the real path without time string appended
 Mar 29, 2012
 
 Purging can be turned off by using 'purge_after=0' in configuration file
-+option to add Waste directory from command line, -a, --add-waste
++option to add Waste directory from command line, -a, --add-waste[parent].dir
 
 
 Mar 27, 2012
@@ -134,7 +134,7 @@ Mar 23, 2012
 + --select will allow user to select a file to restore
 
 Mar 21, 2012
-+--list waste folders cmd line option
++--list waste[parent].dir folders cmd line option
 +some buffer overflow protection, still needs more
 +specify alternate configuration file at command line (-c)
 
@@ -177,7 +177,7 @@ March 7, 2012
 0.01.9pre
 
 Added purge function
-Added remove to waste function
+Added remove to waste[parent].dir function
 Many other minor changes
 
 0.01.6pre

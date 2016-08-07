@@ -27,6 +27,9 @@
 
 int main (int argc, char *argv[])
 {
+  struct waste_containers waste[3];
+
+
   char file_basename[MP];
   char cur_file[MP];
 
@@ -123,16 +126,15 @@ int main (int argc, char *argv[])
   }
   while (next_option != -1);
 
-  buf_check_with_strop (HOMEDIR, getenv ("HOME"), MP);
 
+  char HOMEDIR[sizeof (getenv ("HOME")) * 2];
+  strcpy (HOMEDIR, getenv ("HOME"));
 
-  trim (HOMEDIR);
-
-
+  buf_check (HOMEDIR, MP);
 
   char *data_dir = malloc (MP * sizeof (char));
 
-  buf_check_with_strop (data_dir, getenv ("HOME"), CPY);
+  buf_check_with_strop (data_dir, HOMEDIR, CPY);
 
   buf_check_with_strop (data_dir, DATADIR, CAT);
 
@@ -156,7 +158,7 @@ int main (int argc, char *argv[])
     }
     else
     {
-      strcpy (configFile, getenv ("HOME"));
+      strcpy (configFile, HOMEDIR);
       strcat (configFile, CFG);
     }
     FILE *fp = fopen (configFile, "a");
@@ -256,43 +258,35 @@ int main (int argc, char *argv[])
 
         trim_slash (tokenPtr);
         erase_char (' ', tokenPtr);
-        change_HOME (tokenPtr);
-        buf_check_with_strop (W_cfg[wasteNum], tokenPtr, CAT);
+        change_HOME (tokenPtr, HOMEDIR);
+        buf_check_with_strop (waste[parent].dir[wasteNum], tokenPtr, CAT);
 
         // Make WASTE/files string
         /* No need to check boundaries for the copy */
-        strcpy (W_files[wasteNum], W_cfg[wasteNum]);
-        buf_check_with_strop (W_files[wasteNum], "/files/", CAT);
-        #if DEBUG == 1
-          printf("%s %d\n", W_files[wasteNum], wasteNum);
-          printf("PATH_MAX %d\n", PATH_MAX);
-        #endif
+        strcpy (waste[files].dir[wasteNum], waste[parent].dir[wasteNum]);
+        buf_check_with_strop (waste[files].dir[wasteNum], "/files/", CAT);
 
         // Make WASTE/info string
         /* No need to check boundaries for the copy */
-        strcpy (W_info[wasteNum], W_cfg[wasteNum]);
-        buf_check_with_strop (W_info[wasteNum], "/info/", CAT);
-        #if DEBUG == 1
-          printf("%s %d %d\n", W_info[wasteNum], wasteNum, WASTENUM_MAX);
-        #endif
+        strcpy (waste[info].dir[wasteNum], waste[parent].dir[wasteNum]);
+        buf_check_with_strop (waste[info].dir[wasteNum], "/info/", CAT);
+
 
         // Create WASTE if it doesn't exit
-        waste_check (W_cfg[wasteNum]);
-        #if DEBUG == 1
-          printf("%s %d %d\n", W_cfg[wasteNum], wasteNum, WASTENUM_MAX);
-        #endif
+        waste_check (waste[parent].dir[wasteNum]);
+
 
         // Create WASTE/files if it doesn't exit
-        waste_check (W_files[wasteNum]);
+        waste_check (waste[files].dir[wasteNum]);
 
         // Create WASTE/info if it doesn't exit
-        waste_check (W_info[wasteNum]);
+        waste_check (waste[info].dir[wasteNum]);
 
         // get device number to use later for rename
-        lstat (W_cfg[wasteNum], &st);
+        lstat (waste[parent].dir[wasteNum], &st);
         W_devnum[wasteNum] = st.st_dev;
         if (list)
-          printf ("%s\n", W_cfg[wasteNum]);
+          printf ("%s\n", waste[parent].dir[wasteNum]);
         wasteNum++;
 
       }
@@ -332,14 +326,14 @@ int main (int argc, char *argv[])
     char undo_path[MP];
     bool undo_opened = 0;
 
-    buf_check_with_strop (undo_path, getenv ("HOME"), CPY);
+    buf_check_with_strop (undo_path, HOMEDIR, CPY);
     buf_check_with_strop (undo_path, UNDOFILE, CAT);
 
 
     for (i = optind; i < argc; i++)
     {
 
-      if (pre_rmw_check (argv[i], file_basename, cur_file) == 0)
+      if (pre_rmw_check (argv[i], file_basename, cur_file, waste[parent]) == 0)
       {
 
         // If the file hasn't been opened yet (should only happen on the
@@ -382,7 +376,7 @@ int main (int argc, char *argv[])
           {
             // used by mkinfo
             curWasteNum = i;
-            buf_check_with_strop (finalDest, W_files[i], CPY);
+            buf_check_with_strop (finalDest, waste[files].dir[i], CPY);
             buf_check_with_strop (finalDest, file_basename, CAT);
             // If a duplicate file exists
             if (file_exist (finalDest) == 0)
@@ -400,7 +394,7 @@ int main (int argc, char *argv[])
               printf ("'%s' -> '%s'\n", cur_file, finalDest);
               fprintf (undo_file_ptr, "%s\n", finalDest);
 
-              info_st = mkinfo (dfn, file_basename, cur_file);
+              info_st = mkinfo (dfn, file_basename, cur_file, waste[info]);
             }
             else
             {
@@ -445,9 +439,9 @@ int main (int argc, char *argv[])
     Restore (argc, argv, optind);
 
   else if (select)
-    restore_select ();
+    restore_select (waste[files]);
   else if (undo_last)
-    undo_last_rmw ();
+    undo_last_rmw (HOMEDIR);
 
   else
   {
@@ -463,9 +457,9 @@ int main (int argc, char *argv[])
 
   if (purge_after != 0 && restoreYes == 0 && select == 0)
   {
-    if (purgeD () != 0 || purgeYes != 0)
-      status = purge (purge_after);
-  }
+    if (purgeD (HOMEDIR) != 0 || purgeYes != 0)
+      status = purge (purge_after, waste[info], waste[files] );
+    }
 
   if (pause)
   {

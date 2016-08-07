@@ -46,7 +46,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "2016.08.06.01a"
+#define VERSION "testing"
 #endif
 
 #define DEBUG 0
@@ -56,7 +56,9 @@
 #endif
 
 /* datadir also the user's config directory */
+#ifndef DATADIR
 #define DATADIR "/.config/rmw/"
+#endif
 
   /* 'config' file will be in DATADIR */
 #define CFG DATADIR"config"
@@ -79,34 +81,29 @@ typedef unsigned short ushort;
 
 #define DOT_TRASHINFO ".trashinfo"
 
-/* TODO: make a structure out of this */
-char W_cfg[WASTENUM_MAX][MP];
-char W_files[WASTENUM_MAX][MP];
-char W_info[WASTENUM_MAX][MP];
+struct waste_containers {
+  char dir[WASTENUM_MAX][MP];
+};
+
+enum {
+  parent, info, files
+};
 
 uint W_devnum[WASTENUM_MAX];
 
 ushort wasteNum, curWasteNum;
 
 // for buf_check_with_strop()
-enum
-{
+enum {
   CPY, CAT
 };
+
 
 /* char protected[PROTECT_MAX][MP];
  unsigned int protected_num = 0; */
 #define PROTECT_MAX 64
 
-// for command line options
-/*extern bool list;
-extern bool verbose;
-extern bool bypass; */
-
-
 FILE *undo_file_ptr;
-
-char HOMEDIR[MP];
 
 char time_now[21];
 

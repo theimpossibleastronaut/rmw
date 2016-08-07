@@ -29,23 +29,28 @@ int trim (char s[]);
 
 void erase_char (char c, char *str);
 
-bool change_HOME (char *t);
+bool change_HOME (char *t, const char *HOMEDIR);
 
 int trim_slash (char s[]);
 
 void truncate_str (char *str, short len);
 
-bool pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file);
+bool
+pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
+               struct waste_containers w_parent);
 
-int mkinfo (bool dup_filename, char *file_basename, char *cur_file);
+int
+mkinfo (bool dup_filename, char *file_basename, char *cur_file,
+        struct waste_containers w_info);
 
-void Restore (int argc, char *argv[], int optind);
+int
+purge (int purge_after, struct waste_containers w_info,
+       struct waste_containers w_files);
 
-int purge (int purge_after);
+bool purgeD (const char *HOMEDIR);
 
-bool purgeD (void);
-
-void undo_last_rmw (void);
+void
+undo_last_rmw (const char *HOMEDIR);
 
 int getch (void);
 
@@ -65,9 +70,14 @@ void mkdirErr (const char *dirname, const char *text_string);
 
 void waste_check (const char *p);
 
-bool isProtected (char *cur_file);
+bool
+isProtected (char *cur_file, struct waste_containers w_parent);
 
-void restore_select (void);
+void
+Restore (int argc, char *argv[], int optind);
+
+void
+restore_select (struct waste_containers w_files);
 
 bool file_exist (const char *filename);
 
