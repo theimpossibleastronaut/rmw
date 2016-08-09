@@ -18,8 +18,8 @@ can be disabled by using 'purgeDays = 0' in configuration file.
 rmw options:
 
 -c, --config filename     use an alternate configuration
--l, --list                list waste[parent].dir directories
--a, --add-waste[parent].dir dir       add waste[parent].dir directory to configuration file
+-l, --list                list waste directories
+-a, --add-waste dir       add waste directory to configuration file
 -p, --pause               wait for a keypress before exiting
 -g, --purge               run purge even if it's been run today
 -z, --restore <wildcard filename(s) pattern>
