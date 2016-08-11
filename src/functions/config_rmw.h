@@ -1,5 +1,5 @@
 /*
- * main.h
+ * config_rmw.h
  *
  * This file is part of rmw (http://rmw.sf.net)
  *
@@ -24,4 +24,10 @@
  */
 
 #include "rmw.h"
-#include "function_prototypes.h"
+
+void
+check_for_data_dir (const char *data_dir);
+
+int
+get_config_data(struct waste_containers *waste, const char *alt_config,
+                const char *HOMEDIR, int *pa, bool list, int *waste_ctr);

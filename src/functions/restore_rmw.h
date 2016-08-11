@@ -1,5 +1,5 @@
 /*
- * main.h
+ * restore_rmw.c
  *
  * This file is part of rmw (http://rmw.sf.net)
  *
@@ -23,5 +23,17 @@
  *
  */
 
+#ifndef _RESTORE_RMW_H
+#define _RESTORE_RMW_H
+
 #include "rmw.h"
 #include "function_prototypes.h"
+
+void
+Restore (int argc, char *argv[], int optind, char *time_str_appended);
+
+void
+restore_select (struct waste_containers *waste, char *time_str_appended,
+                const int wdt);
+
+#endif

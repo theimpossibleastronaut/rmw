@@ -7,4 +7,3 @@ packextras_DATA=$(EXTRA_DIST)
 #rmw_SOURCES=src/rmw.c
 #rmw_LDADD=$(INTI_LIBS)
 
-

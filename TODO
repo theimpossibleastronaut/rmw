@@ -1,3 +1,9 @@
+Aug 08, 2016
+
+  Development version:
+    Fix config.h issue
+
+
 Mar 25, 2012
 
 -change input routine when selecting a file to restore so user can confirm

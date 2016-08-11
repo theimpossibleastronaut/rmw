@@ -1,5 +1,22 @@
 === rmw ChangeLog ===
 
+-- Aug. 11, 2016
+
+Issue #5 implemented
+https://github.com/andy5995/rmw/issues/5
+
+Added some pointers, dispatched more globals
+
+
+-- August 09, 2016
+
+Trying to simplify things, I removed the --add-waste (a) option. I don't
+think it adds much to ease-of-use and isn't worth maintaining the code.
+
+-- August 08, 2016
+
+rmw will now create the $HOME/.config dir if it doesn't exist (dev).
+
 -- August 07, 2016
 
 I've gotten rid of more global variables

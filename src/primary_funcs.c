@@ -23,7 +23,6 @@
  *
  */
 
-#include "rmw.h"
 #include "function_prototypes.h"
 
 
@@ -81,14 +80,14 @@ buf_check (const char *str, unsigned short boundary)
 
 bool
 pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
-               struct waste_containers * waste, bool bypass)
+               struct waste_containers * waste, bool bypass, const int wdt)
 {
 
   bool onDrive = 0;
 
   buf_check (cmdargv, MP);
 
-  onDrive = file_exist (cmdargv);
+  onDrive = file_not_found (cmdargv);
   if (onDrive == 1)
   {
     fprintf (stderr, "File not found: '%s'\n", cmdargv);
@@ -99,23 +98,23 @@ pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
 
     strcpy (cur_file, cmdargv);
     strcpy (file_basename, basename (cur_file));
-    return isProtected (cur_file, waste, bypass);
+    return isProtected (cur_file, waste, bypass, wdt);
   }
 
 }
 
-
 int
 mkinfo (bool dup_filename, char *file_basename, char *cur_file,
         struct waste_containers *waste, char *time_now,
-        char *time_str_appended)
+        char *time_str_appended, const short cnum)
 {
   FILE *fp;
   bool bufstat = 0;
   char finalInfoDest[PATH_MAX + 1];
 
   bufstat =
-    buf_check_with_strop (finalInfoDest, waste[curWasteNum].info, CPY);
+    buf_check_with_strop (finalInfoDest, waste[cnum].info, CPY);
+
   bufstat = buf_check_with_strop (finalInfoDest, file_basename, CAT);
 
   if (dup_filename)
@@ -148,143 +147,14 @@ mkinfo (bool dup_filename, char *file_basename, char *cur_file,
   }
 }
 
-void
-Restore (int argc, char *argv[], int optind, char *time_str_appended)
-{
-
-  FILE *fp;
-  int i;
-  char fn_to_restore[MP];
-  bool f_state = 0;
-
-  struct filespec
-  {
-    char *bfn;
-    char rp[MP];
-    char ip[MP];
-  } r;
-
-  char *tokenPtr;
-  // adding 5 for the 'Path=' preceding the path.
-  char line[MP + 5];
-
-  for (i = optind; i < argc; i++)
-  {
-
-    if (file_exist (argv[i]) == 0)
-    {
-      buf_check (argv[i], PATH_MAX);
-      realpath (argv[i], r.rp);
-      r.bfn = basename (argv[i]);
-
-      truncate_str (r.rp, strlen ("files/") + strlen (r.bfn));
-      strcpy (r.ip, r.rp);
-      strcat (r.ip, "info/");
-      strcat (r.ip, r.bfn);
-      strcat (r.ip, DOT_TRASHINFO);
-
-      f_state = file_exist (r.ip);
-      if (f_state != 0)
-      {
-        printf ("no info file found for %s\n", argv[i]);
-        break;
-      }
-      else
-      {
-        fp = fopen (r.ip, "r");
-        if (fp == NULL)
-        {
-          fprintf (stderr, "Error opening info file: %s\n", r.ip);
-          break;
-        }
-        else
-        {
-          // Not using the "[Trash Info]" line, but reading the file
-          // sequentially
-          if (fgets (line, 14, fp) == NULL)
-          {
-            fprintf (stderr, "Error reading restore file %s\n", r.ip);
-            fclose (fp);
-            break;
-          }
-          else if (strncmp (line, "[Trash Info]", 12) != 0)
-          {
-            fprintf (stderr,
-                     "Info file error; format not correct (Line 1): %s\n",
-                     r.ip);
-            fclose (fp);
-            break;
-          }
-
-          // adding 5 for the 'Path=' preceding the path.
-          if (fgets (line, MP + 6, fp) != NULL)
-          {
-            tokenPtr = strtok (line, "=");
-            tokenPtr = strtok (NULL, "=");
-            // tokenPtr now equals the absolute path from the info file
-            // truncating '\n'
-            buf_check_with_strop (fn_to_restore, tokenPtr, CPY);
-            tokenPtr = NULL;
-            trim (fn_to_restore);
-            fclose (fp);
-
-          }
-          else
-          {
-            printf ("error on line 2 in %s\n", r.ip);
-            fclose (fp);
-            break;
-          }
-
-          /* Check for duplicate filename */
-          bool onDrive = file_exist (fn_to_restore);
-
-          if (onDrive == 0)
-          {
-            buf_check_with_strop (fn_to_restore, time_str_appended, CAT);
-            if (verbose == 1)
-            {
-              fprintf (stdout,
-                       "Duplicate filename at destination - appending time string...\n");
-            }
-
-          }
-
-          /* end check                                  */
-
-          if (rename (argv[i], fn_to_restore) == 0)
-          {
-            printf ("+'%s' -> '%s'\n", argv[i], fn_to_restore);
-            if (remove (r.ip) != 0)
-            {
-              fprintf (stderr, "error removing info file: '%s'\n", r.ip);
-            }
-            else
-            {
-              if (verbose)
-                printf ("-%s\n", r.ip);
-            }
-          }
-
-          else
-          {
-            fprintf (stderr, "Restore failed: %s\n", fn_to_restore);
-          }
-        }
-      }
-    }
-    else
-    {
-      printf ("%s not found\n", argv[i]);
-    }
-  }
-}
-
+/**
+ * writes the day of the last purge
+ * FIXME: function name needs changing
+ */
 bool
 purgeD (const char *HOMEDIR)
 {
-
-  FILE *fp;
+ FILE *fp;
 
   char purgeDpath[MP];
   /* buf_check_with_strop(purgeDpath, getenv("HOME"), CPY); */
@@ -299,7 +169,7 @@ purgeD (const char *HOMEDIR)
   // terminator, in case something got hosed.
   trim (purgeDpath);
 
-  if (file_exist (purgeDpath) == 0)
+  if (!file_not_found (purgeDpath))
   {
     fp = fopen (purgeDpath, "r");
     fgets (lastDay, 3, fp);
@@ -349,10 +219,10 @@ purgeD (const char *HOMEDIR)
 }
 
 int
-purge (int purge_after, struct waste_containers *waste, char *time_now)
+purge (int *pa, const struct waste_containers *waste, char *time_now,
+       const int wdt)
 {
-
-  if (purge_after > UINT_MAX)
+  if ( *pa > UINT_MAX)
   {
     printf ("purge_after can't be greater than %u\n", UINT_MAX);
     exit (1);
@@ -377,17 +247,15 @@ purge (int purge_after, struct waste_containers *waste, char *time_now)
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
 
-  printf ("\nPurging files older than %u days...\n", purge_after);
+  printf ("\nPurging files older than %u days...\n", *pa);
 
   /* Read each Waste directory */
-  while (p < wasteNum && p < WASTENUM_MAX)
+  while (p < wdt && p < WASTENUM_MAX)
   {
-
     DIR *dir = opendir (waste[p].info);
     /* Read each file/dir in Waste directory */
     while ((entry = readdir (dir)) != NULL)
     {
-
       buf_check (entry->d_name, MP);
 
       if (strcmp (entry->d_name, ".") != 0 && strcmp (entry->d_name, "..")
@@ -452,7 +320,7 @@ purge (int purge_after, struct waste_containers *waste, char *time_now)
         strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
         then = mktime (&tm_then);
 
-        if (then + (86400 * purge_after) <= now)
+        if (then + (86400 * *pa) <= now)
         {
           // if (then  <= now) { /* For debugging */
           success = 0;
@@ -468,6 +336,7 @@ purge (int purge_after, struct waste_containers *waste, char *time_now)
           if (S_ISDIR (st.st_mode))
           {
             rmdir_recursive (purgeFile, 1);
+
             if (rmdir (purgeFile) != 0)
             {
               printf ("Unknown error purging '%s'\n", purgeFile);
@@ -519,7 +388,6 @@ purge (int purge_after, struct waste_containers *waste, char *time_now)
 
 }
 
-
 void
 undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
 {
@@ -530,7 +398,7 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
    * a *char[] not a *char */
   char *destiny[1];
   buf_check_with_strop (undo_path, HOMEDIR, CPY);
-  buf_check_with_strop (undo_path, UNDOFILE, CAT);
+  buf_check_with_strop (undo_path, UNDO_FILE, CAT);
   undo_file_ptr = fopen (undo_path, "r");
 
   if (undo_file_ptr == NULL)
@@ -725,7 +593,8 @@ waste_check (const char *p)
 }
 
 bool
-isProtected (char *cur_file, struct waste_containers *waste, bool bypass)
+isProtected (char *cur_file, struct waste_containers *waste, bool bypass,
+            const int wdt)
 {
 
   if (bypass == 0)
@@ -734,7 +603,7 @@ isProtected (char *cur_file, struct waste_containers *waste, bool bypass)
     char rp[MP];
     realpath (cur_file, rp);
 
-    for (i = 0; i < wasteNum; i++)
+    for (i = 0; i < wdt; i++)
     {
       short len = strlen (waste[i].parent);
       if (strncmp (rp, waste[i].parent, len) == 0)
@@ -742,7 +611,7 @@ isProtected (char *cur_file, struct waste_containers *waste, bool bypass)
 
     }
 
-    if (i == wasteNum)
+    if (i == wdt)
     {
       return 0;
     }
@@ -779,122 +648,10 @@ isProtected (char *cur_file, struct waste_containers *waste, bool bypass)
  printf("tokenPtr = %s\n", protected[1]);
  } */
 
-void
-restore_select (struct waste_containers *waste, char *time_str_appended)
-{
-  struct stat st;
-  struct dirent *entry;
-  char path_to_file[MP];
-  /* using destiny because the second arg for Restore() must be
-   * a *char[] not a *char */
-  char *destiny[1];
-  unsigned count = 0;
-  int w = 0;
-  char input[10];
-  char c;
-  unsigned char char_count = 0;
-  short choice = 0;
 
-  while (w < wasteNum)
-  {
-    DIR *dir = opendir (waste[w].files);
-    count = 0;
-
-    if (!choice)
-      printf ("\t>-- %s --<\n", waste[w].files);
-
-    while ((entry = readdir (dir)) != NULL)
-    {
-      if (strcmp (entry->d_name, ".") != 0 && strcmp (entry->d_name, "..")
-          != 0)
-      {
-        count++;
-
-        if (count == choice || choice == 0)
-        {
-          buf_check_with_strop (path_to_file, waste[w].files, CPY);
-          /* Not yet sure if 'trim' is needed yet; using it
-           *  until I get smarter */
-          trim (entry->d_name);
-          buf_check_with_strop (path_to_file, entry->d_name, CAT);
-          trim (path_to_file);
-          lstat (path_to_file, &st);
-        }
-
-        if (count == choice)
-        {
-          destiny[0] = path_to_file;
-          printf ("\n");
-          /* using 0 for third arg so 'for' loop in Restore() will run
-           *  at least once */
-          Restore (1, destiny, 0, time_str_appended);
-          break;
-        }
-
-        if (!choice)
-        {
-          printf ("%3d. %s", count, entry->d_name);
-          if (S_ISDIR (st.st_mode))
-            printf (" (D)");
-          if (S_ISLNK (st.st_mode))
-            printf (" (L)");
-          printf ("\n");
-        }
-      }
-    }
-
-    closedir (dir);
-    if (choice)
-      break;
-
-    do
-    {
-
-      printf ("Input number to restore, 'enter' to continue, 'q' to quit) ");
-      char_count = 0;
-      input[0] = '\0';
-      choice = 0;
-
-      while ((c = getche ()) != '\n' && char_count < 9 && c >= '0' && c
-             <= '9')
-        input[char_count++] = c;
-
-      if (c == 'q' && char_count == 0)
-        break;
-
-      if (c != '\n')
-        char_count = 0;
-
-      if (c == '\n' && char_count == 0)
-        break;
-
-      if (char_count == 0)
-        printf ("\n");
-
-      else
-      {
-        input[char_count] = '\0';
-        choice = atoi (input);
-      }
-    }
-
-    while (choice > count || choice < 1);
-
-    /* If user selects 'q' to abort */
-    if (c == 'q')
-    {
-      printf ("\n");
-      return;
-    }
-
-    if (choice == 0)
-      w++;
-
-  }
-}
 
 bool
-file_exist (const char *filename)
+file_not_found (const char *filename)
 {
   struct stat st;
   bool r = 0;
@@ -921,10 +678,8 @@ get_time_string (char *tm_str, unsigned short len, const char *format)
 int
 remove_to_waste (char *cur_file, char *file_basename,
                  struct waste_containers *waste, char *time_now,
-                 char *time_str_appended, FILE * undo_file_ptr)
+                 char *time_str_appended, FILE * undo_file_ptr, const int wdt)
 {
-
-
   struct stat st;
   char finalDest[MP];
   int i = 0;
@@ -933,20 +688,22 @@ remove_to_waste (char *cur_file, char *file_basename,
   bool info_st = 0;
   bool dfn = 0;
 
+  short curWasteNum = 0;
+
   // cycle through wasteDirs to see which one matches
   // device number of file
 
-  for (i = 0; i < wasteNum; i++)
+  for (i = 0; i < wdt; i++)
   {
     lstat (cur_file, &st);
-    if (W_devnum[i] == st.st_dev)
+    if (waste[i].dev_num == st.st_dev)
     {
       // used by mkinfo
       curWasteNum = i;
       buf_check_with_strop (finalDest, waste[i].files, CPY);
       buf_check_with_strop (finalDest, file_basename, CAT);
       // If a duplicate file exists
-      if (file_exist (finalDest) == 0)
+      if (file_not_found (finalDest) == 0)
       {
         // append a time string
         buf_check_with_strop (finalDest, time_str_appended, CAT);
@@ -962,7 +719,7 @@ remove_to_waste (char *cur_file, char *file_basename,
         fprintf (undo_file_ptr, "%s\n", finalDest);
 
         info_st = mkinfo (dfn, file_basename, cur_file, waste,
-                          time_now, time_str_appended);
+                          time_now, time_str_appended, curWasteNum);
       }
       else
       {

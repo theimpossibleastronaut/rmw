@@ -23,7 +23,6 @@
  *
  */
 
-#include "rmw.h"
 #include "function_prototypes.h"
 
 /**

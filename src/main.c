@@ -32,7 +32,7 @@ int main (int argc, char *argv[])
   char file_basename[MP];
   char cur_file[MP];
 
-  const char *const short_options = "hvc:pgzlsuBa:wV";
+  const char *const short_options = "hvc:pgzlsuB:wV";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -45,7 +45,6 @@ int main (int argc, char *argv[])
     {"select", 0, NULL, 's'},
     {"undo-last", 0, NULL, 'u'},
     {"bypass", 1, NULL, 'B'},
-    {"add-waste", 1, NULL, 'a'},
     {"warranty", 0, NULL, 'w'},
     {"version", 0, NULL, 'V'},
     {NULL, 0, NULL, 0}
@@ -63,10 +62,6 @@ int main (int argc, char *argv[])
   bool list = 0;
 
   const char *alt_config = NULL;
-  const char *W_addition = NULL;
-
-  wasteNum = 0;
-  curWasteNum = 0;
 
   do
   {
@@ -104,9 +99,6 @@ int main (int argc, char *argv[])
     case 'B':
       bypass = 1;
       break;
-    case 'a':
-      W_addition = optarg;
-      break;
     case 'w':
       warranty ();
       break;
@@ -125,6 +117,7 @@ int main (int argc, char *argv[])
   }
   while (next_option != -1);
 
+  buf_check  (getenv ("HOME"), MP);
   char HOMEDIR[strlen (getenv ("HOME")) + 1];
   strcpy (HOMEDIR, getenv ("HOME"));
 
@@ -133,183 +126,21 @@ int main (int argc, char *argv[])
   char *data_dir = malloc (MP * sizeof (char));
 
   buf_check_with_strop (data_dir, HOMEDIR, CPY);
+  buf_check_with_strop (data_dir, DATA_DIR, CAT);
 
-  buf_check_with_strop (data_dir, DATADIR, CAT);
-
-
-  if (file_exist (data_dir) == 1)
-  {
-    if (mkdir (data_dir, S_IRWXU) != 0)
-    {
-      fprintf (stderr, "Error creating configuration directory: %s\n",
-               data_dir);
-      exit (1);
-    }
-  }                             // else
-
-  if (W_addition != NULL)
-  {
-    char configFile[MP];
-    if (alt_config != NULL)
-    {
-      buf_check_with_strop (configFile, alt_config, CPY);
-    }
-    else
-    {
-      strcpy (configFile, HOMEDIR);
-      strcat (configFile, CFG);
-    }
-    FILE *fp = fopen (configFile, "a");
-    if (fp == NULL)
-    {
-      fprintf (stderr, "Error appending to configuration file\n");
-      exit (1);
-    }
-    else
-    {
-      fprintf (fp, "\nWASTE = %s\n", W_addition);
-      fclose (fp);
-      printf ("%s added to %s\n", W_addition, configFile);
-    }
-  }
+  check_for_data_dir (data_dir);
 
   free (data_dir);
 
   int i = 0;
 
+  int *waste_ctr = malloc (sizeof (*waste_ctr));
+  int *purge_after = malloc (sizeof (*purge_after));
 
-  int purge_after = 90;
+  get_config_data(waste, alt_config, HOMEDIR, purge_after, list, waste_ctr);
 
-  /**
-   * BEGIN get_config
-   */
-
-  struct stat st;
-  FILE *cfgPtr;
-  wasteNum = 0;
-  char *tokenPtr;
-  char configFile[MP];
-  const unsigned short CFG_MAX_LEN = PATH_MAX + 16;
-  char confLine[CFG_MAX_LEN];
-
-  /* If no alternate configuration was specifed (-c) */
-  if (alt_config == NULL)
-  {
-        /**
-	 * Besides boundary checking, buf_check_with_strop()
-	 * will perform the strcpy or strcat)
-	 */
-
-    /* copy $HOMEDIR to configFile */
-    buf_check_with_strop (configFile, HOMEDIR, CPY);
-
-    // CFG is the file name of the rmw config file relative to
-    // the $HOME directory, defined at the top of rmw.h
-    /* create full path to configFile */
-    buf_check_with_strop (configFile, CFG, CAT);
-  }
-  else
-    buf_check_with_strop (configFile, alt_config, CPY);
-
-  cfgPtr = fopen (configFile, "r");
-  /* if configFile isn't found in home directory,
-   *  open the system default */
-  if (cfgPtr == NULL)
-  {
-    /* buf_check_with_strop(configFile, "/etc/rmwrc", CPY); */
-    buf_check_with_strop (configFile, SYSCONFDIR "/rmwrc", CPY);
-    cfgPtr = fopen (configFile, "r");
-    if (cfgPtr == NULL)
-    {
-      fprintf (stderr, "Configuration file (%s) not found.\nExiting...\n",
-               configFile);
-      exit (1);
-    }
-  }
-
-  while (fgets (confLine, CFG_MAX_LEN, cfgPtr) != NULL)
-  {
-    buf_check (confLine, CFG_MAX_LEN);
-    trim (confLine);
-    erase_char (' ', confLine);
-
-    if (strncmp (confLine, "purge_after", 11) == 0 || strncmp(confLine, "purgeDays", 9) == 0)
-    {
-
-      tokenPtr = strtok (confLine, "=");
-      tokenPtr = strtok (NULL, "=");
-      // buf_check (tokenPtr, 4096);
-      erase_char (' ', tokenPtr);
-      buf_check (tokenPtr, 6);
-      purge_after = atoi (tokenPtr);
-    }
-    else
-      /* if (strncmp ("PROTECT", confLine, 7) == 0)
-         parse_protected (confLine); */
-
-    if (wasteNum < WASTENUM_MAX)
-    {
-      if (strncmp ("WASTE", confLine, 5) == 0)
-      {
-        tokenPtr = strtok (confLine, "=");
-        tokenPtr = strtok (NULL, "=");
-
-        trim_slash (tokenPtr);
-        erase_char (' ', tokenPtr);
-        change_HOME (tokenPtr, HOMEDIR);
-        buf_check_with_strop (waste[wasteNum].parent, tokenPtr, CAT);
-
-        // Make WASTE/files string
-        /* No need to check boundaries for the copy */
-        strcpy (waste[wasteNum].files, waste[wasteNum].parent);
-        buf_check_with_strop (waste[wasteNum].files, "/files/", CAT);
-
-        // Make WASTE/info string
-        /* No need to check boundaries for the copy */
-        strcpy (waste[wasteNum].info, waste[wasteNum].parent);
-        buf_check_with_strop (waste[wasteNum].info, "/info/", CAT);
-
-
-        // Create WASTE if it doesn't exit
-        waste_check (waste[wasteNum].parent);
-
-
-        // Create WASTE/files if it doesn't exit
-        waste_check (waste[wasteNum].files);
-
-        // Create WASTE/info if it doesn't exit
-        waste_check (waste[wasteNum].info);
-
-        // get device number to use later for rename
-        lstat (waste[wasteNum].parent, &st);
-        W_devnum[wasteNum] = st.st_dev;
-        if (list)
-          printf ("%s\n", waste[wasteNum].parent);
-        wasteNum++;
-
-      }
-    }
-    else if (wasteNum == WASTENUM_MAX)
-      printf ("Maximum number Waste folders reached: %d\n", WASTENUM_MAX);
-  }
-  fclose (cfgPtr);
-
-  // No WASTE= line found in config file
-  if (wasteNum == 0)
-  {
-    fprintf (stderr, "Configuration file (%s) error; exiting...\n",
-             configFile);
-    exit (1);
-  }
-
-  purge_after;
-
-  // From this point on, wasteNum must not be altered
-  /* UPDATE 2016-08-03.. Create a non-global from wasteNum */
-
-/**
- * END get_config
- */
+  const int waste_dirs_total = *waste_ctr;
+  free (waste_ctr);
 
 // String appended to duplicate filenames
   char time_str_appended[16];
@@ -329,18 +160,22 @@ int main (int argc, char *argv[])
     bool undo_opened = 0;
 
     buf_check_with_strop (undo_path, HOMEDIR, CPY);
-    buf_check_with_strop (undo_path, UNDOFILE, CAT);
+    buf_check_with_strop (undo_path, UNDO_FILE, CAT);
 
 
     for (i = optind; i < argc; i++)
     {
 
       if (pre_rmw_check (argv[i], file_basename, cur_file, waste,
-                         bypass) == 0)
+                         bypass, waste_dirs_total) == 0)
       {
 
         // If the file hasn't been opened yet (should only happen on the
         // first iteration of the loop
+
+        /**
+         * Before ReMoving files to Waste, open the undo file for writing
+         */
         if (!undo_opened)
         {
           undo_file_ptr = fopen (undo_path, "w");
@@ -356,9 +191,10 @@ int main (int argc, char *argv[])
         }
 
         status = remove_to_waste (cur_file, file_basename, waste, time_now,
-                                  time_str_appended, undo_file_ptr);
+                                  time_str_appended, undo_file_ptr,
+                                  waste_dirs_total);
       }
-    }                           // end big for
+    }
 
 
     if (undo_opened)
@@ -370,13 +206,13 @@ int main (int argc, char *argv[])
     Restore (argc, argv, optind, time_str_appended);
 
   else if (select)
-    restore_select (waste, time_str_appended);
+    restore_select (waste, time_str_appended, waste_dirs_total);
   else if (undo_last)
     undo_last_rmw (HOMEDIR, time_str_appended);
 
   else
   {
-    if (!purgeYes && !list && W_addition == NULL)
+    if (!purgeYes && !list)
     {
       printf ("missing filenames or command line options\n");
       printf ("Try '%s -h' for more information\n", argv[0]);
@@ -389,8 +225,11 @@ int main (int argc, char *argv[])
   if (purge_after != 0 && restoreYes == 0 && select == 0)
   {
     if (purgeD (HOMEDIR) != 0 || purgeYes != 0)
-      status = purge (purge_after, waste, time_now);
+    {
+      status = purge (purge_after, waste, time_now, waste_dirs_total);
+      free (purge_after);
     }
+  }
 
   if (pause)
   {

@@ -1,5 +1,5 @@
 /*
- * trivial_funcs.c
+ * trivial_rmw.c
  *
  * This file is part of rmw (http://rmw.sf.net)
  *
@@ -23,16 +23,13 @@
  *
  */
 
-#include "rmw.h"
-#include "function_prototypes.h"
+#include "trivial_rmw.h"
 
 void print_usage (void)
 {
   printf ("-h, --help\n");
   printf ("-c, --config filename     use an alternate configuration\n");
-  printf ("-l, --list                list waste[parent].dir directories\n");
-  printf
-    ("-a, --add-waste[parent].dir dir       add waste[parent].dir directory to configuration file\n");
+  printf ("-l, --list                list waste directories\n");
   printf ("-p, --pause               wait for a keypress before exiting\n");
   printf
     ("-g, --purge               run purge even if it's been run today\n");
@@ -79,3 +76,10 @@ void version (void)
   printf ("for details.\n");
   exit (0);
 }
+
+void
+err_display_check_config (void)
+{
+  fprintf (stderr, "Check your configuration file or permissions\n");
+}
+

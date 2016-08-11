@@ -1,5 +1,5 @@
 /*
- * main.h
+ * trivial_rmw.h
  *
  * This file is part of rmw (http://rmw.sf.net)
  *
@@ -24,4 +24,15 @@
  */
 
 #include "rmw.h"
-#include "function_prototypes.h"
+
+void
+print_usage (void);
+
+void
+warranty (void);
+
+void
+version (void);
+
+void
+err_display_check_config (void);

@@ -29,6 +29,7 @@
 /* Enable support for files over 2G  */
 #define _FILE_OFFSET_BITS 64
 
+/* #include "config.h" */
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -55,29 +56,25 @@
 #define SYSCONFDIR "/usr/local/etc"
 #endif
 
-/* datadir also the user's config directory */
-#ifndef DATADIR
-#define DATADIR "/.config/rmw/"
+/* DATA_DIR is relative to $HOME */
+#ifndef DATA_DIR
+#define DATA_DIR "/.config/rmw"
 #endif
 
-  /* 'config' file will be in DATADIR */
-#define CFG DATADIR"config"
-#define UNDOFILE DATADIR"lastrmw"
-#define PURGE_DAY_FILE DATADIR"lastpurge"
+#define CFG_FILE DATA_DIR"/config"
+#define UNDO_FILE DATA_DIR"/lastrmw"
+#define PURGE_DAY_FILE DATA_DIR"/lastpurge"
 
 /* Max depth for recursive directory purge function */
 #define DEPTH_MAX 128
 
 /* Set a sane limit on maximum number of Waste dirs */
-/* Not yet implemented */
+/* Not yet fully implemented */
 #define WASTENUM_MAX 16
 
 // shorten PATH_MAX to two characters
 enum
 { MP = PATH_MAX + 1 };
-
-typedef unsigned int uint;
-typedef unsigned short ushort;
 
 #define DOT_TRASHINFO ".trashinfo"
 
@@ -86,18 +83,9 @@ struct waste_containers
   char parent[MP];
   char info[MP];
   char files[MP];
+  int dev_num;
 };
 
-enum
-{
-  parent, info, files
-};
-
-uint W_devnum[WASTENUM_MAX];
-
-ushort wasteNum, curWasteNum;
-
-// for buf_check_with_strop()
 enum
 {
   CPY, CAT

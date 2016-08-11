@@ -1,5 +1,5 @@
 /*
- * primary_funcs.c
+ * function_prototypes.h
  *
  * This file is part of rmw (http://rmw.sf.net)
  *
@@ -24,28 +24,34 @@
  */
 
 #include "rmw.h"
+#include "functions/restore_rmw.h"
 
-int trim (char s[]);
+int
+trim (char s[]);
 
-void erase_char (char c, char *str);
+void
+erase_char (char c, char *str);
 
-bool change_HOME (char *t, const char *HOMEDIR);
+bool
+change_HOME (char *t, const char *HOMEDIR);
 
-int trim_slash (char s[]);
+int
+trim_slash (char s[]);
 
 void truncate_str (char *str, short len);
 
 bool
 pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
-               struct waste_containers *waste, bool bypass);
+               struct waste_containers *waste, bool bypass, const int wdt);
 
 int
 mkinfo (bool dup_filename, char *file_basename, char *cur_file,
         struct waste_containers *waste, char *time_now,
-        char *time_str_appended);
+        char *time_str_appended, const short cnum);
 
 int
-purge (int purge_after, struct waste_containers *waste, char *time_now);
+purge (int *pa, const struct waste_containers *waste, char *time_now,
+       const int wdt);
 
 bool purgeD (const char *HOMEDIR);
 
@@ -71,22 +77,14 @@ void mkdirErr (const char *dirname, const char *text_string);
 void waste_check (const char *p);
 
 bool
-isProtected (char *cur_file, struct waste_containers *waste, bool bypass);
+isProtected (char *cur_file, struct waste_containers *waste, bool bypass,
+             const int wdt);
 
-void
-Restore (int argc, char *argv[], int optind, char *time_str_appended);
-
-void
-restore_select (struct waste_containers *waste, char *time_str_appended);
-
-bool file_exist (const char *filename);
+bool file_not_found (const char *filename);
 
 void get_time_string (char *tm_str, unsigned short len, const char *format);
 
 int
 remove_to_waste(char *cur_file, char *file_basename, struct waste_containers *waste,
-                char *time_now, char *time_str_appended, FILE *undo_file_ptr);
-
-void print_usage (void);
-void warranty (void);
-void version (void);
+                char *time_now, char *time_str_appended, FILE *undo_file_ptr,
+                const int wdt);
