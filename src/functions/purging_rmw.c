@@ -203,7 +203,9 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
 
   struct stat st;
 
-  unsigned short numPurged = 0;
+  unsigned int purge_ctr = 0;
+  unsigned int dirs_containing_files_ctr = 0;
+  unsigned int max_depth_reached_ctr = 0;
 
   char purgeFile[MP];
 
@@ -318,12 +320,14 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
                      "!-Directory not purged - still contains files\n");
             fprintf (stderr, "\t%s\n", purgeFile);
             fprintf (stderr, "\t(check owner/write permissions)\n");
+            dirs_containing_files_ctr++;
             break;
 
           case MAX_DEPTH_REACHED:
             fprintf (stderr, "!-Maximum depth of %u reached, skipping\n",
                      RMDIR_MAX_DEPTH);
             fprintf (stderr, "\t%s\n", purgeFile);
+            max_depth_reached_ctr++;
             break;
 
           case 0:
@@ -367,7 +371,7 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
 
           if (!status)
           {
-            numPurged++;
+            purge_ctr++;
             fprintf (stdout, "-%s\n", purgeFile);
           }
           else
@@ -384,7 +388,15 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
     p++;
   }
 
-  printf ("%d files purged\n", numPurged);
+  if (max_depth_reached_ctr)
+    fprintf (stdout, "%d directories skipped (RMDIR_MAX_DEPTH reached)\n",
+        max_depth_reached_ctr);
+
+  if (dirs_containing_files_ctr)
+    fprintf (stdout, "%d directories skipped (contained non-writeable files)\n",
+        dirs_containing_files_ctr);
+
+  printf ("%d files purged\n", purge_ctr);
   return 0;
 
 }
