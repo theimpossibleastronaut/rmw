@@ -26,34 +26,19 @@
 #include "rmw.h"
 #include "functions/restore_rmw.h"
 
-int
-trim (char s[]);
-
-void
-erase_char (char c, char *str);
-
-bool
-change_HOME (char *t, const char *HOMEDIR);
-
-int
-trim_slash (char s[]);
-
-void truncate_str (char *str, short len);
-
 bool
 pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
-               struct waste_containers *waste, bool bypass, const int wdt);
+               struct waste_containers * waste, bool bypass, const int wdt,
+               char pro_dir[PROTECT_MAX][MP], const int pro_tot);
+
+bool
+isProtected (char *cur_file, struct waste_containers *waste, bool bypass,
+            const int wdt, char pro_dir[PROTECT_MAX][MP], const int pro_tot);
 
 int
 mkinfo (bool dup_filename, char *file_basename, char *cur_file,
         struct waste_containers *waste, char *time_now,
         char *time_str_appended, const short cnum);
-
-int
-purge (int *pa, const struct waste_containers *waste, char *time_now,
-       const int wdt);
-
-bool purgeD (const char *HOMEDIR);
 
 void
 undo_last_rmw (const char *HOMEDIR, char *time_str_appended);
@@ -70,15 +55,9 @@ bool buf_check_with_strop (char *s1, const char *s2, bool mode);
 
 bool buf_check (const char *str, unsigned short boundary);
 
-int rmdir_recursive (char *path, bool isTop);
-
 void mkdirErr (const char *dirname, const char *text_string);
 
 void waste_check (const char *p);
-
-bool
-isProtected (char *cur_file, struct waste_containers *waste, bool bypass,
-             const int wdt);
 
 bool file_not_found (const char *filename);
 

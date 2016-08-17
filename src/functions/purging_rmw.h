@@ -1,5 +1,5 @@
 /*
- * config_rmw.h
+ * purging_rmw.h
  *
  * This file is part of rmw (http://rmw.sf.net)
  *
@@ -25,10 +25,15 @@
 
 #include "rmw.h"
 
-void
-check_for_data_dir (const char *data_dir);
+#define RMDIR_MAX_DEPTH 32
+#define NOT_WRITEABLE 101
+#define MAX_DEPTH_REACHED 201
 
 int
-get_config_data(struct waste_containers *waste, const char *alt_config,
-                const char *HOMEDIR, int *pa, bool list, int *waste_ctr,
-                char pro_dir[PROTECT_MAX][MP], int *pro_ctr);
+rmdir_recursive (char *path, short unsigned level);
+
+int
+purge (const short *pa, const struct waste_containers *waste, char *time_now,
+       const int wdt);
+
+bool purgeD (const char *HOMEDIR);

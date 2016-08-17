@@ -25,6 +25,10 @@
 
 #include "rmw.h"
 
+/**
+ * FIXME: This apparently needs re-working too. I'm sure it could be
+ * written more efficiently
+ */
 void
 Restore (int argc, char *argv[], int optind, char *time_str_appended)
 {
@@ -114,39 +118,29 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
           }
 
           /* Check for duplicate filename */
-          bool onDrive = file_not_found (fn_to_restore);
-
-          if (onDrive == 0)
+          if (!file_not_found (fn_to_restore))
           {
             buf_check_with_strop (fn_to_restore, time_str_appended, CAT);
             if (verbose == 1)
-            {
               fprintf (stdout,
                        "Duplicate filename at destination - appending time string...\n");
-            }
-
           }
-
           /* end check                                  */
 
           if (rename (argv[i], fn_to_restore) == 0)
           {
             printf ("+'%s' -> '%s'\n", argv[i], fn_to_restore);
             if (remove (r.ip) != 0)
-            {
               fprintf (stderr, "error removing info file: '%s'\n", r.ip);
-            }
+
             else
-            {
               if (verbose)
                 printf ("-%s\n", r.ip);
-            }
           }
 
           else
-          {
             fprintf (stderr, "Restore failed: %s\n", fn_to_restore);
-          }
+
         }
       }
     }

@@ -1,15 +1,21 @@
 rmw (ReMove to Waste) functions as a command line recycle bin/trash can
-utility. Optionally, it can ReMove files to Desktop trash.
+utility. Optionally, it can ReMove files to Desktop trash, restore files,
+list files to be selected for restore, and purge (permanently delete)
+files that were trashed x number of days ago.
 
 rmw will read the system wide configuration file if $HOME/.config/rmw/config
-isn't present. (./configure --sysconfdir=...) If sysconfdir isn't specified,
-rmw will copy the system-wide config to /usr/local/etc/rmwrc
+isn't present. (./configure --sysconfdir=...) If sysconfdir isn't specified
+during ./configure, rmw will install the system-wide config to
+/usr/local/etc/rmwrc
 
 A generic configuration file looks like this:
 
 WASTE = $HOME/.trash.rmw
 #WASTE = $HOME/.local/share/Trash
 purge_after = 90
+
+PROTECT = /
+PROTECT = $HOME
 
 If purging is 'on', rmw will permanently delete files from the folders
 specified in the configuration file after 'x' number of days. Purging
@@ -40,5 +46,5 @@ http://webchat.quakenet.org/?channels=rmw
 Mailing list (new releases):
 https://lists.sourceforge.net/lists/listinfo/rmw-announce
 
-This file was last updated Aug 07, 2016
+This file was last updated Aug 16, 2016
 

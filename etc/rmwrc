@@ -11,3 +11,9 @@ WASTE = $HOME/.trash.rmw
 # spaces here are okay
 # '0' to disable
 purge_after = 90
+
+# This doesn't "protect" files within the directories, or 
+# parent directories.
+PROTECT = /
+PROTECT = $HOME
+

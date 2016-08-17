@@ -58,19 +58,18 @@
 
 /* DATA_DIR is relative to $HOME */
 #ifndef DATA_DIR
-#define DATA_DIR "/.config/rmw"
+#define DATA_DIR "/.config/testrmw"
 #endif
 
 #define CFG_FILE DATA_DIR"/config"
 #define UNDO_FILE DATA_DIR"/lastrmw"
 #define PURGE_DAY_FILE DATA_DIR"/lastpurge"
 
-/* Max depth for recursive directory purge function */
-#define DEPTH_MAX 128
-
 /* Set a sane limit on maximum number of Waste dirs */
 /* Not yet fully implemented */
 #define WASTENUM_MAX 16
+
+#define PROTECT_MAX 32
 
 // shorten PATH_MAX to two characters
 enum
@@ -90,10 +89,6 @@ enum
 {
   CPY, CAT
 };
-
-/* char protected[PROTECT_MAX][MP];
- unsigned int protected_num = 0; */
-#define PROTECT_MAX 64
 
 bool verbose;
 

@@ -1,5 +1,24 @@
 === rmw ChangeLog ===
 
+-- Aug. 15, 2016
+
+Added a lot more error-checking to rmdir_recursive() (basically I re-wrote
+most of the function).
+
+The most annoying problem I've had with rmw over the last few years is
+if there are non-writeable files in a directory that is getting purged.
+I'd always get the message "unknown error while removing..." Now it's more
+specific.
+
+RMDIR_MAX_DEPTH now used. rmdir_recursive() won't go deeper than the
+number set in the header file (normally set to 32)
+
+PROTECT= option implemented, but hasn't gone through very much testing yet.
+It seems to have a problem if rmw is started with
+'HOME=. rmw'. The problem is that the correct realpath isn't returned, so
+a match is never made, and therefore protection is ignored.
+
+
 -- Aug. 11, 2016
 
 Issue #5 implemented

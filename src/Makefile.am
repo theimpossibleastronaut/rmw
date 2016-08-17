@@ -6,12 +6,13 @@ rmw_INCLUDES=functions
 bin_PROGRAMS=rmw
 #AM_CXXFLAGS=$(INTI_CFLAGS)
 rmw_SOURCES=		\
-str_funcs.c		\
 primary_funcs.c		\
 main.c 			\
 functions/restore_rmw.c \
 functions/config_rmw.c	\
-functions/trivial_rmw.c
+functions/trivial_rmw.c \
+functions/strings_rmw.c \
+functions/purging_rmw.c
 
 #rmw_LDADD=$(INTI_LIBS)
 rmw_CFLAGS = -DSYSCONFDIR="\"${sysconfdir}\""

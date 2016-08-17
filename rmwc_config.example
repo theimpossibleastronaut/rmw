@@ -11,4 +11,7 @@ WASTE = ~/.local/share/Trash
 WASTE=/media/home_/andy/.Trash-1000
 
 # '0' to disable
-purgeDays = 30
+purge_after = 90
+
+PROTECT = /
+PROTECT = $HOME

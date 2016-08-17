@@ -1,5 +1,5 @@
 /*
- * config_rmw.h
+ * strings_rmw.h
  *
  * This file is part of rmw (http://rmw.sf.net)
  *
@@ -25,10 +25,16 @@
 
 #include "rmw.h"
 
+int
+trim (char s[]);
+
 void
-check_for_data_dir (const char *data_dir);
+erase_char (char c, char *str);
+
+bool
+change_HOME (char *t, const char *HOMEDIR);
 
 int
-get_config_data(struct waste_containers *waste, const char *alt_config,
-                const char *HOMEDIR, int *pa, bool list, int *waste_ctr,
-                char pro_dir[PROTECT_MAX][MP], int *pro_ctr);
+trim_slash (char s[]);
+
+void truncate_str (char *str, short len);

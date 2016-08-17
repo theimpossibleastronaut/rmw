@@ -1,5 +1,5 @@
 /*
- * str_funcs.c
+ * strings_rmw.c
  *
  * This file is part of rmw (http://rmw.sf.net)
  *
@@ -23,7 +23,7 @@
  *
  */
 
-#include "function_prototypes.h"
+#include "strings_rmw.h"
 
 /**
  * trim: remove trailing blanks, tabs, newlines
@@ -74,7 +74,7 @@ erase_char (char c, char *str)
 
 /**
  * if "$HOME" or "~" is used on configuration file
- * change to "HOMEDIR"
+ * change to the value of "HOMEDIR"
  */
 
 bool

@@ -41,7 +41,7 @@ check_for_data_dir (const char *data_dir)
   tokenPtr = strtok (temp_data_dir, "/");
 
   char add_to_path[MP];
-  add_to_path[0] = '\0';
+  strcat (add_to_path, "/\0");
 
   while (tokenPtr != NULL)
   {
@@ -49,7 +49,7 @@ check_for_data_dir (const char *data_dir)
     strcat (add_to_path, "/");
     tokenPtr = strtok (NULL, "/");
 
-    if (file_not_found (add_to_path) == 1)
+    if (file_not_found (add_to_path))
       if (mkdir (add_to_path, S_IRWXU))
       {
         fprintf (stderr, "Unable to create %s\n", temp_data_dir);
@@ -64,13 +64,9 @@ check_for_data_dir (const char *data_dir)
  */
 int
 get_config_data(struct waste_containers *waste, const char *alt_config,
-                const char *HOMEDIR, int *pa, bool list, int *waste_ctr)
+                const char *HOMEDIR, int *pa, bool list, int *waste_ctr,
+                char pro_dir[PROTECT_MAX][MP], int *pro_ctr)
 {
-
-  struct stat st;
-  FILE *cfgPtr;
-  *waste_ctr = 0;
-  char *tokenPtr;
   char sys_config_file[MP];
   const unsigned short CFG_MAX_LEN = PATH_MAX + 16;
   char confLine[CFG_MAX_LEN];
@@ -99,6 +95,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   else
     buf_check_with_strop (sys_config_file, alt_config, CPY);
 
+  FILE *cfgPtr;
   cfgPtr = fopen (sys_config_file, "r");
   /* if sys_config_file isn't found in home directory,
    *  open the system default */
@@ -120,8 +117,13 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     }
   }
 
+  *waste_ctr = 0;
+  *pro_ctr = 0;
+
   while (fgets (confLine, CFG_MAX_LEN, cfgPtr) != NULL)
   {
+    char *tokenPtr;
+
     buf_check (confLine, CFG_MAX_LEN);
     trim (confLine);
     erase_char (' ', confLine);
@@ -138,60 +140,77 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       buf_check (tokenPtr, 6);
       *pa = atoi (tokenPtr);
     }
-    else
-      /* if (strncmp ("PROTECT", confLine, 7) == 0)
-         parse_protected (confLine); */
-
-    if (*waste_ctr < WASTENUM_MAX)
+    else if (*waste_ctr < WASTENUM_MAX && !strncmp ("WASTE", confLine, 5))
     {
-      if (strncmp ("WASTE", confLine, 5) == 0)
-      {
-        tokenPtr = strtok (confLine, "=");
-        tokenPtr = strtok (NULL, "=");
 
-        trim_slash (tokenPtr);
-        erase_char (' ', tokenPtr);
-        change_HOME (tokenPtr, HOMEDIR);
+      tokenPtr = strtok (confLine, "=");
+      tokenPtr = strtok (NULL, "=");
 
-        buf_check_with_strop (waste[*waste_ctr].parent, tokenPtr, CPY);
+      trim_slash (tokenPtr);
+      erase_char (' ', tokenPtr);
+      change_HOME (tokenPtr, HOMEDIR);
 
-        // Make WASTE/files string
-        /* No need to check boundaries for the copy */
-        strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
-        buf_check_with_strop (waste[*waste_ctr].files, "/files/", CAT);
+      buf_check_with_strop (waste[*waste_ctr].parent, tokenPtr, CPY);
 
-        // Make WASTE/info string
-        /* No need to check boundaries for the copy */
-        strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
-        buf_check_with_strop (waste[*waste_ctr].info, "/info/", CAT);
+      // Make WASTE/files string
+      /* No need to check boundaries for the copy */
+      strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
+      buf_check_with_strop (waste[*waste_ctr].files, "/files/", CAT);
 
-        // Create WASTE if it doesn't exit
-        waste_check (waste[*waste_ctr].parent);
+      // Make WASTE/info string
+      /* No need to check boundaries for the copy */
+      strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
+      buf_check_with_strop (waste[*waste_ctr].info, "/info/", CAT);
 
-        // Create WASTE/files if it doesn't exit
-        waste_check (waste[*waste_ctr].files);
+      // Create WASTE if it doesn't exit
+      waste_check (waste[*waste_ctr].parent);
 
-        // Create WASTE/info if it doesn't exit
-        waste_check (waste[*waste_ctr].info);
+      // Create WASTE/files if it doesn't exit
+      waste_check (waste[*waste_ctr].files);
 
-        // get device number to use later for rename
-        lstat (waste[*waste_ctr].parent, &st);
-        waste[*waste_ctr].dev_num = st.st_dev;
-        if (list)
-          printf ("%s\n", waste[*waste_ctr].parent);
-        (*waste_ctr)++;
+      // Create WASTE/info if it doesn't exit
+      waste_check (waste[*waste_ctr].info);
 
-      }
+      // get device number to use later for rename
+      struct stat st;
+      lstat (waste[*waste_ctr].parent, &st);
+      waste[*waste_ctr].dev_num = st.st_dev;
+      if (list)
+        printf ("%s\n", waste[*waste_ctr].parent);
+
+      (*waste_ctr)++;
     }
-    else if (*waste_ctr == WASTENUM_MAX)
-      printf ("Maximum number Waste folders reached: %d\n", WASTENUM_MAX);
+
+    else if (*pro_ctr < PROTECT_MAX && !strncmp ("PROTECT", confLine, 7))
+    {
+      tokenPtr = strtok (confLine, "=");
+      tokenPtr = strtok (NULL, "=");
+
+      buf_check (tokenPtr, MP);
+      erase_char (' ', tokenPtr);
+      change_HOME (tokenPtr, HOMEDIR);
+
+      buf_check (tokenPtr, MP);
+
+      realpath (tokenPtr, pro_dir[*pro_ctr]);
+
+      buf_check (pro_dir[*pro_ctr], MP);
+
+      (*pro_ctr)++;
+    }
+
+    if (*waste_ctr == WASTENUM_MAX)
+      fprintf (stdout, "Maximum number Waste folders reached: %d\n", WASTENUM_MAX);
+
+    if (*pro_ctr == PROTECT_MAX)
+      fprintf (stdout, "Maximum number protected folders reached: %d\n", PROTECT_MAX);
   }
   fclose (cfgPtr);
 
   // No WASTE= line found in config file
   if (*waste_ctr == 0)
   {
-    fprintf (stderr, "Configuration file (%s) error; exiting...\n",
+    fprintf (stderr, "No 'WASTE=' line config file (%s) error; exiting...\n",
              sys_config_file);
     exit (1);
   }

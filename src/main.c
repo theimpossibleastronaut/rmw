@@ -134,13 +134,20 @@ int main (int argc, char *argv[])
 
   int i = 0;
 
-  int *waste_ctr = malloc (sizeof (*waste_ctr));
-  int *purge_after = malloc (sizeof (*purge_after));
+  int *protected_ctr = malloc (sizeof (*protected_ctr));
+  char protected_dir[PROTECT_MAX][MP];
 
-  get_config_data(waste, alt_config, HOMEDIR, purge_after, list, waste_ctr);
+  int *waste_ctr = malloc (sizeof (*waste_ctr));
+  unsigned short int *purge_after = malloc (sizeof (*purge_after));
+
+  get_config_data(waste, alt_config, HOMEDIR, purge_after, list, waste_ctr,
+                  protected_dir, protected_ctr);
 
   const int waste_dirs_total = *waste_ctr;
   free (waste_ctr);
+
+  const int protected_total = *protected_ctr;
+  free (protected_ctr);
 
 // String appended to duplicate filenames
   char time_str_appended[16];
@@ -167,7 +174,8 @@ int main (int argc, char *argv[])
     {
 
       if (pre_rmw_check (argv[i], file_basename, cur_file, waste,
-                         bypass, waste_dirs_total) == 0)
+                         bypass, waste_dirs_total, protected_dir,
+                         protected_total) == 0)
       {
 
         // If the file hasn't been opened yet (should only happen on the
@@ -233,7 +241,7 @@ int main (int argc, char *argv[])
 
   if (pause)
   {
-    printf ("\nPress the any key to continue...\n");
+    fprintf (stdout, "\nPress the any key to continue...\n");
     getchar ();
   }
 
