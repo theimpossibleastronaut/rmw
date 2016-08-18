@@ -32,7 +32,7 @@ int main (int argc, char *argv[])
   char file_basename[MP];
   char cur_file[MP];
 
-  const char *const short_options = "hvc:pgzlsuB:wV";
+  const char *const short_options = "hvc:pgz:lsuBwV";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -41,10 +41,10 @@ int main (int argc, char *argv[])
     {"config", 1, NULL, 'c'},
     {"list", 0, NULL, 'l'},
     {"purge", 0, NULL, 'g'},
-    {"restore", 0, NULL, 'z'},
+    {"restore", 1, NULL, 'z'},
     {"select", 0, NULL, 's'},
     {"undo-last", 0, NULL, 'u'},
-    {"bypass", 1, NULL, 'B'},
+    {"bypass", 0, NULL, 'B'},
     {"warranty", 0, NULL, 'w'},
     {"version", 0, NULL, 'V'},
     {NULL, 0, NULL, 0}

@@ -41,6 +41,17 @@ void print_usage (void)
   printf ("-w, --warranty            display warranty\n");
   printf
     ("-V, --version             display version and license information\n");
+  printf("\nAfter rmw is installed, create the user configuration directory\n");
+  printf("by typing 'rmw' and hitting enter. It's recommended to copy\n");
+  printf("/etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n");
+  printf("and then rename it to 'config':\n\n");
+  printf("'cd ~/.config/rmw'\n");
+  printf("'~/.config/rmw$ cp /etc/rmwrc .'\n");
+  printf("'~/.config/rmw$ mv rmwrc config'\n\n");
+  printf("Then edit the file to suit your needs.\n\n");
+  printf("View the README online for more help, and\n");
+  printf("information about how to obtain support -\n");
+  printf("https://github.com/andy5995/rmw/blob/master/README\n\n");
 }
 
 void warranty (void)

@@ -307,7 +307,19 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 packextrasdir = @docdir@
 SUBDIRS = src etc
-EXTRA_DIST = BUGS rmwc_config.example
+EXTRA_DIST = \
+BUGS                \
+rmwc_config.example \
+README              \
+ChangeLog           \
+AUTHORS             \
+COPYING             \
+INSTALL             \
+LICENSE             \
+NEWS                \
+Release_Notes.txt   \
+TODO
+
 packextras_DATA = $(EXTRA_DIST)
 all: all-recursive
 

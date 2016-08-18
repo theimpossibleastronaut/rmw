@@ -1,6 +1,13 @@
 === rmw ChangeLog ===
 
--- Aug. 15, 2016
+-- Aug. 17, 2016 --
+
+Documentation (README) updated and expanded, info added to --help option
+(There is no 'man' page yet.
+
+Fixed -B bug (https://github.com/andy5995/rmw/issues/9)
+
+-- Aug. 16, 2016
 
 Added a lot more error-checking to rmdir_recursive() (basically I re-wrote
 most of the function).

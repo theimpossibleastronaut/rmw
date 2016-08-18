@@ -80,7 +80,7 @@ buf_check (const char *str, unsigned short boundary)
 
 bool
 pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
-               struct waste_containers * waste, bool bypass, const int wdt,
+               struct waste_containers *waste, bool bypass, const int wdt,
                char pro_dir[PROTECT_MAX][MP], const int pro_tot)
 {
   buf_check (cmdargv, MP);
@@ -100,7 +100,6 @@ bool
 isProtected (char *cur_file, struct waste_containers *waste, bool bypass,
             const int wdt, char pro_dir[PROTECT_MAX][MP], const int pro_tot)
 {
-
   if (bypass)
     return 0;
 
@@ -132,7 +131,7 @@ isProtected (char *cur_file, struct waste_containers *waste, bool bypass,
   }
 
   if (flagged)
-    printf ("File is in protected directory: %s\n", rp);
+    printf ("Protected directory: %s\n", rp);
 
   return flagged;
 

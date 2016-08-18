@@ -28,7 +28,7 @@
 
 bool
 pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
-               struct waste_containers * waste, bool bypass, const int wdt,
+               struct waste_containers *waste, bool bypass, const int wdt,
                char pro_dir[PROTECT_MAX][MP], const int pro_tot);
 
 bool

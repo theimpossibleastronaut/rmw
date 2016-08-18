@@ -1,5 +1,29 @@
 === RMW Release Notes ===
 
+-- Aug. 17, 2016 --
+
+- Features added: -
+* Directory protection (see README for details)
+* More detailed messages when purging directories containing files that
+  are non-writeable
+
+- Features removed: -
+* add waste dir from command line with -a
+
+Please see the ChangeLog if you'd like more detailed information about
+recent changes.
+
+I've optimized the code some but there is a lot more to do. If you
+are interested in contributing and getting credit for your work, please
+contact me via the methods listed in the README.
+
+Anyone wishing to get notified of new releases may sign up for the
+mailing list on SourceForge:
+https://lists.sourceforge.net/lists/listinfo/rmw-announce
+
+I still haven't decided what to use for a primary web site.
+
+
 -- August 6, 2016 --
 
 The potential mangling of the trash directory string when using "$HOME"
