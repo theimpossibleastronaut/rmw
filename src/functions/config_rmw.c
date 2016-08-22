@@ -50,9 +50,12 @@ check_for_data_dir (const char *data_dir)
     tokenPtr = strtok (NULL, "/");
 
     if (file_not_found (add_to_path))
-      if (mkdir (add_to_path, S_IRWXU))
+      if (!mkdir (add_to_path, S_IRWXU))
+        fprintf (stdout, "Created %s\n", add_to_path);
+
+      else
       {
-        fprintf (stderr, "Unable to create %s\n", temp_data_dir);
+        fprintf (stderr, "Error %d while creating %s\n", errno, temp_data_dir);
         err_display_check_config ();
       }
   }
@@ -67,55 +70,78 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
                 const char *HOMEDIR, int *pa, bool list, int *waste_ctr,
                 char pro_dir[PROTECT_MAX][MP], int *pro_ctr)
 {
-  char sys_config_file[MP];
+  char config_file[MP];
   const unsigned short CFG_MAX_LEN = PATH_MAX + 16;
   char confLine[CFG_MAX_LEN];
 
-  /* purge_after will default to 90 if there's no setting
-   * in the config file */
+  /**
+   *  purge_after will default to 90 if there's no setting
+   * in the config file
+   */
   int default_purge = 90;
   *pa = default_purge;
 
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
-        /**
-	 * Besides boundary checking, buf_check_with_strop()
-	 * will perform the strcpy or strcat)
-	 */
+    /**
+     * Besides boundary checking, buf_check_with_strop()
+     * will perform the strcpy or strcat)
+     */
 
-    /* copy $HOMEDIR to sys_config_file */
-    buf_check_with_strop (sys_config_file, HOMEDIR, CPY);
+    buf_check_with_strop (config_file, HOMEDIR, CPY);
 
-    // CFG_FILE is the file name of the rmw config file relative to
-    // the $HOME directory, defined at the top of rmw.h
-    /* create full path to sys_config_file */
-    buf_check_with_strop (sys_config_file, CFG_FILE, CAT);
+    /**
+     * CFG_FILE is the file name of the rmw config file relative to
+     * the $HOME directory, defined at the top of rmw.h
+     *
+     * Create full path to config_file
+     */
+    buf_check_with_strop (config_file, CFG_FILE, CAT);
   }
   else
-    buf_check_with_strop (sys_config_file, alt_config, CPY);
+    buf_check_with_strop (config_file, alt_config, CPY);
 
   FILE *cfgPtr;
-  cfgPtr = fopen (sys_config_file, "r");
-  /* if sys_config_file isn't found in home directory,
-   *  open the system default */
-  if (cfgPtr == NULL)
+
+  /**
+   * if config_file isn't found in home directory,
+   * else open the system default (SYSCONFDIR/rmwrc)
+   */
+  if (!file_not_found (config_file))
   {
-    /* buf_check_with_strop(sys_config_file, "/etc/rmwrc", CPY); */
-    buf_check_with_strop (sys_config_file, SYSCONFDIR "/rmwrc", CPY);
-    cfgPtr = fopen (sys_config_file, "r");
+    cfgPtr = fopen (config_file, "r");
+
+    /**
+     * It exists. Any problem opening it for reading?
+     */
     if (cfgPtr == NULL)
     {
-      fprintf (stderr, "Can not find configuration file\n");
-      fprintf (stderr, "%s (or)\n", sys_config_file);
+      perror ("get_config_data");
+      fprintf (stderr, "Error %d reading %s\n", errno, config_file);
+    }
+  }
+
+  else
+  {
+    buf_check_with_strop (config_file, SYSCONFDIR "/rmwrc", CPY);
+
+    if (!file_not_found (config_file))
+      cfgPtr = fopen (config_file, "r");
+
+    if (errno)
+    {
+      fprintf (stderr, "Error %d reading %s\n", errno, config_file);
+      fprintf (stderr, "Can not open configuration file\n");
+      fprintf (stderr, "%s (or)\n", config_file);
       fprintf (stderr, "%s\n", CFG_FILE);
       fprintf (stderr, "\nA default configuration file can be found at\n");
       fprintf (stderr, "https://github.com/andy5995/rmw/tree/master/etc\n");
-      fprintf (stderr, "Terminating...\n"),
-
-      exit (1);
+      fprintf (stderr, "Terminating...\n");
+      return 1;
     }
   }
+
 
   *waste_ctr = 0;
   *pro_ctr = 0;
@@ -205,13 +231,14 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     if (*pro_ctr == PROTECT_MAX)
       fprintf (stdout, "Maximum number protected folders reached: %d\n", PROTECT_MAX);
   }
-  fclose (cfgPtr);
+  if (fclose (cfgPtr) == EOF)
+    fprintf (stderr, "Error %d closing %s\n", errno, config_file);
 
   // No WASTE= line found in config file
   if (*waste_ctr == 0)
   {
     fprintf (stderr, "No 'WASTE=' line config file (%s) error; exiting...\n",
-             sys_config_file);
+             config_file);
     exit (1);
   }
 }

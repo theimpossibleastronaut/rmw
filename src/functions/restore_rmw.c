@@ -52,7 +52,10 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
   for (i = optind; i < argc; i++)
   {
 
-    if (file_not_found (argv[i]) == 0)
+    if (file_not_found (argv[i]))
+      printf ("%s not found\n", argv[i]);
+
+    else
     {
       buf_check (argv[i], PATH_MAX);
       realpath (argv[i], r.rp);
@@ -73,11 +76,13 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
       else
       {
         fp = fopen (r.ip, "r");
+
         if (fp == NULL)
         {
           fprintf (stderr, "Error opening info file: %s\n", r.ip);
           break;
         }
+
         else
         {
           // Not using the "[Trash Info]" line, but reading the file
@@ -127,7 +132,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
           }
           /* end check                                  */
 
-          if (rename (argv[i], fn_to_restore) == 0)
+          if (!rename (argv[i], fn_to_restore))
           {
             printf ("+'%s' -> '%s'\n", argv[i], fn_to_restore);
             if (remove (r.ip) != 0)
@@ -144,10 +149,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
         }
       }
     }
-    else
-    {
-      printf ("%s not found\n", argv[i]);
-    }
+
   }
 }
 
@@ -179,45 +181,49 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
     while ((entry = readdir (dir)) != NULL)
     {
-      if (strcmp (entry->d_name, ".") != 0 && strcmp (entry->d_name, "..")
-          != 0)
+      if (!strcmp (entry->d_name, ".")  || !strcmp (entry->d_name, ".."))
+        continue;
+
+      count++;
+
+      if (count == choice || choice == 0)
       {
-        count++;
-
-        if (count == choice || choice == 0)
-        {
-          buf_check_with_strop (path_to_file, waste[w].files, CPY);
-          /* Not yet sure if 'trim' is needed yet; using it
-           *  until I get smarter */
-          trim (entry->d_name);
-          buf_check_with_strop (path_to_file, entry->d_name, CAT);
-          trim (path_to_file);
-          lstat (path_to_file, &st);
-        }
-
-        if (count == choice)
-        {
-          destiny[0] = path_to_file;
-          printf ("\n");
-          /* using 0 for third arg so 'for' loop in Restore() will run
-           *  at least once */
-          Restore (1, destiny, 0, time_str_appended);
-          break;
-        }
-
-        if (!choice)
-        {
-          printf ("%3d. %s", count, entry->d_name);
-          if (S_ISDIR (st.st_mode))
-            printf (" (D)");
-          if (S_ISLNK (st.st_mode))
-            printf (" (L)");
-          printf ("\n");
-        }
+        buf_check_with_strop (path_to_file, waste[w].files, CPY);
+        /* Not yet sure if 'trim' is needed yet; using it
+         *  until I get smarter */
+        trim (entry->d_name);
+        buf_check_with_strop (path_to_file, entry->d_name, CAT);
+        trim (path_to_file);
+        lstat (path_to_file, &st);
       }
+
+      if (count == choice)
+      {
+        destiny[0] = path_to_file;
+        printf ("\n");
+        /* using 0 for third arg so 'for' loop in Restore() will run
+         *  at least once */
+        Restore (1, destiny, 0, time_str_appended);
+        break;
+      }
+
+      if (!choice)
+      {
+        printf ("%3d. %s", count, entry->d_name);
+
+        if (S_ISDIR (st.st_mode))
+          printf (" (D)");
+
+        if (S_ISLNK (st.st_mode))
+          printf (" (L)");
+
+        printf ("\n");
+      }
+
     }
 
     closedir (dir);
+
     if (choice)
       break;
 

@@ -47,7 +47,8 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "2016.08.17.01a"
+/* #define VERSION "2016.08.17.01a" */
+#define VERSION "devel:testing:unstable"
 #endif
 
 #define DEBUG 0
@@ -58,7 +59,7 @@
 
 /* DATA_DIR is relative to $HOME */
 #ifndef DATA_DIR
-#define DATA_DIR "/.config/rmw"
+#define DATA_DIR "/.config/testrmw"
 #endif
 
 #define CFG_FILE DATA_DIR"/config"

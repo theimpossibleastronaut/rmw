@@ -125,11 +125,14 @@ int main (int argc, char *argv[])
 
   char *data_dir = malloc (MP * sizeof (char));
 
-  buf_check_with_strop (data_dir, HOMEDIR, CPY);
+  strcpy (data_dir, HOMEDIR);
+
+  /* Looks like more variable names needs changing */
   buf_check_with_strop (data_dir, DATA_DIR, CAT);
 
   check_for_data_dir (data_dir);
 
+  /* ? */
   free (data_dir);
 
   int i = 0;
@@ -140,8 +143,15 @@ int main (int argc, char *argv[])
   int *waste_ctr = malloc (sizeof (*waste_ctr));
   unsigned short int *purge_after = malloc (sizeof (*purge_after));
 
+  int conf_err =
   get_config_data(waste, alt_config, HOMEDIR, purge_after, list, waste_ctr,
                   protected_dir, protected_ctr);
+
+  if (conf_err)
+  {
+    free (purge_after);
+    return 1;
+  }
 
   const int waste_dirs_total = *waste_ctr;
   free (waste_ctr);
@@ -149,37 +159,39 @@ int main (int argc, char *argv[])
   const int protected_total = *protected_ctr;
   free (protected_ctr);
 
-// String appended to duplicate filenames
+  /* String appended to duplicate filenames */
   char time_str_appended[16];
   get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
 
-// used for DeletionDate in info file
+  /* used for DeletionDate in info file */
   char time_now[21];
   get_time_string (time_now, 21, "%FT%T");
 
   int status = 0;
+  bool undo_opened = 0;
 
   if (optind < argc && !restoreYes && !select && !undo_last)
   {
+
     FILE *undo_file_ptr;
 
     char undo_path[MP];
-    bool undo_opened = 0;
+
 
     buf_check_with_strop (undo_path, HOMEDIR, CPY);
     buf_check_with_strop (undo_path, UNDO_FILE, CAT);
 
-
     for (i = optind; i < argc; i++)
     {
 
-      if (pre_rmw_check (argv[i], file_basename, cur_file, waste,
+      if (!pre_rmw_check (argv[i], file_basename, cur_file, waste,
                          bypass, waste_dirs_total, protected_dir,
-                         protected_total) == 0)
+                         protected_total))
       {
-
-        // If the file hasn't been opened yet (should only happen on the
-        // first iteration of the loop
+        /**
+         * If the file hasn't been opened yet (should only happen on the
+         * first iteration of the loop
+         */
 
         /**
          * Before ReMoving files to Waste, open the undo file for writing
@@ -187,14 +199,18 @@ int main (int argc, char *argv[])
         if (!undo_opened)
         {
           undo_file_ptr = fopen (undo_path, "w");
-          if (undo_file_ptr == NULL)
+          undo_opened = 1;
+
+
+          if (errno)
           {
-            fprintf (stderr, "Unable to open %s for writing\n", undo_path);
-            exit (1);
-          }
-          else
-          {
-            undo_opened = 1;
+            perror ("main() - undo file");
+            /**
+             * if we can't write to the undo file, something is seriously wrong.
+             * Free malloc-ed memory and make it a fatal error.
+             */
+            free (purge_after);
+            return 1;
           }
         }
 
@@ -204,9 +220,14 @@ int main (int argc, char *argv[])
       }
     }
 
-
     if (undo_opened)
-      fclose (undo_file_ptr);
+    {
+      if (fclose (undo_file_ptr) == EOF)
+      {
+        perror ("main()");
+        fprintf (stderr, "Error %d while closing %s\n", errno, undo_path);
+      }
+    }
 
   }
 

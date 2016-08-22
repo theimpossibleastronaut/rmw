@@ -115,9 +115,10 @@ rmdir_recursive (char *path, short unsigned level)
   return status;
 }
 
-/**
+/*
  * writes the day of the last purge
  * FIXME: function name needs changing
+ * variable names need changing
  */
 bool
 purgeD (const char *HOMEDIR)
@@ -125,24 +126,28 @@ purgeD (const char *HOMEDIR)
   FILE *fp;
 
   char purgeDpath[MP];
-  /* buf_check_with_strop(purgeDpath, getenv("HOME"), CPY); */
 
-  buf_check_with_strop (purgeDpath, HOMEDIR, CPY);
+  strcpy (purgeDpath, HOMEDIR);
   buf_check_with_strop (purgeDpath, PURGE_DAY_FILE, CAT);
 
   char lastDay[3];
   char nowD[3];
 
-  // a check for buffer overflow is in the get_time_string() function
+  /** a check for buffer overflow is in get_time_string() */
   get_time_string (nowD, 3, "%d");
 
-  // Already been checked for a buffer overflow, just want to add a NULL
-  // terminator, in case something got hosed.
+  /**
+   * Already been checked for a buffer overflow, just want to add a NULL
+   * terminator, in case something got hosed. (trim() will add the NULL
+   */
   trim (purgeDpath);
 
   if (!file_not_found (purgeDpath))
   {
     fp = fopen (purgeDpath, "r");
+    /*
+     * Need to do some error checking upon opening and closing
+     */
     fgets (lastDay, 3, fp);
     buf_check (lastDay, 3);
     trim (lastDay);
@@ -152,7 +157,7 @@ purgeD (const char *HOMEDIR)
       // Same day
       return 0;
 
-    // Days differ, run purge
+    /** Days differ, write the new day. */
     else
     {
       fp = fopen (purgeDpath, "w");
@@ -164,7 +169,7 @@ purgeD (const char *HOMEDIR)
       }
       else
       {
-        fprintf (stderr, "Unknown error creating %s\n", purgeDpath);
+        fprintf (stderr, "error %d writing to %s\n", errno, purgeDpath);
         exit (1);
       }
     }
@@ -172,7 +177,9 @@ purgeD (const char *HOMEDIR)
   }
   else
   {
-    // Create file if it doesn't exist and write DD to it.
+    /**
+     * Create file if it doesn't exist
+     */
     fp = fopen (purgeDpath, "w");
 
     if (fp != NULL)
@@ -183,7 +190,14 @@ purgeD (const char *HOMEDIR)
     }
     else
     {
-      fprintf (stderr, "Unknown error creating %s\n", purgeDpath);
+      /**
+       * if we can't even write this file to the config directory, something
+       * is not right. Make it fatal.
+       *
+       * If the user gets this far though,
+       * chances are this error will never be a problem.
+       */
+      fprintf (stderr, "Fatal: Error %d creating %s\n", errno, purgeDpath);
       exit (1);
     }
   }
@@ -220,11 +234,17 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
 
   int p = 0;
   struct dirent *entry;
-  /* Read each Waste info directory */
+
+  /**
+   *  Read each Waste info directory
+   */
   while (p < wdt && p < WASTENUM_MAX)
   {
     DIR *dir = opendir (waste[p].info);
-    /* Read each file/dir in Waste directory */
+
+    /**
+     *  Read each file/dir in Waste directory
+     */
     while ((entry = readdir (dir)) != NULL)
     {
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
@@ -246,8 +266,10 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
       info_file_ptr = fopen (entry_path, "r");
       if (info_file_ptr != NULL)
       {
-        /* unused  and unneeded Trash Info line.
-         * retrieved but not used. */
+        /**
+         * unused  and unneeded Trash Info line.
+         * retrieved but not used.
+         */
         fgets (infoLine, 14, info_file_ptr);
 
         if (strncmp (infoLine, "[Trash Info]", 12) != 0)
@@ -256,7 +278,7 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
           exit (1);
         }
 
-        // The second line is unneeded at this point
+        /** The second line is unneeded at this point */
         fgets (infoLine, MP + 5, info_file_ptr);
 
         if (strncmp (infoLine, "Path=", 5) != 0)
@@ -267,7 +289,7 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
           exit (1);
         }
 
-        // The third line is needed for the deletion time
+        /** The third line is needed for the deletion time */
         fgets (infoLine, timeLine, info_file_ptr);
         buf_check (infoLine, 40);
         trim (infoLine);
@@ -278,12 +300,13 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
           exit (1);
         }
 
-        fclose (info_file_ptr);
+        if (fclose (info_file_ptr) == EOF)
+          fprintf (stderr, "Error while closing %s\n", entry_path);
       }
 
       else
       {
-        printf ("^ An unknown error occurred");
+        fprintf (stderr, "Fatal: Error %d while opening %s\n", errno, entry_path);
         exit (1);
       }
 

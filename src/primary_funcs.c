@@ -159,26 +159,37 @@ mkinfo (bool dup_filename, char *file_basename, char *cur_file,
 
   bufstat = buf_check_with_strop (finalInfoDest, DOT_TRASHINFO, CAT);
 
-  char real_path[PATH_MAX + 1];
+  char real_path[PATH_MAX];
+  real_path[0] = '\0';
+
   realpath (cur_file, real_path);
+
+  if (!strlen (real_path))
+    return 1;
 
   fp = fopen (finalInfoDest, "w");
 
-  if (fp != NULL)
+  if (fp == NULL)
+  {
+    fprintf (stderr, "Error: Unable to create info file :\n");
+    fprintf (stderr, "While opening %s for writing :\n", finalInfoDest);
+    perror ("mkinfo()");
+    return 1;
+  }
+  else
   {
     fprintf (fp, "[Trash Info]\n");
     fprintf (fp, "Path=%s\n", real_path);
     fprintf (fp, "DeletionDate=%s", time_now);
-    fclose (fp);
-    return 0;
-  }
-  else
-  {
-    printf ("Unable to create info file: %s\n", finalInfoDest);
-    printf ("Press the enter key to continue...");
-    getchar ();
 
-    return 1;
+    if (fclose (fp) == EOF)
+    {
+      fprintf (stderr, "Error while closing %s :\n", finalInfoDest);
+      perror ("mkinfo()");
+      return 1;
+    }
+
+    return 0;
   }
 }
 
@@ -346,8 +357,6 @@ waste_check (const char *p)
  printf("tokenPtr = %s\n", protected[1]);
  } */
 
-
-
 bool
 file_not_found (const char *filename)
 {
@@ -376,7 +385,7 @@ get_time_string (char *tm_str, unsigned short len, const char *format)
 int
 remove_to_waste (char *cur_file, char *file_basename,
                  struct waste_containers *waste, char *time_now,
-                 char *time_str_appended, FILE * undo_file_ptr, const int wdt)
+                 char *time_str_appended, FILE *undo_file_ptr, const int wdt)
 {
   struct stat st;
   char finalDest[MP];
@@ -401,6 +410,7 @@ remove_to_waste (char *cur_file, char *file_basename,
       buf_check_with_strop (finalDest, waste[i].files, CPY);
       buf_check_with_strop (finalDest, file_basename, CAT);
       // If a duplicate file exists
+
       if (file_not_found (finalDest) == 0)
       {
         // append a time string
@@ -411,32 +421,44 @@ remove_to_waste (char *cur_file, char *file_basename,
       }
 
       statRename = rename (cur_file, finalDest);
+
       if (statRename == 0)
       {
-        printf ("'%s' -> '%s'\n", cur_file, finalDest);
-        fprintf (undo_file_ptr, "%s\n", finalDest);
-
         info_st = mkinfo (dfn, file_basename, cur_file, waste,
                           time_now, time_str_appended, curWasteNum);
+
+        if (info_st == 0)
+        {
+          printf ("'%s' -> '%s'\n", cur_file, finalDest);
+          fprintf (undo_file_ptr, "%s\n", finalDest);
+        }
+
+        else
+          return 1;
       }
+
       else
       {
-        fprintf (stderr,
-                 "Move error or permission denied for '%s'\n", cur_file);
+        fprintf (stderr, "Error %d moving %s :\n", statRename, cur_file);
+        perror ("remove_to_waste()");
+        return 1;
       }
 
+      /**
+       * If we get to this point, it means a WASTE folder was found
+       * that matches the file system cur_file was on.
+       * Setting match to 1 and breaking from the for loop
+       */
       match = 1;
-      // match found (same filesystem). Break from for loop
       break;
     }
-
-  }                             // end -for
-
-  if (!match && !statRename)
-  {
-    statRename = 1;
-    printf ("No suitable filesystem found for \"%s\"\n", cur_file);
   }
 
-  return statRename + info_st;
+  if (!match)
+  {
+    printf ("No suitable filesystem found for \"%s\"\n", cur_file);
+    return 1;
+  }
+
+  return 0;
 }

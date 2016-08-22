@@ -1,5 +1,19 @@
 === rmw ChangeLog ===
 
+-- Aug. 22, 2016 --
+
+Fine-tuning the error-checking.
+https://github.com/andy5995/rmw/issues/13
+
+
+-- Aug. 20, 2016 --
+
+Added a bunch of error checking, mostly for things that rarely go wrong;
+but now if they go wrong, the user (or me) will get to see an error number.
+
+There is still a lot more error-checking that can be added.
+
+
 -- Aug. 17, 2016 --
 
 Documentation (README) updated and expanded, info added to --help option
