@@ -23,7 +23,7 @@
  *
  */
 
-#include "function_prototypes.h"
+#include "primary_funcs.h"
 
 
 /* Before copying or catting strings, make sure str1 won't exceed
@@ -76,66 +76,6 @@ buf_check (const char *str, unsigned short boundary)
   }
 
   return 0;
-}
-
-bool
-pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
-               struct waste_containers *waste, bool bypass, const int wdt,
-               char pro_dir[PROTECT_MAX][MP], const int pro_tot)
-{
-  buf_check (cmdargv, MP);
-
-  if (!file_not_found (cmdargv))
-  {
-    strcpy (cur_file, cmdargv);
-    strcpy (file_basename, basename (cur_file));
-    return isProtected (cur_file, waste, bypass, wdt, pro_dir, pro_tot);
-  }
-
-  fprintf (stderr, "File not found: '%s'\n", cmdargv);
-  return 1;
-}
-
-bool
-isProtected (char *cur_file, struct waste_containers *waste, bool bypass,
-            const int wdt, char pro_dir[PROTECT_MAX][MP], const int pro_tot)
-{
-  if (bypass)
-    return 0;
-
-  int waste_dir;
-  char rp[MP];
-  realpath (cur_file, rp);
-
-  bool flagged = 0;
-
-  for (waste_dir = 0; waste_dir < wdt; waste_dir++)
-  {
-    short len = strlen (waste[waste_dir].parent);
-    if (strncmp (rp, waste[waste_dir].parent, len) == 0)
-    {
-      flagged = 1;
-      break;
-    }
-  }
-
-  short dir_num;
-
-  for (dir_num = 0; dir_num < pro_tot; dir_num++)
-  {
-    if (!strcmp (rp, pro_dir[dir_num]))
-    {
-      flagged = 1;
-      break;
-    }
-  }
-
-  if (flagged)
-    printf ("Protected directory: %s\n", rp);
-
-  return flagged;
-
-
 }
 
 int
@@ -380,85 +320,4 @@ get_time_string (char *tm_str, unsigned short len, const char *format)
   buf_check (tm_str, len);
   trim (tm_str);
 
-}
-
-int
-remove_to_waste (char *cur_file, char *file_basename,
-                 struct waste_containers *waste, char *time_now,
-                 char *time_str_appended, FILE *undo_file_ptr, const int wdt)
-{
-  struct stat st;
-  char finalDest[MP];
-  int i = 0;
-  bool match = 0;
-  short statRename = 0;
-  bool info_st = 0;
-  bool dfn = 0;
-
-  short curWasteNum = 0;
-
-  // cycle through wasteDirs to see which one matches
-  // device number of file
-
-  for (i = 0; i < wdt; i++)
-  {
-    lstat (cur_file, &st);
-    if (waste[i].dev_num == st.st_dev)
-    {
-      // used by mkinfo
-      curWasteNum = i;
-      buf_check_with_strop (finalDest, waste[i].files, CPY);
-      buf_check_with_strop (finalDest, file_basename, CAT);
-      // If a duplicate file exists
-
-      if (file_not_found (finalDest) == 0)
-      {
-        // append a time string
-        buf_check_with_strop (finalDest, time_str_appended, CAT);
-
-        // tell make info there's a duplicate
-        dfn = 1;
-      }
-
-      statRename = rename (cur_file, finalDest);
-
-      if (statRename == 0)
-      {
-        info_st = mkinfo (dfn, file_basename, cur_file, waste,
-                          time_now, time_str_appended, curWasteNum);
-
-        if (info_st == 0)
-        {
-          printf ("'%s' -> '%s'\n", cur_file, finalDest);
-          fprintf (undo_file_ptr, "%s\n", finalDest);
-        }
-
-        else
-          return 1;
-      }
-
-      else
-      {
-        fprintf (stderr, "Error %d moving %s :\n", statRename, cur_file);
-        perror ("remove_to_waste()");
-        return 1;
-      }
-
-      /**
-       * If we get to this point, it means a WASTE folder was found
-       * that matches the file system cur_file was on.
-       * Setting match to 1 and breaking from the for loop
-       */
-      match = 1;
-      break;
-    }
-  }
-
-  if (!match)
-  {
-    printf ("No suitable filesystem found for \"%s\"\n", cur_file);
-    return 1;
-  }
-
-  return 0;
 }

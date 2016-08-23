@@ -13,5 +13,9 @@ WASTE=/media/home_/andy/.Trash-1000
 # '0' to disable
 purge_after = 90
 
-PROTECT = /
-PROTECT = $HOME
+# The current release doesn't "protect" files within the directories, or
+# parent directories.
+# The development version (and next release) protects files under
+# protected directories (not fully tested)
+PROTECT = /usr/local/bin
+#PROTECT = $HOME/Documents

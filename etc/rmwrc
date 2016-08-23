@@ -12,8 +12,10 @@ WASTE = $HOME/.trash.rmw
 # '0' to disable
 purge_after = 90
 
-# This doesn't "protect" files within the directories, or 
+# The current release doesn't "protect" files within the directories, or
 # parent directories.
-PROTECT = /
-PROTECT = $HOME
+# The development version (and next release) protects files under
+# protected directories (not fully tested)
+PROTECT = /usr/local/bin
+#PROTECT = $HOME/Documents
 

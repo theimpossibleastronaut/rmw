@@ -24,4 +24,4 @@
  */
 
 #include "rmw.h"
-#include "function_prototypes.h"
+#include "primary_funcs.h"

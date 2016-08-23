@@ -146,6 +146,13 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   *waste_ctr = 0;
   *pro_ctr = 0;
 
+  /**
+   * protect DATA_DIR by default
+   */
+  strcpy (pro_dir[*pro_ctr], HOMEDIR);
+  strcat (pro_dir[*pro_ctr], DATA_DIR);
+  (*pro_ctr)++;
+
   while (fgets (confLine, CFG_MAX_LEN, cfgPtr) != NULL)
   {
     char *tokenPtr;
@@ -190,6 +197,12 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
       // Create WASTE if it doesn't exit
       waste_check (waste[*waste_ctr].parent);
+
+      /**
+       * protect WASTE dirs by default
+       */
+      strcpy (pro_dir[*pro_ctr], waste[*waste_ctr].parent);
+      (*pro_ctr)++;
 
       // Create WASTE/files if it doesn't exit
       waste_check (waste[*waste_ctr].files);

@@ -27,7 +27,7 @@
 #define _RESTORE_RMW_H
 
 #include "rmw.h"
-#include "function_prototypes.h"
+#include "primary_funcs.h"
 
 void
 Restore (int argc, char *argv[], int optind, char *time_str_appended);

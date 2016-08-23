@@ -1,5 +1,19 @@
 === rmw ChangeLog ===
 
+-- Aug. 23, 2016 --
+
+Files below protected directories are now protected (not thoroughly tested yet)
+
+I deleted 3 functions and moved their contents to main():
+*remove_to_waste()
+*pre_rmw_check()
+*isProtected()
+
+WASTE directories and the rmw data/config dir is protected by default;
+no need to add a separate PROTECT entry to the rmw config file
+
+'function_prototypes.h' renamed to 'primary_funcs.c'
+
 -- Aug. 22, 2016 --
 
 Fine-tuning the error-checking.

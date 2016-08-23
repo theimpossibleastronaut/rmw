@@ -1,5 +1,5 @@
 /*
- * function_prototypes.h
+ * primary_funcs.h
  *
  * This file is part of rmw (http://rmw.sf.net)
  *
@@ -26,15 +26,6 @@
 #include "rmw.h"
 #include "functions/restore_rmw.h"
 
-bool
-pre_rmw_check (const char *cmdargv, char *file_basename, char *cur_file,
-               struct waste_containers *waste, bool bypass, const int wdt,
-               char pro_dir[PROTECT_MAX][MP], const int pro_tot);
-
-bool
-isProtected (char *cur_file, struct waste_containers *waste, bool bypass,
-            const int wdt, char pro_dir[PROTECT_MAX][MP], const int pro_tot);
-
 int
 mkinfo (bool dup_filename, char *file_basename, char *cur_file,
         struct waste_containers *waste, char *time_now,
@@ -51,19 +42,20 @@ int getche (void);
 /* Before copying or catting strings, make sure str1 won't exceed
  * PATH_MAX + 1
  * */
-bool buf_check_with_strop (char *s1, const char *s2, bool mode);
+bool
+buf_check_with_strop (char *s1, const char *s2, bool mode);
 
-bool buf_check (const char *str, unsigned short boundary);
+bool
+buf_check (const char *str, unsigned short boundary);
 
-void mkdirErr (const char *dirname, const char *text_string);
+void
+mkdirErr (const char *dirname, const char *text_string);
 
-void waste_check (const char *p);
+void
+waste_check (const char *p);
 
-bool file_not_found (const char *filename);
+bool
+file_not_found (const char *filename);
 
-void get_time_string (char *tm_str, unsigned short len, const char *format);
-
-int
-remove_to_waste(char *cur_file, char *file_basename, struct waste_containers *waste,
-                char *time_now, char *time_str_appended, FILE *undo_file_ptr,
-                const int wdt);
+void
+get_time_string (char *tm_str, unsigned short len, const char *format);
