@@ -1,5 +1,13 @@
 === rmw ChangeLog ===
 
+-- Aug. 24, 2016 --
+
+Adding more error checks
+
+Adding more comments
+
+More (minor) code optimization
+
 -- Aug. 23, 2016 --
 
 Files below protected directories are now protected (not thoroughly tested yet)

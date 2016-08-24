@@ -58,7 +58,9 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
     else
     {
       buf_check (argv[i], PATH_MAX);
-      realpath (argv[i], r.rp);
+
+      resolve_path (argv[i], r.rp);
+
       r.bfn = basename (argv[i]);
 
       truncate_str (r.rp, strlen ("files/") + strlen (r.bfn));
@@ -79,46 +81,66 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
 
         if (fp == NULL)
         {
-          fprintf (stderr, "Error opening info file: %s\n", r.ip);
+          fprintf (stderr, "Error: opening %s\n", r.ip);
+          perror ("Restore()");
           break;
         }
 
         else
         {
-          // Not using the "[Trash Info]" line, but reading the file
-          // sequentially
-          if (fgets (line, 14, fp) == NULL)
+          /**
+           * Not using the "[Trash Info]" line, but reading the file
+           * sequentially
+           */
+          fgets (line, 14, fp);
+
+          if (strncmp (line, "[Trash Info]", 12) == 0)
+          {}
+
+          else
           {
-            fprintf (stderr, "Error reading restore file %s\n", r.ip);
-            fclose (fp);
-            break;
-          }
-          else if (strncmp (line, "[Trash Info]", 12) != 0)
-          {
-            fprintf (stderr,
-                     "Info file error; format not correct (Line 1): %s\n",
-                     r.ip);
-            fclose (fp);
+            fprintf (stderr, "Error: trashinfo file format not correct\n");
+            fprintf (stderr, "(Line 1): %s\n", r.ip);
+
+            if (fclose (fp) == EOF)
+            {
+              fprintf (stderr, "Error: while closing %s\n", r.ip);
+              perror ("Restore()");
+            }
+
             break;
           }
 
-          // adding 5 for the 'Path=' preceding the path.
+          /** adding 5 for the 'Path=' preceding the path. */
           if (fgets (line, MP + 6, fp) != NULL)
           {
             tokenPtr = strtok (line, "=");
             tokenPtr = strtok (NULL, "=");
-            // tokenPtr now equals the absolute path from the info file
-            // truncating '\n'
+
+            /**
+             * tokenPtr now equals the absolute path from the info file
+             */
             buf_check_with_strop (fn_to_restore, tokenPtr, CPY);
             tokenPtr = NULL;
             trim (fn_to_restore);
-            fclose (fp);
+
+            if (fclose (fp) == EOF)
+            {
+              fprintf (stderr, "Error: while closing %s\n", r.ip);
+              perror ("Restore()");
+            }
 
           }
           else
           {
             printf ("error on line 2 in %s\n", r.ip);
-            fclose (fp);
+
+            if (fclose (fp) == EOF)
+            {
+              fprintf (stderr, "Error: while closing %s\n", r.ip);
+              perror ("Restore()");
+            }
+
             break;
           }
 

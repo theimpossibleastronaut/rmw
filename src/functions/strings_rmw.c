@@ -132,6 +132,38 @@ trim_slash (char s[])
 void
 truncate_str (char *str, short len)
 {
-  /* short offset = strlen (str) - len; */
   str[strlen (str) - len] = '\0';
+}
+
+/**
+ * resolve_path()
+ * make sure that realpath gave *dest a path
+ * returns 0 on success, 1 on failure
+ *
+ * I had trouble with the actual realpath() return values
+ * See http://cboard.cprogramming.com/c-programming/171131-realpath-resolves-path-but-errno-set-2-a.html
+ * for more info.
+ */
+bool
+resolve_path (const char *str, char *dest)
+{
+  dest[0] = '\0';
+  realpath (str, dest);
+
+  if (strlen (dest) != 0)
+    return 0;
+
+  fprintf (stderr, "Error: realpath() failed on string %s\n", str);
+  return 1;
+}
+
+void
+get_time_string (char *tm_str, unsigned short len, const char *format)
+{
+  struct tm *time_ptr;
+  time_t now = time (NULL);
+  time_ptr = localtime (&now);
+  strftime (tm_str, len, format, time_ptr);
+  buf_check (tm_str, len);
+  trim (tm_str);
 }

@@ -216,17 +216,10 @@ main (int argc, char *argv[])
         if (!bypass)
         {
           unsigned short waste_dir;
-
           char rp[MP];
-          rp[0] = '\0';
-          realpath (cur_file_argv, rp);
 
-          if (!strlen (rp))
-          {
-            fprintf (stderr, "Error: realpath() unsuccessful\n");
-            perror ("main()");
+          if (resolve_path (cur_file_argv, rp))
             continue;
-          }
 
           bool flagged = 0;
 
@@ -312,7 +305,7 @@ main (int argc, char *argv[])
             if (info_st == 0)
               fprintf (undo_file_ptr, "%s\n", finalDest);
             else
-              fprintf (stderr, "mkinfo returned error %d\n", info_st);
+              fprintf (stderr, "mkinfo() returned error %d\n", info_st);
           }
 
           else

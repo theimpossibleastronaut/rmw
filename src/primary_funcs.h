@@ -36,12 +36,8 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended);
 
 int getch (void);
 
-/* reads from keypress, echoes */
 int getche (void);
 
-/* Before copying or catting strings, make sure str1 won't exceed
- * PATH_MAX + 1
- * */
 bool
 buf_check_with_strop (char *s1, const char *s2, bool mode);
 
@@ -56,6 +52,3 @@ waste_check (const char *p);
 
 bool
 file_not_found (const char *filename);
-
-void
-get_time_string (char *tm_str, unsigned short len, const char *format);

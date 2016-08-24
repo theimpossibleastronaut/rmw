@@ -37,4 +37,11 @@ change_HOME (char *t, const char *HOMEDIR);
 int
 trim_slash (char s[]);
 
-void truncate_str (char *str, short len);
+void
+truncate_str (char *str, short len);
+
+bool
+resolve_path (const char *str, char *dest);
+
+void
+get_time_string (char *tm_str, unsigned short len, const char *format);

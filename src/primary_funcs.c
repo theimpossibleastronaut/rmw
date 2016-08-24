@@ -26,10 +26,14 @@
 #include "primary_funcs.h"
 
 
-/* Before copying or catting strings, make sure str1 won't exceed
+/**
+ * buf_check_with_strop()
+ *
+ * FIXME: This function needs optimizing.
+ *
+ * Before copying or catting strings, make sure str1 won't exceed
  * PATH_MAX + 1
- * */
-
+ */
 bool
 buf_check_with_strop (char *s1, const char *s2, bool mode)
 {
@@ -57,8 +61,13 @@ buf_check_with_strop (char *s1, const char *s2, bool mode)
   else
   {
     printf ("Potential buffer overflow caught. rmw terminating.\n");
+
+     /**
+     * This exit() is related to issue #8
+     * https://github.com/andy5995/rmw/issues/8
+     */
     exit (-1);
-    return 1;
+
   }
 
 }
@@ -66,12 +75,16 @@ buf_check_with_strop (char *s1, const char *s2, bool mode)
 bool
 buf_check (const char *str, unsigned short boundary)
 {
-
   unsigned short len = strlen (str);
 
   if (len >= boundary)
   {
     printf ("Potential buffer overrun caught; rmw terminating.\n");
+
+  /**
+   * This exit() is related to issue #8
+   * https://github.com/andy5995/rmw/issues/8
+   */
     exit (1);
   }
 
@@ -93,18 +106,13 @@ mkinfo (bool dup_filename, char *file_basename, char *cur_file,
   bufstat = buf_check_with_strop (finalInfoDest, file_basename, CAT);
 
   if (dup_filename)
-  {
     buf_check_with_strop (finalInfoDest, time_str_appended, CAT);
-  }
 
   bufstat = buf_check_with_strop (finalInfoDest, DOT_TRASHINFO, CAT);
 
-  char real_path[PATH_MAX];
-  real_path[0] = '\0';
+  char real_path[MP];
 
-  realpath (cur_file, real_path);
-
-  if (!strlen (real_path))
+  if (resolve_path (cur_file, real_path))
     return 1;
 
   fp = fopen (finalInfoDest, "w");
@@ -139,16 +147,27 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
   FILE *undo_file_ptr;
   char undo_path[MP];
   char line[MP];
+
   /* using destiny because the second arg for Restore() must be
    * a *char[] not a *char */
   char *destiny[1];
   buf_check_with_strop (undo_path, HOMEDIR, CPY);
   buf_check_with_strop (undo_path, UNDO_FILE, CAT);
+
   undo_file_ptr = fopen (undo_path, "r");
 
-  if (undo_file_ptr == NULL)
+  if (undo_file_ptr != NULL)
+  {}
+
+  else
   {
-    fprintf (stderr, "Error opening %s for reading\n", undo_path);
+    fprintf (stderr, "Error: while opening %s for reading\n", undo_path);
+    perror ("undo_last_rmw()");
+
+    /**
+     * This exit() is related to issue #8
+     * https://github.com/andy5995/rmw/issues/8
+     */
     exit (1);
   }
 
@@ -255,6 +274,10 @@ getche (void)
  }
  */
 
+/**
+ * This will get deleted, and be made part of a function
+ * that can make directories when parents don't exist
+ */
 void
 mkdirErr (const char *dirname, const char *text_string)
 {
@@ -263,6 +286,16 @@ mkdirErr (const char *dirname, const char *text_string)
   exit (1);
 }
 
+/**
+ * waste_check()
+ *
+ * FIXME: Will only create the dir if the parent dir exists
+ * use routine from check_for_data_dir() (needs to be converted to
+ * a general use function
+ *
+ * Check for the existence of WASTE dirs that are specified in the config
+ * file. Creates them as necessary.
+ */
 void
 waste_check (const char *p)
 {
@@ -297,6 +330,12 @@ waste_check (const char *p)
  printf("tokenPtr = %s\n", protected[1]);
  } */
 
+/**
+ * file_not_found()
+ * Checks for the existence of *filename
+ *
+ * returns 1 if not found, 0 if the file doesn't exist
+ */
 bool
 file_not_found (const char *filename)
 {
@@ -307,17 +346,4 @@ file_not_found (const char *filename)
     return 0;
   else
     return 1;
-}
-
-void
-get_time_string (char *tm_str, unsigned short len, const char *format)
-{
-
-  struct tm *TimePtr;
-  time_t now = time (NULL);
-  TimePtr = localtime (&now);
-  strftime (tm_str, len, format, TimePtr);
-  buf_check (tm_str, len);
-  trim (tm_str);
-
 }

@@ -297,16 +297,29 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
             || strlen (infoLine) != 32)
         {
           fprintf (stderr, "Info file error; format not correct (Line 3)\n");
+
+         /**
+          * This exit() is related to issue #8
+          * https://github.com/andy5995/rmw/issues/8
+          */
           exit (1);
         }
 
         if (fclose (info_file_ptr) == EOF)
-          fprintf (stderr, "Error while closing %s\n", entry_path);
+        {
+          fprintf (stderr, "Error: while closing %s\n", entry_path);
+          perror ("purge()");
+        }
       }
 
       else
       {
         fprintf (stderr, "Fatal: Error %d while opening %s\n", errno, entry_path);
+
+       /**
+        * This exit() is related to issue #8
+        * https://github.com/andy5995/rmw/issues/8
+        */
         exit (1);
       }
 
@@ -357,16 +370,17 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
             status = rmdir (purgeFile);
             if (!status)
               success = 1;
+
             else
             {
-              fprintf (stderr, "!-Error %d in purge() while removing\n", status);
-              fprintf (stderr, "\t%s\n", purgeFile);
+              fprintf (stderr, "Error: while removing %s\n", purgeFile);
+              perror ("purge()");
             }
             break;
 
           default:
-            fprintf (stderr, "!-Error %d in purge() while removing\n", status);
-            fprintf (stderr, "\t%s\n", purgeFile);
+            fprintf (stderr, "Error: while removing %s\n", purgeFile);
+            perror ("purge()");
             break;
           }
 
@@ -381,8 +395,8 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
 
           else
           {
-            fprintf (stderr, "!-Error %d in purge() while removing\n", status);
-            fprintf (stderr, "\t%s\n", purgeFile);
+            fprintf (stderr, "Error: while removing %s\n", purgeFile);
+            perror ("purge()");
             success = 0;
           }
         }
@@ -399,8 +413,8 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
           }
           else
           {
-            fprintf (stderr, "!-Error %d in purge() while removing\n", status);
-            fprintf (stderr, "\t%s\n", entry_path);
+            fprintf (stderr, "Error: while removing %s\n", entry_path);
+            perror ("purge()");
           }
         }
 

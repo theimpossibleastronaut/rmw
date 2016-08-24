@@ -231,7 +231,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
       buf_check (tokenPtr, MP);
 
-      realpath (tokenPtr, pro_dir[*pro_ctr]);
+      resolve_path (tokenPtr, pro_dir[*pro_ctr]);
 
       buf_check (pro_dir[*pro_ctr], MP);
 
