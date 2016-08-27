@@ -1,5 +1,5 @@
 # rmw example configuration file
-# http://rmw.sf.net/
+# https://github.com/andy5995/rmw/wiki/
 
 WASTE = $HOME/.ctrash
 WASTE = /media/home_/andy/.ctrash

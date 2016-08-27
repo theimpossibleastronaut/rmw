@@ -1,7 +1,7 @@
 /*
  * config_rmw.c
  *
- * This file is part of rmw (http://rmw.sf.net)
+ * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *
@@ -65,7 +65,7 @@ check_for_data_dir (const char *data_dir)
  * Reads the config file, checks for the existence of waste directories,
  * and gets the value of 'purge_after'
  */
-int
+short
 get_config_data(struct waste_containers *waste, const char *alt_config,
                 const char *HOMEDIR, int *pa, bool list, int *waste_ctr,
                 char pro_dir[PROTECT_MAX][MP], int *pro_ctr)
@@ -252,6 +252,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   {
     fprintf (stderr, "No 'WASTE=' line config file (%s) error; exiting...\n",
              config_file);
-    exit (1);
+    return -1;
   }
 }

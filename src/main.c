@@ -1,7 +1,7 @@
 /*
  * main.c
  *
- * This file is part of rmw (http://rmw.sf.net)
+ * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *
@@ -133,29 +133,31 @@ main (int argc, char *argv[])
   /* ? */
   free (data_dir);
 
-  int i = 0;
-
   int *protected_ctr = malloc (sizeof (*protected_ctr));
+
   char protected_dir[PROTECT_MAX][MP];
 
   int *waste_ctr = malloc (sizeof (*waste_ctr));
-  unsigned short int *purge_after = malloc (sizeof (*purge_after));
 
-  int conf_err =
-    get_config_data (waste, alt_config, HOMEDIR, purge_after, list, waste_ctr,
+  unsigned short int *purge_after_ptr = malloc (sizeof (*purge_after_ptr));
+
+  short conf_err =
+    get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr, list, waste_ctr,
                      protected_dir, protected_ctr);
 
-  if (conf_err)
-  {
-    free (purge_after);
-    return 1;
-  }
+  //if (conf_err)
 
   const int waste_dirs_total = *waste_ctr;
   free (waste_ctr);
 
   const int protected_total = *protected_ctr;
   free (protected_ctr);
+
+  const int purge_after = *purge_after_ptr;
+  free (purge_after_ptr);
+
+  if (conf_err == -1)
+    return NO_WASTE_FOLDER;
 
   /* String appended to duplicate filenames */
   char time_str_appended[16];
@@ -171,16 +173,18 @@ main (int argc, char *argv[])
   FILE *undo_file_ptr;
   char undo_path[MP];
 
-  char cur_file_argv[MP];
+  struct rmw_target file;
+
+  int file_arg = 0;
 
   if (optind < argc && !restoreYes && !select && !undo_last)
   {
     buf_check_with_strop (undo_path, HOMEDIR, CPY);
     buf_check_with_strop (undo_path, UNDO_FILE, CAT);
 
-    for (i = optind; i < argc; i++)
+    for (file_arg = optind; file_arg < argc; file_arg++)
     {
-      strcpy (cur_file_argv, argv[i]);
+      strcpy (file.main_argv, argv[file_arg]);
 
       /**
        * Open undo_file for writing
@@ -194,31 +198,24 @@ main (int argc, char *argv[])
         {
           fprintf (stderr, "Error: opening %s :\n", undo_path);
           perror ("main()");
-            /**
-             * if we can't write to the undo file, something is seriously wrong.
-             * Free malloc-ed memory and make it a fatal error.
-             */
-          free (purge_after);
           return 1;
         }
       }
 
-      buf_check (cur_file_argv, MP);
+      buf_check (file.main_argv, MP);
 
       /**
        * Check to see if the file exists, and if so, see if it's protected
        */
 
-      bool protected_file = 0;
-
-      if (!file_not_found (cur_file_argv))
+      if (!file_not_found (file.main_argv))
       {
         if (!bypass)
         {
           unsigned short waste_dir;
-          char rp[MP];
+          char real_path[MP];
 
-          if (resolve_path (cur_file_argv, rp))
+          if (resolve_path (file.main_argv, real_path))
             continue;
 
           bool flagged = 0;
@@ -227,7 +224,7 @@ main (int argc, char *argv[])
 
           for (dir_num = 0; dir_num < protected_total; dir_num++)
           {
-            if (!strncmp (rp, protected_dir[dir_num],
+            if (!strncmp (real_path, protected_dir[dir_num],
                           strlen (protected_dir[dir_num])))
             {
               flagged = 1;
@@ -237,7 +234,7 @@ main (int argc, char *argv[])
 
           if (flagged)
           {
-            fprintf (stderr, "File is in protected directory: %s\n", rp);
+            fprintf (stderr, "File is in protected directory: %s\n", real_path);
             continue;
           }
         }
@@ -245,7 +242,7 @@ main (int argc, char *argv[])
 
       else
       {
-        fprintf (stderr, "File not found: '%s'\n", cur_file_argv);
+        fprintf (stderr, "File not found: '%s'\n", file.main_argv);
         continue;
       }
 
@@ -255,69 +252,68 @@ main (int argc, char *argv[])
        */
 
       struct stat st;
-      char finalDest[MP];
-      int i = 0;
+      unsigned short dir_num = 0;
       bool match = 0;
-      short statRename = 0;
-      bool info_st = 0;
-      bool dfn = 0;
+      short rename_status = 0;
+      bool info_status = 0;
+      file.is_duplicate = 0;
 
-      unsigned short curWasteNum = 0;
+      unsigned short current_waste_num = 0;
 
-      char file_basename[MP];
-      strcpy (file_basename, basename (cur_file_argv));
+      strcpy (file.base_name, basename (file.main_argv));
 
       /**
        * cycle through wasteDirs to see which one matches
-       * device number of cur_file_argv. Once found, the ReMoval
+       * device number of file.main_argv. Once found, the ReMoval
        * happens (provided all the tests are passed.
        */
 
-      for (i = 0; i < waste_dirs_total; i++)
+      for (dir_num = 0; dir_num < waste_dirs_total; dir_num++)
       {
-        lstat (cur_file_argv, &st);
-        if (waste[i].dev_num == st.st_dev)
+        lstat (file.main_argv, &st);
+        if (waste[dir_num].dev_num == st.st_dev)
         {
           // used by mkinfo
-          curWasteNum = i;
-          buf_check_with_strop (finalDest, waste[i].files, CPY);
-          buf_check_with_strop (finalDest, file_basename, CAT);
-          // If a duplicate file exists
+          current_waste_num = dir_num;
+          buf_check_with_strop (file.dest_name, waste[dir_num].files, CPY);
+          buf_check_with_strop (file.dest_name, file.base_name, CAT);
 
-          if (file_not_found (finalDest) == 0)
+          /* If a duplicate file exists
+           */
+          if (file_not_found (file.dest_name) == 0)
           {
             // append a time string
-            buf_check_with_strop (finalDest, time_str_appended, CAT);
+            buf_check_with_strop (file.dest_name, time_str_appended, CAT);
 
             // tell make info there's a duplicate
-            dfn = 1;
+            file.is_duplicate = 1;
           }
 
-          statRename = rename (cur_file_argv, finalDest);
+          rename_status = rename (file.main_argv, file.dest_name);
 
-          if (statRename == 0)
+          if (rename_status == 0)
           {
-            printf ("'%s' -> '%s'\n", cur_file_argv, finalDest);
+            printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
 
-            info_st = mkinfo (dfn, file_basename, cur_file_argv, waste,
-                              time_now, time_str_appended, curWasteNum);
+            info_status = mkinfo (file, waste,
+                              time_now, time_str_appended, current_waste_num);
 
-            if (info_st == 0)
-              fprintf (undo_file_ptr, "%s\n", finalDest);
+            if (info_status == 0)
+              fprintf (undo_file_ptr, "%s\n", file.dest_name);
             else
-              fprintf (stderr, "mkinfo() returned error %d\n", info_st);
+              fprintf (stderr, "mkinfo() returned error %d\n", info_status);
           }
 
           else
           {
-            fprintf (stderr, "Error %d moving %s :\n", statRename, cur_file_argv);
+            fprintf (stderr, "Error %d moving %s :\n", rename_status, file.main_argv);
             perror ("remove_to_waste()");
             return 1;
           }
 
       /**
        * If we get to this point, it means a WASTE folder was found
-       * that matches the file system cur_file_argv was on.
+       * that matches the file system file.main_argv was on.
        * Setting match to 1 and breaking from the for loop
        */
           match = 1;
@@ -327,7 +323,7 @@ main (int argc, char *argv[])
 
       if (!match)
       {
-        printf ("No suitable filesystem found for \"%s\"\n", cur_file_argv);
+        printf ("No suitable filesystem found for \"%s\"\n", file.main_argv);
         return 1;
       }
     }
@@ -357,10 +353,7 @@ main (int argc, char *argv[])
   if (purge_after != 0 && restoreYes == 0 && select == 0)
   {
     if (purgeD (HOMEDIR) != 0 || purgeYes != 0)
-    {
       status = purge (purge_after, waste, time_now, waste_dirs_total);
-      free (purge_after);
-    }
   }
 
   if (undo_opened)

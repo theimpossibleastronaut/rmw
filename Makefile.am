@@ -10,7 +10,6 @@ COPYING             \
 INSTALL             \
 LICENSE             \
 NEWS                \
-Release_Notes.txt   \
 TODO
 
 packextras_DATA=$(EXTRA_DIST)

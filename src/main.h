@@ -1,7 +1,7 @@
 /*
  * main.h
  *
- * This file is part of rmw (http://rmw.sf.net)
+ * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *
@@ -25,3 +25,5 @@
 
 #include "rmw.h"
 #include "primary_funcs.h"
+
+#define NO_WASTE_FOLDER 2

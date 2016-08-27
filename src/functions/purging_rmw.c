@@ -1,7 +1,7 @@
 /*
  * purging_rmw.c
  *
- * This file is part of rmw (http://rmw.sf.net)
+ * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *
@@ -204,13 +204,13 @@ purgeD (const char *HOMEDIR)
 }
 
 int
-purge (const short *pa, const struct waste_containers *waste, char *time_now,
+purge (const short purge_after, const struct waste_containers *waste, char *time_now,
        const int wdt)
 {
-  if (*pa > UINT_MAX)
+  if (purge_after > UINT_MAX)
   {
     printf ("purge_after can't be greater than %u\n", USHRT_MAX);
-    exit (1);
+    return 1;
   }
 
   short status = 0;
@@ -230,7 +230,7 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
 
-  printf ("\nPurging files older than %u days...\n", *pa);
+  printf ("\nPurging files older than %u days...\n", purge_after);
 
   int p = 0;
   struct dirent *entry;
@@ -331,7 +331,7 @@ purge (const short *pa, const struct waste_containers *waste, char *time_now,
 
       bool success = 0;
 
-      if (then + (86400 * *pa) <= now)
+      if (then + (86400 * purge_after) <= now)
       {
         success = 0;
 

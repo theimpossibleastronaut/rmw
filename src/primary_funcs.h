@@ -1,7 +1,7 @@
 /*
  * primary_funcs.h
  *
- * This file is part of rmw (http://rmw.sf.net)
+ * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *
@@ -27,8 +27,7 @@
 #include "functions/restore_rmw.h"
 
 int
-mkinfo (bool dup_filename, char *file_basename, char *cur_file,
-        struct waste_containers *waste, char *time_now,
+mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
         char *time_str_appended, const short cnum);
 
 void

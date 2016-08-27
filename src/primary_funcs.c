@@ -1,7 +1,7 @@
 /*
  * primary_funcs.c
  *
- * This file is part of rmw (http://rmw.sf.net)
+ * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *
@@ -92,8 +92,7 @@ buf_check (const char *str, unsigned short boundary)
 }
 
 int
-mkinfo (bool dup_filename, char *file_basename, char *cur_file,
-        struct waste_containers *waste, char *time_now,
+mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
         char *time_str_appended, const short cnum)
 {
   FILE *fp;
@@ -103,16 +102,16 @@ mkinfo (bool dup_filename, char *file_basename, char *cur_file,
   bufstat =
     buf_check_with_strop (finalInfoDest, waste[cnum].info, CPY);
 
-  bufstat = buf_check_with_strop (finalInfoDest, file_basename, CAT);
+  bufstat = buf_check_with_strop (finalInfoDest, file.base_name, CAT);
 
-  if (dup_filename)
+  if (file.is_duplicate)
     buf_check_with_strop (finalInfoDest, time_str_appended, CAT);
 
   bufstat = buf_check_with_strop (finalInfoDest, DOT_TRASHINFO, CAT);
 
   char real_path[MP];
 
-  if (resolve_path (cur_file, real_path))
+  if (resolve_path (file.main_argv, real_path))
     return 1;
 
   fp = fopen (finalInfoDest, "w");

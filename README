@@ -3,6 +3,8 @@ utility. Optionally, it can ReMove files to Desktop trash, restore files,
 list files to be selected for restore, and purge (permanently delete)
 files that were trashed x number of days ago.
 
+Web site: https://github.com/andy5995/rmw/wiki
+
 After rmw is installed, create the user configuration directory by typing
 'rmw' and hitting enter. It's recommended to copy /etc/rmwrc (or
 /usr/local/etc/rmwrc) to $HOME/.config/rmw and then rename it to 'config':
@@ -73,16 +75,5 @@ within protected directories can still be rmw'ed.
 rmw /home/andy (nothing would happen)
 rmw /home/andy/* (files would get rmw'ed)
 
-== Help, Support, and Discussion ==
 
-Web site: https://github.com/andy5995/rmw/releases
-
-Forum: https://sourceforge.net/p/rmw/discussion/
-
-IRC: Quakenet IRC network - #rmw
-http://webchat.quakenet.org/?channels=rmw
-
-Mailing list (new releases):
-https://lists.sourceforge.net/lists/listinfo/rmw-announce
-
-This file was last updated Aug 17, 2016
+This file was last updated Aug 24, 2016

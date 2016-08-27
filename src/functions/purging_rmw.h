@@ -1,7 +1,7 @@
 /*
  * purging_rmw.h
  *
- * This file is part of rmw (http://rmw.sf.net)
+ * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *
@@ -33,7 +33,7 @@ int
 rmdir_recursive (char *path, short unsigned level);
 
 int
-purge (const short *pa, const struct waste_containers *waste, char *time_now,
+purge (const short purge_after, const struct waste_containers *waste, char *time_now,
        const int wdt);
 
 bool purgeD (const char *HOMEDIR);

@@ -1,7 +1,7 @@
 /*
  * rmw.h
  *
- * This file is part of rmw (http://rmw.sf.net)
+ * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
  *
@@ -83,7 +83,17 @@ struct waste_containers
   char parent[MP];
   char info[MP];
   char files[MP];
+
   int dev_num;
+};
+
+struct rmw_target
+{
+  char main_argv[MP];
+  char base_name[MP];
+  char dest_name[MP];
+
+  bool is_duplicate;
 };
 
 enum
