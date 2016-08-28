@@ -5,8 +5,16 @@ files that were trashed x number of days ago.
 
 Web site: https://github.com/andy5995/rmw/wiki
 
+This is the README for the development version of rmw. It may mention
+features that aren't included in the last release, or differ in other ways.
+A link for the README from the last release can be found here:
+https://github.com/andy5995/rmw/releases/tag/v2016.08.17.01a
+
+(Presently PROTECTION is only enabled in the dev snapshot, not the
+latest release.)
+
 After rmw is installed, create the user configuration directory by typing
-'rmw' and hitting enter. It's recommended to copy /etc/rmwrc (or
+'rmw' and hitting enter. Afterward, it's recommended to copy /etc/rmwrc (or
 /usr/local/etc/rmwrc) to $HOME/.config/rmw and then rename it to 'config':
 
 'cd ~/.config/rmw'
@@ -15,14 +23,19 @@ After rmw is installed, create the user configuration directory by typing
 
 Then edit the file to suit your needs.
 
+At some point, rmw will automatically create a 'lastpurge' and 'lastrmw'
+in that same directory.
+
+== Configuration File ==
+
 A generic configuration file looks like this:
 
 WASTE = $HOME/.trash.rmw
 #WASTE = $HOME/.local/share/Trash
 purge_after = 90
 
-PROTECT = /
-PROTECT = $HOME
+PROTECT = /usr/local/bin
+PROTECT = $HOME/src
 
 Waste folders will be created automatically. (e.g. if '$HOME/trash.rmw'
 is listed in the config file, these 3 directories will be created:
@@ -33,10 +46,16 @@ $HOME/trash.rmw/info
 If you'd like rmw to be tied in to your existing Desktop Trash, uncomment
 '#WASTE = $HOME/.local/share/Trash'
 
-What will happen is when files get rmw'ed, you'll see them in your Desktop
-Trash, and rmw will check your Trash to see if it's time to purge any files.
+And then move that line above any other WASTE folder that's on the
+same file system.
+
+NOTE: If 2 WASTE folders are on the same file system, rmw will ReMove files
+to the first WASTE folder listed, ignoring the 2nd one. The only time it
+will use the 2nd folder is when purge is run.
+
 
 == Purging ==
+
 If purging is 'on', rmw will permanently delete files from the folders
 specified in the configuration file after 'x' number of days. Purging
 can be disabled by using 'purgeDays = 0' in configuration file. rmw will
@@ -68,12 +87,17 @@ will automatically look in all the Waste directories.
 
 == Protected directories ==
 
-Presently, if a protected directory is accidently rmw'ed from the command
-line, rmw will prevent sending the directory to the trash, however, files
-within protected directories can still be rmw'ed.
+explained:
+if 'PROTECT = /home/andy' is specified in the config file, /home/andy, and
+all dirs and files beneath it will be "protected". This warning will show
+up:
 
-rmw /home/andy (nothing would happen)
-rmw /home/andy/* (files would get rmw'ed)
+"File is in protected directory: <filename/dir>"
+
+And it will not get rmw'ed
+
+WASTE folders and the rmw configuration/data directory are protected by
+default (there is no need to add a 'PROTECT =' line for them.
 
 
-This file was last updated Aug 24, 2016
+This file was last updated Aug 28, 2016

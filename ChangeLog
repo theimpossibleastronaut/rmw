@@ -12,6 +12,8 @@ Fixed the warning: /functions/config_rmw.c:252:7: warning: ‘cfgPtr’ may be u
  uninitialized in this function [-Wmaybe-uninitialized]
    if (fclose (cfgPtr) == EOF)
 
+Development documentation updated
+
 
 -- Aug. 24, 2016 --
 

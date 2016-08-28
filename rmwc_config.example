@@ -1,7 +1,14 @@
 # rmw example configuration file
 # https://github.com/andy5995/rmw/wiki/
 
-WASTE = $HOME/.ctrash
+#And then move that line above any other WASTE folder that's on the
+#same file system.
+
+#NOTE: If 2 WASTE folders are on the same file system, rmw will ReMove files
+#to the first WASTE folder listed, ignoring the 2nd one. The only time it
+#will use the 2nd folder is when purge is run.
+
+WASTE = $HOME/.trash.rmw
 WASTE = /media/home_/andy/.ctrash
 WASTE = /mnt/fs3/.ctrash
 #
@@ -18,4 +25,4 @@ purge_after = 90
 # The development version (and next release) protects files under
 # protected directories (not fully tested)
 PROTECT = /usr/local/bin
-#PROTECT = $HOME/Documents
+#PROTECT = $HOME/src
