@@ -24,6 +24,7 @@
  */
 
 #include "rmw.h"
+#include "restore_rmw.h"
 
 /**
  * FIXME: This apparently needs re-working too. I'm sure it could be

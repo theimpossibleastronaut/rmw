@@ -24,6 +24,8 @@
  */
 
 #include "rmw.h"
+#include "strings_rmw.h"
+#include "primary_funcs.h"
 
 #define RMDIR_MAX_DEPTH 32
 #define NOT_WRITEABLE 101

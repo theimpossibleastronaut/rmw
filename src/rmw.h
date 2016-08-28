@@ -29,6 +29,8 @@
 /* Enable support for files over 2G  */
 #define _FILE_OFFSET_BITS 64
 
+#define _GNU_SOURCE
+
 /* #include "config.h" */
 #include <dirent.h>
 #include <errno.h>

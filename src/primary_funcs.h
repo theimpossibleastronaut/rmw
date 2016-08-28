@@ -24,7 +24,8 @@
  */
 
 #include "rmw.h"
-#include "functions/restore_rmw.h"
+#include "restore_rmw.h"
+#include "strings_rmw.h"
 
 int
 mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
@@ -36,12 +37,6 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended);
 int getch (void);
 
 int getche (void);
-
-bool
-buf_check_with_strop (char *s1, const char *s2, bool mode);
-
-bool
-buf_check (const char *str, unsigned short boundary);
 
 void
 mkdirErr (const char *dirname, const char *text_string);

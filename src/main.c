@@ -139,7 +139,7 @@ main (int argc, char *argv[])
 
   int *waste_ctr = malloc (sizeof (*waste_ctr));
 
-  unsigned short int *purge_after_ptr = malloc (sizeof (*purge_after_ptr));
+  unsigned short *purge_after_ptr = malloc (sizeof (*purge_after_ptr));
 
   short conf_err =
     get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr, list, waste_ctr,
@@ -212,7 +212,6 @@ main (int argc, char *argv[])
       {
         if (!bypass)
         {
-          unsigned short waste_dir;
           char real_path[MP];
 
           if (resolve_path (file.main_argv, real_path))

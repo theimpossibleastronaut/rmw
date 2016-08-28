@@ -25,5 +25,8 @@
 
 #include "rmw.h"
 #include "primary_funcs.h"
+#include "trivial_rmw.h"
+#include "config_rmw.h"
+#include "purging_rmw.h"
 
 #define NO_WASTE_FOLDER 2

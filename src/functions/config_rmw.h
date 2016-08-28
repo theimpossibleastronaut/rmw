@@ -24,11 +24,14 @@
  */
 
 #include "rmw.h"
+#include "primary_funcs.h"
+#include "strings_rmw.h"
+#include "trivial_rmw.h"
 
 void
 check_for_data_dir (const char *data_dir);
 
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
-                const char *HOMEDIR, int *pa, bool list, int *waste_ctr,
+                const char *HOMEDIR, unsigned short *pa, bool list, int *waste_ctr,
                 char pro_dir[PROTECT_MAX][MP], int *pro_ctr);

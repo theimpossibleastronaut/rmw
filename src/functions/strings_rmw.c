@@ -26,6 +26,71 @@
 #include "strings_rmw.h"
 
 /**
+ * buf_check_with_strop()
+ *
+ * FIXME: This function needs optimizing.
+ *
+ * Before copying or catting strings, make sure str1 won't exceed
+ * PATH_MAX + 1
+ */
+bool
+buf_check_with_strop (char *s1, const char *s2, bool mode)
+{
+  unsigned int len1, len2;
+  len1 = strlen (s1);
+  len2 = strlen (s2);
+  if (len2 < MP && mode == CPY)
+  {
+    strcpy (s1, s2);
+    return 0;
+  }
+  else if (len1 + len2 < MP && mode == CAT)
+  {
+    strcat (s1, s2);
+    return 0;
+  }
+
+  else if (mode > CAT || mode < CPY)
+  {
+    printf
+      ("error in function: buf_check_with_strop() - mode must be either CPY (0) or CAT (1)");
+    abort ();
+  }
+
+  else
+  {
+    printf ("Potential buffer overflow caught. rmw terminating.\n");
+
+     /**
+     * This exit() is related to issue #8
+     * https://github.com/andy5995/rmw/issues/8
+     */
+    exit (-1);
+
+  }
+
+}
+
+bool
+buf_check (const char *str, unsigned short boundary)
+{
+  unsigned short len = strlen (str);
+
+  if (len >= boundary)
+  {
+    printf ("Potential buffer overrun caught; rmw terminating.\n");
+
+  /**
+   * This exit() is related to issue #8
+   * https://github.com/andy5995/rmw/issues/8
+   */
+    exit (1);
+  }
+
+  return 0;
+}
+
+/**
  * trim: remove trailing blanks, tabs, newlines
  * Adapted from The ANSI C Programming Language, 2nd Edition (p. 65)
  * Brian W. Kernighan & Dennis M. Ritchie
@@ -96,13 +161,14 @@ change_HOME (char *t, const char *HOMEDIR)
     status = 1;
   }
   else
-    return;
+    return 0;
 
   char temp[MP];
   buf_check_with_strop (temp, HOMEDIR, CPY);
   buf_check_with_strop (temp, t, CAT);
   strcpy (t, temp);
 
+  return status;
 }
 
 /**
@@ -112,17 +178,14 @@ int
 trim_slash (char s[])
 {
   int n;
-  n = strlen (s);
+  n = strlen (s) - 1;
 
-  if (s[n - 1] != '/')
+  if (s[n] != '/')
     return n;
 
-  for (n - 1; n >= 0; n--)
-    if (s[n] == '/')
-    {
-      s[n] = '\0';
-      return n;
-    }
+  s[n] = '\0';
+
+  return 0;
 }
 
 /**

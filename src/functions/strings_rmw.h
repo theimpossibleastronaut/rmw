@@ -25,6 +25,12 @@
 
 #include "rmw.h"
 
+bool
+buf_check_with_strop (char *s1, const char *s2, bool mode);
+
+bool
+buf_check (const char *str, unsigned short boundary);
+
 int
 trim (char s[]);
 

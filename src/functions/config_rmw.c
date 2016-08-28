@@ -50,6 +50,7 @@ check_for_data_dir (const char *data_dir)
     tokenPtr = strtok (NULL, "/");
 
     if (file_not_found (add_to_path))
+    {
       if (!mkdir (add_to_path, S_IRWXU))
         fprintf (stdout, "Created %s\n", add_to_path);
 
@@ -58,6 +59,7 @@ check_for_data_dir (const char *data_dir)
         fprintf (stderr, "Error %d while creating %s\n", errno, temp_data_dir);
         err_display_check_config ();
       }
+    }
   }
 }
 
@@ -67,7 +69,7 @@ check_for_data_dir (const char *data_dir)
  */
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
-                const char *HOMEDIR, int *pa, bool list, int *waste_ctr,
+                const char *HOMEDIR, unsigned short *purge_after_ptr, bool list, int *waste_ctr,
                 char pro_dir[PROTECT_MAX][MP], int *pro_ctr)
 {
   char config_file[MP];
@@ -79,7 +81,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
    * in the config file
    */
   int default_purge = 90;
-  *pa = default_purge;
+  *purge_after_ptr = default_purge;
 
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
@@ -124,7 +126,10 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
   else
   {
-    buf_check_with_strop (config_file, SYSCONFDIR "/rmwrc", CPY);
+    char str_temp[MP];
+    strcpy (str_temp, SYSCONFDIR);
+    strcat (str_temp, "/rmwrc");
+    buf_check_with_strop (config_file, str_temp, CPY);
 
     if (!file_not_found (config_file))
       cfgPtr = fopen (config_file, "r");
@@ -171,7 +176,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       // buf_check (tokenPtr, 4096);
       erase_char (' ', tokenPtr);
       buf_check (tokenPtr, 6);
-      *pa = atoi (tokenPtr);
+      *purge_after_ptr = atoi (tokenPtr);
     }
     else if (*waste_ctr < WASTENUM_MAX && !strncmp ("WASTE", confLine, 5))
     {
@@ -254,4 +259,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
              config_file);
     return -1;
   }
+
+  return 0;
 }
