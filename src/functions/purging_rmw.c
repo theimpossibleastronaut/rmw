@@ -116,12 +116,24 @@ rmdir_recursive (char *path, short unsigned level)
 }
 
 /*
- * writes the day of the last purge
+ * is_time_to_purge
+ *
+ * Creates lastpurge file
+ * checks to see if purge() was run today
+ * if not, returns 1 and writes the day
+ * to the lastpurge file.
+ *
  * FIXME: function name needs changing
  * variable names need changing
+ * The only reason HOMEDIR is used as an argument is to avoid
+ * using a global, or having to use getenv (HOME) inside this function
+ * since that's already been done in main(). But there's probably a better
+ * way. (is_time_purge (HOMEDIR) looks like we're going to purge the HOMEDIR,
+ * which is very misleading)
+ *
  */
 bool
-purgeD (const char *HOMEDIR)
+is_time_to_purge (const char *HOMEDIR)
 {
   FILE *fp;
 
@@ -145,16 +157,28 @@ purgeD (const char *HOMEDIR)
   if (!file_not_found (purgeDpath))
   {
     fp = fopen (purgeDpath, "r");
+
+    if (fp == NULL)
+    {
+      fprintf (stderr, "Error: while opening %s\n", purgeDpath);
+      perror ("is_time_to_purge");
+    }
     /*
      * Need to do some error checking upon opening and closing
      */
     fgets (lastDay, 3, fp);
     buf_check (lastDay, 3);
     trim (lastDay);
-    fclose (fp);
 
+    if (fclose (fp))
+    {
+      fprintf (stderr, "Error: while closing %s", purgeDpath);
+      perror ("is_time_to_purge");
+    }
+
+    /* if these are the same, purge has already been run today
+     */
     if (!strcmp (nowD, lastDay))
-      // Same day
       return 0;
 
     /** Days differ, write the new day. */
@@ -169,7 +193,8 @@ purgeD (const char *HOMEDIR)
       }
       else
       {
-        fprintf (stderr, "error %d writing to %s\n", errno, purgeDpath);
+        fprintf (stderr, "Error: while writing to %s\n", purgeDpath);
+        perror ("is_time_to_purge");
         exit (1);
       }
     }
@@ -197,7 +222,8 @@ purgeD (const char *HOMEDIR)
        * If the user gets this far though,
        * chances are this error will never be a problem.
        */
-      fprintf (stderr, "Fatal: Error %d creating %s\n", errno, purgeDpath);
+      fprintf (stderr, "Fatal: Error: creating %s\n", purgeDpath);
+      perror ("is_time_to_purge");
       exit (1);
     }
   }

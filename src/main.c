@@ -351,7 +351,7 @@ main (int argc, char *argv[])
 
   if (purge_after != 0 && restoreYes == 0 && select == 0)
   {
-    if (purgeD (HOMEDIR) != 0 || purgeYes != 0)
+    if (is_time_to_purge (HOMEDIR) != 0 || purgeYes != 0)
       status = purge (purge_after, waste, time_now, waste_dirs_total);
   }
 

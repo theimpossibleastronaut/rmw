@@ -1,5 +1,12 @@
 === rmw ChangeLog ===
 
+-- Aug. 28 --
+
+Added -std=gnu99 -Wall to the Makefile, cleaned up some warnings
+
+Renamed purgeD() to is_time_to_purge()
+Added some error checking to that function
+
 -- Aug. 24, 2016 --
 
 Adding more error checks
