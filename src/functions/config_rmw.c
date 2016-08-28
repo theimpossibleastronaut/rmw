@@ -110,6 +110,9 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
    * if config_file isn't found in home directory,
    * else open the system default (SYSCONFDIR/rmwrc)
    */
+
+  bool config_opened = 0;
+
   if (!file_not_found (config_file))
   {
     cfgPtr = fopen (config_file, "r");
@@ -117,12 +120,18 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     /**
      * It exists. Any problem opening it for reading?
      */
-    if (cfgPtr == NULL)
+    if (cfgPtr != NULL)
+      config_opened = 1;
+
+    else
     {
-      perror ("get_config_data");
-      fprintf (stderr, "Error %d reading %s\n", errno, config_file);
+      fprintf (stderr, "Error: reading %s\n", config_file);
+      perror ("get_config_data()");
     }
   }
+
+  if (config_opened)
+  {}
 
   else
   {
@@ -132,21 +141,26 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     buf_check_with_strop (config_file, str_temp, CPY);
 
     if (!file_not_found (config_file))
+    {
       cfgPtr = fopen (config_file, "r");
 
-    if (errno)
-    {
-      fprintf (stderr, "Error %d reading %s\n", errno, config_file);
-      fprintf (stderr, "Can not open configuration file\n");
-      fprintf (stderr, "%s (or)\n", config_file);
-      fprintf (stderr, "%s\n", CFG_FILE);
-      fprintf (stderr, "\nA default configuration file can be found at\n");
-      fprintf (stderr, "https://github.com/andy5995/rmw/tree/master/etc\n");
-      fprintf (stderr, "Terminating...\n");
-      return 1;
+      if (cfgPtr != NULL)
+        config_opened = 1;
+
+      else
+      {
+        fprintf (stderr, "Error: reading %s\n", config_file);
+        perror ("get_config_data()");
+        fprintf (stderr, "Can not open configuration file\n");
+        fprintf (stderr, "%s (or)\n", config_file);
+        fprintf (stderr, "%s\n", CFG_FILE);
+        fprintf (stderr, "\nA default configuration file can be found at\n");
+        fprintf (stderr, "https://github.com/andy5995/rmw/tree/master/etc\n");
+        fprintf (stderr, "Terminating...\n");
+        return 1;
+      }
     }
   }
-
 
   *waste_ctr = 0;
   *pro_ctr = 0;
@@ -249,8 +263,18 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     if (*pro_ctr == PROTECT_MAX)
       fprintf (stdout, "Maximum number protected folders reached: %d\n", PROTECT_MAX);
   }
-  if (fclose (cfgPtr) == EOF)
-    fprintf (stderr, "Error %d closing %s\n", errno, config_file);
+
+  if (config_opened)
+  {
+    if (fclose (cfgPtr) != EOF)
+      config_opened = 0;
+
+    else
+    {
+      fprintf (stderr, "Error closing %s\n", config_file);
+      perror ("get_config_data()");
+    }
+  }
 
   // No WASTE= line found in config file
   if (*waste_ctr == 0)

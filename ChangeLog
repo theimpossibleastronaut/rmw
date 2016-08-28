@@ -7,6 +7,12 @@ Added -std=gnu99 -Wall to the Makefile, cleaned up some warnings
 Renamed purgeD() to is_time_to_purge()
 Added some error checking to that function
 
+Cleaned up get_config_data a little
+Fixed the warning: /functions/config_rmw.c:252:7: warning: ‘cfgPtr’ may be used
+ uninitialized in this function [-Wmaybe-uninitialized]
+   if (fclose (cfgPtr) == EOF)
+
+
 -- Aug. 24, 2016 --
 
 Adding more error checks
