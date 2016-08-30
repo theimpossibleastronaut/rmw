@@ -6,6 +6,7 @@ rmwc_config.example \
 README              \
 ChangeLog           \
 AUTHORS             \
+THANKS	            \
 COPYING             \
 INSTALL             \
 LICENSE             \
