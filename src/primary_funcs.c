@@ -26,6 +26,55 @@
 #include "primary_funcs.h"
 
 int
+make_dir (const char *dir)
+{
+  if (file_not_found (dir) == 0)
+    return 0;
+
+  char temp_dir[MP];
+  strcpy (temp_dir, dir);
+
+  char *tokenPtr;
+  tokenPtr = strtok (temp_dir, "/");
+
+  char add_to_path[MP];
+  add_to_path[0] = '/';
+  add_to_path[1] = '\0';
+
+  bool mk_err = 0;
+
+  while (tokenPtr != NULL)
+  {
+    if (strlen (add_to_path) > 1)
+      strcat (add_to_path, "/");
+
+    strcat (add_to_path, tokenPtr);
+    tokenPtr = strtok (NULL, "/");
+
+    if (file_not_found (add_to_path))
+    {
+      mk_err = (mkdir (add_to_path, S_IRWXU));
+
+      if (!mk_err)
+        continue;
+
+      else
+        break;
+    }
+  }
+
+  if (!mk_err)
+  {
+    fprintf (stdout, "Created directory %s\n", dir);
+    return 0;
+  }
+
+  fprintf (stderr, "Error: while creating %s\n", add_to_path);
+  perror ("make_dir()");
+  return errno;
+}
+
+int
 mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
         char *time_str_appended, const short cnum)
 {
@@ -207,41 +256,6 @@ getche (void)
  }
  */
 
-/**
- * This will get deleted, and be made part of a function
- * that can make directories when parents don't exist
- */
-void
-mkdirErr (const char *dirname, const char *text_string)
-{
-  fprintf (stderr, "Unable to create directory: '%s'\n", dirname);
-  fprintf (stderr, "%s", text_string);
-  exit (1);
-}
-
-/**
- * waste_check()
- *
- * FIXME: Will only create the dir if the parent dir exists
- * use routine from check_for_data_dir() (needs to be converted to
- * a general use function
- *
- * Check for the existence of WASTE dirs that are specified in the config
- * file. Creates them as necessary.
- */
-void
-waste_check (const char *p)
-{
-  struct stat st;
-  if (stat (p, &st) != 0)
-  {
-    if (mkdir (p, S_IRWXU))
-    {
-      mkdirErr (p, "Check your configuration file or permissions\n");
-    }
-  }
-}
-
 /* void parse_protected (char *line) {
  int i = 0;
  char *tokenPtr;
@@ -275,8 +289,16 @@ file_not_found (const char *filename)
   struct stat st;
   bool r = 0;
   r = lstat (filename, &st);
-  if (!r || S_ISLNK (st.st_mode))
+  if (!r || S_ISLNK (st.st_mode) || S_ISDIR (st.st_mode))
     return 0;
+
   else
     return 1;
 }
+
+/**
+ * make_dir()
+ *
+ * Check for the existence of a dir, and create it if not found.
+ * Also creates parent directories.
+ */

@@ -121,17 +121,26 @@ main (int argc, char *argv[])
 
   buf_check (HOMEDIR, MP);
 
-  char *data_dir = malloc (MP * sizeof (char));
+  char data_dir[MP];
 
   strcpy (data_dir, HOMEDIR);
 
   /* Looks like more variable names needs changing */
   buf_check_with_strop (data_dir, DATA_DIR, CAT);
 
-  check_for_data_dir (data_dir);
+  /* make_dir (data_dir);
+   */
 
-  /* ? */
-  free (data_dir);
+  if (make_dir (data_dir))
+  {
+    fprintf (stderr, "Unable to create config/data directory\n");
+    fprintf (stderr, "Please check your configuration file and permissions\n");
+    fprintf (stderr, "If you need further help, or to report a possible bug, ");
+    fprintf (stderr, "visit the rmw web site at\n");
+    fprintf (stderr, "https://github.com/andy5995/rmw/wiki\n");
+    fprintf (stderr, "Unable to continue. Exiting...\n");
+    return 1;
+  }
 
   int *protected_ctr = malloc (sizeof (*protected_ctr));
 
@@ -145,8 +154,6 @@ main (int argc, char *argv[])
     get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr, list, waste_ctr,
                      protected_dir, protected_ctr);
 
-  //if (conf_err)
-
   const int waste_dirs_total = *waste_ctr;
   free (waste_ctr);
 
@@ -156,7 +163,7 @@ main (int argc, char *argv[])
   const int purge_after = *purge_after_ptr;
   free (purge_after_ptr);
 
-  if (conf_err == -1)
+  if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
 
   /* String appended to duplicate filenames */

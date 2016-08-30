@@ -28,6 +28,9 @@
 #include "strings_rmw.h"
 
 int
+make_dir (const char *dir);
+
+int
 mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
         char *time_str_appended, const short cnum);
 
@@ -37,12 +40,6 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended);
 int getch (void);
 
 int getche (void);
-
-void
-mkdirErr (const char *dirname, const char *text_string);
-
-void
-waste_check (const char *p);
 
 bool
 file_not_found (const char *filename);

@@ -103,6 +103,8 @@ enum
   CPY, CAT
 };
 
+#define NO_WASTE_FOLDER -1
+
 bool verbose;
 
 #endif

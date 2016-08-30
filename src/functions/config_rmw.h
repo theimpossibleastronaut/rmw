@@ -28,9 +28,6 @@
 #include "strings_rmw.h"
 #include "trivial_rmw.h"
 
-void
-check_for_data_dir (const char *data_dir);
-
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
                 const char *HOMEDIR, unsigned short *pa, bool list, int *waste_ctr,

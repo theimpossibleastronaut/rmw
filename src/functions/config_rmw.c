@@ -26,44 +26,6 @@
 #include "config_rmw.h"
 
 /**
- * Check for the existence of the data dir, and create it if not found
- */
-void
-check_for_data_dir (const char *data_dir)
-{
-  if (file_not_found (data_dir) == 0)
-    return;
-
-  char temp_data_dir[MP];
-  strcpy (temp_data_dir, data_dir);
-
-  char *tokenPtr;
-  tokenPtr = strtok (temp_data_dir, "/");
-
-  char add_to_path[MP];
-  strcat (add_to_path, "/\0");
-
-  while (tokenPtr != NULL)
-  {
-    strcat (add_to_path, tokenPtr);
-    strcat (add_to_path, "/");
-    tokenPtr = strtok (NULL, "/");
-
-    if (file_not_found (add_to_path))
-    {
-      if (!mkdir (add_to_path, S_IRWXU))
-        fprintf (stdout, "Created %s\n", add_to_path);
-
-      else
-      {
-        fprintf (stderr, "Error %d while creating %s\n", errno, temp_data_dir);
-        err_display_check_config ();
-      }
-    }
-  }
-}
-
-/**
  * Reads the config file, checks for the existence of waste directories,
  * and gets the value of 'purge_after'
  */
@@ -203,19 +165,16 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       change_HOME (tokenPtr, HOMEDIR);
 
       buf_check_with_strop (waste[*waste_ctr].parent, tokenPtr, CPY);
-
-      // Make WASTE/files string
-      /* No need to check boundaries for the copy */
       strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
-      buf_check_with_strop (waste[*waste_ctr].files, "/files/", CAT);
 
-      // Make WASTE/info string
-      /* No need to check boundaries for the copy */
+      buf_check_with_strop (waste[*waste_ctr].files, "/files/", CAT);
+      if (make_dir (waste[*waste_ctr].files))
+        continue;
+
       strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
       buf_check_with_strop (waste[*waste_ctr].info, "/info/", CAT);
-
-      // Create WASTE if it doesn't exit
-      waste_check (waste[*waste_ctr].parent);
+      if (make_dir (waste[*waste_ctr].info))
+        continue;
 
       /**
        * protect WASTE dirs by default
@@ -223,13 +182,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       strcpy (pro_dir[*pro_ctr], waste[*waste_ctr].parent);
       (*pro_ctr)++;
 
-      // Create WASTE/files if it doesn't exit
-      waste_check (waste[*waste_ctr].files);
-
-      // Create WASTE/info if it doesn't exit
-      waste_check (waste[*waste_ctr].info);
-
-      // get device number to use later for rename
+      /* get device number to use later for rename
+       */
       struct stat st;
       lstat (waste[*waste_ctr].parent, &st);
       waste[*waste_ctr].dev_num = st.st_dev;
@@ -279,9 +233,13 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   // No WASTE= line found in config file
   if (*waste_ctr == 0)
   {
-    fprintf (stderr, "No 'WASTE=' line config file (%s) error; exiting...\n",
-             config_file);
-    return -1;
+    fprintf (stderr, "Error: no usable WASTE folder could be found\n");
+    fprintf (stderr, "Please check your configuration file and permissions\n");
+    fprintf (stderr, "If you need further help, or to report a possible bug, ");
+    fprintf (stderr, "visit the rmw web site at\n");
+    fprintf (stderr, "https://github.com/andy5995/rmw/wiki\n");
+    fprintf (stderr, "Unable to continue. Exiting...\n");
+    return NO_WASTE_FOLDER;
   }
 
   return 0;
