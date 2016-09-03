@@ -7,8 +7,8 @@ Web site: https://github.com/andy5995/rmw/wiki
 
 This is the README for the development version of rmw. It may mention
 features that aren't included in the last release, or differ in other ways.
-A link for the README from the last release can be found here:
-https://github.com/andy5995/rmw/releases/tag/v2016.08.17.01a
+The README from the last release is at
+https://github.com/andy5995/rmw/blob/release/README
 
 (Presently PROTECTION is only enabled in the dev snapshot, not the
 latest release.)
