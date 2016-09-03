@@ -48,7 +48,6 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
   unsigned short restore_request = 0;
   for (restore_request = optind; restore_request < argc; restore_request++)
   {
-
     if (file_not_found (argv[restore_request]))
       printf ("%s not found\n", argv[restore_request]);
 
@@ -146,7 +145,8 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             break;
           }
 
-          /* Check for duplicate filename */
+          /* Check for duplicate filename
+           */
           if (!file_not_found (file.dest))
           {
             buf_check_with_strop (file.dest, time_str_appended, CAT);
@@ -154,7 +154,6 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
               fprintf (stdout,
                        "Duplicate filename at destination - appending time string...\n");
           }
-          /* end check                                  */
 
           if (!rename (argv[restore_request], file.dest))
           {
@@ -169,15 +168,20 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
 
           else
             fprintf (stderr, "Restore failed: %s\n", file.dest);
-
         }
       }
     }
-
   }
 }
 
-
+/*
+ * restore_select()
+ *
+ * Displays files that can be restored, user can select a file by
+ * entering the corresponding number
+ *
+ * FIXME: This function needs to be re-worked
+ */
 void
 restore_select (struct waste_containers *waste, char *time_str_appended,
                 const int wdt)
@@ -185,9 +189,12 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
   struct stat st;
   struct dirent *entry;
   char path_to_file[MP];
+
   /* using destiny because the second arg for Restore() must be
-   * a *char[] not a *char */
+   * a *char[] not a *char
+   */
   char *destiny[1];
+
   unsigned count = 0;
   int w = 0;
   char input[10];
@@ -213,9 +220,12 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
       if (count == choice || choice == 0)
       {
         buf_check_with_strop (path_to_file, waste[w].files, CPY);
+
         /* Not yet sure if 'trim' is needed yet; using it
-         *  until I get smarter */
+         *  until I get smarter
+         */
         trim (entry->d_name);
+
         buf_check_with_strop (path_to_file, entry->d_name, CAT);
         trim (path_to_file);
         lstat (path_to_file, &st);
@@ -226,7 +236,8 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
         destiny[0] = path_to_file;
         printf ("\n");
         /* using 0 for third arg so 'for' loop in Restore() will run
-         *  at least once */
+         *  at least once
+         */
         Restore (1, destiny, 0, time_str_appended);
         break;
       }
@@ -243,7 +254,6 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
         printf ("\n");
       }
-
     }
 
     closedir (dir);
@@ -253,8 +263,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
     do
     {
-
-      printf ("Input number to restore, 'enter' to continue, 'q' to quit) ");
+      printf ("Input number to restore, 'enter' for next WASTE folder, 'q' to quit) ");
       char_count = 0;
       input[0] = '\0';
       choice = 0;
@@ -284,7 +293,8 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
     while (choice > count || choice < 1);
 
-    /* If user selects 'q' to abort */
+    /* If user selects 'q' to abort
+     */
     if (c == 'q')
     {
       printf ("\n");
@@ -293,6 +303,5 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
     if (choice == 0)
       w++;
-
   }
 }
