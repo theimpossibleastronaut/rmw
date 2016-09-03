@@ -111,7 +111,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
           }
 
           /** adding 5 for the 'Path=' preceding the path. */
-          if (fgets (line, MP + 6, fp) != NULL)
+          if (fgets (line, MP + 5, fp) != NULL)
           {
             char *tokenPtr;
 
