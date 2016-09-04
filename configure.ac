@@ -1,8 +1,8 @@
-AC_INIT(rmw, devel:testing:unstable, andyqwerty@users.sourceforge.net)
-#AC_INIT(rmw, 2016.08.17.01a, andyqwerty@users.sourceforge.net)
+#AC_INIT(rmw, devel:testing:unstable, andyqwerty@users.sourceforge.net)
+AC_INIT(rmw, 2016.09.03.01a, andyqwerty@users.sourceforge.net)
 PACKAGE=rmw
-#VERSION=2016.08.17.01a
-VERSION=devel:testing:unstable
+VERSION=2016.09.03.01a
+#VERSION=devel:testing:unstable
 #AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_PREREQ(2.59)

@@ -1,12 +1,13 @@
 # rmw example configuration file
 # https://github.com/andy5995/rmw/wiki/
-
-#And then move that line above any other WASTE folder that's on the
-#same file system.
-
-#NOTE: If 2 WASTE folders are on the same file system, rmw will ReMove files
-#to the first WASTE folder listed, ignoring the 2nd one. The only time it
-#will use the 2nd folder is when purge is run.
+#
+# This is only an example configuration file, and should not be copied and
+# used. A default configuration file - rmwrc - should have been included
+# with the rmw package.
+#
+# NOTE: If 2 WASTE folders are on the same file system, rmw will ReMove files
+# to the first WASTE folder listed, ignoring the 2nd one. The only time it
+# will use the 2nd folder is when purge is run.
 
 WASTE = $HOME/.trash.rmw
 WASTE = /media/home_/andy/.ctrash

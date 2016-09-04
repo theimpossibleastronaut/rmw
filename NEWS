@@ -1,5 +1,24 @@
 === RMW Release Notes ===
 
+2016-09-03
+
+Improvements to directory protection feature (See README)
+
+Added function to create directories when parents don't exist (sometimes
+creating a WASTE directory would fail).
+
+Added '-Wall' option to the Makefile, and then fixed the warnings
+(issue #17)
+
+Thanks to Jammy, I fixed the warning about missing automake 1.14 (issue #21)
+
+Added more error checking for things that rarely go wrong.
+
+Updated documentation; information for first-time users can be viewed
+with 'rmw --help'.
+
+The home page for RMW is now at https://github.com/andy5995/rmw/wiki
+
 -- Aug. 17, 2016 --
 
 - Features added: -

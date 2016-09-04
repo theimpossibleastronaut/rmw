@@ -10,9 +10,6 @@ features that aren't included in the last release, or differ in other ways.
 The README from the last release is at
 https://github.com/andy5995/rmw/blob/release/README
 
-(Presently PROTECTION is only enabled in the dev snapshot, not the
-latest release.)
-
 After rmw is installed, create the user configuration directory by typing
 'rmw' and hitting enter. Afterward, it's recommended to copy /etc/rmwrc (or
 /usr/local/etc/rmwrc) to $HOME/.config/rmw and then rename it to 'config':
@@ -28,31 +25,14 @@ in that same directory.
 
 == Configuration File ==
 
-A generic configuration file looks like this:
-
-WASTE = $HOME/.trash.rmw
-#WASTE = $HOME/.local/share/Trash
-purge_after = 90
-
-PROTECT = /usr/local/bin
-PROTECT = $HOME/src
+Documentation explaining the configuration can be found in 'rmwrc', and
+extra examples in 'rmwrc_config_example'.
 
 Waste folders will be created automatically. (e.g. if '$HOME/trash.rmw'
 is listed in the config file, these 3 directories will be created:
 $HOME/trash.rmw
 $HOME/trash.rmw/files
 $HOME/trash.rmw/info
-
-If you'd like rmw to be tied in to your existing Desktop Trash, uncomment
-'#WASTE = $HOME/.local/share/Trash'
-
-And then move that line above any other WASTE folder that's on the
-same file system.
-
-NOTE: If 2 WASTE folders are on the same file system, rmw will ReMove files
-to the first WASTE folder listed, ignoring the 2nd one. The only time it
-will use the 2nd folder is when purge is run.
-
 
 == Purging ==
 
@@ -82,8 +62,8 @@ While -z can restore files at the command line, you have to specify
 the full path (wildcards ok).
 Example: rmw -z ~/.trash.rmw/files/*.iso
 
-In the future, it's planned to eliminate the need to specify the path. rmw
-will automatically look in all the Waste directories.
+The other way is be in the WASTE/files/ folder; then using only
+the basename will work.
 
 == Protected directories ==
 
@@ -100,4 +80,4 @@ WASTE folders and the rmw configuration/data directory are protected by
 default (there is no need to add a 'PROTECT =' line for them.
 
 
-This file was last updated Aug 28, 2016
+This file was last updated 2016-09-03
