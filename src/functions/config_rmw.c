@@ -154,6 +154,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       buf_check (tokenPtr, 6);
       *purge_after_ptr = atoi (tokenPtr);
     }
+
     else if (*waste_ctr < WASTENUM_MAX && !strncmp ("WASTE", confLine, 5))
     {
 
@@ -187,6 +188,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       struct stat st;
       lstat (waste[*waste_ctr].parent, &st);
       waste[*waste_ctr].dev_num = st.st_dev;
+
       if (list)
         printf ("%s\n", waste[*waste_ctr].parent);
 
@@ -230,7 +232,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     }
   }
 
-  // No WASTE= line found in config file
   if (*waste_ctr == 0)
   {
     fprintf (stderr, "Error: no usable WASTE folder could be found\n");

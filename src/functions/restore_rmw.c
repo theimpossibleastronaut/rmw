@@ -45,16 +45,17 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
    */
   char line[MP + 5];
 
-  unsigned short restore_request = 0;
-  for (restore_request = optind; restore_request < argc; restore_request++)
+  int restore_request;
+
+  for (restore_request = optind - 1; restore_request < argc; restore_request++)
   {
     if (file_not_found (argv[restore_request]))
       printf ("%s not found\n", argv[restore_request]);
 
     else
     {
-      buf_check (argv[restore_request], PATH_MAX);
 
+      buf_check (argv[restore_request], PATH_MAX);
       file.real_path[0] = '\0';
       resolve_path (argv[restore_request], file.real_path);
 
