@@ -5,11 +5,6 @@ files that were trashed x number of days ago.
 
 Web site: https://github.com/andy5995/rmw/wiki
 
-This is the README for the development version of rmw. It may mention
-features that aren't included in the last release, or differ in other ways.
-The README from the last release is at
-https://github.com/andy5995/rmw/blob/release/README
-
 After rmw is installed, create the user configuration directory by typing
 'rmw' and hitting enter. Afterward, it's recommended to copy /etc/rmwrc (or
 /usr/local/etc/rmwrc) to $HOME/.config/rmw and then rename it to 'config':
