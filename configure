@@ -1989,9 +1989,9 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-#AC_INIT(rmw, 2016.08.17.01a, andyqwerty@users.sourceforge.net)
+#AC_INIT(rmw, 2016.09.04.01a, andyqwerty@users.sourceforge.net)
 PACKAGE=rmw
-#VERSION=2016.08.17.01a
+#VERSION=2016.09.04.01a
 VERSION=devel:testing:unstable
 #AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 am__api_version='1.14'

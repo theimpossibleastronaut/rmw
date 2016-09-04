@@ -49,9 +49,9 @@ void print_usage (void)
   printf("'~/.config/rmw$ cp /etc/rmwrc .'\n");
   printf("'~/.config/rmw$ mv rmwrc config'\n\n");
   printf("Then edit the file to suit your needs.\n\n");
-  printf("View the README online for more help, and\n");
+  printf("Visit the rmw home page for more help, and\n");
   printf("information about how to obtain support -\n");
-  printf("https://github.com/andy5995/rmw/blob/master/README\n\n");
+  printf("http://github.com/andy5995/rmw/wiki\n\n");
 }
 
 void warranty (void)

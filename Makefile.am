@@ -2,7 +2,7 @@ packextrasdir=@docdir@
 SUBDIRS = src etc
 EXTRA_DIST=         \
 BUGS                \
-rmwc_config.example \
+rmwrc_config.example \
 README              \
 ChangeLog           \
 AUTHORS             \

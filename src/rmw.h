@@ -49,7 +49,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-/* #define VERSION "2016.08.17.01a" */
+/* #define VERSION "2016.09.04.01a" */
 #define VERSION "devel:testing:unstable"
 #endif
 

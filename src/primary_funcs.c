@@ -158,9 +158,7 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
     trim (line);
     destiny[0] = line;
 
-    /* using 0 for third arg so 'for' loop in Restore() will run
-     * at least once */
-    Restore (1, destiny, 0, time_str_appended);
+    Restore (1, destiny, 1, time_str_appended);
   }
 
   fclose (undo_file_ptr);
