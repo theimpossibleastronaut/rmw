@@ -33,56 +33,54 @@
 void
 Restore (int argc, char *argv[], int optind, char *time_str_appended)
 {
-
-  FILE *fp;
-  int i;
-  char fn_to_restore[MP];
-  bool f_state = 0;
-
-  struct filespec
+  struct restore
   {
-    char *bfn;
-    char rp[MP];
-    char ip[MP];
-  } r;
+    char *base_name;
+    char real_path[MP];
+    char dest[MP];
+    char info[MP];
+  } file;
 
-  char *tokenPtr;
-  // adding 5 for the 'Path=' preceding the path.
+  /* adding 5 for the 'Path=' preceding the path.
+   */
   char line[MP + 5];
 
-  for (i = optind; i < argc; i++)
+  unsigned short restore_request = 0;
+  for (restore_request = optind; restore_request < argc; restore_request++)
   {
-
-    if (file_not_found (argv[i]))
-      printf ("%s not found\n", argv[i]);
+    if (file_not_found (argv[restore_request]))
+      printf ("%s not found\n", argv[restore_request]);
 
     else
     {
-      buf_check (argv[i], PATH_MAX);
+      buf_check (argv[restore_request], PATH_MAX);
 
-      resolve_path (argv[i], r.rp);
+      file.real_path[0] = '\0';
+      resolve_path (argv[restore_request], file.real_path);
 
-      r.bfn = basename (argv[i]);
+      file.base_name = basename (argv[restore_request]);
 
-      truncate_str (r.rp, strlen ("files/") + strlen (r.bfn));
-      strcpy (r.ip, r.rp);
-      strcat (r.ip, "info/");
-      strcat (r.ip, r.bfn);
-      strcat (r.ip, DOT_TRASHINFO);
+      truncate_str (file.real_path, strlen ("files/") + strlen (file.base_name));
+      strcpy (file.info, file.real_path);
+      strcat (file.info, "info/");
+      strcat (file.info, file.base_name);
+      strcat (file.info, DOT_TRASHINFO);
 
-      f_state = file_not_found (r.ip);
-      if (f_state != 0)
+      if (file_not_found (file.info))
       {
-        printf ("no info file found for %s\n", argv[i]);
+        printf ("Error: no info file found for %s\n", argv[restore_request]);
         break;
       }
+
       else
       {
-        fp = fopen (r.ip, "r");
+        FILE *fp;
+
+        fp = fopen (file.info, "r");
 
         if (fp == NULL)
         {
-          fprintf (stderr, "Error: opening %s\n", r.ip);
+          fprintf (stderr, "Error: opening %s\n", file.info);
           perror ("Restore()");
           break;
         }
@@ -101,11 +99,11 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
           else
           {
             fprintf (stderr, "Error: trashinfo file format not correct\n");
-            fprintf (stderr, "(Line 1): %s\n", r.ip);
+            fprintf (stderr, "(Line 1): %s\n", file.info);
 
             if (fclose (fp) == EOF)
             {
-              fprintf (stderr, "Error: while closing %s\n", r.ip);
+              fprintf (stderr, "Error: while closing %s\n", file.info);
               perror ("Restore()");
             }
 
@@ -113,70 +111,77 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
           }
 
           /** adding 5 for the 'Path=' preceding the path. */
-          if (fgets (line, MP + 6, fp) != NULL)
+          if (fgets (line, MP + 5, fp) != NULL)
           {
+            char *tokenPtr;
+
             tokenPtr = strtok (line, "=");
             tokenPtr = strtok (NULL, "=");
 
             /**
              * tokenPtr now equals the absolute path from the info file
              */
-            buf_check_with_strop (fn_to_restore, tokenPtr, CPY);
+            buf_check_with_strop (file.dest, tokenPtr, CPY);
             tokenPtr = NULL;
-            trim (fn_to_restore);
+            trim (file.dest);
 
             if (fclose (fp) == EOF)
             {
-              fprintf (stderr, "Error: while closing %s\n", r.ip);
+              fprintf (stderr, "Error: while closing %s\n", file.info);
               perror ("Restore()");
             }
 
           }
           else
           {
-            printf ("error on line 2 in %s\n", r.ip);
+            printf ("error on line 2 in %s\n", file.info);
 
             if (fclose (fp) == EOF)
             {
-              fprintf (stderr, "Error: while closing %s\n", r.ip);
+              fprintf (stderr, "Error: while closing %s\n", file.info);
               perror ("Restore()");
             }
 
             break;
           }
 
-          /* Check for duplicate filename */
-          if (!file_not_found (fn_to_restore))
+          /* Check for duplicate filename
+           */
+          if (!file_not_found (file.dest))
           {
-            buf_check_with_strop (fn_to_restore, time_str_appended, CAT);
+            buf_check_with_strop (file.dest, time_str_appended, CAT);
             if (verbose == 1)
               fprintf (stdout,
                        "Duplicate filename at destination - appending time string...\n");
           }
-          /* end check                                  */
 
-          if (!rename (argv[i], fn_to_restore))
+          if (!rename (argv[restore_request], file.dest))
           {
-            printf ("+'%s' -> '%s'\n", argv[i], fn_to_restore);
-            if (remove (r.ip) != 0)
-              fprintf (stderr, "error removing info file: '%s'\n", r.ip);
+            printf ("+'%s' -> '%s'\n", argv[restore_request], file.dest);
+            if (remove (file.info) != 0)
+              fprintf (stderr, "error removing info file: '%s'\n", file.info);
 
             else
               if (verbose)
-                printf ("-%s\n", r.ip);
+                printf ("-%s\n", file.info);
           }
 
           else
-            fprintf (stderr, "Restore failed: %s\n", fn_to_restore);
-
+            fprintf (stderr, "Restore failed: %s\n", file.dest);
         }
       }
     }
-
   }
 }
 
-
+/*
+ * restore_select()
+ *
+ * Displays files that can be restored, user can select a file by
+ * entering the corresponding number
+ *
+ * FIXME: This function needs to be re-worked
+ */
 void
 restore_select (struct waste_containers *waste, char *time_str_appended,
                 const int wdt)
@@ -184,9 +189,12 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
   struct stat st;
   struct dirent *entry;
   char path_to_file[MP];
+
   /* using destiny because the second arg for Restore() must be
-   * a *char[] not a *char */
+   * a *char[] not a *char
+   */
   char *destiny[1];
+
   unsigned count = 0;
   int w = 0;
   char input[10];
@@ -212,9 +220,12 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
       if (count == choice || choice == 0)
       {
         buf_check_with_strop (path_to_file, waste[w].files, CPY);
+
         /* Not yet sure if 'trim' is needed yet; using it
-         *  until I get smarter */
+         *  until I get smarter
+         */
         trim (entry->d_name);
+
         buf_check_with_strop (path_to_file, entry->d_name, CAT);
         trim (path_to_file);
         lstat (path_to_file, &st);
@@ -225,7 +236,8 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
         destiny[0] = path_to_file;
         printf ("\n");
         /* using 0 for third arg so 'for' loop in Restore() will run
-         *  at least once */
+         *  at least once
+         */
         Restore (1, destiny, 0, time_str_appended);
         break;
       }
@@ -242,7 +254,6 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
         printf ("\n");
       }
-
     }
 
     closedir (dir);
@@ -252,8 +263,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
     do
     {
-
-      printf ("Input number to restore, 'enter' to continue, 'q' to quit) ");
+      printf ("Input number to restore, 'enter' for next WASTE folder, 'q' to quit) ");
       char_count = 0;
       input[0] = '\0';
       choice = 0;
@@ -283,7 +293,8 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
     while (choice > count || choice < 1);
 
-    /* If user selects 'q' to abort */
+    /* If user selects 'q' to abort
+     */
     if (c == 'q')
     {
       printf ("\n");
@@ -292,6 +303,5 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
     if (choice == 0)
       w++;
-
   }
 }
