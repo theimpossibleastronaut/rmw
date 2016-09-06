@@ -8,3 +8,4 @@ main.c 			\
 ./functions/trivial_rmw.c \
 ./functions/strings_rmw.c \
 ./functions/purging_rmw.c
+
