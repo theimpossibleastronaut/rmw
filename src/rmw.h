@@ -50,7 +50,7 @@
 
 #ifndef VERSION
 /* #define VERSION "2016.09.04.01a" */
-#define VERSION "devel:testing:unstable"
+#define VERSION "devel.testing.unstable"
 #endif
 
 #define DEBUG 0

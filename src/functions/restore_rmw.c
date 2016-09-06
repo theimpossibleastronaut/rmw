@@ -93,6 +93,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
            * sequentially
            */
           fgets (line, 14, fp);
+          printf ("%lu\n", sizeof (line));
 
           if (strncmp (line, "[Trash Info]", 12) == 0)
           {}
@@ -151,6 +152,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
           if (!file_not_found (file.dest))
           {
             buf_check_with_strop (file.dest, time_str_appended, CAT);
+
             if (verbose == 1)
               fprintf (stdout,
                        "Duplicate filename at destination - appending time string...\n");
@@ -185,7 +187,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
  */
 void
 restore_select (struct waste_containers *waste, char *time_str_appended,
-                const int wdt)
+                const int waste_dirs_total)
 {
   struct stat st;
   struct dirent *entry;
@@ -203,7 +205,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
   unsigned char char_count = 0;
   short choice = 0;
 
-  while (w < wdt)
+  while (w < waste_dirs_total)
   {
     DIR *dir = opendir (waste[w].files);
     count = 0;
@@ -236,10 +238,8 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
       {
         destiny[0] = path_to_file;
         printf ("\n");
-        /* using 0 for third arg so 'for' loop in Restore() will run
-         *  at least once
-         */
-        Restore (1, destiny, 0, time_str_appended);
+
+        Restore (1, destiny, 1, time_str_appended);
         break;
       }
 
