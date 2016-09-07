@@ -10,4 +10,4 @@ script: ./configure && make
 branches:
   only:
   - master
-  - devel
+  - develop
