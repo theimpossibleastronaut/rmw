@@ -1,0 +1,12 @@
+script: ./configure && make
+
+# blocklist
+#branches:
+#  except:
+#  - legacy
+#  - experimental
+
+# safelist
+branches:
+  only:
+  - develop
