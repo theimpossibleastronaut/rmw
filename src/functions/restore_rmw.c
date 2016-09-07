@@ -92,8 +92,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
            * Not using the "[Trash Info]" line, but reading the file
            * sequentially
            */
-          fgets (line, 14, fp);
-          printf ("%lu\n", sizeof (line));
+          fgets (line, sizeof (line), fp);
 
           if (strncmp (line, "[Trash Info]", 12) == 0)
           {}
