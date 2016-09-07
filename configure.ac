@@ -7,4 +7,3 @@ AC_PROG_CC([cc])
 AC_HEADER_STDBOOL
 AC_OUTPUT(Makefile src/Makefile etc/Makefile)
 AM_PROG_CC_C_O
-
