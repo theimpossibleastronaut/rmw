@@ -243,7 +243,6 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -std=gnu99 -Wall -I./functions  -DSYSCONFDIR=\"${sysconfdir}\"
-#AM_CXXFLAGS=$(INTI_CFLAGS)
 rmw_SOURCES = \
 primary_funcs.c		\
 main.c 			\
@@ -603,9 +602,6 @@ uninstall-am: uninstall-binPROGRAMS
 	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
 	uninstall-am uninstall-binPROGRAMS
 
-
-#rmw_LDADD=$(INTI_LIBS)
-#rmw_CFLAGS =  -std=gnu99 -Wall -I./functions  -DSYSCONFDIR=\"${sysconfdir}\"
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -1,15 +1,9 @@
-#AC_INIT(rmw, devel:testing:unstable, andyqwerty@users.sourceforge.net)
-AC_INIT(rmw, 2016.09.04.01a, andyqwerty@users.sourceforge.net)
-PACKAGE=rmw
-VERSION=2016.09.04.01a
-#VERSION=devel:testing:unstable
-#AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AC_INIT(rmw, devel.testing.unstable)
+#AC_INIT(rmw, 2016.09.04.01a)
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_PREREQ(2.59)
 AC_CONFIG_HEADERS([src/config.h:src/config.in])
 AC_PROG_CC([cc])
 AC_HEADER_STDBOOL
 AC_OUTPUT(Makefile src/Makefile etc/Makefile)
-#AC_CHECK_FUNCS([mkdir])
 AM_PROG_CC_C_O
-

@@ -49,9 +49,8 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "2016.09.04.01a"
-/* #define VERSION "devel:testing:unstable"
- */
+/* #define VERSION "2016.09.04.01a" */
+#define VERSION "devel.testing.unstable"
 #endif
 
 #define DEBUG 0
@@ -62,7 +61,7 @@
 
 /* DATA_DIR is relative to $HOME */
 #ifndef DATA_DIR
-#define DATA_DIR "/.config/rmw"
+#define DATA_DIR "/.config/testrmw"
 #endif
 
 #define CFG_FILE DATA_DIR"/config"
@@ -98,6 +97,15 @@ struct rmw_target
 
   bool is_duplicate;
 };
+
+/**
+ * WIP:
+ *
+struct messages
+{
+  char close[81];
+};
+*/
 
 enum
 {

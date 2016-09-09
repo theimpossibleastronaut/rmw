@@ -38,6 +38,7 @@ rmdir_recursive (char *path, short unsigned level)
   char dir_path[PATH_MAX + 1];
 
   dir = opendir (path);
+
   while ((entry = readdir (dir)) != NULL)
   {
     if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
@@ -116,15 +117,14 @@ rmdir_recursive (char *path, short unsigned level)
 }
 
 /*
- * is_time_to_purge
+ * is_time_to_purge()
  *
  * Creates lastpurge file
  * checks to see if purge() was run today
  * if not, returns 1 and writes the day
  * to the lastpurge file.
  *
- * FIXME: function name needs changing
- * variable names need changing
+ * FIXME:
  * The only reason HOMEDIR is used as an argument is to avoid
  * using a global, or having to use getenv (HOME) inside this function
  * since that's already been done in main(). But there's probably a better
@@ -135,84 +135,89 @@ rmdir_recursive (char *path, short unsigned level)
 bool
 is_time_to_purge (const char *HOMEDIR)
 {
+  char file_lastpurge[MP];
+  strcpy (file_lastpurge, HOMEDIR);
+  buf_check_with_strop (file_lastpurge, PURGE_DAY_FILE, CAT);
+
+  char today_dd[3];
+  get_time_string (today_dd, 3, "%d");
+
   FILE *fp;
 
-  char purgeDpath[MP];
-
-  strcpy (purgeDpath, HOMEDIR);
-  buf_check_with_strop (purgeDpath, PURGE_DAY_FILE, CAT);
-
-  char lastDay[3];
-  char nowD[3];
-
-  /** a check for buffer overflow is in get_time_string() */
-  get_time_string (nowD, 3, "%d");
-
-  /**
-   * Already been checked for a buffer overflow, just want to add a NULL
-   * terminator, in case something got hosed. (trim() will add the NULL
-   */
-  trim (purgeDpath);
-
-  if (!file_not_found (purgeDpath))
+  if (!file_not_found (file_lastpurge))
   {
-    fp = fopen (purgeDpath, "r");
+    fp = fopen (file_lastpurge, "r");
 
     if (fp == NULL)
     {
-      fprintf (stderr, "Error: while opening %s\n", purgeDpath);
+      fprintf (stderr, "Error: while opening %s\n", file_lastpurge);
       perror ("is_time_to_purge");
+      return 0;
     }
-    /*
-     * Need to do some error checking upon opening and closing
-     */
-    fgets (lastDay, 3, fp);
-    buf_check (lastDay, 3);
-    trim (lastDay);
 
-    if (fclose (fp))
+    char last_purge_dd[3];
+
+    if (fgets (last_purge_dd, sizeof (last_purge_dd), fp) == NULL)
     {
-      fprintf (stderr, "Error: while closing %s", purgeDpath);
-      perror ("is_time_to_purge");
+      fprintf (stderr, "Error: while getting line from %s\n", file_lastpurge);
+      perror ("is_time_to_purge()");
+      return 0;
     }
 
-    /* if these are the same, purge has already been run today
+    buf_check (last_purge_dd, 3);
+    trim (last_purge_dd);
+
+    close_file (fp, file_lastpurge, "is_time_to_purge()");
+
+    /** if these are the same, purge has already been run today
      */
-    if (!strcmp (nowD, lastDay))
+    if (!strcmp (today_dd, last_purge_dd))
       return 0;
 
     /** Days differ, write the new day. */
     else
     {
-      fp = fopen (purgeDpath, "w");
+      fp = fopen (file_lastpurge, "w");
       if (fp != NULL)
       {
-        fprintf (fp, "%s\n", nowD);
-        fclose (fp);
+        fprintf (fp, "%s\n", today_dd);
+
+        close_file (fp, file_lastpurge, "is_time_to_purge()");
+          /** If the only error is upon closing, and all the checks above
+           * passed, we'll just continue. The error was printed to stderr
+           * and the cause needs to be checked by the user or the
+           * developer
+           */
+
         return 1;
       }
+
       else
       {
-        fprintf (stderr, "Error: while writing to %s\n", purgeDpath);
-        perror ("is_time_to_purge");
-        exit (1);
+        fprintf (stderr, "Error: while writing to %s\n", file_lastpurge);
+        perror ("is_time_to_purge()");
+        return 0;
       }
     }
 
   }
+
   else
   {
     /**
      * Create file if it doesn't exist
      */
-    fp = fopen (purgeDpath, "w");
+    fp = fopen (file_lastpurge, "w");
 
     if (fp != NULL)
     {
-      fprintf (fp, "%s\n", nowD);
-      fclose (fp);
+      fprintf (fp, "%s\n", today_dd);
+
+      close_file (fp, file_lastpurge, "is_time_to_purge()");
+
       return 1;
     }
+
     else
     {
       /**
@@ -222,8 +227,8 @@ is_time_to_purge (const char *HOMEDIR)
        * If the user gets this far though,
        * chances are this error will never be a problem.
        */
-      fprintf (stderr, "Fatal: Error: creating %s\n", purgeDpath);
-      perror ("is_time_to_purge");
+      fprintf (stderr, "Fatal: Error: creating %s\n", file_lastpurge);
+      perror ("is_time_to_purge()");
       exit (1);
     }
   }
@@ -231,7 +236,7 @@ is_time_to_purge (const char *HOMEDIR)
 
 int
 purge (const short purge_after, const struct waste_containers *waste, char *time_now,
-       const int wdt)
+       const int waste_dirs_total)
 {
   if (purge_after > UINT_MAX)
   {
@@ -264,7 +269,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
   /**
    *  Read each Waste info directory
    */
-  while (p < wdt && p < WASTENUM_MAX)
+  while (p < waste_dirs_total && p < WASTENUM_MAX)
   {
     DIR *dir = opendir (waste[p].info);
 
@@ -279,9 +284,9 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
       buf_check (entry->d_name, MP);
 
       FILE *info_file_ptr;
-      const short timeLine = 40;
+
       char entry_path[MP];
-      char infoLine[MP + 5];
+      char trashinfo_line[MP + 5];
 
       char *tokenPtr;
 
@@ -295,61 +300,59 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
         /**
          * unused  and unneeded Trash Info line.
          * retrieved but not used.
+         * Check to see if it's really a .trashinfo file
          */
-        fgets (infoLine, 14, info_file_ptr);
+        if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) == NULL)
+          continue;
 
-        if (strncmp (infoLine, "[Trash Info]", 12) != 0)
+        if (strncmp (trashinfo_line, "[Trash Info]", 12) != 0)
         {
           fprintf (stderr, "Info file error; format not correct (Line 1)\n");
-          exit (1);
+          continue;
         }
 
-        /** The second line is unneeded at this point */
-        fgets (infoLine, MP + 5, info_file_ptr);
+        /** The second line is unneeded at this point
+         * But check to see if there's a Path= statement to help ensure
+         * that it's a properly formatted .trashinfo file
+         */
+        if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) == NULL)
+          continue;
 
-        if (strncmp (infoLine, "Path=", 5) != 0)
+        if (strncmp (trashinfo_line, "Path=", 5) != 0)
         {
           fprintf (stderr,
                    "Info file error; format not correct (Line 2) : %s\n",
                    entry_path);
-          exit (1);
+          continue;
         }
 
-        /** The third line is needed for the deletion time */
-        fgets (infoLine, timeLine, info_file_ptr);
-        buf_check (infoLine, 40);
-        trim (infoLine);
-        if (strncmp (infoLine, "DeletionDate=", 13) != 0
-            || strlen (infoLine) != 32)
+        /** The third line is needed for the deletion time
+         */
+        if (fgets (trashinfo_line, sizeof (trashinfo_line),
+            info_file_ptr) == NULL)
+          continue;
+
+        buf_check (trashinfo_line, 40);
+        trim (trashinfo_line);
+
+        if (strncmp (trashinfo_line, "DeletionDate=", 13) != 0
+            || strlen (trashinfo_line) != 32)
         {
           fprintf (stderr, "Info file error; format not correct (Line 3)\n");
-
-         /**
-          * This exit() is related to issue #8
-          * https://github.com/andy5995/rmw/issues/8
-          */
-          exit (1);
+          continue;
         }
 
-        if (fclose (info_file_ptr) == EOF)
-        {
-          fprintf (stderr, "Error: while closing %s\n", entry_path);
-          perror ("purge()");
-        }
+        close_file (info_file_ptr, entry_path, "purge()");
       }
 
       else
       {
-        fprintf (stderr, "Fatal: Error %d while opening %s\n", errno, entry_path);
-
-       /**
-        * This exit() is related to issue #8
-        * https://github.com/andy5995/rmw/issues/8
-        */
-        exit (1);
+        fprintf (stderr, "Error: while opening %s\n", entry_path);
+        perror ("purge()");
+        continue;
       }
 
-      tokenPtr = strtok (infoLine, "=");
+      tokenPtr = strtok (trashinfo_line, "=");
       tokenPtr = strtok (NULL, "=");
 
       strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
@@ -369,7 +372,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
         strcat (purgeFile, temp);
 
         lstat (purgeFile, &st);
-        int err = 0;
+
         if (S_ISDIR (st.st_mode))
         {
           status = rmdir_recursive (purgeFile, 1);

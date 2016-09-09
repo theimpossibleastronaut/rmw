@@ -92,7 +92,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
            * Not using the "[Trash Info]" line, but reading the file
            * sequentially
            */
-          fgets (line, 14, fp);
+          fgets (line, sizeof (line), fp);
 
           if (strncmp (line, "[Trash Info]", 12) == 0)
           {}
@@ -102,11 +102,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             fprintf (stderr, "Error: trashinfo file format not correct\n");
             fprintf (stderr, "(Line 1): %s\n", file.info);
 
-            if (fclose (fp) == EOF)
-            {
-              fprintf (stderr, "Error: while closing %s\n", file.info);
-              perror ("Restore()");
-            }
+            close_file (fp, file.info, "Restore()");
 
             break;
           }
@@ -126,22 +122,14 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             tokenPtr = NULL;
             trim (file.dest);
 
-            if (fclose (fp) == EOF)
-            {
-              fprintf (stderr, "Error: while closing %s\n", file.info);
-              perror ("Restore()");
-            }
+            close_file (fp, file.info, "Restore()");
 
           }
           else
           {
             printf ("error on line 2 in %s\n", file.info);
 
-            if (fclose (fp) == EOF)
-            {
-              fprintf (stderr, "Error: while closing %s\n", file.info);
-              perror ("Restore()");
-            }
+            close_file (fp, file.info, "Restore()");
 
             break;
           }
@@ -151,6 +139,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
           if (!file_not_found (file.dest))
           {
             buf_check_with_strop (file.dest, time_str_appended, CAT);
+
             if (verbose == 1)
               fprintf (stdout,
                        "Duplicate filename at destination - appending time string...\n");
@@ -185,7 +174,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
  */
 void
 restore_select (struct waste_containers *waste, char *time_str_appended,
-                const int wdt)
+                const int waste_dirs_total)
 {
   struct stat st;
   struct dirent *entry;
@@ -203,7 +192,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
   unsigned char char_count = 0;
   short choice = 0;
 
-  while (w < wdt)
+  while (w < waste_dirs_total)
   {
     DIR *dir = opendir (waste[w].files);
     count = 0;
@@ -236,10 +225,8 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
       {
         destiny[0] = path_to_file;
         printf ("\n");
-        /* using 0 for third arg so 'for' loop in Restore() will run
-         *  at least once
-         */
-        Restore (1, destiny, 0, time_str_appended);
+
+        Restore (1, destiny, 1, time_str_appended);
         break;
       }
 
