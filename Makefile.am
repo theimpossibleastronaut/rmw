@@ -18,3 +18,8 @@ packextras_DATA=$(EXTRA_DIST)
 #AM_CXXFLAGS=$(INTI_CFLAGS)
 #rmw_SOURCES=src/rmw.c
 #rmw_LDADD=$(INTI_LIBS)
+
+ACLOCAL = true
+AUTOCONF = true
+AUTOHEADER = true
+AUTOMAKE = true

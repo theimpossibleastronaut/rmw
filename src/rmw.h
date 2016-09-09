@@ -31,6 +31,7 @@
 
 #define _GNU_SOURCE
 
+#include "config.h"
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>

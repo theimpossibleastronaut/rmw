@@ -79,12 +79,13 @@ POST_UNINSTALL = :
 bin_PROGRAMS = rmw$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/depcomp
+	$(srcdir)/config.in $(top_srcdir)/depcomp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
+CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
@@ -133,7 +134,8 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
+am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
+	$(LISP)config.in
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
 # *not* preserved.
@@ -250,7 +252,8 @@ main.c 			\
 ./functions/strings_rmw.c \
 ./functions/purging_rmw.c
 
-all: all-am
+all: config.h
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .o .obj
@@ -284,6 +287,21 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+
+config.h: stamp-h1
+	@test -f $@ || rm -f stamp-h1
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) stamp-h1
+
+stamp-h1: $(srcdir)/config.in $(top_builddir)/config.status
+	@rm -f stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status src/config.h
+$(srcdir)/config.in:  $(am__configure_deps) 
+	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
+	rm -f stamp-h1
+	touch $@
+
+distclean-hdr:
+	-rm -f config.h stamp-h1
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -462,7 +480,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) config.h
 installdirs:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -507,7 +525,7 @@ distclean: distclean-am
 	-rm -rf ./$(DEPDIR) ./functions/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-tags
+	distclean-hdr distclean-tags
 
 dvi: dvi-am
 
@@ -568,21 +586,21 @@ ps-am:
 
 uninstall-am: uninstall-binPROGRAMS
 
-.MAKE: install-am install-strip
+.MAKE: all install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
 	clean-binPROGRAMS clean-generic cscopelist-am ctags ctags-am \
-	distclean distclean-compile distclean-generic distclean-tags \
-	distdir dvi dvi-am html html-am info info-am install \
-	install-am install-binPROGRAMS install-data install-data-am \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-info install-info-am \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
-	ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS
+	distclean distclean-compile distclean-generic distclean-hdr \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
+	uninstall-am uninstall-binPROGRAMS
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
