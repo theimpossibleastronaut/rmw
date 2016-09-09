@@ -180,7 +180,7 @@ trim_slash (char s1[])
   int slash_pos;
   slash_pos = strlen (s1) - 1;
 
-  if (str[slash_pos] != '/')
+  if (s1[slash_pos] != '/')
     return slash_pos;
 
   s1[slash_pos] = '\0';
