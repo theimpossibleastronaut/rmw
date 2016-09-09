@@ -167,11 +167,7 @@ is_time_to_purge (const char *HOMEDIR)
     buf_check (last_purge_dd, 3);
     trim (last_purge_dd);
 
-    if (fclose (fp) == EOF)
-    {
-      fprintf (stderr, "Error: while closing %s", file_lastpurge);
-      perror ("is_time_to_purge");
-    }
+    close_file (fp, file_lastpurge, "is_time_to_purge()");
 
     /** if these are the same, purge has already been run today
      */
@@ -186,16 +182,12 @@ is_time_to_purge (const char *HOMEDIR)
       {
         fprintf (fp, "%s\n", today_dd);
 
-        if (fclose (fp) == EOF)
-        {
-          fprintf (stderr, "Error: while closing %s", file_lastpurge);
-          perror ("is_time_to_purge()");
+        close_file (fp, file_lastpurge, "is_time_to_purge()");
           /** If the only error is upon closing, and all the checks above
            * passed, we'll just continue. The error was printed to stderr
            * and the cause needs to be checked by the user or the
            * developer
            */
-        }
 
         return 1;
       }
@@ -221,11 +213,7 @@ is_time_to_purge (const char *HOMEDIR)
     {
       fprintf (fp, "%s\n", today_dd);
 
-      if (fclose (fp) == EOF)
-      {
-        fprintf (stderr, "Error: while closing %s\n", file_lastpurge);
-        perror ("is_time_to_purge()");
-      }
+      close_file (fp, file_lastpurge, "is_time_to_purge()");
 
       return 1;
     }
@@ -354,11 +342,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
           continue;
         }
 
-        if (fclose (info_file_ptr) == EOF)
-        {
-          fprintf (stderr, "Error: while closing %s\n", entry_path);
-          perror ("purge()");
-        }
+        close_file (info_file_ptr, entry_path, "purge()");
       }
 
       else

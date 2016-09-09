@@ -222,14 +222,10 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
   if (config_opened)
   {
-    if (fclose (cfgPtr) != EOF)
-      config_opened = 0;
+    short err = close_file (cfgPtr, config_file, "get_config_data()");
 
-    else
-    {
-      fprintf (stderr, "Error closing %s\n", config_file);
-      perror ("get_config_data()");
-    }
+    if (!err)
+      config_opened = 0;
   }
 
   if (*waste_ctr == 0)

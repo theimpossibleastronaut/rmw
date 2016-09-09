@@ -25,6 +25,16 @@
 
 #include "primary_funcs.h"
 
+
+
+/** WIP:
+ *
+ * messages messag
+{
+  const char close[] =  { "closing %s file error" };
+
+}; */
+
 /**
  * make_dir()
  *
@@ -118,15 +128,12 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
     fprintf (fp, "Path=%s\n", real_path);
     fprintf (fp, "DeletionDate=%s", time_now);
 
-    if (fclose (fp) == EOF)
-    {
-      fprintf (stderr, "Error while closing %s :\n", finalInfoDest);
-      perror ("mkinfo()");
+    short close_err = close_file (fp, finalInfoDest, "mkinfo()");
+    if (close_err)
       return 1;
-    }
-
-    return 0;
   }
+
+  return 0;
 }
 
 void
@@ -167,7 +174,7 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
     Restore (1, destiny, 1, time_str_appended);
   }
 
-  fclose (undo_file_ptr);
+  close_file (undo_file_ptr, undo_path, "undo_last_rmw()");
 }
 
 /**
@@ -298,4 +305,17 @@ file_not_found (const char *filename)
 
   else
     return 1;
+}
+
+short close_file (FILE *file_ptr, char *filename, char *function_name)
+{
+  if (fclose (file_ptr) != EOF)
+    return 0;
+
+  else
+  {
+    fprintf (stderr, "Error: while closing %s\n", filename);
+    perror (function_name);
+    return 1;
+  }
 }

@@ -363,13 +363,7 @@ main (int argc, char *argv[])
   }
 
   if (undo_opened)
-  {
-    if (fclose (undo_file_ptr) == EOF)
-    {
-      fprintf (stderr, "Error %d while closing %s\n", errno, undo_path);
-      perror ("main()");
-    }
-  }
+    close_file (undo_file_ptr, undo_path, "main()");
 
   if (pause)
   {

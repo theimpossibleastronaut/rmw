@@ -102,11 +102,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             fprintf (stderr, "Error: trashinfo file format not correct\n");
             fprintf (stderr, "(Line 1): %s\n", file.info);
 
-            if (fclose (fp) == EOF)
-            {
-              fprintf (stderr, "Error: while closing %s\n", file.info);
-              perror ("Restore()");
-            }
+            close_file (fp, file.info, "Restore()");
 
             break;
           }
@@ -126,22 +122,14 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             tokenPtr = NULL;
             trim (file.dest);
 
-            if (fclose (fp) == EOF)
-            {
-              fprintf (stderr, "Error: while closing %s\n", file.info);
-              perror ("Restore()");
-            }
+            close_file (fp, file.info, "Restore()");
 
           }
           else
           {
             printf ("error on line 2 in %s\n", file.info);
 
-            if (fclose (fp) == EOF)
-            {
-              fprintf (stderr, "Error: while closing %s\n", file.info);
-              perror ("Restore()");
-            }
+            close_file (fp, file.info, "Restore()");
 
             break;
           }
