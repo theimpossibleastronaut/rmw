@@ -25,6 +25,12 @@
 
 #include "primary_funcs.h"
 
+/**
+ * make_dir()
+ *
+ * Check for the existence of a dir, and create it if not found.
+ * Also creates parent directories.
+ */
 int
 make_dir (const char *dir)
 {
@@ -293,10 +299,3 @@ file_not_found (const char *filename)
   else
     return 1;
 }
-
-/**
- * make_dir()
- *
- * Check for the existence of a dir, and create it if not found.
- * Also creates parent directories.
- */
