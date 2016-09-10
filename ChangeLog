@@ -1,5 +1,13 @@
 === rmw ChangeLog ===
 
+2016-09-09
+
+	Makefile.am : Thanks to parthsuresh - added 4 lines (#28) that will
+	hopefully fix issue #21
+
+	Added a function: open_err() : called if there is an error opening
+	a file, displays a message.
+
 2016-09-08
 
 	Added a function: close_file(), so I don't have to worry about

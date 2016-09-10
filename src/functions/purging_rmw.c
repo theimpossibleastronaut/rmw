@@ -160,14 +160,14 @@ is_time_to_purge (const char *HOMEDIR)
     if (fgets (last_purge_dd, sizeof (last_purge_dd), fp) == NULL)
     {
       fprintf (stderr, "Error: while getting line from %s\n", file_lastpurge);
-      perror ("is_time_to_purge()");
+      perror (__func__);
       return 0;
     }
 
     buf_check (last_purge_dd, 3);
     trim (last_purge_dd);
 
-    close_file (fp, file_lastpurge, "is_time_to_purge()");
+    close_file (fp, file_lastpurge, __func__);
 
     /** if these are the same, purge has already been run today
      */
@@ -182,7 +182,7 @@ is_time_to_purge (const char *HOMEDIR)
       {
         fprintf (fp, "%s\n", today_dd);
 
-        close_file (fp, file_lastpurge, "is_time_to_purge()");
+        close_file (fp, file_lastpurge, __func__);
           /** If the only error is upon closing, and all the checks above
            * passed, we'll just continue. The error was printed to stderr
            * and the cause needs to be checked by the user or the
@@ -195,7 +195,7 @@ is_time_to_purge (const char *HOMEDIR)
       else
       {
         fprintf (stderr, "Error: while writing to %s\n", file_lastpurge);
-        perror ("is_time_to_purge()");
+        perror (__func__);
         return 0;
       }
     }
@@ -213,7 +213,7 @@ is_time_to_purge (const char *HOMEDIR)
     {
       fprintf (fp, "%s\n", today_dd);
 
-      close_file (fp, file_lastpurge, "is_time_to_purge()");
+      close_file (fp, file_lastpurge, __func__);
 
       return 1;
     }
@@ -228,7 +228,7 @@ is_time_to_purge (const char *HOMEDIR)
        * chances are this error will never be a problem.
        */
       fprintf (stderr, "Fatal: Error: creating %s\n", file_lastpurge);
-      perror ("is_time_to_purge()");
+      perror (__func__);
       exit (1);
     }
   }
@@ -342,13 +342,13 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
           continue;
         }
 
-        close_file (info_file_ptr, entry_path, "purge()");
+        close_file (info_file_ptr, entry_path, __func__);
       }
 
       else
       {
         fprintf (stderr, "Error: while opening %s\n", entry_path);
-        perror ("purge()");
+        perror (__func__);
         continue;
       }
 
@@ -403,13 +403,13 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
             else
             {
               fprintf (stderr, "Error: while removing %s\n", purgeFile);
-              perror ("purge()");
+              perror (__func__);
             }
             break;
 
           default:
             fprintf (stderr, "Error: while removing %s\n", purgeFile);
-            perror ("purge()");
+            perror (__func__);
             break;
           }
 
@@ -425,7 +425,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
           else
           {
             fprintf (stderr, "Error: while removing %s\n", purgeFile);
-            perror ("purge()");
+            perror (__func__);
             success = 0;
           }
         }
@@ -443,7 +443,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
           else
           {
             fprintf (stderr, "Error: while removing %s\n", entry_path);
-            perror ("purge()");
+            perror (__func__);
           }
         }
 

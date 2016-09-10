@@ -174,8 +174,6 @@ main (int argc, char *argv[])
   char time_now[21];
   get_time_string (time_now, 21, "%FT%T");
 
-  int status = 0;
-
   bool undo_opened = 0;
   FILE *undo_file_ptr;
   char undo_path[MP];
@@ -198,13 +196,12 @@ main (int argc, char *argv[])
        */
       if (!undo_opened)
       {
-        undo_file_ptr = fopen (undo_path, "w");
-        undo_opened = 1;
+        if ((undo_file_ptr = fopen (undo_path, "w")) != NULL)
+          undo_opened = 1;
 
-        if (undo_file_ptr == NULL)
+        else
         {
-          fprintf (stderr, "Error: opening %s :\n", undo_path);
-          perror ("main()");
+          open_err (undo_path, __func__);
           return 1;
         }
       }
@@ -359,11 +356,11 @@ main (int argc, char *argv[])
   if (purge_after != 0 && restoreYes == 0 && select == 0)
   {
     if (is_time_to_purge (HOMEDIR) != 0 || purgeYes != 0)
-      status = purge (purge_after, waste, time_now, waste_dirs_total);
+      purge (purge_after, waste, time_now, waste_dirs_total);
   }
 
   if (undo_opened)
-    close_file (undo_file_ptr, undo_path, "main()");
+    close_file (undo_file_ptr, undo_path, __func__);
 
   if (pause)
   {
