@@ -296,8 +296,12 @@ main (int argc, char *argv[])
 
           if (rename_status == 0)
           {
-            printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
-
+			  
+			if (verbose == 1)
+			{  
+              printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
+		    }
+		    
             info_status = mkinfo (file, waste,
                               time_now, time_str_appended, current_waste_num);
 
