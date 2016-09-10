@@ -40,8 +40,8 @@ erase_char (char c, char *str);
 bool
 change_HOME (char *t, const char *HOMEDIR);
 
-int
-trim_slash (char s[]);
+void
+trim_slash (char str[]);
 
 void
 truncate_str (char *str, short len);
