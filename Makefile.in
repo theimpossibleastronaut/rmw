@@ -218,6 +218,10 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
+#bin_PROGRAMS=rmw
+#AM_CXXFLAGS=$(INTI_CFLAGS)
+#rmw_SOURCES=src/rmw.c
+#rmw_LDADD=$(INTI_LIBS)
 ACLOCAL = true
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
@@ -799,10 +803,6 @@ uninstall-am: uninstall-packextrasDATA
 	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
 	uninstall-am uninstall-packextrasDATA
 
-#bin_PROGRAMS=rmw
-#AM_CXXFLAGS=$(INTI_CFLAGS)
-#rmw_SOURCES=src/rmw.c
-#rmw_LDADD=$(INTI_LIBS)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

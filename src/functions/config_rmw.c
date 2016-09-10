@@ -77,19 +77,10 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
   if (!file_not_found (config_file))
   {
-    cfgPtr = fopen (config_file, "r");
-
-    /**
-     * It exists. Any problem opening it for reading?
-     */
-    if (cfgPtr != NULL)
+    if ((cfgPtr = fopen (config_file, "r")) != NULL)
       config_opened = 1;
-
     else
-    {
-      fprintf (stderr, "Error: reading %s\n", config_file);
-      perror ("get_config_data()");
-    }
+      open_err (config_file, __func__);
   }
 
   if (config_opened)
@@ -112,7 +103,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       else
       {
         fprintf (stderr, "Error: reading %s\n", config_file);
-        perror ("get_config_data()");
+        perror (__func__);
         fprintf (stderr, "Can not open configuration file\n");
         fprintf (stderr, "%s (or)\n", config_file);
         fprintf (stderr, "%s\n", CFG_FILE);
@@ -222,14 +213,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
   if (config_opened)
   {
-    if (fclose (cfgPtr) != EOF)
+    if (!close_file (cfgPtr, config_file, __func__))
       config_opened = 0;
-
-    else
-    {
-      fprintf (stderr, "Error closing %s\n", config_file);
-      perror ("get_config_data()");
-    }
   }
 
   if (*waste_ctr == 0)

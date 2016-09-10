@@ -85,18 +85,17 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
         char *time_str_appended, const short cnum)
 {
   FILE *fp;
-  bool bufstat = 0;
+
   char finalInfoDest[PATH_MAX + 1];
 
-  bufstat =
-    buf_check_with_strop (finalInfoDest, waste[cnum].info, CPY);
+  buf_check_with_strop (finalInfoDest, waste[cnum].info, CPY);
 
-  bufstat = buf_check_with_strop (finalInfoDest, file.base_name, CAT);
+  buf_check_with_strop (finalInfoDest, file.base_name, CAT);
 
   if (file.is_duplicate)
     buf_check_with_strop (finalInfoDest, time_str_appended, CAT);
 
-  bufstat = buf_check_with_strop (finalInfoDest, DOT_TRASHINFO, CAT);
+  buf_check_with_strop (finalInfoDest, DOT_TRASHINFO, CAT);
 
   char real_path[MP];
 
@@ -118,15 +117,12 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
     fprintf (fp, "Path=%s\n", real_path);
     fprintf (fp, "DeletionDate=%s", time_now);
 
-    if (fclose (fp) == EOF)
-    {
-      fprintf (stderr, "Error while closing %s :\n", finalInfoDest);
-      perror ("mkinfo()");
+    short close_err = close_file (fp, finalInfoDest, __func__);
+    if (close_err)
       return 1;
-    }
-
-    return 0;
   }
+
+  return 0;
 }
 
 void
@@ -167,7 +163,7 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
     Restore (1, destiny, 1, time_str_appended);
   }
 
-  fclose (undo_file_ptr);
+  close_file (undo_file_ptr, undo_path, __func__);
 }
 
 /**
@@ -298,4 +294,37 @@ file_not_found (const char *filename)
 
   else
     return 1;
+}
+
+/**
+ * open_file()
+ *
+ * Opens a file, checks for an error. If error print message and
+ * return 1, else, returns 0
+ */
+void
+open_err (const char *filename, const char *function_name)
+{
+    fprintf (stderr, "Error: while opening %s\n", filename);
+    perror (function_name);
+    return;
+}
+
+/**
+ * close_file()
+ *
+ * Closes a file, checks for an error. If error print message and
+ * return 1, else, returns 0
+ */
+short close_file (FILE *file_ptr, const char *filename, const char *function_name)
+{
+  if (fclose (file_ptr) != EOF)
+    return 0;
+
+  else
+  {
+    fprintf (stderr, "Error: while closing %s\n", filename);
+    perror (function_name);
+    return 1;
+  }
 }

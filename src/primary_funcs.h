@@ -23,6 +23,9 @@
  *
  */
 
+#ifndef INC_PRIMARY_FUNCS_H
+#define INC_PRIMARY_FUNCS_H
+
 #include "rmw.h"
 #include "restore_rmw.h"
 #include "strings_rmw.h"
@@ -43,3 +46,11 @@ int getche (void);
 
 bool
 file_not_found (const char *filename);
+
+void
+open_err (const char *filename, const char *function_name);
+
+short
+close_file (FILE *file_ptr, const char *filename, const char *function_name);
+
+#endif

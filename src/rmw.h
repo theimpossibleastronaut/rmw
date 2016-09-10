@@ -32,6 +32,7 @@
 #define _GNU_SOURCE
 
 #include "config.h"
+#include <assert.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -97,6 +98,15 @@ struct rmw_target
 
   bool is_duplicate;
 };
+
+/**
+ * WIP:
+ *
+struct messages
+{
+  char close[81];
+};
+*/
 
 enum
 {
