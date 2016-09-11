@@ -181,6 +181,7 @@ main (int argc, char *argv[])
   struct rmw_target file;
 
   int file_arg = 0;
+  int rmwed_files = 0;
 
   if (optind < argc && !restoreYes && !select && !undo_last)
   {
@@ -260,8 +261,7 @@ main (int argc, char *argv[])
       short rename_status = 0;
       bool info_status = 0;
       file.is_duplicate = 0;
-      int rmwed_files = 0;
-
+      
       unsigned short current_waste_num = 0;
 
       strcpy (file.base_name, basename (file.main_argv));
@@ -328,15 +328,13 @@ main (int argc, char *argv[])
         }
       }
       
-      printf ("%d files have been ReMoved to Waste", rmwed_files);
-
       if (!match)
       {
         printf ("No suitable filesystem found for \"%s\"\n", file.main_argv);
         return 1;
       }
     }
-          
+    printf ("%d files have been ReMoved to Waste\n", rmwed_files);          
   }
 
   else if (restoreYes)
