@@ -260,6 +260,7 @@ main (int argc, char *argv[])
       short rename_status = 0;
       bool info_status = 0;
       file.is_duplicate = 0;
+      int rmwed_files = 0;
 
       unsigned short current_waste_num = 0;
 
@@ -297,11 +298,10 @@ main (int argc, char *argv[])
           if (rename_status == 0)
           {
 			  
-			if (verbose == 1)
-			{  
-              printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
-		    }
+			if (verbose)
+			  printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
 		    
+		    rmwed_files++;  
             info_status = mkinfo (file, waste,
                               time_now, time_str_appended, current_waste_num);
 
@@ -324,6 +324,7 @@ main (int argc, char *argv[])
        * Setting match to 1 and breaking from the for loop
        */
           match = 1;
+          printf ("%d files have been ReMoved to Waste", rmwed_files);
           break;
         }
       }
@@ -334,6 +335,7 @@ main (int argc, char *argv[])
         return 1;
       }
     }
+          
   }
 
   else if (restoreYes)
