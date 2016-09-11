@@ -49,6 +49,7 @@ main (int argc, char *argv[])
   };
 
   short int next_option = 0;
+  int rmwed_files = 0;
 
   bool pause = 0;
   bool purgeYes = 0;
@@ -296,8 +297,10 @@ main (int argc, char *argv[])
 
           if (rename_status == 0)
           {
-            printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
-
+			if (verbose)  
+              printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
+              
+            rmwed_files++;  
             info_status = mkinfo (file, waste,
                               time_now, time_str_appended, current_waste_num);
 
@@ -330,6 +333,7 @@ main (int argc, char *argv[])
         return 1;
       }
     }
+    printf("%d files were ReMoved to Waste\n", rmwed_files);
   }
 
   else if (restoreYes)
