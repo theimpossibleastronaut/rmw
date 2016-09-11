@@ -324,10 +324,11 @@ main (int argc, char *argv[])
        * Setting match to 1 and breaking from the for loop
        */
           match = 1;
-          printf ("%d files have been ReMoved to Waste", rmwed_files);
           break;
         }
       }
+      
+      printf ("%d files have been ReMoved to Waste", rmwed_files);
 
       if (!match)
       {
