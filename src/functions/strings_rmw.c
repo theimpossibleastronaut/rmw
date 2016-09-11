@@ -175,15 +175,15 @@ change_HOME (char *t, const char *HOMEDIR)
  * Trim a trailing slash if present. Only checks for 1
  */
 int
-trim_slash (char s1[])
+trim_slash (char s[])
 {
-  int slash_pos;
-  slash_pos = strlen (s1) - 1;
+  int n;
+  n = strlen (s) - 1;
 
-  if (s1[slash_pos] != '/')
-    return slash_pos;
+  if (s[n] != '/')
+    return n;
 
-  s1[slash_pos] = '\0';
+  s[n] = '\0';
 
   return 0;
 }
