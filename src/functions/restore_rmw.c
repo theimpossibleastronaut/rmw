@@ -82,7 +82,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
         if (fp == NULL)
         {
           fprintf (stderr, "Error: opening %s\n", file.info);
-          perror ("Restore()");
+          perror (__func__);
           break;
         }
 
@@ -102,7 +102,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             fprintf (stderr, "Error: trashinfo file format not correct\n");
             fprintf (stderr, "(Line 1): %s\n", file.info);
 
-            close_file (fp, file.info, "Restore()");
+            close_file (fp, file.info, __func__);
 
             break;
           }
@@ -122,14 +122,14 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             tokenPtr = NULL;
             trim (file.dest);
 
-            close_file (fp, file.info, "Restore()");
+            close_file (fp, file.info, __func__);
 
           }
           else
           {
             printf ("error on line 2 in %s\n", file.info);
 
-            close_file (fp, file.info, "Restore()");
+            close_file (fp, file.info, __func__);
 
             break;
           }

@@ -47,7 +47,10 @@ int getche (void);
 bool
 file_not_found (const char *filename);
 
+void
+open_err (const char *filename, const char *function_name);
+
 short
-close_file (FILE *file_ptr, char *filename, char *function_name);
+close_file (FILE *file_ptr, const char *filename, const char *function_name);
 
 #endif
