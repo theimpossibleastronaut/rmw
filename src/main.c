@@ -186,6 +186,7 @@ main (int argc, char *argv[])
   {
     buf_check_with_strop (undo_path, HOMEDIR, CPY);
     buf_check_with_strop (undo_path, UNDO_FILE, CAT);
+    int rmwed_files = 0;
 
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
@@ -296,8 +297,10 @@ main (int argc, char *argv[])
 
           if (rename_status == 0)
           {
-            printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
+            if (verbose)
+              printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
 
+            rmwed_files++;
             info_status = mkinfo (file, waste,
                               time_now, time_str_appended, current_waste_num);
 
@@ -330,6 +333,10 @@ main (int argc, char *argv[])
         return 1;
       }
     }
+    if (rmwed_files == 1)
+      printf("%d file was ReMoved to Waste\n", rmwed_files);
+    else
+      printf("%d files were ReMoved to Waste\n", rmwed_files);
   }
 
   else if (restoreYes)

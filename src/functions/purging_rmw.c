@@ -438,7 +438,8 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
           if (!status)
           {
             purge_ctr++;
-            fprintf (stdout, "-%s\n", purgeFile);
+            if (verbose)
+              fprintf (stdout, "-%s\n", purgeFile);
           }
           else
           {
