@@ -49,8 +49,7 @@ main (int argc, char *argv[])
   };
 
   short int next_option = 0;
-  int rmwed_files = 0;
-
+ 
   bool pause = 0;
   bool purgeYes = 0;
   bool restoreYes = 0;
@@ -187,6 +186,7 @@ main (int argc, char *argv[])
   {
     buf_check_with_strop (undo_path, HOMEDIR, CPY);
     buf_check_with_strop (undo_path, UNDO_FILE, CAT);
+    int rmwed_files;
 
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
@@ -333,7 +333,10 @@ main (int argc, char *argv[])
         return 1;
       }
     }
-    printf("%d files were ReMoved to Waste\n", rmwed_files);
+    if (rmwed_files == 1)
+      printf("%d file were ReMoved to Waste\n", rmwed_files);
+    else
+      printf("%d files were ReMoved to Waste\n", rmwed_files);
   }
 
   else if (restoreYes)
