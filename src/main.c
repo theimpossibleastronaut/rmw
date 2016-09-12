@@ -191,22 +191,6 @@ main (int argc, char *argv[])
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
       strcpy (file.main_argv, argv[file_arg]);
-
-      /**
-       * Open undo_file for writing
-       */
-      if (!undo_opened)
-      {
-        if ((undo_file_ptr = fopen (undo_path, "w")) != NULL)
-          undo_opened = 1;
-
-        else
-        {
-          open_err (undo_path, __func__);
-          return 1;
-        }
-      }
-
       buf_check (file.main_argv, MP);
 
       /**
@@ -305,7 +289,24 @@ main (int argc, char *argv[])
                               time_now, time_str_appended, current_waste_num);
 
             if (info_status == 0)
+            {
+                /**
+                 * Open undo_file for writing if it hasn't been yet
+                 */
+                if (!undo_opened)
+                {
+                  if ((undo_file_ptr = fopen (undo_path, "w")) != NULL)
+                    undo_opened = 1;
+
+                  else
+                  {
+                    open_err (undo_path, __func__);
+                    return 1;
+                  }
+                }
               fprintf (undo_file_ptr, "%s\n", file.dest_name);
+            }
+
             else
               fprintf (stderr, "mkinfo() returned error %d\n", info_status);
           }
