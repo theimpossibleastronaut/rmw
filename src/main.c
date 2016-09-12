@@ -186,7 +186,7 @@ main (int argc, char *argv[])
   {
     buf_check_with_strop (undo_path, HOMEDIR, CPY);
     buf_check_with_strop (undo_path, UNDO_FILE, CAT);
-    int rmwed_files;
+    int rmwed_files = 0;
 
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
