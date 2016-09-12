@@ -297,7 +297,7 @@ main (int argc, char *argv[])
 
           if (rename_status == 0)
           {
-			if (verbose)  
+            if (verbose)  
               printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
               
             rmwed_files++;  
@@ -334,7 +334,7 @@ main (int argc, char *argv[])
       }
     }
     if (rmwed_files == 1)
-      printf("%d file were ReMoved to Waste\n", rmwed_files);
+      printf("%d file was ReMoved to Waste\n", rmwed_files);
     else
       printf("%d files were ReMoved to Waste\n", rmwed_files);
   }
