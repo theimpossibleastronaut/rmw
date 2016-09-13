@@ -230,3 +230,49 @@ get_time_string (char *tm_str, unsigned short len, const char *format)
   buf_check (tm_str, len);
   trim (tm_str);
 }
+
+/**
+ * convert_space()
+ *
+ * converts '%20' in filenames to a space
+ *
+ */
+void
+convert_space (char *filename)
+{
+  char *cut;
+
+  while ((cut = strchr (filename, '%')) != NULL)
+  {
+
+    if (strncmp (cut, "%20", 3) == 0)
+    {
+      const short new_end_pos = strlen (filename) - 2;
+
+      short str_pos = 0;
+      bool space_reached = 0;
+
+      while (str_pos < new_end_pos)
+      {
+
+        /**
+         * Shift characters to the left
+         */
+        if (space_reached)
+          filename[str_pos] = filename[str_pos + 2];
+
+        else if (filename[str_pos] == '%')
+          {
+            filename[str_pos] = ' ';
+            space_reached = 1;
+          }
+
+        str_pos++;
+      }
+
+      filename[str_pos] = '\0';
+    }
+  }
+
+  return;
+}

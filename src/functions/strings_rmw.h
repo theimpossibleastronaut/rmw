@@ -51,3 +51,6 @@ resolve_path (const char *str, char *dest);
 
 void
 get_time_string (char *tm_str, unsigned short len, const char *format);
+
+void
+convert_space (char *filename);

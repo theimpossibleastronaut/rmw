@@ -121,6 +121,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             buf_check_with_strop (file.dest, tokenPtr, CPY);
             tokenPtr = NULL;
             trim (file.dest);
+            convert_space (file.dest);
 
             close_file (fp, file.info, __func__);
 
