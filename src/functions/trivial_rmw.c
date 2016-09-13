@@ -34,6 +34,8 @@ void print_usage (void)
   printf
     ("-g, --purge               run purge even if it's been run today\n");
   printf ("-z, --restore <wildcard filename(s) pattern>\n");
+  printf ("-f, --force               force rmw to perform an action\n");
+  printf ("-r, --recurse             not implemented yet");
   printf ("-s, --select              select files from list to restore\n");
   printf ("-u, --undo-last           undo last ReMove\n");
   printf ("-B, --bypass              bypass directory protection\n");
