@@ -276,7 +276,8 @@ escape_url (const char *str, char *dest, const unsigned short len)
 
   unsigned short pos_str = 0;
   unsigned short pos_dest = 0;
-  do {
+  while (str[pos_str])
+  {
     if (is_unreserved (str[pos_str]))
     {
       /* Check for buffer overflow (there should be enough space for 1
@@ -303,8 +304,8 @@ escape_url (const char *str, char *dest, const unsigned short len)
       pos_dest+=3;
     }
     pos_str++;
-  } while (str[pos_str]);
-
+  } 
+  
   dest[pos_dest] = '\0';
 
   return 0;
