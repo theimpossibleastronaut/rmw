@@ -54,3 +54,7 @@ get_time_string (char *tm_str, unsigned short len, const char *format);
 
 void
 convert_space (char *filename);
+
+void
+insert_str_at_pos (const char *str_to_insert, char *str,
+                   const unsigned int pos);

@@ -276,3 +276,33 @@ convert_space (char *filename)
 
   return;
 }
+
+/**
+ *
+ * insert_str_at_pos()
+ *
+ * Insert str_to_insert into str at position pos
+ * doesn't overwrite any characters, but shifts them to the right
+ *
+ */
+void
+insert_str_at_pos (const char *str_to_insert, char *str,
+                   const unsigned int pos)
+{
+  unsigned int cur_endpos = strlen (str) - 1;
+
+  const unsigned int insert_len = strlen (str_to_insert);
+
+  unsigned int new_endpos = cur_endpos + insert_len;
+
+  str[new_endpos + 1] = '\0';
+
+  while (cur_endpos >= pos)
+    str[new_endpos--] = str[cur_endpos--];
+
+  unsigned int insert = 0;
+  unsigned int shift_right = pos;
+
+  while (insert < insert_len)
+    str[shift_right++] = str_to_insert[insert++];
+}
