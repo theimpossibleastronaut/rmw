@@ -133,7 +133,7 @@ rmdir_recursive (char *path, short unsigned level)
  *
  */
 bool
-is_time_to_purge (const char *HOMEDIR)
+is_time_to_purge (const char *HOMEDIR, bool force)
 {
   char file_lastpurge[MP];
   strcpy (file_lastpurge, HOMEDIR);
@@ -170,35 +170,43 @@ is_time_to_purge (const char *HOMEDIR)
 
     /** if these are the same, purge has already been run today
      */
+
     if (!strcmp (today_dd, last_purge_dd))
       return 0;
 
-    /** Days differ, write the new day. */
-    else
-    {
-      fp = fopen (file_lastpurge, "w");
-      if (fp != NULL)
-      {
-        fprintf (fp, "%s\n", today_dd);
+    /**
+     * Days differ, but today's date won't be written to lastpurge
+     * Instead, after the function returns, the user will get the
+     * message that --force is needed
+     */
+    if (!force)
+      return 1;
 
-        close_file (fp, file_lastpurge, __func__);
+    /** Days differ, force used - write the new day. */
+
+
+    fp = fopen (file_lastpurge, "w");
+
+    if (fp != NULL)
+    {
+      fprintf (fp, "%s\n", today_dd);
+
+      close_file (fp, file_lastpurge, __func__);
           /** If the only error is upon closing, and all the checks above
            * passed, we'll just continue. The error was printed to stderr
            * and the cause needs to be checked by the user or the
            * developer
            */
 
-        return 1;
-      }
-
-      else
-      {
-        open_err (file_lastpurge, __func__);
-
-        return 0;
-      }
+      return 1;
     }
 
+    else
+    {
+      open_err (file_lastpurge, __func__);
+
+      return 0;
+    }
   }
 
   else

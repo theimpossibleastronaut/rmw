@@ -108,10 +108,10 @@ main (int argc, char *argv[])
       version ();
       break;
     case 'i':
-      printf("-i / --interactive: not implemented\n");
+      fprintf(stdout, "-i / --interactive: not implemented\n");
       break;
     case 'r':
-      printf("-r / --recurse: not implemented\n");
+      fprintf(stdout, "-r / --recurse: not implemented\n");
       break;
     case 'f':
       force = 1;
@@ -376,12 +376,12 @@ main (int argc, char *argv[])
 
   if (purge_after != 0 && restoreYes == 0 && select == 0)
   {
-    if (is_time_to_purge (HOMEDIR) != 0 || purgeYes != 0)
+    if (is_time_to_purge (HOMEDIR, force) != 0 || purgeYes != 0)
     {
       if (force)
         purge (purge_after, waste, time_now, waste_dirs_total);
       else
-        fprintf (stderr, "purge skipped: use -f or --force");
+        fprintf (stderr, "purge skipped: use -f or --force\n");
     }
   }
 

@@ -1,5 +1,17 @@
 === rmw ChangeLog ===
 
+2016-09-14
+
+	Closed #33 - Requiring -f / --force as an option for purge to
+	actually delete files (patched by Parth Suresh and Andy Alt)
+
+
+2016-09-11
+
+	Closed #30 - disable verbose mode by default (patched by Parth Suresh)
+	Closed #29 - last entries in undofile get erased (patched by Bruce Hernandez)
+
+
 2016-09-09
 
 	Makefile.am : Thanks to parthsuresh - added 4 lines (#28) that will
