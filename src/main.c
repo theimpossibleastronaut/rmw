@@ -30,7 +30,7 @@ main (int argc, char *argv[])
 {
   struct waste_containers waste[WASTENUM_MAX];
 
-  const char *const short_options = "hvc:pgz:lsuBwVfr";
+  const char *const short_options = "hvc:pgz:lsuBwVfir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -45,6 +45,7 @@ main (int argc, char *argv[])
     {"bypass", 0, NULL, 'B'},
     {"warranty", 0, NULL, 'w'},
     {"version", 0, NULL, 'V'},
+    {"interactive", 0, NULL, 'i'},
     {"recurse", 0, NULL, 'r'},
     {"force", 0, NULL, 'f'},
     {NULL, 0, NULL, 0}
@@ -106,8 +107,11 @@ main (int argc, char *argv[])
     case 'V':
       version ();
       break;
+    case 'i':
+      printf("-i / --interactive: not implemented\n");
+      break;
     case 'r':
-      printf("-r--recurse not implemented yet\n");
+      printf("-r / --recurse: not implemented\n");
       break;
     case 'f':
       force = 1;
@@ -366,18 +370,17 @@ main (int argc, char *argv[])
     }
   }
 
-  if (!force)
-    printf("purging is disabled, use rmw -gf to purge files\n");
+  if (purgeYes && !purge_after)
+    printf ("purging is disabled, 'purge_after' is set to '0'\n");
 
-  else
+  if (purge_after != 0 && restoreYes == 0 && select == 0)
   {
-    if (purgeYes != 0 && purge_after == 0)
-      printf ("purging is disabled, 'purge_after' is set to '0'\n");
-
-    if (purge_after != 0 && restoreYes == 0 && select == 0)
+    if (is_time_to_purge (HOMEDIR) != 0 || purgeYes != 0)
     {
-      if (is_time_to_purge (HOMEDIR) != 0 || purgeYes != 0)
+      if (force)
         purge (purge_after, waste, time_now, waste_dirs_total);
+      else
+        fprintf (stderr, "purge skipped: use -f or --force");
     }
   }
 
