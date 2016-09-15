@@ -111,7 +111,7 @@ main (int argc, char *argv[])
       break;
     case 'f':
       force = 1;
-      break;    
+      break;
     case '?':
       print_usage ();
       exit (0);
@@ -365,12 +365,12 @@ main (int argc, char *argv[])
       printf ("Try '%s -h' for more information\n", argv[0]);
     }
   }
-  
+
   if (!force)
     printf("purging is disabled, use rmw -gf to purge files\n");
-  
+
   else
-  {  
+  {
     if (purgeYes != 0 && purge_after == 0)
       printf ("purging is disabled, 'purge_after' is set to '0'\n");
 
