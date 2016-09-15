@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -229,4 +229,50 @@ get_time_string (char *tm_str, unsigned short len, const char *format)
   strftime (tm_str, len, format, time_ptr);
   buf_check (tm_str, len);
   trim (tm_str);
+}
+
+/**
+ * convert_space()
+ *
+ * converts '%20' in filenames to a space
+ *
+ */
+void
+convert_space (char *filename)
+{
+  char *cut;
+
+  while ((cut = strchr (filename, '%')) != NULL)
+  {
+
+    if (strncmp (cut, "%20", 3) == 0)
+    {
+      const short new_end_pos = strlen (filename) - 2;
+
+      short str_pos = 0;
+      bool space_reached = 0;
+
+      while (str_pos < new_end_pos)
+      {
+
+        /**
+         * Shift characters to the left
+         */
+        if (space_reached)
+          filename[str_pos] = filename[str_pos + 2];
+
+        else if (filename[str_pos] == '%')
+          {
+            filename[str_pos] = ' ';
+            space_reached = 1;
+          }
+
+        str_pos++;
+      }
+
+      filename[str_pos] = '\0';
+    }
+  }
+
+  return;
 }

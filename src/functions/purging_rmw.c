@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,8 +95,8 @@ rmdir_recursive (char *path, short unsigned level)
 
     else
     {
-      fprintf (stderr, "!-Permission denied while deleting\n");
-      fprintf (stderr, "\t%s\n", dir_path);
+      fprintf (stderr, "\nPermission denied while deleting\n");
+      fprintf (stderr, "%s\n", dir_path);
       closedir (dir);
       return NOT_WRITEABLE;
     }
@@ -133,7 +133,7 @@ rmdir_recursive (char *path, short unsigned level)
  *
  */
 bool
-is_time_to_purge (const char *HOMEDIR)
+is_time_to_purge (const char *HOMEDIR, bool force)
 {
   char file_lastpurge[MP];
   strcpy (file_lastpurge, HOMEDIR);
@@ -150,8 +150,7 @@ is_time_to_purge (const char *HOMEDIR)
 
     if (fp == NULL)
     {
-      fprintf (stderr, "Error: while opening %s\n", file_lastpurge);
-      perror ("is_time_to_purge");
+      open_err (file_lastpurge, __func__);
       return 0;
     }
 
@@ -171,35 +170,43 @@ is_time_to_purge (const char *HOMEDIR)
 
     /** if these are the same, purge has already been run today
      */
+
     if (!strcmp (today_dd, last_purge_dd))
       return 0;
 
-    /** Days differ, write the new day. */
-    else
-    {
-      fp = fopen (file_lastpurge, "w");
-      if (fp != NULL)
-      {
-        fprintf (fp, "%s\n", today_dd);
+    /**
+     * Days differ, but today's date won't be written to lastpurge
+     * Instead, after the function returns, the user will get the
+     * message that --force is needed
+     */
+    if (!force)
+      return 1;
 
-        close_file (fp, file_lastpurge, __func__);
+    /** Days differ, force used - write the new day. */
+
+
+    fp = fopen (file_lastpurge, "w");
+
+    if (fp != NULL)
+    {
+      fprintf (fp, "%s\n", today_dd);
+
+      close_file (fp, file_lastpurge, __func__);
           /** If the only error is upon closing, and all the checks above
            * passed, we'll just continue. The error was printed to stderr
            * and the cause needs to be checked by the user or the
            * developer
            */
 
-        return 1;
-      }
-
-      else
-      {
-        fprintf (stderr, "Error: while writing to %s\n", file_lastpurge);
-        perror (__func__);
-        return 0;
-      }
+      return 1;
     }
 
+    else
+    {
+      open_err (file_lastpurge, __func__);
+
+      return 0;
+    }
   }
 
   else
@@ -227,8 +234,7 @@ is_time_to_purge (const char *HOMEDIR)
        * If the user gets this far though,
        * chances are this error will never be a problem.
        */
-      fprintf (stderr, "Fatal: Error: creating %s\n", file_lastpurge);
-      perror (__func__);
+      open_err (file_lastpurge, __func__);
       exit (1);
     }
   }
@@ -261,7 +267,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
 
-  printf ("\nPurging files older than %u days...\n", purge_after);
+  printf ("\nPurging files (purge_after = %u) ...\n", purge_after);
 
   int p = 0;
   struct dirent *entry;
@@ -347,8 +353,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
 
       else
       {
-        fprintf (stderr, "Error: while opening %s\n", entry_path);
-        perror (__func__);
+        open_err (entry_path, __func__);
         continue;
       }
 
@@ -382,16 +387,16 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
 
           case NOT_WRITEABLE:
             fprintf (stderr,
-                     "!-Directory not purged - still contains files\n");
-            fprintf (stderr, "\t%s\n", purgeFile);
-            fprintf (stderr, "\t(check owner/write permissions)\n");
+                     "Directory not purged - still contains files\n");
+            fprintf (stderr, "%s\n", purgeFile);
+            fprintf (stderr, "(check owner/write permissions)\n");
             dirs_containing_files_ctr++;
             break;
 
           case MAX_DEPTH_REACHED:
-            fprintf (stderr, "!-Maximum depth of %u reached, skipping\n",
+            fprintf (stderr, "Maximum depth of %u reached, skipping\n",
                      RMDIR_MAX_DEPTH);
-            fprintf (stderr, "\t%s\n", purgeFile);
+            fprintf (stderr, "%s\n", purgeFile);
             max_depth_reached_ctr++;
             break;
 
@@ -463,7 +468,12 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
     fprintf (stdout, "%d directories skipped (contained non-writeable files)\n",
         dirs_containing_files_ctr);
 
-  printf ("%d files purged\n", purge_ctr);
+  if (purge_ctr == 1)
+    fprintf (stdout, "%d file purged\n", purge_ctr);
+
+  else
+    fprintf (stdout, "%d files purged\n", purge_ctr);
+
   return 0;
 
 }

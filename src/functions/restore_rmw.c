@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -121,6 +121,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             buf_check_with_strop (file.dest, tokenPtr, CPY);
             tokenPtr = NULL;
             trim (file.dest);
+            convert_space (file.dest);
 
             close_file (fp, file.info, __func__);
 
