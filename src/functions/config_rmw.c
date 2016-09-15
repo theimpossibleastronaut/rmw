@@ -32,7 +32,7 @@
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
                 const char *HOMEDIR, unsigned short *purge_after_ptr, bool list, int *waste_ctr,
-                char pro_dir[PROTECT_MAX][MP], int *pro_ctr)
+                char pro_dir[PROTECT_MAX][MP], int *pro_ctr, bool *force_ptr)
 {
   char config_file[MP];
   const unsigned short CFG_MAX_LEN = PATH_MAX + 16;
@@ -145,6 +145,9 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       buf_check (tokenPtr, 6);
       *purge_after_ptr = atoi (tokenPtr);
     }
+
+    else if (strncmp (confLine, "force_not_required", 18) == 0)
+      *force_ptr = 1;
 
     else if (*waste_ctr < WASTENUM_MAX && !strncmp ("WASTE", confLine, 5))
     {

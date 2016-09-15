@@ -1,5 +1,11 @@
 === rmw ChangeLog ===
 
+2016-09-15
+
+	Closed  #41 - add config option: force_not_required
+	"force_not_required" in config file means -f or --force will not be
+	required on the command line for purge to run.
+
 2016-09-14
 
 	Closed #33 - Requiring -f / --force as an option for purge to
