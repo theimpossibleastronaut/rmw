@@ -143,32 +143,32 @@ erase_char (char c, char *str)
  */
 
 bool
-change_HOME (char *t, const char *HOMEDIR)
+make_home_real (char *str, const char *HOMEDIR)
 {
-  bool status = 0;
-  if (t[0] == '~')
+  bool ok = 0;
+  if (str[0] == '~')
   {
-    erase_char ('~', t);
-    status = 1;
+    erase_char ('~', str);
+    ok = 1;
   }
-  else if (strncmp (t, "$HOME", 5) == 0)
+  else if (strncmp (str, "$HOME", 5) == 0)
   {
-    int i;
+    int chars_to_delete;
 
-    for (i = 0; i < 5; i++)
-      erase_char (t[0], t);
+    for (chars_to_delete = 0; chars_to_delete < 5; chars_to_delete++)
+      erase_char (str[0], str);
 
-    status = 1;
+    ok = 1;
   }
   else
     return 0;
 
   char temp[MP];
   buf_check_with_strop (temp, HOMEDIR, CPY);
-  buf_check_with_strop (temp, t, CAT);
-  strcpy (t, temp);
+  buf_check_with_strop (temp, str, CAT);
+  strcpy (str, temp);
 
-  return status;
+  return ok;
 }
 
 /**

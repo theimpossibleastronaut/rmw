@@ -154,7 +154,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
       trim_slash (tokenPtr);
       erase_char (' ', tokenPtr);
-      change_HOME (tokenPtr, HOMEDIR);
+      make_home_real (tokenPtr, HOMEDIR);
 
       buf_check_with_strop (waste[*waste_ctr].parent, tokenPtr, CPY);
       strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
@@ -193,7 +193,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
       buf_check (tokenPtr, MP);
       erase_char (' ', tokenPtr);
-      change_HOME (tokenPtr, HOMEDIR);
+      make_home_real (tokenPtr, HOMEDIR);
 
       buf_check (tokenPtr, MP);
 
