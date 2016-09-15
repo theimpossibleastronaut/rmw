@@ -50,8 +50,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-/* #define VERSION "2016.09.04.01a" */
-#define VERSION "devel.testing.unstable"
+#define VERSION "0.2.10"
 #endif
 
 #define DEBUG 0

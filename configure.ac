@@ -1,5 +1,4 @@
-AC_INIT(rmw, devel.testing.unstable)
-#AC_INIT(rmw, 2016.09.04.01a)
+AC_INIT(rmw, 0.2.10)
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_PREREQ(2.59)
 AC_CONFIG_HEADERS([src/config.h:src/config.in])
