@@ -287,9 +287,9 @@ bool
 file_not_found (const char *filename)
 {
   struct stat st;
-  bool r = 0;
-  r = lstat (filename, &st);
-  if (!r || S_ISLNK (st.st_mode) || S_ISDIR (st.st_mode))
+  bool regular = 0;
+  regular = lstat (filename, &st);
+  if (!regular || S_ISLNK (st.st_mode) || S_ISDIR (st.st_mode))
     return 0;
 
   else
