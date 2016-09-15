@@ -21,6 +21,9 @@ WASTE=/media/home_/andy/.Trash-1000
 # '0' to disable
 purge_after = 90
 
+# Uncomment the line below to allow purge to run without --force
+#force_not_required
+
 # The current release doesn't "protect" files within the directories, or
 # parent directories.
 # The development version (and next release) protects files under
