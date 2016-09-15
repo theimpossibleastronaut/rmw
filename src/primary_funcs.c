@@ -281,7 +281,7 @@ getche (void)
  * file_not_found()
  * Checks for the existence of *filename
  *
- * returns 1 if not found, 0 if the file doesn't exist
+ * returns 1 if not found; 0 if the file exists
  */
 bool
 file_not_found (const char *filename)
