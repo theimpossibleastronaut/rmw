@@ -163,9 +163,12 @@ main (int argc, char *argv[])
 
   unsigned short *purge_after_ptr = malloc (sizeof (*purge_after_ptr));
 
+  bool *force_ptr = malloc (sizeof (*force_ptr));
+  *force_ptr = force;
+
   short conf_err =
     get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr, list, waste_ctr,
-                     protected_dir, protected_ctr);
+                     protected_dir, protected_ctr, force_ptr);
 
   const int waste_dirs_total = *waste_ctr;
   free (waste_ctr);
@@ -175,6 +178,9 @@ main (int argc, char *argv[])
 
   const int purge_after = *purge_after_ptr;
   free (purge_after_ptr);
+
+  force = *force_ptr;
+  free (force_ptr);
 
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;

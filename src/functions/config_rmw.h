@@ -31,4 +31,4 @@
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
                 const char *HOMEDIR, unsigned short *pa, bool list, int *waste_ctr,
-                char pro_dir[PROTECT_MAX][MP], int *pro_ctr);
+                char pro_dir[PROTECT_MAX][MP], int *pro_ctr, bool *force_ptr);
