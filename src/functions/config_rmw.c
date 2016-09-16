@@ -182,7 +182,10 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
         if (strcmp ("removable", comma_ptr) == 0)
           removable = 1;
         else
-          fprintf (stderr, "invalid option in config\n");
+        {
+          fprintf (stderr, "Error: invalid option in config\n");
+          continue;
+        }
       }
 
       trim (tokenPtr);
