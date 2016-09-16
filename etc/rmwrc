@@ -17,6 +17,11 @@ WASTE = $HOME/.trash.rmw
 #
 #WASTE=$HOME/.local/share/Trash
 
+# Removable media: Directories must have ',removable" appended to them.
+# They must be created prior to first use.
+#WASTE=/media/andy/usb/.Trash-1000, removable
+
+
 # spaces here are okay
 # '0' to disable
 purge_after = 90

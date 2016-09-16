@@ -129,6 +129,9 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   {
     char *tokenPtr;
 
+    bool removable = 0;
+    char *comma_ptr;
+
     buf_check (confLine, CFG_MAX_LEN);
     trim (confLine);
     erase_char (' ', confLine);
@@ -151,20 +154,58 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
     else if (*waste_ctr < WASTENUM_MAX && !strncmp ("WASTE", confLine, 5))
     {
-
       tokenPtr = strtok (confLine, "=");
       tokenPtr = strtok (NULL, "=");
 
+      char rem_opt[CFG_MAX_LEN];
+      strcpy (rem_opt, tokenPtr);
+
+      comma_ptr = strtok (rem_opt, ",");
+      comma_ptr = strtok (NULL, ",");
+
+      /**
+       * Does the line have the comma?
+       */
+      if (comma_ptr != NULL)
+      {
+        erase_char (' ', comma_ptr);
+        unsigned int ctr = 0;
+
+        while (ctr < strlen (tokenPtr))
+        {
+          if (tokenPtr[ctr] == ',')
+            tokenPtr[ctr] = '\0';
+
+          ctr++;
+        }
+
+        if (strcmp ("removable", comma_ptr) == 0)
+          removable = 1;
+        else
+          fprintf (stderr, "invalid option in config\n");
+      }
+
+      trim (tokenPtr);
       trim_slash (tokenPtr);
       erase_char (' ', tokenPtr);
       make_home_real (tokenPtr, HOMEDIR);
 
       buf_check_with_strop (waste[*waste_ctr].parent, tokenPtr, CPY);
+
       strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
 
       buf_check_with_strop (waste[*waste_ctr].files, "/files/", CAT);
+
+      if (removable && file_not_found (waste[*waste_ctr].parent))
+      {
+        fprintf (stderr, "On unmounted device or not yet created: %s\n",
+                  waste[*waste_ctr].parent);
+        continue;
+      }
+
       if (make_dir (waste[*waste_ctr].files))
         continue;
+
 
       strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
       buf_check_with_strop (waste[*waste_ctr].info, "/info/", CAT);

@@ -289,7 +289,9 @@ file_not_found (const char *filename)
   struct stat st;
   bool regular = 0;
   regular = lstat (filename, &st);
-  if (!regular || S_ISLNK (st.st_mode) || S_ISDIR (st.st_mode))
+  // printf("%s/t/t%d\n", filename, regular);
+  // if (regular == 0 || S_ISLNK (st.st_mode) || S_ISDIR (st.st_mode))
+  if (regular == 0)
     return 0;
 
   else

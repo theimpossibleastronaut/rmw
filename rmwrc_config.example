@@ -10,13 +10,15 @@
 # will use the 2nd folder is when purge is run.
 
 WASTE = $HOME/.trash.rmw
-WASTE = /media/home_/andy/.ctrash
 WASTE = /mnt/fs3/.ctrash
 #
 # Desktop Trash folders, for autoPurge
 #
 WASTE = ~/.local/share/Trash
-WASTE=/media/home_/andy/.Trash-1000
+
+#If the directory is on a removable device, append
+#',removable'. The directory must be created manually prior to first use.
+WASTE=/media/home_/andy/.Trash-1000, removable
 
 # '0' to disable
 purge_after = 90
