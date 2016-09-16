@@ -206,9 +206,9 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       if (make_dir (waste[*waste_ctr].files))
         continue;
 
-
       strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
       buf_check_with_strop (waste[*waste_ctr].info, "/info/", CAT);
+
       if (make_dir (waste[*waste_ctr].info))
         continue;
 

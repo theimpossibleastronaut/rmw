@@ -36,7 +36,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
   struct restore
   {
     char *base_name;
-    char real_path[MP];
+    char relative_path[MP];
     char dest[MP];
     char info[MP];
   } file;
@@ -54,16 +54,16 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
 
     else
     {
-
       buf_check (argv[restore_request], PATH_MAX);
-      file.real_path[0] = '\0';
-      resolve_path (argv[restore_request], file.real_path);
+
+      strcpy (file.relative_path, argv[restore_request]);
 
       file.base_name = basename (argv[restore_request]);
 
-      truncate_str (file.real_path, strlen ("files/") + strlen (file.base_name));
-      strcpy (file.info, file.real_path);
-      strcat (file.info, "info/");
+      truncate_str (file.relative_path, strlen (file.base_name));
+
+      strcpy (file.info, file.relative_path);
+      strcat (file.info, "../info/");
       strcat (file.info, file.base_name);
       strcat (file.info, DOT_TRASHINFO);
 

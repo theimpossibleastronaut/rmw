@@ -190,12 +190,12 @@ trim_slash (char str[])
 
 /**
  * adding the null terminator to chop off part of a string
- * at a given point
+ * at a given position
  */
 void
-truncate_str (char *str, short len)
+truncate_str (char *str, unsigned short pos)
 {
-  str[strlen (str) - len] = '\0';
+  str[strlen (str) - pos] = '\0';
 }
 
 /**

@@ -44,7 +44,7 @@ void
 trim_slash (char str[]);
 
 void
-truncate_str (char *str, short len);
+truncate_str (char *str, unsigned short pos);
 
 bool
 resolve_path (const char *str, char *dest);
