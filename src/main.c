@@ -287,20 +287,20 @@ main (int argc, char *argv[])
 
             if (info_status == 0)
             {
-              /**
-               * Open undo_file for writing if it hasn't been yet
-               */
-              if (!undo_opened)
-              {
-                if ((undo_file_ptr = fopen (undo_path, "w")) != NULL)
-                  undo_opened = 1;
-
-                else
+                /**
+                 * Open undo_file for writing if it hasn't been yet
+                 */
+                if (!undo_opened)
                 {
-                  open_err (undo_path, __func__);
-                  return 1;
+                  if ((undo_file_ptr = fopen (undo_path, "w")) != NULL)
+                    undo_opened = 1;
+
+                  else
+                  {
+                    open_err (undo_path, __func__);
+                    return 1;
+                  }
                 }
-              }
               fprintf (undo_file_ptr, "%s\n", file.dest_name);
             }
 
