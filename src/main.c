@@ -360,13 +360,13 @@ main (int argc, char *argv[])
   }
 
   else if (restoreYes)
-    Restore (argc, argv, optind, time_str_appended);
+    Restore (argc, argv, optind, time_str_appended, waste, waste_dirs_total);
 
   else if (select)
     restore_select (waste, time_str_appended, waste_dirs_total);
 
   else if (undo_last)
-    undo_last_rmw (HOMEDIR, time_str_appended);
+    undo_last_rmw (HOMEDIR, time_str_appended, waste, waste_dirs_total);
 
   else
   {

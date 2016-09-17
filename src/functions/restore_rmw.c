@@ -31,7 +31,8 @@
  * written more efficiently
  */
 void
-Restore (int argc, char *argv[], int optind, char *time_str_appended)
+Restore (int argc, char *argv[], int optind, char *time_str_appended,
+          struct waste_containers *waste, const int waste_dirs_total)
 {
   struct restore
   {
@@ -45,20 +46,48 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
    */
   char line[MP + 5];
 
-  int restore_request;
+  int restore_request = optind - 1;
 
-  for (restore_request = optind - 1; restore_request < argc; restore_request++)
+  buf_check (argv[restore_request], PATH_MAX);
+
+  for (; restore_request < argc; restore_request++)
   {
+    file.base_name = basename (argv[restore_request]);
+
+/**
+ * The 2 code blocks below address
+ * restoring files with only the basename #14
+ */
+    if ((strcmp (file.base_name, argv[restore_request]) == 0) &&
+          file_not_found (file.base_name))
+    {
+      fprintf (stdout, "Searching using only the basename...\n");
+      unsigned short ctr = 0;
+
+      while (ctr < waste_dirs_total)
+      {
+        char *possibly_in_path[1];
+
+        possibly_in_path[0] = waste[ctr].files;
+
+        buf_check_with_strop (possibly_in_path[0], argv[restore_request], CAT);
+
+        Restore (1, possibly_in_path, 1, time_str_appended, waste,
+                  waste_dirs_total);
+
+        ctr++;
+      }
+
+      fprintf (stdout, "search complete\n");
+      continue;
+    }
+
     if (file_not_found (argv[restore_request]))
       printf ("%s not found\n", argv[restore_request]);
 
     else
     {
-      buf_check (argv[restore_request], PATH_MAX);
-
       strcpy (file.relative_path, argv[restore_request]);
-
-      file.base_name = basename (argv[restore_request]);
 
       truncate_str (file.relative_path, strlen (file.base_name));
 
@@ -81,8 +110,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
 
         if (fp == NULL)
         {
-          fprintf (stderr, "Error: opening %s\n", file.info);
-          perror (__func__);
+          open_err (file.info, __func__);
           break;
         }
 
@@ -227,7 +255,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
         destiny[0] = path_to_file;
         printf ("\n");
 
-        Restore (1, destiny, 1, time_str_appended);
+        Restore (1, destiny, 1, time_str_appended, waste, waste_dirs_total);
         break;
       }
 

@@ -30,7 +30,8 @@
 #include "primary_funcs.h"
 
 void
-Restore (int argc, char *argv[], int optind, char *time_str_appended);
+Restore (int argc, char *argv[], int optind, char *time_str_appended,
+          struct waste_containers *waste, const int waste_dirs_total);
 
 void
 restore_select (struct waste_containers *waste, char *time_str_appended,

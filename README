@@ -69,6 +69,10 @@ Example: rmw -z ~/.trash.rmw/files/*.iso
 The other way is to be in the WASTE/files/ folder; from there, only the
 basename is needed.
 
+Note: If <basename> is given as an option, and the file isn't in your
+present working directory, rmw will search through all your WASTE folders,
+and restore it if found.
+
 == Protected directories ==
 
 explained:
