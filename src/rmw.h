@@ -72,9 +72,7 @@
 #define WASTENUM_MAX 16
 
 /**
- * When purging, the maximum number of directories that will be recursed
- * before rmw will stop (to prevent infinite recursion from any unknown
- * bugs that might cause infinite recursion)
+ * How many folder can be set for "protection" in rmwrc
  */
 #define PROTECT_MAX 32
 
