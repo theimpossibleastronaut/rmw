@@ -99,6 +99,10 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
 
   char real_path[MP];
 
+  /* Worst case scenario: whole path is escaped, so 3 chars per
+   * actual character */
+  char escaped_path[MP * 3];
+
   if (resolve_path (file.main_argv, real_path))
     return 1;
 
@@ -106,8 +110,11 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
 
   if (fp != NULL)
   {
+    if (escape_url (real_path, escaped_path, MP * 3) )
+      return 1;
+
     fprintf (fp, "[Trash Info]\n");
-    fprintf (fp, "Path=%s\n", real_path);
+    fprintf (fp, "Path=%s\n", escaped_path);
     fprintf (fp, "DeletionDate=%s", time_now);
 
     short close_err = close_file (fp, finalInfoDest, __func__);
