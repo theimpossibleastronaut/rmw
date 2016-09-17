@@ -32,7 +32,6 @@
 #define _GNU_SOURCE
 
 #include "config.h"
-#include <assert.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -50,7 +49,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "0.2.10"
+#define VERSION "2016.09.xx-dev"
 #endif
 
 #define DEBUG 0
@@ -72,13 +71,19 @@
 /* Not yet fully implemented */
 #define WASTENUM_MAX 16
 
+/**
+ * When purging, the maximum number of directories that will be recursed
+ * before rmw will stop (to prevent infinite recursion from any unknown
+ * bugs that might cause infinite recursion)
+ */
 #define PROTECT_MAX 32
+
+#define DOT_TRASHINFO ".trashinfo"
+#define NO_WASTE_FOLDER -1
 
 // shorten PATH_MAX to two characters
 enum
 { MP = PATH_MAX + 1 };
-
-#define DOT_TRASHINFO ".trashinfo"
 
 struct waste_containers
 {
@@ -89,6 +94,11 @@ struct waste_containers
   int dev_num;
 };
 
+enum
+{
+  CPY, CAT
+};
+
 struct rmw_target
 {
   char main_argv[MP];
@@ -97,13 +107,6 @@ struct rmw_target
 
   bool is_duplicate;
 };
-
-enum
-{
-  CPY, CAT
-};
-
-#define NO_WASTE_FOLDER -1
 
 bool verbose;
 
