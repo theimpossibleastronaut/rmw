@@ -82,6 +82,7 @@ void version (void)
 
   printf ("rmw %s\n", VERSION);
   printf ("Author: Andy Alt (andy400-dev@yahoo.com)\n");
+  printf ("The RMW team: see AUTHORS file\n");
   printf
     ("This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n");
   printf ("This is free software, and you are welcome to redistribute it\n");
