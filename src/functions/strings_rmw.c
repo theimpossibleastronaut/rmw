@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -143,32 +143,32 @@ erase_char (char c, char *str)
  */
 
 bool
-change_HOME (char *t, const char *HOMEDIR)
+make_home_real (char *str, const char *HOMEDIR)
 {
-  bool status = 0;
-  if (t[0] == '~')
+  bool ok = 0;
+  if (str[0] == '~')
   {
-    erase_char ('~', t);
-    status = 1;
+    erase_char ('~', str);
+    ok = 1;
   }
-  else if (strncmp (t, "$HOME", 5) == 0)
+  else if (strncmp (str, "$HOME", 5) == 0)
   {
-    int i;
+    int chars_to_delete;
 
-    for (i = 0; i < 5; i++)
-      erase_char (t[0], t);
+    for (chars_to_delete = 0; chars_to_delete < 5; chars_to_delete++)
+      erase_char (str[0], str);
 
-    status = 1;
+    ok = 1;
   }
   else
     return 0;
 
   char temp[MP];
   buf_check_with_strop (temp, HOMEDIR, CPY);
-  buf_check_with_strop (temp, t, CAT);
-  strcpy (t, temp);
+  buf_check_with_strop (temp, str, CAT);
+  strcpy (str, temp);
 
-  return status;
+  return ok;
 }
 
 /**
@@ -190,12 +190,12 @@ trim_slash (char str[])
 
 /**
  * adding the null terminator to chop off part of a string
- * at a given point
+ * at a given position
  */
 void
-truncate_str (char *str, short len)
+truncate_str (char *str, unsigned short pos)
 {
-  str[strlen (str) - len] = '\0';
+  str[strlen (str) - pos] = '\0';
 }
 
 /**
@@ -353,4 +353,80 @@ unescape_url (const char *str, char *dest, unsigned short len)
   dest[pos_dest] = '\0';
 
   return 0;
+}
+
+/**
+ * convert_space()
+ *
+ * converts '%20' in filenames to a space
+ *
+ */
+void
+convert_space (char *filename)
+{
+  char *cut;
+
+  while ((cut = strchr (filename, '%')) != NULL)
+  {
+
+    if (strncmp (cut, "%20", 3) == 0)
+    {
+      const short new_end_pos = strlen (filename) - 2;
+
+      short str_pos = 0;
+      bool space_reached = 0;
+
+      while (str_pos < new_end_pos)
+      {
+
+        /**
+         * Shift characters to the left
+         */
+        if (space_reached)
+          filename[str_pos] = filename[str_pos + 2];
+
+        else if (filename[str_pos] == '%')
+          {
+            filename[str_pos] = ' ';
+            space_reached = 1;
+          }
+
+        str_pos++;
+      }
+
+      filename[str_pos] = '\0';
+    }
+  }
+
+  return;
+}
+
+/**
+ *
+ * insert_str_at_pos()
+ *
+ * Insert str_to_insert into str at position pos
+ * doesn't overwrite any characters, but shifts them to the right
+ *
+ */
+void
+insert_str_at_pos (const char *str_to_insert, char *str,
+                   const unsigned int pos)
+{
+  unsigned int cur_endpos = strlen (str) - 1;
+
+  const unsigned int insert_len = strlen (str_to_insert);
+
+  unsigned int new_endpos = cur_endpos + insert_len;
+
+  str[new_endpos + 1] = '\0';
+
+  while (cur_endpos >= pos)
+    str[new_endpos--] = str[cur_endpos--];
+
+  unsigned int insert = 0;
+  unsigned int shift_right = pos;
+
+  while (insert < insert_len)
+    str[shift_right++] = str_to_insert[insert++];
 }

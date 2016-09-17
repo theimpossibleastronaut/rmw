@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ main (int argc, char *argv[])
 {
   struct waste_containers waste[WASTENUM_MAX];
 
-  const char *const short_options = "hvc:pgz:lsuBwV";
+  const char *const short_options = "hvc:pgz:lsuBwVfir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -45,6 +45,9 @@ main (int argc, char *argv[])
     {"bypass", 0, NULL, 'B'},
     {"warranty", 0, NULL, 'w'},
     {"version", 0, NULL, 'V'},
+    {"interactive", 0, NULL, 'i'},
+    {"recurse", 0, NULL, 'r'},
+    {"force", 0, NULL, 'f'},
     {NULL, 0, NULL, 0}
   };
 
@@ -58,6 +61,7 @@ main (int argc, char *argv[])
   verbose = 0;
   bool bypass = 0;
   bool list = 0;
+  bool force = 0;
 
   const char *alt_config = NULL;
 
@@ -102,6 +106,15 @@ main (int argc, char *argv[])
       break;
     case 'V':
       version ();
+      break;
+    case 'i':
+      fprintf(stdout, "-i / --interactive: not implemented\n");
+      break;
+    case 'r':
+      fprintf(stdout, "-r / --recurse: not implemented\n");
+      break;
+    case 'f':
+      force = 1;
       break;
     case '?':
       print_usage ();
@@ -150,9 +163,12 @@ main (int argc, char *argv[])
 
   unsigned short *purge_after_ptr = malloc (sizeof (*purge_after_ptr));
 
+  bool *force_ptr = malloc (sizeof (*force_ptr));
+  *force_ptr = force;
+
   short conf_err =
     get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr, list, waste_ctr,
-                     protected_dir, protected_ctr);
+                     protected_dir, protected_ctr, force_ptr);
 
   const int waste_dirs_total = *waste_ctr;
   free (waste_ctr);
@@ -162,6 +178,9 @@ main (int argc, char *argv[])
 
   const int purge_after = *purge_after_ptr;
   free (purge_after_ptr);
+
+  force = *force_ptr;
+  free (force_ptr);
 
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
@@ -186,6 +205,7 @@ main (int argc, char *argv[])
   {
     buf_check_with_strop (undo_path, HOMEDIR, CPY);
     buf_check_with_strop (undo_path, UNDO_FILE, CAT);
+    int rmwed_files = 0;
 
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
@@ -280,8 +300,10 @@ main (int argc, char *argv[])
 
           if (rename_status == 0)
           {
-            printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
+            if (verbose)
+              printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
 
+            rmwed_files++;
             info_status = mkinfo (file, waste,
                               time_now, time_str_appended, current_waste_num);
 
@@ -331,16 +353,20 @@ main (int argc, char *argv[])
         return 1;
       }
     }
+    if (rmwed_files == 1)
+      printf("%d file was ReMoved to Waste\n", rmwed_files);
+    else
+      printf("%d files were ReMoved to Waste\n", rmwed_files);
   }
 
   else if (restoreYes)
-    Restore (argc, argv, optind, time_str_appended);
+    Restore (argc, argv, optind, time_str_appended, waste, waste_dirs_total);
 
   else if (select)
     restore_select (waste, time_str_appended, waste_dirs_total);
 
   else if (undo_last)
-    undo_last_rmw (HOMEDIR, time_str_appended);
+    undo_last_rmw (HOMEDIR, time_str_appended, waste, waste_dirs_total);
 
   else
   {
@@ -351,13 +377,18 @@ main (int argc, char *argv[])
     }
   }
 
-  if (purgeYes != 0 && purge_after == 0)
+  if (purgeYes && !purge_after)
     printf ("purging is disabled, 'purge_after' is set to '0'\n");
 
   if (purge_after != 0 && restoreYes == 0 && select == 0)
   {
-    if (is_time_to_purge (HOMEDIR) != 0 || purgeYes != 0)
-      purge (purge_after, waste, time_now, waste_dirs_total);
+    if (is_time_to_purge (HOMEDIR, force) != 0 || purgeYes != 0)
+    {
+      if (force)
+        purge (purge_after, waste, time_now, waste_dirs_total);
+      else
+        fprintf (stderr, "purge skipped: use -f or --force\n");
+    }
   }
 
   if (undo_opened)

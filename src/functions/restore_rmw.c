@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,12 +31,13 @@
  * written more efficiently
  */
 void
-Restore (int argc, char *argv[], int optind, char *time_str_appended)
+Restore (int argc, char *argv[], int optind, char *time_str_appended,
+          struct waste_containers *waste, const int waste_dirs_total)
 {
   struct restore
   {
     char *base_name;
-    char real_path[MP];
+    char relative_path[MP];
     char dest[MP];
     char info[MP];
   } file;
@@ -45,25 +46,53 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
    */
   char line[MP + 5];
 
-  int restore_request;
+  int restore_request = optind - 1;
 
-  for (restore_request = optind - 1; restore_request < argc; restore_request++)
+  buf_check (argv[restore_request], PATH_MAX);
+
+  for (; restore_request < argc; restore_request++)
   {
+    file.base_name = basename (argv[restore_request]);
+
+/**
+ * The 2 code blocks below address
+ * restoring files with only the basename #14
+ */
+    if ((strcmp (file.base_name, argv[restore_request]) == 0) &&
+          file_not_found (file.base_name))
+    {
+      fprintf (stdout, "Searching using only the basename...\n");
+      unsigned short ctr = 0;
+
+      while (ctr < waste_dirs_total)
+      {
+        char *possibly_in_path[1];
+
+        possibly_in_path[0] = waste[ctr].files;
+
+        buf_check_with_strop (possibly_in_path[0], argv[restore_request], CAT);
+
+        Restore (1, possibly_in_path, 1, time_str_appended, waste,
+                  waste_dirs_total);
+
+        ctr++;
+      }
+
+      fprintf (stdout, "search complete\n");
+      continue;
+    }
+
     if (file_not_found (argv[restore_request]))
       printf ("%s not found\n", argv[restore_request]);
 
     else
     {
+      strcpy (file.relative_path, argv[restore_request]);
 
-      buf_check (argv[restore_request], PATH_MAX);
-      file.real_path[0] = '\0';
-      resolve_path (argv[restore_request], file.real_path);
+      truncate_str (file.relative_path, strlen (file.base_name));
 
-      file.base_name = basename (argv[restore_request]);
-
-      truncate_str (file.real_path, strlen ("files/") + strlen (file.base_name));
-      strcpy (file.info, file.real_path);
-      strcat (file.info, "info/");
+      strcpy (file.info, file.relative_path);
+      strcat (file.info, "../info/");
       strcat (file.info, file.base_name);
       strcat (file.info, DOT_TRASHINFO);
 
@@ -81,8 +110,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
 
         if (fp == NULL)
         {
-          fprintf (stderr, "Error: opening %s\n", file.info);
-          perror (__func__);
+          open_err (file.info, __func__);
           break;
         }
 
@@ -121,6 +149,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended)
             buf_check_with_strop (file.dest, tokenPtr, CPY);
             tokenPtr = NULL;
             trim (file.dest);
+            convert_space (file.dest);
 
             close_file (fp, file.info, __func__);
 
@@ -226,7 +255,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
         destiny[0] = path_to_file;
         printf ("\n");
 
-        Restore (1, destiny, 1, time_str_appended);
+        Restore (1, destiny, 1, time_str_appended, waste, waste_dirs_total);
         break;
       }
 

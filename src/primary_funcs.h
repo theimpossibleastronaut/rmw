@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,8 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
         char *time_str_appended, const short cnum);
 
 void
-undo_last_rmw (const char *HOMEDIR, char *time_str_appended);
+undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
+               struct waste_containers *waste, const int waste_dirs_total);
 
 int getch (void);
 

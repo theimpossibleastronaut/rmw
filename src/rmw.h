@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,8 +50,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-/* #define VERSION "2016.09.04.01a" */
-#define VERSION "devel.testing.unstable"
+#define VERSION "0.2.10"
 #endif
 
 #define DEBUG 0
@@ -98,15 +97,6 @@ struct rmw_target
 
   bool is_duplicate;
 };
-
-/**
- * WIP:
- *
-struct messages
-{
-  char close[81];
-};
-*/
 
 enum
 {

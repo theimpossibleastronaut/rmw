@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
                 const char *HOMEDIR, unsigned short *purge_after_ptr, bool list, int *waste_ctr,
-                char pro_dir[PROTECT_MAX][MP], int *pro_ctr)
+                char pro_dir[PROTECT_MAX][MP], int *pro_ctr, bool *force_ptr)
 {
   char config_file[MP];
   const unsigned short CFG_MAX_LEN = PATH_MAX + 16;
@@ -129,6 +129,9 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   {
     char *tokenPtr;
 
+    bool removable = 0;
+    char *comma_ptr;
+
     buf_check (confLine, CFG_MAX_LEN);
     trim (confLine);
     erase_char (' ', confLine);
@@ -146,25 +149,69 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       *purge_after_ptr = atoi (tokenPtr);
     }
 
+    else if (strncmp (confLine, "force_not_required", 18) == 0)
+      *force_ptr = 1;
+
     else if (*waste_ctr < WASTENUM_MAX && !strncmp ("WASTE", confLine, 5))
     {
-
       tokenPtr = strtok (confLine, "=");
       tokenPtr = strtok (NULL, "=");
 
+      char rem_opt[CFG_MAX_LEN];
+      strcpy (rem_opt, tokenPtr);
+
+      comma_ptr = strtok (rem_opt, ",");
+      comma_ptr = strtok (NULL, ",");
+
+      /**
+       * Does the line have the comma?
+       */
+      if (comma_ptr != NULL)
+      {
+        erase_char (' ', comma_ptr);
+        unsigned int ctr = 0;
+
+        while (ctr < strlen (tokenPtr))
+        {
+          if (tokenPtr[ctr] == ',')
+            tokenPtr[ctr] = '\0';
+
+          ctr++;
+        }
+
+        if (strcmp ("removable", comma_ptr) == 0)
+          removable = 1;
+        else
+        {
+          fprintf (stderr, "Error: invalid option in config\n");
+          continue;
+        }
+      }
+
+      trim (tokenPtr);
       trim_slash (tokenPtr);
       erase_char (' ', tokenPtr);
-      change_HOME (tokenPtr, HOMEDIR);
+      make_home_real (tokenPtr, HOMEDIR);
 
       buf_check_with_strop (waste[*waste_ctr].parent, tokenPtr, CPY);
+
       strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
 
       buf_check_with_strop (waste[*waste_ctr].files, "/files/", CAT);
+
+      if (removable && file_not_found (waste[*waste_ctr].parent))
+      {
+        fprintf (stderr, "On unmounted device or not yet created: %s\n",
+                  waste[*waste_ctr].parent);
+        continue;
+      }
+
       if (make_dir (waste[*waste_ctr].files))
         continue;
 
       strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
       buf_check_with_strop (waste[*waste_ctr].info, "/info/", CAT);
+
       if (make_dir (waste[*waste_ctr].info))
         continue;
 
@@ -193,7 +240,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
       buf_check (tokenPtr, MP);
       erase_char (' ', tokenPtr);
-      change_HOME (tokenPtr, HOMEDIR);
+      make_home_real (tokenPtr, HOMEDIR);
 
       buf_check (tokenPtr, MP);
 

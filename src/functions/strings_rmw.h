@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,13 +38,13 @@ void
 erase_char (char c, char *str);
 
 bool
-change_HOME (char *t, const char *HOMEDIR);
+make_home_real (char *t, const char *HOMEDIR);
 
 void
 trim_slash (char str[]);
 
 void
-truncate_str (char *str, short len);
+truncate_str (char *str, unsigned short pos);
 
 bool
 resolve_path (const char *str, char *dest);
@@ -57,3 +57,10 @@ escape_url (const char *str, char *dest, unsigned short len);
 
 bool
 unescape_url (const char *str, char *dest, unsigned short len);
+
+void
+convert_space (char *filename);
+
+void
+insert_str_at_pos (const char *str_to_insert, char *str,
+                   const unsigned int pos);

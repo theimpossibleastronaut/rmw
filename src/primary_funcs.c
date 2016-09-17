@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andyqwerty@users.sourceforge.net)
+ *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -104,14 +104,7 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
 
   fp = fopen (finalInfoDest, "w");
 
-  if (fp == NULL)
-  {
-    fprintf (stderr, "Error: Unable to create info file :\n");
-    fprintf (stderr, "While opening %s for writing :\n", finalInfoDest);
-    perror ("mkinfo()");
-    return 1;
-  }
-  else
+  if (fp != NULL)
   {
     fprintf (fp, "[Trash Info]\n");
     fprintf (fp, "Path=%s\n", real_path);
@@ -122,11 +115,18 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
       return 1;
   }
 
+  else
+  {
+    open_err (finalInfoDest, __func__);
+    return 1;
+  }
+
   return 0;
 }
 
 void
-undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
+undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
+               struct waste_containers *waste, const int waste_dirs_total)
 {
   FILE *undo_file_ptr;
   char undo_path[MP];
@@ -145,14 +145,9 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
 
   else
   {
-    fprintf (stderr, "Error: while opening %s for reading\n", undo_path);
-    perror ("undo_last_rmw()");
+    open_err (undo_path, __func__);
 
-    /**
-     * This exit() is related to issue #8
-     * https://github.com/andy5995/rmw/issues/8
-     */
-    exit (1);
+    return;
   }
 
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
@@ -160,7 +155,7 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended)
     trim (line);
     destiny[0] = line;
 
-    Restore (1, destiny, 1, time_str_appended);
+    Restore (1, destiny, 1, time_str_appended, waste, waste_dirs_total);
   }
 
   close_file (undo_file_ptr, undo_path, __func__);
@@ -281,15 +276,21 @@ getche (void)
  * file_not_found()
  * Checks for the existence of *filename
  *
- * returns 1 if not found, 0 if the file doesn't exist
+ * returns 1 if not found; 0 if the file exists
  */
 bool
 file_not_found (const char *filename)
 {
   struct stat st;
-  bool r = 0;
-  r = lstat (filename, &st);
-  if (!r || S_ISLNK (st.st_mode) || S_ISDIR (st.st_mode))
+  // bool regular = 0;
+  // regular =
+
+  // printf("%s/t/t%d\n", filename, regular);
+
+  // if (regular == 0 || S_ISLNK (st.st_mode) || S_ISDIR (st.st_mode))
+  // if (regular == 0)
+
+  if (lstat (filename, &st) == 0)
     return 0;
 
   else
@@ -299,8 +300,7 @@ file_not_found (const char *filename)
 /**
  * open_file()
  *
- * Opens a file, checks for an error. If error print message and
- * return 1, else, returns 0
+ * called if fopen() returns NULL. Print error message
  */
 void
 open_err (const char *filename, const char *function_name)
