@@ -43,8 +43,9 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
   } file;
 
   /* adding 5 for the 'Path=' preceding the path.
+   * multiplying by 3 for worst case scenario (all chars escaped)
    */
-  char line[MP + 5];
+  char line[MP * 3 + 5];
 
   int restore_request = optind - 1;
 
@@ -136,7 +137,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
           }
 
           /** adding 5 for the 'Path=' preceding the path. */
-          if (fgets (line, MP + 5, fp) != NULL)
+          if (fgets (line, MP * 3 + 5, fp) != NULL)
           {
             char *tokenPtr;
 
@@ -144,12 +145,12 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
             tokenPtr = strtok (NULL, "=");
 
             /**
-             * tokenPtr now equals the absolute path from the info file
+             * tokenPtr now equals the escaped absolute path from the info file
              */
-            buf_check_with_strop (file.dest, tokenPtr, CPY);
+            unescape_url (tokenPtr, file.dest, MP);
             tokenPtr = NULL;
             trim (file.dest);
-            convert_space (file.dest);
+            /* convert_space (file.dest); */
 
             close_file (fp, file.info, __func__);
 
