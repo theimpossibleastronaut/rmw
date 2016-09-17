@@ -4,6 +4,13 @@
 
     enhancement: restoring files with only the basename #14
 
+    url_escaping: #20 - escape Path key with URL (encoding) (Patched
+    by Bruce Hernandez)
+        Formerly this issue was about %20's not being converted to spaces.
+    Bruce's patch makes things compliant with the freedesktop.org Trash
+    specification:
+    https://specifications.freedesktop.org/trash-spec/trashspec-latest.html
+
 
 2016-09-16
 
