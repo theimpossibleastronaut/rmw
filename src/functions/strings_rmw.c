@@ -310,3 +310,47 @@ escape_url (const char *str, char *dest, const unsigned short len)
 
   return 0;
 }
+
+/**
+ * unescape_url()
+ *
+ * Convert a URL valid string into a regular string, unescaping any '%'s
+ * that appear.
+ * returns 0 on succes, 1 on failure
+ */
+bool
+unescape_url (const char *str, char *dest, const unsigned short len)
+{
+  unsigned short pos_str = 0;
+  unsigned short pos_dest = 0;
+
+  while (str[pos_str])
+  {
+    if (str[pos_str] == '%')
+    {
+      /* skip the '%' */
+      pos_str+=1;
+      /* Check for buffer overflow (there should be enough space for 1
+       * character + '\0') */
+      if (pos_dest + 2 > len)
+        return 1;
+
+      sscanf(str + pos_str, "%2hhx", dest + pos_dest); 
+      pos_str+=2;
+    }
+    else {
+      /* Check for buffer overflow (there should be enough space for 1
+       * character + '\0') */
+      if (pos_dest + 2 > len)
+        return 1;
+
+      dest[pos_dest] = str[pos_str];
+      pos_str+=1;
+    }
+    pos_dest++;
+  } 
+
+  dest[pos_dest] = '\0';
+
+  return 0;
+}
