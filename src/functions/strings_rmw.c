@@ -271,7 +271,7 @@ bool is_unreserved (char c)
  * returns 0 on success, 1 on failure
  */
 bool
-escape_url (const char *str, char *dest, const unsigned short len)
+escape_url (const char *str, char *dest, unsigned short len)
 {
 
   unsigned short pos_str = 0;
@@ -319,7 +319,7 @@ escape_url (const char *str, char *dest, const unsigned short len)
  * returns 0 on succes, 1 on failure
  */
 bool
-unescape_url (const char *str, char *dest, const unsigned short len)
+unescape_url (const char *str, char *dest, unsigned short len)
 {
   unsigned short pos_str = 0;
   unsigned short pos_dest = 0;
