@@ -30,6 +30,8 @@
 #include "restore_rmw.h"
 #include "strings_rmw.h"
 
+#define MAX_MSG_SIZE 512
+
 int
 make_dir (const char *dir);
 
