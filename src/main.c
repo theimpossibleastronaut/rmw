@@ -155,7 +155,7 @@ main (int argc, char *argv[])
     return 1;
   }
 
-  int *protected_ctr = malloc (sizeof (*protected_ctr));
+  int *prot_dir_ctr = malloc (sizeof (*prot_dir_ctr));
 
   char protected_dir[PROTECT_MAX][MP];
 
@@ -168,13 +168,13 @@ main (int argc, char *argv[])
 
   short conf_err =
     get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr, list, waste_ctr,
-                     protected_dir, protected_ctr, force_ptr);
+                     protected_dir, prot_dir_ctr, force_ptr);
 
   const int waste_dirs_total = *waste_ctr;
   free (waste_ctr);
 
-  const int protected_total = *protected_ctr;
-  free (protected_ctr);
+  const int protected_total = *prot_dir_ctr;
+  free (prot_dir_ctr);
 
   const int purge_after = *purge_after_ptr;
   free (purge_after_ptr);
