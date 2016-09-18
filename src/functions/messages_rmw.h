@@ -1,5 +1,5 @@
 /*
- * purging_rmw.h
+ * messages_rmw.h
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
@@ -23,20 +23,18 @@
  *
  */
 
+#ifndef _INC_MESSAGES_H
+#define _INC_MESSAGES_H
+
 #include "rmw.h"
 #include "strings_rmw.h"
-#include "primary_funcs.h"
 
-#define RMDIR_MAX_DEPTH 32
-#define NOT_WRITEABLE 101
-#define MAX_DEPTH_REACHED 201
+#define MAX_MSG_SIZE 512
 
-int
-rmdir_recursive (char *path, short unsigned level);
+void
+open_err (const char *filename, const char *function_name);
 
-int
-purge (const short purge_after, const struct waste_containers *waste, char *time_now,
-       const int waste_dirs_total);
+short
+close_file (FILE *file_ptr, const char *filename, const char *function_name);
 
-bool
-is_time_to_purge (const char *HOMEDIR, bool force);
+#endif

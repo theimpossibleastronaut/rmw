@@ -96,7 +96,8 @@ am_rmw_OBJECTS = primary_funcs.$(OBJEXT) main.$(OBJEXT) \
 	./functions/config_rmw.$(OBJEXT) \
 	./functions/trivial_rmw.$(OBJEXT) \
 	./functions/strings_rmw.$(OBJEXT) \
-	./functions/purging_rmw.$(OBJEXT)
+	./functions/purging_rmw.$(OBJEXT) \
+	./functions/messages_rmw.$(OBJEXT)
 rmw_OBJECTS = $(am_rmw_OBJECTS)
 rmw_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -244,13 +245,14 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -std=gnu99 -Wall -I./functions  -DSYSCONFDIR=\"${sysconfdir}\"
 rmw_SOURCES = \
-primary_funcs.c		\
-main.c 			\
-./functions/restore_rmw.c \
+primary_funcs.c			\
+main.c 				\
+./functions/restore_rmw.c 	\
 ./functions/config_rmw.c	\
-./functions/trivial_rmw.c \
-./functions/strings_rmw.c \
-./functions/purging_rmw.c
+./functions/trivial_rmw.c 	\
+./functions/strings_rmw.c 	\
+./functions/purging_rmw.c	\
+./functions/messages_rmw.c
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -360,6 +362,8 @@ functions/$(DEPDIR)/$(am__dirstamp):
 	functions/$(DEPDIR)/$(am__dirstamp)
 ./functions/purging_rmw.$(OBJEXT): functions/$(am__dirstamp) \
 	functions/$(DEPDIR)/$(am__dirstamp)
+./functions/messages_rmw.$(OBJEXT): functions/$(am__dirstamp) \
+	functions/$(DEPDIR)/$(am__dirstamp)
 
 rmw$(EXEEXT): $(rmw_OBJECTS) $(rmw_DEPENDENCIES) $(EXTRA_rmw_DEPENDENCIES) 
 	@rm -f rmw$(EXEEXT)
@@ -375,6 +379,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/primary_funcs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/config_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/messages_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/purging_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/restore_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/strings_rmw.Po@am__quote@

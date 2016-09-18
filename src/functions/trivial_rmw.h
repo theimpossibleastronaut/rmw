@@ -33,6 +33,3 @@ warranty (void);
 
 void
 version (void);
-
-void
-err_display_check_config (void);

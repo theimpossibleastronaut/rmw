@@ -28,6 +28,7 @@
 
 #include "rmw.h"
 #include "primary_funcs.h"
+#include "messages_rmw.h"
 
 void
 Restore (int argc, char *argv[], int optind, char *time_str_appended,
@@ -36,5 +37,15 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 void
 restore_select (struct waste_containers *waste, char *time_str_appended,
                 const int wdt);
+
+void
+undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
+               struct waste_containers *waste, const int waste_dirs_total);
+
+int
+getch (void);
+
+int
+getche (void);
 
 #endif

@@ -269,3 +269,37 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
   return 0;
 }
+
+/**
+ * if "$HOME" or "~" is used on configuration file
+ * change to the value of "HOMEDIR"
+ */
+
+bool
+make_home_real (char *str, const char *HOMEDIR)
+{
+  bool ok = 0;
+  if (str[0] == '~')
+  {
+    erase_char ('~', str);
+    ok = 1;
+  }
+  else if (strncmp (str, "$HOME", 5) == 0)
+  {
+    int chars_to_delete;
+
+    for (chars_to_delete = 0; chars_to_delete < 5; chars_to_delete++)
+      erase_char (str[0], str);
+
+    ok = 1;
+  }
+  else
+    return 0;
+
+  char temp[MP];
+  buf_check_with_strop (temp, HOMEDIR, CPY);
+  buf_check_with_strop (temp, str, CAT);
+  strcpy (str, temp);
+
+  return ok;
+}
