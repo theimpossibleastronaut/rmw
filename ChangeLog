@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2016-09-18
+
+    Fixed: #44 - Segfault if rmwrc isn't present in SYSCONFDIR
+
 2016-09-17
 
     enhancement: restoring files with only the basename #14

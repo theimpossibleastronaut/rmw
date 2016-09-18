@@ -31,12 +31,13 @@
  */
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
-                const char *HOMEDIR, unsigned short *purge_after_ptr, bool list, int *waste_ctr,
-                char pro_dir[PROTECT_MAX][MP], int *pro_ctr, bool *force_ptr)
+      const char *HOMEDIR, unsigned short *purge_after_ptr, bool list,
+      int *waste_ctr, char protected_dir[PROTECT_MAX][MP],
+      int *prot_dir_ctr, bool *force_ptr)
 {
   char config_file[MP];
   const unsigned short CFG_MAX_LEN = PATH_MAX + 16;
-  char confLine[CFG_MAX_LEN];
+  char line_from_config[CFG_MAX_LEN];
 
   /**
    *  purge_after will default to 90 if there's no setting
@@ -66,7 +67,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   else
     buf_check_with_strop (config_file, alt_config, CPY);
 
-  FILE *cfgPtr;
+  FILE *config_ptr;
 
   /**
    * if config_file isn't found in home directory,
@@ -75,13 +76,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
   bool config_opened = 0;
 
-  if (!file_not_found (config_file))
-  {
-    if ((cfgPtr = fopen (config_file, "r")) != NULL)
-      config_opened = 1;
-    else
-      open_err (config_file, __func__);
-  }
+  if ((config_ptr = fopen (config_file, "r")) != NULL)
+    config_opened = 1;
 
   if (config_opened)
   {}
@@ -93,72 +89,68 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     strcat (str_temp, "/rmwrc");
     buf_check_with_strop (config_file, str_temp, CPY);
 
-    if (!file_not_found (config_file))
+    config_ptr = fopen (config_file, "r");
+
+    if (config_ptr != NULL)
+      config_opened = 1;
+
+    else
     {
-      cfgPtr = fopen (config_file, "r");
-
-      if (cfgPtr != NULL)
-        config_opened = 1;
-
-      else
-      {
-        fprintf (stderr, "Error: reading %s\n", config_file);
-        perror (__func__);
-        fprintf (stderr, "Can not open configuration file\n");
-        fprintf (stderr, "%s (or)\n", config_file);
-        fprintf (stderr, "%s\n", CFG_FILE);
-        fprintf (stderr, "\nA default configuration file can be found at\n");
-        fprintf (stderr, "https://github.com/andy5995/rmw/tree/master/etc\n");
-        fprintf (stderr, "Terminating...\n");
-        return 1;
-      }
+      open_err (config_file, __func__);
+      fprintf (stderr, "Can not open configuration file\n");
+      fprintf (stderr, "%s (or)\n", config_file);
+      fprintf (stderr, "%s\n", CFG_FILE);
+      fprintf (stderr, "\nA default configuration file can be found at\n");
+      fprintf (stderr, "https://github.com/andy5995/rmw/tree/master/etc\n");
+      fprintf (stderr, "Terminating...\n");
+      return 1;
     }
   }
 
   *waste_ctr = 0;
-  *pro_ctr = 0;
+  *prot_dir_ctr = 0;
 
   /**
    * protect DATA_DIR by default
    */
-  strcpy (pro_dir[*pro_ctr], HOMEDIR);
-  strcat (pro_dir[*pro_ctr], DATA_DIR);
-  (*pro_ctr)++;
+  strcpy (protected_dir[*prot_dir_ctr], HOMEDIR);
+  strcat (protected_dir[*prot_dir_ctr], DATA_DIR);
+  (*prot_dir_ctr)++;
 
-  while (fgets (confLine, CFG_MAX_LEN, cfgPtr) != NULL)
+  while (fgets (line_from_config, CFG_MAX_LEN, config_ptr) != NULL)
   {
-    char *tokenPtr;
+    char *token_ptr;
 
     bool removable = 0;
     char *comma_ptr;
 
-    buf_check (confLine, CFG_MAX_LEN);
-    trim (confLine);
-    erase_char (' ', confLine);
+    buf_check (line_from_config, CFG_MAX_LEN);
+    trim (line_from_config);
+    erase_char (' ', line_from_config);
 
     /**
      * assign purge_after the value from config file
      */
-    if (strncmp (confLine, "purge_after", 11) == 0 || strncmp(confLine, "purgeDays", 9) == 0)
+    if (strncmp (line_from_config, "purge_after", 11) == 0 || strncmp(line_from_config, "purgeDays", 9) == 0)
     {
-      tokenPtr = strtok (confLine, "=");
-      tokenPtr = strtok (NULL, "=");
-      // buf_check (tokenPtr, 4096);
-      erase_char (' ', tokenPtr);
-      buf_check (tokenPtr, 6);
-      *purge_after_ptr = atoi (tokenPtr);
+      token_ptr = strtok (line_from_config, "=");
+      token_ptr = strtok (NULL, "=");
+      // buf_check (token_ptr, 4096);
+      erase_char (' ', token_ptr);
+      buf_check (token_ptr, 6);
+      *purge_after_ptr = atoi (token_ptr);
     }
 
-    else if (strncmp (confLine, "force_not_required", 18) == 0)
+    else if (strncmp (line_from_config, "force_not_required", 18) == 0)
       *force_ptr = 1;
 
-    else if (*waste_ctr < WASTENUM_MAX && !strncmp ("WASTE", confLine, 5))
+    else if (*waste_ctr < WASTENUM_MAX && !strncmp ("WASTE", line_from_config, 5))
     {
-      tokenPtr = strtok (confLine, "=");
-      tokenPtr = strtok (NULL, "=");
+      token_ptr = strtok (line_from_config, "=");
+      token_ptr = strtok (NULL, "=");
 
       char rem_opt[CFG_MAX_LEN];
-      strcpy (rem_opt, tokenPtr);
+      strcpy (rem_opt, token_ptr);
 
       comma_ptr = strtok (rem_opt, ",");
       comma_ptr = strtok (NULL, ",");
@@ -171,10 +163,10 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
         erase_char (' ', comma_ptr);
         unsigned int ctr = 0;
 
-        while (ctr < strlen (tokenPtr))
+        while (ctr < strlen (token_ptr))
         {
-          if (tokenPtr[ctr] == ',')
-            tokenPtr[ctr] = '\0';
+          if (token_ptr[ctr] == ',')
+            token_ptr[ctr] = '\0';
 
           ctr++;
         }
@@ -188,12 +180,12 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
         }
       }
 
-      trim (tokenPtr);
-      trim_slash (tokenPtr);
-      erase_char (' ', tokenPtr);
-      make_home_real (tokenPtr, HOMEDIR);
+      trim (token_ptr);
+      trim_slash (token_ptr);
+      erase_char (' ', token_ptr);
+      make_home_real (token_ptr, HOMEDIR);
 
-      buf_check_with_strop (waste[*waste_ctr].parent, tokenPtr, CPY);
+      buf_check_with_strop (waste[*waste_ctr].parent, token_ptr, CPY);
 
       strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
 
@@ -218,8 +210,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       /**
        * protect WASTE dirs by default
        */
-      strcpy (pro_dir[*pro_ctr], waste[*waste_ctr].parent);
-      (*pro_ctr)++;
+      strcpy (protected_dir[*prot_dir_ctr], waste[*waste_ctr].parent);
+      (*prot_dir_ctr)++;
 
       /* get device number to use later for rename
        */
@@ -233,34 +225,34 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       (*waste_ctr)++;
     }
 
-    else if (*pro_ctr < PROTECT_MAX && !strncmp ("PROTECT", confLine, 7))
+    else if (*prot_dir_ctr < PROTECT_MAX && !strncmp ("PROTECT", line_from_config, 7))
     {
-      tokenPtr = strtok (confLine, "=");
-      tokenPtr = strtok (NULL, "=");
+      token_ptr = strtok (line_from_config, "=");
+      token_ptr = strtok (NULL, "=");
 
-      buf_check (tokenPtr, MP);
-      erase_char (' ', tokenPtr);
-      make_home_real (tokenPtr, HOMEDIR);
+      buf_check (token_ptr, MP);
+      erase_char (' ', token_ptr);
+      make_home_real (token_ptr, HOMEDIR);
 
-      buf_check (tokenPtr, MP);
+      buf_check (token_ptr, MP);
 
-      resolve_path (tokenPtr, pro_dir[*pro_ctr]);
+      resolve_path (token_ptr, protected_dir[*prot_dir_ctr]);
 
-      buf_check (pro_dir[*pro_ctr], MP);
+      buf_check (protected_dir[*prot_dir_ctr], MP);
 
-      (*pro_ctr)++;
+      (*prot_dir_ctr)++;
     }
 
     if (*waste_ctr == WASTENUM_MAX)
       fprintf (stdout, "Maximum number Waste folders reached: %d\n", WASTENUM_MAX);
 
-    if (*pro_ctr == PROTECT_MAX)
+    if (*prot_dir_ctr == PROTECT_MAX)
       fprintf (stdout, "Maximum number protected folders reached: %d\n", PROTECT_MAX);
   }
 
   if (config_opened)
   {
-    if (!close_file (cfgPtr, config_file, __func__))
+    if (!close_file (config_ptr, config_file, __func__))
       config_opened = 0;
   }
 
