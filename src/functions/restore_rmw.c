@@ -150,7 +150,6 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
             unescape_url (tokenPtr, file.dest, MP);
             tokenPtr = NULL;
             trim (file.dest);
-            /* convert_space (file.dest); */
 
             close_file (fp, file.info, __func__);
 
@@ -174,6 +173,15 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
               fprintf (stdout,
                        "Duplicate filename at destination - appending time string...\n");
           }
+
+          char parent_dir[MP];
+
+          buf_check_with_strop (parent_dir, file.dest, CPY);
+
+          truncate_str (parent_dir, strlen (file.base_name));
+
+          if (file_not_found (parent_dir))
+            make_dir (parent_dir);
 
           if (!rename (argv[restore_request], file.dest))
           {
