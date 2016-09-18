@@ -37,14 +37,6 @@ int
 mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
         char *time_str_appended, const short cnum);
 
-void
-undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
-               struct waste_containers *waste, const int waste_dirs_total);
-
-int getch (void);
-
-int getche (void);
-
 bool
 file_not_found (const char *filename);
 
