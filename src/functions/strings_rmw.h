@@ -37,9 +37,6 @@ trim (char s[]);
 void
 erase_char (char c, char *str);
 
-bool
-make_home_real (char *t, const char *HOMEDIR);
-
 void
 trim_slash (char str[]);
 
