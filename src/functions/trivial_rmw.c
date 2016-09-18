@@ -91,10 +91,3 @@ void version (void)
   printf ("for details.\n");
   exit (0);
 }
-
-void
-err_display_check_config (void)
-{
-  fprintf (stderr, "Check your configuration file or permissions\n");
-}
-

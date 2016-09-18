@@ -244,7 +244,7 @@ bool is_unreserved (char c)
    * - Alphabethics (A-Z and a-z)
    * - Numerics (0-9)
    * - The following charcters: ~ _ - .
-   * 
+   *
    * For purposes of this application we will not convert "/"s, as in
    * this case they correspond to their semantic meaning.
    */
@@ -293,7 +293,7 @@ escape_url (const char *str, char *dest, unsigned short len)
       if (pos_dest + 4 > len)
         return 1;
 
-      /* A quick explanation to this printf 
+      /* A quick explanation to this printf
        * %% - print a '%'
        * 0  - pad with left '0'
        * 2  - width of string should be 2 (pad if it's just 1 char)
@@ -304,8 +304,8 @@ escape_url (const char *str, char *dest, unsigned short len)
       pos_dest+=3;
     }
     pos_str++;
-  } 
-  
+  }
+
   dest[pos_dest] = '\0';
 
   return 0;
@@ -335,7 +335,7 @@ unescape_url (const char *str, char *dest, unsigned short len)
       if (pos_dest + 2 > len)
         return 1;
 
-      sscanf(str + pos_str, "%2hhx", dest + pos_dest); 
+      sscanf(str + pos_str, "%2hhx", dest + pos_dest);
       pos_str+=2;
     }
     else {
@@ -348,85 +348,9 @@ unescape_url (const char *str, char *dest, unsigned short len)
       pos_str+=1;
     }
     pos_dest++;
-  } 
+  }
 
   dest[pos_dest] = '\0';
 
   return 0;
-}
-
-/**
- * convert_space()
- *
- * converts '%20' in filenames to a space
- *
- */
-void
-convert_space (char *filename)
-{
-  char *cut;
-
-  while ((cut = strchr (filename, '%')) != NULL)
-  {
-
-    if (strncmp (cut, "%20", 3) == 0)
-    {
-      const short new_end_pos = strlen (filename) - 2;
-
-      short str_pos = 0;
-      bool space_reached = 0;
-
-      while (str_pos < new_end_pos)
-      {
-
-        /**
-         * Shift characters to the left
-         */
-        if (space_reached)
-          filename[str_pos] = filename[str_pos + 2];
-
-        else if (filename[str_pos] == '%')
-          {
-            filename[str_pos] = ' ';
-            space_reached = 1;
-          }
-
-        str_pos++;
-      }
-
-      filename[str_pos] = '\0';
-    }
-  }
-
-  return;
-}
-
-/**
- *
- * insert_str_at_pos()
- *
- * Insert str_to_insert into str at position pos
- * doesn't overwrite any characters, but shifts them to the right
- *
- */
-void
-insert_str_at_pos (const char *str_to_insert, char *str,
-                   const unsigned int pos)
-{
-  unsigned int cur_endpos = strlen (str) - 1;
-
-  const unsigned int insert_len = strlen (str_to_insert);
-
-  unsigned int new_endpos = cur_endpos + insert_len;
-
-  str[new_endpos + 1] = '\0';
-
-  while (cur_endpos >= pos)
-    str[new_endpos--] = str[cur_endpos--];
-
-  unsigned int insert = 0;
-  unsigned int shift_right = pos;
-
-  while (insert < insert_len)
-    str[shift_right++] = str_to_insert[insert++];
 }

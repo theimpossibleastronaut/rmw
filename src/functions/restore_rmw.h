@@ -28,6 +28,7 @@
 
 #include "rmw.h"
 #include "primary_funcs.h"
+#include "messages_rmw.h"
 
 void
 Restore (int argc, char *argv[], int optind, char *time_str_appended,

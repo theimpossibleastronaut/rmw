@@ -57,10 +57,3 @@ escape_url (const char *str, char *dest, unsigned short len);
 
 bool
 unescape_url (const char *str, char *dest, unsigned short len);
-
-void
-convert_space (char *filename);
-
-void
-insert_str_at_pos (const char *str_to_insert, char *str,
-                   const unsigned int pos);

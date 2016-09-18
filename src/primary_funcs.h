@@ -30,8 +30,6 @@
 #include "restore_rmw.h"
 #include "strings_rmw.h"
 
-#define MAX_MSG_SIZE 512
-
 int
 make_dir (const char *dir);
 
@@ -49,11 +47,5 @@ int getche (void);
 
 bool
 file_not_found (const char *filename);
-
-void
-open_err (const char *filename, const char *function_name);
-
-short
-close_file (FILE *file_ptr, const char *filename, const char *function_name);
 
 #endif

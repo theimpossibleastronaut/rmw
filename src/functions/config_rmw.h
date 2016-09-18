@@ -27,6 +27,7 @@
 #include "primary_funcs.h"
 #include "strings_rmw.h"
 #include "trivial_rmw.h"
+#include "messages_rmw.h"
 
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
