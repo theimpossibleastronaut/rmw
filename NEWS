@@ -1,5 +1,45 @@
 === RMW Release Notes ===
 
+2016-09-18
+
+Two new developers have contributed patches to rmw: Parth Suresh and
+Bruce Hernandez.
+
+Notable changes from the previous release:
+
+We believe the 'missing aclocal' error received when building is fixed.
+
+When files are ReMoved or purged, each one will not not display unless
+--verbose -v is used at the command line; instead, a summary line will
+show how many files were ReMoved or purged.
+
+For purge to run, -f --force is needed as an argument at the command line.
+If 'force_not_required' is added to your config file, then using the extra
+argument is not needed.
+
+Restoring a file with the 'select' option will no longer fail.
+
+Adding ',removable' after a WASTE folder in your config file will mean
+that rmw won't try to create that directory; it must be manually created
+prior to first use. If the WASTE folder is present, rmw will use it, if not
+rmw will skip over it.
+
+symlinks: rmw can now find the info file when restoring them.
+
+Files can be restored using only the basename, from within any directory.
+NOTE: That feature will not process wildcards unless the user is in a
+<WASTE>/files folder and the filespec actually exists in the present
+working directory.
+
+.trashinfo files now conform to the freedesktop Trash specification
+(e.g. if the Path= key in a .trashinfo contains '%20' as part of the filename,
+it will be converted to a 'space' when it is restored).
+See https://github.com/andy5995/rmw/issues/20 for more detail.
+
+Please visit the web site and leave feedback; bug reports are also requested.
+https://github.com/andy5995/rmw/wiki
+
+
 2016-09-04
 
 This release includes a fix for issue #24.

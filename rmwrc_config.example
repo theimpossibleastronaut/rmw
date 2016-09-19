@@ -6,29 +6,41 @@
 # with the rmw package.
 #
 # NOTE: If 2 WASTE folders are on the same file system, rmw will ReMove files
-# to the first WASTE folder listed, ignoring the 2nd one. The only time it
-# will use the 2nd folder is when purge is run.
-
+# to the first WASTE folder listed, ignoring the 2nd one. Purge will still
+# check the 2nd folder and remove files after a specified number of days.
+#
 WASTE = $HOME/.trash.rmw
 WASTE = /mnt/fs3/.ctrash
 #
-# Desktop Trash folders, for autoPurge
+
+# If you would like this to be your primary trash folder (i.e. tied to
+# your Desktop Trash), be sure it's listed at the top, before other
+# WASTE folders.
 #
 WASTE = ~/.local/share/Trash
+#
 
-#If the directory is on a removable device, append
-#',removable'. The directory must be created manually prior to first use.
+# Removable media: If a folder has ',removable" appended to it, rmw
+# will not try to create it; it must be initially created manually. If
+# the folder exists when rmw is run, it will be used; if not, it will be
+# skipped.
+#
 WASTE=/media/home_/andy/.Trash-1000, removable
 
+
 # '0' to disable
+#
 purge_after = 90
+#
 
 # Uncomment the line below to allow purge to run without --force
+#
 #force_not_required
+#
 
-# The current release doesn't "protect" files within the directories, or
-# parent directories.
-# The development version (and next release) protects files under
-# protected directories (not fully tested)
-PROTECT = /usr/local/bin
+# If attempting to rmw files under this directory, they will not be processed
+# unless -B --bypass is given as an argument.
+#
+#PROTECT = /usr/local/bin
 #PROTECT = $HOME/src
+#

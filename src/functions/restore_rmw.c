@@ -178,7 +178,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
           buf_check_with_strop (parent_dir, file.dest, CPY);
 
-          truncate_str (parent_dir, strlen (file.base_name));
+          truncate_str (parent_dir, strlen (basename (file.dest)));
 
           if (file_not_found (parent_dir))
             make_dir (parent_dir);

@@ -33,28 +33,30 @@ void print_usage (void)
   printf ("-p, --pause               wait for a keypress before exiting\n");
   printf
     ("-g, --purge               run purge even if it's been run today\n");
-  printf ("-z, --restore <wildcard filename(s) pattern>\n");
   printf ("-f, --force               allow purge to run\n");
   printf ("-i, --interactive         not implemented\n");
   printf ("-r, --recurse             not implemented\n");
-  printf ("-s, --select              select files from list to restore\n");
-  printf ("-u, --undo-last           undo last ReMove\n");
   printf ("-B, --bypass              bypass directory protection\n");
   printf ("-v, --verbose             increase output messages\n");
   printf ("-w, --warranty            display warranty\n");
   printf
     ("-V, --version             display version and license information\n");
-  printf("\nAfter rmw is installed, create the user configuration directory\n");
-  printf("by typing 'rmw' and hitting enter. It's recommended to copy\n");
-  printf("/etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n");
-  printf("and then rename it to 'config':\n\n");
-  printf("'cd ~/.config/rmw'\n");
-  printf("'~/.config/rmw$ cp /etc/rmwrc .'\n");
-  printf("'~/.config/rmw$ mv rmwrc config'\n\n");
-  printf("Then edit the file to suit your needs.\n\n");
-  printf("Visit the rmw home page for more help, and\n");
-  printf("information about how to obtain support -\n");
-  printf("http://github.com/andy5995/rmw/wiki\n\n");
+  printf ("\n\n\t===] Restoring [===\n\n");
+  printf ("-z, --restore <wildcard filename(s) pattern>\n");
+  printf ("-s, --select              select files from list to restore\n");
+  printf ("-u, --undo-last           undo last ReMove\n");
+  printf ("\n\n\t===] First time use [===\n\n");
+  printf ("After rmw is installed, create the user configuration directory\n");
+  printf ("by typing 'rmw' and hitting enter. It's recommended to copy\n");
+  printf ("/etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n");
+  printf ("and then rename it to 'config':\n\n");
+  printf ("'cd ~/.config/rmw'\n");
+  printf ("'~/.config/rmw$ cp /etc/rmwrc .'\n");
+  printf ("'~/.config/rmw$ mv rmwrc config'\n\n");
+  printf ("Then edit the file to suit your needs.\n\n");
+  printf ("Visit the rmw home page for more help, and\n");
+  printf ("information about how to obtain support -\n");
+  printf ("http://github.com/andy5995/rmw/wiki\n\n");
 }
 
 void warranty (void)
