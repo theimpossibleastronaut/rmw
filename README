@@ -1,7 +1,12 @@
-rmw (ReMove to Waste) functions as a command line recycle bin/trash can
-utility. Optionally, it can ReMove files to Desktop trash, restore files,
-list files to be selected for restore, and purge (permanently delete)
-files that were trashed x number of days ago.
+RMW is a program written in C, designed to help manage your files and
+prevent accidents at the command line when working too late. It operates
+in a manner very similar to how the "Desktop" trash works when you use
+"Move to Trash"; in fact, the info files rmw creates match the FreeDesktop.org
+Trash Specification. RMW can send files to your "Desktop" trash, or a
+completely separate folder. From the command line, it can restore files,
+and permanently delete files that were rmw'ed more than xx number of days ago.
+It also has a feature to skip over files or directories that have a "PROTECT"
+directive in the configuration file.
 
 Web site: https://github.com/andy5995/rmw/wiki
 
