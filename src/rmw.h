@@ -49,7 +49,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "2016.09.xx-dev"
+#define VERSION "2016.09.19.01a"
 #endif
 
 #define DEBUG 0
@@ -60,7 +60,7 @@
 
 /* DATA_DIR is relative to $HOME */
 #ifndef DATA_DIR
-#define DATA_DIR "/.config/testrmw"
+#define DATA_DIR "/.config/rmw"
 #endif
 
 #define CFG_FILE DATA_DIR"/config"

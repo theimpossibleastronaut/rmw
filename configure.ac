@@ -1,4 +1,4 @@
-AC_INIT(rmw, 2016.09.xx-dev)
+AC_INIT(rmw, 2016.09.19.01a)
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_PREREQ(2.59)
 AC_CONFIG_HEADERS([src/config.h:src/config.in])
