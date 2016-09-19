@@ -4,6 +4,8 @@
 
     Fixed: #44 - Segfault if rmwrc isn't present in SYSCONFDIR
 
+    Fixed: #45 - Restore fails if parent directory of target doesn't exist
+
 2016-09-17
 
     enhancement: restoring files with only the basename #14
