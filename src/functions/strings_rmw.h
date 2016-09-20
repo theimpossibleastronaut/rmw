@@ -25,11 +25,14 @@
 
 #include "rmw.h"
 
-bool
-buf_check_with_strop (char *s1, const char *s2, bool mode);
+void
+bufchk (const char *str, unsigned short boundary);
 
-bool
-buf_check (const char *str, unsigned short boundary);
+void
+bufchk_strcpy (char *s1, const char *s2, unsigned short boundary);
+
+void
+bufchk_strcat (char *s1, const char *s2, unsigned short boundary);
 
 int
 trim (char s[]);

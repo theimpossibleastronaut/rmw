@@ -7,7 +7,6 @@ README              \
 ChangeLog           \
 AUTHORS             \
 THANKS	            \
-COPYING             \
 INSTALL             \
 LICENSE             \
 NEWS                \

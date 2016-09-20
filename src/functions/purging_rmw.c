@@ -137,7 +137,7 @@ is_time_to_purge (const char *HOMEDIR, bool force)
 {
   char file_lastpurge[MP];
   strcpy (file_lastpurge, HOMEDIR);
-  buf_check_with_strop (file_lastpurge, PURGE_DAY_FILE, CAT);
+  bufchk_strcat (file_lastpurge, PURGE_DAY_FILE, MP);
 
   char today_dd[3];
   get_time_string (today_dd, 3, "%d");
@@ -163,7 +163,7 @@ is_time_to_purge (const char *HOMEDIR, bool force)
       return 0;
     }
 
-    buf_check (last_purge_dd, 3);
+    bufchk (last_purge_dd, 3);
     trim (last_purge_dd);
 
     close_file (fp, file_lastpurge, __func__);
@@ -287,7 +287,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
         continue;
 
-      buf_check (entry->d_name, MP);
+      bufchk (entry->d_name, MP);
 
       FILE *info_file_ptr;
 
@@ -297,8 +297,8 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
       char *tokenPtr;
 
       trim (entry->d_name);
-      buf_check_with_strop (entry_path, waste[p].info, CPY);
-      buf_check_with_strop (entry_path, entry->d_name, CAT);
+      bufchk_strcpy (entry_path, waste[p].info, MP);
+      bufchk_strcat (entry_path, entry->d_name, MP);
 
       info_file_ptr = fopen (entry_path, "r");
       if (info_file_ptr != NULL)
@@ -338,7 +338,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
             info_file_ptr) == NULL)
           continue;
 
-        buf_check (trashinfo_line, 40);
+        bufchk (trashinfo_line, 40);
         trim (trashinfo_line);
 
         if (strncmp (trashinfo_line, "DeletionDate=", 13) != 0

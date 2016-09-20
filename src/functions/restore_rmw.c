@@ -49,7 +49,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
   int restore_request = optind - 1;
 
-  buf_check (argv[restore_request], PATH_MAX);
+  bufchk (argv[restore_request], PATH_MAX);
 
   for (; restore_request < argc; restore_request++)
   {
@@ -71,7 +71,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
         possibly_in_path[0] = waste[ctr].files;
 
-        buf_check_with_strop (possibly_in_path[0], argv[restore_request], CAT);
+        bufchk_strcat (possibly_in_path[0], argv[restore_request], MP);
 
         Restore (1, possibly_in_path, 1, time_str_appended, waste,
                   waste_dirs_total);
@@ -167,7 +167,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
            */
           if (!file_not_found (file.dest))
           {
-            buf_check_with_strop (file.dest, time_str_appended, CAT);
+            bufchk_strcat (file.dest, time_str_appended, MP);
 
             if (verbose == 1)
               fprintf (stdout,
@@ -176,7 +176,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
           char parent_dir[MP];
 
-          buf_check_with_strop (parent_dir, file.dest, CPY);
+          bufchk_strcpy (parent_dir, file.dest, MP);
 
           truncate_str (parent_dir, strlen (basename (file.dest)));
 
@@ -247,14 +247,14 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
       if (count == choice || choice == 0)
       {
-        buf_check_with_strop (path_to_file, waste[w].files, CPY);
+        bufchk_strcpy (path_to_file, waste[w].files, MP);
 
         /* Not yet sure if 'trim' is needed yet; using it
          *  until I get smarter
          */
         trim (entry->d_name);
 
-        buf_check_with_strop (path_to_file, entry->d_name, CAT);
+        bufchk_strcat (path_to_file, entry->d_name, MP);
         trim (path_to_file);
         lstat (path_to_file, &st);
       }
@@ -343,8 +343,8 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
   /* using destiny because the second arg for Restore() must be
    * a *char[] not a *char */
   char *destiny[1];
-  buf_check_with_strop (undo_path, HOMEDIR, CPY);
-  buf_check_with_strop (undo_path, UNDO_FILE, CAT);
+  bufchk_strcpy (undo_path, HOMEDIR, MP);
+  bufchk_strcat (undo_path, UNDO_FILE, MP);
 
   undo_file_ptr = fopen (undo_path, "r");
 

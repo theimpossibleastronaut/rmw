@@ -36,9 +36,9 @@ open_err (const char *filename, const char *function_name)
     fprintf (stderr, "Error: while opening %s\n", filename);
 
     char combined_msg[MAX_MSG_SIZE];
-    buf_check_with_strop (combined_msg, "function: <", CPY);
-    buf_check_with_strop (combined_msg, function_name, CAT);
-    buf_check_with_strop (combined_msg, ">", CAT);
+    bufchk_strcpy (combined_msg, "function: <", MAX_MSG_SIZE);
+    bufchk_strcat (combined_msg, function_name, MAX_MSG_SIZE);
+    bufchk_strcat (combined_msg, ">", MAX_MSG_SIZE);
     perror (combined_msg);
 
     return;
@@ -60,9 +60,9 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
     fprintf (stderr, "Error: while closing %s\n", filename);
 
     char combined_msg[MAX_MSG_SIZE];
-    buf_check_with_strop (combined_msg, "function: <", CPY);
-    buf_check_with_strop (combined_msg, function_name, CAT);
-    buf_check_with_strop (combined_msg, ">", CAT);
+    bufchk_strcpy (combined_msg, "function: <", MAX_MSG_SIZE);
+    bufchk_strcat (combined_msg, function_name, MAX_MSG_SIZE);
+    bufchk_strcat (combined_msg, ">", MAX_MSG_SIZE);
     perror (combined_msg);
 
     return 1;

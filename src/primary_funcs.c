@@ -88,14 +88,14 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
 
   char finalInfoDest[PATH_MAX + 1];
 
-  buf_check_with_strop (finalInfoDest, waste[cnum].info, CPY);
+  bufchk_strcpy (finalInfoDest, waste[cnum].info, MP);
 
-  buf_check_with_strop (finalInfoDest, file.base_name, CAT);
+  bufchk_strcat (finalInfoDest, file.base_name, MP);
 
   if (file.is_duplicate)
-    buf_check_with_strop (finalInfoDest, time_str_appended, CAT);
+    bufchk_strcat (finalInfoDest, time_str_appended, MP);
 
-  buf_check_with_strop (finalInfoDest, DOT_TRASHINFO, CAT);
+  bufchk_strcat (finalInfoDest, DOT_TRASHINFO, MP);
 
   char real_path[MP];
 

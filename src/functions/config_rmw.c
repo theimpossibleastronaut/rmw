@@ -49,12 +49,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
-    /**
-     * Besides boundary checking, buf_check_with_strop()
-     * will perform the strcpy or strcat)
-     */
-
-    buf_check_with_strop (config_file, HOMEDIR, CPY);
+    bufchk_strcpy (config_file, HOMEDIR, MP);
 
     /**
      * CFG_FILE is the file name of the rmw config file relative to
@@ -62,10 +57,10 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
      *
      * Create full path to config_file
      */
-    buf_check_with_strop (config_file, CFG_FILE, CAT);
+    bufchk_strcat (config_file, CFG_FILE, MP);
   }
   else
-    buf_check_with_strop (config_file, alt_config, CPY);
+    bufchk_strcpy (config_file, alt_config, MP);
 
   FILE *config_ptr;
 
@@ -87,7 +82,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     char str_temp[MP];
     strcpy (str_temp, SYSCONFDIR);
     strcat (str_temp, "/rmwrc");
-    buf_check_with_strop (config_file, str_temp, CPY);
+    bufchk_strcpy (config_file, str_temp, MP);
 
     config_ptr = fopen (config_file, "r");
 
@@ -124,7 +119,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     bool removable = 0;
     char *comma_ptr;
 
-    buf_check (line_from_config, CFG_MAX_LEN);
+    bufchk (line_from_config, CFG_MAX_LEN);
     trim (line_from_config);
     erase_char (' ', line_from_config);
 
@@ -135,9 +130,9 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     {
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
-      // buf_check (token_ptr, 4096);
+      // bufchk (token_ptr, 4096);
       erase_char (' ', token_ptr);
-      buf_check (token_ptr, 6);
+      bufchk (token_ptr, 6);
       *purge_after_ptr = atoi (token_ptr);
     }
 
@@ -185,11 +180,11 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       erase_char (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
-      buf_check_with_strop (waste[*waste_ctr].parent, token_ptr, CPY);
+      bufchk_strcpy (waste[*waste_ctr].parent, token_ptr, MP);
 
       strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
 
-      buf_check_with_strop (waste[*waste_ctr].files, "/files/", CAT);
+      bufchk_strcat (waste[*waste_ctr].files, "/files/", MP);
 
       if (removable && file_not_found (waste[*waste_ctr].parent))
       {
@@ -202,7 +197,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
         continue;
 
       strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
-      buf_check_with_strop (waste[*waste_ctr].info, "/info/", CAT);
+      bufchk_strcat (waste[*waste_ctr].info, "/info/", MP);
 
       if (make_dir (waste[*waste_ctr].info))
         continue;
@@ -230,15 +225,15 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
 
-      buf_check (token_ptr, MP);
+      bufchk (token_ptr, MP);
       erase_char (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
-      buf_check (token_ptr, MP);
+      bufchk (token_ptr, MP);
 
       resolve_path (token_ptr, protected_dir[*prot_dir_ctr]);
 
-      buf_check (protected_dir[*prot_dir_ctr], MP);
+      bufchk (protected_dir[*prot_dir_ctr], MP);
 
       (*prot_dir_ctr)++;
     }
@@ -297,8 +292,8 @@ make_home_real (char *str, const char *HOMEDIR)
     return 0;
 
   char temp[MP];
-  buf_check_with_strop (temp, HOMEDIR, CPY);
-  buf_check_with_strop (temp, str, CAT);
+  bufchk_strcpy (temp, HOMEDIR, MP);
+  bufchk_strcat (temp, str, MP);
   strcpy (str, temp);
 
   return ok;

@@ -25,69 +25,151 @@
 
 #include "strings_rmw.h"
 
-/**
- * buf_check_with_strop()
- *
- * FIXME: This function needs optimizing.
- *
- * Before copying or catting strings, make sure str1 won't exceed
- * PATH_MAX + 1
- */
-bool
-buf_check_with_strop (char *s1, const char *s2, bool mode)
+void
+bufchk (const char *str, unsigned short boundary)
 {
-  unsigned int len1, len2;
-  len1 = strlen (s1);
-  len2 = strlen (s2);
-  if (len2 < MP && mode == CPY)
-  {
-    strcpy (s1, s2);
-    return 0;
-  }
-  else if (len1 + len2 < MP && mode == CAT)
-  {
-    strcat (s1, s2);
-    return 0;
-  }
+  unsigned short len = strlen (str);
 
-  else if (mode > CAT || mode < CPY)
-  {
-    printf
-      ("error in function: buf_check_with_strop() - mode must be either CPY (0) or CAT (1)");
-    abort ();
-  }
+  if (len < boundary)
+    return;
 
-  else
-  {
-    printf ("Potential buffer overflow caught. rmw terminating.\n");
+  buf_err++;
+
+  fprintf (stderr, "Error: buffer overflow prevented.\n");
+  fprintf (stderr, "If you think this may be a bug, please report it to the rmw developers.\n");
+
+  /**
+   * This will add a null terminator within the boundary specified by
+   * display_len, making it possible to view part of the strings to help
+   * with debugging or tracing the error.
+   */
+  unsigned short display_len = 0;
+
+  display_len = (boundary > 80) ? 80 : boundary;
+
+  char temp[display_len];
+
+  strncpy (temp, str, display_len - 1);
+
+  fprintf (stderr, " <--> Displaying part of the string that caused the error <-->\n\n");
+  fprintf (stderr, "%s\n\n", temp);
+
+  /**
+   * Commenting out the return; until the implementation of this
+   * function is in place
+   *
+  return;
+  */
 
      /**
      * This exit() is related to issue #8
      * https://github.com/andy5995/rmw/issues/8
      */
-    exit (-1);
-
-  }
-
+  exit (-1);
 }
 
-bool
-buf_check (const char *str, unsigned short boundary)
+void
+bufchk_strcpy (char *s1, const char *s2, unsigned short boundary)
 {
-  unsigned short len = strlen (str);
+  unsigned short len1, len2;
 
-  if (len >= boundary)
+  len1 = strlen (s1);
+  len2 = strlen (s2);
+
+  if (len1 + len2 < boundary)
   {
-    printf ("Potential buffer overrun caught; rmw terminating.\n");
-
-  /**
-   * This exit() is related to issue #8
-   * https://github.com/andy5995/rmw/issues/8
-   */
-    exit (1);
+    strcpy (s1, s2);
+    return;
   }
 
-  return 0;
+  buf_err++;
+
+  fprintf (stderr, "Error: buffer overflow prevented.\n");
+  fprintf (stderr,
+      "If you think this may be a bug, please report it to the rmw developers.\n");
+
+  /**
+   * This will add a null terminator within the boundary specified by
+   * display_len, making it possible to view part of the strings to help
+   * with debugging or tracing the error.
+   */
+
+  unsigned short display_len = 0;
+
+  display_len = (boundary > 80) ? 80 : boundary;
+
+  char temp[display_len];
+
+  strncpy (temp, s2, display_len - 1);
+
+  fprintf (stderr, " <--> Displaying part of the strings that caused the error <-->\n\n");
+  fprintf (stderr, "String1: %s\n\n", s1);
+  fprintf (stderr, "String2: %s\n\n", temp);
+
+  /**
+   * Commenting out the return; until the implementation of this
+   * function is in place
+   *
+  return;
+  */
+
+     /**
+     * This exit() is related to issue #8
+     * https://github.com/andy5995/rmw/issues/8
+     */
+  exit (-1);
+}
+
+void
+bufchk_strcat (char *s1, const char *s2, const unsigned short boundary)
+{
+  unsigned short len1, len2;
+
+  len1 = strlen (s1);
+  len2 = strlen (s2);
+
+  if (len1 + len2 < boundary)
+  {
+    strcat (s1, s2);
+    return;
+  }
+
+  buf_err++;
+
+  fprintf (stderr, "Error: buffer overflow prevented.\n");
+  fprintf (stderr,
+      "If you think this may be a bug, please report it to the rmw developers.\n");
+
+  /**
+   * This will add a null terminator within the boundary specified by
+   * display_len, making it possible to view part of the strings to help
+   * with debugging or tracing the error.
+   */
+
+  unsigned short display_len = 0;
+
+  display_len = (boundary > 80) ? 80 : boundary;
+
+  char temp[display_len];
+
+  strncpy (temp, s2, display_len - 1);
+
+  fprintf (stderr, " <--> Displaying part of the strings that caused the error <-->\n\n");
+  fprintf (stderr, "String1: %s\n\n", s1);
+  fprintf (stderr, "String2: %s\n\n", temp);
+
+  /**
+   * Commenting out the return; until the implementation of this
+   * function is in place
+   *
+  return;
+  */
+
+     /**
+     * This exit() is related to issue #8
+     * https://github.com/andy5995/rmw/issues/8
+     */
+  exit (-1);
 }
 
 /**
@@ -193,7 +275,7 @@ get_time_string (char *tm_str, unsigned short len, const char *format)
   time_t now = time (NULL);
   time_ptr = localtime (&now);
   strftime (tm_str, len, format, time_ptr);
-  buf_check (tm_str, len);
+  bufchk (tm_str, len);
   trim (tm_str);
 }
 
