@@ -137,7 +137,7 @@ is_time_to_purge (const char *HOMEDIR, bool force)
 {
   char file_lastpurge[MP];
   strcpy (file_lastpurge, HOMEDIR);
-  bufchk_strcat (file_lastpurge, PURGE_DAY_FILE, MP);
+  bufchk_string_op (CONCAT, file_lastpurge, PURGE_DAY_FILE, MP);
 
   char today_dd[3];
   get_time_string (today_dd, 3, "%d");
@@ -297,8 +297,8 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
       char *tokenPtr;
 
       trim (entry->d_name);
-      bufchk_strcpy (entry_path, waste[p].info, MP);
-      bufchk_strcat (entry_path, entry->d_name, MP);
+      bufchk_string_op (COPY, entry_path, waste[p].info, MP);
+      bufchk_string_op (CONCAT, entry_path, entry->d_name, MP);
 
       info_file_ptr = fopen (entry_path, "r");
       if (info_file_ptr != NULL)

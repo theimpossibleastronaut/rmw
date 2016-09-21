@@ -49,7 +49,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
-    bufchk_strcpy (config_file, HOMEDIR, MP);
+    if (bufchk_string_op (COPY, config_file, HOMEDIR, MP))
+      return BUF_ERR;
 
     /**
      * CFG_FILE is the file name of the rmw config file relative to
@@ -57,10 +58,11 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
      *
      * Create full path to config_file
      */
-    bufchk_strcat (config_file, CFG_FILE, MP);
+    if (bufchk_string_op (CONCAT, config_file, CFG_FILE, MP))
+      return BUF_ERR;
   }
-  else
-    bufchk_strcpy (config_file, alt_config, MP);
+  else if (bufchk_string_op (COPY, config_file, alt_config, MP));
+    return BUF_ERR;
 
   FILE *config_ptr;
 
@@ -82,7 +84,9 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     char str_temp[MP];
     strcpy (str_temp, SYSCONFDIR);
     strcat (str_temp, "/rmwrc");
-    bufchk_strcpy (config_file, str_temp, MP);
+
+    if (bufchk_string_op (COPY, config_file, str_temp, MP))
+      return BUF_ERR;
 
     config_ptr = fopen (config_file, "r");
 
@@ -108,18 +112,26 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   /**
    * protect DATA_DIR by default
    */
-  strcpy (protected_dir[*prot_dir_ctr], HOMEDIR);
-  strcat (protected_dir[*prot_dir_ctr], DATA_DIR);
+  if (bufchk_string_op (COPY, protected_dir[*prot_dir_ctr], HOMEDIR, MP) ||
+      bufchk_string_op (CONCAT, protected_dir[*prot_dir_ctr], DATA_DIR, MP))
+    return BUF_ERR;
+
   (*prot_dir_ctr)++;
 
   while (fgets (line_from_config, CFG_MAX_LEN, config_ptr) != NULL)
   {
+    if (bufchk (line_from_config, CFG_MAX_LEN))
+    {
+      fprintf (stderr, "Error: Lines in configuration file must be less than %d\n",
+          CFG_MAX_LEN);
+      return BUF_ERR;
+    }
+
     char *token_ptr;
 
     bool removable = 0;
     char *comma_ptr;
 
-    bufchk (line_from_config, CFG_MAX_LEN);
     trim (line_from_config);
     erase_char (' ', line_from_config);
 
@@ -130,9 +142,12 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     {
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
-      // bufchk (token_ptr, 4096);
+
       erase_char (' ', token_ptr);
-      bufchk (token_ptr, 6);
+
+      if (bufchk (token_ptr, 6))
+        return BUF_ERR;
+
       *purge_after_ptr = atoi (token_ptr);
     }
 
@@ -145,7 +160,9 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       token_ptr = strtok (NULL, "=");
 
       char rem_opt[CFG_MAX_LEN];
-      strcpy (rem_opt, token_ptr);
+
+      if (bufchk_string_op (COPY, rem_opt, token_ptr, CFG_MAX_LEN))
+        return BUF_ERR;
 
       comma_ptr = strtok (rem_opt, ",");
       comma_ptr = strtok (NULL, ",");
@@ -180,11 +197,13 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       erase_char (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
-      bufchk_strcpy (waste[*waste_ctr].parent, token_ptr, MP);
+      if (bufchk_string_op (COPY, waste[*waste_ctr].parent, token_ptr, MP))
+        return BUF_ERR;
 
       strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
 
-      bufchk_strcat (waste[*waste_ctr].files, "/files/", MP);
+      if (bufchk_string_op (CONCAT, waste[*waste_ctr].files, "/files/", MP))
+        return BUF_ERR;
 
       if (removable && file_not_found (waste[*waste_ctr].parent))
       {
@@ -197,7 +216,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
         continue;
 
       strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
-      bufchk_strcat (waste[*waste_ctr].info, "/info/", MP);
+      bufchk_string_op (CONCAT, waste[*waste_ctr].info, "/info/", MP);
 
       if (make_dir (waste[*waste_ctr].info))
         continue;
@@ -292,8 +311,8 @@ make_home_real (char *str, const char *HOMEDIR)
     return 0;
 
   char temp[MP];
-  bufchk_strcpy (temp, HOMEDIR, MP);
-  bufchk_strcat (temp, str, MP);
+  bufchk_string_op (COPY, temp, HOMEDIR, MP);
+  bufchk_string_op (CONCAT, temp, str, MP);
   strcpy (str, temp);
 
   return ok;

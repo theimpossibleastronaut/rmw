@@ -71,7 +71,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
         possibly_in_path[0] = waste[ctr].files;
 
-        bufchk_strcat (possibly_in_path[0], argv[restore_request], MP);
+        bufchk_string_op (CONCAT, possibly_in_path[0], argv[restore_request], MP);
 
         Restore (1, possibly_in_path, 1, time_str_appended, waste,
                   waste_dirs_total);
@@ -167,7 +167,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
            */
           if (!file_not_found (file.dest))
           {
-            bufchk_strcat (file.dest, time_str_appended, MP);
+            bufchk_string_op (CONCAT, file.dest, time_str_appended, MP);
 
             if (verbose == 1)
               fprintf (stdout,
@@ -176,7 +176,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
           char parent_dir[MP];
 
-          bufchk_strcpy (parent_dir, file.dest, MP);
+          bufchk_string_op (COPY, parent_dir, file.dest, MP);
 
           truncate_str (parent_dir, strlen (basename (file.dest)));
 
@@ -247,14 +247,14 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
       if (count == choice || choice == 0)
       {
-        bufchk_strcpy (path_to_file, waste[w].files, MP);
+        bufchk_string_op (COPY, path_to_file, waste[w].files, MP);
 
         /* Not yet sure if 'trim' is needed yet; using it
          *  until I get smarter
          */
         trim (entry->d_name);
 
-        bufchk_strcat (path_to_file, entry->d_name, MP);
+        bufchk_string_op (CONCAT, path_to_file, entry->d_name, MP);
         trim (path_to_file);
         lstat (path_to_file, &st);
       }
@@ -343,8 +343,8 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
   /* using destiny because the second arg for Restore() must be
    * a *char[] not a *char */
   char *destiny[1];
-  bufchk_strcpy (undo_path, HOMEDIR, MP);
-  bufchk_strcat (undo_path, UNDO_FILE, MP);
+  bufchk_string_op (COPY, undo_path, HOMEDIR, MP);
+  bufchk_string_op (CONCAT, undo_path, UNDO_FILE, MP);
 
   undo_file_ptr = fopen (undo_path, "r");
 

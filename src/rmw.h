@@ -79,6 +79,7 @@
 #define DOT_TRASHINFO ".trashinfo"
 #define NO_WASTE_FOLDER -1
 
+
 /** shorten PATH_MAX to two characters */
 #define MP PATH_MAX + 1
 
@@ -101,6 +102,5 @@ struct rmw_target
 };
 
 bool verbose;
-unsigned short buf_err;
 
 #endif

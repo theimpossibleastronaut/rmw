@@ -28,8 +28,6 @@
 int
 main (int argc, char *argv[])
 {
-  buf_err = 0;
-
   struct waste_containers waste[WASTENUM_MAX];
 
   const char *const short_options = "hvc:pgz:lsuBwVfir";
@@ -134,14 +132,14 @@ main (int argc, char *argv[])
   char HOMEDIR[strlen (getenv ("HOME")) + 1];
   strcpy (HOMEDIR, getenv ("HOME"));
 
-  bufchk (HOMEDIR, MP);
-
   char data_dir[MP];
 
-  strcpy (data_dir, HOMEDIR);
+  if (bufchk_string_op (COPY, data_dir,HOMEDIR, MP))
+    return BUF_ERR;
 
   /* Looks like more variable names needs changing */
-  bufchk_strcat (data_dir, DATA_DIR, MP);
+  if (bufchk_string_op (CONCAT, data_dir, DATA_DIR, MP))
+    return BUF_ERR;
 
   if (make_dir (data_dir))
   {
@@ -184,6 +182,9 @@ main (int argc, char *argv[])
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
 
+  else if (conf_err == BUF_ERR)
+    return BUF_ERR;
+
   /* String appended to duplicate filenames */
   char time_str_appended[16];
   get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
@@ -202,8 +203,8 @@ main (int argc, char *argv[])
 
   if (optind < argc && !restoreYes && !select && !undo_last)
   {
-    bufchk_strcpy (undo_path, HOMEDIR, MP);
-    bufchk_strcat (undo_path, UNDO_FILE, MP);
+    bufchk_string_op (COPY, undo_path, HOMEDIR, MP);
+    bufchk_string_op (CONCAT, undo_path, UNDO_FILE, MP);
     int rmwed_files = 0;
 
     for (file_arg = optind; file_arg < argc; file_arg++)
@@ -281,15 +282,15 @@ main (int argc, char *argv[])
         {
           // used by mkinfo
           current_waste_num = dir_num;
-          bufchk_strcpy (file.dest_name, waste[dir_num].files, MP);
-          bufchk_strcat (file.dest_name, file.base_name, MP);
+          bufchk_string_op (COPY, file.dest_name, waste[dir_num].files, MP);
+          bufchk_string_op (CONCAT, file.dest_name, file.base_name, MP);
 
           /* If a duplicate file exists
            */
           if (file_not_found (file.dest_name) == 0)
           {
             // append a time string
-            bufchk_strcat (file.dest_name, time_str_appended, MP);
+            bufchk_string_op (CONCAT, file.dest_name, time_str_appended, MP);
 
             // tell make info there's a duplicate
             file.is_duplicate = 1;
