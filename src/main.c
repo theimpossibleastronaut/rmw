@@ -64,7 +64,7 @@ main (int argc, char *argv[])
   bool force = 0;
 
   const char *alt_config = NULL;
-
+  
   do
   {
     next_option = getopt_long (argc, argv, short_options, long_options, NULL);
@@ -127,12 +127,16 @@ main (int argc, char *argv[])
 
   }
   while (next_option != -1);
+  
+  char *HOMEDIR = NULL;	 //const if there will be no changes to HOMEDIR
+  
+  HOMEDIR = getenv("HOME"); //getenv to get the HOME Directory 
+  if(HOMEDIR == NULL)
+    {printf("Error: Environmental variable $HOME can't be used. Unable to determine home directory");
+    return 1;
+    }  
+  buf_check (HOMEDIR, MP); // buf_check only ones 
 
-  buf_check (getenv ("HOME"), MP);
-  char HOMEDIR[strlen (getenv ("HOME")) + 1];
-  strcpy (HOMEDIR, getenv ("HOME"));
-
-  buf_check (HOMEDIR, MP);
 
   char data_dir[MP];
 
