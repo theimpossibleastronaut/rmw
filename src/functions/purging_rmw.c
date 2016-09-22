@@ -365,7 +365,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
 
       bool success = 0;
 
-      if (then + (86400 * purge_after) <= now || strcmp(getenv("RMWTRASH"), "empty") == 0))
+      if (then + (86400 * purge_after) <= now || strcmp(getenv("RMWTRASH"), "empty") == 0)
       {
         success = 0;
 
