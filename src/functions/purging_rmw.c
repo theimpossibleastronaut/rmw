@@ -252,6 +252,11 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
 
   short status = 0;
 
+  bool cmd_empty = 0;
+
+  if (getenv("RMWTRASH") != NULL)
+    cmd_empty = strcmp (getenv ("RMWTRASH"), "empty") ? 0 : 1;
+
   struct stat st;
 
   unsigned int purge_ctr = 0;
@@ -365,7 +370,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
 
       bool success = 0;
 
-      if (then + (86400 * purge_after) <= now)
+      if (then + (86400 * purge_after) <= now || cmd_empty)
       {
         success = 0;
 
