@@ -194,7 +194,7 @@ main (int argc, char *argv[])
   get_time_string (time_now, 21, "%FT%T");
 
   bool undo_opened = 0;
-  FILE *undo_file_ptr;
+  FILE *undo_file_ptr = malloc (sizeof (*undo_file_ptr));
   char undo_path[MP];
 
   struct rmw_target file;
@@ -393,6 +393,9 @@ main (int argc, char *argv[])
 
   if (undo_opened)
     close_file (undo_file_ptr, undo_path, __func__);
+
+  else
+    free (undo_file_ptr);
 
   if (pause)
   {
