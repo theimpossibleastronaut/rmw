@@ -61,7 +61,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     if (bufchk_string_op (CONCAT, config_file, CFG_FILE, MP))
       return BUF_ERR;
   }
-  else if (bufchk_string_op (COPY, config_file, alt_config, MP));
+  else if (bufchk_string_op (COPY, config_file, alt_config, MP))
     return BUF_ERR;
 
   FILE *config_ptr;
