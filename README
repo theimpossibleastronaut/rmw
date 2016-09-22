@@ -57,6 +57,11 @@ the line 'force_not_required' if you'd rather not use --force when purging).
 
 The day of the last purge is stored in $HOME/config/rmw/lastpurge
 
+== Empty the Trash ==
+To empty the trash completely, rmw can use the environmental variable
+RMWTRASH. Usage:
+RMWTRASH=empty rmw -fg
+
 == Features and Options ==
 
 -h, --help
