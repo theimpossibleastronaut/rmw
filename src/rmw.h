@@ -60,7 +60,7 @@
 
 /* DATA_DIR is relative to $HOME */
 #ifndef DATA_DIR
-#define DATA_DIR "/.config/testrmw"
+#define DATA_DIR "/.config/rmw"
 #endif
 
 #define CFG_FILE DATA_DIR"/config"
