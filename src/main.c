@@ -137,7 +137,7 @@ main (int argc, char *argv[])
   }
   
   if (bufchk (HOMEDIR, MP))
-  return BUF_ERR;
+    return BUF_ERR;
 
   char data_dir[MP];
 
