@@ -133,7 +133,7 @@ main (int argc, char *argv[])
   if (HOMEDIR != NULL)
   {
     if (bufchk (HOMEDIR, MP))
-      return BUF_ERR;
+      return EXIT_BUF_ERR;
   }
   else
   {
@@ -141,8 +141,6 @@ main (int argc, char *argv[])
     return 1;
   }
   
-  
-
   char data_dir[MP];
 
   if (bufchk_string_op (COPY, data_dir,HOMEDIR, MP))
