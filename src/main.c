@@ -128,21 +128,18 @@ main (int argc, char *argv[])
   }
   while (next_option != -1);
 
-  buf_check (getenv ("HOME"), MP);
+  bufchk (getenv ("HOME"), MP);
   char HOMEDIR[strlen (getenv ("HOME")) + 1];
   strcpy (HOMEDIR, getenv ("HOME"));
 
-  buf_check (HOMEDIR, MP);
-
   char data_dir[MP];
 
-  strcpy (data_dir, HOMEDIR);
+  if (bufchk_string_op (COPY, data_dir,HOMEDIR, MP))
+    return BUF_ERR;
 
   /* Looks like more variable names needs changing */
-  buf_check_with_strop (data_dir, DATA_DIR, CAT);
-
-  /* make_dir (data_dir);
-   */
+  if (bufchk_string_op (CONCAT, data_dir, DATA_DIR, MP))
+    return BUF_ERR;
 
   if (make_dir (data_dir))
   {
@@ -176,6 +173,9 @@ main (int argc, char *argv[])
   const int protected_total = *prot_dir_ctr;
   free (prot_dir_ctr);
 
+  /**
+   * FIXME: change to unsigned short
+   */
   const int purge_after = *purge_after_ptr;
   free (purge_after_ptr);
 
@@ -184,6 +184,9 @@ main (int argc, char *argv[])
 
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
+
+  else if (conf_err == BUF_ERR)
+    return BUF_ERR;
 
   /* String appended to duplicate filenames */
   char time_str_appended[16];
@@ -194,7 +197,7 @@ main (int argc, char *argv[])
   get_time_string (time_now, 21, "%FT%T");
 
   bool undo_opened = 0;
-  FILE *undo_file_ptr;
+  FILE *undo_file_ptr = malloc (sizeof (*undo_file_ptr));
   char undo_path[MP];
 
   struct rmw_target file;
@@ -203,14 +206,14 @@ main (int argc, char *argv[])
 
   if (optind < argc && !restoreYes && !select && !undo_last)
   {
-    buf_check_with_strop (undo_path, HOMEDIR, CPY);
-    buf_check_with_strop (undo_path, UNDO_FILE, CAT);
+    bufchk_string_op (COPY, undo_path, HOMEDIR, MP);
+    bufchk_string_op (CONCAT, undo_path, UNDO_FILE, MP);
     int rmwed_files = 0;
 
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
       strcpy (file.main_argv, argv[file_arg]);
-      buf_check (file.main_argv, MP);
+      bufchk (file.main_argv, MP);
 
       /**
        * Check to see if the file exists, and if so, see if it's protected
@@ -282,15 +285,15 @@ main (int argc, char *argv[])
         {
           // used by mkinfo
           current_waste_num = dir_num;
-          buf_check_with_strop (file.dest_name, waste[dir_num].files, CPY);
-          buf_check_with_strop (file.dest_name, file.base_name, CAT);
+          bufchk_string_op (COPY, file.dest_name, waste[dir_num].files, MP);
+          bufchk_string_op (CONCAT, file.dest_name, file.base_name, MP);
 
           /* If a duplicate file exists
            */
           if (file_not_found (file.dest_name) == 0)
           {
             // append a time string
-            buf_check_with_strop (file.dest_name, time_str_appended, CAT);
+            bufchk_string_op (CONCAT, file.dest_name, time_str_appended, MP);
 
             // tell make info there's a duplicate
             file.is_duplicate = 1;
@@ -393,6 +396,9 @@ main (int argc, char *argv[])
 
   if (undo_opened)
     close_file (undo_file_ptr, undo_path, __func__);
+
+  else
+    free (undo_file_ptr);
 
   if (pause)
   {
