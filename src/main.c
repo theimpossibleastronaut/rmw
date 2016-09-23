@@ -135,7 +135,6 @@ main (int argc, char *argv[])
     if (bufchk (HOMEDIR, MP))
       return EXIT_BUF_ERR;
   }
-
   else
   {
     fprintf (stderr, "Error: Environmental variable $HOME can't be used. Unable to determine home directory\n");
