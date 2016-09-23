@@ -128,9 +128,18 @@ main (int argc, char *argv[])
   }
   while (next_option != -1);
 
-  bufchk (getenv ("HOME"), MP);
-  char HOMEDIR[strlen (getenv ("HOME")) + 1];
-  strcpy (HOMEDIR, getenv ("HOME"));
+  char *HOMEDIR = NULL;
+  
+  HOMEDIR = getenv("HOME");
+  
+  if(HOMEDIR == NULL)
+  {
+    fprintf (stderr, "Error: Environmental variable $HOME can't be used. Unable to determine home directory\n");
+    return 1;
+      
+  }
+  
+  bufchk (HOMEDIR, MP);
 
   char data_dir[MP];
 
