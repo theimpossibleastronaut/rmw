@@ -130,14 +130,18 @@ main (int argc, char *argv[])
   
   char *HOMEDIR = getenv ("HOME");
   
-  if (HOMEDIR == NULL)
+  if (HOMEDIR != NULL)
   {
-    fprintf (stderr, "Error: Environmental variable $HOME can't be used. Unable to determine home directory\n");
+    if (bufchk (HOMEDIR, MP))
+      return BUF_ERR;
+  }
+  else
+  {
+    fprintf (stderr, "Error: Environment variable $HOME can't be used. Unable to determine home directory\n");
     return 1;
   }
   
-  if (bufchk (HOMEDIR, MP))
-    return BUF_ERR;
+  
 
   char data_dir[MP];
 
