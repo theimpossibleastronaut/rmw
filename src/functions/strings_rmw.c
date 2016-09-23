@@ -33,7 +33,7 @@ bufchk (const char *str, unsigned short boundary)
   if (len < boundary)
     return 0;
 
-  fprintf (stderr, "Error: buffer overflow prevented.\n");
+  fprintf (stderr, "Error: buffer overrun (segmentation fault) prevented.\n");
   fprintf (stderr, "If you think this may be a bug, please report it to the rmw developers.\n");
 
   /**
@@ -43,11 +43,13 @@ bufchk (const char *str, unsigned short boundary)
    */
   unsigned short display_len = 0;
 
-  display_len = (boundary > 80) ? 80 : boundary;
+  display_len = (boundary > 80) ? 80 : len;
 
   char temp[display_len];
 
-  strncpy (temp, str, display_len - 1);
+  strcpy (temp, str);
+
+  truncate_str (temp, 1);
 
   fprintf (stderr, " <--> Displaying part of the string that caused the error <-->\n\n");
   fprintf (stderr, "%s\n\n", temp);

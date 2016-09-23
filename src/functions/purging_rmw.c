@@ -137,7 +137,10 @@ is_time_to_purge (const char *HOMEDIR, bool force)
 {
   char file_lastpurge[MP];
   strcpy (file_lastpurge, HOMEDIR);
-  bufchk_string_op (CONCAT, file_lastpurge, PURGE_DAY_FILE, MP);
+  strcat (file_lastpurge, PURGE_DAY_FILE);
+
+  if (bufchk (file_lastpurge, MP))
+    return BUF_ERR;
 
   char today_dd[3];
   get_time_string (today_dd, 3, "%d");

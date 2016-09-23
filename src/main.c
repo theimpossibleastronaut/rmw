@@ -173,6 +173,9 @@ main (int argc, char *argv[])
   const int protected_total = *prot_dir_ctr;
   free (prot_dir_ctr);
 
+  /**
+   * FIXME: change to unsigned short
+   */
   const int purge_after = *purge_after_ptr;
   free (purge_after_ptr);
 
