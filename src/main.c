@@ -138,16 +138,16 @@ main (int argc, char *argv[])
   strcpy (HOMEDIR, getenv ("HOME"));
 
   if (bufchk (HOMEDIR, MP))
-    return BUF_ERR;
+    return EXIT_BUF_ERR;
 
   char data_dir[MP];
 
   if (bufchk_string_op (COPY, data_dir,HOMEDIR, MP))
-    return BUF_ERR;
+    return EXIT_BUF_ERR;
 
   /* Looks like more variable names needs changing */
   if (bufchk_string_op (CONCAT, data_dir, DATA_DIR, MP))
-    return BUF_ERR;
+    return EXIT_BUF_ERR;
 
   if (make_dir (data_dir))
   {
@@ -193,8 +193,8 @@ main (int argc, char *argv[])
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
 
-  else if (conf_err == BUF_ERR)
-    return BUF_ERR;
+  else if (conf_err == EXIT_BUF_ERR)
+    return EXIT_BUF_ERR;
 
   /* String appended to duplicate filenames */
   char time_str_appended[16];
@@ -223,7 +223,7 @@ main (int argc, char *argv[])
      * No files are open at this point, so just using 'return;'
      */
     if (bufchk (undo_path, MP))
-      return BUF_ERR;
+      return EXIT_BUF_ERR;
 
     int rmwed_files = 0;
 
@@ -234,7 +234,7 @@ main (int argc, char *argv[])
       /**
        * The undo file may be open at this point, so using 'break'
        * After the for loop is the statement to close file, then
-       * return BUF_ERR
+       * return EXIT_BUF_ERR
        */
       if ((main_error = bufchk (file.main_argv, MP)))
         break;

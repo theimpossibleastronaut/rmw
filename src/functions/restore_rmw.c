@@ -30,10 +30,12 @@
  * FIXME: This apparently needs re-working too. I'm sure it could be
  * written more efficiently
  */
-void
+short
 Restore (int argc, char *argv[], int optind, char *time_str_appended,
           struct waste_containers *waste, const int waste_dirs_total)
 {
+  short func_error = 0;
+
   struct restore
   {
     char *base_name;
@@ -49,10 +51,11 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
   int restore_request = optind - 1;
 
-  bufchk (argv[restore_request], PATH_MAX);
-
   for (; restore_request < argc; restore_request++)
   {
+    if ((func_error = bufchk (argv[restore_request], PATH_MAX)))
+      return EXIT_BUF_ERR;
+
     file.base_name = basename (argv[restore_request]);
 
 /**
@@ -71,7 +74,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
         possibly_in_path[0] = waste[ctr].files;
 
-        bufchk_string_op (CONCAT, possibly_in_path[0], argv[restore_request], MP);
+        strcat (possibly_in_path[0], argv[restore_request]);
 
         Restore (1, possibly_in_path, 1, time_str_appended, waste,
                   waste_dirs_total);
@@ -84,7 +87,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
     }
 
     if (file_not_found (argv[restore_request]))
-      printf ("%s not found\n", argv[restore_request]);
+      fprintf (stderr, "%s not found\n", argv[restore_request]);
 
     else
     {
@@ -96,6 +99,12 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
       strcat (file.info, "../info/");
       strcat (file.info, file.base_name);
       strcat (file.info, DOT_TRASHINFO);
+
+      /**
+       * No open files yet, so just return if bufchk fails
+       */
+      if ((func_error = bufchk (file.info, MP)))
+        return func_error;
 
       if (file_not_found (file.info))
       {
@@ -115,13 +124,12 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
           break;
         }
 
-        else
+        else if (fgets (line, sizeof (line), fp ) != NULL)
         {
           /**
            * Not using the "[Trash Info]" line, but reading the file
            * sequentially
            */
-          fgets (line, sizeof (line), fp);
 
           if (strncmp (line, "[Trash Info]", 12) == 0)
           {}
@@ -154,6 +162,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
             close_file (fp, file.info, __func__);
 
           }
+
           else
           {
             printf ("error on line 2 in %s\n", file.info);
@@ -197,9 +206,18 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
           else
             fprintf (stderr, "Restore failed: %s\n", file.dest);
         }
+
+        else
+        {
+          fprintf (stderr, "Error: Able to open %s but encountered an error\n",
+              file.info);
+          return 1;
+        }
       }
     }
   }
+
+  return 0;
 }
 
 /*

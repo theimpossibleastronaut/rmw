@@ -67,7 +67,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     strcpy (config_file, alt_config);
 
   if (bufchk (config_file, MP))
-    return BUF_ERR;
+    return EXIT_BUF_ERR;
 
   FILE *config_ptr;
 
@@ -93,7 +93,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     strcpy (config_file, str_temp);
 
     if (bufchk (config_file, MP))
-      return BUF_ERR;
+      return EXIT_BUF_ERR;
 
     config_ptr = fopen (config_file, "r");
 

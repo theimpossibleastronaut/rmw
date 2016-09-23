@@ -54,7 +54,7 @@ bufchk (const char *str, unsigned short boundary)
   fprintf (stderr, " <--> Displaying part of the string that caused the error <-->\n\n");
   fprintf (stderr, "%s\n\n", temp);
 
-  return BUF_ERR;
+  return EXIT_BUF_ERR;
 
      /**
      * This exit() is related to issue #8

@@ -30,7 +30,7 @@
 #include "primary_funcs.h"
 #include "messages_rmw.h"
 
-void
+short
 Restore (int argc, char *argv[], int optind, char *time_str_appended,
           struct waste_containers *waste, const int waste_dirs_total);
 

@@ -28,8 +28,6 @@
 
 #include "rmw.h"
 
-#define BUF_ERR -11
-
 enum {
   COPY,
   CONCAT
