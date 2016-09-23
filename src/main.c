@@ -136,7 +136,6 @@ main (int argc, char *argv[])
     return 1;
   }
   
-  
   if (bufchk (HOMEDIR, MP))
     return BUF_ERR;
 
