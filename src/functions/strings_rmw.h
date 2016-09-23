@@ -35,7 +35,7 @@ enum {
   CONCAT
 };
 
-bool
+short
 bufchk (const char *str, unsigned short boundary);
 
 bool

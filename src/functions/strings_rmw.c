@@ -25,7 +25,7 @@
 
 #include "strings_rmw.h"
 
-bool
+short
 bufchk (const char *str, unsigned short boundary)
 {
   unsigned short len = strlen (str);
@@ -43,18 +43,18 @@ bufchk (const char *str, unsigned short boundary)
    */
   unsigned short display_len = 0;
 
-  display_len = (boundary > 80) ? 80 : len;
+  display_len = (boundary > 80) ? 80 : boundary;
 
   char temp[display_len];
 
-  strcpy (temp, str);
+  strncpy (temp, str, display_len);
 
   truncate_str (temp, 1);
 
   fprintf (stderr, " <--> Displaying part of the string that caused the error <-->\n\n");
   fprintf (stderr, "%s\n\n", temp);
 
-  return 1;
+  return BUF_ERR;
 
      /**
      * This exit() is related to issue #8
