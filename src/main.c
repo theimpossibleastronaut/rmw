@@ -133,10 +133,10 @@ main (int argc, char *argv[])
     fprintf (stderr, "Error: Environmental variable $HOME can't be used. Unable to determine home directory\n");
     return 1;
   }
-  
+
   char HOMEDIR[strlen (getenv ("HOME")) + 1];
   strcpy (HOMEDIR, getenv ("HOME"));
-  
+
   if (bufchk (HOMEDIR, MP))
     return BUF_ERR;
 
@@ -212,16 +212,32 @@ main (int argc, char *argv[])
 
   int file_arg = 0;
 
+  short main_error = 0;
+
   if (optind < argc && !restoreYes && !select && !undo_last)
   {
-    bufchk_string_op (COPY, undo_path, HOMEDIR, MP);
-    bufchk_string_op (CONCAT, undo_path, UNDO_FILE, MP);
+    strcpy (undo_path, HOMEDIR);
+    strcat (undo_path, UNDO_FILE);
+
+    /**
+     * No files are open at this point, so just using 'return;'
+     */
+    if (bufchk (undo_path, MP))
+      return BUF_ERR;
+
     int rmwed_files = 0;
 
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
       strcpy (file.main_argv, argv[file_arg]);
-      bufchk (file.main_argv, MP);
+
+      /**
+       * The undo file may be open at this point, so using 'break'
+       * After the for loop is the statement to close file, then
+       * return BUF_ERR
+       */
+      if ((main_error = bufchk (file.main_argv, MP)))
+        break;
 
       /**
        * Check to see if the file exists, and if so, see if it's protected
@@ -289,23 +305,27 @@ main (int argc, char *argv[])
       for (dir_num = 0; dir_num < waste_dirs_total; dir_num++)
       {
         lstat (file.main_argv, &st);
+
         if (waste[dir_num].dev_num == st.st_dev)
         {
           // used by mkinfo
           current_waste_num = dir_num;
-          bufchk_string_op (COPY, file.dest_name, waste[dir_num].files, MP);
-          bufchk_string_op (CONCAT, file.dest_name, file.base_name, MP);
+          strcpy (file.dest_name, waste[dir_num].files);
+          strcat (file.dest_name, file.base_name);
 
           /* If a duplicate file exists
            */
           if (file_not_found (file.dest_name) == 0)
           {
             // append a time string
-            bufchk_string_op (CONCAT, file.dest_name, time_str_appended, MP);
+            strcat (file.dest_name, time_str_appended);
 
             // tell make info there's a duplicate
             file.is_duplicate = 1;
           }
+
+          if ((main_error = bufchk (file.dest_name, MP)))
+              break;
 
           rename_status = rename (file.main_argv, file.dest_name);
 
@@ -364,8 +384,19 @@ main (int argc, char *argv[])
         return 1;
       }
     }
+
+    if (main_error)
+      return main_error;
+
+    if (undo_opened)
+      close_file (undo_file_ptr, undo_path, __func__);
+
+    else
+      free (undo_file_ptr);
+
     if (rmwed_files == 1)
       printf("%d file was ReMoved to Waste\n", rmwed_files);
+
     else
       printf("%d files were ReMoved to Waste\n", rmwed_files);
   }
@@ -401,12 +432,6 @@ main (int argc, char *argv[])
         fprintf (stderr, "purge skipped: use -f or --force\n");
     }
   }
-
-  if (undo_opened)
-    close_file (undo_file_ptr, undo_path, __func__);
-
-  else
-    free (undo_file_ptr);
 
   if (pause)
   {
