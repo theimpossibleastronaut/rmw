@@ -137,7 +137,10 @@ is_time_to_purge (const char *HOMEDIR, bool force)
 {
   char file_lastpurge[MP];
   strcpy (file_lastpurge, HOMEDIR);
-  buf_check_with_strop (file_lastpurge, PURGE_DAY_FILE, CAT);
+  strcat (file_lastpurge, PURGE_DAY_FILE);
+
+  if (bufchk (file_lastpurge, MP))
+    return BUF_ERR;
 
   char today_dd[3];
   get_time_string (today_dd, 3, "%d");
@@ -163,7 +166,7 @@ is_time_to_purge (const char *HOMEDIR, bool force)
       return 0;
     }
 
-    buf_check (last_purge_dd, 3);
+    bufchk (last_purge_dd, 3);
     trim (last_purge_dd);
 
     close_file (fp, file_lastpurge, __func__);
@@ -252,6 +255,11 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
 
   short status = 0;
 
+  bool cmd_empty = 0;
+
+  if (getenv("RMWTRASH") != NULL)
+    cmd_empty = strcmp (getenv ("RMWTRASH"), "empty") ? 0 : 1;
+
   struct stat st;
 
   unsigned int purge_ctr = 0;
@@ -287,7 +295,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
         continue;
 
-      buf_check (entry->d_name, MP);
+      bufchk (entry->d_name, MP);
 
       FILE *info_file_ptr;
 
@@ -297,8 +305,8 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
       char *tokenPtr;
 
       trim (entry->d_name);
-      buf_check_with_strop (entry_path, waste[p].info, CPY);
-      buf_check_with_strop (entry_path, entry->d_name, CAT);
+      bufchk_string_op (COPY, entry_path, waste[p].info, MP);
+      bufchk_string_op (CONCAT, entry_path, entry->d_name, MP);
 
       info_file_ptr = fopen (entry_path, "r");
       if (info_file_ptr != NULL)
@@ -338,7 +346,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
             info_file_ptr) == NULL)
           continue;
 
-        buf_check (trashinfo_line, 40);
+        bufchk (trashinfo_line, 40);
         trim (trashinfo_line);
 
         if (strncmp (trashinfo_line, "DeletionDate=", 13) != 0
@@ -365,7 +373,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
 
       bool success = 0;
 
-      if (then + (86400 * purge_after) <= now)
+      if (then + (86400 * purge_after) <= now || cmd_empty)
       {
         success = 0;
 

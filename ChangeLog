@@ -2,6 +2,10 @@
 
 2016-09-18
 
+    Issue #40 - To empty the trash, preface rmw on the command line
+    with 'RMWTRASH=empty'. Example:
+    RMWTRASH=empty rmw ....
+
     Fixed: #44 - Segfault if rmwrc isn't present in SYSCONFDIR
 
     Fixed: #45 - Restore fails if parent directory of target doesn't exist

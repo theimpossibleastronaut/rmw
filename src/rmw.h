@@ -49,7 +49,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "2016.09.19.01a"
+#define VERSION "2016.10.xx.dev"
 #endif
 
 #define DEBUG 0
@@ -60,7 +60,7 @@
 
 /* DATA_DIR is relative to $HOME */
 #ifndef DATA_DIR
-#define DATA_DIR "/.config/rmw"
+#define DATA_DIR "/.config/testrmw"
 #endif
 
 #define CFG_FILE DATA_DIR"/config"
@@ -79,9 +79,9 @@
 #define DOT_TRASHINFO ".trashinfo"
 #define NO_WASTE_FOLDER -1
 
-// shorten PATH_MAX to two characters
-enum
-{ MP = PATH_MAX + 1 };
+
+/** shorten PATH_MAX to two characters */
+#define MP PATH_MAX + 1
 
 struct waste_containers
 {
@@ -90,11 +90,6 @@ struct waste_containers
   char files[MP];
 
   int dev_num;
-};
-
-enum
-{
-  CPY, CAT
 };
 
 struct rmw_target

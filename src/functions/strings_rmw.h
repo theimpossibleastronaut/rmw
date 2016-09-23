@@ -23,13 +23,23 @@
  *
  */
 
+#ifndef _INC_STRINGS_H
+#define _INC_STRINGS_H
+
 #include "rmw.h"
 
-bool
-buf_check_with_strop (char *s1, const char *s2, bool mode);
+#define BUF_ERR -11
+
+enum {
+  COPY,
+  CONCAT
+};
 
 bool
-buf_check (const char *str, unsigned short boundary);
+bufchk (const char *str, unsigned short boundary);
+
+bool
+bufchk_string_op (bool mode, char *s1, const char *s2, unsigned short boundary);
 
 int
 trim (char s[]);
@@ -54,3 +64,5 @@ escape_url (const char *str, char *dest, unsigned short len);
 
 bool
 unescape_url (const char *str, char *dest, unsigned short len);
+
+#endif

@@ -46,15 +46,12 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   int default_purge = 90;
   *purge_after_ptr = default_purge;
 
+  short func_error = 0;
+
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
-    /**
-     * Besides boundary checking, buf_check_with_strop()
-     * will perform the strcpy or strcat)
-     */
-
-    buf_check_with_strop (config_file, HOMEDIR, CPY);
+    strcpy (config_file, HOMEDIR);
 
     /**
      * CFG_FILE is the file name of the rmw config file relative to
@@ -62,10 +59,15 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
      *
      * Create full path to config_file
      */
-    buf_check_with_strop (config_file, CFG_FILE, CAT);
+    strcat (config_file, CFG_FILE);
+
   }
+
   else
-    buf_check_with_strop (config_file, alt_config, CPY);
+    strcpy (config_file, alt_config);
+
+  if (bufchk (config_file, MP))
+    return BUF_ERR;
 
   FILE *config_ptr;
 
@@ -87,7 +89,11 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     char str_temp[MP];
     strcpy (str_temp, SYSCONFDIR);
     strcat (str_temp, "/rmwrc");
-    buf_check_with_strop (config_file, str_temp, CPY);
+
+    strcpy (config_file, str_temp);
+
+    if (bufchk (config_file, MP))
+      return BUF_ERR;
 
     config_ptr = fopen (config_file, "r");
 
@@ -115,40 +121,54 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
    */
   strcpy (protected_dir[*prot_dir_ctr], HOMEDIR);
   strcat (protected_dir[*prot_dir_ctr], DATA_DIR);
+
   (*prot_dir_ctr)++;
 
   while (fgets (line_from_config, CFG_MAX_LEN, config_ptr) != NULL)
   {
+    if ((func_error = bufchk (line_from_config, CFG_MAX_LEN)))
+    {
+      fprintf (stderr, "Error: Lines in configuration file must be less than %d\n",
+          CFG_MAX_LEN);
+      break;
+    }
+
     char *token_ptr;
 
     bool removable = 0;
     char *comma_ptr;
 
-    buf_check (line_from_config, CFG_MAX_LEN);
     trim (line_from_config);
     erase_char (' ', line_from_config);
 
     /**
      * assign purge_after the value from config file
      */
-    if (strncmp (line_from_config, "purge_after", 11) == 0 || strncmp(line_from_config, "purgeDays", 9) == 0)
+    if (strncmp (line_from_config, "purge_after", 11) == 0 ||
+        strncmp (line_from_config, "purgeDays", 9) == 0)
     {
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
-      // buf_check (token_ptr, 4096);
+
       erase_char (' ', token_ptr);
-      buf_check (token_ptr, 6);
-      *purge_after_ptr = atoi (token_ptr);
+
+      unsigned short num_value = atoi (token_ptr);
+
+      if (num_value >= 0 && num_value < USHRT_MAX)
+        *purge_after_ptr = num_value;
+
+      else
+        fprintf (stderr, "Error: invalid purge_after value in configuration\n");
     }
 
     else if (strncmp (line_from_config, "force_not_required", 18) == 0)
       *force_ptr = 1;
 
-    else if (*waste_ctr < WASTENUM_MAX && !strncmp ("WASTE", line_from_config, 5))
+    else if (*waste_ctr < WASTENUM_MAX &&
+        strncmp ("WASTE", line_from_config, 5) == 0)
     {
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
-
       char rem_opt[CFG_MAX_LEN];
       strcpy (rem_opt, token_ptr);
 
@@ -173,6 +193,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
         if (strcmp ("removable", comma_ptr) == 0)
           removable = 1;
+
         else
         {
           fprintf (stderr, "Error: invalid option in config\n");
@@ -185,11 +206,13 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       erase_char (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
-      buf_check_with_strop (waste[*waste_ctr].parent, token_ptr, CPY);
-
+      strcpy (waste[*waste_ctr].parent, token_ptr);
       strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
 
-      buf_check_with_strop (waste[*waste_ctr].files, "/files/", CAT);
+      strcat (waste[*waste_ctr].files, "/files/");
+
+      if ((func_error = bufchk (waste[*waste_ctr].files, MP)))
+        break;
 
       if (removable && file_not_found (waste[*waste_ctr].parent))
       {
@@ -202,13 +225,16 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
         continue;
 
       strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
-      buf_check_with_strop (waste[*waste_ctr].info, "/info/", CAT);
+      strcat (waste[*waste_ctr].info, "/info/");
 
       if (make_dir (waste[*waste_ctr].info))
         continue;
 
       /**
        * protect WASTE dirs by default
+       *
+       * No need for a buffer check; they are declared the same as the
+       * Waste folders
        */
       strcpy (protected_dir[*prot_dir_ctr], waste[*waste_ctr].parent);
       (*prot_dir_ctr)++;
@@ -220,7 +246,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       waste[*waste_ctr].dev_num = st.st_dev;
 
       if (list)
-        printf ("%s\n", waste[*waste_ctr].parent);
+        fprintf (stdout, "%s\n", waste[*waste_ctr].parent);
 
       (*waste_ctr)++;
     }
@@ -230,15 +256,13 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
 
-      buf_check (token_ptr, MP);
       erase_char (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
-      buf_check (token_ptr, MP);
-
       resolve_path (token_ptr, protected_dir[*prot_dir_ctr]);
 
-      buf_check (protected_dir[*prot_dir_ctr], MP);
+      if ((func_error = bufchk (protected_dir[*prot_dir_ctr], MP)))
+        break;
 
       (*prot_dir_ctr)++;
     }
@@ -250,6 +274,9 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       fprintf (stdout, "Maximum number protected folders reached: %d\n", PROTECT_MAX);
   }
 
+  /**
+   * The earlier "breaks" will allow the config file to be closed here
+   */
   if (config_opened)
   {
     if (!close_file (config_ptr, config_file, __func__))
@@ -267,7 +294,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     return NO_WASTE_FOLDER;
   }
 
-  return 0;
+  return func_error ? func_error : 0;
 }
 
 /**
@@ -297,8 +324,8 @@ make_home_real (char *str, const char *HOMEDIR)
     return 0;
 
   char temp[MP];
-  buf_check_with_strop (temp, HOMEDIR, CPY);
-  buf_check_with_strop (temp, str, CAT);
+  bufchk_string_op (COPY, temp, HOMEDIR, MP);
+  bufchk_string_op (CONCAT, temp, str, MP);
   strcpy (str, temp);
 
   return ok;
