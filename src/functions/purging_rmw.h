@@ -39,4 +39,4 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
        const int waste_dirs_total);
 
 bool
-is_time_to_purge (const char *HOMEDIR, bool force);
+is_time_to_purge (bool force);
