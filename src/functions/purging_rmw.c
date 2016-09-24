@@ -133,8 +133,9 @@ rmdir_recursive (char *path, short unsigned level)
  *
  */
 bool
-is_time_to_purge (const char *HOMEDIR, bool force)
-{
+is_time_to_purge (bool force)
+{ 
+  char *HOMEDIR = getenv ("HOME");
   char file_lastpurge[MP];
   strcpy (file_lastpurge, HOMEDIR);
   strcat (file_lastpurge, PURGE_DAY_FILE);
