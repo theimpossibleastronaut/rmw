@@ -217,13 +217,14 @@ bool
 resolve_path (const char *str, char *dest)
 {
   dest[0] = '\0';
-  realpath (str, dest);
-
-  if (strlen (dest) != 0)
+  
+  if(realpath(str,dest)!=NULL)
     return 0;
-
-  fprintf (stderr, "Error: realpath() failed on string %s\n", str);
-  return 1;
+  else
+  {
+    fprintf (stderr, "Error: realpath() failed on string %s\n", str);
+    return 1;
+  }
 }
 
 void
