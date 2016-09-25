@@ -27,36 +27,44 @@
 
 void print_usage (void)
 {
-  printf ("-h, --help\n");
-  printf ("-c, --config filename     use an alternate configuration\n");
-  printf ("-l, --list                list waste directories\n");
-  printf ("-p, --pause               wait for a keypress before exiting\n");
-  printf
-    ("-g, --purge               run purge even if it's been run today\n");
-  printf ("-f, --force               allow purge to run\n");
-  printf ("-i, --interactive         not implemented\n");
-  printf ("-r, --recurse             not implemented\n");
-  printf ("-B, --bypass              bypass directory protection\n");
-  printf ("-v, --verbose             increase output messages\n");
-  printf ("-w, --warranty            display warranty\n");
-  printf
-    ("-V, --version             display version and license information\n");
-  printf ("\n\n\t===] Restoring [===\n\n");
-  printf ("-z, --restore <wildcard filename(s) pattern>\n");
-  printf ("-s, --select              select files from list to restore\n");
-  printf ("-u, --undo-last           undo last ReMove\n");
-  printf ("\n\n\t===] First time use [===\n\n");
-  printf ("After rmw is installed, create the user configuration directory\n");
-  printf ("by typing 'rmw' and hitting enter. It's recommended to copy\n");
-  printf ("/etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n");
-  printf ("and then rename it to 'config':\n\n");
-  printf ("'cd ~/.config/rmw'\n");
-  printf ("'~/.config/rmw$ cp /etc/rmwrc .'\n");
-  printf ("'~/.config/rmw$ mv rmwrc config'\n\n");
-  printf ("Then edit the file to suit your needs.\n\n");
-  printf ("Visit the rmw home page for more help, and\n");
-  printf ("information about how to obtain support -\n");
-  printf ("http://github.com/andy5995/rmw/wiki\n\n");
+  printf ("\
+Usage: rmw [OPTION]... FILE...\n\
+ReMove the FILE(s) to a WASTE directory listed in configuration file\n\
+\n\
+   or: rmw -z FILE...\n\
+Restore FILE(s) from a WASTE directory\n\
+\n\
+  -h, --help\n\
+  -c, --config filename     use an alternate configuration\n\
+  -l, --list                list waste directories\n\
+  -p, --pause               wait for a keypress before exiting\n\
+  -g, --purge               run purge even if it's been run today\n\
+  -f, --force               allow purge to run\n\
+  -i, --interactive         not implemented\n\
+  -r, --recurse             not implemented\n\
+  -B, --bypass              bypass directory protection\n\
+  -v, --verbose             increase output messages\n\
+  -w, --warranty            display warranty\n\
+  -V, --version             display version and license information\n");
+  printf ("\
+  \n\n\
+  \t===] Restoring [===\n\n\
+  -z, --restore <wildcard filename(s) pattern>\n\
+  -s, --select              select files from list to restore\n\
+  -u, --undo-last           undo last ReMove\n");
+  printf ("\
+  \n\n\
+  t===] First time use [===\n\n\
+After rmw is installed, create the user configuration directory\n\
+by typing 'rmw' and hitting enter. It's recommended to copy\n\n\
+  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n\n\
+and then rename it to 'config':\n\n\
+  'cd ~/.config/rmw'\n\
+  '~/.config/rmw$ cp /etc/rmwrc .'\n\
+  '~/.config/rmw$ mv rmwrc config'\n\n\
+Then edit the file to suit your needs.\n\n\
+Visit the rmw home page for more help, and information about\n\
+how to obtain support - http://github.com/andy5995/rmw/wiki\n\n");
 }
 
 void warranty (void)
