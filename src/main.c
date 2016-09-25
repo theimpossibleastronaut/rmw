@@ -246,20 +246,18 @@ main (int argc, char *argv[])
 
       if (!file_not_found (file.main_argv))
       {
+        if ((main_error = resolve_path (file.main_argv, file.real_path)))
+          break;
+
         if (!bypass)
         {
-          char real_path[MP];
-
-          if (resolve_path (file.main_argv, real_path))
-            continue;
-
           bool flagged = 0;
 
           short dir_num;
 
           for (dir_num = 0; dir_num < protected_total; dir_num++)
           {
-            if (!strncmp (real_path, protected_dir[dir_num],
+            if (!strncmp (file.real_path, protected_dir[dir_num],
                           strlen (protected_dir[dir_num])))
             {
               flagged = 1;
@@ -269,7 +267,7 @@ main (int argc, char *argv[])
 
           if (flagged)
           {
-            fprintf (stderr, "File is in protected directory: %s\n", real_path);
+            fprintf (stderr, "File is in protected directory: %s\n", file.real_path);
             continue;
           }
         }
@@ -386,7 +384,7 @@ main (int argc, char *argv[])
       }
     }
 
-    if (main_error)
+    if (main_error > 1)
       return main_error;
 
     if (undo_opened)

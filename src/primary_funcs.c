@@ -97,20 +97,15 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
 
   bufchk_string_op (CONCAT, finalInfoDest, DOT_TRASHINFO, MP);
 
-  char real_path[MP];
-
   /* Worst case scenario: whole path is escaped, so 3 chars per
    * actual character */
   char escaped_path[MP * 3];
-
-  if (resolve_path (file.main_argv, real_path))
-    return 1;
 
   fp = fopen (finalInfoDest, "w");
 
   if (fp != NULL)
   {
-    if (escape_url (real_path, escaped_path, MP * 3) )
+    if (escape_url (file.real_path, escaped_path, MP * 3) )
       return 1;
 
     fprintf (fp, "[Trash Info]\n");

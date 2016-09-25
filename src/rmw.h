@@ -93,6 +93,7 @@ struct waste_containers
 struct rmw_target
 {
   char main_argv[MP];
+  char real_path[MP];
   char base_name[MP];
   char dest_name[MP];
 
@@ -105,6 +106,7 @@ bool verbose;
  * Exit Codes
  */
 
+#define EXIT_FAILED_GETENV 2
 #define NO_WASTE_FOLDER -1
 #define EXIT_BUF_ERR -9
 

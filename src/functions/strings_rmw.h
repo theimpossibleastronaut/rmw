@@ -51,8 +51,8 @@ trim_slash (char str[]);
 void
 truncate_str (char *str, unsigned short pos);
 
-bool
-resolve_path (const char *str, char *dest);
+short
+resolve_path (const char *src, char *path_with_pwd);
 
 void
 get_time_string (char *tm_str, unsigned short len, const char *format);

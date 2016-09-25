@@ -206,24 +206,45 @@ truncate_str (char *str, unsigned short pos)
 
 /**
  * resolve_path()
- * make sure that realpath gave *dest a path
- * returns 0 on success, 1 on failure
  *
- * I had trouble with the actual realpath() return values
- * See http://cboard.cprogramming.com/c-programming/171131-realpath-resolves-path-but-errno-set-2-a.html
- * for more info.
+ * concatenates 'src' (which may be the file base name, relative path or
+ * the absolute path) to the environmental variable PWD
+ *
+ * returns 0 if successful
+ *
+ * realpath() can't be used because because when it resolves the path
+ * of symlinks, the actual path to where the symlink points is returned
+ *
+ * FIXME: This method works but it would be better just to get the actual
+ * absolute path, without having the extra paths that might happen
+ * with PWD.
  */
-bool
-resolve_path (const char *str, char *dest)
+short
+resolve_path (const char *src, char *path_with_pwd)
 {
-  dest[0] = '\0';
-  realpath (str, dest);
+  short func_error;
+  char added_path[MP];
+  char *env_pwd = getenv ("PWD");
 
-  if (strlen (dest) != 0)
-    return 0;
+  if (env_pwd != NULL)
+  {
+    strcpy (added_path, env_pwd);
+    strcat (added_path, "/");
+    strcat (added_path, src);
 
-  fprintf (stderr, "Error: realpath() failed on string %s\n", str);
-  return 1;
+    if ((func_error = bufchk (added_path, MP)))
+      return func_error;
+
+    strcpy (path_with_pwd, added_path);
+  }
+
+  else
+  {
+    fprintf (stderr, "Error: couldn't get value of $PWD\n");
+    return EXIT_FAILED_GETENV;
+  }
+
+  return 0;
 }
 
 void
