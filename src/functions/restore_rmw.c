@@ -86,9 +86,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
       continue;
     }
 
-    if (file_not_found (argv[restore_request]))
-      fprintf (stderr, "%s not found\n", argv[restore_request]);
-    else
+    if (!file_not_found (argv[restore_request]))
     {
       strcpy (file.relative_path, argv[restore_request]);
 
@@ -105,23 +103,11 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
       if ((func_error = bufchk (file.info, MP)))
         return func_error;
 
-      if (file_not_found (file.info))
-      {
-        printf ("Error: no info file found for %s\n", argv[restore_request]);
-        break;
-      }
-      else
-      {
-        FILE *fp;
+      FILE *fp;
 
-        fp = fopen (file.info, "r");
-
-        if (fp == NULL)
-        {
-          open_err (file.info, __func__);
-          break;
-        }
-        else if (fgets (line, sizeof (line), fp ) != NULL)
+      if ((fp = fopen (file.info, "r")) != NULL)
+      {
+        if (fgets (line, sizeof (line), fp ) != NULL)
         {
           /**
            * Not using the "[Trash Info]" line, but reading the file
@@ -206,8 +192,16 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
               file.info);
           return 1;
         }
+
+      }
+      else
+      {
+        open_err (file.info, __func__);
+        break;
       }
     }
+    else
+      fprintf (stderr, "%s not found\n", argv[restore_request]);
   }
 
   return 0;
