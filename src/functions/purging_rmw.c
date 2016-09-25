@@ -123,18 +123,10 @@ rmdir_recursive (char *path, short unsigned level)
  * checks to see if purge() was run today
  * if not, returns 1 and writes the day
  * to the lastpurge file.
- *
- * FIXME:
- * The only reason HOMEDIR is used as an argument is to avoid
- * using a global, or having to use getenv (HOME) inside this function
- * since that's already been done in main(). But there's probably a better
- * way. (is_time_purge (HOMEDIR) looks like we're going to purge the HOMEDIR,
- * which is very misleading)
- *
  */
 bool
 is_time_to_purge (bool force)
-{ 
+{
   char *HOMEDIR = getenv ("HOME");
   char file_lastpurge[MP];
   strcpy (file_lastpurge, HOMEDIR);
