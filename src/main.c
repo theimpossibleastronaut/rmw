@@ -30,11 +30,10 @@ main (int argc, char *argv[])
 {
   struct waste_containers waste[WASTENUM_MAX];
 
-  const char *const short_options = "hvc:pgz:lsuBwVfir";
+  const char *const short_options = "hvc:gz:lsuBwVfir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
-    {"pause", 0, NULL, 'p'},
     {"verbose", 0, NULL, 'v'},
     {"config", 1, NULL, 'c'},
     {"list", 0, NULL, 'l'},
@@ -53,7 +52,6 @@ main (int argc, char *argv[])
 
   short int next_option = 0;
 
-  bool pause = 0;
   bool purgeYes = 0;
   bool restoreYes = 0;
   bool select = 0;
@@ -82,9 +80,6 @@ main (int argc, char *argv[])
       break;
     case 'l':
       list = 1;
-      break;
-    case 'p':
-      pause = 1;
       break;
     case 'g':
       purgeYes = 1;
@@ -198,13 +193,58 @@ Unable to continue. Exiting...\n");
   else if (conf_err == EXIT_BUF_ERR)
     return EXIT_BUF_ERR;
 
+    /* used for DeletionDate in trashinfo file
+     * and for comparison in purge() */
+  char time_now[21];
+  get_time_string (time_now, 21, "%FT%T");
+
+  if (purgeYes && !purge_after)
+    printf ("purging is disabled, 'purge_after' is set to '0'\n");
+
+  if (purge_after != 0)
+  {
+    if (is_time_to_purge (force) != 0 || purgeYes != 0)
+    {
+      if (force)
+        purge (purge_after, waste, time_now, waste_dirs_total);
+      else
+        fprintf (stderr, "purge skipped: use -f or --force\n");
+    }
+  }
+
+/* I don't know of any reason why --list would be needed with other features,
+ * so exit rmw (if -l was passed, it was performed in get_config_data())
+ */
+  if (list)
+    return 0;
+
   /* String appended to duplicate filenames */
   char time_str_appended[16];
   get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
 
-  /* used for DeletionDate in info file */
-  char time_now[21];
-  get_time_string (time_now, 21, "%FT%T");
+  /* FIXME:
+   * restore_select() should return a value
+   */
+  if (select)
+  {
+    restore_select (waste, time_str_appended, waste_dirs_total);
+    return 0;
+  }
+
+  /* FIXME:
+   * undo_last_rmw() should return a value
+   */
+  if (undo_last)
+  {
+    undo_last_rmw (HOMEDIR, time_str_appended, waste, waste_dirs_total);
+    return 0;
+  }
+
+  if (restoreYes)
+  {
+    Restore (argc, argv, optind, time_str_appended, waste, waste_dirs_total);
+    return 0;
+  }
 
   bool undo_opened = 0;
   FILE *undo_file_ptr = malloc (sizeof (*undo_file_ptr));
@@ -216,7 +256,7 @@ Unable to continue. Exiting...\n");
 
   short main_error = 0;
 
-  if (optind < argc && !restoreYes && !select && !undo_last)
+  if (optind < argc)
   {
     strcpy (undo_path, HOMEDIR);
     strcat (undo_path, UNDO_FILE);
@@ -396,41 +436,9 @@ Unable to continue. Exiting...\n");
     else
       printf("%d files were ReMoved to Waste\n", rmwed_files);
   }
-  else if (restoreYes)
-    Restore (argc, argv, optind, time_str_appended, waste, waste_dirs_total);
-  else if (select)
-    restore_select (waste, time_str_appended, waste_dirs_total);
-  else if (undo_last)
-    undo_last_rmw (HOMEDIR, time_str_appended, waste, waste_dirs_total);
-  else
-  {
-    if (!purgeYes && !list)
-    {
+  else if (!purgeYes && !force)
       fprintf (stderr, "missing filenames or command line options\n\
 Try '%s -h' for more information\n", argv[0]);
-    }
-  }
-
-  if (purgeYes && !purge_after)
-    printf ("purging is disabled, 'purge_after' is set to '0'\n");
-
-  if (purge_after != 0 && restoreYes == 0 && select == 0)
-  {
-    if (is_time_to_purge (force) != 0 || purgeYes != 0)
-    {
-      if (force)
-        purge (purge_after, waste, time_now, waste_dirs_total);
-      else
-        fprintf (stderr, "purge skipped: use -f or --force\n");
-    }
-  }
-
-  if (pause)
-  {
-    fprintf (stdout, "\nPress the any key to continue...\n");
-    getchar ();
-  }
 
   return 0;
-
 }

@@ -37,7 +37,6 @@ Restore FILE(s) from a WASTE directory\n\
   -h, --help\n\
   -c, --config filename     use an alternate configuration\n\
   -l, --list                list waste directories\n\
-  -p, --pause               wait for a keypress before exiting\n\
   -g, --purge               run purge even if it's been run today\n\
   -f, --force               allow purge to run\n\
   -i, --interactive         not implemented\n\
