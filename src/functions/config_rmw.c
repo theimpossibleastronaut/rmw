@@ -62,7 +62,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     strcat (config_file, CFG_FILE);
 
   }
-
   else
     strcpy (config_file, alt_config);
 
@@ -83,7 +82,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
   if (config_opened)
   {}
-
   else
   {
     char str_temp[MP];
@@ -99,7 +97,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
     if (config_ptr != NULL)
       config_opened = 1;
-
     else
     {
       open_err (config_file, __func__);
@@ -160,10 +157,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       else
         fprintf (stderr, "Error: invalid purge_after value in configuration\n");
     }
-
     else if (strncmp (line_from_config, "force_not_required", 18) == 0)
       *force_ptr = 1;
-
     else if (*waste_ctr < WASTENUM_MAX &&
         strncmp ("WASTE", line_from_config, 5) == 0)
     {
@@ -193,7 +188,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
         if (strcmp ("removable", comma_ptr) == 0)
           removable = 1;
-
         else
         {
           fprintf (stderr, "Error: invalid option in config\n");
@@ -250,7 +244,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
       (*waste_ctr)++;
     }
-
     else if (*prot_dir_ctr < PROTECT_MAX && !strncmp ("PROTECT", line_from_config, 7))
     {
       token_ptr = strtok (line_from_config, "=");

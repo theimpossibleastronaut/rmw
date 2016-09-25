@@ -54,7 +54,6 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
 {
   if (fclose (file_ptr) != EOF)
     return 0;
-
   else
   {
     fprintf (stderr, "Error: while closing %s\n", filename);

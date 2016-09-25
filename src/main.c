@@ -137,7 +137,8 @@ main (int argc, char *argv[])
   }
   else
   {
-    fprintf (stderr, "Error: Environmental variable $HOME can't be used. Unable to determine home directory\n");
+    fprintf (stderr, "Error: Environmental variable $HOME can't be used.\n\
+Unable to determine home directory\n");
     return 1;
   }
 
@@ -152,12 +153,13 @@ main (int argc, char *argv[])
 
   if (make_dir (data_dir))
   {
-    fprintf (stderr, "Unable to create config/data directory\n");
-    fprintf (stderr, "Please check your configuration file and permissions\n");
-    fprintf (stderr, "If you need further help, or to report a possible bug, ");
-    fprintf (stderr, "visit the rmw web site at\n");
-    fprintf (stderr, "https://github.com/andy5995/rmw/wiki\n");
-    fprintf (stderr, "Unable to continue. Exiting...\n");
+    fprintf (stderr, "\
+Error: Unable to create config/data directory\n\
+Please check your configuration file and permissions\n\
+If you need further help, or to report a possible bug,\n\
+visit the rmw web site at\n\n\
+  https://github.com/andy5995/rmw/wiki\n\n\
+Unable to continue. Exiting...\n");
     return 1;
   }
 
@@ -193,7 +195,6 @@ main (int argc, char *argv[])
 
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
-
   else if (conf_err == EXIT_BUF_ERR)
     return EXIT_BUF_ERR;
 
@@ -267,12 +268,12 @@ main (int argc, char *argv[])
 
           if (flagged)
           {
-            fprintf (stderr, "File is in protected directory: %s\n", file.real_path);
+            fprintf (stderr, "File is in protected directory: %s\n",
+                file.real_path);
             continue;
           }
         }
       }
-
       else
       {
         fprintf (stderr, "File not found: '%s'\n", file.main_argv);
@@ -346,7 +347,6 @@ main (int argc, char *argv[])
                 {
                   if ((undo_file_ptr = fopen (undo_path, "w")) != NULL)
                     undo_opened = 1;
-
                   else
                   {
                     open_err (undo_path, __func__);
@@ -355,14 +355,13 @@ main (int argc, char *argv[])
                 }
               fprintf (undo_file_ptr, "%s\n", file.dest_name);
             }
-
             else
               fprintf (stderr, "mkinfo() returned error %d\n", info_status);
           }
-
           else
           {
-            fprintf (stderr, "Error %d moving %s :\n", rename_status, file.main_argv);
+            fprintf (stderr, "Error %d moving %s :\n",
+                rename_status, file.main_argv);
             perror ("remove_to_waste()");
             return 1;
           }
@@ -389,32 +388,26 @@ main (int argc, char *argv[])
 
     if (undo_opened)
       close_file (undo_file_ptr, undo_path, __func__);
-
     else
       free (undo_file_ptr);
 
     if (rmwed_files == 1)
       printf("%d file was ReMoved to Waste\n", rmwed_files);
-
     else
       printf("%d files were ReMoved to Waste\n", rmwed_files);
   }
-
   else if (restoreYes)
     Restore (argc, argv, optind, time_str_appended, waste, waste_dirs_total);
-
   else if (select)
     restore_select (waste, time_str_appended, waste_dirs_total);
-
   else if (undo_last)
     undo_last_rmw (HOMEDIR, time_str_appended, waste, waste_dirs_total);
-
   else
   {
     if (!purgeYes && !list)
     {
-      printf ("missing filenames or command line options\n");
-      printf ("Try '%s -h' for more information\n", argv[0]);
+      fprintf (stderr, "missing filenames or command line options\n\
+Try '%s -h' for more information\n", argv[0]);
     }
   }
 

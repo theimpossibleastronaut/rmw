@@ -63,7 +63,6 @@ make_dir (const char *dir)
 
       if (!mk_err)
         continue;
-
       else
         break;
     }
@@ -116,7 +115,6 @@ mkinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
     if (close_err)
       return 1;
   }
-
   else
   {
     open_err (finalInfoDest, __func__);
@@ -146,7 +144,6 @@ file_not_found (const char *filename)
 
   if (lstat (filename, &st) == 0)
     return 0;
-
   else
     return 1;
 }

@@ -88,7 +88,6 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
     if (file_not_found (argv[restore_request]))
       fprintf (stderr, "%s not found\n", argv[restore_request]);
-
     else
     {
       strcpy (file.relative_path, argv[restore_request]);
@@ -111,7 +110,6 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
         printf ("Error: no info file found for %s\n", argv[restore_request]);
         break;
       }
-
       else
       {
         FILE *fp;
@@ -123,7 +121,6 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
           open_err (file.info, __func__);
           break;
         }
-
         else if (fgets (line, sizeof (line), fp ) != NULL)
         {
           /**
@@ -133,7 +130,6 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
           if (strncmp (line, "[Trash Info]", 12) == 0)
           {}
-
           else
           {
             fprintf (stderr, "Error: trashinfo file format not correct\n");
@@ -162,7 +158,6 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
             close_file (fp, file.info, __func__);
 
           }
-
           else
           {
             printf ("error on line 2 in %s\n", file.info);
@@ -195,18 +190,16 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
           if (!rename (argv[restore_request], file.dest))
           {
             printf ("+'%s' -> '%s'\n", argv[restore_request], file.dest);
+
             if (remove (file.info) != 0)
               fprintf (stderr, "error removing info file: '%s'\n", file.info);
-
             else
               if (verbose)
                 printf ("-%s\n", file.info);
           }
-
           else
             fprintf (stderr, "Restore failed: %s\n", file.dest);
         }
-
         else
         {
           fprintf (stderr, "Error: Able to open %s but encountered an error\n",
@@ -327,7 +320,6 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
       if (char_count == 0)
         printf ("\n");
-
       else
       {
         input[char_count] = '\0';
@@ -368,7 +360,6 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
 
   if (undo_file_ptr != NULL)
   {}
-
   else
   {
     open_err (undo_path, __func__);

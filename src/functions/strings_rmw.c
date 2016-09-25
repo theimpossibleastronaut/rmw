@@ -76,13 +76,11 @@ bufchk_string_op (bool mode, char *s1, const char *s2, const unsigned short boun
     strcat (s1, s2);
     return 0;
   }
-
   else if (len2 < boundary && mode == COPY)
   {
     strcpy (s1, s2);
     return 0;
   }
-
   else if (mode != COPY && mode != CONCAT)
   {
     fprintf (stderr, "Mode for function: <%s> must be either COPY or CONCAT\n",
@@ -148,6 +146,7 @@ trim (char s[])
       s[n + 1] = '\0';
       break;
     }
+
     s[n] = '\0';
   }
   return n;
@@ -175,6 +174,8 @@ erase_char (char c, char *str)
     str[i] = str[i + inc];
 
   str[n - inc] = '\0';
+
+  return;
 }
 
 /**
@@ -187,11 +188,11 @@ trim_slash (char str[])
   len = strlen(str) - 1;
 
   if (str[len] != '/')
-    return ;
+    return;
 
   str[len] = '\0';
 
-  return ;
+  return;
 }
 
 /**
@@ -237,7 +238,6 @@ resolve_path (const char *src, char *path_with_pwd)
 
     strcpy (path_with_pwd, added_path);
   }
-
   else
   {
     fprintf (stderr, "Error: couldn't get value of $PWD\n");
@@ -313,7 +313,7 @@ escape_url (const char *str, char *dest, unsigned short len)
         return 1;
 
       dest[pos_dest] = str[pos_str];
-      pos_dest+=1;
+      pos_dest += 1;
     }
     else {
       /* Again, check for overflow (3 chars + '\0') */
@@ -328,7 +328,7 @@ escape_url (const char *str, char *dest, unsigned short len)
        * X  - print hexadecimal form with uppercase letters
        */
       sprintf(dest + pos_dest, "%%%02hhX", str[pos_str]);
-      pos_dest+=3;
+      pos_dest += 3;
     }
     pos_str++;
   }
@@ -356,14 +356,14 @@ unescape_url (const char *str, char *dest, unsigned short len)
     if (str[pos_str] == '%')
     {
       /* skip the '%' */
-      pos_str+=1;
+      pos_str += 1;
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
       if (pos_dest + 2 > len)
         return 1;
 
       sscanf(str + pos_str, "%2hhx", dest + pos_dest);
-      pos_str+=2;
+      pos_str += 2;
     }
     else {
       /* Check for buffer overflow (there should be enough space for 1
@@ -372,7 +372,7 @@ unescape_url (const char *str, char *dest, unsigned short len)
         return 1;
 
       dest[pos_dest] = str[pos_str];
-      pos_str+=1;
+      pos_str += 1;
     }
     pos_dest++;
   }
