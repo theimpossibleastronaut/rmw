@@ -2,7 +2,10 @@
 
 2016-09-25
 
-    -p / --pause option removed
+    -p, --pause option removed
+
+    -o, --orphaned option added
+        create trashinfo files if no corresponding trashinfo is found (#16)
 
 2016-09-18
 

@@ -478,3 +478,68 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
   return 0;
 
 }
+
+short
+orphan_maint(struct waste_containers *waste, const int waste_dirs_total,
+              char *time_now, char *time_str_appended)
+{
+  short ctr = 0;
+
+  struct rmw_target file;
+
+  /* searching for files that don't have a trashinfo: There will
+   * never be a duplicate, but it initializes the struct member, and
+   * mkinfo() will check for it, which is called later.
+   */
+  file.is_duplicate = 0;
+
+  char path_to_trashinfo[MP];
+
+  while (ctr < waste_dirs_total)
+  {
+    struct dirent *entry;
+    DIR *files;
+    files = opendir (waste[ctr].files);
+
+    while ((entry = readdir (files)) != NULL)
+    {
+      if (strcmp (entry->d_name, ".") == 0 ||
+          strcmp (entry->d_name, "..") == 0)
+        continue;
+
+      strcpy (file.base_name, basename (entry->d_name));
+
+      strcpy (path_to_trashinfo, waste[ctr].info);
+      strcat (path_to_trashinfo, file.base_name);
+      strcat (path_to_trashinfo, DOT_TRASHINFO);
+
+      if (!file_not_found (path_to_trashinfo))
+        continue;
+
+      strcpy (file.real_path, waste[ctr].parent);
+      strcat (file.real_path, "/orphans/"); /* destination if restored */
+      strcat (file.real_path, file.base_name);
+
+      short ok = 0;
+      ok = mkinfo (file, waste, time_now, time_str_appended, ctr);
+      if (ok == 0)
+        fprintf (stdout, "Created %s\n", path_to_trashinfo);
+      else
+        fprintf (stdout, "Error: while creating %s\n", path_to_trashinfo);
+
+    }
+    closedir (files);
+
+    ctr++;
+  }
+
+  return 0;
+}
+
+
+
+
+
+
+
+

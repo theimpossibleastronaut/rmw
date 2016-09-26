@@ -68,6 +68,7 @@ RMWTRASH=empty rmw -fg
 -c, --config filename     use an alternate configuration
 -l, --list                list waste directories
 -g, --purge               run purge even if it's been run today
+-o, --orphaned            check for orphaned files (maintenance)
 -f, --force               allow purge to run
 -i, --interactive         not implemented
 -r, --recurse             not implemented

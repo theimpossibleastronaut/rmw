@@ -30,7 +30,7 @@ main (int argc, char *argv[])
 {
   struct waste_containers waste[WASTENUM_MAX];
 
-  const char *const short_options = "hvc:gz:lsuBwVfir";
+  const char *const short_options = "hvc:goz:lsuBwVfir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -38,6 +38,7 @@ main (int argc, char *argv[])
     {"config", 1, NULL, 'c'},
     {"list", 0, NULL, 'l'},
     {"purge", 0, NULL, 'g'},
+    {"orphaned", 0, NULL, 'o'},
     {"restore", 1, NULL, 'z'},
     {"select", 0, NULL, 's'},
     {"undo-last", 0, NULL, 'u'},
@@ -53,6 +54,7 @@ main (int argc, char *argv[])
   short int next_option = 0;
 
   bool purgeYes = 0;
+  bool orphan_chk = 0;
   bool restoreYes = 0;
   bool select = 0;
   bool undo_last = 0;
@@ -83,6 +85,9 @@ main (int argc, char *argv[])
       break;
     case 'g':
       purgeYes = 1;
+      break;
+    case 'o':
+      orphan_chk = 1;
       break;
     case 'z':
       restoreYes = 1;
@@ -221,6 +226,12 @@ Unable to continue. Exiting...\n");
   /* String appended to duplicate filenames */
   char time_str_appended[16];
   get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
+
+  if (orphan_chk)
+  {
+    orphan_maint(waste, waste_dirs_total, time_now, time_str_appended);
+    return 0;
+  }
 
   /* FIXME:
    * restore_select() should return a value

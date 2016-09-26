@@ -38,6 +38,7 @@ Restore FILE(s) from a WASTE directory\n\
   -c, --config filename     use an alternate configuration\n\
   -l, --list                list waste directories\n\
   -g, --purge               run purge even if it's been run today\n\
+  -o, --orphaned            check for orphaned files (maintenance)\n\
   -f, --force               allow purge to run\n\
   -i, --interactive         not implemented\n\
   -r, --recurse             not implemented\n\
