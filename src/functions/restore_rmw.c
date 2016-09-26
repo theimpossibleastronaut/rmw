@@ -357,19 +357,27 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
   else
   {
     open_err (undo_path, __func__);
-
     return;
   }
-
+  
+  int err_ct = 0;
+  
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
   {
     trim (line);
     destiny[0] = line;
 
-    Restore (1, destiny, 1, time_str_appended, waste, waste_dirs_total);
+    err_ct += Restore (1, destiny, 1, time_str_appended, waste, waste_dirs_total);
   }
-
+    
   close_file (undo_file_ptr, undo_path, __func__);
+
+  if(err_ct!=0)
+    fprintf (stderr, "Error: %d file not restored \n",err_ct); 
+  
+  else if (remove (undo_path) != 0)
+    fprintf (stderr, "error removing undo file. ");
+  
 }
 
 /**
