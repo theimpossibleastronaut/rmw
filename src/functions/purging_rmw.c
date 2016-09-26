@@ -237,8 +237,8 @@ is_time_to_purge (bool force)
 }
 
 int
-purge (const short purge_after, const struct waste_containers *waste, char *time_now,
-       const int waste_dirs_total)
+purge (const short purge_after, const struct waste_containers *waste,
+        char *time_now)
 {
   if (purge_after > UINT_MAX)
   {
@@ -270,15 +270,16 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
 
   printf ("\nPurging files (purge_after = %u) ...\n", purge_after);
 
-  int p = 0;
   struct dirent *entry;
 
   /**
    *  Read each Waste info directory
    */
-  while (p < waste_dirs_total && p < WASTENUM_MAX)
+  short ctr = -1;
+
+  while (strcmp (waste[++ctr].parent, "NULL") != 0)
   {
-    DIR *dir = opendir (waste[p].info);
+    DIR *dir = opendir (waste[ctr].info);
 
     /**
      *  Read each file/dir in Waste directory
@@ -298,7 +299,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
       char *tokenPtr;
 
       trim (entry->d_name);
-      bufchk_string_op (COPY, entry_path, waste[p].info, MP);
+      bufchk_string_op (COPY, entry_path, waste[ctr].info, MP);
       bufchk_string_op (CONCAT, entry_path, entry->d_name, MP);
 
       info_file_ptr = fopen (entry_path, "r");
@@ -370,7 +371,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
       {
         success = 0;
 
-        strcpy (purgeFile, waste[p].files);
+        strcpy (purgeFile, waste[ctr].files);
 
         char temp[MP];
         strcpy (temp, entry->d_name);
@@ -458,7 +459,7 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
     }
 
     closedir (dir);
-    p++;
+
   }
 
   if (max_depth_reached_ctr)
@@ -480,11 +481,9 @@ purge (const short purge_after, const struct waste_containers *waste, char *time
 }
 
 short
-orphan_maint(struct waste_containers *waste, const int waste_dirs_total,
+orphan_maint(struct waste_containers *waste,
               char *time_now, char *time_str_appended)
 {
-  short ctr = 0;
-
   struct rmw_target file;
 
   /* searching for files that don't have a trashinfo: There will
@@ -495,7 +494,9 @@ orphan_maint(struct waste_containers *waste, const int waste_dirs_total,
 
   char path_to_trashinfo[MP];
 
-  while (ctr < waste_dirs_total)
+  short ctr = -1;
+
+  while (strcmp (waste[++ctr].parent, "NULL") != 0)
   {
     struct dirent *entry;
     DIR *files;
@@ -530,14 +531,10 @@ orphan_maint(struct waste_containers *waste, const int waste_dirs_total,
     }
     closedir (files);
 
-    ctr++;
   }
 
   return 0;
 }
-
-
-
 
 
 

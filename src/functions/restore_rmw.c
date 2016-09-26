@@ -32,7 +32,7 @@
  */
 short
 Restore (int argc, char *argv[], int optind, char *time_str_appended,
-          struct waste_containers *waste, const int waste_dirs_total)
+          struct waste_containers *waste)
 {
   short func_error = 0;
 
@@ -66,9 +66,10 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
           file_not_found (file.base_name))
     {
       fprintf (stdout, "Searching using only the basename...\n");
-      unsigned short ctr = 0;
 
-      while (ctr < waste_dirs_total)
+      short ctr = -1;
+
+      while (strcmp (waste[++ctr].parent, "NULL") != 0)
       {
         char *possibly_in_path[1];
 
@@ -76,10 +77,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
 
         strcat (possibly_in_path[0], argv[restore_request]);
 
-        Restore (1, possibly_in_path, 1, time_str_appended, waste,
-                  waste_dirs_total);
-
-        ctr++;
+        Restore (1, possibly_in_path, 1, time_str_appended, waste);
       }
 
       fprintf (stdout, "search complete\n");
@@ -216,8 +214,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
  * FIXME: This function needs to be re-worked
  */
 void
-restore_select (struct waste_containers *waste, char *time_str_appended,
-                const int waste_dirs_total)
+restore_select (struct waste_containers *waste, char *time_str_appended)
 {
   struct stat st;
   struct dirent *entry;
@@ -229,19 +226,20 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
   char *destiny[1];
 
   unsigned count = 0;
-  int w = 0;
   char input[10];
   char c;
   unsigned char char_count = 0;
   short choice = 0;
 
-  while (w < waste_dirs_total)
+  short ctr = 0;
+
+  while (strcmp (waste[ctr].parent, "NULL") != 0)
   {
-    DIR *dir = opendir (waste[w].files);
+    DIR *dir = opendir (waste[ctr].files);
     count = 0;
 
     if (!choice)
-      printf ("\t>-- %s --<\n", waste[w].files);
+      printf ("\t>-- %s --<\n", waste[ctr].files);
 
     while ((entry = readdir (dir)) != NULL)
     {
@@ -252,7 +250,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
 
       if (count == choice || choice == 0)
       {
-        bufchk_string_op (COPY, path_to_file, waste[w].files, MP);
+        bufchk_string_op (COPY, path_to_file, waste[ctr].files, MP);
 
         /* Not yet sure if 'trim' is needed yet; using it
          *  until I get smarter
@@ -269,7 +267,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
         destiny[0] = path_to_file;
         printf ("\n");
 
-        Restore (1, destiny, 1, time_str_appended, waste, waste_dirs_total);
+        Restore (1, destiny, 1, time_str_appended, waste);
         break;
       }
 
@@ -332,13 +330,13 @@ restore_select (struct waste_containers *waste, char *time_str_appended,
     }
 
     if (choice == 0)
-      w++;
+      ctr++;
   }
 }
 
 void
 undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
-               struct waste_containers *waste, const int waste_dirs_total)
+               struct waste_containers *waste)
 {
   FILE *undo_file_ptr;
   char undo_path[MP];
@@ -366,7 +364,7 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
     trim (line);
     destiny[0] = line;
 
-    Restore (1, destiny, 1, time_str_appended, waste, waste_dirs_total);
+    Restore (1, destiny, 1, time_str_appended, waste);
   }
 
   close_file (undo_file_ptr, undo_path, __func__);

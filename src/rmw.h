@@ -68,8 +68,8 @@
 #define PURGE_DAY_FILE DATA_DIR"/lastpurge"
 
 /* Set a sane limit on maximum number of Waste dirs */
-/* Not yet fully implemented */
-#define WASTENUM_MAX 16
+/* This will provide 16 MAX, and 1 extra that will be "NULL" */
+#define WASTENUM_MAX 17
 
 /**
  * How many folder can be set for "protection" in rmwrc

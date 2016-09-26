@@ -167,19 +167,14 @@ Unable to continue. Exiting...\n");
 
   char protected_dir[PROTECT_MAX][MP];
 
-  int *waste_ctr = malloc (sizeof (*waste_ctr));
-
   unsigned short *purge_after_ptr = malloc (sizeof (*purge_after_ptr));
 
   bool *force_ptr = malloc (sizeof (*force_ptr));
   *force_ptr = force;
 
   short conf_err =
-    get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr, list, waste_ctr,
+    get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr, list,
                      protected_dir, prot_dir_ctr, force_ptr);
-
-  const int waste_dirs_total = *waste_ctr;
-  free (waste_ctr);
 
   const int protected_total = *prot_dir_ctr;
   free (prot_dir_ctr);
@@ -211,7 +206,7 @@ Unable to continue. Exiting...\n");
     if (is_time_to_purge (force) != 0 || purgeYes != 0)
     {
       if (force)
-        purge (purge_after, waste, time_now, waste_dirs_total);
+        purge (purge_after, waste, time_now);
       else
         fprintf (stderr, "purge skipped: use -f or --force\n");
     }
@@ -229,7 +224,7 @@ Unable to continue. Exiting...\n");
 
   if (orphan_chk)
   {
-    orphan_maint(waste, waste_dirs_total, time_now, time_str_appended);
+    orphan_maint(waste, time_now, time_str_appended);
     return 0;
   }
 
@@ -238,7 +233,7 @@ Unable to continue. Exiting...\n");
    */
   if (select)
   {
-    restore_select (waste, time_str_appended, waste_dirs_total);
+    restore_select (waste, time_str_appended);
     return 0;
   }
 
@@ -247,13 +242,13 @@ Unable to continue. Exiting...\n");
    */
   if (undo_last)
   {
-    undo_last_rmw (HOMEDIR, time_str_appended, waste, waste_dirs_total);
+    undo_last_rmw (HOMEDIR, time_str_appended, waste);
     return 0;
   }
 
   if (restoreYes)
   {
-    Restore (argc, argv, optind, time_str_appended, waste, waste_dirs_total);
+    Restore (argc, argv, optind, time_str_appended, waste);
     return 0;
   }
 
@@ -341,7 +336,6 @@ Unable to continue. Exiting...\n");
        */
 
       struct stat st;
-      unsigned short dir_num = 0;
       bool match = 0;
       short rename_status = 0;
       bool info_status = 0;
@@ -356,8 +350,8 @@ Unable to continue. Exiting...\n");
        * device number of file.main_argv. Once found, the ReMoval
        * happens (provided all the tests are passed.
        */
-
-      for (dir_num = 0; dir_num < waste_dirs_total; dir_num++)
+      short dir_num = -1;
+      while (strcmp (waste[++dir_num].parent, "NULL") != 0)
       {
         lstat (file.main_argv, &st);
 

@@ -35,12 +35,12 @@ int
 rmdir_recursive (char *path, short unsigned level);
 
 int
-purge (const short purge_after, const struct waste_containers *waste, char *time_now,
-       const int waste_dirs_total);
+purge (const short purge_after, const struct waste_containers *waste,
+        char *time_now);
 
 bool
 is_time_to_purge (bool force);
 
 short
-orphan_maint(struct waste_containers *waste, const int waste_dirs_total,
+orphan_maint(struct waste_containers *waste,
               char *time_now, char *time_str_appended);

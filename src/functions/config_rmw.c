@@ -32,7 +32,7 @@
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
       const char *HOMEDIR, unsigned short *purge_after_ptr, bool list,
-      int *waste_ctr, char protected_dir[PROTECT_MAX][MP],
+      char protected_dir[PROTECT_MAX][MP],
       int *prot_dir_ctr, bool *force_ptr)
 {
   char config_file[MP];
@@ -110,7 +110,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     }
   }
 
-  *waste_ctr = 0;
+  short waste_ctr = 0;
   *prot_dir_ctr = 0;
 
   /**
@@ -159,7 +159,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     }
     else if (strncmp (line_from_config, "force_not_required", 18) == 0)
       *force_ptr = 1;
-    else if (*waste_ctr < WASTENUM_MAX &&
+    else if (waste_ctr < WASTENUM_MAX &&
         strncmp ("WASTE", line_from_config, 5) == 0)
     {
       token_ptr = strtok (line_from_config, "=");
@@ -200,28 +200,28 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       erase_char (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
-      strcpy (waste[*waste_ctr].parent, token_ptr);
-      strcpy (waste[*waste_ctr].files, waste[*waste_ctr].parent);
+      strcpy (waste[waste_ctr].parent, token_ptr);
+      strcpy (waste[waste_ctr].files, waste[waste_ctr].parent);
 
-      strcat (waste[*waste_ctr].files, "/files/");
+      strcat (waste[waste_ctr].files, "/files/");
 
-      if ((func_error = bufchk (waste[*waste_ctr].files, MP)))
+      if ((func_error = bufchk (waste[waste_ctr].files, MP)))
         break;
 
-      if (removable && file_not_found (waste[*waste_ctr].parent))
+      if (removable && file_not_found (waste[waste_ctr].parent))
       {
         fprintf (stderr, "On unmounted device or not yet created: %s\n",
-                  waste[*waste_ctr].parent);
+                  waste[waste_ctr].parent);
         continue;
       }
 
-      if (make_dir (waste[*waste_ctr].files))
+      if (make_dir (waste[waste_ctr].files))
         continue;
 
-      strcpy (waste[*waste_ctr].info, waste[*waste_ctr].parent);
-      strcat (waste[*waste_ctr].info, "/info/");
+      strcpy (waste[waste_ctr].info, waste[waste_ctr].parent);
+      strcat (waste[waste_ctr].info, "/info/");
 
-      if (make_dir (waste[*waste_ctr].info))
+      if (make_dir (waste[waste_ctr].info))
         continue;
 
       /**
@@ -230,19 +230,19 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
        * No need for a buffer check; they are declared the same as the
        * Waste folders
        */
-      strcpy (protected_dir[*prot_dir_ctr], waste[*waste_ctr].parent);
+      strcpy (protected_dir[*prot_dir_ctr], waste[waste_ctr].parent);
       (*prot_dir_ctr)++;
 
       /* get device number to use later for rename
        */
       struct stat st;
-      lstat (waste[*waste_ctr].parent, &st);
-      waste[*waste_ctr].dev_num = st.st_dev;
+      lstat (waste[waste_ctr].parent, &st);
+      waste[waste_ctr].dev_num = st.st_dev;
 
       if (list)
-        fprintf (stdout, "%s\n", waste[*waste_ctr].parent);
+        fprintf (stdout, "%s\n", waste[waste_ctr].parent);
 
-      (*waste_ctr)++;
+      waste_ctr++;
     }
     else if (*prot_dir_ctr < PROTECT_MAX && !strncmp ("PROTECT", line_from_config, 7))
     {
@@ -260,13 +260,14 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       (*prot_dir_ctr)++;
     }
 
-    if (*waste_ctr == WASTENUM_MAX)
+    if (waste_ctr == WASTENUM_MAX)
       fprintf (stdout, "Maximum number Waste folders reached: %d\n", WASTENUM_MAX);
 
     if (*prot_dir_ctr == PROTECT_MAX)
       fprintf (stdout, "Maximum number protected folders reached: %d\n", PROTECT_MAX);
   }
 
+  strcpy (waste[waste_ctr].parent, "NULL");
   /**
    * The earlier "breaks" will allow the config file to be closed here
    */
@@ -276,7 +277,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       config_opened = 0;
   }
 
-  if (*waste_ctr == 0)
+  if (waste_ctr == 0)
   {
     fprintf (stderr, "Error: no usable WASTE folder could be found\n");
     fprintf (stderr, "Please check your configuration file and permissions\n");
