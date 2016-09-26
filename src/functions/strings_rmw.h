@@ -52,7 +52,7 @@ void
 truncate_str (char *str, unsigned short pos);
 
 short
-resolve_path (const char *src, char *path_with_pwd);
+resolve_path (const char *src, char *abs_path);
 
 void
 get_time_string (char *tm_str, unsigned short len, const char *format);

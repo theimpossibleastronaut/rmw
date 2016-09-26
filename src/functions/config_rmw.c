@@ -252,6 +252,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       erase_char (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
+      strcpy (protected_dir[*prot_dir_ctr], token_ptr);
+
       if ((func_error = bufchk (protected_dir[*prot_dir_ctr], MP)))
         break;
 

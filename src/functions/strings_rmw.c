@@ -221,30 +221,33 @@ truncate_str (char *str, unsigned short pos)
  * with PWD.
  */
 short
-resolve_path (const char *src, char *path_with_pwd)
+resolve_path (const char *src, char *abs_path)
 {
   short func_error;
-  char added_path[MP];
-  char *env_pwd = getenv ("PWD");
 
-  if (env_pwd != NULL)
+  /*
+   * dirname() and basename() alters the src string, so making a copy
+   */
+  char src_temp_dirname[MP];
+  char src_temp_basename[MP];
+
+  strcpy (src_temp_dirname, src);
+  strcpy (src_temp_basename, src);
+
+  if ((realpath (dirname (src_temp_dirname), abs_path)) != NULL)
   {
-    strcpy (added_path, env_pwd);
-    strcat (added_path, "/");
-    strcat (added_path, src);
+    strcat (abs_path, "/");
 
-    if ((func_error = bufchk (added_path, MP)))
+    strcat (abs_path, basename (src_temp_basename));
+
+    if ((func_error = bufchk (abs_path, MP)))
       return func_error;
 
-    strcpy (path_with_pwd, added_path);
-  }
-  else
-  {
-    fprintf (stderr, "Error: couldn't get value of $PWD\n");
-    return EXIT_FAILED_GETENV;
+    return 0;
   }
 
-  return 0;
+  fprintf (stderr, "Error: realpath() returned an error.\n");
+  return 1;
 }
 
 void

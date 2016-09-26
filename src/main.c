@@ -287,7 +287,11 @@ Unable to continue. Exiting...\n");
 
       if (!file_not_found (file.main_argv))
       {
-        if ((main_error = resolve_path (file.main_argv, file.real_path)))
+        main_error = resolve_path (file.main_argv, file.real_path);
+
+        if (main_error == 1)
+          continue;
+        else if (main_error > 1)
           break;
 
         if (!bypass)
@@ -298,8 +302,8 @@ Unable to continue. Exiting...\n");
 
           for (dir_num = 0; dir_num < protected_total; dir_num++)
           {
-            if (!strncmp (file.real_path, protected_dir[dir_num],
-                          strlen (protected_dir[dir_num])))
+            if (strncmp (file.real_path, protected_dir[dir_num],
+                          strlen (protected_dir[dir_num])) == 0)
             {
               flagged = 1;
               break;
@@ -422,19 +426,18 @@ Unable to continue. Exiting...\n");
         return 1;
       }
     }
-
-    if (main_error > 1)
-      return main_error;
-
     if (undo_opened)
       close_file (undo_file_ptr, undo_path, __func__);
     else
       free (undo_file_ptr);
 
     if (rmwed_files == 1)
-      printf("%d file was ReMoved to Waste\n", rmwed_files);
+      fprintf(stdout, "%d file was ReMoved to Waste\n", rmwed_files);
     else
-      printf("%d files were ReMoved to Waste\n", rmwed_files);
+      fprintf(stdout, "%d files were ReMoved to Waste\n", rmwed_files);
+
+    if (main_error > 1)
+      return main_error;
   }
   else if (!purgeYes && !force)
       fprintf (stderr, "missing filenames or command line options\n\
