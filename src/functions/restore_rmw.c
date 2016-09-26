@@ -195,11 +195,14 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
       else
       {
         open_err (file.info, __func__);
-        break;
+        return 1;
       }
     }
     else
+    {
       fprintf (stderr, "%s not found\n", argv[restore_request]);
+      return 1;
+    }
   }
 
   return 0;
@@ -355,19 +358,35 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
   else
   {
     open_err (undo_path, __func__);
-
     return;
   }
+
+  int err_ct = 0;
 
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
   {
     trim (line);
     destiny[0] = line;
 
-    Restore (1, destiny, 1, time_str_appended, waste);
+    err_ct += Restore (1, destiny, 1, time_str_appended, waste);
   }
 
   close_file (undo_file_ptr, undo_path, __func__);
+
+  if (err_ct == 0)
+  {
+    if (remove (undo_path))
+    {
+      fprintf (stderr, "Warning: failed to remove %s\n", undo_path);
+      perror (__func__);
+    }
+
+    return;
+  }
+
+  fprintf (stderr, "Warning: Restore() returned errors\n");
+
+  return;
 }
 
 /**
