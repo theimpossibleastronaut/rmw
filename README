@@ -67,7 +67,6 @@ RMWTRASH=empty rmw -fg
 -h, --help
 -c, --config filename     use an alternate configuration
 -l, --list                list waste directories
--p, --pause               wait for a keypress before exiting
 -g, --purge               run purge even if it's been run today
 -f, --force               allow purge to run
 -i, --interactive         not implemented
@@ -111,4 +110,4 @@ WASTE folders and the rmw configuration/data directory are protected by
 default (there is no need to add a 'PROTECT =' line for them.
 
 
-This file was last updated 2016-09-21
+This file was last updated 2016-09-25
