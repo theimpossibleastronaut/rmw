@@ -5,6 +5,8 @@
     no longer using var: waste_dirs_total. NULL is assigned as the last
     WASTE folder, so loops check for NULL to see when it's time to quit.
 
+    undo_file (lastrmw) is now removed after -u is used (#58)
+
 2016-09-25
 
     -p, --pause option removed
