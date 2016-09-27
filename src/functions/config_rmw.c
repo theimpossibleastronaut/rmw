@@ -31,7 +31,7 @@
  */
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
-      const char *HOMEDIR, unsigned short *purge_after_ptr, bool list,
+      const char *HOMEDIR, unsigned short *purge_after_ptr,
       char protected_dir[PROTECT_MAX][MP],
       int *prot_dir_ctr, bool *force_ptr)
 {
@@ -238,9 +238,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       struct stat st;
       lstat (waste[waste_ctr].parent, &st);
       waste[waste_ctr].dev_num = st.st_dev;
-
-      if (list)
-        fprintf (stdout, "%s\n", waste[waste_ctr].parent);
 
       waste_ctr++;
     }

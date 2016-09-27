@@ -173,7 +173,7 @@ Unable to continue. Exiting...\n");
   *force_ptr = force;
 
   short conf_err =
-    get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr, list,
+    get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr,
                      protected_dir, prot_dir_ctr, force_ptr);
 
   const int protected_total = *prot_dir_ctr;
@@ -216,7 +216,13 @@ Unable to continue. Exiting...\n");
  * so exit rmw (if -l was passed, it was performed in get_config_data())
  */
   if (list)
+  {
+    short ctr = -1;
+    while (strcmp (waste[++ctr].parent, "NULL") != 0)
+      fprintf (stdout, "%s\n", waste[ctr].parent);
+
     return 0;
+  }
 
   /* String appended to duplicate filenames */
   char time_str_appended[16];
