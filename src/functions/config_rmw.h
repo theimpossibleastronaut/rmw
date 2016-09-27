@@ -32,8 +32,7 @@
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
       const char *HOMEDIR, unsigned short *purge_after_ptr,
-      char protected_dir[PROTECT_MAX][MP],
-      int *prot_dir_ctr, bool *force_ptr);
+      char protected_dir[PROTECT_MAX][MP], bool *force_ptr);
 
 bool
 make_home_real (char *t, const char *HOMEDIR);

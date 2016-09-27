@@ -32,8 +32,7 @@
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
       const char *HOMEDIR, unsigned short *purge_after_ptr,
-      char protected_dir[PROTECT_MAX][MP],
-      int *prot_dir_ctr, bool *force_ptr)
+      char protected_dir[PROTECT_MAX][MP], bool *force_ptr)
 {
   char config_file[MP];
   const unsigned short CFG_MAX_LEN = PATH_MAX + 16;
@@ -110,16 +109,14 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     }
   }
 
-  short waste_ctr = 0;
-  *prot_dir_ctr = 0;
+  short waste_ctr = 0, prot_dir_ctr = 0;
 
   /**
    * protect DATA_DIR by default
    */
-  strcpy (protected_dir[*prot_dir_ctr], HOMEDIR);
-  strcat (protected_dir[*prot_dir_ctr], DATA_DIR);
-
-  (*prot_dir_ctr)++;
+  strcpy (protected_dir[prot_dir_ctr], HOMEDIR);
+  strcat (protected_dir[prot_dir_ctr], DATA_DIR);
+  prot_dir_ctr++;
 
   while (fgets (line_from_config, CFG_MAX_LEN, config_ptr) != NULL)
   {
@@ -230,8 +227,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
        * No need for a buffer check; they are declared the same as the
        * Waste folders
        */
-      strcpy (protected_dir[*prot_dir_ctr], waste[waste_ctr].parent);
-      (*prot_dir_ctr)++;
+      strcpy (protected_dir[prot_dir_ctr], waste[waste_ctr].parent);
+      prot_dir_ctr++;
 
       /* get device number to use later for rename
        */
@@ -241,7 +238,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
       waste_ctr++;
     }
-    else if (*prot_dir_ctr < PROTECT_MAX && !strncmp ("PROTECT", line_from_config, 7))
+    else if (prot_dir_ctr < PROTECT_MAX && !strncmp ("PROTECT", line_from_config, 7))
     {
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
@@ -249,22 +246,23 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       erase_char (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
-      strcpy (protected_dir[*prot_dir_ctr], token_ptr);
+      strcpy (protected_dir[prot_dir_ctr], token_ptr);
 
-      if ((func_error = bufchk (protected_dir[*prot_dir_ctr], MP)))
+      if ((func_error = bufchk (protected_dir[prot_dir_ctr], MP)))
         break;
 
-      (*prot_dir_ctr)++;
+      prot_dir_ctr++;
     }
 
     if (waste_ctr == WASTENUM_MAX)
       fprintf (stdout, "Maximum number Waste folders reached: %d\n", WASTENUM_MAX);
 
-    if (*prot_dir_ctr == PROTECT_MAX)
+    if (prot_dir_ctr == PROTECT_MAX)
       fprintf (stdout, "Maximum number protected folders reached: %d\n", PROTECT_MAX);
   }
 
   strcpy (waste[waste_ctr].parent, "NULL");
+  strcpy (protected_dir[prot_dir_ctr], "NULL");
   /**
    * The earlier "breaks" will allow the config file to be closed here
    */

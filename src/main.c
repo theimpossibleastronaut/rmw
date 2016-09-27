@@ -163,8 +163,6 @@ Unable to continue. Exiting...\n");
     return 1;
   }
 
-  int *prot_dir_ctr = malloc (sizeof (*prot_dir_ctr));
-
   char protected_dir[PROTECT_MAX][MP];
 
   unsigned short *purge_after_ptr = malloc (sizeof (*purge_after_ptr));
@@ -174,10 +172,7 @@ Unable to continue. Exiting...\n");
 
   short conf_err =
     get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr,
-                     protected_dir, prot_dir_ctr, force_ptr);
-
-  const int protected_total = *prot_dir_ctr;
-  free (prot_dir_ctr);
+                      protected_dir, force_ptr);
 
   /**
    * FIXME: change to unsigned short
@@ -310,12 +305,12 @@ Unable to continue. Exiting...\n");
         {
           bool flagged = 0;
 
-          short dir_num;
+          short prot_ctr = -1;
 
-          for (dir_num = 0; dir_num < protected_total; dir_num++)
+          while (strcmp (protected_dir[++prot_ctr], "NULL") != 0)
           {
-            if (strncmp (file.real_path, protected_dir[dir_num],
-                          strlen (protected_dir[dir_num])) == 0)
+            if (strncmp (file.real_path, protected_dir[prot_ctr],
+                          strlen (protected_dir[prot_ctr])) == 0)
             {
               flagged = 1;
               break;

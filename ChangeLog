@@ -2,8 +2,9 @@
 
 2016-09-26
 
-    no longer using var: waste_dirs_total. NULL is assigned as the last
-    WASTE folder, so loops check for NULL to see when it's time to quit.
+    No longer using var: waste_dirs_total & protected_dir_total.
+        NULL is assigned as the last WASTE folder, so loops check for NULL
+        to see when it's time to quit.
 
     undo_file (lastrmw) is now removed after -u is used (#58)
 
