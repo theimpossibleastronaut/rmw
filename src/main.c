@@ -53,12 +53,13 @@ main (int argc, char *argv[])
 
   short int next_option = 0;
 
+  verbose = 0; /* already declared, a global */
+
   bool purgeYes = 0;
   bool orphan_chk = 0;
   bool restoreYes = 0;
   bool select = 0;
   bool undo_last = 0;
-  verbose = 0;
   bool bypass = 0;
   bool list = 0;
   bool force = 0;
@@ -171,7 +172,7 @@ Unable to continue. Exiting...\n");
   *force_ptr = force;
 
   short conf_err =
-    get_config_data (waste, alt_config, HOMEDIR, purge_after_ptr,
+    get_config_data (waste, alt_config, purge_after_ptr,
                       protected_dir, force_ptr);
 
   /**
@@ -243,7 +244,7 @@ Unable to continue. Exiting...\n");
    */
   if (undo_last)
   {
-    undo_last_rmw (HOMEDIR, time_str_appended, waste);
+    undo_last_rmw (time_str_appended, waste);
     return 0;
   }
 

@@ -31,7 +31,7 @@
 
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
-      const char *HOMEDIR, unsigned short *purge_after_ptr,
+      unsigned short *purge_after_ptr,
       char protected_dir[PROTECT_MAX][MP], bool *force_ptr);
 
 bool

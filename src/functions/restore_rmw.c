@@ -338,8 +338,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 }
 
 void
-undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
-               struct waste_containers *waste)
+undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
 {
   FILE *undo_file_ptr;
   char undo_path[MP];
@@ -348,6 +347,8 @@ undo_last_rmw (const char *HOMEDIR, char *time_str_appended,
   /* using destiny because the second arg for Restore() must be
    * a *char[] not a *char */
   char *destiny[1];
+
+  char *HOMEDIR = getenv ("HOME");
   bufchk_string_op (COPY, undo_path, HOMEDIR, MP);
   bufchk_string_op (CONCAT, undo_path, UNDO_FILE, MP);
 

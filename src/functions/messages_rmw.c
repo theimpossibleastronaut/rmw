@@ -56,7 +56,7 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
     return 0;
   else
   {
-    fprintf (stderr, "Error: while closing %s\n", filename);
+    fprintf (stderr, "Warning: while closing %s\n", filename);
 
     char combined_msg[MAX_MSG_SIZE];
     bufchk_string_op (COPY, combined_msg, "function: <", MAX_MSG_SIZE);

@@ -31,7 +31,7 @@
  */
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
-      const char *HOMEDIR, unsigned short *purge_after_ptr,
+      unsigned short *purge_after_ptr,
       char protected_dir[PROTECT_MAX][MP], bool *force_ptr)
 {
   char config_file[MP];
@@ -46,6 +46,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   *purge_after_ptr = default_purge;
 
   short func_error = 0;
+
+  char *HOMEDIR = getenv ("HOME");
 
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)

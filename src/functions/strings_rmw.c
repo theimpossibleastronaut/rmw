@@ -208,17 +208,9 @@ truncate_str (char *str, unsigned short pos)
 /**
  * resolve_path()
  *
- * concatenates 'src' (which may be the file base name, relative path or
- * the absolute path) to the environmental variable PWD
+ * use realpath() to find the absolute path to a file
  *
  * returns 0 if successful
- *
- * realpath() can't be used because because when it resolves the path
- * of symlinks, the actual path to where the symlink points is returned
- *
- * FIXME: This method works but it would be better just to get the actual
- * absolute path, without having the extra paths that might happen
- * with PWD.
  */
 short
 resolve_path (const char *src, char *abs_path)
