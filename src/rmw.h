@@ -78,6 +78,8 @@
 
 #define DOT_TRASHINFO ".trashinfo"
 
+#define START_WASTE_COUNTER -1
+
 /** shorten PATH_MAX to two characters */
 #define MP PATH_MAX + 1
 

@@ -213,7 +213,7 @@ Unable to continue. Exiting...\n");
  */
   if (list)
   {
-    short ctr = -1;
+    short ctr = START_WASTE_COUNTER;
     while (strcmp (waste[++ctr].parent, "NULL") != 0)
       fprintf (stdout, "%s\n", waste[ctr].parent);
 
@@ -306,7 +306,7 @@ Unable to continue. Exiting...\n");
         {
           bool flagged = 0;
 
-          short prot_ctr = -1;
+          short prot_ctr = START_WASTE_COUNTER;
 
           while (strcmp (protected_dir[++prot_ctr], "NULL") != 0)
           {
@@ -352,7 +352,7 @@ Unable to continue. Exiting...\n");
        * device number of file.main_argv. Once found, the ReMoval
        * happens (provided all the tests are passed.
        */
-      short dir_num = -1;
+      short dir_num = START_WASTE_COUNTER;
       while (strcmp (waste[++dir_num].parent, "NULL") != 0)
       {
         lstat (file.main_argv, &st);

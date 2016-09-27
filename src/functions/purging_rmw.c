@@ -275,7 +275,7 @@ purge (const short purge_after, const struct waste_containers *waste,
   /**
    *  Read each Waste info directory
    */
-  short ctr = -1;
+  short ctr = START_WASTE_COUNTER;
 
   while (strcmp (waste[++ctr].parent, "NULL") != 0)
   {
@@ -494,7 +494,7 @@ orphan_maint(struct waste_containers *waste,
 
   char path_to_trashinfo[MP];
 
-  short ctr = -1;
+  short ctr = START_WASTE_COUNTER;
 
   while (strcmp (waste[++ctr].parent, "NULL") != 0)
   {

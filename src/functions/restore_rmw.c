@@ -67,7 +67,7 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
     {
       fprintf (stdout, "Searching using only the basename...\n");
 
-      short ctr = -1;
+      short ctr = START_WASTE_COUNTER;
 
       while (strcmp (waste[++ctr].parent, "NULL") != 0)
       {
@@ -233,6 +233,11 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
   char c;
   unsigned char char_count = 0;
   short choice = 0;
+
+  /*
+   * ctr increments at the end of the loop, if choice hasn't been made,
+   * so not using START_WASTE_COUNTER here
+   */
 
   short ctr = 0;
 
