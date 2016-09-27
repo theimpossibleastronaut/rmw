@@ -446,7 +446,7 @@ Unable to continue. Exiting...\n");
     if (main_error > 1)
       return main_error;
   }
-  else if (!purgeYes && !force)
+  else if (!purgeYes)
       fprintf (stderr, "missing filenames or command line options\n\
 Try '%s -h' for more information\n", argv[0]);
 
