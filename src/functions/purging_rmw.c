@@ -488,7 +488,7 @@ orphan_maint(struct waste_containers *waste,
 
   /* searching for files that don't have a trashinfo: There will
    * never be a duplicate, but it initializes the struct member, and
-   * mkinfo() will check for it, which is called later.
+   * create_trashinfo() will check for it, which is called later.
    */
   file.is_duplicate = 0;
 
@@ -522,7 +522,7 @@ orphan_maint(struct waste_containers *waste,
       strcat (file.real_path, file.base_name);
 
       short ok = 0;
-      ok = mkinfo (file, waste, time_now, time_str_appended, ctr);
+      ok = create_trashinfo (file, waste, time_now, time_str_appended, ctr);
       if (ok == 0)
         fprintf (stdout, "Created %s\n", path_to_trashinfo);
       else

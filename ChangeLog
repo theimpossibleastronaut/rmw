@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2016-10-01
+
+    Renamed mkinfo() to create_trashinfo()
+
 2016-09-26
 
     No longer using var: waste_dirs_total & protected_dir_total.

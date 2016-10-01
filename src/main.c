@@ -359,7 +359,7 @@ Unable to continue. Exiting...\n");
 
         if (waste[dir_num].dev_num == st.st_dev)
         {
-          // used by mkinfo
+          // used by create_trashinfo
           current_waste_num = dir_num;
           strcpy (file.dest_name, waste[dir_num].files);
           strcat (file.dest_name, file.base_name);
@@ -386,7 +386,7 @@ Unable to continue. Exiting...\n");
               printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
 
             rmwed_files++;
-            info_status = mkinfo (file, waste,
+            info_status = create_trashinfo (file, waste,
                               time_now, time_str_appended, current_waste_num);
 
             if (info_status == 0)
@@ -407,7 +407,7 @@ Unable to continue. Exiting...\n");
               fprintf (undo_file_ptr, "%s\n", file.dest_name);
             }
             else
-              fprintf (stderr, "mkinfo() returned error %d\n", info_status);
+              fprintf (stderr, "create_trashinfo() returned error %d\n", info_status);
           }
           else
           {
