@@ -101,12 +101,14 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     else
     {
       open_err (config_file, __func__);
-      fprintf (stderr, "Can not open configuration file\n");
-      fprintf (stderr, "%s (or)\n", config_file);
-      fprintf (stderr, "%s\n", CFG_FILE);
-      fprintf (stderr, "\nA default configuration file can be found at\n");
-      fprintf (stderr, "https://github.com/andy5995/rmw/tree/master/etc\n");
-      fprintf (stderr, "Terminating...\n");
+      fprintf (stderr, "\
+Can not open configuration file\n\
+%s (or)\n\
+%s\n\
+\n\
+A default configuration file can be found at\n\
+https://github.com/andy5995/rmw/tree/master/etc\n\
+Terminating...\n", config_file, CFG_FILE);
       return 1;
     }
   }
