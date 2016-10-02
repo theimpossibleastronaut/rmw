@@ -1,5 +1,11 @@
 === rmw ChangeLog ===
 
+2016-10-02
+
+    Restore(): no longer takes type *char[] as an argument, only *char,
+    which makes for much easier maintenance of code. Affected a few
+    other functions as well (see diff if really curious).
+
 2016-10-01
 
     Renamed mkinfo() to create_trashinfo()

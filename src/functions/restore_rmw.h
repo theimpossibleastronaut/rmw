@@ -30,9 +30,8 @@
 #include "primary_funcs.h"
 #include "messages_rmw.h"
 
-short
-Restore (int argc, char *argv[], int optind, char *time_str_appended,
-          struct waste_containers *waste);
+int
+Restore (char *argv, char *time_str_appended, struct waste_containers *waste);
 
 void
 restore_select (struct waste_containers *waste, char *time_str_appended);

@@ -248,9 +248,16 @@ Unable to continue. Exiting...\n");
     return 0;
   }
 
+  int file_arg = 0;
+
   if (restoreYes)
   {
-    Restore (argc, argv, optind, time_str_appended, waste);
+    /* subtract 1 from optind otherwise the first file in the list isn't
+     * restored
+     */
+    for (file_arg = optind - 1; file_arg < argc; file_arg++)
+      Restore (argv[file_arg], time_str_appended, waste);
+
     return 0;
   }
 
@@ -259,8 +266,6 @@ Unable to continue. Exiting...\n");
   char undo_path[MP];
 
   struct rmw_target file;
-
-  int file_arg = 0;
 
   short main_error = 0;
 

@@ -30,9 +30,8 @@
  * FIXME: This apparently needs re-working too. I'm sure it could be
  * written more efficiently
  */
-short
-Restore (int argc, char *argv[], int optind, char *time_str_appended,
-          struct waste_containers *waste)
+int
+Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 {
   short func_error = 0;
 
@@ -49,160 +48,156 @@ Restore (int argc, char *argv[], int optind, char *time_str_appended,
    */
   char line[MP * 3 + 5];
 
-  int restore_request = optind - 1;
+  if ((func_error = bufchk (argv, PATH_MAX)))
+    return EXIT_BUF_ERR;
 
-  for (; restore_request < argc; restore_request++)
-  {
-    if ((func_error = bufchk (argv[restore_request], PATH_MAX)))
-      return EXIT_BUF_ERR;
-
-    file.base_name = basename (argv[restore_request]);
+  file.base_name = basename (argv);
 
 /**
  * The 2 code blocks below address
  * restoring files with only the basename #14
  */
-    if ((strcmp (file.base_name, argv[restore_request]) == 0) &&
-          file_not_found (file.base_name))
+  if ((strcmp (file.base_name, argv) == 0) &&
+        file_not_found (file.base_name))
+  {
+    fprintf (stdout, "Searching using only the basename...\n");
+
+    short ctr = START_WASTE_COUNTER;
+
+    while (strcmp (waste[++ctr].parent, "NULL") != 0)
     {
-      fprintf (stdout, "Searching using only the basename...\n");
+      char *possibly_in_path;
 
-      short ctr = START_WASTE_COUNTER;
+      possibly_in_path = waste[ctr].files;
 
-      while (strcmp (waste[++ctr].parent, "NULL") != 0)
-      {
-        char *possibly_in_path[1];
+      strcat (possibly_in_path, argv);
 
-        possibly_in_path[0] = waste[ctr].files;
-
-        strcat (possibly_in_path[0], argv[restore_request]);
-
-        Restore (1, possibly_in_path, 1, time_str_appended, waste);
-      }
-
-      fprintf (stdout, "search complete\n");
-      continue;
+      Restore (possibly_in_path, time_str_appended, waste);
     }
 
-    if (!file_not_found (argv[restore_request]))
-    {
-      strcpy (file.relative_path, argv[restore_request]);
+    fprintf (stdout, "search complete\n");
 
-      truncate_str (file.relative_path, strlen (file.base_name));
+    return 0;
+  }
 
-      strcpy (file.info, file.relative_path);
-      strcat (file.info, "../info/");
-      strcat (file.info, file.base_name);
-      strcat (file.info, DOT_TRASHINFO);
+  if (!file_not_found (argv))
+  {
+    strcpy (file.relative_path, argv);
+
+    truncate_str (file.relative_path, strlen (file.base_name));
+
+    strcpy (file.info, file.relative_path);
+    strcat (file.info, "../info/");
+    strcat (file.info, file.base_name);
+    strcat (file.info, DOT_TRASHINFO);
 
       /**
        * No open files yet, so just return if bufchk fails
        */
-      if ((func_error = bufchk (file.info, MP)))
-        return func_error;
+    if ((func_error = bufchk (file.info, MP)))
+      return func_error;
 
-      FILE *fp;
+    FILE *fp;
 
-      if ((fp = fopen (file.info, "r")) != NULL)
+    if ((fp = fopen (file.info, "r")) != NULL)
+    {
+      if (fgets (line, sizeof (line), fp ) != NULL)
       {
-        if (fgets (line, sizeof (line), fp ) != NULL)
-        {
           /**
            * Not using the "[Trash Info]" line, but reading the file
            * sequentially
            */
 
-          if (strncmp (line, "[Trash Info]", 12) == 0)
-          {}
-          else
-          {
-            fprintf (stderr, "Error: trashinfo file format not correct\n");
-            fprintf (stderr, "(Line 1): %s\n", file.info);
+        if (strncmp (line, "[Trash Info]", 12) == 0)
+        {}
+        else
+        {
+          fprintf (stderr, "Error: trashinfo file format not correct\n");
+          fprintf (stderr, "(Line 1): %s\n", file.info);
 
-            close_file (fp, file.info, __func__);
+          close_file (fp, file.info, __func__);
 
-            break;
-          }
+          return 1;
+        }
 
           /** adding 5 for the 'Path=' preceding the path. */
-          if (fgets (line, MP * 3 + 5, fp) != NULL)
-          {
-            char *tokenPtr;
+        if (fgets (line, MP * 3 + 5, fp) != NULL)
+        {
+          char *tokenPtr;
 
-            tokenPtr = strtok (line, "=");
-            tokenPtr = strtok (NULL, "=");
+          tokenPtr = strtok (line, "=");
+          tokenPtr = strtok (NULL, "=");
 
             /**
              * tokenPtr now equals the escaped absolute path from the info file
              */
-            unescape_url (tokenPtr, file.dest, MP);
-            tokenPtr = NULL;
-            trim (file.dest);
+          unescape_url (tokenPtr, file.dest, MP);
+          tokenPtr = NULL;
+          trim (file.dest);
 
-            close_file (fp, file.info, __func__);
+          close_file (fp, file.info, __func__);
 
-          }
-          else
-          {
-            printf ("error on line 2 in %s\n", file.info);
-
-            close_file (fp, file.info, __func__);
-
-            break;
-          }
-
-          /* Check for duplicate filename
-           */
-          if (!file_not_found (file.dest))
-          {
-            bufchk_string_op (CONCAT, file.dest, time_str_appended, MP);
-
-            if (verbose == 1)
-              fprintf (stdout,
-                       "Duplicate filename at destination - appending time string...\n");
-          }
-
-          char parent_dir[MP];
-
-          bufchk_string_op (COPY, parent_dir, file.dest, MP);
-
-          truncate_str (parent_dir, strlen (basename (file.dest)));
-
-          if (file_not_found (parent_dir))
-            make_dir (parent_dir);
-
-          if (!rename (argv[restore_request], file.dest))
-          {
-            printf ("+'%s' -> '%s'\n", argv[restore_request], file.dest);
-
-            if (remove (file.info) != 0)
-              fprintf (stderr, "error removing info file: '%s'\n", file.info);
-            else
-              if (verbose)
-                printf ("-%s\n", file.info);
-          }
-          else
-            fprintf (stderr, "Restore failed: %s\n", file.dest);
         }
         else
         {
-          fprintf (stderr, "Error: Able to open %s but encountered an error\n",
-              file.info);
+          printf ("error on line 2 in %s\n", file.info);
+
+          close_file (fp, file.info, __func__);
+
           return 1;
         }
 
+          /* Check for duplicate filename
+           */
+        if (!file_not_found (file.dest))
+        {
+          bufchk_string_op (CONCAT, file.dest, time_str_appended, MP);
+
+          if (verbose)
+            fprintf (stdout,"\
+Duplicate filename at destination - appending time string...\n");
+        }
+
+        char parent_dir[MP];
+
+        bufchk_string_op (COPY, parent_dir, file.dest, MP);
+
+        truncate_str (parent_dir, strlen (basename (file.dest)));
+
+        if (file_not_found (parent_dir))
+          make_dir (parent_dir);
+
+        if (!rename (argv, file.dest))
+        {
+          printf ("+'%s' -> '%s'\n", argv, file.dest);
+
+          if (remove (file.info) != 0)
+            fprintf (stderr, "error removing info file: '%s'\n", file.info);
+          else
+            if (verbose)
+              printf ("-%s\n", file.info);
+        }
+        else
+          fprintf (stderr, "Restore failed: %s\n", file.dest);
       }
       else
       {
-        open_err (file.info, __func__);
+        fprintf (stderr, "Error: Able to open %s but encountered an error\n",
+            file.info);
         return 1;
       }
+
     }
     else
     {
-      fprintf (stderr, "%s not found\n", argv[restore_request]);
+      open_err (file.info, __func__);
       return 1;
     }
+  }
+  else
+  {
+    fprintf (stderr, "%s not found\n", argv);
+    return 1;
   }
 
   return 0;
@@ -222,11 +217,6 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
   struct stat st;
   struct dirent *entry;
   char path_to_file[MP];
-
-  /* using destiny because the second arg for Restore() must be
-   * a *char[] not a *char
-   */
-  char *destiny[1];
 
   unsigned count = 0;
   char input[10];
@@ -272,10 +262,9 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
       if (count == choice)
       {
-        destiny[0] = path_to_file;
         printf ("\n");
 
-        Restore (1, destiny, 1, time_str_appended, waste);
+        Restore (path_to_file, time_str_appended, waste);
         break;
       }
 
@@ -349,10 +338,6 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
   char undo_path[MP];
   char line[MP];
 
-  /* using destiny because the second arg for Restore() must be
-   * a *char[] not a *char */
-  char *destiny[1];
-
   char *HOMEDIR = getenv ("HOME");
   bufchk_string_op (COPY, undo_path, HOMEDIR, MP);
   bufchk_string_op (CONCAT, undo_path, UNDO_FILE, MP);
@@ -372,9 +357,7 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
   {
     trim (line);
-    destiny[0] = line;
-
-    err_ct += Restore (1, destiny, 1, time_str_appended, waste);
+    err_ct += Restore (line, time_str_appended, waste);
   }
 
   close_file (undo_file_ptr, undo_path, __func__);
