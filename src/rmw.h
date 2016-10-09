@@ -80,6 +80,10 @@
 
 #define START_WASTE_COUNTER -1
 
+#ifndef PATH_MAX /* for portability */
+#define PATH_MAX 256
+#endif
+
 /** shorten PATH_MAX to two characters */
 #define MP PATH_MAX + 1
 
