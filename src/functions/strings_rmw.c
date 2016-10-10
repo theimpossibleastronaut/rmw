@@ -212,7 +212,7 @@ truncate_str (char *str, unsigned short pos)
  *
  * returns 0 if successful
  */
-short
+int
 resolve_path (const char *src, char *abs_path)
 {
   short func_error;

@@ -51,7 +51,7 @@ trim_slash (char str[]);
 void
 truncate_str (char *str, unsigned short pos);
 
-short
+int
 resolve_path (const char *src, char *abs_path);
 
 void

@@ -238,7 +238,7 @@ is_time_to_purge (bool force)
 
 int
 purge (const short purge_after, const struct waste_containers *waste,
-        char *time_now)
+       char *time_now)
 {
   if (purge_after > UINT_MAX)
   {
@@ -250,7 +250,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
   bool cmd_empty = 0;
 
-  if (getenv("RMWTRASH") != NULL)
+  if (getenv ("RMWTRASH") != NULL)
     cmd_empty = strcmp (getenv ("RMWTRASH"), "empty") ? 0 : 1;
 
   struct stat st;
@@ -258,8 +258,6 @@ purge (const short purge_after, const struct waste_containers *waste,
   unsigned int purge_ctr = 0;
   unsigned int dirs_containing_files_ctr = 0;
   unsigned int max_depth_reached_ctr = 0;
-
-  char purgeFile[MP];
 
   struct tm tmPtr, tm_then;
   time_t now;
@@ -273,7 +271,7 @@ purge (const short purge_after, const struct waste_containers *waste,
   struct dirent *entry;
 
   /**
-   *  Read each Waste info directory
+   *  Read each <WASTE>/info directory
    */
   short ctr = START_WASTE_COUNTER;
 
@@ -282,101 +280,111 @@ purge (const short purge_after, const struct waste_containers *waste,
     DIR *dir = opendir (waste[ctr].info);
 
     /**
-     *  Read each file/dir in Waste directory
+     *  Read each file in <WASTE>/info
      */
     while ((entry = readdir (dir)) != NULL)
     {
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
         continue;
 
-      bufchk (entry->d_name, MP);
-
-      FILE *info_file_ptr;
-
       char entry_path[MP];
-      char trashinfo_line[MP + 5];
+      strcpy (entry_path, waste[ctr].info);
+      strcat (entry_path, entry->d_name);
 
-      char *tokenPtr;
+      // printf ("%s\n", entry_path);
 
-      trim (entry->d_name);
-      bufchk_string_op (COPY, entry_path, waste[ctr].info, MP);
-      bufchk_string_op (CONCAT, entry_path, entry->d_name, MP);
-
-      info_file_ptr = fopen (entry_path, "r");
-      if (info_file_ptr != NULL)
+      if (!cmd_empty)           /* skip this block if RMWTRASH=empty */
       {
+        bufchk (entry->d_name, MP);
+
+        FILE *info_file_ptr;
+
+        char trashinfo_line[MP + 5];
+
+        char *tokenPtr;
+
+        info_file_ptr = fopen (entry_path, "r");
+
+        if (info_file_ptr != NULL)
+        {
         /**
          * unused  and unneeded Trash Info line.
          * retrieved but not used.
          * Check to see if it's really a .trashinfo file
          */
-        if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) == NULL)
-          continue;
+          if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr)
+              == NULL)
+            continue;
 
-        if (strncmp (trashinfo_line, "[Trash Info]", 12) != 0)
-        {
-          fprintf (stderr, "Info file error; format not correct (Line 1)\n");
-          continue;
-        }
+          if (strncmp (trashinfo_line, "[Trash Info]", 12) != 0)
+          {
+            fprintf (stderr,
+                     "Info file error; format not correct (Line 1)\n");
+            continue;
+          }
 
         /** The second line is unneeded at this point
          * But check to see if there's a Path= statement to help ensure
          * that it's a properly formatted .trashinfo file
          */
-        if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) == NULL)
-          continue;
+          if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr)
+              == NULL)
+            continue;
 
-        if (strncmp (trashinfo_line, "Path=", 5) != 0)
-        {
-          fprintf (stderr,
-                   "Info file error; format not correct (Line 2) : %s\n",
-                   entry_path);
-          continue;
-        }
+          if (strncmp (trashinfo_line, "Path=", 5) != 0)
+          {
+            fprintf (stderr,
+                     "Info file error; format not correct (Line 2) : %s\n",
+                     entry_path);
+            continue;
+          }
 
         /** The third line is needed for the deletion time
          */
-        if (fgets (trashinfo_line, sizeof (trashinfo_line),
-            info_file_ptr) == NULL)
-          continue;
+          if (fgets (trashinfo_line, sizeof (trashinfo_line),
+                     info_file_ptr) == NULL)
+            continue;
 
-        bufchk (trashinfo_line, 40);
-        trim (trashinfo_line);
+          bufchk (trashinfo_line, 40);
+          trim (trashinfo_line);
 
-        if (strncmp (trashinfo_line, "DeletionDate=", 13) != 0
-            || strlen (trashinfo_line) != 32)
+          if (strncmp (trashinfo_line, "DeletionDate=", 13) != 0
+              || strlen (trashinfo_line) != 32)
+          {
+            fprintf (stderr,
+                     "Info file error; format not correct (Line 3)\n");
+            continue;
+          }
+
+          close_file (info_file_ptr, entry_path, __func__);
+        }
+
+        else
         {
-          fprintf (stderr, "Info file error; format not correct (Line 3)\n");
+          open_err (entry_path, __func__);
           continue;
         }
 
-        close_file (info_file_ptr, entry_path, __func__);
+        tokenPtr = strtok (trashinfo_line, "=");
+        tokenPtr = strtok (NULL, "=");
+
+        strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
+        then = mktime (&tm_then);
       }
-
-      else
-      {
-        open_err (entry_path, __func__);
-        continue;
-      }
-
-      tokenPtr = strtok (trashinfo_line, "=");
-      tokenPtr = strtok (NULL, "=");
-
-      strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
-      then = mktime (&tm_then);
-
-      bool success = 0;
 
       if (then + (86400 * purge_after) <= now || cmd_empty)
       {
-        success = 0;
+        bool success = 0;
+
+        char purgeFile[MP];
 
         strcpy (purgeFile, waste[ctr].files);
 
         char temp[MP];
         strcpy (temp, entry->d_name);
-        truncate_str (temp, strlen (DOT_TRASHINFO));
-        strcat (purgeFile, temp);
+        truncate_str (temp, strlen (DOT_TRASHINFO));    /* acquire the basename */
+
+        strcat (purgeFile, temp);       /* path to file in <WASTE>/files */
 
         lstat (purgeFile, &st);
 
@@ -388,8 +396,7 @@ purge (const short purge_after, const struct waste_containers *waste,
           {
 
           case NOT_WRITEABLE:
-            fprintf (stderr,
-                     "Directory not purged - still contains files\n");
+            fprintf (stderr, "Directory not purged - still contains files\n");
             fprintf (stderr, "%s\n", purgeFile);
             fprintf (stderr, "(check owner/write permissions)\n");
             dirs_containing_files_ctr++;
@@ -464,11 +471,12 @@ purge (const short purge_after, const struct waste_containers *waste,
 
   if (max_depth_reached_ctr)
     fprintf (stdout, "%d directories skipped (RMDIR_MAX_DEPTH reached)\n",
-        max_depth_reached_ctr);
+             max_depth_reached_ctr);
 
   if (dirs_containing_files_ctr)
-    fprintf (stdout, "%d directories skipped (contained non-writeable files)\n",
-        dirs_containing_files_ctr);
+    fprintf (stdout,
+             "%d directories skipped (contained non-writeable files)\n",
+             dirs_containing_files_ctr);
 
   if (purge_ctr == 1)
     fprintf (stdout, "%d file purged\n", purge_ctr);
@@ -481,7 +489,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 }
 
 short
-orphan_maint(struct waste_containers *waste,
+orphan_maint (struct waste_containers *waste,
               char *time_now, char *time_str_appended)
 {
   struct rmw_target file;
@@ -518,7 +526,7 @@ orphan_maint(struct waste_containers *waste,
         continue;
 
       strcpy (file.real_path, waste[ctr].parent);
-      strcat (file.real_path, "/orphans/"); /* destination if restored */
+      strcat (file.real_path, "/orphans/");     /* destination if restored */
       strcat (file.real_path, file.base_name);
 
       short ok = 0;
@@ -535,8 +543,3 @@ orphan_maint(struct waste_containers *waste,
 
   return 0;
 }
-
-
-
-
-
