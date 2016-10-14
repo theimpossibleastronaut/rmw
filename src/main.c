@@ -166,9 +166,20 @@ Unable to continue. Exiting...\n");
 
   char protected_dir[PROTECT_MAX][MP];
 
-  unsigned short *purge_after_ptr = malloc (sizeof (*purge_after_ptr));
+  ushort *purge_after_ptr = (ushort *)malloc (sizeof (ushort));
+  if (purge_after_ptr == NULL)
+  {
+    perror ("malloc");
+    exit (EXIT_MALLOC);
+  }
 
-  bool *force_ptr = malloc (sizeof (*force_ptr));
+  bool *force_ptr = (bool *)malloc (sizeof (bool));
+  if (force_ptr == NULL)
+  {
+    perror ("malloc");
+    exit (EXIT_MALLOC);
+  }
+
   *force_ptr = force;
 
   short conf_err =
@@ -262,7 +273,7 @@ Unable to continue. Exiting...\n");
   }
 
   bool undo_opened = 0;
-  FILE *undo_file_ptr = malloc (sizeof (*undo_file_ptr));
+  FILE *undo_file_ptr = NULL;
   char undo_path[MP];
 
   struct rmw_target file;
