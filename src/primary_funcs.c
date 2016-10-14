@@ -80,27 +80,27 @@ make_dir (const char *dir)
 }
 
 int
-create_trashinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
-        char *time_str_appended, const short cnum)
+create_trashinfo (struct rmw_target file, struct waste_containers *waste,
+                  char *time_now, char *time_str_appended, const short cnum)
 {
-  FILE *fp;
-
   char finalInfoDest[PATH_MAX + 1];
 
-  bufchk_string_op (COPY, finalInfoDest, waste[cnum].info, MP);
-
-  bufchk_string_op (CONCAT, finalInfoDest, file.base_name, MP);
+  strcpy (finalInfoDest, waste[cnum].info);
+  strcat (finalInfoDest, file.base_name);
 
   if (file.is_duplicate)
-    bufchk_string_op (CONCAT, finalInfoDest, time_str_appended, MP);
+    strcat (finalInfoDest, time_str_appended);
 
-  bufchk_string_op (CONCAT, finalInfoDest, DOT_TRASHINFO, MP);
+  strcat (finalInfoDest, DOT_TRASHINFO);
+
+  if (bufchk (finalInfoDest, MP))
+    return 1;
 
   /* Worst case scenario: whole path is escaped, so 3 chars per
    * actual character */
   char escaped_path[MP * 3];
 
-  fp = fopen (finalInfoDest, "w");
+  FILE *fp = fopen (finalInfoDest, "w");
 
   if (fp != NULL)
   {

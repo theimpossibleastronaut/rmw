@@ -34,8 +34,8 @@ int
 make_dir (const char *dir);
 
 int
-create_trashinfo (struct rmw_target file, struct waste_containers *waste, char *time_now,
-        char *time_str_appended, const short cnum);
+create_trashinfo (struct rmw_target file, struct waste_containers *waste,
+                  char *time_now, char *time_str_appended, const short cnum);
 
 bool
 file_not_found (const char *filename);
