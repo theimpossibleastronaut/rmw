@@ -166,34 +166,11 @@ Unable to continue. Exiting...\n");
 
   char protected_dir[PROTECT_MAX][MP];
 
-  ushort *purge_after_ptr = (ushort *)malloc (sizeof (ushort));
-  if (purge_after_ptr == NULL)
-  {
-    perror ("malloc");
-    exit (EXIT_MALLOC);
-  }
-
-  bool *force_ptr = (bool *)malloc (sizeof (bool));
-  if (force_ptr == NULL)
-  {
-    perror ("malloc");
-    exit (EXIT_MALLOC);
-  }
-
-  *force_ptr = force;
+  /* is reassigned a value in get_config_data() */
+  ushort purge_after = 0;
 
   short conf_err =
-    get_config_data (waste, alt_config, purge_after_ptr,
-                      protected_dir, force_ptr);
-
-  /**
-   * FIXME: change to unsigned short
-   */
-  const int purge_after = *purge_after_ptr;
-  free (purge_after_ptr);
-
-  force = *force_ptr;
-  free (force_ptr);
+    get_config_data (waste, alt_config, &purge_after, protected_dir, &force);
 
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;

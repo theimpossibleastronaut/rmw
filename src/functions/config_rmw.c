@@ -31,8 +31,8 @@
  */
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
-      unsigned short *purge_after_ptr,
-      char protected_dir[PROTECT_MAX][MP], bool *force_ptr)
+      unsigned short *purge_after,
+      char protected_dir[PROTECT_MAX][MP], bool *force)
 {
   char config_file[MP];
   const unsigned short CFG_MAX_LEN = PATH_MAX + 16;
@@ -42,8 +42,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
    *  purge_after will default to 90 if there's no setting
    * in the config file
    */
-  int default_purge = 90;
-  *purge_after_ptr = default_purge;
+  //~ int default_purge = 90;
+  *purge_after = 90;
 
   short func_error = 0;
 
@@ -150,16 +150,16 @@ Terminating...\n", config_file, CFG_FILE);
 
       erase_char (' ', token_ptr);
 
-      unsigned short num_value = atoi (token_ptr);
+      ushort num_value = atoi (token_ptr);
 
       if (num_value >= 0 && num_value < USHRT_MAX)
-        *purge_after_ptr = num_value;
+        *purge_after = num_value;
 
       else
         fprintf (stderr, "Error: invalid purge_after value in configuration\n");
     }
     else if (strncmp (line_from_config, "force_not_required", 18) == 0)
-      *force_ptr = 1;
+      *force = 1;
     else if (waste_ctr < WASTENUM_MAX &&
         strncmp ("WASTE", line_from_config, 5) == 0)
     {

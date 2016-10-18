@@ -240,12 +240,6 @@ int
 purge (const short purge_after, const struct waste_containers *waste,
        char *time_now)
 {
-  if (purge_after > UINT_MAX)
-  {
-    printf ("purge_after can't be greater than %u\n", USHRT_MAX);
-    return 1;
-  }
-
   short status = 0;
 
   bool cmd_empty = 0;
