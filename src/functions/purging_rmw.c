@@ -473,7 +473,8 @@ purge (const short purge_after, const struct waste_containers *waste,
              dirs_containing_files_ctr);
 
   if (purge_ctr == 1)
-    fprintf (stdout, "%d file purged\n", purge_ctr);
+    fprintf (stdout, "%d %s purged\n", purge_ctr,
+            (purge_ctr == 1) ? "file" : "files");
 
   else
     fprintf (stdout, "%d files purged\n", purge_ctr);

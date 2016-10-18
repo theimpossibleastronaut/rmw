@@ -364,7 +364,7 @@ Unable to continue. Exiting...\n");
             // append a time string
             strcat (file.dest_name, time_str_appended);
 
-            // tell make info there's a duplicate
+            // passed to create_trashinfo()
             file.is_duplicate = 1;
           }
 
@@ -422,7 +422,8 @@ Unable to continue. Exiting...\n");
 
       if (!match)
       {
-        printf ("No suitable filesystem found for \"%s\"\n", file.main_argv);
+        fprintf (stderr, "No suitable filesystem found for \"%s\"\n",
+                 file.main_argv);
         return 1;
       }
     }
@@ -431,10 +432,8 @@ Unable to continue. Exiting...\n");
     else
       free (undo_file_ptr);
 
-    if (rmwed_files == 1)
-      fprintf(stdout, "%d file was ReMoved to Waste\n", rmwed_files);
-    else
-      fprintf(stdout, "%d files were ReMoved to Waste\n", rmwed_files);
+    fprintf(stdout, "%d %s ReMoved to Waste\n", rmwed_files,
+            (rmwed_files == 1) ? "file was" : "files were");
 
     if (main_error > 1)
       return main_error;
