@@ -286,7 +286,7 @@ Unable to continue. Exiting...\n");
        * Check to see if the file exists, and if so, see if it's protected
        */
 
-      if (!file_not_found (file.main_argv))
+      if (exists (file.main_argv) == 0)
       {
         main_error = resolve_path (file.main_argv, file.real_path);
 
@@ -359,7 +359,7 @@ Unable to continue. Exiting...\n");
 
           /* If a duplicate file exists
            */
-          if (file_not_found (file.dest_name) == 0)
+          if (exists (file.dest_name) == 0)
           {
             // append a time string
             strcat (file.dest_name, time_str_appended);

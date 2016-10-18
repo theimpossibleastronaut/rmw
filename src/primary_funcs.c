@@ -34,7 +34,7 @@
 int
 make_dir (const char *dir)
 {
-  if (file_not_found (dir) == 0)
+  if (exists (dir) == 0)
     return 0;
 
   char temp_dir[MP];
@@ -57,7 +57,7 @@ make_dir (const char *dir)
     strcat (add_to_path, tokenPtr);
     tokenPtr = strtok (NULL, "/");
 
-    if (file_not_found (add_to_path))
+    if (exists (add_to_path))
     {
       mk_err = (mkdir (add_to_path, S_IRWXU));
 
@@ -125,25 +125,16 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
 }
 
 /**
- * file_not_found()
- * Checks for the existence of *filename
+ * int exists (const char *filename);
+ * Checks for the existence of *filename. On error, uses perror() to
+ * display the reason
  *
- * returns 1 if not found; 0 if the file exists
+ * return: the return value of lstat()
  */
-bool
-file_not_found (const char *filename)
+int
+exists (const char *filename)
 {
   struct stat st;
-  // bool regular = 0;
-  // regular =
 
-  // printf("%s/t/t%d\n", filename, regular);
-
-  // if (regular == 0 || S_ISLNK (st.st_mode) || S_ISDIR (st.st_mode))
-  // if (regular == 0)
-
-  if (lstat (filename, &st) == 0)
-    return 0;
-  else
-    return 1;
+  return (lstat (filename, &st));
 }

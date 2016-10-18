@@ -140,7 +140,7 @@ is_time_to_purge (bool force)
 
   FILE *fp;
 
-  if (!file_not_found (file_lastpurge))
+  if (!exists (file_lastpurge))
   {
     fp = fopen (file_lastpurge, "r");
 
@@ -517,7 +517,7 @@ orphan_maint (struct waste_containers *waste,
       strcat (path_to_trashinfo, file.base_name);
       strcat (path_to_trashinfo, DOT_TRASHINFO);
 
-      if (!file_not_found (path_to_trashinfo))
+      if (!exists (path_to_trashinfo))
         continue;
 
       strcpy (file.real_path, waste[ctr].parent);

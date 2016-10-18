@@ -209,7 +209,7 @@ Terminating...\n", config_file, CFG_FILE);
       if ((func_error = bufchk (waste[waste_ctr].files, MP)))
         break;
 
-      if (removable && file_not_found (waste[waste_ctr].parent))
+      if (removable && exists (waste[waste_ctr].parent) != 0)
       {
         fprintf (stderr, "On unmounted device or not yet created: %s\n",
                   waste[waste_ctr].parent);
