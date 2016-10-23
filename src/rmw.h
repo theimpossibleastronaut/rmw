@@ -42,7 +42,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <syscall.h>
+#include <sys/syscall.h>
 #include <unistd.h>
 #include <termios.h>
 #include <time.h>
