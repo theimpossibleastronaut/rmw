@@ -42,7 +42,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/syscall.h>
 #include <unistd.h>
 #include <termios.h>
 #include <time.h>
@@ -60,7 +59,11 @@
 
 /* DATA_DIR is relative to $HOME */
 #ifndef DATA_DIR
-#define DATA_DIR "/.config/testrmw"
+  #ifndef WIN32
+    #define DATA_DIR "/.config/testrmw"
+  #else
+    #define DATA_DIR "/rmw"
+  #endif
 #endif
 
 #define CFG_FILE DATA_DIR"/config"

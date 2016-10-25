@@ -44,7 +44,9 @@ make_dir (const char *dir)
   tokenPtr = strtok (temp_dir, "/");
 
   char add_to_path[MP];
-  add_to_path[0] = '/';
+  if (dir[0] == '/')
+    add_to_path[0] = '/';
+
   add_to_path[1] = '\0';
 
   bool mk_err = 0;

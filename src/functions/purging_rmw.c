@@ -143,7 +143,11 @@ rmdir_recursive (char *path, short unsigned level)
 bool
 is_time_to_purge (bool force)
 {
+  #ifndef WIN32
   char *HOMEDIR = getenv ("HOME");
+  #else
+  char *HOMEDIR = getenv ("LOCALAPPDATA");
+  #endif
   char file_lastpurge[MP];
   strcpy (file_lastpurge, HOMEDIR);
   strcat (file_lastpurge, PURGE_DAY_FILE);

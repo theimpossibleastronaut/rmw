@@ -129,7 +129,11 @@ main (int argc, char *argv[])
   }
   while (next_option != -1);
 
+  #ifndef WIN32
   char *HOMEDIR = getenv ("HOME");
+  #else
+  char *HOMEDIR = getenv ("LOCALAPPDATA");
+  #endif
 
   if (HOMEDIR != NULL)
   {

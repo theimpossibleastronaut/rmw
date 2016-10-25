@@ -47,13 +47,23 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 
   short func_error = 0;
 
+  #ifndef WIN32
   char *HOMEDIR = getenv ("HOME");
+  #else
+  char *HOMEDIR = getenv ("LOCALAPPDATA");
+  #endif
 
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
+    #ifndef WIN32
     strcpy (config_file, HOMEDIR);
-
+    #else
+    char *local_app_data = getenv ("LOCALAPPDATA");
+    if (local_app_data != NULL)
+      strcpy (config_file, local_app_data);
+    #endif
+      
     /**
      * CFG_FILE is the file name of the rmw config file relative to
      * the $HOME directory, defined at the top of rmw.h

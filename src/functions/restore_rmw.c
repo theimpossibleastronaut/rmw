@@ -338,7 +338,11 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
   char undo_path[MP];
   char line[MP];
 
+  #ifndef WIN32
   char *HOMEDIR = getenv ("HOME");
+  #else
+  char *HOMEDIR = getenv ("LOCALAPPDATA");
+  #endif
   bufchk_string_op (COPY, undo_path, HOMEDIR, MP);
   bufchk_string_op (CONCAT, undo_path, UNDO_FILE, MP);
 
