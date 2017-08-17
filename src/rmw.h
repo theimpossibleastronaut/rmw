@@ -60,7 +60,7 @@
 /* DATA_DIR is relative to $HOME */
 #ifndef DATA_DIR
   #ifndef WIN32
-    #define DATA_DIR "/.config/testrmw"
+    #define DATA_DIR "/.config/rmw"
   #else
     #define DATA_DIR "/rmw"
   #endif
