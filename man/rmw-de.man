@@ -1,68 +1,69 @@
 .TH RMW 1 2017-10-14
 .SH NAME
-rmw - sicher
+rmw - sicher Dateien löschen
 .SH SYNOPSIS
 \fBrmw\fR \fI[OPTION]\fR... FILE...
 .SH DESCRIPTION
-\fBrmw\fR is a safe-delete utility that sends files to your "Desktop" 
-trash (or a completely separate folder). It can also restore files and permanently
-delete files that were rmw'ed more than a certain (configurable) number of days ago.
+\fBrmw\fR ist ein Programm um sicher Dateien zu löschen. Es verschiebt Dateien 
+in den Papierkorb des Desktops (oder einem andere Ordner). Es kann auch Dateien wiederherstellen und dauerhaft
+Dateien löschen, die vor einer bestimmten (konfigurierbaren) Anzahl von Tagen erstellt wurden. 
 .SH RESTORING FILES
-To restore a file, or multiple files, use the \fB\-z\fR (or \fB\-\-restore\fR) option 
-and specify the path to them in in the \fI<WASTE>/files\fR folder (wildcards ok).
-e.g. '\fBrmw \-z ~/.local/share/Trash/files/foo*\fR'.
+Um eine oder mehrere Dateien wiederherzustellen, verwenden Sie die Option \fB\-z\fR (oder \fB\-\-restore\fR) und
+geben Sie den Pfad per \fI<WASTE>/files\fR an. Wildcard können verwendet werden.
+Z.B.: '\fBrmw \-z ~/.local/share/Trash/files/foo*\fR'. 
 .SH PURGING
-If purging is 'on', \fBrmw\fR will permanently delete files from the folders
-specified in the configuration file after 'x' number of days. 
-Purging can be disabled by using '\fBpurge_after = 0\fR' in configuration file. 
-\fBrmw\fR will only check once per day if it's time to purge (use \fB\-g\fR to check more often).
-Purge requires \fB\-f\fR (\fB\-\-force\fR) to run (in your \fBrmw\fR configuration file, add
-the line '\fBforce_not_required\fR' if you'd rather not use \fB\-\-force\fR when purging).
+Wenn Purging aktiviert ist, löscht \fBrmw\fR alle Dateien aus dem Ordner der in der Konfiguration angegeben ist nach 'x' Tagen.
+Purging kann deaktivert werden, indem man '\fBpurge_after = 0\fR' in der Konfigurationsdatei ergänzt.
+\fBrmw\fR überprüft einmal am Tag, ob Dateien gelöscht werden müssen. Soll die Überprüfung öfter durchgeführt werden, verwenden
+Sie \fB\-g\fR.
+Um Purging zu verwenden ist \fB\-f\fR (\fB\-\-force\fR) notwendig. Um Purging ohne \fB\-\-force\fR durchzuführen, ergänzen Sie
+'\fBforce_not_required\fR' in Ihrer \fBrmw\fR Konfigurationsdatei.
+Purging verlangt \fB\-f\fR (\fB\-\-force\fR) um durchgeführt zu werden.
 .SH OPTIONS
 .TP
 \fB\-B \-\-bypass\fR
-Ignore directory protection settings.
+Ignoriert die Sicherheitseinstellungen des Ordnerns.
 .TP
 \fB\-c \-\-config\fR \fIfilename\fR
-Use an alternate configuration file.
+Ermöglicht die Angabe einer alternativen Konfigurationsdatei.
 .TP
 \fB\-f \-\-force\fR
-Allow rmw to purge files in the background.
+Ermöglicht rmw Purging im Hintergrund durchzuführen-
 .TP
 \fB\-g \-\-purge\fR
-Purge waste directories (permanently remove files).
+Löscht den Papierkorb Ordner unwiederbringlich.
 .TP
 \fB\-h \-\-help\fR
-Display a help screen and exit.
+Zeigt die Hilfe an und beendet das Programm.
 .TP
 \fB\-l \-\-list\fR
-List waste directories.
+Listet die Papierkorb Ornder auf.
 .TP
 \fB\-o \-\-orphaned\fR
-Check for orphaned files (for maintenance tasks).
+Sucht nach verwaisten Dateien (für Wartungsaufgaben).
 .TP
 \fB\-s \-\-select\fR
-Displays a list to select files to restore.
+Zeigt eine Liste zur Auswahl der wiederherzustellenden Dateien an.
 .TP
 \fB\-u \-\-undo-last\fR
-Undo last safe removal.
+Macht den letzen Löschvorgang rückgängig.
 .TP
 \fB\-v \-\-verbose\fR
-Print extra information on the output.
+Aktiviert die detailierte Ausgabe.
 .TP
 \fB\-w \-\-warranty\fR
-Display warranty information and exit.
+Zeigt Garantieinformationen an und beendet das Programm.
 .TP
 \fB\-V \-\-version\fR
-Display version and licensing information and exit.
+Zeigt Version und Lizenzinformationen an und beendet das Programm.
 .TP
 \fB\-z \-\-restore\fR \fIpattern\fR
-Restore files matching \fIpattern\fR.
+Stellt Dateien wieder her, die dem Muster \fIpattern\fR entsprechen.
 .SH DIRECTORIES
-The program's configuration files are stored in \fB~/.config/rmw/\fR.
-By default, the safe-removed files are stored in \fB~/.trash.rmw/\fR.
+Die Konfigurationsdateien sind im Verzeichnis \fB~/.config/rmw/\fR gespeichert.
+In der Standartkonfiguration werden die gelöschten Dateien im Ordner \fB~/.trash.rmw/\fR gespeichert.
 .SH LICENCE
-This program is published under the terms of the GNU General Public License,
-version 2 or any later version, as published by the Free Software Foundation.
+Dieses Programm wird unter der GNU General Public License veröffentlicht. Anwendung findet die Version 2 oder später,
+wie sie von der Free Software Foundation veröffentlich wird.
 .SH AUTHOR
-Written by Andy Alt, with contributions from others.
+Geschreiben von Andy Alt unter Beteiligung anderer.
