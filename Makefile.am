@@ -1,6 +1,6 @@
 packextrasdir=@docdir@
 SUBDIRS = src etc
-man1_MANS = ./man/rmw-en.man
+man1_MANS = ./man/rmw.man
 EXTRA_DIST=         \
 BUGS                \
 rmwrc_config.example \
