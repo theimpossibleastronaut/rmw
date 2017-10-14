@@ -1,0 +1,69 @@
+.TH RMW 1 2017-10-14
+.SH NAME
+rmw - poista tiedostoja, turvallisesti
+.SH Yhteenveto
+\fBrmw\fR \fI[VALITSIN]\fR... TIEDOSTO...
+.SH KUVAUS
+\fBrmw\fR on turvallinen poisto-työkalu, joka lähettää tiedostot "Työpöytäsi"
+roskakoriin (tai kokonaan erilliseen kansioon). Se voi myös palauttaa tiedostoja ja
+pysyvästi poistaa tiedostoja jotka "poistettiin" ohjelmalla x päivää sitten (päivien määrä säädettävissä)
+.SH TIEDOSTOJEN PALAUTAMINEN 
+Palauttaaksesi tiedoston tai useita tiedostoja, käytä \fB\-z\fR (tai \fB\-\-restore\fR) valitsinta 
+ja määritä polku niihin \fI<WASTE>/files\fR kansiossa (jokerimerkit ok).
+esim. '\fBrmw \-z ~/.local/share/Trash/files/foo*\fR'.
+.SH PUHDISTAMINEN
+Jos puhdistaminen on 'päällä' \fBrmw\fR poistaa pysyvästi tiedostot kansioista jotka ovat määriteltyinä
+asetustiedostossa 'x' päivän kuluttua.
+Puhdistaminen voidaan poistaa käytöstä asettamalla '\fBpurge_after = 0\fR' asetustiedostossa. 
+\fBrmw\fR tarkistaa vain kerran päivässä onko puhdistus tarpeen (käytä valitsinta \fB\-g\fR tarkistaaksesi useammin).
+Puhdistus vaatii valitsimen \fB\-f\fR (\fB\-\-force\fR) toimiakseen (ohjelman \fBrmw\fR asetustiedostossa, lisää rivi 
+'\fBforce_not_required\fR' jos et halua käyttää valitsinta \fB\-\-force\fR puhdistamisen yhteydessä).
+.SH VALITSIMET
+.TP
+\fB\-B \-\-bypass\fR
+Sivuuta hakemiston suojaus asetukset.
+.TP
+\fB\-c \-\-config\fR \fItiedostonnimi\fR
+Käytä vaihtoehtoista asetustiedostoa.
+.TP
+\fB\-f \-\-force\fR
+Anna ohjelman puhdistaa tiedostoja taustalla.
+.TP
+\fB\-g \-\-purge\fR
+Puhdista roska hakemistot (poista pysyvästi tiedostot).
+.TP
+\fB\-h \-\-help\fR
+Näytä apu ruutu ja lopeta.
+.TP
+\fB\-l \-\-list\fR
+Listaa roska hakemistot.
+.TP
+\fB\-o \-\-orphaned\fR
+Etsi orpoja tiedostoja (ylläpito tehtäviin).
+.TP
+\fB\-s \-\-select\fR
+Näytää listan josta voidaan valita tiedostoja palautettavaksi.
+.TP
+\fB\-u \-\-undo-last\fR
+Kumoa viimeisin turvallinen poisto.
+.TP
+\fB\-v \-\-verbose\fR
+Tulosta lisää tietoa tulosteeseen.
+.TP
+\fB\-w \-\-warranty\fR
+Näytä takuu tiedot ja lopeta.
+.TP
+\fB\-V \-\-version\fR
+Näytä versio ja lisenssi tiedot ja lopeta.
+.TP
+\fB\-z \-\-restore\fR \fIlause\fR
+Palauta tiedostot joiden nimi vastaa \fIlause\fR.
+.SH HAKEMISTOT
+Ohjelman asetustiedot ovat \fB~/.config/rmw/\fR hakemistossa.
+Oletuksena turvallisesti poistetut tiedostot säilytetään hakemistossa \fB~/.trash.rmw/\fR.
+.SH LISENSSI
+GNU General Public Licence.
+This program is published under the terms of the GNU General Public License,
+version 2 or any later version, as published by the Free Software Foundation.
+.SH TEKIJÄ
+Ohjelman tekijä Andy Alt, avustusta muilta.
