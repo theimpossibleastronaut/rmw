@@ -12,10 +12,10 @@ Para restaurar um ou mais ficheiros, use a opção \fB\-z\fR (or \fB\-\-restore\
 e especifique o caminho no directório \fI<WASTE>/files\fR (são permitidas wildcards).
 e.g. '\fBrmw \-z ~/.local/share/Trash/files/foo*\fR'.
 .SH PURGING
-Se a opção de purging estiver ligada, \fBrmw\fR irá eliminar permanentemente os ficheiros dos directŕios
+Se a opção de purging estiver ligada, \fBrmw\fR irá eliminar permanentemente os ficheiros dos directórios
 especificados no ficheiro de configuração depois de 'x' dias. 
 O Purging pode ser desactivado usando '\fBpurge_after = 0\fR' no ficheiro de configuração. 
-\fBrmw\fR só verifica uma vez por dia se é a altura de fazer purge (use \fB\-g\fR para verificar mais frequentemente).
+O \fBrmw\fR só verifica uma vez por dia se é a altura de fazer purge (use \fB\-g\fR para verificar mais frequentemente).
 Purge requer \fB\-f\fR (\fB\-\-force\fR) para executar (no ficheiro de configuração \fBrmw\fR, adicione a linha
 '\fBforce_not_required\fR' se preferir não usar \fB\-\-force\fR ao fazer purging).
 .SH OPÇÕES
@@ -30,7 +30,7 @@ Usar um ficheiro de configuração alternativo.
 Permitir que o rmw faça purge dos ficheiros em background.
 .TP
 \fB\-g \-\-purge\fR
-Fazer purge a directórios de reciclagem (remover permanentemente os ficheiros)
+Fazer purge a directórios de reciclagem (remover permanentemente os ficheiros).
 .TP
 \fB\-h \-\-help\fR
 Mostrar a ajuda e terminar.
@@ -62,7 +62,7 @@ Restaurar ficheiros que correspondem ao \fIpadrão\fR.
 Os ficheiros de configuração do programa estão guardados em \fB~/.config/rmw/\fR.
 Por defeito, os ficheiros removidos de forma segura estão guardados em \fB~/.trash.rmw/\fR.
 .SH LICENSA
-Este  programa está publicado sob os termos d GNU General Public License,
+Este  programa está publicado sob os termos do GNU General Public License,
 versão 2 ou seguintes, como publicado pela Free Software Foundation.
 .SH AUTOR
 Escrito por Andy Alt, com contributos de outros.
