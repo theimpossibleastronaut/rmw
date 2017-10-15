@@ -1,0 +1,72 @@
+.TH RMW 1 2017-10-14
+.SH NOMBRE
+rmw - elimina archivos de forma segura
+.SH SINOPSIS
+\fBrmw\fR \fI[OPCIÓN]\fR... ARCHIVO...
+.SH DESCRIPCIÓN
+\fBrmw\fR es una utilidad para eliminar archivos de forma segura que envía archivos a la papelera
+de tu "Escritorio" (o a un directorio completamente distinto).
+También puede recuperar archivos y eliminar permanentemente a los archivos que fueron eliminados por
+rmw luego de una cantidad (configurable) de días.
+.SH RECUPERANDO ARCHIVOS
+Para recuperar un archivo, o varios archivos, use la opcion \fB\-z\fR (o \fB\-\-restore\fR)
+y especifique la ruta de los mismos en el directorio \fI<WASTE>/files\fR (se permiten wildards)
+ej. '\fBrmw \-z ~/.local/share/Trash/files/foo*\fR'.
+.SH PURGING
+Si la opción purgar se encuentra habilitada, \fBrmw\fR eliminara permanentemente a los archivos
+dentro de los directorios especificados en el archivo de configuracion luego de 'x' cantidad
+de díass.
+Purgar puede ser desactivado usando '\fBpurge_after = 0\fR' en el archivo de configuracion.
+\fBrmw\fR solo chequeara una vez por días si es momento de purgar (use \fB\-g\fR para chequear
+mas seguido). Purgar necesita \fB\-f\fR (\fB\-\-force\fR) para ejecutar (en el archivo de
+configuracion \fBrmw\fR agregue la linea '\fBforce_not_required\fR' si prefiere no usar
+\fB\-\-force\fR al purgar).
+.SH OPCIONES
+.TP
+\fB\-B \-\-bypass\fR
+Ignorar la configuracion de proteccion de directorios.
+.TP
+\fB\-c \-\-config\fR \fInombre_de_archivo\fR
+Usar archivo de configuración alternativo.
+.TP
+\fB\-f \-\-force\fR
+Permitir a rmw a purgar archivos en segundo plano.
+.TP
+\fB\-g \-\-purge\fR
+Purga los directorios de reciclaje (elimina los archivos permanentemente)
+.TP
+\fB\-h \-\-help\fR
+Despliega una pantalla de ayuda y termina.
+.TP
+\fB\-l \-\-list\fR
+Lista los directorios de reciclaje.
+.TP
+\fB\-o \-\-orphaned\fR
+Chequea por archivos huérfanos (para tareas de mantenimiento).
+.TP
+\fB\-s \-\-select\fR
+Despliega una lista para seleccionar archivos a recuperar.
+.TP
+\fB\-u \-\-undo-last\fR
+Deshacer ultima eliminación segura.
+.TP
+\fB\-v \-\-verbose\fR
+Imprime información extra acerca de la salida.
+.TP
+\fB\-w \-\-warranty\fR
+Despliega información de la garantía y termina.
+.TP
+\fB\-V \-\-version\fR
+Despliega la version y la licencia y termina.
+.TP
+\fB\-z \-\-restore\fR \fIpatron\fR
+Recupera los archivos que "matcheen" \fIpatron\fR.
+.SH DIRECTORIOS
+Los archivos de configuración del programa son guardados en \fB~/.config/rmw/\fR.
+Por defecto, los archivos eliminados de forma segura son guardados en \fB~/.trash.rmw/\fR.
+.SH LICENCIA
+Este programa se encuentra publicado bajo los términos de la licencia publica general GNU,
+versión 2 o posterior, tal como fue publicada por la Free Software Foundation (Fundación
+de Software Libre)
+.SH AUTOR
+Escrito por Andy Alt, con contribuciones de terceros.
