@@ -171,7 +171,7 @@ Unable to continue. Exiting...\n");
   char protected_dir[PROTECT_MAX][MP];
 
   /* is reassigned a value in get_config_data() */
-  ushort purge_after = 0;
+  unsigned short purge_after = 0;
 
   short conf_err =
     get_config_data (waste, alt_config, &purge_after, protected_dir, &force);

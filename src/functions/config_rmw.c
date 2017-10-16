@@ -160,7 +160,7 @@ Terminating...\n", config_file, CFG_FILE);
 
       erase_char (' ', token_ptr);
 
-      ushort num_value = atoi (token_ptr);
+      unsigned short num_value = atoi (token_ptr);
 
       if (num_value >= 0 && num_value < USHRT_MAX)
         *purge_after = num_value;
