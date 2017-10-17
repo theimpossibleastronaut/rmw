@@ -1,0 +1,72 @@
+.TH RMW 1 2017-10-16
+.SH NAZWA
+rmw - bezpieczne usuwanie plików
+.SH SKŁADNIA
+\fBrmw\fR \fI[OPCJE]\fR... PLIK...
+.SH OPIS
+\fBrmw\fR jest narzędziem do bezpiecznego usuwania plików, 
+które wysyła pliki do twojego "kosza" na pulpicie (albo dowolnego innego katalogu).
+Może także przywracać pliki oraz trwale usuwać pliki umieszczone w koszu dawniej
+niż określona (konfigurowalna) liczba dni temu.
+.SH PRZYWRACANIE PLIKÓW
+Aby przywrócić plik, albo wiele plików, użyj opcji \fB\-z\fR (albo \fB\-\-restore\fR) i określ
+ścieżkę do przywracanych plików w jednym z katalogów-koszy (możesz używać wieloznaczników). 
+Przykład: '\fBrmw \-z ~/.local/share/Trash/files/foo*\fR'.
+.SH CZYSZCZENIE
+Jeżeli czyszczenie jest włączone, \fBrmw\fR będzie trwale usuwał z katalogów-koszy pliki,
+które zostały tam umieszczone dawniej, niż określona w pliku konfiguracyjnym liczba dni.
+Czyszczenie może zostać wyłączone poprzez umieszczenie '\fBpurge_after = 0\fR' w pliku konfiguracyjnym. 
+\fBrmw\fR będzie sprawdzać czy należy dokonać czyszczenia tylko raz dziennie; 
+użyj opcji \fB\-g\fR, by sprawdzać częściej.
+Czyszczenie wymaga podania opcji \fB\-f\fR (\fB\-\-force\fR).
+Jeżeli nie chcesz używać \fB\-\-force\fR, możesz dodać linię '\fBforce_not_required\fR' 
+w swoim pliku konfiguracyjnym.
+.SH OPCJE
+.TP
+\fB\-B \-\-bypass\fR
+Ignoruj ustawienia ochrony katalogów.
+.TP
+\fB\-c \-\-config\fR \fIplik\fR
+Użyj alternatywnego pliku konfiguracyjnego.
+.TP
+\fB\-f \-\-force\fR
+Pozwól na usuwanie plików w tle.
+.TP
+\fB\-g \-\-purge\fR
+Oczyść katalogi-kosze (trwale usuń pliki).
+.TP
+\fB\-h \-\-help\fR
+Wyświetl ekran pomocy i zakończ.
+.TP
+\fB\-l \-\-list\fR
+Wylistuj katalogi-kosze.
+.TP
+\fB\-o \-\-orphaned\fR
+Sprawdź, czy istnieją pliki-sieroty (opcja dla zadań diagnostycznych).
+.TP
+\fB\-s \-\-select\fR
+Wyświetla listę plików, które mogą zostać przywrócone i pozwala wybrać pliki do przywrócenia.
+.TP
+\fB\-u \-\-undo-last\fR
+Cofnij ostatnie bezpieczne usunięcie.
+.TP
+\fB\-v \-\-verbose\fR
+Wyświetlaj dodatkowe informacje na wyjściu.
+.TP
+\fB\-w \-\-warranty\fR
+Wyświetl informacje nt. gwarancji i zakończ.
+.TP
+\fB\-V \-\-version\fR
+Wyświetl informacje nt. wersji programu oraz licencji i zakończ.
+.TP
+\fB\-z \-\-restore\fR \fIwzorzec\fR
+Przywróć pliki pasujące do \fIwzorca\fR.
+.SH KATALOGI
+Pliki konfiguracyjne programu przechowywane są w \fB~/.config/rmw/\fR.
+Domyślnie, tymczasowo usunięte pliki przechowywane są w \fB~/.trash.rmw/\fR.
+.SH LICENCJA
+Ten program rozpowszechniany jest na warunkach GNU General Public Licence,
+w wersji 2 lub dowolnej następnej wersji, 
+opublikowanej przez Free Software Foundation.
+.SH AUTOR
+Napisane przez Andy'ego Alta oraz innych.
