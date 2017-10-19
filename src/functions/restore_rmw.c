@@ -86,10 +86,11 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 
     truncate_str (file.relative_path, strlen (file.base_name));
 
-    strcpy (file.info, file.relative_path);
-    strcat (file.info, "../info/");
-    strcat (file.info, file.base_name);
-    strcat (file.info, DOT_TRASHINFO);
+    sprintf (file.info, "%s%s%s%s", file.relative_path, "../info/", file.base_name, DOT_TRASHINFO);
+
+#if DEBUG == 1
+  printf ("Restore()/debug: %s\n", file.info);
+#endif
 
       /**
        * No open files yet, so just return if bufchk fails

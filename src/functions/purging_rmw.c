@@ -149,8 +149,7 @@ is_time_to_purge (bool force)
   char *HOMEDIR = getenv ("LOCALAPPDATA");
   #endif
   char file_lastpurge[MP];
-  strcpy (file_lastpurge, HOMEDIR);
-  strcat (file_lastpurge, PURGE_DAY_FILE);
+  sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
 
   if (bufchk (file_lastpurge, MP))
     return EXIT_BUF_ERR;
@@ -306,8 +305,7 @@ purge (const short purge_after, const struct waste_containers *waste,
         continue;
 
       char entry_path[MP];
-      strcpy (entry_path, waste[ctr].info);
-      strcat (entry_path, entry->d_name);
+      sprintf (entry_path, "%s%s", waste[ctr].info, entry->d_name);
 
       // printf ("%s\n", entry_path);
 
@@ -541,16 +539,13 @@ orphan_maint (struct waste_containers *waste,
 
       strcpy (file.base_name, basename (entry->d_name));
 
-      strcpy (path_to_trashinfo, waste[ctr].info);
-      strcat (path_to_trashinfo, file.base_name);
-      strcat (path_to_trashinfo, DOT_TRASHINFO);
+      sprintf (path_to_trashinfo, "%s%s%s", waste[ctr].info, file.base_name, DOT_TRASHINFO);
 
       if (!exists (path_to_trashinfo))
         continue;
 
-      strcpy (file.real_path, waste[ctr].parent);
-      strcat (file.real_path, "/orphans/");     /* destination if restored */
-      strcat (file.real_path, file.base_name);
+      /* destination if restored */
+      sprintf (file.real_path, "%s%s%s", waste[ctr].parent, "/orphans/", file.base_name);
 
       short ok = 0;
       ok = create_trashinfo (file, waste, time_now, time_str_appended, ctr);
