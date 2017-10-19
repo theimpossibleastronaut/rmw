@@ -263,8 +263,7 @@ Unable to continue. Exiting...\n");
 
   if (optind < argc)
   {
-    strcpy (undo_path, HOMEDIR);
-    strcat (undo_path, UNDO_FILE);
+    sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
 
     /**
      * No files are open at this point, so just using 'return;'
@@ -358,8 +357,7 @@ Unable to continue. Exiting...\n");
         {
           // used by create_trashinfo
           current_waste_num = dir_num;
-          strcpy (file.dest_name, waste[dir_num].files);
-          strcat (file.dest_name, file.base_name);
+          sprintf (file.dest_name, "%s%s", waste[dir_num].files, file.base_name);
 
           /* If a duplicate file exists
            */

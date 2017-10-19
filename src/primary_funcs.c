@@ -87,8 +87,7 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
 {
   char finalInfoDest[PATH_MAX + 1];
 
-  strcpy (finalInfoDest, waste[cnum].info);
-  strcat (finalInfoDest, file.base_name);
+  sprintf (finalInfoDest, "%s%s", waste[cnum].info, file.base_name);
 
   if (file.is_duplicate)
     strcat (finalInfoDest, time_str_appended);

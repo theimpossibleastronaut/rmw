@@ -63,7 +63,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     if (local_app_data != NULL)
       strcpy (config_file, local_app_data);
     #endif
-      
+
     /**
      * CFG_FILE is the file name of the rmw config file relative to
      * the $HOME directory, defined at the top of rmw.h
@@ -96,8 +96,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   else
   {
     char str_temp[MP];
-    strcpy (str_temp, SYSCONFDIR);
-    strcat (str_temp, "/rmwrc");
+    sprintf (str_temp, "%s%s", SYSCONFDIR, "/rmwrc");
 
     strcpy (config_file, str_temp);
 
@@ -128,8 +127,8 @@ Terminating...\n", config_file, CFG_FILE);
   /**
    * protect DATA_DIR by default
    */
-  strcpy (protected_dir[prot_dir_ctr], HOMEDIR);
-  strcat (protected_dir[prot_dir_ctr], DATA_DIR);
+
+  sprintf (protected_dir[prot_dir_ctr], "%s%s", HOMEDIR, DATA_DIR);
   prot_dir_ctr++;
 
   while (fgets (line_from_config, CFG_MAX_LEN, config_ptr) != NULL)
@@ -211,10 +210,11 @@ Terminating...\n", config_file, CFG_FILE);
       erase_char (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
+      /* make the parent... */
       strcpy (waste[waste_ctr].parent, token_ptr);
-      strcpy (waste[waste_ctr].files, waste[waste_ctr].parent);
 
-      strcat (waste[waste_ctr].files, "/files/");
+      /* and the files... */
+      sprintf (waste[waste_ctr].files, "%s%s", waste[waste_ctr].parent, "/files/");
 
       if ((func_error = bufchk (waste[waste_ctr].files, MP)))
         break;
@@ -229,8 +229,8 @@ Terminating...\n", config_file, CFG_FILE);
       if (make_dir (waste[waste_ctr].files))
         continue;
 
-      strcpy (waste[waste_ctr].info, waste[waste_ctr].parent);
-      strcat (waste[waste_ctr].info, "/info/");
+      /* and the info. */
+      sprintf (waste[waste_ctr].info, "%s%s", waste[waste_ctr].parent, "/info/");
 
       if (make_dir (waste[waste_ctr].info))
         continue;
