@@ -7,6 +7,3 @@ branches:
 
  notifications:
     slack: removetowaste:u16fiNsaMeLmg7J4WXifW3Zm
-    on_success: always  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: never     # options: [always|never|change] default: always
