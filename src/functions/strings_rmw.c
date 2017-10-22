@@ -309,7 +309,7 @@ escape_url (const char *str, char *dest, unsigned short len)
        * character + '\0') */
       if (pos_dest + 2 > len)
       {
-        fprintf(stderr, "rmw: %s(): buffer too small\n", __FUNCTION__);
+        fprintf(stderr, "rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+2);
         return 1;
       }
 
@@ -320,7 +320,7 @@ escape_url (const char *str, char *dest, unsigned short len)
       /* Again, check for overflow (3 chars + '\0') */
       if (pos_dest + 4 > len)
       {
-        fprintf(stderr, "rmw: %s(): buffer too small\n", __FUNCTION__);
+        fprintf(stderr, "rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+4);
         return 1;
       }
 
