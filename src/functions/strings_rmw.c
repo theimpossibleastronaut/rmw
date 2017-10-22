@@ -364,7 +364,10 @@ unescape_url (const char *str, char *dest, unsigned short len)
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
       if (pos_dest + 2 > len)
+      {
+        fprintf(stderr, "rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+2);
         return 1;
+      }
 
       sscanf(str + pos_str, "%2hhx", dest + pos_dest);
       pos_str += 2;
@@ -373,7 +376,10 @@ unescape_url (const char *str, char *dest, unsigned short len)
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
       if (pos_dest + 2 > len)
+      {
+        fprintf(stderr, "rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+2);
         return 1;
+      }
 
       dest[pos_dest] = str[pos_str];
       pos_str += 1;
