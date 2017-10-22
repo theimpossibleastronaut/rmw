@@ -308,7 +308,10 @@ escape_url (const char *str, char *dest, unsigned short len)
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
       if (pos_dest + 2 > len)
+      {
+        fprintf(stderr, "rmw: %s(): buffer too small\n", __FUNCTION__);
         return 1;
+      }
 
       dest[pos_dest] = str[pos_str];
       pos_dest += 1;
@@ -316,7 +319,10 @@ escape_url (const char *str, char *dest, unsigned short len)
     else {
       /* Again, check for overflow (3 chars + '\0') */
       if (pos_dest + 4 > len)
+      {
+        fprintf(stderr, "rmw: %s(): buffer too small\n", __FUNCTION__);
         return 1;
+      }
 
       /* A quick explanation to this printf
        * %% - print a '%'
