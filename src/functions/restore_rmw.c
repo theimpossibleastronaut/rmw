@@ -29,14 +29,14 @@
 static char*
 human_readable_size (off_t size) 
 {
-  /* "xxxx.yyGiB" - 10 chars + '\0' = 11 */
+  /* "xxxx.y GiB" - 10 chars + '\0' */
   static char buffer[12];
   
   /* Store only the first letter; we add "iB" later during snprintf(). */
   const char prefix[] = {'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
   short power = -1;
   
-  long remainder;
+  short remainder;
   while(size >= 1024)
   {
     remainder = size % 1024;
@@ -46,9 +46,9 @@ human_readable_size (off_t size)
   }
   
   if(power >= 0)
-    snprintf(buffer, sizeof(buffer), "%ld.%02ld%ciB", (long)size, (remainder * 100) / 1024, prefix[power]);
+    snprintf(buffer, sizeof(buffer), "%ld.%hd %ciB", (long)size, (remainder * 10) / 1024, prefix[power]);
   else
-    snprintf(buffer, sizeof(buffer), "%ldB", (long)size);
+    snprintf(buffer, sizeof(buffer), "%ld B", (long)size);
   
   return buffer;
 }
