@@ -298,7 +298,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
       if (!choice)
       {
-        printf ("%3d. %s", count, entry->d_name);
+        printf ("%3d. %s [%s]", count, entry->d_name, human_readable_size(st.st_size));
 
         if (S_ISDIR (st.st_mode))
           printf (" (D)");
