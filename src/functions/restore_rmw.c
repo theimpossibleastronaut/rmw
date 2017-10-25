@@ -26,6 +26,33 @@
 #include "rmw.h"
 #include "restore_rmw.h"
 
+static char*
+human_readable_size (off_t size) 
+{
+  /* "xxxx.y GiB" - 10 chars + '\0' */
+  static char buffer[12];
+  
+  /* Store only the first letter; we add "iB" later during snprintf(). */
+  const char prefix[] = {'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
+  short power = -1;
+  
+  short remainder;
+  while(size >= 1024)
+  {
+    remainder = size % 1024;
+    size /= 1024;
+    
+    ++power;
+  }
+  
+  if(power >= 0)
+    snprintf(buffer, sizeof(buffer), "%ld.%hd %ciB", (long)size, (remainder * 10) / 1024, prefix[power]);
+  else
+    snprintf(buffer, sizeof(buffer), "%ld B", (long)size);
+  
+  return buffer;
+}
+
 /**
  * FIXME: This apparently needs re-working too. I'm sure it could be
  * written more efficiently
@@ -271,7 +298,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
       if (!choice)
       {
-        printf ("%3d. %s", count, entry->d_name);
+        printf ("%3d. %s [%s]", count, entry->d_name, human_readable_size(st.st_size));
 
         if (S_ISDIR (st.st_mode))
           printf (" (D)");
