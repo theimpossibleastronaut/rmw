@@ -150,11 +150,8 @@ Unable to determine home directory\n");
 
   char data_dir[MP];
 
-  if (bufchk_string_op (COPY, data_dir,HOMEDIR, MP))
-    return EXIT_BUF_ERR;
-
-  /* Looks like more variable names needs changing */
-  if (bufchk_string_op (CONCAT, data_dir, DATA_DIR, MP))
+  sprintf (data_dir, "%s%s", HOMEDIR, DATA_DIR);
+  if (bufchk (data_dir, MP))
     return EXIT_BUF_ERR;
 
   if (make_dir (data_dir))

@@ -118,7 +118,7 @@ bool verbose;
 
 #define EXIT_FAILED_GETENV 2
 #define NO_WASTE_FOLDER -1
-#define EXIT_BUF_ERR -9
+#define EXIT_BUF_ERR 1
 #define EXIT_MALLOC 3
 #define EXIT_OPENDIR_FAILURE 4
 
