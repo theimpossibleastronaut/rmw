@@ -28,16 +28,8 @@
 
 #include "rmw.h"
 
-enum {
-  COPY,
-  CONCAT
-};
-
 short
 bufchk (const char *str, unsigned short boundary);
-
-bool
-bufchk_string_op (bool mode, char *s1, const char *s2, unsigned short boundary);
 
 int
 trim (char s[]);

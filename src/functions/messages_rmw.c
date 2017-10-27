@@ -36,9 +36,7 @@ open_err (const char *filename, const char *function_name)
     fprintf (stderr, "Error: while opening %s\n", filename);
 
     char combined_msg[MAX_MSG_SIZE];
-    bufchk_string_op (COPY, combined_msg, "function: <", MAX_MSG_SIZE);
-    bufchk_string_op (CONCAT, combined_msg, function_name, MAX_MSG_SIZE);
-    bufchk_string_op (CONCAT, combined_msg, ">", MAX_MSG_SIZE);
+    sprintf (combined_msg, "function: <%s>", function_name);
     perror (combined_msg);
 
     return;
@@ -59,9 +57,7 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
     fprintf (stderr, "Warning: while closing %s\n", filename);
 
     char combined_msg[MAX_MSG_SIZE];
-    bufchk_string_op (COPY, combined_msg, "function: <", MAX_MSG_SIZE);
-    bufchk_string_op (CONCAT, combined_msg, function_name, MAX_MSG_SIZE);
-    bufchk_string_op (CONCAT, combined_msg, ">", MAX_MSG_SIZE);
+    sprintf (combined_msg, "function: <%s>", function_name);
     perror (combined_msg);
 
     return 1;

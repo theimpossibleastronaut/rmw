@@ -27,29 +27,29 @@
 #include "restore_rmw.h"
 
 static char*
-human_readable_size (off_t size) 
+human_readable_size (off_t size)
 {
   /* "xxxx.y GiB" - 10 chars + '\0' */
   static char buffer[12];
-  
+
   /* Store only the first letter; we add "iB" later during snprintf(). */
   const char prefix[] = {'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
   short power = -1;
-  
+
   short remainder;
   while(size >= 1024)
   {
     remainder = size % 1024;
     size /= 1024;
-    
+
     ++power;
   }
-  
+
   if(power >= 0)
     snprintf(buffer, sizeof(buffer), "%ld.%hd %ciB", (long)size, (remainder * 10) / 1024, prefix[power]);
   else
     snprintf(buffer, sizeof(buffer), "%ld B", (long)size);
-  
+
   return buffer;
 }
 
@@ -179,7 +179,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
            */
         if (!exists (file.dest))
         {
-          bufchk_string_op (CONCAT, file.dest, time_str_appended, MP);
+          strcat (file.dest, time_str_appended);
 
           if (verbose)
             fprintf (stdout,"\
@@ -188,7 +188,7 @@ Duplicate filename at destination - appending time string...\n");
 
         char parent_dir[MP];
 
-        bufchk_string_op (COPY, parent_dir, file.dest, MP);
+        strcpy (parent_dir, file.dest);
 
         truncate_str (parent_dir, strlen (basename (file.dest)));
 
@@ -276,14 +276,14 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
       if (count == choice || choice == 0)
       {
-        bufchk_string_op (COPY, path_to_file, waste[ctr].files, MP);
+        strcpy (path_to_file, waste[ctr].files);
 
         /* Not yet sure if 'trim' is needed yet; using it
          *  until I get smarter
          */
         trim (entry->d_name);
 
-        bufchk_string_op (CONCAT, path_to_file, entry->d_name, MP);
+        strcat (path_to_file, entry->d_name);
         trim (path_to_file);
         lstat (path_to_file, &st);
       }
@@ -366,13 +366,18 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
   char undo_path[MP];
   char line[MP];
 
-  #ifndef WIN32
+#ifndef WIN32
   char *HOMEDIR = getenv ("HOME");
-  #else
+#else
   char *HOMEDIR = getenv ("LOCALAPPDATA");
-  #endif
-  bufchk_string_op (COPY, undo_path, HOMEDIR, MP);
-  bufchk_string_op (CONCAT, undo_path, UNDO_FILE, MP);
+#endif
+
+  sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
+  /* FIXME should there be a bufchk() here?
+   *
+   * undo_last_rmw() should return a value, so if a bufchk fails,
+   * that value can be returned
+   */
 
   undo_file_ptr = fopen (undo_path, "r");
 

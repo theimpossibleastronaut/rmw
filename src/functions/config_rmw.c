@@ -327,8 +327,8 @@ make_home_real (char *str, const char *HOMEDIR)
     return 0;
 
   char temp[MP];
-  bufchk_string_op (COPY, temp, HOMEDIR, MP);
-  bufchk_string_op (CONCAT, temp, str, MP);
+
+  sprintf (temp, "%s%s", HOMEDIR, str);
   strcpy (str, temp);
 
   return ok;
