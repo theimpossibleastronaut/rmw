@@ -118,7 +118,7 @@ Can not open configuration file\n\
 A default configuration file can be found at\n\
 https://github.com/andy5995/rmw/tree/master/etc\n\
 Terminating...\n", config_file, CFG_FILE);
-      return 1;
+      return NO_WASTE_FOLDER;
     }
   }
 
