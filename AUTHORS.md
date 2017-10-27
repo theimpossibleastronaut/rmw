@@ -1,13 +1,13 @@
 # AUTHORS
-@andy5995 [Andy Alt](https://andy5995.github.io/) (andy400-dev@yahoo.com)
 
-## Others who have worked on rmw include:
-@parthsuresh96 Parth Suresh
+GitHub's automated list: [graphs/contributors](https://github.com/andy5995/rmw/graphs/contributors)
 
-@blah1898 Bruce Hernandez
-
-@ajphukan Ankur Jyoti Phukan
-
-@suve [suve](https://svgames.pl/en)
-
-@gfranco93 Guillermo Franco
+## Contributors and Roles
+| Name        | Roles
+| :-----------: | ----------------------------------|
+| Andy Alt | Project Manager |
+| [Parth Suresh](https://github.com/parthsuresh) | C |
+| [Bruce Hernandez](https://github.com/blah1898) | C |
+| [Ankur Jyoti Phukan](https://github.com/ajphukan) | C |
+| [suve](https://svgames.pl/en) | C |
+| [Guillermo Franco](https://github.com/gfranco93) | man page |
