@@ -1,5 +1,17 @@
 === rmw ChangeLog ===
 
+2017-10-25
+
+    [#68] File sizes now display when using '--select'
+
+2017-10-15
+
+    Man pages added!
+    * Languages: EN, DE, FI, ES, PT, PL
+
+    At this time, only the EN man page is installed. I don't know the
+    proper way to install man pages in other languages.
+
 2016-10-02
 
     Restore(): no longer takes type *char[] as an argument, only *char,
