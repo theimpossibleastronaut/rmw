@@ -49,7 +49,7 @@
 #include <sys/stat.h>
 
 #ifndef VERSION
-#define VERSION "2017.10.xx.dev"
+#define VERSION "2017.11.xx.dev"
 #endif
 
 #define DEBUG 0
