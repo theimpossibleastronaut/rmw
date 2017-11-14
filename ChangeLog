@@ -1,4 +1,17 @@
 === rmw ChangeLog ===
+2017-11-14
+
+    [#106] `make install` now installs the following man pages to the
+    appropriate directories:
+
+    * en
+    * de
+    * es
+    * fi
+    * pl
+    * pt_BR
+
+    Thank you for the tip, @suve.
 
 2017-10-25
 

@@ -12,6 +12,15 @@ features that aren't included in the last release, or differ in other ways.
 The README from the last release is at
 https://github.com/andy5995/rmw/blob/v2016.09.19.01a/README
 
+man pages are now available in the following languages:
+
+    * en
+    * de
+    * es
+    * fi
+    * pl
+    * pt_BR
+
 See the NEWS file for details about new options for your existing
 rmw configuration file. The two new options are:
 

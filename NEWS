@@ -1,5 +1,20 @@
 === RMW Release Notes ===
 
+2017-11-14
+
+man pages are now available in the following languages:
+
+    * en
+    * de
+    * es
+    * fi
+    * pl
+    * pt_BR
+
+2017-10-25
+
+    [#68] File sizes now display when using '--select' (patched by @suve)
+
 2016-09-18
 
 Two new developers have contributed patches to rmw: Parth Suresh and
