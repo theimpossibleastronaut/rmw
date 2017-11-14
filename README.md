@@ -12,6 +12,10 @@ features that aren't included in the last release, or differ in other ways.
 The README from the last release is at
 https://github.com/andy5995/rmw/blob/v2016.09.19.01a/README
 
+Anyone interested in this project is welcome to join the
+[chat room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
+
+```
 man pages are now available in the following languages:
 
     * en
@@ -118,6 +122,4 @@ And it will not get rmw'ed
 
 WASTE folders and the rmw configuration/data directory are protected by
 default (there is no need to add a 'PROTECT =' line for them.
-
-
-This file was last updated 2016-09-25
+```
