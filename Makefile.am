@@ -3,7 +3,7 @@ SUBDIRS = src etc man
 EXTRA_DIST=         \
 BUGS                \
 rmwrc_config.example \
-README              \
+README.md            \
 ChangeLog           \
 AUTHORS             \
 THANKS	            \
