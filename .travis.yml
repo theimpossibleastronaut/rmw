@@ -1,4 +1,4 @@
-script: ./configure && make
+script: ./configure --prefix=$PWD/temp-build && make && make install
 
 # safelist
 branches:
