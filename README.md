@@ -17,6 +17,9 @@ https://github.com/andy5995/rmw/blob/v2016.09.19.01a/README
 Anyone interested in this project is welcome to join the
 [chat room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
 
+If you would like to help translate the output messages for this program,
+please see the [Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating).
+
 ```
 man pages are now available in the following languages:
 
