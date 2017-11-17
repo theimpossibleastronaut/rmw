@@ -1,0 +1,68 @@
+.TH RMW 1 2017-10-14
+.SH NAME
+rmw - veilig bestanden verwijderen
+.SH SYNOPSIS
+\fBrmw\fR \fI[OPTION]\fR... FILE...
+.SH DESCRIPTION
+\fBrmw\fR is een veilig-verwijderen gereedschap dat bestanden naar je "bureaublad"
+prullenbak (of compleet andere map) stuurt. Het kan ook bestanden terug halen en bestanden
+permanent verwijderen die binnen een aantal (instelbare) dagen zijn germw'ed.
+.SH RESTORING FILES
+Om een bestand, of meerdere terug te halen, gebruik de \fB\-z\fR (of \fB\-\-restore\fR) optie
+en geef het pad naar hen op in de \fI<WASTE>/files\fR map (jokertekens toegestaan).
+b.v. '\fBrmw \-z ~/.local/share/Trash/files/foo*\fR'.
+.SH PURGING
+Indien purging ingeschakeld is, dan zal \fBrmw\fR de bestanden permanent verwijderen van de
+aangegeven mappen in het configuratie bestand na 'x' aantal dagen.
+Purging kan uitgeschakeld worden door '\fBpurge_after = 0\fR' te gebruiken in het configuratie bestand.
+\fBrmw\fR zal eenmaal per dag controleren of het tijd is om te purgen (gebruik \fB\-g\fR om vaker te controleren).
+Purge heeft \fB\-f\fR (\fB\-\-force\fR) nodig om te werken (in je \fBrmw\fR configuratie bestand, voeg
+de regel '\fBforce_not_required\fR' als je liever niet \fB\-\-force\fR wilt gebruiken tijdens purgen).
+.SH OPTIONS
+.TP
+\fB\-B \-\-bypass\fR
+Negeer directory beveiligingsinstellingen.
+.TP
+\fB\-c \-\-config\fR \fIbestandsnaam\fR
+Gebruik een alternatief configuratie bestand.
+.TP
+\fB\-f \-\-force\fR
+Sta rmw toe om bestanden in de achtergrond te purgen.
+.TP
+\fB\-g \-\-purge\fR
+Purge afval mappen (bestanden permanent verwijderen).
+.TP
+\fB\-h \-\-help\fR
+Toon een help scherm en sluit af.
+.TP
+\fB\-l \-\-list\fR
+Geef afval mappen weer.
+.TP
+\fB\-o \-\-orphaned\fR
+Controleer op wees bestanden (voor onderhoudstaken).
+.TP
+\fB\-s \-\-select\fR
+Geef een lijst weer met bestanden te selecteren om terug te zetten.
+.TP
+\fB\-u \-\-undo-last\fR
+Maak laatste verwijdering ongedaan.
+.TP
+\fB\-v \-\-verbose\fR
+Print extra informatie bij de uitvoer.
+.TP
+\fB\-w \-\-warranty\fR
+Geef garantie informatie weer.
+.TP
+\fB\-V \-\-version\fR
+Toon de versie en licentie informatie en sluit af.
+.TP
+\fB\-z \-\-restore\fR \fIpatroon\fR
+Zet bestanden terug die voldoen aan het \fIpatroon\fR.
+.SH DIRECTORIES
+Configuratie bestanden van het programma staan opgeslagen in \fB~/.config/rmw/\fR.
+Standaard staan veilig verwijderde bestanden opgeslagen in \fB~/.trash.rmw/\fR.
+.SH LICENCE
+Dit programma is gelicenseerd onder de voorwaarden van de GNU General Public License,
+versie 2 of latere versies, zoals gepubliceerd door de Free Software Foundation.
+.SH AUTHOR
+Geschreven door Andy Alt, met bijdragen van anderen.
