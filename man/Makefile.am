@@ -1,4 +1,4 @@
-LINGUAS = de pt_BR es pl fi
+LINGUAS = de pt_BR es pl fi nl
 
 install-data-local:
 		$(mkinstalldirs) $(DESTDIR)$(mandir)/man1; \
