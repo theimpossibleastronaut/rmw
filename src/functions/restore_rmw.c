@@ -87,7 +87,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
   if ((strcmp (file.base_name, argv) == 0) &&
         exists (file.base_name))
   {
-    fprintf (stdout, "Searching using only the basename...\n");
+    printf ("Searching using only the basename...\n");
 
     short ctr = START_WASTE_COUNTER;
 
@@ -102,7 +102,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
       Restore (possibly_in_path, time_str_appended, waste);
     }
 
-    fprintf (stdout, "search complete\n");
+    printf ("search complete\n");
 
     return 0;
   }
@@ -140,8 +140,8 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
         {}
         else
         {
-          fprintf (stderr, "Error: trashinfo file format not correct\n");
-          fprintf (stderr, "(Line 1): %s\n", file.info);
+          printf ("Error: trashinfo file format not correct\n");
+          printf ("(Line 1): %s\n", file.info);
 
           close_file (fp, file.info, __func__);
 
@@ -182,7 +182,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
           strcat (file.dest, time_str_appended);
 
           if (verbose)
-            fprintf (stdout,"\
+            printf ("\
 Duplicate filename at destination - appending time string...\n");
         }
 
@@ -200,17 +200,17 @@ Duplicate filename at destination - appending time string...\n");
           printf ("+'%s' -> '%s'\n", argv, file.dest);
 
           if (remove (file.info) != 0)
-            fprintf (stderr, "error removing info file: '%s'\n", file.info);
+            printf ("error removing info file: '%s'\n", file.info);
           else
             if (verbose)
               printf ("-%s\n", file.info);
         }
         else
-          fprintf (stderr, "Restore failed: %s\n", file.dest);
+          printf ("Restore failed: %s\n", file.dest);
       }
       else
       {
-        fprintf (stderr, "Error: Able to open %s but encountered an error\n",
+        printf ("Error: Able to open %s but encountered an error\n",
             file.info);
         return 1;
       }
@@ -224,7 +224,7 @@ Duplicate filename at destination - appending time string...\n");
   }
   else
   {
-    fprintf (stderr, "%s not found\n", argv);
+    printf ("%s not found\n", argv);
     return 1;
   }
 
@@ -403,14 +403,14 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
   {
     if (remove (undo_path))
     {
-      fprintf (stderr, "Warning: failed to remove %s\n", undo_path);
+      printf ("Warning: failed to remove %s\n", undo_path);
       perror (__func__);
     }
 
     return;
   }
 
-  fprintf (stderr, "Warning: Restore() returned errors\n");
+  printf ("Warning: Restore() returned errors\n");
 
   return;
 }

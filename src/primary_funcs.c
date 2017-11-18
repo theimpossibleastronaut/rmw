@@ -72,11 +72,11 @@ make_dir (const char *dir)
 
   if (!mk_err)
   {
-    fprintf (stdout, "Created directory %s\n", dir);
+    printf ("Created directory %s\n", dir);
     return 0;
   }
 
-  fprintf (stderr, "Error: while creating %s\n", add_to_path);
+  printf ("Error: while creating %s\n", add_to_path);
   perror ("make_dir()");
   return errno;
 }

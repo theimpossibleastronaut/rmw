@@ -33,8 +33,8 @@ bufchk (const char *str, unsigned short boundary)
   if (len < boundary)
     return 0;
 
-  fprintf (stderr, "Error: buffer overrun (segmentation fault) prevented.\n");
-  fprintf (stderr, "If you think this may be a bug, please report it to the rmw developers.\n");
+  printf ("Error: buffer overrun (segmentation fault) prevented.\n");
+  printf ("If you think this may be a bug, please report it to the rmw developers.\n");
 
   /**
    * This will add a null terminator within the boundary specified by
@@ -51,8 +51,8 @@ bufchk (const char *str, unsigned short boundary)
 
   truncate_str (temp, 1);
 
-  fprintf (stderr, " <--> Displaying part of the string that caused the error <-->\n\n");
-  fprintf (stderr, "%s\n\n", temp);
+  printf (" <--> Displaying part of the string that caused the error <-->\n\n");
+  printf ("%s\n\n", temp);
 
   return EXIT_BUF_ERR;
 
@@ -176,7 +176,7 @@ resolve_path (const char *src, char *abs_path)
     return 0;
   }
 
-  fprintf (stderr, "Error: realpath() returned an error.\n");
+  printf ("Error: realpath() returned an error.\n");
   return 1;
 }
 
@@ -244,7 +244,7 @@ escape_url (const char *str, char *dest, unsigned short len)
        * character + '\0') */
       if (pos_dest + 2 > len)
       {
-        fprintf(stderr, "rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+2);
+        printf ("rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+2);
         return 1;
       }
 
@@ -255,7 +255,7 @@ escape_url (const char *str, char *dest, unsigned short len)
       /* Again, check for overflow (3 chars + '\0') */
       if (pos_dest + 4 > len)
       {
-        fprintf(stderr, "rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+4);
+        printf ("rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+4);
         return 1;
       }
 
@@ -300,7 +300,7 @@ unescape_url (const char *str, char *dest, unsigned short len)
        * character + '\0') */
       if (pos_dest + 2 > len)
       {
-        fprintf(stderr, "rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+2);
+        printf ("rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+2);
         return 1;
       }
 
@@ -312,7 +312,7 @@ unescape_url (const char *str, char *dest, unsigned short len)
        * character + '\0') */
       if (pos_dest + 2 > len)
       {
-        fprintf(stderr, "rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+2);
+        printf ("rmw: %s(): buffer too small (got %hu, needed at least %hu)\n", __FUNCTION__, len, pos_dest+2);
         return 1;
       }
 
