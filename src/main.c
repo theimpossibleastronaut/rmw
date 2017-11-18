@@ -110,10 +110,10 @@ main (int argc, char *argv[])
       version ();
       break;
     case 'i':
-      fprintf(stdout, "-i / --interactive: not implemented\n");
+      printf ("-i / --interactive: not implemented\n");
       break;
     case 'r':
-      fprintf(stdout, "-r / --recurse: not implemented\n");
+      printf ("-r / --recurse: not implemented\n");
       break;
     case 'f':
       force = 1;
@@ -143,7 +143,7 @@ main (int argc, char *argv[])
   }
   else
   {
-    fprintf (stderr, "Error: Environmental variable $HOME can't be used.\n\
+    printf ("Error: Environmental variable $HOME can't be used.\n\
 Unable to determine home directory\n");
     return 1;
   }
@@ -156,7 +156,7 @@ Unable to determine home directory\n");
 
   if (make_dir (data_dir))
   {
-    fprintf (stderr, "\
+    printf ("\
 Error: Unable to create config/data directory\n\
 Please check your configuration file and permissions\n\
 If you need further help, or to report a possible bug,\n\
@@ -194,7 +194,7 @@ Unable to continue. Exiting...\n");
       if (force)
         purge (purge_after, waste, time_now);
       else
-        fprintf (stderr, "purge skipped: use -f or --force\n");
+        printf ("purge skipped: use -f or --force\n");
     }
   }
 
@@ -205,7 +205,7 @@ Unable to continue. Exiting...\n");
   {
     short ctr = START_WASTE_COUNTER;
     while (strcmp (waste[++ctr].parent, "NULL") != 0)
-      fprintf (stdout, "%s\n", waste[ctr].parent);
+      printf ("%s\n", waste[ctr].parent);
 
     return 0;
   }
@@ -314,7 +314,7 @@ Unable to continue. Exiting...\n");
 
           if (flagged)
           {
-            fprintf (stderr, "File is in protected directory: %s\n",
+            printf ("File is in protected directory: %s\n",
                 file.real_path);
             continue;
           }
@@ -322,7 +322,7 @@ Unable to continue. Exiting...\n");
       }
       else
       {
-        fprintf (stderr, "File not found: '%s'\n", file.main_argv);
+        printf ("File not found: '%s'\n", file.main_argv);
         continue;
       }
 
@@ -400,11 +400,11 @@ Unable to continue. Exiting...\n");
               fprintf (undo_file_ptr, "%s\n", file.dest_name);
             }
             else
-              fprintf (stderr, "create_trashinfo() returned error %d\n", info_status);
+              printf ("create_trashinfo() returned error %d\n", info_status);
           }
           else
           {
-            fprintf (stderr, "Error %d moving %s :\n",
+            printf ("Error %d moving %s :\n",
                 rename_status, file.main_argv);
             perror ("remove_to_waste()");
             return 1;
@@ -422,7 +422,7 @@ Unable to continue. Exiting...\n");
 
       if (!match)
       {
-        fprintf (stderr, "No suitable filesystem found for \"%s\"\n",
+        printf ("No suitable filesystem found for \"%s\"\n",
                  file.main_argv);
         return 1;
       }
@@ -432,14 +432,14 @@ Unable to continue. Exiting...\n");
     else
       free (undo_file_ptr);
 
-    fprintf(stdout, "%d %s ReMoved to Waste\n", rmwed_files,
+    printf ("%d %s ReMoved to Waste\n", rmwed_files,
             (rmwed_files == 1) ? "file was" : "files were");
 
     if (main_error > 1)
       return main_error;
   }
   else if (!purgeYes)
-      fprintf (stderr, "missing filenames or command line options\n\
+      printf ("missing filenames or command line options\n\
 Try '%s -h' for more information\n", argv[0]);
 
   return 0;

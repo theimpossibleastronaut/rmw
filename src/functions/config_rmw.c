@@ -110,7 +110,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     else
     {
       open_err (config_file, __func__);
-      fprintf (stderr, "\
+      printf ("\
 Can not open configuration file\n\
 %s (or)\n\
 %s\n\
@@ -135,7 +135,7 @@ Terminating...\n", config_file, CFG_FILE);
   {
     if ((func_error = bufchk (line_from_config, CFG_MAX_LEN)))
     {
-      fprintf (stderr, "Error: Lines in configuration file must be less than %d\n",
+      printf ("Error: Lines in configuration file must be less than %d\n",
           CFG_MAX_LEN);
       break;
     }
@@ -165,7 +165,7 @@ Terminating...\n", config_file, CFG_FILE);
         *purge_after = num_value;
 
       else
-        fprintf (stderr, "Error: invalid purge_after value in configuration\n");
+        printf ("Error: invalid purge_after value in configuration\n");
     }
     else if (strncmp (line_from_config, "force_not_required", 18) == 0)
       *force = 1;
@@ -200,7 +200,7 @@ Terminating...\n", config_file, CFG_FILE);
           removable = 1;
         else
         {
-          fprintf (stderr, "Error: invalid option in config\n");
+          printf ("Error: invalid option in config\n");
           continue;
         }
       }
@@ -221,7 +221,7 @@ Terminating...\n", config_file, CFG_FILE);
 
       if (removable && exists (waste[waste_ctr].parent) != 0)
       {
-        fprintf (stderr, "On unmounted device or not yet created: %s\n",
+        printf ("On unmounted device or not yet created: %s\n",
                   waste[waste_ctr].parent);
         continue;
       }
@@ -269,10 +269,10 @@ Terminating...\n", config_file, CFG_FILE);
     }
 
     if (waste_ctr == WASTENUM_MAX)
-      fprintf (stdout, "Maximum number Waste folders reached: %d\n", WASTENUM_MAX);
+      printf ("Maximum number Waste folders reached: %d\n", WASTENUM_MAX);
 
     if (prot_dir_ctr == PROTECT_MAX)
-      fprintf (stdout, "Maximum number protected folders reached: %d\n", PROTECT_MAX);
+      printf ("Maximum number protected folders reached: %d\n", PROTECT_MAX);
   }
 
   strcpy (waste[waste_ctr].parent, "NULL");
@@ -288,12 +288,12 @@ Terminating...\n", config_file, CFG_FILE);
 
   if (waste_ctr == 0)
   {
-    fprintf (stderr, "Error: no usable WASTE folder could be found\n");
-    fprintf (stderr, "Please check your configuration file and permissions\n");
-    fprintf (stderr, "If you need further help, or to report a possible bug, ");
-    fprintf (stderr, "visit the rmw web site at\n");
-    fprintf (stderr, "https://github.com/andy5995/rmw/wiki\n");
-    fprintf (stderr, "Unable to continue. Exiting...\n");
+    printf ("Error: no usable WASTE folder could be found\n");
+    printf ("Please check your configuration file and permissions\n");
+    printf ("If you need further help, or to report a possible bug, ");
+    printf ("visit the rmw web site at\n");
+    printf ("https://github.com/andy5995/rmw/wiki\n");
+    printf ("Unable to continue. Exiting...\n");
     return NO_WASTE_FOLDER;
   }
 
