@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-19 01:18-0600\n"
-"PO-Revision-Date: 2017-11-17 00:20+0100\n"
-"Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
+"POT-Creation-Date: 2017-11-19 13:01-0600\n"
+"PO-Revision-Date: 2017-11-19 13:22-0600\n"
+"Last-Translator: Andy <andy@oceanus>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,74 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: functions\n"
 
-#: src/functions/trivial_rmw.c:30
+#: functions/purging_rmw.c:281
+#, c-format
+msgid ""
+"\n"
+"Purging files (purge_after = %u) ...\n"
+msgstr ""
+"\n"
+"Wissen van bestanden (purge_after = %u)...\n"
+
+#: functions/restore_rmw.c:119
+#, c-format
+msgid "Restore()/debug: %s\n"
+msgstr "Restore()/debug: %s\n"
+
+#: functions/restore_rmw.c:171
+#, c-format
+msgid "error on line 2 in %s\n"
+msgstr "fout op regel 2 in %s\n"
+
+#: functions/restore_rmw.c:200
+#, c-format
+msgid "+'%s' -> '%s'\n"
+msgstr "+'%s' -> '%s'\n"
+
+#: functions/restore_rmw.c:206
+#, c-format
+msgid "-%s\n"
+msgstr "-%s\n"
+
+#: functions/restore_rmw.c:268
+#, c-format
+msgid "\t>-- %s --<\n"
+msgstr "\t>-- %s --<\n"
+
+#: functions/restore_rmw.c:293 functions/restore_rmw.c:309
+#: functions/restore_rmw.c:339 functions/restore_rmw.c:353
+#, c-format
+msgid "\n"
+msgstr "\n"
+
+#: functions/restore_rmw.c:301
+#, c-format
+msgid "%3d. %s [%s]"
+msgstr "%3d. %s [%s]"
+
+#: functions/restore_rmw.c:304
+#, c-format
+msgid " (D)"
+msgstr " (D)"
+
+#: functions/restore_rmw.c:307
+#, c-format
+msgid " (L)"
+msgstr " (L)"
+
+#: functions/restore_rmw.c:320
+#, c-format
+msgid "Input number to restore, 'enter' for next WASTE folder, 'q' to quit) "
+msgstr ""
+"Voer nummer in om te herstellen, ‘enter’ voor de volgende afval map, ‘q’ om "
+"af te sluiten) "
+
+#: functions/strings_rmw.c:170
+#, c-format
+msgid "resolve_path()/debug: %s\n"
+msgstr "resolve_path()/debug: %s\n"
+
+#: trivial_rmw.c:30
 #, c-format
 msgid ""
 "Usage: rmw [OPTION]... FILE...\n"
@@ -61,157 +128,118 @@ msgstr ""
 "  -w, --warranty            toon garantie\n"
 "  -V, --version             toon versie en licentie informatie\n"
 
-#~ msgid ""
-#~ "\n"
-#~ "Purging files (purge_after = %u) ...\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Wissen van bestanden (purge_after = %u)...\n"
+#: trivial_rmw.c:49
+#, c-format
+msgid ""
+"  \n"
+"\n"
+"  \t===] Restoring [===\n"
+"\n"
+"  -z, --restore <wildcard filename(s) pattern>\n"
+"  -s, --select              select files from list to restore\n"
+"  -u, --undo-last           undo last ReMove\n"
+msgstr ""
+"  \n"
+"\n"
+"  \t===] Terugzetten [===\n"
+"\n"
+"  -z, --restore <joker teken bestandsna(a)m(en) patroon>\n"
+"  -s, --select              selecteer bestand(en) uit een lijst\n"
+"  -u, --undo-last           maak laatste verwijdering ongedaan\n"
 
-#~ msgid "Restore()/debug: %s\n"
-#~ msgstr "Restore()/debug: %s\n"
+#: trivial_rmw.c:55
+#, c-format
+msgid ""
+"  \n"
+"\n"
+"  t===] First time use [===\n"
+"\n"
+"After rmw is installed, create the user configuration directory\n"
+"by typing 'rmw' and hitting enter. It's recommended to copy\n"
+"\n"
+"  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
+"\n"
+"and then rename it to 'config':\n"
+"\n"
+"  'cd ~/.config/rmw'\n"
+"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
+"  '~/.config/rmw$ mv rmwrc config'\n"
+"\n"
+"Then edit the file to suit your needs.\n"
+"\n"
+"Visit the rmw home page for more help, and information about\n"
+"how to obtain support - http://github.com/andy5995/rmw/wiki\n"
+"\n"
+msgstr ""
+"  \n"
+"\n"
+"  t===] Eerste gebruik [===\n"
+"\n"
+"Nadat rmw is geinstalleerd, maak je een gebruikers configuratie directory\n"
+"door ‘rmw’ te typen en op enter te drukken. Het is aanbevolen om het "
+"bestand\n"
+"\n"
+"  /etc/rmwrc (of /usr/local/etc/rmwrc) te kopiëren naar '$HOME/.config/rmw'\n"
+"\n"
+"en daarna te hernoemen naar 'config':\n"
+"\n"
+"  'cd ~/.config/rmw'\n"
+"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
+"  '~/.config/rmw$ mv rmwrc config'\n"
+"\n"
+"Daarna pas je het bestand naar smaak aan.\n"
+"\n"
+"Bezoek de rmw homepage voor meer hulp, en informatie over\n"
+"hoe je ondersteuning kunt krijgen - http://github.com/andy5995/rmw/wiki\n"
+"\n"
 
-#~ msgid "error on line 2 in %s\n"
-#~ msgstr "fout op regel 2 in %s\n"
+#: trivial_rmw.c:72
+#, fuzzy, c-format
+msgid ""
+"THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
+"APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
+"HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n"
+"OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
+"THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
+"PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
+"IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
+"ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
+msgstr ""
+"THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
+"APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
+"HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n"
+"OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
+"THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
+"PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
+"IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
+"ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 
-#~ msgid "+'%s' -> '%s'\n"
-#~ msgstr "+'%s' -> '%s'\n"
+#: trivial_rmw.c:87
+#, c-format
+msgid ""
+"rmw %s\n"
+"Author: Andy Alt (andy400-dev@yahoo.com)\n"
+"The RMW team: see AUTHORS file\n"
+"This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n"
+"This is free software, and you are welcome to redistribute it\n"
+"under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n"
+"for details.\n"
+msgstr ""
+"rmw %s\n"
+"Auteur: Andy Alt (andy400-dev@yahoo.com)\n"
+"Het RMW team: zie AUTHORS file\n"
+"Dit programma komt ZONDER ENIGE VORM VAN GARANTIE; voor details type 'rmw -"
+"w.'\n"
+"Dit is vrije software, voel je welkom om het te herdistribueren onder "
+"bepaalde condities;\n"
+"zie <http://www.gnu.org/licenses/gpl.html> voor details.\n"
 
-#~ msgid "-%s\n"
-#~ msgstr "-%s\n"
+#: main.c:188
+#, c-format
+msgid "purging is disabled, 'purge_after' is set to '0'\n"
+msgstr "verwijderen is uitgeschakeld, 'purge_after' is ingesteld op ‘0’\n"
 
-#~ msgid "\t>-- %s --<\n"
-#~ msgstr "\t>-- %s --<\n"
-
-#~ msgid "\n"
-#~ msgstr "\n"
-
-#~ msgid "%3d. %s [%s]"
-#~ msgstr "%3d. %s [%s]"
-
-#~ msgid " (D)"
-#~ msgstr " (D)"
-
-#~ msgid " (L)"
-#~ msgstr " (L)"
-
-#~ msgid ""
-#~ "Input number to restore, 'enter' for next WASTE folder, 'q' to quit) "
-#~ msgstr ""
-#~ "Voer nummer in om te herstellen, ‘enter’ voor de volgende afval map, ‘q’ "
-#~ "om af te sluiten) "
-
-#~ msgid "resolve_path()/debug: %s\n"
-#~ msgstr "resolve_path()/debug: %s\n"
-
-#~ msgid ""
-#~ "  \n"
-#~ "\n"
-#~ "  \t===] Restoring [===\n"
-#~ "\n"
-#~ "  -z, --restore <wildcard filename(s) pattern>\n"
-#~ "  -s, --select              select files from list to restore\n"
-#~ "  -u, --undo-last           undo last ReMove\n"
-#~ msgstr ""
-#~ "  \n"
-#~ "\n"
-#~ "  \t===] Terugzetten [===\n"
-#~ "\n"
-#~ "  -z, --restore <joker teken bestandsna(a)m(en) patroon>\n"
-#~ "  -s, --select              selecteer bestand(en) uit een lijst\n"
-#~ "  -u, --undo-last           maak laatste verwijdering ongedaan\n"
-
-#~ msgid ""
-#~ "  \n"
-#~ "\n"
-#~ "  t===] First time use [===\n"
-#~ "\n"
-#~ "After rmw is installed, create the user configuration directory\n"
-#~ "by typing 'rmw' and hitting enter. It's recommended to copy\n"
-#~ "\n"
-#~ "  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
-#~ "\n"
-#~ "and then rename it to 'config':\n"
-#~ "\n"
-#~ "  'cd ~/.config/rmw'\n"
-#~ "  '~/.config/rmw$ cp /etc/rmwrc .'\n"
-#~ "  '~/.config/rmw$ mv rmwrc config'\n"
-#~ "\n"
-#~ "Then edit the file to suit your needs.\n"
-#~ "\n"
-#~ "Visit the rmw home page for more help, and information about\n"
-#~ "how to obtain support - http://github.com/andy5995/rmw/wiki\n"
-#~ "\n"
-#~ msgstr ""
-#~ "  \n"
-#~ "\n"
-#~ "  t===] Eerste gebruik [===\n"
-#~ "\n"
-#~ "Nadat rmw is geinstalleerd, maak je een gebruikers configuratie "
-#~ "directory\n"
-#~ "door ‘rmw’ te typen en op enter te drukken. Het is aanbevolen om het "
-#~ "bestand\n"
-#~ "\n"
-#~ "  /etc/rmwrc (of /usr/local/etc/rmwrc) te kopiëren naar '$HOME/.config/"
-#~ "rmw'\n"
-#~ "\n"
-#~ "en daarna te hernoemen naar 'config':\n"
-#~ "\n"
-#~ "  'cd ~/.config/rmw'\n"
-#~ "  '~/.config/rmw$ cp /etc/rmwrc .'\n"
-#~ "  '~/.config/rmw$ mv rmwrc config'\n"
-#~ "\n"
-#~ "Daarna pas je het bestand naar smaak aan.\n"
-#~ "\n"
-#~ "Bezoek de rmw homepage voor meer hulp, en informatie over\n"
-#~ "hoe je ondersteuning kunt krijgen - http://github.com/andy5995/rmw/wiki\n"
-#~ "\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
-#~ "APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
-#~ "HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT "
-#~ "WARRANTY\n"
-#~ "OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
-#~ "THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
-#~ "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE "
-#~ "PROGRAM\n"
-#~ "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
-#~ "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
-#~ msgstr ""
-#~ "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
-#~ "APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
-#~ "HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT "
-#~ "WARRANTY\n"
-#~ "OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
-#~ "THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
-#~ "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE "
-#~ "PROGRAM\n"
-#~ "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
-#~ "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
-
-#~ msgid ""
-#~ "rmw %s\n"
-#~ "Author: Andy Alt (andy400-dev@yahoo.com)\n"
-#~ "The RMW team: see AUTHORS file\n"
-#~ "This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -"
-#~ "w.'\n"
-#~ "This is free software, and you are welcome to redistribute it\n"
-#~ "under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n"
-#~ "for details.\n"
-#~ msgstr ""
-#~ "rmw %s\n"
-#~ "Auteur: Andy Alt (andy400-dev@yahoo.com)\n"
-#~ "Het RMW team: zie AUTHORS file\n"
-#~ "Dit programma komt ZONDER ENIGE VORM VAN GARANTIE; voor details type 'rmw "
-#~ "-w.'\n"
-#~ "Dit is vrije software, voel je welkom om het te herdistribueren onder "
-#~ "bepaalde condities;\n"
-#~ "zie <http://www.gnu.org/licenses/gpl.html> voor details.\n"
-
-#~ msgid "purging is disabled, 'purge_after' is set to '0'\n"
-#~ msgstr "verwijderen is uitgeschakeld, 'purge_after' is ingesteld op ‘0’\n"
-
-#~ msgid "'%s' -> '%s'\n"
-#~ msgstr "'%s' -> '%s'\n"
+#: main.c:379
+#, c-format
+msgid "'%s' -> '%s'\n"
+msgstr "'%s' -> '%s'\n"

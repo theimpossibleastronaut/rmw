@@ -8,16 +8,79 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-19 01:18-0600\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2017-11-19 13:01-0600\n"
+"PO-Revision-Date: 2017-11-19 13:24-0600\n"
+"Last-Translator: Andy <andy@oceanus>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/functions/trivial_rmw.c:30
+#: functions/purging_rmw.c:281
+#, c-format
+msgid ""
+"\n"
+"Purging files (purge_after = %u) ...\n"
+msgstr ""
+
+#: functions/restore_rmw.c:119
+#, c-format
+msgid "Restore()/debug: %s\n"
+msgstr ""
+
+#: functions/restore_rmw.c:171
+#, c-format
+msgid "error on line 2 in %s\n"
+msgstr ""
+
+#: functions/restore_rmw.c:200
+#, c-format
+msgid "+'%s' -> '%s'\n"
+msgstr ""
+
+#: functions/restore_rmw.c:206
+#, c-format
+msgid "-%s\n"
+msgstr ""
+
+#: functions/restore_rmw.c:268
+#, c-format
+msgid "\t>-- %s --<\n"
+msgstr ""
+
+#: functions/restore_rmw.c:293 functions/restore_rmw.c:309
+#: functions/restore_rmw.c:339 functions/restore_rmw.c:353
+#, c-format
+msgid "\n"
+msgstr ""
+
+#: functions/restore_rmw.c:301
+#, c-format
+msgid "%3d. %s [%s]"
+msgstr ""
+
+#: functions/restore_rmw.c:304
+#, c-format
+msgid " (D)"
+msgstr ""
+
+#: functions/restore_rmw.c:307
+#, c-format
+msgid " (L)"
+msgstr ""
+
+#: functions/restore_rmw.c:320
+#, c-format
+msgid "Input number to restore, 'enter' for next WASTE folder, 'q' to quit) "
+msgstr ""
+
+#: functions/strings_rmw.c:170
+#, c-format
+msgid "resolve_path()/debug: %s\n"
+msgstr ""
+
+#: trivial_rmw.c:30
 #, c-format
 msgid ""
 "Usage: rmw [OPTION]... FILE...\n"
@@ -38,4 +101,76 @@ msgid ""
 "  -v, --verbose             increase output messages\n"
 "  -w, --warranty            display warranty\n"
 "  -V, --version             display version and license information\n"
+msgstr ""
+
+#: trivial_rmw.c:49
+#, c-format
+msgid ""
+"  \n"
+"\n"
+"  \t===] Restoring [===\n"
+"\n"
+"  -z, --restore <wildcard filename(s) pattern>\n"
+"  -s, --select              select files from list to restore\n"
+"  -u, --undo-last           undo last ReMove\n"
+msgstr ""
+
+#: trivial_rmw.c:55
+#, c-format
+msgid ""
+"  \n"
+"\n"
+"  t===] First time use [===\n"
+"\n"
+"After rmw is installed, create the user configuration directory\n"
+"by typing 'rmw' and hitting enter. It's recommended to copy\n"
+"\n"
+"  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
+"\n"
+"and then rename it to 'config':\n"
+"\n"
+"  'cd ~/.config/rmw'\n"
+"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
+"  '~/.config/rmw$ mv rmwrc config'\n"
+"\n"
+"Then edit the file to suit your needs.\n"
+"\n"
+"Visit the rmw home page for more help, and information about\n"
+"how to obtain support - http://github.com/andy5995/rmw/wiki\n"
+"\n"
+msgstr ""
+
+#: trivial_rmw.c:72
+#, c-format
+msgid ""
+"THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
+"APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
+"HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n"
+"OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
+"THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
+"PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
+"IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
+"ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
+msgstr ""
+
+#: trivial_rmw.c:87
+#, c-format
+msgid ""
+"rmw %s\n"
+"Author: Andy Alt (andy400-dev@yahoo.com)\n"
+"The RMW team: see AUTHORS file\n"
+"This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n"
+"This is free software, and you are welcome to redistribute it\n"
+"under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n"
+"for details.\n"
+msgstr ""
+
+#: main.c:188
+#, c-format
+msgid "purging is disabled, 'purge_after' is set to '0'\n"
+msgstr ""
+
+#: main.c:379
+#, c-format
+msgid "'%s' -> '%s'\n"
 msgstr ""
