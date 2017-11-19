@@ -1,5 +1,5 @@
 packextrasdir=@docdir@
-SUBDIRS = src etc man
+SUBDIRS = src etc man po
 EXTRA_DIST=         \
 BUGS                \
 rmwrc_config.example \
@@ -10,15 +10,33 @@ THANKS	            \
 COPYING			\
 INSTALL             \
 NEWS                \
-TODO
+TODO								\
+ABOUT-NLS
 
 packextras_DATA=$(EXTRA_DIST)
-#bin_PROGRAMS=rmw
-#AM_CXXFLAGS=$(INTI_CFLAGS)
-#rmw_SOURCES=src/rmw.c
-#rmw_LDADD=$(INTI_LIBS)
+
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
 
 ACLOCAL = true
 AUTOCONF = true
 AUTOHEADER = true
 AUTOMAKE = true
+
+ACLOCAL_AMFLAGS = --install -I m4
+
+distdir = $(PACKAGE)-$(VERSION)
+dist: Makefile
+	rm -fr $(distdir)
+	mkdir $(distdir)
+	chmod 777 $(distdir)
+	for file in $(DISTFILES); do \
+	  ln $$file $(distdir) 2>/dev/null || cp -p $$file $(distdir); \
+	done
+	for subdir in $(SUBDIRS); do \
+	  mkdir $(distdir)/$$subdir || exit 1; \
+	  chmod 777 $(distdir)/$$subdir; \
+	  (cd $$subdir && $(MAKE) $@) || exit 1; \
+	done
+	tar chozf $(distdir).tar.gz $(distdir)
+	rm -fr $(distdir)

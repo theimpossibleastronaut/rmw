@@ -27,7 +27,7 @@
 
 void print_usage (void)
 {
-  printf ("\
+  printf (_("\
 Usage: rmw [OPTION]... FILE...\n\
 ReMove the FILE(s) to a WASTE directory listed in configuration file\n\
 \n\
@@ -45,7 +45,7 @@ Restore FILE(s) from a WASTE directory\n\
   -B, --bypass              bypass directory protection\n\
   -v, --verbose             increase output messages\n\
   -w, --warranty            display warranty\n\
-  -V, --version             display version and license information\n");
+  -V, --version             display version and license information\n"));
   printf ("\
   \n\n\
   \t===] Restoring [===\n\n\

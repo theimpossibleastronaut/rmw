@@ -29,6 +29,10 @@
 int
 main (int argc, char *argv[])
 {
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain (PACKAGE);
+
   struct waste_containers waste[WASTENUM_MAX];
 
   const char *const short_options = "hvc:goz:lsuBwVfir";

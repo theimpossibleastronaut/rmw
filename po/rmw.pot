@@ -1,0 +1,41 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the rmw package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: rmw 2017.11.xx.dev\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-19 01:18-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/functions/trivial_rmw.c:30
+#, c-format
+msgid ""
+"Usage: rmw [OPTION]... FILE...\n"
+"ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
+"\n"
+"   or: rmw -z FILE...\n"
+"Restore FILE(s) from a WASTE directory\n"
+"\n"
+"  -h, --help\n"
+"  -c, --config filename     use an alternate configuration\n"
+"  -l, --list                list waste directories\n"
+"  -g, --purge               run purge even if it's been run today\n"
+"  -o, --orphaned            check for orphaned files (maintenance)\n"
+"  -f, --force               allow purge to run\n"
+"  -i, --interactive         not implemented\n"
+"  -r, --recurse             not implemented\n"
+"  -B, --bypass              bypass directory protection\n"
+"  -v, --verbose             increase output messages\n"
+"  -w, --warranty            display warranty\n"
+"  -V, --version             display version and license information\n"
+msgstr ""
