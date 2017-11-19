@@ -33,10 +33,10 @@
 void
 open_err (const char *filename, const char *function_name)
 {
-    printf ("Error: while opening %s\n", filename);
+    printf (_("Error: while opening %s\n"), filename);
 
     char combined_msg[MAX_MSG_SIZE];
-    sprintf (combined_msg, "function: <%s>", function_name);
+    sprintf (combined_msg, _("function: <%s>"), function_name);
     perror (combined_msg);
 
     return;
@@ -54,10 +54,10 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
     return 0;
   else
   {
-    printf ("Warning: while closing %s\n", filename);
+    printf (_("Warning: while closing %s\n"), filename);
 
     char combined_msg[MAX_MSG_SIZE];
-    sprintf (combined_msg, "function: <%s>", function_name);
+    sprintf (combined_msg, _("function: <%s>"), function_name);
     perror (combined_msg);
 
     return 1;

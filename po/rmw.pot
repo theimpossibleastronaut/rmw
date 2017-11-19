@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-19 13:01-0600\n"
-"PO-Revision-Date: 2017-11-19 13:24-0600\n"
+"PO-Revision-Date: 2017-11-19 13:42-0600\n"
 "Last-Translator: Andy <andy@oceanus>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -173,4 +173,19 @@ msgstr ""
 #: main.c:379
 #, c-format
 msgid "'%s' -> '%s'\n"
+msgstr ""
+
+#: messages_rmw.c:36
+#, c-format
+msgid "Error: while opening %s\n"
+msgstr ""
+
+#: messages_rmw.c:39 messages_rmw.c:60
+#, c-format
+msgid "function: <%s>"
+msgstr ""
+
+#: messages_rmw.c:57
+#, c-format
+msgid "Warning: while closing %s\n"
 msgstr ""

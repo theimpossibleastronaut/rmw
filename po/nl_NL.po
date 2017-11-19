@@ -243,3 +243,18 @@ msgstr "verwijderen is uitgeschakeld, 'purge_after' is ingesteld op ‘0’\n"
 #, c-format
 msgid "'%s' -> '%s'\n"
 msgstr "'%s' -> '%s'\n"
+
+#: messages_rmw.c:36
+#, fuzzy, c-format
+msgid "Error: while opening %s\n"
+msgstr "fout op regel 2 in %s\n"
+
+#: messages_rmw.c:39 messages_rmw.c:60
+#, c-format
+msgid "function: <%s>"
+msgstr ""
+
+#: messages_rmw.c:57
+#, c-format
+msgid "Warning: while closing %s\n"
+msgstr ""
