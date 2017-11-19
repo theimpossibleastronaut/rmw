@@ -29,6 +29,7 @@ man pages are now available in the following languages:
     * fi
     * pl
     * pt_BR
+    * nl
 
 See the NEWS file for details about new options for your existing
 rmw configuration file. The two new options are:
