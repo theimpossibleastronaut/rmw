@@ -1,7 +1,9 @@
 # Package source files
 
-main.c
-functions/trivial_rmw.c
-functions/messages_rmw.c
-functions/restore_rmw.c
-functions/restore_rmw.c
+src/main.c
+src/functions/trivial_rmw.c
+src/functions/messages_rmw.c
+src/functions/restore_rmw.c
+src/functions/restore_rmw.c
+src/functions/config_rmw.c
+src/functions/purging_rmw.c

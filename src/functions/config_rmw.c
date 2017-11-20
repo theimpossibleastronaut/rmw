@@ -110,14 +110,14 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     else
     {
       open_err (config_file, __func__);
-      printf ("\
+      printf (_("\
 Can not open configuration file\n\
 %s (or)\n\
 %s\n\
 \n\
 A default configuration file can be found at\n\
 https://github.com/andy5995/rmw/tree/master/etc\n\
-Terminating...\n", config_file, CFG_FILE);
+Terminating...\n"), config_file, CFG_FILE);
       return NO_WASTE_FOLDER;
     }
   }
@@ -135,7 +135,7 @@ Terminating...\n", config_file, CFG_FILE);
   {
     if ((func_error = bufchk (line_from_config, CFG_MAX_LEN)))
     {
-      printf ("Error: Lines in configuration file must be less than %d\n",
+      printf (_("Error: The number of lines in configuration file must be less than %d\n"),
           CFG_MAX_LEN);
       break;
     }
@@ -165,7 +165,7 @@ Terminating...\n", config_file, CFG_FILE);
         *purge_after = num_value;
 
       else
-        printf ("Error: invalid purge_after value in configuration\n");
+        printf (_("Error: invalid purge_after value in configuration\n"));
     }
     else if (strncmp (line_from_config, "force_not_required", 18) == 0)
       *force = 1;
@@ -200,7 +200,7 @@ Terminating...\n", config_file, CFG_FILE);
           removable = 1;
         else
         {
-          printf ("Error: invalid option in config\n");
+          printf (_("Error: invalid option in config\n"));
           continue;
         }
       }
@@ -221,7 +221,7 @@ Terminating...\n", config_file, CFG_FILE);
 
       if (removable && exists (waste[waste_ctr].parent) != 0)
       {
-        printf ("On unmounted device or not yet created: %s\n",
+        printf (_("%s is on an unmounted device or it is has not yet been created.\n\n"),
                   waste[waste_ctr].parent);
         continue;
       }

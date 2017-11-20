@@ -168,7 +168,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
         }
         else
         {
-          printf ("error on line 2 in %s\n", file.info);
+          printf (_("error on line 2 in %s\n"), file.info);
 
           close_file (fp, file.info, __func__);
 
@@ -317,7 +317,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
     do
     {
-      printf ("Input number to restore, 'enter' for next WASTE folder, 'q' to quit) ");
+      printf (_("Input number to restore, 'enter' for next WASTE folder, 'q' to quit) "));
       char_count = 0;
       input[0] = '\0';
       choice = 0;

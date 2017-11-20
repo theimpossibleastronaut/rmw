@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-19 13:01-0600\n"
-"PO-Revision-Date: 2017-11-19 13:22-0600\n"
+"PO-Revision-Date: 2017-11-20 17:06-0600\n"
 "Last-Translator: Andy <andy@oceanus>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
 "Language: nl_NL\n"
@@ -27,51 +27,10 @@ msgstr ""
 "\n"
 "Wissen van bestanden (purge_after = %u)...\n"
 
-#: functions/restore_rmw.c:119
-#, c-format
-msgid "Restore()/debug: %s\n"
-msgstr "Restore()/debug: %s\n"
-
 #: functions/restore_rmw.c:171
 #, c-format
 msgid "error on line 2 in %s\n"
 msgstr "fout op regel 2 in %s\n"
-
-#: functions/restore_rmw.c:200
-#, c-format
-msgid "+'%s' -> '%s'\n"
-msgstr "+'%s' -> '%s'\n"
-
-#: functions/restore_rmw.c:206
-#, c-format
-msgid "-%s\n"
-msgstr "-%s\n"
-
-#: functions/restore_rmw.c:268
-#, c-format
-msgid "\t>-- %s --<\n"
-msgstr "\t>-- %s --<\n"
-
-#: functions/restore_rmw.c:293 functions/restore_rmw.c:309
-#: functions/restore_rmw.c:339 functions/restore_rmw.c:353
-#, c-format
-msgid "\n"
-msgstr "\n"
-
-#: functions/restore_rmw.c:301
-#, c-format
-msgid "%3d. %s [%s]"
-msgstr "%3d. %s [%s]"
-
-#: functions/restore_rmw.c:304
-#, c-format
-msgid " (D)"
-msgstr " (D)"
-
-#: functions/restore_rmw.c:307
-#, c-format
-msgid " (L)"
-msgstr " (L)"
 
 #: functions/restore_rmw.c:320
 #, c-format
@@ -79,11 +38,6 @@ msgid "Input number to restore, 'enter' for next WASTE folder, 'q' to quit) "
 msgstr ""
 "Voer nummer in om te herstellen, ‘enter’ voor de volgende afval map, ‘q’ om "
 "af te sluiten) "
-
-#: functions/strings_rmw.c:170
-#, c-format
-msgid "resolve_path()/debug: %s\n"
-msgstr "resolve_path()/debug: %s\n"
 
 #: trivial_rmw.c:30
 #, c-format
@@ -239,17 +193,13 @@ msgstr ""
 msgid "purging is disabled, 'purge_after' is set to '0'\n"
 msgstr "verwijderen is uitgeschakeld, 'purge_after' is ingesteld op ‘0’\n"
 
-#: main.c:379
-#, c-format
-msgid "'%s' -> '%s'\n"
-msgstr "'%s' -> '%s'\n"
-
 #: messages_rmw.c:36
 #, fuzzy, c-format
 msgid "Error: while opening %s\n"
 msgstr "fout op regel 2 in %s\n"
 
-#: messages_rmw.c:39 messages_rmw.c:60
+#: "function" refers to a C function and can be translated messages_rmw.c:39
+#: messages_rmw.c:60
 #, c-format
 msgid "function: <%s>"
 msgstr ""
@@ -258,3 +208,68 @@ msgstr ""
 #, c-format
 msgid "Warning: while closing %s\n"
 msgstr ""
+
+#: ../src/functions/config_rmw.c:113
+#, c-format
+msgid ""
+"Can not open configuration file\n"
+"%s (or)\n"
+"%s\n"
+"\n"
+"A default configuration file can be found at\n"
+"https://github.com/andy5995/rmw/tree/master/etc\n"
+"Terminating...\n"
+msgstr ""
+
+#: ../src/functions/config_rmw.c:138
+#, c-format
+msgid "Error: The number of lines in configuration file must be less than %d\n"
+msgstr ""
+
+#: "purge_after" is a variable. Do not translate it.
+#: ../src/functions/config_rmw.c:168
+#, c-format
+msgid "Error: invalid purge_after value in configuration\n"
+msgstr ""
+
+#: ../src/functions/config_rmw.c:203
+#, fuzzy, c-format
+msgid "Error: invalid option in config\n"
+msgstr "fout op regel 2 in %s\n"
+
+#: ../src/functions/config_rmw.c:224
+#, c-format
+msgid ""
+"%s is on an unmounted device or it is has not yet been created.\n"
+"\n"
+msgstr ""
+
+#~ msgid "Restore()/debug: %s\n"
+#~ msgstr "Restore()/debug: %s\n"
+
+#~ msgid "+'%s' -> '%s'\n"
+#~ msgstr "+'%s' -> '%s'\n"
+
+#~ msgid "-%s\n"
+#~ msgstr "-%s\n"
+
+#~ msgid "\t>-- %s --<\n"
+#~ msgstr "\t>-- %s --<\n"
+
+#~ msgid "\n"
+#~ msgstr "\n"
+
+#~ msgid "%3d. %s [%s]"
+#~ msgstr "%3d. %s [%s]"
+
+#~ msgid " (D)"
+#~ msgstr " (D)"
+
+#~ msgid " (L)"
+#~ msgstr " (L)"
+
+#~ msgid "resolve_path()/debug: %s\n"
+#~ msgstr "resolve_path()/debug: %s\n"
+
+#~ msgid "'%s' -> '%s'\n"
+#~ msgstr "'%s' -> '%s'\n"

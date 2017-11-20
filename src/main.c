@@ -189,7 +189,7 @@ Unable to continue. Exiting...\n");
   get_time_string (time_now, 21, "%FT%T");
 
   if (purgeYes && !purge_after)
-    printf ("purging is disabled, 'purge_after' is set to '0'\n");
+    printf (_("purging is disabled, 'purge_after' is set to '0'\n"));
 
   if (purge_after != 0)
   {

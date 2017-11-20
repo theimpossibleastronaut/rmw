@@ -278,7 +278,7 @@ purge (const short purge_after, const struct waste_containers *waste,
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
 
-  printf ("\nPurging files (purge_after = %u) ...\n", purge_after);
+  printf (_("\nPurging files (purge_after = %u) ...\n"), purge_after);
 
   struct dirent *entry;
 
