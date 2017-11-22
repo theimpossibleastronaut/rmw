@@ -72,7 +72,7 @@ make_dir (const char *dir)
 
   if (!mk_err)
   {
-    printf ("Created directory %s\n", dir);
+    printf (_("Created directory %s\n"), dir);
     return 0;
   }
 

@@ -114,10 +114,10 @@ main (int argc, char *argv[])
       version ();
       break;
     case 'i':
-      printf ("-i / --interactive: not implemented\n");
+      printf (_("-i / --interactive: not implemented\n"));
       break;
     case 'r':
-      printf ("-r / --recurse: not implemented\n");
+      printf (_("-r / --recurse: not implemented\n"));
       break;
     case 'f':
       force = 1;
@@ -147,8 +147,10 @@ main (int argc, char *argv[])
   }
   else
   {
-    printf ("Error: Environmental variable $HOME can't be used.\n\
-Unable to determine home directory\n");
+    /* FIXME: Perhaps there should be an option in the config file so a
+     * user can specify a home directory, and pass the $HOME variable
+     */
+    printf (_("Error: while getting the path to your home directory\n"));
     return 1;
   }
 
@@ -160,13 +162,13 @@ Unable to determine home directory\n");
 
   if (make_dir (data_dir))
   {
-    printf ("\
-Error: Unable to create config/data directory\n\
-Please check your configuration file and permissions\n\
+    printf (_("\
+Error: unable to create config and data directory\n\
+Please check your configuration file and permissions\n\n\
 If you need further help, or to report a possible bug,\n\
 visit the rmw web site at\n\n\
   https://github.com/andy5995/rmw/wiki\n\n\
-Unable to continue. Exiting...\n");
+Unable to continue. Exiting...\n"));
     return 1;
   }
 
@@ -189,7 +191,7 @@ Unable to continue. Exiting...\n");
   get_time_string (time_now, 21, "%FT%T");
 
   if (purgeYes && !purge_after)
-    printf (_("purging is disabled, 'purge_after' is set to '0'\n"));
+    printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
 
   if (purge_after != 0)
   {
@@ -198,7 +200,7 @@ Unable to continue. Exiting...\n");
       if (force)
         purge (purge_after, waste, time_now);
       else
-        printf ("purge skipped: use -f or --force\n");
+        printf (_("purge has been skipped: use -f or --force\n"));
     }
   }
 
@@ -318,7 +320,7 @@ Unable to continue. Exiting...\n");
 
           if (flagged)
           {
-            printf ("File is in protected directory: %s\n",
+            printf (_("Ignoring: %s is in a protected directory\n"),
                 file.real_path);
             continue;
           }
@@ -326,7 +328,7 @@ Unable to continue. Exiting...\n");
       }
       else
       {
-        printf ("File not found: '%s'\n", file.main_argv);
+        printf (_("File not found: '%s'\n"), file.main_argv);
         continue;
       }
 
@@ -404,13 +406,15 @@ Unable to continue. Exiting...\n");
               fprintf (undo_file_ptr, "%s\n", file.dest_name);
             }
             else
-              printf ("create_trashinfo() returned error %d\n", info_status);
+              printf (_("Error: number %d trying to create a .trashinfo file\n"), info_status);
           }
           else
           {
-            printf ("Error %d moving %s :\n",
+            printf (_("Error: number %d trying to move %s :\n"),
                 rename_status, file.main_argv);
-            perror ("remove_to_waste()");
+            /* FIXME: better to return rename_status. Any side effects
+             * if that were done?
+             */
             return 1;
           }
 
@@ -426,7 +430,7 @@ Unable to continue. Exiting...\n");
 
       if (!match)
       {
-        printf ("No suitable filesystem found for \"%s\"\n",
+        printf (_("No suitable filesystem found for \"%s\"\n"),
                  file.main_argv);
         return 1;
       }
@@ -436,15 +440,16 @@ Unable to continue. Exiting...\n");
     else
       free (undo_file_ptr);
 
-    printf ("%d %s ReMoved to Waste\n", rmwed_files,
-            (rmwed_files == 1) ? "file was" : "files were");
+    printf (rmwed_files == 1 ? _("1 file was removed to the waste folder") :
+    _("%d files were removed to the waste folder"), rmwed_files);
+    printf ("\n");
 
     if (main_error > 1)
       return main_error;
   }
   else if (!purgeYes)
-      printf ("missing filenames or command line options\n\
-Try '%s -h' for more information\n", argv[0]);
+      printf (_("No filenames or command line options were give\n\
+Enter '%s -h' for more information\n"), argv[0]);
 
   return 0;
 }

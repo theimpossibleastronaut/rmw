@@ -65,6 +65,11 @@ and then rename it to 'config':\n\n\
 Then edit the file to suit your needs.\n\n\
 Visit the rmw home page for more help, and information about\n\
 how to obtain support - http://github.com/andy5995/rmw/wiki\n\n"));
+  /* TRANSLATORS: The placeholder indicates the bug-reporting address
+   for this package.  Please add _another line_ saying
+   "Report translation bugs to <...>\n" with the address for translation
+   bugs (typically your translation team's web or email address).  */
+  printf (_("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
 }
 
 void warranty (void)

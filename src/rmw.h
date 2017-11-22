@@ -54,7 +54,7 @@
 #define N_(String) gettext_noop (String)
 
 #ifndef VERSION
-#define VERSION "2017.11.xx.dev"
+#define VERSION "0.4.00"
 #endif
 
 #define DEBUG 0
