@@ -48,3 +48,5 @@ slackpkg
 Screenshot*
 README
 *~
+inputfiles
+extract_strings.sh
