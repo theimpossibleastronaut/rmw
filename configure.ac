@@ -1,4 +1,4 @@
-AC_INIT(rmw, 0.4.00, [andy400-dev@yahoo.com])
+AC_INIT(rmw, 0.4.01-pre1, [andy400-dev@yahoo.com])
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_PREREQ(2.59)
 AC_CONFIG_HEADERS([src/config.h:src/config.in])
