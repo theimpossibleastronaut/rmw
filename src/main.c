@@ -35,11 +35,12 @@ main (int argc, char *argv[])
 
   struct waste_containers waste[WASTENUM_MAX];
 
-  const char *const short_options = "hvc:goz:lsuBwVfir";
+  const char *const short_options = "hvc:goz:lstuBwVfir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
     {"verbose", 0, NULL, 'v'},
+    {"translate", 0, NULL, 't'},
     {"config", 1, NULL, 'c'},
     {"list", 0, NULL, 'l'},
     {"purge", 0, NULL, 'g'},
@@ -83,6 +84,9 @@ main (int argc, char *argv[])
     case 'v':
       verbose = 1;
       break;
+    case 't':
+      translate_config ();
+      exit (0);
     case 'c':
       alt_config = optarg;
       break;
@@ -163,7 +167,7 @@ main (int argc, char *argv[])
   if (make_dir (data_dir))
   {
     printf (_("\
-Error: unable to create config and data directory\n\
+  :Error: unable to create config and data directory\n\
 Please check your configuration file and permissions\n\n\
 If you need further help, or to report a possible bug,\n\
 visit the rmw web site at\n\n\
@@ -191,6 +195,8 @@ Unable to continue. Exiting...\n"));
   get_time_string (time_now, 21, "%FT%T");
 
   if (purgeYes && !purge_after)
+  /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
+   * directory  */
     printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
 
   if (purge_after != 0)
@@ -320,7 +326,11 @@ Unable to continue. Exiting...\n"));
 
           if (flagged)
           {
-            printf (_("Ignoring: %s is in a protected directory\n"),
+            /* TRANSLATORS:  "protection" is a feature. It means that
+             * this program will pass over files that are in
+             * "protected" directories, which can be specified in the
+             * configuration file.  */
+            printf (_("Skipped: %s is in a protected directory\n"),
                 file.real_path);
             continue;
           }
@@ -406,11 +416,12 @@ Unable to continue. Exiting...\n"));
               fprintf (undo_file_ptr, "%s\n", file.dest_name);
             }
             else
-              printf (_("Error: number %d trying to create a .trashinfo file\n"), info_status);
+              /* TRANSLATORS: Do not translate ".trashinfo"  */
+              printf (_("  :Error: number %d trying to create a .trashinfo file\n"), info_status);
           }
           else
           {
-            printf (_("Error: number %d trying to move %s :\n"),
+            printf (_("  :Error number %d trying to move %s :\n"),
                 rename_status, file.main_argv);
             /* FIXME: better to return rename_status. Any side effects
              * if that were done?
@@ -430,7 +441,7 @@ Unable to continue. Exiting...\n"));
 
       if (!match)
       {
-        printf (_("No suitable filesystem found for \"%s\"\n"),
+        printf (_("  No suitable filesystem found for \"%s\"\n"),
                  file.main_argv);
         return 1;
       }

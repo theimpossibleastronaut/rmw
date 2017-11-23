@@ -76,7 +76,7 @@ make_dir (const char *dir)
     return 0;
   }
 
-  printf ("Error: while creating %s\n", add_to_path);
+  printf (_("  :Error: while creating %s\n"), add_to_path);
   perror ("make_dir()");
   return errno;
 }

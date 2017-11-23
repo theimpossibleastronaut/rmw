@@ -1,5 +1,17 @@
 === rmw ChangeLog ===
 
+2017-11-22
+
+    -t --translate option added
+        After translations are added, this option will display a translation
+        of a default configuration file.
+
+    strings prepared for translation, portable object template completed
+
+2017-11-21
+
+    Version number changed to 0.4.00
+
 2017-11-17
 
     nl (Nederlands/Dutch) man page and po file added. Thanks @sexybiggetje

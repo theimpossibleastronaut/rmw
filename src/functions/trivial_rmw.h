@@ -33,3 +33,6 @@ warranty (void);
 
 void
 version (void);
+
+void
+translate_config (void);

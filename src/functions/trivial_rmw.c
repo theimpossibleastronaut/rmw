@@ -35,6 +35,7 @@ ReMove the FILE(s) to a WASTE directory listed in configuration file\n\
 Restore FILE(s) from a WASTE directory\n\
 \n\
   -h, --help\n\
+  -t, --translate           display a translation of the configuration file\n\
   -c, --config filename     use an alternate configuration\n\
   -l, --list                list waste directories\n\
   -g, --purge               run purge even if it's been run today\n\
@@ -98,4 +99,63 @@ This is free software, and you are welcome to redistribute it\n\
 under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n\
 for details.\n"), VERSION);
   exit (0);
+}
+
+void
+translate_config (void)
+{
+  /* TRANSLATORS:  Do not translate the last line in this section  */
+  printf (_("\n\
+# NOTE: If two WASTE folders are on the same file system, rmw will move files\n\
+# to the first WASTE folder listed, ignoring the second one.\n\
+#\n\
+WASTE = $HOME/.trash.rmw\n"));
+
+/* TRANSLATORS:  Do not translate the last line in this section  */
+  printf (_("\n\
+# If you would like this to be your primary trash folder (which usually means\n\
+# that it will be the same as your Desktop Trash folder) be sure it precedes\n\
+# any other WASTE folders listed in the config file\n\
+#\n\
+# If you want it checked for files that need purging, simply uncomment\n\
+# The line below. Files you move with rmw will go to the folder above by\n\
+# default.\n\
+#\n\
+#WASTE=$HOME/.local/share/Trash\n"));
+
+/* TRANSLATORS:  Do not translate the last line in this section  */
+  printf (_("\n\
+# Removable media: If a folder has ',removable' appended to it, rmw\n\
+# will not try to create it; it must be initially created manually. If\n\
+# the folder exists when rmw is run, it will be used; if not, it will be\n\
+# skipped Once you create \"example_waste\", rmw will automatically create\n\
+# example_waste/info and example_waste/files\n\
+#\n\
+#WASTE=/mnt/sda10000/example_waste, removable"));
+
+/* TRANSLATORS:  Do not translate the last line in this section  */
+  printf (_("\n\
+# How many days should files be allowed to stay in the waste folders before\n\
+# they are permanently deleted\n\
+#\n\
+# use '0' to disable purging\n\
+#\n\
+purge_after = 90\n"));
+
+/* TRANSLATORS:  Do not translate the last line in this section  */
+  printf (_("\n\
+# purge will not run unless `--force` is used at the command line. Uncomment\n\
+# the line below if you would like purge to check daily for files that\n\
+# that exceed the days specified in purge_after\n\
+#\n\
+#force_not_required\n"));
+
+/* TRANSLATORS:  Do not translate the last two lines in this section  */
+  printf (_("\n\
+# If attempting to rmw files under this directory, they will not be processed\n\
+# unless -B --bypass is given as an argument.\n\
+#\n\
+# PROTECT = /usr/local/bin\n\
+# PROTECT = $HOME/src\n"));
+
 }

@@ -87,7 +87,8 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
   if ((strcmp (file.base_name, argv) == 0) &&
         exists (file.base_name))
   {
-    printf ("Searching using only the basename...\n");
+    /* TRANSLATORS:  "basename" refers to the basename of a file  */
+    printf (_("Searching using only the basename...\n"));
 
     short ctr = START_WASTE_COUNTER;
 
@@ -102,7 +103,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
       Restore (possibly_in_path, time_str_appended, waste);
     }
 
-    printf ("search complete\n");
+    printf (_("search complete\n"));
 
     return 0;
   }
@@ -140,8 +141,8 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
         {}
         else
         {
-          printf ("Error: trashinfo file format not correct\n");
-          printf ("(Line 1): %s\n", file.info);
+          printf (_("  :Error: format of .trashinfo file (%s) is incorrect (Line 1)"),
+                  file.info);
 
           close_file (fp, file.info, __func__);
 
@@ -168,7 +169,8 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
         }
         else
         {
-          printf (_("error on line 2 in %s\n"), file.info);
+          printf (_("  :Error: format of .trashinfo file (%s) is incorrect (Line 2)"),
+                  file.info);
 
           close_file (fp, file.info, __func__);
 
@@ -182,8 +184,8 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
           strcat (file.dest, time_str_appended);
 
           if (verbose)
-            printf ("\
-Duplicate filename at destination - appending time string...\n");
+            printf (_("\
+Duplicate filename at destination - appending time string...\n"));
         }
 
         char parent_dir[MP];
@@ -200,17 +202,17 @@ Duplicate filename at destination - appending time string...\n");
           printf ("+'%s' -> '%s'\n", argv, file.dest);
 
           if (remove (file.info) != 0)
-            printf ("error removing info file: '%s'\n", file.info);
+            printf (_("  :Error: while removing .trashinfo file: '%s'\n"), file.info);
           else
             if (verbose)
               printf ("-%s\n", file.info);
         }
         else
-          printf ("Restore failed: %s\n", file.dest);
+          printf (_("Restore failed: %s\n"), file.dest);
       }
       else
       {
-        printf ("Error: Able to open %s but encountered an error\n",
+        printf (_("  :Error: Able to open '%s' but encountered an unknown error\n"),
             file.info);
         return 1;
       }
@@ -224,7 +226,8 @@ Duplicate filename at destination - appending time string...\n");
   }
   else
   {
-    printf ("%s not found\n", argv);
+    /* TRANSLATORS:  "%s" refers to a file or directory  */
+    printf (_("'%s' not found\n"), argv);
     return 1;
   }
 
@@ -317,7 +320,9 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
     do
     {
-      printf (_("Input number to restore, 'enter' for next WASTE folder, 'q' to quit) "));
+      /* TRANSLATORS:  At this prompt, a file list is displayed. On the
+       * left side of each file is a number  */
+      printf (_("Input the number to restore, 'enter' for next waste folder, 'q' to quit) "));
       char_count = 0;
       input[0] = '\0';
       choice = 0;
@@ -403,14 +408,14 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
   {
     if (remove (undo_path))
     {
-      printf ("Warning: failed to remove %s\n", undo_path);
+      printf (_(" :warning: failed to remove %s\n"), undo_path);
       perror (__func__);
     }
 
     return;
   }
 
-  printf ("Warning: Restore() returned errors\n");
+  printf (_(" :warning: Restore() returned errors\n"));
 
   return;
 }

@@ -334,8 +334,12 @@ purge (const short purge_after, const struct waste_containers *waste,
 
           if (strncmp (trashinfo_line, "[Trash Info]", 12) != 0)
           {
-            printf (
-                     "Info file error; format not correct (Line 1)\n");
+            /* TRANSLATORS:  ".trashinfo" should remain untranslated
+             *
+             *               "format" refers to the layout of the file
+             *                contents
+             */
+            printf (_("  :Error: format of .trashinfo file incorrect (Line 1)\n"));
             continue;
           }
 
@@ -349,8 +353,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
           if (strncmp (trashinfo_line, "Path=", 5) != 0)
           {
-            printf (
-                     "Info file error; format not correct (Line 2) : %s\n",
+            printf (_("  :Error: format of .trashinfo file incorrect (Line 2) : %s\n"),
                      entry_path);
             continue;
           }
@@ -367,8 +370,7 @@ purge (const short purge_after, const struct waste_containers *waste,
           if (strncmp (trashinfo_line, "DeletionDate=", 13) != 0
               || strlen (trashinfo_line) != 32)
           {
-            printf (
-                     "Info file error; format not correct (Line 3)\n");
+            printf (_("  :Error: format of .trashinfo file incorrect  (Line 3)\n"));
             continue;
           }
 
@@ -410,14 +412,16 @@ purge (const short purge_after, const struct waste_containers *waste,
           switch (status)
           {
           case NOT_WRITEABLE:
-            printf ("Directory not purged - still contains files\n");
+            printf (_(" :warning: Directory not purged - still contains files\n"));
             printf ("%s\n", purgeFile);
-            printf ("(check owner/write permissions)\n");
+            printf (_("(check owner/write permissions)\n"));
             dirs_containing_files_ctr++;
             break;
 
           case MAX_DEPTH_REACHED:
-            printf ("Maximum depth of %u reached, skipping\n",
+          /* TRANSLATORS:  "depth" refers to the recursion depth in a
+           * directory   */
+            printf (_(" :warning: Maximum depth of %u reached, skipping\n"),
                      RMDIR_MAX_DEPTH);
             printf ("%s\n", purgeFile);
             max_depth_reached_ctr++;
@@ -429,13 +433,14 @@ purge (const short purge_after, const struct waste_containers *waste,
               success = 1;
             else
             {
-              printf ("Error: while removing %s\n", purgeFile);
+              /* TRANSLATORS:  "removing" refers to a file or folder  */
+              printf (_("  :Error: while removing %s\n"), purgeFile);
               perror (__func__);
             }
             break;
 
           default:
-            printf ("Error: while removing %s\n", purgeFile);
+            printf (_("  :Error: while removing %s\n"), purgeFile);
             perror (__func__);
             break;
           }
@@ -450,7 +455,7 @@ purge (const short purge_after, const struct waste_containers *waste,
             success = 1;
           else
           {
-            printf ("Error: while removing %s\n", purgeFile);
+            printf (_("  :Error: while removing %s\n"), purgeFile);
             perror (__func__);
             success = 0;
           }
@@ -468,7 +473,7 @@ purge (const short purge_after, const struct waste_containers *waste,
           }
           else
           {
-            printf ("Error: while removing %s\n", entry_path);
+            printf (_("  :Error: while removing %s\n"), entry_path);
             perror (__func__);
           }
         }
@@ -483,20 +488,22 @@ purge (const short purge_after, const struct waste_containers *waste,
   }
 
   if (max_depth_reached_ctr)
-    printf ("%d directories skipped (RMDIR_MAX_DEPTH reached)\n",
+    printf (_("%d directories skipped (RMDIR_MAX_DEPTH reached)\n"),
              max_depth_reached_ctr);
 
   if (dirs_containing_files_ctr)
     printf (
-             "%d directories skipped (contained non-writeable files)\n",
+             _("%d directories skipped (contained read-only files)\n"),
              dirs_containing_files_ctr);
 
   if (purge_ctr == 1)
-    printf ("%d %s purged\n", purge_ctr,
-            (purge_ctr == 1) ? "file" : "files");
-
+  {
+    printf (purge_ctr == 1 ? _("%d file purged") : _("%d files purged"),
+            purge_ctr);
+    printf ("\n");
+  }
   else
-    printf ("%d files purged\n", purge_ctr);
+    printf (_("%d files purged\n"), purge_ctr);
 
   return 0;
 
@@ -550,9 +557,10 @@ orphan_maint (struct waste_containers *waste,
       short ok = 0;
       ok = create_trashinfo (file, waste, time_now, time_str_appended, ctr);
       if (ok == 0)
-        printf ("Created %s\n", path_to_trashinfo);
+      /* TRANSLATORS:  "created" refers to a file  */
+        printf (_("Created %s\n"), path_to_trashinfo);
       else
-        printf ("Error: while creating %s\n", path_to_trashinfo);
+        printf (_("  :Error: while creating %s\n"), path_to_trashinfo);
 
     }
     status = closedir (files);
