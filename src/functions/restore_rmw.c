@@ -57,12 +57,11 @@ human_readable_size (off_t size)
  * FIXME: This apparently needs re-working too. I'm sure it could be
  * written more efficiently
  */
-int
-Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
+int Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 {
-  short func_error = 0;
+  static short func_error = 0;
 
-  struct restore
+  static struct restore
   {
     char *base_name;
     char relative_path[MP];
@@ -73,7 +72,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
   /* adding 5 for the 'Path=' preceding the path.
    * multiplying by 3 for worst case scenario (all chars escaped)
    */
-  char line[MP * 3 + 5];
+  static char line[MP * 3 + 5];
 
   if ((func_error = bufchk (argv, PATH_MAX)))
     return EXIT_BUF_ERR;
@@ -90,11 +89,11 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
     /* TRANSLATORS:  "basename" refers to the basename of a file  */
     printf (_("Searching using only the basename...\n"));
 
-    short ctr = START_WASTE_COUNTER;
+    static short ctr = START_WASTE_COUNTER;
 
     while (strcmp (waste[++ctr].parent, "NULL") != 0)
     {
-      char *possibly_in_path;
+      static char *possibly_in_path;
 
       possibly_in_path = waste[ctr].files;
 
@@ -152,7 +151,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
           /** adding 5 for the 'Path=' preceding the path. */
         if (fgets (line, MP * 3 + 5, fp) != NULL)
         {
-          char *tokenPtr;
+          static char *tokenPtr;
 
           tokenPtr = strtok (line, "=");
           tokenPtr = strtok (NULL, "=");
@@ -188,7 +187,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 Duplicate filename at destination - appending time string...\n"));
         }
 
-        char parent_dir[MP];
+        static char parent_dir[MP];
 
         strcpy (parent_dir, file.dest);
 
@@ -264,7 +263,8 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
   while (strcmp (waste[ctr].parent, "NULL") != 0)
   {
-    DIR *dir = opendir (waste[ctr].files);
+    static DIR *dir;
+    dir = opendir (waste[ctr].files);
     count = 0;
 
     if (!choice)
@@ -368,8 +368,8 @@ void
 undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
 {
   FILE *undo_file_ptr;
-  char undo_path[MP];
-  char line[MP];
+  static char undo_path[MP];
+  static char line[MP];
 
 #ifndef WIN32
   char *HOMEDIR = getenv ("HOME");
@@ -394,7 +394,7 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
     return;
   }
 
-  int err_ct = 0;
+  static int err_ct = 0;
 
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
   {
@@ -429,8 +429,8 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
 int
 getch (void)
 {
-  struct termios oldattr, newattr;
-  int ch;
+  static struct termios oldattr, newattr;
+  static int ch;
   tcgetattr (STDIN_FILENO, &oldattr);
   newattr = oldattr;
   newattr.c_lflag &= ~(ICANON | ECHO);
@@ -444,8 +444,8 @@ getch (void)
 int
 getche (void)
 {
-  struct termios oldattr, newattr;
-  int ch;
+  static struct termios oldattr, newattr;
+  static int ch;
   tcgetattr (STDIN_FILENO, &oldattr);
   newattr = oldattr;
   newattr.c_lflag &= ~(ICANON);

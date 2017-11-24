@@ -85,7 +85,7 @@ int
 create_trashinfo (struct rmw_target file, struct waste_containers *waste,
                   char *time_now, char *time_str_appended, const short cnum)
 {
-  char finalInfoDest[PATH_MAX + 1];
+  static char finalInfoDest[PATH_MAX + 1];
 
   sprintf (finalInfoDest, "%s%s", waste[cnum].info, file.base_name);
 
@@ -99,7 +99,7 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
 
   /* Worst case scenario: whole path is escaped, so 3 chars per
    * actual character */
-  char escaped_path[MP * 3];
+  static char escaped_path[MP * 3];
 
   FILE *fp = fopen (finalInfoDest, "w");
 
@@ -112,7 +112,8 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
     fprintf (fp, "Path=%s\n", escaped_path);
     fprintf (fp, "DeletionDate=%s", time_now);
 
-    short close_err = close_file (fp, finalInfoDest, __func__);
+    static short close_err;
+    close_err = close_file (fp, finalInfoDest, __func__);
     if (close_err)
       return 1;
   }
@@ -135,7 +136,7 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
 int
 exists (const char *filename)
 {
-  struct stat st;
+  static struct stat st;
 
   return (lstat (filename, &st));
 }

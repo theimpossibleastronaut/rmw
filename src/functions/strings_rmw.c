@@ -28,7 +28,8 @@
 short
 bufchk (const char *str, unsigned short boundary)
 {
-  unsigned short len = strlen (str);
+  static unsigned short len;
+  len = strlen (str);
 
   if (len < boundary)
     return 0;
@@ -43,7 +44,7 @@ bufchk (const char *str, unsigned short boundary)
    * display_len, making it possible to view part of the strings to help
    * with debugging or tracing the error.
    */
-  unsigned short display_len = 0;
+  static unsigned short display_len = 0;
 
   display_len = (boundary > 80) ? 80 : boundary;
 
@@ -73,7 +74,7 @@ bufchk (const char *str, unsigned short boundary)
 int
 trim (char s[])
 {
-  int n;
+  static int n;
 
   for (n = strlen (s) - 1; n >= 0; n--)
   {
@@ -96,7 +97,7 @@ trim (char s[])
 void
 erase_char (char c, char *str)
 {
-  int inc = 0;
+  static int inc = 0;
 
   while (str[inc] == c)
     inc++;
@@ -104,8 +105,9 @@ erase_char (char c, char *str)
   if (!inc)
     return;
 
-  int n = strlen (str);
-  int i;
+  static int n;
+  n = strlen (str);
+  static int i;
 
   for (i = 0; i < n - inc; i++)
     str[i] = str[i + inc];
@@ -121,7 +123,7 @@ erase_char (char c, char *str)
 void
 trim_slash (char str[])
 {
-  int len;
+  static int len;
   len = strlen(str) - 1;
 
   if (str[len] != '/')
@@ -152,7 +154,7 @@ truncate_str (char *str, unsigned short pos)
 int
 resolve_path (const char *src, char *abs_path)
 {
-  short func_error;
+  static short func_error;
 
   /*
    * dirname() and basename() alters the src string, so making a copy
@@ -235,9 +237,8 @@ bool is_unreserved (char c)
 bool
 escape_url (const char *str, char *dest, unsigned short len)
 {
-
-  unsigned short pos_str = 0;
-  unsigned short pos_dest = 0;
+  static unsigned short pos_str = 0;
+  static unsigned short pos_dest = 0;
   while (str[pos_str])
   {
     if (is_unreserved (str[pos_str]))
@@ -289,8 +290,8 @@ escape_url (const char *str, char *dest, unsigned short len)
 bool
 unescape_url (const char *str, char *dest, unsigned short len)
 {
-  unsigned short pos_str = 0;
-  unsigned short pos_dest = 0;
+  static unsigned short pos_str = 0;
+  static unsigned short pos_dest = 0;
 
   while (str[pos_str])
   {
