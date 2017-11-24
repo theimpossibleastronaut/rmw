@@ -18,15 +18,12 @@ subdir = src
 datadir = @datadir@
 datarootdir= @datarootdir@
 localedir = @localedir@
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 LIBS = @LIBINTL@ @LIBS@
+rmw_LDADD = @LIBINTL@
 
 distdir = ../$(PACKAGE)-$(VERSION)/$(subdir)
 dist: Makefile $(DISTFILES)
 	for file in $(DISTFILES); do \
 	  ln $$file $(distdir) 2>/dev/null || cp -p $$file $(distdir) || exit 1; \
 	done
-
-rmw_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
-rmw_LDADD = @LIBINTL@
