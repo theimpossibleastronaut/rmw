@@ -192,9 +192,7 @@ int Restore (char *argv, char *time_str_appended, struct waste_containers *waste
         {}
         else
         {
-          printf (_("  :Error: format of .trashinfo file (%s) is incorrect (Line 1)"),
-                  file.info);
-
+          display_dot_trashinfo_error (file.info, 1);
           close_file (fp, file.info, __func__);
 
           return 1;
@@ -220,9 +218,7 @@ int Restore (char *argv, char *time_str_appended, struct waste_containers *waste
         }
         else
         {
-          printf (_("  :Error: format of .trashinfo file (%s) is incorrect (Line 2)"),
-                  file.info);
-
+          display_dot_trashinfo_error (file.info, 2);
           close_file (fp, file.info, __func__);
 
           return 1;

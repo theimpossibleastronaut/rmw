@@ -334,12 +334,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
           if (strncmp (trashinfo_line, "[Trash Info]", 12) != 0)
           {
-            /* TRANSLATORS:  ".trashinfo" should remain untranslated
-             *
-             *               "format" refers to the layout of the file
-             *                contents
-             */
-            printf (_("  :Error: format of .trashinfo file incorrect (Line 1)\n"));
+            display_dot_trashinfo_error (entry_path, 1);
             continue;
           }
 
@@ -353,8 +348,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
           if (strncmp (trashinfo_line, "Path=", 5) != 0)
           {
-            printf (_("  :Error: format of .trashinfo file incorrect (Line 2) : %s\n"),
-                     entry_path);
+            display_dot_trashinfo_error (entry_path, 2);
             continue;
           }
 
@@ -370,7 +364,7 @@ purge (const short purge_after, const struct waste_containers *waste,
           if (strncmp (trashinfo_line, "DeletionDate=", 13) != 0
               || strlen (trashinfo_line) != 32)
           {
-            printf (_("  :Error: format of .trashinfo file incorrect  (Line 3)\n"));
+            display_dot_trashinfo_error (entry_path, 3);
             continue;
           }
 
