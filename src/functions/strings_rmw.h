@@ -49,10 +49,4 @@ resolve_path (const char *src, char *abs_path);
 void
 get_time_string (char *tm_str, unsigned short len, const char *format);
 
-bool
-escape_url (const char *str, char *dest, unsigned short len);
-
-bool
-unescape_url (const char *str, char *dest, unsigned short len);
-
 #endif

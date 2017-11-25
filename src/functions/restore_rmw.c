@@ -53,6 +53,57 @@ static char* human_readable_size (off_t size)
 }
 
 /**
+ * unescape_url()
+ *
+ * Convert a URL valid string into a regular string, unescaping any '%'s
+ * that appear.
+ * returns 0 on succes, 1 on failure
+ */
+static bool unescape_url (const char *str, char *dest, unsigned short len)
+{
+  static unsigned short pos_str;
+  static unsigned short pos_dest;
+  pos_str = 0;
+  pos_dest = 0;
+
+  while (str[pos_str])
+  {
+    if (str[pos_str] == '%')
+    {
+      /* skip the '%' */
+      pos_str += 1;
+      /* Check for buffer overflow (there should be enough space for 1
+       * character + '\0') */
+      if (pos_dest + 2 > len)
+      {
+        printf (_("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"), __FUNCTION__, len, pos_dest+2);
+        return 1;
+      }
+
+      sscanf(str + pos_str, "%2hhx", dest + pos_dest);
+      pos_str += 2;
+    }
+    else {
+      /* Check for buffer overflow (there should be enough space for 1
+       * character + '\0') */
+      if (pos_dest + 2 > len)
+      {
+        printf (_("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"), __FUNCTION__, len, pos_dest+2);
+        return 1;
+      }
+
+      dest[pos_dest] = str[pos_str];
+      pos_str += 1;
+    }
+    pos_dest++;
+  }
+
+  dest[pos_dest] = '\0';
+
+  return 0;
+}
+
+/**
  * FIXME: This apparently needs re-working too. I'm sure it could be
  * written more efficiently
  */

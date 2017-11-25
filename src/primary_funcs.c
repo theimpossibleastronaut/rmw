@@ -81,6 +81,93 @@ make_dir (const char *dir)
   return errno;
 }
 
+/**
+ * is_unreserved()
+ * returns 1 if the character c is unreserved,  else returns 0
+ */
+static bool is_unreserved (char c)
+{
+  /* According to RFC2396, we must escape any character that's
+   * reserved or not available in US-ASCII, for simplification, here's
+   * the character that we must accept:
+   *
+   * - Alphabethics (A-Z and a-z)
+   * - Numerics (0-9)
+   * - The following charcters: ~ _ - .
+   *
+   * For purposes of this application we will not convert "/"s, as in
+   * this case they correspond to their semantic meaning.
+   */
+  if ( ('A' <= c && c <= 'Z') ||
+       ('a' <= c && c <= 'z') ||
+       ('0' <= c && c <= '9') )
+    return 1;
+
+  switch (c)
+  {
+    case '-': case '_': case '~': case '.': case '/':
+      return 1;
+
+    default:
+      return 0;
+  }
+
+}
+
+/**
+ * escape_url()
+ *
+ * Convert str into a URL valid string, escaping when necesary
+ * returns 0 on success, 1 on failure
+ */
+static bool escape_url (const char *str, char *dest, unsigned short len)
+{
+  static unsigned short pos_str;
+  static unsigned short pos_dest;
+  pos_str = 0;
+  pos_dest = 0;
+
+  while (str[pos_str])
+  {
+    if (is_unreserved (str[pos_str]))
+    {
+      /* Check for buffer overflow (there should be enough space for 1
+       * character + '\0') */
+      if (pos_dest + 2 > len)
+      {
+        printf (_("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"), __FUNCTION__, len, pos_dest+2);
+        return 1;
+      }
+
+      dest[pos_dest] = str[pos_str];
+      pos_dest += 1;
+    }
+    else {
+      /* Again, check for overflow (3 chars + '\0') */
+      if (pos_dest + 4 > len)
+      {
+        printf (_("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"), __FUNCTION__, len, pos_dest+4);
+        return 1;
+      }
+
+      /* A quick explanation to this printf
+       * %% - print a '%'
+       * 0  - pad with left '0'
+       * 2  - width of string should be 2 (pad if it's just 1 char)
+       * hh - this is a byte
+       * X  - print hexadecimal form with uppercase letters
+       */
+      sprintf(dest + pos_dest, "%%%02hhX", str[pos_str]);
+      pos_dest += 3;
+    }
+    pos_str++;
+  }
+
+  dest[pos_dest] = '\0';
+
+  return 0;
+}
+
 int
 create_trashinfo (struct rmw_target file, struct waste_containers *waste,
                   char *time_now, char *time_str_appended, const short cnum)
