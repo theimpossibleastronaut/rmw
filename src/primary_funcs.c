@@ -133,8 +133,7 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
  *
  * return: the return value of lstat()
  */
-int
-exists (const char *filename)
+int exists (const char *filename)
 {
   static struct stat st;
 

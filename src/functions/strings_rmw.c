@@ -44,7 +44,8 @@ bufchk (const char *str, unsigned short boundary)
    * display_len, making it possible to view part of the strings to help
    * with debugging or tracing the error.
    */
-  static unsigned short display_len = 0;
+  static unsigned short display_len;
+  display_len = 0;
 
   display_len = (boundary > 80) ? 80 : boundary;
 
@@ -97,7 +98,8 @@ trim (char s[])
 void
 erase_char (char c, char *str)
 {
-  static int inc = 0;
+  static int inc;
+  inc = 0;
 
   while (str[inc] == c)
     inc++;
@@ -155,6 +157,7 @@ int
 resolve_path (const char *src, char *abs_path)
 {
   static short func_error;
+  func_error = 0;
 
   /*
    * dirname() and basename() alters the src string, so making a copy
@@ -237,8 +240,11 @@ bool is_unreserved (char c)
 bool
 escape_url (const char *str, char *dest, unsigned short len)
 {
-  static unsigned short pos_str = 0;
-  static unsigned short pos_dest = 0;
+  static unsigned short pos_str;
+  static unsigned short pos_dest;
+  pos_str = 0;
+  pos_dest = 0;
+
   while (str[pos_str])
   {
     if (is_unreserved (str[pos_str]))
@@ -290,8 +296,10 @@ escape_url (const char *str, char *dest, unsigned short len)
 bool
 unescape_url (const char *str, char *dest, unsigned short len)
 {
-  static unsigned short pos_str = 0;
-  static unsigned short pos_dest = 0;
+  static unsigned short pos_str;
+  static unsigned short pos_dest;
+  pos_str = 0;
+  pos_dest = 0;
 
   while (str[pos_str])
   {

@@ -26,8 +26,7 @@
 #include "rmw.h"
 #include "restore_rmw.h"
 
-static char*
-human_readable_size (off_t size)
+static char* human_readable_size (off_t size)
 {
   /* "xxxx.y GiB" - 10 chars + '\0' */
   static char buffer[12];
@@ -59,7 +58,8 @@ human_readable_size (off_t size)
  */
 int Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 {
-  static short func_error = 0;
+  static short func_error;
+  func_error = 0;
 
   static struct restore
   {
@@ -89,7 +89,8 @@ int Restore (char *argv, char *time_str_appended, struct waste_containers *waste
     /* TRANSLATORS:  "basename" refers to the basename of a file  */
     printf (_("Searching using only the basename...\n"));
 
-    static short ctr = START_WASTE_COUNTER;
+    static short ctr;
+    ctr = START_WASTE_COUNTER;
 
     while (strcmp (waste[++ctr].parent, "NULL") != 0)
     {
@@ -394,7 +395,8 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
     return;
   }
 
-  static int err_ct = 0;
+  static int err_ct;
+  err_ct = 0;
 
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
   {
