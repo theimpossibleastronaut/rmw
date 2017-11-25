@@ -225,7 +225,7 @@ Terminating...\n"), config_file, CFG_FILE);
       if (removable && exists (waste[waste_ctr].parent) != 0)
       {
         /* TRANSLATORS:  "%s" and "it" refer to a folder  */
-        printf (_("%s is not on a mounted device or it has not yet been created\n\n"),
+        printf (_("\n%s is not on a mounted device or it has not yet been created\n"),
                   waste[waste_ctr].parent);
         continue;
       }
