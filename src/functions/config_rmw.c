@@ -224,9 +224,12 @@ Terminating...\n"), config_file, CFG_FILE);
 
       if (removable && exists (waste[waste_ctr].parent) != 0)
       {
-        /* TRANSLATORS:  "%s" and "it" refer to a folder  */
-        printf (_("\n%s is not on a mounted device or it has not yet been created\n"),
-                  waste[waste_ctr].parent);
+        /* If the folder doesn't exist, this message shows up every time rmw
+         * is run, which gets annoying. Commented out.
+         */
+
+        /* printf (_("!%s\n"), waste[waste_ctr].parent);
+         */
         continue;
       }
 

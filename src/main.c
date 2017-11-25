@@ -215,6 +215,13 @@ Unable to continue. Exiting...\n"));
  */
   if (list)
   {
+    /* FIXME: if a removable device is specified in the config file but not
+     * mounted, it will not show up in this list. It would be better if it
+     * showed up in this list, but if not mounted, a '!' next to it, or some
+     * other indication it's inactive due to not being mounted. Otherwise,
+     * the user has to look at the config file to get reminded of what
+     * removable devices are specified.
+     */
     short ctr = START_WASTE_COUNTER;
     while (strcmp (waste[++ctr].parent, "NULL") != 0)
       printf ("%s\n", waste[ctr].parent);
