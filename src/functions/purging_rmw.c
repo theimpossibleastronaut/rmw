@@ -487,7 +487,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
   if (dirs_containing_files_ctr)
     printf (
-             _("%d directories skipped (contained read-only files)\n"),
+             _("%d directories skipped (contains read-only files)\n"),
              dirs_containing_files_ctr);
 
   printf (purge_ctr == 1 ? _("%d file purged") : _("%d files purged"),
