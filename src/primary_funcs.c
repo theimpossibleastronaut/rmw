@@ -124,10 +124,10 @@ static bool is_unreserved (char c)
  * Convert str into a URL valid string, escaping when necesary
  * returns 0 on success, 1 on failure
  */
-static bool escape_url (const char *str, char *dest, unsigned short int len)
+static bool escape_url (const char *str, char *dest, ushort len)
 {
-  static unsigned short int pos_str;
-  static unsigned short int pos_dest;
+  static ushort pos_str;
+  static ushort pos_dest;
   pos_str = 0;
   pos_dest = 0;
 

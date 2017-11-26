@@ -98,6 +98,10 @@
 /** shorten PATH_MAX to two characters */
 #define MP PATH_MAX + 1
 
+#ifndef ushort
+  #define ushort unsigned short int
+#endif
+
 struct waste_containers
 {
   char parent[MP];

@@ -26,9 +26,9 @@
 #include "strings_rmw.h"
 
 short
-bufchk (const char *str, unsigned short int boundary)
+bufchk (const char *str, ushort boundary)
 {
-  static unsigned short int len;
+  static ushort len;
   len = strlen (str);
 
   if (len < boundary)
@@ -44,7 +44,7 @@ bufchk (const char *str, unsigned short int boundary)
    * display_len, making it possible to view part of the strings to help
    * with debugging or tracing the error.
    */
-  static unsigned short int display_len;
+  static ushort display_len;
   display_len = 0;
 
   display_len = (boundary > 80) ? 80 : boundary;
@@ -113,7 +113,7 @@ trim_slash (char str[])
  * at a given position
  */
 void
-truncate_str (char *str, unsigned short int pos)
+truncate_str (char *str, ushort pos)
 {
   str[strlen (str) - pos] = '\0';
 }
@@ -160,7 +160,7 @@ resolve_path (const char *src, char *abs_path)
 }
 
 void
-get_time_string (char *tm_str, unsigned short int len, const char *format)
+get_time_string (char *tm_str, ushort len, const char *format)
 {
   struct tm *time_ptr;
   time_t now = time (NULL);

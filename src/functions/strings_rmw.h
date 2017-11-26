@@ -38,12 +38,12 @@ void
 trim_slash (char str[]);
 
 void
-truncate_str (char *str, unsigned short int pos);
+truncate_str (char *str, ushort pos);
 
 int
 resolve_path (const char *src, char *abs_path);
 
 void
-get_time_string (char *tm_str, unsigned short int len, const char *format);
+get_time_string (char *tm_str, ushort len, const char *format);
 
 #endif
