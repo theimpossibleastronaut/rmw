@@ -103,6 +103,20 @@ static bool unescape_url (const char *str, char *dest, unsigned short len)
   return 0;
 }
 
+/* reads from keypress, echoes */
+static int getche (void)
+{
+  static struct termios oldattr, newattr;
+  static int ch;
+  tcgetattr (STDIN_FILENO, &oldattr);
+  newattr = oldattr;
+  newattr.c_lflag &= ~(ICANON);
+  tcsetattr (STDIN_FILENO, TCSANOW, &newattr);
+  ch = getchar ();
+  tcsetattr (STDIN_FILENO, TCSANOW, &oldattr);
+  return ch;
+}
+
 /**
  * FIXME: This apparently needs re-working too. I'm sure it could be
  * written more efficiently
@@ -467,39 +481,4 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
   printf (_(" :warning: Restore() returned errors\n"));
 
   return;
-}
-
-/**
- * getch() and getche()
- * AUTHOR: zobayer
- *
- * reads from keypress, doesn't echo
- */
-int
-getch (void)
-{
-  static struct termios oldattr, newattr;
-  static int ch;
-  tcgetattr (STDIN_FILENO, &oldattr);
-  newattr = oldattr;
-  newattr.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr (STDIN_FILENO, TCSANOW, &newattr);
-  ch = getchar ();
-  tcsetattr (STDIN_FILENO, TCSANOW, &oldattr);
-  return ch;
-}
-
-/* reads from keypress, echoes */
-int
-getche (void)
-{
-  static struct termios oldattr, newattr;
-  static int ch;
-  tcgetattr (STDIN_FILENO, &oldattr);
-  newattr = oldattr;
-  newattr.c_lflag &= ~(ICANON);
-  tcsetattr (STDIN_FILENO, TCSANOW, &newattr);
-  ch = getchar ();
-  tcsetattr (STDIN_FILENO, TCSANOW, &oldattr);
-  return ch;
 }

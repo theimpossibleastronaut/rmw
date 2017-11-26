@@ -39,10 +39,4 @@ restore_select (struct waste_containers *waste, char *time_str_appended);
 void
 undo_last_rmw (char *time_str_appended, struct waste_containers *waste);
 
-int
-getch (void);
-
-int
-getche (void);
-
 #endif
