@@ -23,8 +23,16 @@
  *
  */
 
+#ifndef _INC_MAIN_H
+#define _INC_MAIN_H
+
+#include <getopt.h>
+#include <time.h>
 #include "rmw.h"
 #include "primary_funcs.h"
+#include "restore_rmw.h"
 #include "trivial_rmw.h"
 #include "config_rmw.h"
 #include "purging_rmw.h"
+
+#endif

@@ -26,9 +26,10 @@
 #ifndef INC_PRIMARY_FUNCS_H
 #define INC_PRIMARY_FUNCS_H
 
+#include <sys/stat.h>
 #include "rmw.h"
-#include "restore_rmw.h"
 #include "strings_rmw.h"
+#include "messages_rmw.h"
 
 int
 make_dir (const char *dir);

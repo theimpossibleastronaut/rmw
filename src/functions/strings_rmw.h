@@ -26,6 +26,8 @@
 #ifndef _INC_STRINGS_H
 #define _INC_STRINGS_H
 
+#include <libgen.h>
+#include <time.h>
 #include "rmw.h"
 
 short

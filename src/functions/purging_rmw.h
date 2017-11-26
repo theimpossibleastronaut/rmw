@@ -23,7 +23,14 @@
  *
  */
 
+#ifndef _INC_PURGING_H
+#define _INC_PURGING_H
+
 #include "rmw.h"
+#include <time.h>
+#include <dirent.h>
+#include <unistd.h> /* for rmdir() */
+#include "messages_rmw.h"
 #include "strings_rmw.h"
 #include "primary_funcs.h"
 
@@ -32,7 +39,7 @@
 #define MAX_DEPTH_REACHED 201
 
 int
-rmdir_recursive (char *path, short unsigned level);
+rmdir_recursive (char *path, ushort level);
 
 int
 purge (const short purge_after, const struct waste_containers *waste,
@@ -44,3 +51,5 @@ is_time_to_purge (bool force);
 short
 orphan_maint(struct waste_containers *waste,
               char *time_now, char *time_str_appended);
+
+#endif

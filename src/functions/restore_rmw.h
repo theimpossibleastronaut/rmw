@@ -26,6 +26,10 @@
 #ifndef _RESTORE_RMW_H
 #define _RESTORE_RMW_H
 
+#include <termios.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <unistd.h> /* for getche() */
 #include "rmw.h"
 #include "primary_funcs.h"
 #include "messages_rmw.h"

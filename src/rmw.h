@@ -30,23 +30,18 @@
 /* Enable support for files over 2G  */
 #define _FILE_OFFSET_BITS 64
 
+/* if this isn't defined, a warning about strptime() being implicitly declared
+ * will appear during the build
+ */
 #define _GNU_SOURCE
 
 #include "config.h"
-#include <dirent.h>
 #include <errno.h>
-#include <fcntl.h>
-#include <getopt.h>
-#include <libgen.h>
 #include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <termios.h>
-#include <time.h>
-#include <sys/stat.h>
 
 #include <locale.h>
 #include "gettext.h"
