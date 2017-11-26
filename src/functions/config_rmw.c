@@ -26,6 +26,35 @@
 #include "config_rmw.h"
 
 /**
+ * Erases characters from the beginning of a string
+ * (i.e. shifts the remaining string to the left
+ */
+static void del_char_shift_left (char c, char *str)
+{
+  static int c_count;
+  c_count = 0;
+
+  /* count how many instances of 'c' */
+  while (str[c_count] == c)
+    c_count++;
+
+  /* if no instances of 'c' were found... */
+  if (!c_count)
+    return;
+
+  static int len;
+  len = strlen (str);
+  static int pos;
+
+  for (pos = 0; pos < len - c_count; pos++)
+    str[pos] = str[pos + c_count];
+
+  str[len - c_count] = '\0';
+
+  return;
+}
+
+/**
  * if "$HOME" or "~" is used on configuration file
  * change to the value of "HOMEDIR"
  */
@@ -35,7 +64,7 @@ static bool make_home_real (char *str, const char *HOMEDIR)
   bool ok = 0;
   if (str[0] == '~')
   {
-    erase_char ('~', str);
+    del_char_shift_left ('~', str);
     ok = 1;
   }
   else if (strncmp (str, "$HOME", 5) == 0)
@@ -43,7 +72,7 @@ static bool make_home_real (char *str, const char *HOMEDIR)
     int chars_to_delete;
 
     for (chars_to_delete = 0; chars_to_delete < 5; chars_to_delete++)
-      erase_char (str[0], str);
+      del_char_shift_left (str[0], str);
 
     ok = 1;
   }
@@ -181,7 +210,7 @@ Terminating...\n"), config_file, CFG_FILE);
     char *comma_ptr;
 
     trim (line_from_config);
-    erase_char (' ', line_from_config);
+    del_char_shift_left (' ', line_from_config);
 
     /**
      * assign purge_after the value from config file
@@ -192,7 +221,7 @@ Terminating...\n"), config_file, CFG_FILE);
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
 
-      erase_char (' ', token_ptr);
+      del_char_shift_left (' ', token_ptr);
 
       unsigned short num_value = atoi (token_ptr);
 
@@ -221,7 +250,7 @@ Terminating...\n"), config_file, CFG_FILE);
        */
       if (comma_ptr != NULL)
       {
-        erase_char (' ', comma_ptr);
+        del_char_shift_left (' ', comma_ptr);
         unsigned int ctr = 0;
 
         while (ctr < strlen (token_ptr))
@@ -243,7 +272,7 @@ Terminating...\n"), config_file, CFG_FILE);
 
       trim (token_ptr);
       trim_slash (token_ptr);
-      erase_char (' ', token_ptr);
+      del_char_shift_left (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
       /* make the parent... */
@@ -297,7 +326,7 @@ Terminating...\n"), config_file, CFG_FILE);
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
 
-      erase_char (' ', token_ptr);
+      del_char_shift_left (' ', token_ptr);
       make_home_real (token_ptr, HOMEDIR);
 
       strcpy (protected_dir[prot_dir_ctr], token_ptr);

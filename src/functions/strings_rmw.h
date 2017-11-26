@@ -35,9 +35,6 @@ int
 trim (char s[]);
 
 void
-erase_char (char c, char *str);
-
-void
 trim_slash (char str[]);
 
 void

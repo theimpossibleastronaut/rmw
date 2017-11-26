@@ -92,34 +92,6 @@ trim (char s[])
 }
 
 /**
- * Erases characters from the beginning of a string
- * (i.e. shifts the remaining string to the left
- */
-void
-erase_char (char c, char *str)
-{
-  static int inc;
-  inc = 0;
-
-  while (str[inc] == c)
-    inc++;
-
-  if (!inc)
-    return;
-
-  static int n;
-  n = strlen (str);
-  static int i;
-
-  for (i = 0; i < n - inc; i++)
-    str[i] = str[i + inc];
-
-  str[n - inc] = '\0';
-
-  return;
-}
-
-/**
  * Trim a trailing slash if present. Only checks for 1
  */
 void
