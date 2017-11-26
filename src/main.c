@@ -317,9 +317,11 @@ Unable to continue. Exiting...\n"));
 
         if (!bypass)
         {
-          bool flagged = 0;
+          static bool flagged;
+          flagged = 0;
 
-          short prot_ctr = START_WASTE_COUNTER;
+          static short prot_ctr;
+          prot_ctr = START_WASTE_COUNTER;
 
           while (strcmp (protected_dir[++prot_ctr], "NULL") != 0)
           {
@@ -354,13 +356,21 @@ Unable to continue. Exiting...\n"));
        * get ready for the ReMoval
        */
 
-      struct stat st;
-      bool match = 0;
-      short rename_status = 0;
-      bool info_status = 0;
+      static struct stat st;
+
+      static bool match;
+      match = 0;
+
+      static short rename_status;
+      rename_status = 0;
+
+      static bool info_status;
+      info_status = 0;
+
       file.is_duplicate = 0;
 
-      unsigned short current_waste_num = 0;
+      static unsigned short current_waste_num;
+      current_waste_num = 0;
 
       strcpy (file.base_name, basename (file.main_argv));
 
@@ -369,7 +379,9 @@ Unable to continue. Exiting...\n"));
        * device number of file.main_argv. Once found, the ReMoval
        * happens (provided all the tests are passed.
        */
-      short dir_num = START_WASTE_COUNTER;
+      static short dir_num;
+      dir_num = START_WASTE_COUNTER;
+
       while (strcmp (waste[++dir_num].parent, "NULL") != 0)
       {
         lstat (file.main_argv, &st);
