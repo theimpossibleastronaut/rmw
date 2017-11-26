@@ -104,7 +104,8 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
    *  purge_after will default to 90 if there's no setting
    * in the config file
    */
-  //~ int default_purge = 90;
+   /* FIXME: A default value should be declared elsewhere
+    */
   *purge_after = 90;
 
   short func_error = 0;
