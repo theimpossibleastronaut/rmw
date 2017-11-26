@@ -179,7 +179,7 @@ Unable to continue. Exiting...\n"));
   char protected_dir[PROTECT_MAX][MP];
 
   /* is reassigned a value in get_config_data() */
-  unsigned short purge_after = 0;
+  unsigned short int purge_after = 0;
 
   short conf_err =
     get_config_data (waste, alt_config, &purge_after, protected_dir, &force);
@@ -369,7 +369,7 @@ Unable to continue. Exiting...\n"));
 
       file.is_duplicate = 0;
 
-      static unsigned short current_waste_num;
+      static unsigned short int current_waste_num;
       current_waste_num = 0;
 
       strcpy (file.base_name, basename (file.main_argv));

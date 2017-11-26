@@ -93,11 +93,11 @@ static bool make_home_real (char *str, const char *HOMEDIR)
  */
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
-      unsigned short *purge_after,
+      unsigned short int *purge_after,
       char protected_dir[PROTECT_MAX][MP], bool *force)
 {
   char config_file[MP];
-  const unsigned short CFG_MAX_LEN = PATH_MAX + 16;
+  const unsigned short int CFG_MAX_LEN = PATH_MAX + 16;
   char line_from_config[CFG_MAX_LEN];
 
   /**
@@ -224,7 +224,7 @@ Terminating...\n"), config_file, CFG_FILE);
 
       del_char_shift_left (' ', token_ptr);
 
-      unsigned short num_value = atoi (token_ptr);
+      unsigned short int num_value = atoi (token_ptr);
 
       if (num_value >= 0 && num_value < USHRT_MAX)
         *purge_after = num_value;
