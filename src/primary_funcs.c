@@ -25,6 +25,10 @@
 
 #include "primary_funcs.h"
 
+/* FIXME: This file is mostly for functions related to creating the
+ * .trashinfo files. It should be renamed, and the two utility functions
+ * (make_dir() and exists()) should be moved to a separate file
+ */
 /**
  * make_dir()
  *
