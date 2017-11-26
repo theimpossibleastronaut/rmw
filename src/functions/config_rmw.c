@@ -26,6 +26,39 @@
 #include "config_rmw.h"
 
 /**
+ * if "$HOME" or "~" is used on configuration file
+ * change to the value of "HOMEDIR"
+ */
+
+static bool make_home_real (char *str, const char *HOMEDIR)
+{
+  bool ok = 0;
+  if (str[0] == '~')
+  {
+    erase_char ('~', str);
+    ok = 1;
+  }
+  else if (strncmp (str, "$HOME", 5) == 0)
+  {
+    int chars_to_delete;
+
+    for (chars_to_delete = 0; chars_to_delete < 5; chars_to_delete++)
+      erase_char (str[0], str);
+
+    ok = 1;
+  }
+  else
+    return 0;
+
+  char temp[MP];
+
+  sprintf (temp, "%s%s", HOMEDIR, str);
+  strcpy (str, temp);
+
+  return ok;
+}
+
+/**
  * Reads the config file, checks for the existence of waste directories,
  * and gets the value of 'purge_after'
  */
@@ -305,38 +338,4 @@ Unable to continue. Exiting...\n"));
   }
 
   return func_error ? func_error : 0;
-}
-
-/**
- * if "$HOME" or "~" is used on configuration file
- * change to the value of "HOMEDIR"
- */
-
-bool
-make_home_real (char *str, const char *HOMEDIR)
-{
-  bool ok = 0;
-  if (str[0] == '~')
-  {
-    erase_char ('~', str);
-    ok = 1;
-  }
-  else if (strncmp (str, "$HOME", 5) == 0)
-  {
-    int chars_to_delete;
-
-    for (chars_to_delete = 0; chars_to_delete < 5; chars_to_delete++)
-      erase_char (str[0], str);
-
-    ok = 1;
-  }
-  else
-    return 0;
-
-  char temp[MP];
-
-  sprintf (temp, "%s%s", HOMEDIR, str);
-  strcpy (str, temp);
-
-  return ok;
 }
