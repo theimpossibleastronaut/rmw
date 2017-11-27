@@ -1,5 +1,5 @@
 bin_PROGRAMS=rmw
-AM_CFLAGS= -std=gnu99 -Wall -pedantic -I./functions  -DSYSCONFDIR=\"${sysconfdir}\" -DLOCALEDIR=\"${localedir}\"
+AM_CFLAGS= -std=gnu99 -Wall -pedantic -I./functions
 rmw_SOURCES=			\
 primary_funcs.c			\
 main.c 				\
@@ -30,6 +30,9 @@ subdir = src
 datadir = @datadir@
 datarootdir= @datarootdir@
 localedir = @localedir@
+sysconfdir = @sysconfdir@
+DEFS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\" @DEFS@
+
 
 LIBS = @LIBINTL@ @LIBS@
 rmw_LDADD = @LIBINTL@
