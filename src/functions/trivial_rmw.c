@@ -55,7 +55,7 @@ Restore FILE(s) from a WASTE directory\n\
   -u, --undo-last           undo last ReMove\n"));
   printf (_("\
   \n\n\
-  t===] First time use [===\n\n\
+  \t===] First time use [===\n\n\
 After rmw is installed, create the user configuration directory\n\
 by typing 'rmw' and hitting enter. It's recommended to copy\n\n\
   /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n\n\
