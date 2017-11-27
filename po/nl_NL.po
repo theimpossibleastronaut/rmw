@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-11-27 12:38-0600\n"
+"POT-Creation-Date: 2017-11-27 13:19-0600\n"
 "PO-Revision-Date: 2017-11-17 00:20+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
@@ -346,7 +346,7 @@ msgstr ""
 #: src/main.c:481
 #, c-format
 msgid ""
-"No filenames or command line options were give\n"
+"No filenames or command line options were given\n"
 "Enter '%s -h' for more information\n"
 msgstr ""
 

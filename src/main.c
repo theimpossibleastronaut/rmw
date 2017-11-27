@@ -478,7 +478,7 @@ Unable to continue. Exiting...\n"));
       return main_error;
   }
   else if (!purgeYes)
-      printf (_("No filenames or command line options were give\n\
+      printf (_("No filenames or command line options were given\n\
 Enter '%s -h' for more information\n"), argv[0]);
 
   return 0;
