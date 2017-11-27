@@ -10,6 +10,18 @@ main.c 				\
 ./functions/purging_rmw.c	\
 ./functions/messages_rmw.c
 
+noinst_HEADERS = 						\
+rmw.h												\
+primary_funcs.h							\
+main.h 											\
+gettext.h										\
+./functions/restore_rmw.h 	\
+./functions/config_rmw.h		\
+./functions/trivial_rmw.h 	\
+./functions/strings_rmw.h 	\
+./functions/purging_rmw.h		\
+./functions/messages_rmw.h
+
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 top_srcdir = @top_srcdir@

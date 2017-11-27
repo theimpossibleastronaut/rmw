@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -98,7 +99,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(noinst_HEADERS) \
+	$(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
@@ -150,6 +152,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+HEADERS = $(noinst_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
 	$(LISP)config.in
 # Read a list of newline-separated strings from the standard input,
@@ -297,6 +300,18 @@ main.c 				\
 ./functions/strings_rmw.c 	\
 ./functions/purging_rmw.c	\
 ./functions/messages_rmw.c
+
+noinst_HEADERS = \
+rmw.h												\
+primary_funcs.h							\
+main.h 											\
+gettext.h										\
+./functions/restore_rmw.h 	\
+./functions/config_rmw.h		\
+./functions/trivial_rmw.h 	\
+./functions/strings_rmw.h 	\
+./functions/purging_rmw.h		\
+./functions/messages_rmw.h
 
 subdir = src
 rmw_LDADD = @LIBINTL@
@@ -531,7 +546,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS) config.h
+all-am: Makefile $(PROGRAMS) $(HEADERS) config.h
 installdirs:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
