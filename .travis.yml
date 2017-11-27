@@ -1,9 +1,20 @@
+language: c
+
+os:
+  - linux
+  - osx
+
+compiler:
+  - clang
+  - gcc
+
 script: ./configure --prefix=$PWD/temp-build && make && make install
 
 # safelist
 branches:
   only:
   - master
+  - travis_platforms
 
 notifications:
   slack: removetowaste:u16fiNsaMeLmg7J4WXifW3Zm
