@@ -1,5 +1,5 @@
 /*
- * primary_funcs.h
+ * trashinfo_rmw.h
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
@@ -26,19 +26,10 @@
 #ifndef INC_PRIMARY_FUNCS_H
 #define INC_PRIMARY_FUNCS_H
 
-#include <sys/stat.h>
 #include "rmw.h"
-#include "strings_rmw.h"
-#include "messages_rmw.h"
-
-int
-make_dir (const char *dir);
 
 int
 create_trashinfo (struct rmw_target file, struct waste_containers *waste,
                   char *time_now, char *time_str_appended, const short int cnum);
-
-int
-exists (const char *filename);
 
 #endif

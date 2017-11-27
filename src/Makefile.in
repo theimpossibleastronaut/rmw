@@ -110,13 +110,14 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
-am_rmw_OBJECTS = primary_funcs.$(OBJEXT) main.$(OBJEXT) \
-	./functions/restore_rmw.$(OBJEXT) \
+am_rmw_OBJECTS = main.$(OBJEXT) ./functions/restore_rmw.$(OBJEXT) \
 	./functions/config_rmw.$(OBJEXT) \
 	./functions/trivial_rmw.$(OBJEXT) \
 	./functions/strings_rmw.$(OBJEXT) \
 	./functions/purging_rmw.$(OBJEXT) \
-	./functions/messages_rmw.$(OBJEXT)
+	./functions/messages_rmw.$(OBJEXT) \
+	./functions/trashinfo_rmw.$(OBJEXT) \
+	./functions/utils_rmw.$(OBJEXT)
 rmw_OBJECTS = $(am_rmw_OBJECTS)
 rmw_DEPENDENCIES =
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -321,20 +322,20 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -std=gnu99 -Wall -pedantic -I./functions
+AM_CFLAGS = -std=gnu11 -Wall -pedantic -I./functions
 rmw_SOURCES = \
-primary_funcs.c			\
 main.c 				\
 ./functions/restore_rmw.c 	\
 ./functions/config_rmw.c	\
 ./functions/trivial_rmw.c 	\
 ./functions/strings_rmw.c 	\
 ./functions/purging_rmw.c	\
-./functions/messages_rmw.c
+./functions/messages_rmw.c		\
+./functions/trashinfo_rmw.c		\
+./functions/utils_rmw.c
 
 noinst_HEADERS = \
 rmw.h												\
-primary_funcs.h							\
 main.h 											\
 gettext.h										\
 ./functions/restore_rmw.h 	\
@@ -342,7 +343,9 @@ gettext.h										\
 ./functions/trivial_rmw.h 	\
 ./functions/strings_rmw.h 	\
 ./functions/purging_rmw.h		\
-./functions/messages_rmw.h
+./functions/messages_rmw.h	\
+./functions/trashinfo_rmw.h	\
+./functions/utils_rmw.h
 
 subdir = src
 rmw_LDADD = @LIBINTL@
@@ -463,6 +466,10 @@ functions/$(DEPDIR)/$(am__dirstamp):
 	functions/$(DEPDIR)/$(am__dirstamp)
 ./functions/messages_rmw.$(OBJEXT): functions/$(am__dirstamp) \
 	functions/$(DEPDIR)/$(am__dirstamp)
+./functions/trashinfo_rmw.$(OBJEXT): functions/$(am__dirstamp) \
+	functions/$(DEPDIR)/$(am__dirstamp)
+./functions/utils_rmw.$(OBJEXT): functions/$(am__dirstamp) \
+	functions/$(DEPDIR)/$(am__dirstamp)
 
 rmw$(EXEEXT): $(rmw_OBJECTS) $(rmw_DEPENDENCIES) $(EXTRA_rmw_DEPENDENCIES) 
 	@rm -f rmw$(EXEEXT)
@@ -476,13 +483,14 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/primary_funcs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/config_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/messages_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/purging_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/restore_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/strings_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/trashinfo_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/trivial_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./functions/$(DEPDIR)/utils_rmw.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

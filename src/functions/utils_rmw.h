@@ -1,5 +1,5 @@
 /*
- * main.h
+ * utils_rmw.h
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
@@ -23,17 +23,15 @@
  *
  */
 
-#ifndef _INC_MAIN_H
-#define _INC_MAIN_H
+#ifndef INC_UTIL_FUNCS_H
+#define INC_UTIL_FUNCS_H
 
-#include <getopt.h>
-#include <time.h>
 #include "rmw.h"
-#include "utils_rmw.h"
-#include "restore_rmw.h"
-#include "trivial_rmw.h"
-#include "config_rmw.h"
-#include "trashinfo_rmw.h"
-#include "purging_rmw.h"
+
+int
+make_dir (const char *dir);
+
+int
+exists (const char *filename);
 
 #endif

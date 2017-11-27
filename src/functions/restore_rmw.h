@@ -31,7 +31,7 @@
 #include <dirent.h>
 #include <unistd.h> /* for getche() */
 #include "rmw.h"
-#include "primary_funcs.h"
+#include "utils_rmw.h"
 #include "messages_rmw.h"
 
 int

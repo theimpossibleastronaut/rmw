@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre3\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-11-27 13:19-0600\n"
+"POT-Creation-Date: 2017-11-27 14:37-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -195,22 +195,22 @@ msgid ""
 "# PROTECT = $HOME/src\n"
 msgstr ""
 
-#: src/main.c:121
+#: src/main.c:122
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr ""
 
-#: src/main.c:124
+#: src/main.c:125
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr ""
 
-#: src/main.c:157
+#: src/main.c:158
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr ""
 
-#: src/main.c:169
+#: src/main.c:170
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -226,14 +226,14 @@ msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/main.c:200
+#: src/main.c:201
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
 "\n"
 msgstr ""
 
-#: src/main.c:209
+#: src/main.c:210
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""
@@ -242,43 +242,43 @@ msgstr ""
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/main.c:342
+#: src/main.c:343
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr ""
 
-#: src/main.c:350
+#: src/main.c:351
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/main.c:439
+#: src/main.c:440
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr ""
 
-#: src/main.c:443
+#: src/main.c:444
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr ""
 
-#: src/main.c:463
+#: src/main.c:464
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr ""
 
-#: src/main.c:473
+#: src/main.c:474
 #, c-format
 msgid "1 file was removed to the waste folder"
 msgstr ""
 
-#: src/main.c:474
+#: src/main.c:475
 #, c-format
 msgid "%d files were removed to the waste folder"
 msgstr ""
 
-#: src/main.c:481
+#: src/main.c:482
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -287,7 +287,7 @@ msgstr ""
 
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
-#: src/functions/config_rmw.c:178
+#: src/functions/config_rmw.c:179
 #, c-format
 msgid ""
 "  :Error: Can not open configuration file\n"
@@ -299,34 +299,34 @@ msgid ""
 "Terminating...\n"
 msgstr ""
 
-#: src/functions/config_rmw.c:203
+#: src/functions/config_rmw.c:204
 #, c-format
 msgid ""
 "  :Error: The number of lines in configuration file must be less than %d\n"
 msgstr ""
 
 #. TRANSLATORS:  "purge_after" is a varible
-#: src/functions/config_rmw.c:234
+#: src/functions/config_rmw.c:235
 #, c-format
 msgid "  :Error: invalid purge_after value in configuration\n"
 msgstr ""
 
-#: src/functions/config_rmw.c:269
+#: src/functions/config_rmw.c:270
 #, c-format
 msgid "  :Error: invalid option in config\n"
 msgstr ""
 
-#: src/functions/config_rmw.c:342
+#: src/functions/config_rmw.c:343
 #, c-format
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr ""
 
-#: src/functions/config_rmw.c:345
+#: src/functions/config_rmw.c:346
 #, c-format
 msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr ""
 
-#: src/functions/config_rmw.c:361
+#: src/functions/config_rmw.c:362
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"
@@ -335,22 +335,6 @@ msgid ""
 "visit the rmw web site at\n"
 "  https://github.com/andy5995/rmw/wiki\n"
 "Unable to continue. Exiting...\n"
-msgstr ""
-
-#: src/primary_funcs.c:79
-#, c-format
-msgid "Created directory %s\n"
-msgstr ""
-
-#: src/primary_funcs.c:83 src/functions/purging_rmw.c:551
-#, c-format
-msgid "  :Error: while creating %s\n"
-msgstr ""
-
-#: src/primary_funcs.c:142 src/primary_funcs.c:153
-#: src/functions/restore_rmw.c:79 src/functions/restore_rmw.c:91
-#, c-format
-msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""
 
 #. TRANSLATORS:  "opening" refers to a file
@@ -381,116 +365,127 @@ msgstr ""
 msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
 msgstr ""
 
+#: src/functions/restore_rmw.c:80 src/functions/restore_rmw.c:92
+#: src/functions/trashinfo_rmw.c:85 src/functions/trashinfo_rmw.c:96
+#, c-format
+msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
+msgstr ""
+
 #. TRANSLATORS:  "basename" refers to the basename of a file
-#: src/functions/restore_rmw.c:155
+#: src/functions/restore_rmw.c:156
 #, c-format
 msgid "Searching using only the basename...\n"
 msgstr ""
 
-#: src/functions/restore_rmw.c:171
+#: src/functions/restore_rmw.c:172
 #, c-format
 msgid "search complete\n"
 msgstr ""
 
-#: src/functions/restore_rmw.c:248
+#: src/functions/restore_rmw.c:249
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 
-#: src/functions/restore_rmw.c:266
+#: src/functions/restore_rmw.c:267
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr ""
 
-#: src/functions/restore_rmw.c:272
+#: src/functions/restore_rmw.c:273
 #, c-format
 msgid "Restore failed: %s\n"
 msgstr ""
 
-#: src/functions/restore_rmw.c:276
+#: src/functions/restore_rmw.c:277
 #, c-format
 msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
 msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/functions/restore_rmw.c:291
+#: src/functions/restore_rmw.c:292
 #, c-format
 msgid "'%s' not found\n"
 msgstr ""
 
 #. TRANSLATORS:  At this prompt, a file list is displayed. On the
 #. * left side of each file is a number
-#: src/functions/restore_rmw.c:387
+#: src/functions/restore_rmw.c:388
 #, c-format
 msgid ""
 "Input the number to restore, 'enter' for next waste folder, 'q' to quit) "
 msgstr ""
 
-#: src/functions/restore_rmw.c:474
+#: src/functions/restore_rmw.c:475
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr ""
 
-#: src/functions/restore_rmw.c:481
+#: src/functions/restore_rmw.c:482
 #, c-format
 msgid " :warning: Restore() returned errors\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:280
+#: src/functions/purging_rmw.c:296
 #, c-format
 msgid ""
 "\n"
 "Purging files (purge_after = %u) ...\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:408
+#: src/functions/purging_rmw.c:424
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:410
+#: src/functions/purging_rmw.c:426
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr ""
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/functions/purging_rmw.c:417
+#: src/functions/purging_rmw.c:433
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr ""
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/functions/purging_rmw.c:430 src/functions/purging_rmw.c:436
-#: src/functions/purging_rmw.c:451 src/functions/purging_rmw.c:469
+#: src/functions/purging_rmw.c:446 src/functions/purging_rmw.c:452
+#: src/functions/purging_rmw.c:467 src/functions/purging_rmw.c:485
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:484
+#: src/functions/purging_rmw.c:500
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:489
+#: src/functions/purging_rmw.c:505
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:492
+#: src/functions/purging_rmw.c:508
 #, c-format
 msgid "%d file purged"
 msgstr ""
 
-#: src/functions/purging_rmw.c:492
+#: src/functions/purging_rmw.c:508
 #, c-format
 msgid "%d files purged"
 msgstr ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/functions/purging_rmw.c:549
+#: src/functions/purging_rmw.c:565
 #, c-format
 msgid "Created %s\n"
+msgstr ""
+
+#: src/functions/purging_rmw.c:567 src/functions/utils_rmw.c:80
+#, c-format
+msgid "  :Error: while creating %s\n"
 msgstr ""
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
@@ -516,4 +511,9 @@ msgstr ""
 #: src/functions/strings_rmw.c:158
 #, c-format
 msgid "Error: realpath() returned an error.\n"
+msgstr ""
+
+#: src/functions/utils_rmw.c:76
+#, c-format
+msgid "Created directory %s\n"
 msgstr ""

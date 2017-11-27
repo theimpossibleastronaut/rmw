@@ -24,6 +24,7 @@
  *
  */
 
+#include <sys/stat.h>
 #include "main.h"
 
 int

@@ -3,8 +3,9 @@
 src/functions/trivial_rmw.c
 src/main.c
 src/functions/config_rmw.c
-src/primary_funcs.c
 src/functions/messages_rmw.c
 src/functions/restore_rmw.c
 src/functions/purging_rmw.c
 src/functions/strings_rmw.c
+src/functions/trashinfo_rmw.c
+src/functions/utils_rmw.c

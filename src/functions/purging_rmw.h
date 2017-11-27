@@ -27,12 +27,6 @@
 #define _INC_PURGING_H
 
 #include "rmw.h"
-#include <time.h>
-#include <dirent.h>
-#include <unistd.h> /* for rmdir() */
-#include "messages_rmw.h"
-#include "strings_rmw.h"
-#include "primary_funcs.h"
 
 #define RMDIR_MAX_DEPTH 32
 #define NOT_WRITEABLE 101

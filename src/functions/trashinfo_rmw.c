@@ -1,5 +1,5 @@
 /*
- * primary_funcs.c
+ * trashinfo_rmw.c
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
@@ -23,67 +23,10 @@
  *
  */
 
-#include "primary_funcs.h"
-
-/* FIXME: This file is mostly for functions related to creating the
- * .trashinfo files. It should be renamed, and the two utility functions
- * (make_dir() and exists()) should be moved to a separate file
- */
-/**
- * make_dir()
- *
- * Check for the existence of a dir, and create it if not found.
- * Also creates parent directories.
- */
-int
-make_dir (const char *dir)
-{
-  if (exists (dir) == 0)
-    return 0;
-
-  char temp_dir[MP];
-  strcpy (temp_dir, dir);
-
-  char *tokenPtr;
-  tokenPtr = strtok (temp_dir, "/");
-
-  char add_to_path[MP];
-  if (dir[0] == '/')
-    add_to_path[0] = '/';
-
-  add_to_path[1] = '\0';
-
-  bool mk_err = 0;
-
-  while (tokenPtr != NULL)
-  {
-    if (strlen (add_to_path) > 1)
-      strcat (add_to_path, "/");
-
-    strcat (add_to_path, tokenPtr);
-    tokenPtr = strtok (NULL, "/");
-
-    if (exists (add_to_path))
-    {
-      mk_err = (mkdir (add_to_path, S_IRWXU));
-
-      if (!mk_err)
-        continue;
-      else
-        break;
-    }
-  }
-
-  if (!mk_err)
-  {
-    printf (_("Created directory %s\n"), dir);
-    return 0;
-  }
-
-  printf (_("  :Error: while creating %s\n"), add_to_path);
-  perror ("make_dir()");
-  return errno;
-}
+#include <sys/stat.h>
+#include "utils_rmw.h"
+// #include "strings_rmw.h"
+#include "messages_rmw.h"
 
 /**
  * is_unreserved()
@@ -215,18 +158,4 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
   }
 
   return 0;
-}
-
-/**
- * int exists (const char *filename);
- * Checks for the existence of *filename. On error, uses perror() to
- * display the reason
- *
- * return: the return value of lstat()
- */
-int exists (const char *filename)
-{
-  static struct stat st;
-
-  return (lstat (filename, &st));
 }

@@ -23,6 +23,7 @@
  *
  */
 
+#include <sys/stat.h>
 #include "config_rmw.h"
 
 /**

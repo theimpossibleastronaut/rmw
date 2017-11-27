@@ -23,6 +23,7 @@
  *
  */
 
+#include <sys/stat.h>
 #include "rmw.h"
 #include "restore_rmw.h"
 

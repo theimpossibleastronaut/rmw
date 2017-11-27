@@ -24,7 +24,7 @@
  */
 
 #include "rmw.h"
-#include "primary_funcs.h"
+#include "utils_rmw.h"
 #include "strings_rmw.h"
 #include "trivial_rmw.h"
 #include "messages_rmw.h"
