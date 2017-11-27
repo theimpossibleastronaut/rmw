@@ -5,13 +5,12 @@ BUGS                \
 rmwrc_config.example \
 README.md            \
 ChangeLog           \
-AUTHORS             \
+AUTHORS.md           \
 THANKS	            \
 COPYING			\
 INSTALL             \
 NEWS                \
-TODO								\
-ABOUT-NLS
+TODO
 
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
