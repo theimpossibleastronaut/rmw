@@ -1,5 +1,12 @@
 === rmw ChangeLog ===
 
+2017-11-26
+
+    Martijn de Boer tested rmw on his MacOSX system today. The only thing
+    he needed to do was build it was add #include <locale.h>. I've updated
+    a couple spots on the rmw repo and wiki to indicate the rmw is a "Linux
+    and MacOS utility".
+
 2017-11-22
 
     -t --translate option added

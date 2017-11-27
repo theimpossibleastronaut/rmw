@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/andy5995/rmw.svg?branch=master)](https://travis-ci.org/andy5995/rmw)
 
-Rmw is a Linux system utility written in C. It can send files to your "Desktop"
+Rmw is a Linux and MacOSX system utility written in C. It can send files to your "Desktop"
 trash, or a completely separate folder. It can also: restore files; permanently
 delete files that were rmw'ed more than xx number of days ago; skip files or
 directories that have a "PROTECT" directive in the configuration file; and
