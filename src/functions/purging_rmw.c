@@ -25,8 +25,7 @@
 
 #include "purging_rmw.h"
 
-int
-rmdir_recursive (char *path, short unsigned level)
+static int rmdir_recursive (char *path, short unsigned level)
 {
   if (level == RMDIR_MAX_DEPTH)
     return MAX_DEPTH_REACHED;

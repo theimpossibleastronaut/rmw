@@ -39,9 +39,6 @@
 #define MAX_DEPTH_REACHED 201
 
 int
-rmdir_recursive (char *path, ushort level);
-
-int
 purge (const short purge_after, const struct waste_containers *waste,
         char *time_now);
 
