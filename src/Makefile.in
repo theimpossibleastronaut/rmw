@@ -290,7 +290,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -std=gnu99 -Wall -I./functions  -DSYSCONFDIR=\"${sysconfdir}\" -DLOCALEDIR=\"${localedir}\"
+AM_CFLAGS = -std=gnu99 -Wall -pedantic -I./functions  -DSYSCONFDIR=\"${sysconfdir}\" -DLOCALEDIR=\"${localedir}\"
 rmw_SOURCES = \
 primary_funcs.c			\
 main.c 				\

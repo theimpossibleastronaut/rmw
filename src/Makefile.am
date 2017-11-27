@@ -1,5 +1,5 @@
 bin_PROGRAMS=rmw
-AM_CFLAGS= -std=gnu99 -Wall -I./functions  -DSYSCONFDIR=\"${sysconfdir}\" -DLOCALEDIR=\"${localedir}\"
+AM_CFLAGS= -std=gnu99 -Wall -pedantic -I./functions  -DSYSCONFDIR=\"${sysconfdir}\" -DLOCALEDIR=\"${localedir}\"
 rmw_SOURCES=			\
 primary_funcs.c			\
 main.c 				\
