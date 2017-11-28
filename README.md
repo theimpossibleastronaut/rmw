@@ -1,11 +1,11 @@
 [![Build Status](https://travis-ci.org/andy5995/rmw.svg?branch=master)](https://travis-ci.org/andy5995/rmw)
 
-Rmw is a Linux and MacOSX system utility written in C. It can send files to your "Desktop"
-trash, or a completely separate folder. It can also: restore files; permanently
-delete files that were rmw'ed more than xx number of days ago; skip files or
-directories that have a "PROTECT" directive in the configuration file; and
-append a unique string to the filenames so they won't get overwritten
-(duplication protection).
+rmw is an OS portable cli trash can utility written in C. It can send files to
+your "Desktop" trash, or a completely separate folder. It can also: restore
+files; permanently delete files that were rmw'ed more than xx number of days
+ago; skip files or directories that have a "PROTECT" directive in the
+configuration file; and append a unique string to the filenames so they won't
+be overwritten (duplication protection).
 
 Web site: https://github.com/andy5995/rmw/wiki
 
