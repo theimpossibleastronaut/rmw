@@ -1,5 +1,15 @@
 === rmw ChangeLog ===
 
+2017-11-29
+
+    new feature for testing added
+      setting the RMWTRASH environmental variable to "fake-year" will write
+      the year 1999 to the DeletionDate string in the .trashinfo file.
+
+      Ex: `RMWTRASH=fake-year rmw some.txt temp.asc files.doc`
+
+      Then run rmw with the purge option: `rmw -fg`
+
 2017-11-26
 
     Martijn de Boer tested rmw on his MacOSX system today. To get a complete build,

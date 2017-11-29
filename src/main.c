@@ -193,7 +193,23 @@ Unable to continue. Exiting...\n"));
     /* used for DeletionDate in trashinfo file
      * and for comparison in purge() */
   char time_now[21];
-  get_time_string (time_now, 21, "%FT%T");
+
+  /* helps test the purge function */
+  bool use_fake_year = 0;
+
+  if (getenv ("RMWTRASH") != NULL)
+  {
+    use_fake_year = strcmp (getenv ("RMWTRASH"), "fake-year") ? 0 : 1;
+  }
+
+  if (!use_fake_year)
+  {
+    get_time_string (time_now, 21, "%FT%T");
+  }
+  else
+  {
+    get_time_string (time_now, 21, "1999-%m-%dT%T");
+  }
 
   if (purgeYes && !purge_after)
   /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
