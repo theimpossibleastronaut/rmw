@@ -1,5 +1,12 @@
 === rmw ChangeLog ===
 
+2017-11-30
+
+    [#126] using extra force at runtime (-ff) will now prevent messages
+    such as "Directory not purged - still contains files" when purging
+    directories that contain non-writable subdirectories.
+
+
 2017-11-29
 
     new feature for testing added

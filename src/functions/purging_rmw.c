@@ -41,7 +41,7 @@ char *strptime (const char *__restrict __s,
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
-static int rmdir_recursive (char *path, short unsigned level)
+static int rmdir_recursive (char *path, short unsigned level, const ushort force)
 {
   if (level == RMDIR_MAX_DEPTH)
     return MAX_DEPTH_REACHED;
@@ -78,6 +78,29 @@ static int rmdir_recursive (char *path, short unsigned level)
     strcat (dir_path, entry->d_name);
 
     lstat (dir_path, &st);
+
+    if (S_ISDIR (st.st_mode) && force == 2 && st.st_mode != S_IWUSR)
+    {
+      if (!chmod (dir_path, 00700))
+      {
+        /* Now that the mode has changed, lstat must be run again */
+        lstat (dir_path, &st);
+      }
+      else
+      {
+        printf (_("  :Error: while changing permissions of %s\n"),
+        path);
+        perror ("chmod: ");
+        printf ("\n");
+        /* if permissions aren't changed, the directory is still
+        * not writable. This error shouldn't really happen. I don't
+        * know what to do next if that happens. Right now, the program
+        * will continue as normal, with the warning message about
+        * permissions
+        */
+      }
+    }
+
     if (st.st_mode & S_IWUSR)
     {
       if (!S_ISDIR (st.st_mode))
@@ -88,17 +111,8 @@ static int rmdir_recursive (char *path, short unsigned level)
       }
       else
       {
-/*
- * if this function returns a 1 when it is called, that means on
- * a previous recursion, it encountered a file that wasn't writeable,
- * and therefore the top-level directory can't be deleted. It will skip
- * all future recursions, and also skip looking at files or directories
- * in the parent directories.
- *
- * In order for the purge to actually happen, the user must make sure all
- * files and dirs under the top level target directory are writeable
- */
-        status = rmdir_recursive (dir_path, ++level);
+
+        status = rmdir_recursive (dir_path, ++level, force);
         level--;
 
         switch (status)
@@ -137,7 +151,7 @@ static int rmdir_recursive (char *path, short unsigned level)
   if (status)
     perror ("rmdir_recursive -> closedir");
 
-  if (level != 1)
+  if (level > 1)
   {
     status = rmdir (path);
     if (status)
@@ -156,7 +170,7 @@ static int rmdir_recursive (char *path, short unsigned level)
  * to the lastpurge file.
  */
 bool
-is_time_to_purge (bool force)
+is_time_to_purge (ushort force)
 {
   #ifndef WIN32
   char *HOMEDIR = getenv ("HOME");
@@ -271,7 +285,7 @@ is_time_to_purge (bool force)
 
 int
 purge (const short purge_after, const struct waste_containers *waste,
-       char *time_now)
+       char *time_now, const ushort force)
 {
   short status = 0;
 
@@ -417,7 +431,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
         if (S_ISDIR (st.st_mode))
         {
-          status = rmdir_recursive (purgeFile, 1);
+          status = rmdir_recursive (purgeFile, 1, force);
           switch (status)
           {
           case NOT_WRITEABLE:

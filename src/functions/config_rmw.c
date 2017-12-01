@@ -95,7 +95,7 @@ static bool make_home_real (char *str, const char *HOMEDIR)
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
       ushort *purge_after,
-      char protected_dir[PROTECT_MAX][MP], bool *force)
+      char protected_dir[PROTECT_MAX][MP], ushort *force)
 {
   char config_file[MP];
   const ushort CFG_MAX_LEN = PATH_MAX + 16;
@@ -234,8 +234,10 @@ Terminating...\n"), config_file, CFG_FILE);
         /* TRANSLATORS:  "purge_after" is a varible  */
         printf (_("  :Error: invalid purge_after value in configuration\n"));
     }
-    else if (strncmp (line_from_config, "force_not_required", 18) == 0)
-      *force = 1;
+    else if (!*force && strncmp (line_from_config, "force_not_required", 18) == 0)
+      {
+        *force = 1;
+      }
     else if (waste_ctr < WASTENUM_MAX &&
         strncmp ("WASTE", line_from_config, 5) == 0)
     {

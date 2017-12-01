@@ -69,7 +69,8 @@ main (int argc, char *argv[])
   bool undo_last = 0;
   bool bypass = 0;
   bool list = 0;
-  bool force = 0;
+
+  ushort force = 0;
 
   const char *alt_config = NULL;
 
@@ -125,7 +126,7 @@ main (int argc, char *argv[])
       printf (_("-r / --recurse: not implemented\n"));
       break;
     case 'f':
-      force = 1;
+      force++;
       break;
     case '?':
       print_usage ();
@@ -221,7 +222,7 @@ Unable to continue. Exiting...\n"));
     if (is_time_to_purge (force) != 0 || purgeYes != 0)
     {
       if (force)
-        purge (purge_after, waste, time_now);
+        purge (purge_after, waste, time_now, force);
       else
         printf (_("purge has been skipped: use -f or --force\n"));
     }
