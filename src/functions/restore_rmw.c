@@ -23,21 +23,25 @@
  *
  */
 
-#include <sys/stat.h>
 #include "rmw.h"
 #include "restore_rmw.h"
+#include "utils_rmw.h"
+#include "messages_rmw.h"
 
-static char* human_readable_size (off_t size)
+static char *
+human_readable_size (off_t size)
 {
   /* "xxxx.y GiB" - 10 chars + '\0' */
   static char buffer[12];
 
   /* Store only the first letter; we add "iB" later during snprintf(). */
-  const char prefix[] = {'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
+  const char prefix[] = { 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y' };
   short power = -1;
 
-  short remainder;
-  while(size >= 1024)
+  static short remainder;
+  remainder = 0;
+
+  while (size >= 1024)
   {
     remainder = size % 1024;
     size /= 1024;
@@ -45,10 +49,11 @@ static char* human_readable_size (off_t size)
     ++power;
   }
 
-  if(power >= 0)
-    snprintf(buffer, sizeof(buffer), "%ld.%hd %ciB", (long)size, (remainder * 10) / 1024, prefix[power]);
+  if (power >= 0)
+    snprintf (buffer, sizeof (buffer), "%ld.%hd %ciB", (long) size,
+              (remainder * 10) / 1024, prefix[power]);
   else
-    snprintf(buffer, sizeof(buffer), "%ld B", (long)size);
+    snprintf (buffer, sizeof (buffer), "%ld B", (long) size);
 
   return buffer;
 }
@@ -60,7 +65,8 @@ static char* human_readable_size (off_t size)
  * that appear.
  * returns 0 on succes, 1 on failure
  */
-static bool unescape_url (const char *str, char *dest, ushort len)
+static bool
+unescape_url (const char *str, char *dest, ushort len)
 {
   static ushort pos_str;
   static ushort pos_dest;
@@ -77,19 +83,24 @@ static bool unescape_url (const char *str, char *dest, ushort len)
        * character + '\0') */
       if (pos_dest + 2 > len)
       {
-        printf (_("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"), __FUNCTION__, len, pos_dest+2);
+        printf (_
+                ("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"),
+                __FUNCTION__, len, pos_dest + 2);
         return 1;
       }
 
-      sscanf(str + pos_str, "%2hhx", dest + pos_dest);
+      sscanf (str + pos_str, "%2hhx", dest + pos_dest);
       pos_str += 2;
     }
-    else {
+    else
+    {
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
       if (pos_dest + 2 > len)
       {
-        printf (_("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"), __FUNCTION__, len, pos_dest+2);
+        printf (_
+                ("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"),
+                __FUNCTION__, len, pos_dest + 2);
         return 1;
       }
 
@@ -104,25 +115,12 @@ static bool unescape_url (const char *str, char *dest, ushort len)
   return 0;
 }
 
-/* reads from keypress, echoes */
-static int getche (void)
-{
-  static struct termios oldattr, newattr;
-  static int ch;
-  tcgetattr (STDIN_FILENO, &oldattr);
-  newattr = oldattr;
-  newattr.c_lflag &= ~(ICANON);
-  tcsetattr (STDIN_FILENO, TCSANOW, &newattr);
-  ch = getchar ();
-  tcsetattr (STDIN_FILENO, TCSANOW, &oldattr);
-  return ch;
-}
-
 /**
  * FIXME: This apparently needs re-working too. I'm sure it could be
  * written more efficiently
  */
-int Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
+int
+Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 {
   static short func_error;
   func_error = 0;
@@ -149,8 +147,7 @@ int Restore (char *argv, char *time_str_appended, struct waste_containers *waste
  * The 2 code blocks below address
  * restoring files with only the basename #14
  */
-  if ((strcmp (file.base_name, argv) == 0) &&
-        exists (file.base_name))
+  if ((strcmp (file.base_name, argv) == 0) && exists (file.base_name))
   {
     /* TRANSLATORS:  "basename" refers to the basename of a file  */
     printf (_("Searching using only the basename...\n"));
@@ -180,10 +177,11 @@ int Restore (char *argv, char *time_str_appended, struct waste_containers *waste
 
     truncate_str (file.relative_path, strlen (file.base_name));
 
-    sprintf (file.info, "%s%s%s%s", file.relative_path, "../info/", file.base_name, DOT_TRASHINFO);
+    sprintf (file.info, "%s%s%s%s", file.relative_path, "../info/",
+             file.base_name, DOT_TRASHINFO);
 
 #if DEBUG == 1
-  printf ("Restore()/debug: %s\n", file.info);
+    printf ("Restore()/debug: %s\n", file.info);
 #endif
 
       /**
@@ -196,7 +194,7 @@ int Restore (char *argv, char *time_str_appended, struct waste_containers *waste
 
     if ((fp = fopen (file.info, "r")) != NULL)
     {
-      if (fgets (line, sizeof (line), fp ) != NULL)
+      if (fgets (line, sizeof (line), fp) != NULL)
       {
           /**
            * Not using the "[Trash Info]" line, but reading the file
@@ -204,7 +202,8 @@ int Restore (char *argv, char *time_str_appended, struct waste_containers *waste
            */
 
         if (strncmp (line, "[Trash Info]", 12) == 0)
-        {}
+        {
+        }
         else
         {
           display_dot_trashinfo_error (file.info, 1);
@@ -239,8 +238,8 @@ int Restore (char *argv, char *time_str_appended, struct waste_containers *waste
           return 1;
         }
 
-          /* Check for duplicate filename
-           */
+        /* Check for duplicate filename
+         */
         if (!exists (file.dest))
         {
           strcat (file.dest, time_str_appended);
@@ -264,18 +263,19 @@ Duplicate filename at destination - appending time string...\n"));
           printf ("+'%s' -> '%s'\n", argv, file.dest);
 
           if (remove (file.info) != 0)
-            printf (_("  :Error: while removing .trashinfo file: '%s'\n"), file.info);
-          else
-            if (verbose)
-              printf ("-%s\n", file.info);
+            printf (_("  :Error: while removing .trashinfo file: '%s'\n"),
+                    file.info);
+          else if (verbose)
+            printf ("-%s\n", file.info);
         }
         else
           printf (_("Restore failed: %s\n"), file.dest);
       }
       else
       {
-        printf (_("  :Error: Able to open '%s' but encountered an unknown error\n"),
-            file.info);
+        printf (_
+                ("  :Error: Able to open '%s' but encountered an unknown error\n"),
+                file.info);
         return 1;
       }
 
@@ -307,16 +307,6 @@ Duplicate filename at destination - appending time string...\n"));
 void
 restore_select (struct waste_containers *waste, char *time_str_appended)
 {
-  struct stat st;
-  struct dirent *entry;
-  char path_to_file[MP];
-
-  unsigned count = 0;
-  char input[10];
-  char c;
-  unsigned char char_count = 0;
-  short choice = 0;
-
   /*
    * ctr increments at the end of the loop, if choice hasn't been made,
    * so not using START_WASTE_COUNTER here
@@ -326,105 +316,167 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
   while (strcmp (waste[ctr].parent, "NULL") != 0)
   {
+    static ushort entries;
+    entries = 0;
+
+    struct stat st;
+    struct dirent *entry;
     static DIR *dir;
     dir = opendir (waste[ctr].files);
-    count = 0;
 
-    if (!choice)
-      printf ("\t>-- %s --<\n", waste[ctr].files);
+    /* This first loop is used to get the number of entries in the
+     * directory.
+     */
+    while ((entry = readdir (dir)) != NULL)
+    {
+      if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
+        continue;
+
+      entries++;
+    }
+
+    /* FIXME: needs error checking on close() */
+    closedir (dir);
+
+    ITEM **my_items;
+    MENU *my_menu;
+
+    /* Initialize curses */
+    initscr ();
+    cbreak ();
+    noecho ();
+    keypad (stdscr, TRUE);
+    clear ();
+
+    int c;
+
+    int n_choices;
+
+    /* Now that we know the number of entries, we declare an array
+     */
+    char choices[entries][PATH_MAX + 1];
+
+    /* the 2nd argument of new_item() from the ncurses library is for the
+     * description.
+     */
+    char desc[entries][80 + 1];
+
+    /* reset entries to 0 for the next loop
+     */
+    entries = 0;
+
+    dir = opendir (waste[ctr].files);
 
     while ((entry = readdir (dir)) != NULL)
     {
-      if (!strcmp (entry->d_name, ".")  || !strcmp (entry->d_name, ".."))
+      if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
         continue;
 
-      count++;
+      /* display the file size
+       *
+       */
+      char full_path[PATH_MAX + 1];
+      sprintf (full_path, "%s%s", waste[ctr].files, entry->d_name);
+      /* I tried this using only "entry->d_name but got weird results, so
+       * going to use the full path
+       */
+      lstat (full_path, &st);
+      sprintf (desc[entries], "[%s]", human_readable_size (st.st_size));
 
-      if (count == choice || choice == 0)
-      {
-        strcpy (path_to_file, waste[ctr].files);
+      if (S_ISDIR (st.st_mode))
+        strcat (desc[entries], " (D)");
 
-        /* Not yet sure if 'trim' is needed yet; using it
-         *  until I get smarter
-         */
-        trim (entry->d_name);
+      if (S_ISLNK (st.st_mode))
+        strcat (desc[entries], " (L)");
 
-        strcat (path_to_file, entry->d_name);
-        trim (path_to_file);
-        lstat (path_to_file, &st);
-      }
+      strcpy (choices[entries], entry->d_name);
 
-      if (count == choice)
-      {
-        printf ("\n");
-
-        Restore (path_to_file, time_str_appended, waste);
-        break;
-      }
-
-      if (!choice)
-      {
-        printf ("%3d. %s [%s]", count, entry->d_name, human_readable_size(st.st_size));
-
-        if (S_ISDIR (st.st_mode))
-          printf (" (D)");
-
-        if (S_ISLNK (st.st_mode))
-          printf (" (L)");
-
-        printf ("\n");
-      }
+      entries++;
     }
 
     closedir (dir);
 
-    if (choice)
+    /* Initialize items */
+    n_choices = ARRAY_SIZE(choices);
+    my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
+
+    int i;
+
+    for(i = 0; i < n_choices; ++i)
+    {
+      my_items[i] = new_item(choices[i], desc[i]);
+    }
+
+    my_items[n_choices] = (ITEM *)NULL;
+
+    my_menu = new_menu ((ITEM **) my_items);
+    menu_opts_off (my_menu, O_ONEVALUE);
+
+    mvprintw (LINES - 6, 0, "The current waste folder is %s", waste[ctr].parent);
+    mvprintw (LINES - 5, 0, "<CURSOR-RIGHT> - switch to next waste folder");
+    mvprintw (LINES - 4, 0, "<SPACE> - select or unselect an item.");
+    mvprintw (LINES - 3, 0, "<ENTER> - restore selected items");
+    mvprintw (LINES - 2, 0, "<q> - quits");
+    post_menu (my_menu);
+    refresh ();
+
+    while ((c = getch ()) != KEY_RIGHT)
+    {
+      switch (c)
+      {
+      case KEY_DOWN:
+        menu_driver (my_menu, REQ_DOWN_ITEM);
+        break;
+      case KEY_UP:
+        menu_driver (my_menu, REQ_UP_ITEM);
+        break;
+      case KEY_NPAGE:
+        menu_driver (my_menu, REQ_SCR_DPAGE);
+        break;
+      case KEY_PPAGE:
+        menu_driver (my_menu, REQ_SCR_UPAGE);
+        break;
+      case ' ':
+        menu_driver (my_menu, REQ_TOGGLE_ITEM);
+        break;
+      case 'q':
+        break;
+
+      case 10:                 /* Enter */
+        {
+          endwin ();
+          ITEM **items;
+          items = menu_items (my_menu);
+
+          for (i = 0; i < item_count (my_menu); ++i)
+          {
+            if (item_value (items[i]) == TRUE)
+            {
+              static char recover_file[PATH_MAX + 1];
+              sprintf (recover_file, "%s%s", waste[ctr].files, item_name (items[i]));
+              Restore (recover_file, time_str_appended, waste);
+            }
+          }
+        }
+        break;
+      }
+
+      if (c == 'q' || c == 10)
+        break;
+    }
+
+    free_item (my_items[0]);
+    free_item (my_items[1]);
+    free_menu (my_menu);
+    endwin ();
+
+    if (c == 'q' || c == 10)
       break;
 
-    do
-    {
-      /* TRANSLATORS:  At this prompt, a file list is displayed. On the
-       * left side of each file is a number  */
-      printf (_("Input the number to restore, 'enter' for next waste folder, 'q' to quit) "));
-      char_count = 0;
-      input[0] = '\0';
-      choice = 0;
+    ctr++;
 
-      while ((c = getche ()) != '\n' && char_count < 9 && c >= '0' && c
-             <= '9')
-        input[char_count++] = c;
-
-      if (c == 'q' && char_count == 0)
-        break;
-
-      if (c != '\n')
-        char_count = 0;
-
-      if (c == '\n' && char_count == 0)
-        break;
-
-      if (char_count == 0)
-        printf ("\n");
-      else
-      {
-        input[char_count] = '\0';
-        choice = atoi (input);
-      }
-    }
-
-    while (choice > count || choice < 1);
-
-    /* If user selects 'q' to abort
-     */
-    if (c == 'q')
-    {
-      printf ("\n");
-      return;
-    }
-
-    if (choice == 0)
-      ctr++;
   }
+  return;
 }
 
 void
@@ -450,7 +502,8 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
   undo_file_ptr = fopen (undo_path, "r");
 
   if (undo_file_ptr != NULL)
-  {}
+  {
+  }
   else
   {
     open_err (undo_path, __func__);

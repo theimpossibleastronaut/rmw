@@ -26,13 +26,15 @@
 #ifndef _RESTORE_RMW_H
 #define _RESTORE_RMW_H
 
-#include <termios.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <unistd.h> /* for getche() */
-#include "rmw.h"
-#include "utils_rmw.h"
-#include "messages_rmw.h"
+#include <curses.h>
+#include <menu.h>
+
+/* for curses/restore_select() */
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+#define CTRLD 	4
 
 int
 Restore (char *argv, char *time_str_appended, struct waste_containers *waste);

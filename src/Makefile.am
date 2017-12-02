@@ -38,6 +38,7 @@ DEFS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\" @DEFS@
 
 LIBS = @LIBINTL@ @LIBS@
 rmw_LDADD = @LIBINTL@
+rmw_LDFLAGS = -lcurses -lmenu
 
 distdir = ../$(PACKAGE)-$(VERSION)/$(subdir)
 dist: Makefile $(DISTFILES)

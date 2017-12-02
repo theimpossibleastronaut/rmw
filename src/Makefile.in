@@ -124,6 +124,9 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+rmw_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(rmw_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -349,6 +352,7 @@ gettext.h										\
 
 subdir = src
 rmw_LDADD = @LIBINTL@
+rmw_LDFLAGS = -lcurses -lmenu
 distdir = ../$(PACKAGE)-$(VERSION)/$(subdir)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -473,7 +477,7 @@ functions/$(DEPDIR)/$(am__dirstamp):
 
 rmw$(EXEEXT): $(rmw_OBJECTS) $(rmw_DEPENDENCIES) $(EXTRA_rmw_DEPENDENCIES) 
 	@rm -f rmw$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(rmw_OBJECTS) $(rmw_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(rmw_LINK) $(rmw_OBJECTS) $(rmw_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

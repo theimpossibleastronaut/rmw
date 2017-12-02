@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2017-12-02
+
+    [#125] Implemented ncurses for --select feature.
+
 2017-11-30
 
     [#126] using extra force at runtime (-ff) will now prevent messages
