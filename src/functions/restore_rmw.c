@@ -84,7 +84,7 @@ unescape_url (const char *str, char *dest, ushort len)
       if (pos_dest + 2 > len)
       {
         printf (_
-                ("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"),
+                ("rmw: %s(): buffer too small (got %d, needed a minimum of %hu)\n"),
                 __FUNCTION__, len, pos_dest + 2);
         return 1;
       }
@@ -99,7 +99,7 @@ unescape_url (const char *str, char *dest, ushort len)
       if (pos_dest + 2 > len)
       {
         printf (_
-                ("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"),
+                ("rmw: %s(): buffer too small (got %d, needed a minimum of %hu)\n"),
                 __FUNCTION__, len, pos_dest + 2);
         return 1;
       }
