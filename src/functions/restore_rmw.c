@@ -66,7 +66,7 @@ human_readable_size (off_t size)
  * returns 0 on succes, 1 on failure
  */
 static bool
-unescape_url (const char *str, char *dest, ushort len)
+unescape_url (const char *str, unsigned char *dest, ushort len)
 {
   static ushort pos_str;
   static ushort pos_dest;
@@ -84,7 +84,7 @@ unescape_url (const char *str, char *dest, ushort len)
       if (pos_dest + 2 > len)
       {
         printf (_
-                ("rmw: %s(): buffer too small (got %d, needed a minimum of %hu)\n"),
+                ("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"),
                 __func__, len, pos_dest + 2);
         return 1;
       }
@@ -99,7 +99,7 @@ unescape_url (const char *str, char *dest, ushort len)
       if (pos_dest + 2 > len)
       {
         printf (_
-                ("rmw: %s(): buffer too small (got %d, needed a minimum of %hu)\n"),
+                ("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"),
                 __func__, len, pos_dest + 2);
         return 1;
       }
