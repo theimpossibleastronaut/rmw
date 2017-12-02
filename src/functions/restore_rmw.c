@@ -66,7 +66,7 @@ human_readable_size (off_t size)
  * returns 0 on succes, 1 on failure
  */
 static bool
-unescape_url (const char *str, unsigned char *dest, ushort len)
+unescape_url (const char *str, char *dest, ushort len)
 {
   static ushort pos_str;
   static ushort pos_dest;
