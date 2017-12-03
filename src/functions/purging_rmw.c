@@ -203,6 +203,7 @@ is_time_to_purge (ushort force)
     {
       printf ("Error: while getting line from %s\n", file_lastpurge);
       perror (__func__);
+      close_file (fp, file_lastpurge, __func__);
       return 0;
     }
 
@@ -309,8 +310,6 @@ purge (const short purge_after, const struct waste_containers *waste,
 
   printf (_("\nPurging files (purge_after = %u) ...\n"), purge_after);
 
-  struct dirent *entry;
-
   /**
    *  Read each <WASTE>/info directory
    */
@@ -318,6 +317,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
   while (strcmp (waste[++ctr].parent, "NULL") != 0)
   {
+    static struct dirent *entry;
     DIR *dir = opendir (waste[ctr].info);
     if (dir == NULL)
     {
