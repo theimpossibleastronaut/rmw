@@ -288,16 +288,14 @@ Unable to continue. Exiting...\n"));
     return 0;
   }
 
-  bool undo_opened = 0;
-  FILE *undo_file_ptr = NULL;
-  char undo_path[MP];
-
   struct rmw_target file;
-
-  short main_error = 0;
 
   if (optind < argc)
   {
+    bool undo_opened = 0;
+    FILE *undo_file_ptr = NULL;
+    char undo_path[MP];
+
     sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
 
     /**
@@ -305,6 +303,9 @@ Unable to continue. Exiting...\n"));
      */
     if (bufchk (undo_path, MP))
       return EXIT_BUF_ERR;
+
+    static ushort main_error;
+    main_error = 0;
 
     int rmwed_files = 0;
 
