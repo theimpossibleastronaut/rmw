@@ -307,11 +307,17 @@ Duplicate filename at destination - appending time string...\n"));
 void
 restore_select (struct waste_containers *waste, char *time_str_appended)
 {
+  int c;
+
+  /* Initialize curses */
+  initscr ();
+  cbreak ();
+  noecho ();
+  keypad (stdscr, TRUE);
   /*
    * ctr increments at the end of the loop, if choice hasn't been made,
    * so not using START_WASTE_COUNTER here
    */
-
   short ctr = 0;
 
   while (strcmp (waste[ctr].parent, "NULL") != 0)
@@ -341,15 +347,6 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     ITEM **my_items;
     MENU *my_menu;
 
-    /* Initialize curses */
-    initscr ();
-    cbreak ();
-    noecho ();
-    keypad (stdscr, TRUE);
-    clear ();
-
-    int c;
-
     int n_choices;
 
     /* Now that we know the number of entries, we declare an array
@@ -364,6 +361,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     /* reset entries to 0 for the next loop
      */
     entries = 0;
+    clear ();
 
     dir = opendir (waste[ctr].files);
 
@@ -420,8 +418,9 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     post_menu (my_menu);
     refresh ();
 
-    while ((c = getch ()) != KEY_RIGHT)
+    do
     {
+      c = getch();
       switch (c)
       {
       case KEY_DOWN:
@@ -439,42 +438,42 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
       case ' ':
         menu_driver (my_menu, REQ_TOGGLE_ITEM);
         break;
-      case 'q':
-        break;
-
-      case 10:                 /* Enter */
-        {
-          endwin ();
-          ITEM **items;
-          items = menu_items (my_menu);
-
-          for (i = 0; i < item_count (my_menu); ++i)
-          {
-            if (item_value (items[i]) == TRUE)
-            {
-              static char recover_file[PATH_MAX + 1];
-              sprintf (recover_file, "%s%s", waste[ctr].files, item_name (items[i]));
-              Restore (recover_file, time_str_appended, waste);
-            }
-          }
-        }
-        break;
       }
+    } while (c != KEY_RIGHT && c != 10 && c != 'q');
 
-      if (c == 'q' || c == 10)
-        break;
+    if (c == 10)
+    {
+      endwin ();
+      ITEM **items;
+      items = menu_items (my_menu);
+
+      for (i = 0; i < item_count (my_menu); ++i)
+      {
+        if (item_value (items[i]) == TRUE)
+        {
+          static char recover_file[PATH_MAX + 1];
+          sprintf (recover_file, "%s%s", waste[ctr].files, item_name (items[i]));
+          Restore (recover_file, time_str_appended, waste);
+        }
+      }
     }
 
     free_item (my_items[0]);
     free_item (my_items[1]);
     free_menu (my_menu);
-    endwin ();
 
     if (c == 'q' || c == 10)
+    {
       break;
+    }
 
     ctr++;
+  }
 
+  /* endwin was already run if c == 10 */
+  if (c != 10)
+  {
+    endwin ();
   }
   return;
 }
