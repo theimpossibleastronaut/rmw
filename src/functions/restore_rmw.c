@@ -276,6 +276,7 @@ Duplicate filename at destination - appending time string...\n"));
         printf (_
                 ("  :Error: Able to open '%s' but encountered an unknown error\n"),
                 file.info);
+        close_file (fp, file.info, __func__);
         return 1;
       }
 
