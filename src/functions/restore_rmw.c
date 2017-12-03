@@ -323,8 +323,11 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
    */
   short ctr = 0;
 
-  while (strcmp (waste[ctr].parent, "NULL") != 0)
+  do
   {
+    if (strcmp (waste[ctr].parent, "NULL") == 0)
+      break;
+
     static ushort entries;
     entries = 0;
 
@@ -413,13 +416,21 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     my_menu = new_menu ((ITEM **) my_items);
     menu_opts_off (my_menu, O_ONEVALUE);
 
-    mvprintw (LINES - 7, 4,
-          entries == 1 ? _("== %s contains %d file ==") :
-          _("== %s contains %d files =="), waste[ctr].files, entries);
-    mvprintw (LINES - 5, 0, _("<CURSOR-RIGHT> - switch to next waste folder"));
-    mvprintw (LINES - 4, 0, _("<SPACE> - select or unselect an item."));
-    mvprintw (LINES - 3, 0, _("<ENTER> - restore selected items"));
-    mvprintw (LINES - 2, 0, _("<q> - quit"));
+    mvprintw (LINES - 7, 0, "== %s ==", waste[ctr].files);
+    mvprintw (LINES - 6, 0,
+          entries == 1 ? _("== contains %d file ==") :
+          _("== contains %d files =="), entries);
+
+    /* TRANSLATORS: I believe the words between the < and > can be translated
+     */
+    mvprintw (LINES - 4, 0, _("<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"));
+    mvprintw (LINES - 3, 0, _("\
+<SPACE> - select or unselect an item. / <ENTER> - restore selected items"));
+
+    /* TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
+     * for input in this case.
+    */
+    mvprintw (LINES - 2, 0, _("'q' - quit"));
     post_menu (my_menu);
     refresh ();
 
@@ -444,7 +455,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
         menu_driver (my_menu, REQ_TOGGLE_ITEM);
         break;
       }
-    } while (c != KEY_RIGHT && c != 10 && c != 'q');
+    } while (c != KEY_RIGHT && c != KEY_LEFT && c != 10 && c != 'q');
 
     if (c == 10)
     {
@@ -475,8 +486,15 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
       break;
     }
 
-    ctr++;
-  }
+    if (c == KEY_RIGHT && strcmp (waste[ctr + 1].parent, "NULL") != 0)
+    {
+      ctr++;
+    }
+
+    if (c == KEY_LEFT && ctr)
+      ctr--;
+
+  }while (strcmp (waste[ctr].parent, "NULL") != 0);
 
   /* endwin was already run if c == 10 */
   if (c != 10)
