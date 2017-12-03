@@ -410,11 +410,13 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     my_menu = new_menu ((ITEM **) my_items);
     menu_opts_off (my_menu, O_ONEVALUE);
 
-    mvprintw (LINES - 6, 0, "The current waste folder is %s", waste[ctr].parent);
-    mvprintw (LINES - 5, 0, "<CURSOR-RIGHT> - switch to next waste folder");
-    mvprintw (LINES - 4, 0, "<SPACE> - select or unselect an item.");
-    mvprintw (LINES - 3, 0, "<ENTER> - restore selected items");
-    mvprintw (LINES - 2, 0, "<q> - quits");
+    mvprintw (LINES - 7, 4,
+          entries == 1 ? _("== %s contains %d file ==") :
+          _("== %s contains %d files =="), waste[ctr].files, entries);
+    mvprintw (LINES - 5, 0, _("<CURSOR-RIGHT> - switch to next waste folder"));
+    mvprintw (LINES - 4, 0, _("<SPACE> - select or unselect an item."));
+    mvprintw (LINES - 3, 0, _("<ENTER> - restore selected items"));
+    mvprintw (LINES - 2, 0, _("<q> - quit"));
     post_menu (my_menu);
     refresh ();
 
