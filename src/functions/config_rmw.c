@@ -159,13 +159,16 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   {}
   else
   {
+    close_file (config_ptr, config_file, __func__);
     char str_temp[MP];
     sprintf (str_temp, "%s%s", SYSCONFDIR, "/rmwrc");
 
     strcpy (config_file, str_temp);
 
     if (bufchk (config_file, MP))
+    {
       return EXIT_BUF_ERR;
+    }
 
     config_ptr = fopen (config_file, "r");
 
