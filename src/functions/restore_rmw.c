@@ -133,11 +133,6 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
     char info[MP];
   } file;
 
-  /* adding 5 for the 'Path=' preceding the path.
-   * multiplying by 3 for worst case scenario (all chars escaped)
-   */
-  static char line[MP * 3 + 5];
-
   if ((func_error = bufchk (argv, PATH_MAX)))
     return EXIT_BUF_ERR;
 
@@ -194,6 +189,10 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 
     if ((fp = fopen (file.info, "r")) != NULL)
     {
+        /* adding 5 for the 'Path=' preceding the path.
+       * multiplying by 3 for worst case scenario (all chars escaped)
+       */
+      static char line[MP * 3 + 5];
       if (fgets (line, sizeof (line), fp) != NULL)
       {
           /**
