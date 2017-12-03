@@ -39,4 +39,6 @@ close_file (FILE *file_ptr, const char *filename, const char *function_name);
 
 void display_dot_trashinfo_error (const char *dti, const int line);
 
+void msg_warn_restore (void);
+
 #endif

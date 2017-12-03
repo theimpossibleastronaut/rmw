@@ -158,7 +158,10 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 
       strcat (possibly_in_path, argv);
 
-      Restore (possibly_in_path, time_str_appended, waste);
+      if (Restore (possibly_in_path, time_str_appended, waste))
+      {
+        msg_warn_restore();
+      }
     }
 
     printf (_("search complete\n"));
@@ -455,7 +458,10 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
         {
           static char recover_file[PATH_MAX + 1];
           sprintf (recover_file, "%s%s", waste[ctr].files, item_name (items[i]));
-          Restore (recover_file, time_str_appended, waste);
+          if (Restore (recover_file, time_str_appended, waste))
+          {
+            msg_warn_restore();
+          }
         }
       }
     }
@@ -533,7 +539,7 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
     return;
   }
 
-  printf (_(" :warning: Restore() returned errors\n"));
+  msg_warn_restore();
 
   return;
 }

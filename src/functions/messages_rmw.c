@@ -78,3 +78,9 @@ void display_dot_trashinfo_error (const char *dti, const int line)
                   dti, line);
   return;
 }
+
+void msg_warn_restore (void)
+{
+  printf (_(" :warning: Restore() returned errors\n"));
+  return;
+}
