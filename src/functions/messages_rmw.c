@@ -76,6 +76,7 @@ void display_dot_trashinfo_error (const char *dti, const int line)
    */
   printf (_("  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"),
                   dti, line);
+  printf ("\n");
   return;
 }
 
