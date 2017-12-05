@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- * Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
+ * Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
  * Other authors: https://github.com/andy5995/rmw/blob/master/AUTHORS.md
  *
  * This program is free software; you can redistribute it and/or modify
@@ -46,7 +46,7 @@
 #define N_(String) gettext_noop (String)
 
 #ifndef VERSION
-#define VERSION "0.4.01-pre3"
+#define VERSION "0.4.01-pre4"
 #endif
 
 #define DEBUG 0

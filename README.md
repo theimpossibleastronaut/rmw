@@ -17,8 +17,32 @@ https://github.com/andy5995/rmw/blob/v2016.09.19.01a/README
 Anyone interested in this project is welcome to join the
 [chat room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
 
-If you would like to help translate the output messages for this program,
-please see the [Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating).
+If you would like to help translate the man page or the output messages for
+this program, please see the
+[Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating).
+
+## Installation
+
+### With superuser privileges:
+
+    ./configure --prefix=/usr --sysconfdir=/etc
+    make
+    make install
+
+### As a normal user:
+
+    ./configure --prefix=$HOME/usr
+    make
+    make install
+
+rmw would installed to $HOME/usr/bin and the configuration file would be
+located in $HOME/usr/etc
+
+### Pre-built binary packages
+
+Packages for some operating systems are available on the
+[Downloads](https://github.com/andy5995/rmw/releases) page
+
 
 ```
 man pages are now available in the following languages:
@@ -31,11 +55,7 @@ man pages are now available in the following languages:
     * pt_BR
     * nl
 
-See the NEWS file for details about new options for your existing
-rmw configuration file. The two new options are:
-
-force_not_required
-,removable (the leading comma is mandatory)
+If you installed rmw as a normal user, this next step can be skipped.
 
 After rmw is installed, create the user configuration directory by typing
 'rmw' and hitting enter. Afterward, it's recommended to copy /etc/rmwrc (or
@@ -52,8 +72,7 @@ in that same directory.
 
 == Configuration File ==
 
-Documentation explaining the configuration can be found in 'rmwrc', and
-extra examples in 'rmwrc_config_example'.
+Documentation explaining the configuration can be found in 'etc/rmwrc'
 
 Waste folders will be created automatically. (e.g. if '$HOME/trash.rmw'
 is listed in the config file, these 3 directories will be created:
@@ -61,36 +80,18 @@ $HOME/trash.rmw
 $HOME/trash.rmw/files
 $HOME/trash.rmw/info
 
-If one of the WASTE folder is on removable media, then the user has the
-option of appending ',removable' (More info about that in rmwrc, included
-with the rmw package).
-
-== Purging ==
-
-If purging is 'on', rmw will permanently delete files from the folders
-specified in the configuration file after 'x' number of days. Purging
-can be disabled by using 'purge_after = 0' in configuration file. rmw will
-only check once per day if it's time to purge (use -g to check more often).
-Purge requires -f (--force) to run (in your rmw configuration file, add
-the line 'force_not_required' if you'd rather not use --force when purging).
-
-The day of the last purge is stored in $HOME/config/rmw/lastpurge
-
-== Empty the Trash ==
-To empty the trash completely, rmw can use the environmental variable
-RMWTRASH. Usage:
-RMWTRASH=empty rmw -fg
+If one of the WASTE folders is on removable media, then the user has the
+option of appending ',removable' (details in etc/rmwrc).
 
 == Features and Options ==
 
 -h, --help
+-t, --translate           display a translation of the configuration file
 -c, --config filename     use an alternate configuration
 -l, --list                list waste directories
 -g, --purge               run purge even if it's been run today
 -o, --orphaned            check for orphaned files (maintenance)
 -f, --force               allow purge to run
--i, --interactive         not implemented
--r, --recurse             not implemented
 -B, --bypass              bypass directory protection
 -v, --verbose             increase output messages
 -w, --warranty            display warranty
@@ -103,6 +104,28 @@ RMWTRASH=empty rmw -fg
 -s, --select              select files from list to restore
 -u, --undo-last           undo last ReMove
 
+== Purging ==
+
+If purging is 'on', rmw will permanently delete files from the folders
+specified in the configuration file after 'x' number of days. Purging
+can be disabled by using 'purge_after = 0' in configuration file. rmw will
+only check once per day if it's time to purge (use -g to check more often).
+
+Purge requires -f (--force) to run.
+
+To skip that requirement, add the line
+
+force_not_required
+
+to your configuration file.
+
+The day of the last purge is stored in $HOME/config/rmw/lastpurge
+
+== Empty the Trash ==
+
+To empty the trash completely, rmw can use the environmental variable
+RMWTRASH. Usage:
+RMWTRASH=empty rmw -fg
 
 == -z option ==
 
@@ -117,15 +140,28 @@ working directory.
 
 == Protected directories ==
 
-explained:
-if 'PROTECT = /home/andy' is specified in the config file, /home/andy, and
-all dirs and files beneath it will be "protected". This warning will show
-up:
+If 'PROTECT = /home/andy' is specified in the config file, /home/andy, and
+all dirs and files beneath it will be "protected"; they will be skipped, and
+this warning will be displayed:
 
 "File is in protected directory: <filename/dir>"
 
-And it will not get rmw'ed
-
 WASTE folders and the rmw configuration/data directory are protected by
 default (there is no need to add a 'PROTECT =' line for them.
+
+Protection can by bypassed using -B
+
+== -t, --translate ==
+
+If a translation of the configuration file is available in your native language
+is available, it will be displayed.
+
+(If you would be interested in adding a translation, please visit
+https://github.com/andy5995/rmw/wiki/Translating)
+
+== -f, --force ==
+rmw will normally refuse to purge directories if they contain non-writable
+subdirectories. You can use -f 2 times if you ever see a message that tells
+you "permission denied; directory still contains files" (e.g. rwm -gff).
+
 ```

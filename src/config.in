@@ -28,12 +28,6 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to 1 if you have the `curses' library (-lcurses). */
-#undef HAVE_LIBCURSES
-
-/* Define to 1 if you have the `menu' library (-lmenu). */
-#undef HAVE_LIBMENU
-
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 

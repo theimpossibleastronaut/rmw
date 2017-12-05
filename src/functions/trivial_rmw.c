@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2016  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,8 @@ void print_usage (void)
 Usage: rmw [OPTION]... FILE...\n\
 ReMove the FILE(s) to a WASTE directory listed in configuration file\n\
 \n\
+   or: rmw -s\n\
+   or: rmw -u\n\
    or: rmw -z FILE...\n\
 Restore FILE(s) from a WASTE directory\n\
 \n\
@@ -41,8 +43,6 @@ Restore FILE(s) from a WASTE directory\n\
   -g, --purge               run purge even if it's been run today\n\
   -o, --orphaned            check for orphaned files (maintenance)\n\
   -f, --force               allow purge to run\n\
-  -i, --interactive         not implemented\n\
-  -r, --recurse             not implemented\n\
   -B, --bypass              bypass directory protection\n\
   -v, --verbose             increase output messages\n\
   -w, --warranty            display warranty\n\
