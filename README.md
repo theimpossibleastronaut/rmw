@@ -43,7 +43,10 @@ located in $HOME/usr/etc
 Packages for some operating systems are available on the
 [Downloads](https://github.com/andy5995/rmw/releases) page
 
+## Uninstall / Cleaning up
 
+    make uninstall
+    make distclean
 ```
 man pages are now available in the following languages:
 
