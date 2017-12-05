@@ -131,16 +131,20 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
   if (bufchk (finalInfoDest, MP))
     return 1;
 
-  /* Worst case scenario: whole path is escaped, so 3 chars per
-   * actual character */
-  static char escaped_path[MP * 3];
-
   FILE *fp = fopen (finalInfoDest, "w");
 
   if (fp != NULL)
   {
+    /* Worst case scenario: whole path is escaped, so 3 chars per
+     * actual character
+     **/
+    static char escaped_path[MP * 3];
+
     if (escape_url (file.real_path, escaped_path, MP * 3) )
+    {
+      close_file (fp, finalInfoDest, __func__);
       return 1;
+    }
 
     fprintf (fp, "[Trash Info]\n");
     fprintf (fp, "Path=%s\n", escaped_path);
