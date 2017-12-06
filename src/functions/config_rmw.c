@@ -181,11 +181,11 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
       printf (_("\
   :Error: Can not open configuration file\n\
 %s (or)\n\
-%s\n\
+%s%s\n\
 \n\
 A default configuration file can be found at\n\
 https://github.com/andy5995/rmw/tree/master/etc\n\
-Terminating...\n"), config_file, CFG_FILE);
+Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       return NO_WASTE_FOLDER;
     }
   }
