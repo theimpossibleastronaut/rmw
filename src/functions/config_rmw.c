@@ -159,7 +159,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   {}
   else
   {
-    close_file (config_ptr, config_file, __func__);
     char str_temp[MP];
     sprintf (str_temp, "%s%s", SYSCONFDIR, "/rmwrc");
 
