@@ -21,6 +21,13 @@ If you would like to help translate the man page or the output messages for
 this program, please see the
 [Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating).
 
+## Required libraries
+
+libncurses5
+
+If you are building from source, you will need the libncurses(5 or 6)-dev
+package.
+
 ## Installation
 
 ### With superuser privileges:
