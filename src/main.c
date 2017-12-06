@@ -226,7 +226,7 @@ Unable to continue. Exiting...\n"));
     {
       if (force)
         purge (purge_after, waste, time_now, force);
-      else if (!created_data_dir)
+      else if (!created_data_dir && verbose == 1)
         printf (_("purge has been skipped: use -f or --force\n"));
     }
   }

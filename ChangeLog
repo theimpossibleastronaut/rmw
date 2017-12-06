@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2017-12-06
+
+    rmw will now only show the message "purge has been skipped: use -f or
+    --force" if verbose mode is on.
+
 2017-12-02
 
     [#125] Implemented ncurses for --select feature.
