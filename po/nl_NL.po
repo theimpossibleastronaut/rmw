@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-04 20:05-0600\n"
+"POT-Creation-Date: 2017-12-05 23:15-0600\n"
 "PO-Revision-Date: 2017-12-02 20:47+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
@@ -349,7 +349,7 @@ msgstr "-r / --recurse: nog niet beschikbaar\n"
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Fout: bij het ophalen van het pad naar je thuismap\n"
 
-#: src/main.c:171
+#: src/main.c:174
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -374,7 +374,7 @@ msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/main.c:218
+#: src/main.c:221
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -383,7 +383,7 @@ msgstr ""
 "verwijderen is uitgeschakeld, 'purge_after' is ingesteld op ‘0’\n"
 "\n"
 
-#: src/main.c:227
+#: src/main.c:230
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of —force\n"
@@ -392,43 +392,43 @@ msgstr "purge is overgeslagen: gebruik -f of —force\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/main.c:366
+#: src/main.c:369
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Overgeslagen: %s is in een beveiligde map\n"
 
-#: src/main.c:374
+#: src/main.c:377
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/main.c:463
+#: src/main.c:466
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr ": Fout: nummer %d bij maken van een .trashinfo bestand\n"
 
-#: src/main.c:467
+#: src/main.c:470
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr " :Fout nummer %d bij verplaatsen van %s:\n"
 
-#: src/main.c:487
+#: src/main.c:490
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr " Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
 
-#: src/main.c:497
+#: src/main.c:500
 #, c-format
 msgid "1 file was removed to the waste folder"
 msgstr "1 bestand werd verwijderd naar de afval map"
 
-#: src/main.c:498
+#: src/main.c:501
 #, c-format
 msgid "%d files were removed to the waste folder"
 msgstr "%d bestanden zijn naar de afval map verwijderd"
 
-#: src/main.c:505
+#: src/main.c:508
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -439,12 +439,20 @@ msgstr ""
 
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
-#: src/functions/config_rmw.c:182
-#, c-format
+#: src/functions/config_rmw.c:181
+#, fuzzy, c-format
+#| msgid ""
+#| "  :Error: Can not open configuration file\n"
+#| "%s (or)\n"
+#| "%s\n"
+#| "\n"
+#| "A default configuration file can be found at\n"
+#| "https://github.com/andy5995/rmw/tree/master/etc\n"
+#| "Terminating...\n"
 msgid ""
 "  :Error: Can not open configuration file\n"
 "%s (or)\n"
-"%s\n"
+"%s%s\n"
 "\n"
 "A default configuration file can be found at\n"
 "https://github.com/andy5995/rmw/tree/master/etc\n"
@@ -458,7 +466,7 @@ msgstr ""
 "https://github.com/andy5995/rmw/tree/master/etc\n"
 "Afsluiten…\n"
 
-#: src/functions/config_rmw.c:207
+#: src/functions/config_rmw.c:206
 #, c-format
 msgid ""
 "  :Error: The number of lines in configuration file must be less than %d\n"
@@ -467,27 +475,27 @@ msgstr ""
 "%d\n"
 
 #. TRANSLATORS:  "purge_after" is a varible
-#: src/functions/config_rmw.c:238
+#: src/functions/config_rmw.c:237
 #, c-format
 msgid "  :Error: invalid purge_after value in configuration\n"
 msgstr "  :Fout: onjuiste waarde voor purge_after in configuratie\n"
 
-#: src/functions/config_rmw.c:275
+#: src/functions/config_rmw.c:274
 #, c-format
 msgid "  :Error: invalid option in config\n"
 msgstr "  :Fout: onjuiste optie in configuratie\n"
 
-#: src/functions/config_rmw.c:348
+#: src/functions/config_rmw.c:347
 #, c-format
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr " :waarschuwing: Het maximum aantal afval mappen is bereikt: %d\n"
 
-#: src/functions/config_rmw.c:351
+#: src/functions/config_rmw.c:350
 #, c-format
 msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr " :waarschuwing: Het maximaal aantal beschermde mappen is bereikt: %d\n"
 
-#: src/functions/config_rmw.c:367
+#: src/functions/config_rmw.c:366
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"
@@ -533,7 +541,7 @@ msgstr "  :Fout: bij sluiten van %s\n"
 msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
 msgstr "  :Fout: formaat van .trashinfo `bestand %s` is incorrect (Lijn %d)"
 
-#: src/functions/messages_rmw.c:84
+#: src/functions/messages_rmw.c:85
 #, c-format
 msgid " :warning: Restore() returned errors\n"
 msgstr " :warning: Restore() gaf fouten\n"
