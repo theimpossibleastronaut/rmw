@@ -166,7 +166,10 @@ main (int argc, char *argv[])
   if (bufchk (data_dir, MP))
     return EXIT_BUF_ERR;
 
-  if (make_dir (data_dir))
+  const ushort created_data_dir = make_dir (data_dir);
+  if (!created_data_dir || created_data_dir == DATA_DIR_CREATED)
+  {}
+  else
   {
     printf (_("\
   :Error: unable to create config and data directory\n\
@@ -223,7 +226,7 @@ Unable to continue. Exiting...\n"));
     {
       if (force)
         purge (purge_after, waste, time_now, force);
-      else
+      else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }
   }
@@ -501,7 +504,7 @@ Unable to continue. Exiting...\n"));
     if (main_error > 1)
       return main_error;
   }
-  else if (!purgeYes)
+  else if (!purgeYes && !created_data_dir)
       printf (_("No filenames or command line options were given\n\
 Enter '%s -h' for more information\n"), argv[0]);
 

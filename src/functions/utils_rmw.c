@@ -74,7 +74,7 @@ make_dir (const char *dir)
   if (!mk_err)
   {
     printf (_("Created directory %s\n"), dir);
-    return 0;
+    return DATA_DIR_CREATED;
   }
 
   printf (_("  :Error: while creating %s\n"), add_to_path);

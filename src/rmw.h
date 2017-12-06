@@ -113,14 +113,13 @@ struct rmw_target
 
 bool verbose;
 
-/**
- * Exit Codes
- */
-
-#define EXIT_FAILED_GETENV 2
-#define NO_WASTE_FOLDER -1
-#define EXIT_BUF_ERR 1
-#define EXIT_MALLOC 3
-#define EXIT_OPENDIR_FAILURE 4
+enum {
+  EXIT_FAILED_GETENV = 10,
+  NO_WASTE_FOLDER,
+  EXIT_BUF_ERR,
+  EXIT_MALLOC,
+  EXIT_OPENDIR_FAILURE,
+  DATA_DIR_CREATED,
+};
 
 #endif
