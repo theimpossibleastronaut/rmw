@@ -86,7 +86,8 @@ msgstr ""
 #: src/functions/trivial_rmw.c:73
 #, c-format
 msgid "Report bugs to <%s>.\n"
-msgstr ""
+msgstr "Zgłaszanie błędów: <%s>.\n"
+"Zgłaszanie błędów tłumaczenia: <veg@svgames.pl>"
 
 #: src/functions/trivial_rmw.c:78
 #, c-format
@@ -169,6 +170,12 @@ msgid ""
 "#\n"
 "purge_after = 90\n"
 msgstr ""
+"\n"
+"# Przez ile dni pliki mogą pozostać w koszu, zanim zostaną trwale usunięte?\n"
+"#\n"
+"# użyj '0' by całkowicie wyłączyć usuwanie starych plików\n"
+"#\n"
+"purge_after = 90\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/functions/trivial_rmw.c:146
@@ -182,6 +189,13 @@ msgid ""
 "#\n"
 "#force_not_required\n"
 msgstr ""
+"\n"
+"# oczyszczanie nie zostanie uruchomione, o ile nie zostanie\n"
+"# przekazana opcja `--force`.\n"
+"# Odkomentuj linię poniżej, jeżeli chcesz codziennie usuwać pliki\n"
+"# przekraczające liczbę dni określoną prez `purge_after`\n"
+"#\n"
+"#force_not_required\n"
 
 #. TRANSLATORS:  Do not translate the last two lines in this section
 #: src/functions/trivial_rmw.c:154
@@ -195,6 +209,12 @@ msgid ""
 "# PROTECT = /usr/local/bin\n"
 "# PROTECT = $HOME/src\n"
 msgstr ""
+"\n"
+"# Pliki znajdujące się w tych katalogach będą pomijane przez rmw,\n"
+"# chyba, że użyta zostanie opcja -B / --bypass.\n"
+"#\n"
+"# PROTECT = /usr/local/bin\n"
+"# PROTECT = $HOME/src\n"
 
 #: src/main.c:123
 #, c-format
@@ -224,6 +244,13 @@ msgid ""
 "\n"
 "Unable to continue. Exiting...\n"
 msgstr ""
+"  :Błąd: utworzenie katalogu ustawień oraz danych nie powiodło się\n"
+"Proszę, sprawdź swoje prawa dostępu\n"
+"\n"
+"Jeżeli potrzebujesz dalszej pomocy, albo chcesz zgłosić błąd programu,\n"
+"odwiedź stronę domową programu pod adresem\n"
+"  https://github.com/andy5995/rmw/wiki\n"
+"Zamykanie programu...\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
@@ -287,6 +314,8 @@ msgid ""
 "No filenames or command line options were given\n"
 "Enter '%s -h' for more information\n"
 msgstr ""
+"Nie podano żadnych nazw plików ani opcji\n"
+"Użyj '%s -h' by uzyskać więcej informacji\n"
 
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
@@ -301,6 +330,13 @@ msgid ""
 "https://github.com/andy5995/rmw/tree/master/etc\n"
 "Terminating...\n"
 msgstr ""
+"  :Błąd: otwarcie pliku ustawień nie powiodło się\n"
+"%s (albo)\n"
+"%s%s\n"
+"\n"
+"Przykładowy plik ustawień można znaleźć pod adresem\n"
+"https://github.com/andy5995/rmw/tree/master/etc\n"
+"Zamykanie programu...\n"
 
 #: src/functions/config_rmw.c:206
 #, c-format
@@ -340,6 +376,12 @@ msgid ""
 "  https://github.com/andy5995/rmw/wiki\n"
 "Unable to continue. Exiting...\n"
 msgstr ""
+"  :Błąd: nie znaleziono żadnego nadającego się do użycia katalogu-kosza\n"
+"Proszę, sprawdź swoje ustawienia oraz prawa dostępu do katalogów\n"
+"Jeżeli potrzebujesz dalszej pomocy, albo chcesz zgłosić błąd programu,\n"
+"odwiedź stronę domową programu pod adresem\n"
+"  https://github.com/andy5995/rmw/wiki\n"
+"Zamykanie programu...\n"
 
 #. TRANSLATORS:  "opening" refers to a file
 #: src/functions/messages_rmw.c:37
