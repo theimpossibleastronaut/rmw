@@ -169,8 +169,8 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
  * if not, returns 1 and writes the day
  * to the lastpurge file.
  */
-bool
-is_time_to_purge (ushort force)
+ushort
+is_time_to_purge (void)
 {
   #ifndef WIN32
   char *HOMEDIR = getenv ("HOME");
@@ -194,7 +194,7 @@ is_time_to_purge (ushort force)
     if (fp == NULL)
     {
       open_err (file_lastpurge, __func__);
-      return 0;
+      return ERR_OPEN;
     }
 
     char last_purge_dd[3];
@@ -216,40 +216,21 @@ is_time_to_purge (ushort force)
      */
 
     if (!strcmp (today_dd, last_purge_dd))
-      return 0;
-
-    /**
-     * Days differ, but today's date won't be written to lastpurge
-     * Instead, after the function returns, the user will get the
-     * message that --force is needed
-     */
-    if (!force)
-      return 1;
-
-    /** Days differ, force used - write the new day. */
-
+      return IS_SAME_DAY;
 
     fp = fopen (file_lastpurge, "w");
 
     if (fp != NULL)
     {
       fprintf (fp, "%s\n", today_dd);
-
       close_file (fp, file_lastpurge, __func__);
-          /** If the only error is upon closing, and all the checks above
-           * passed, we'll just continue. The error was printed to stderr
-           * and the cause needs to be checked by the user or the
-           * developer
-           */
-
-      return 1;
+      return IS_NEW_DAY;
     }
 
     else
     {
       open_err (file_lastpurge, __func__);
-
-      return 0;
+      return ERR_OPEN;
     }
   }
 
@@ -266,7 +247,7 @@ is_time_to_purge (ushort force)
 
       close_file (fp, file_lastpurge, __func__);
 
-      return 1;
+      return IS_NEW_DAY;
     }
 
     else
@@ -279,7 +260,7 @@ is_time_to_purge (ushort force)
        * chances are this error will never be a problem.
        */
       open_err (file_lastpurge, __func__);
-      exit (1);
+      exit (ERR_OPEN);
     }
   }
 }

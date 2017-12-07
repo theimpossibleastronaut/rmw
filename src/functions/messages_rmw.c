@@ -63,7 +63,7 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
     sprintf (combined_msg, _("function: <%s>"), function_name);
     perror (combined_msg);
 
-    return 1;
+    return ERR_CLOSE;
   }
 }
 

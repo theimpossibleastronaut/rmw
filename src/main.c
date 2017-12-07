@@ -62,7 +62,7 @@ main (int argc, char *argv[])
 
   verbose = 0; /* already declared, a global */
 
-  bool purgeYes = 0;
+  bool cmd_opt_purge = 0;
   bool orphan_chk = 0;
   bool restoreYes = 0;
   bool select = 0;
@@ -96,7 +96,7 @@ main (int argc, char *argv[])
       list = 1;
       break;
     case 'g':
-      purgeYes = 1;
+      cmd_opt_purge = 1;
       break;
     case 'o':
       orphan_chk = 1;
@@ -215,18 +215,20 @@ Unable to continue. Exiting...\n"));
     get_time_string (time_now, 21, "1999-%m-%dT%T");
   }
 
-  if (purgeYes && !purge_after)
+  /** This if statement spits out a message if someone tries to use -g on
+   * the command line but has purge_after set to 0 in the config
+   */
+  if (cmd_opt_purge && !purge_after)
   /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
    * directory  */
     printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
-
-  if (purge_after != 0)
+  else if (purge_after)
   {
-    if (is_time_to_purge (force) != 0 || purgeYes != 0)
+    if (is_time_to_purge () == IS_NEW_DAY || cmd_opt_purge)
     {
       if (force)
         purge (purge_after, waste, time_now, force);
-      else if (!created_data_dir && verbose == 1)
+      else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }
   }
@@ -504,7 +506,7 @@ Unable to continue. Exiting...\n"));
     if (main_error > 1)
       return main_error;
   }
-  else if (!purgeYes && !created_data_dir)
+  else if (!cmd_opt_purge && !created_data_dir)
       printf (_("No filenames or command line options were given\n\
 Enter '%s -h' for more information\n"), argv[0]);
 
