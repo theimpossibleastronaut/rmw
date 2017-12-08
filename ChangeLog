@@ -17,7 +17,7 @@
     will only  show the message "purge has been skipped: use -f or --force"
     once a day, regardless of verbosity level. This still improves the behavior
     where that message would display every time if --force wasn't used (or if
-    "force_not_required" was used in the config file.
+    "force_not_required" was used in the config file).
 
 2017-12-06
 
