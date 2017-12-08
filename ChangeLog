@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2017-12-08
+
+    finnish translation added / thanks @sapake
+
+
 2017-12-07
 
     The log entry from 2017-12-06 is now obsolete. If purge_after is > 0, rmw

@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-05 23:15-0600\n"
+"POT-Creation-Date: 2017-12-08 13:50-0600\n"
 "PO-Revision-Date: 2017-12-08 16:16+0200\n"
 "Last-Translator: samwise <codinghobo@gmail.com>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -53,7 +53,8 @@ msgstr ""
 "  -c, --config tiedostonnimi     käytä vaihtoehdoista asetustiedostoa\n"
 "  -l, --list                listaa roska kansiot\n"
 "  -g, --purge               aja puhdistus vaikka se olisi jo ajettu tänään\n"
-"  -o, --orphaned            tarkista hylättyjen tiedostojen varalta (huolto toimenpide)\n"
+"  -o, --orphaned            tarkista hylättyjen tiedostojen varalta (huolto "
+"toimenpide)\n"
 "  -f, --force               salli puhdistuksen ajaminen\n"
 "  -B, --bypass              ohita hakemiston suojaus\n"
 "  -v, --verbose             lisää tulostuksen määrää\n"
@@ -168,7 +169,8 @@ msgstr ""
 "rmw %s\n"
 "Luoja: Andy Alt (andy400-dev@yahoo.com)\n"
 "RMW tiimi: katso AUTHORS tiedosto\n"
-"Tämä ohjelma tulee TÄYSIN ILMAN TAKUUTA; nähdäksesi yksityiskohdat kirjoita 'rmw -w.'\n"
+"Tämä ohjelma tulee TÄYSIN ILMAN TAKUUTA; nähdäksesi yksityiskohdat kirjoita "
+"'rmw -w.'\n"
 "Tämä on vapaa ohjelmisto, olet vapaa jakamaan sitä eteenpäin\n"
 "tiettyjen ehtojen all; katso <http://www.gnu.org/licenses/gpl.html>\n"
 "yksityiskohtia varten.\n"
@@ -193,7 +195,19 @@ msgstr ""
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/functions/trivial_rmw.c:115
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "# If you would like this to be your primary trash folder (which usually "
+#| "means\n"
+#| "# that it will be the same as your Desktop Trash folder) be sure it "
+#| "precedes\n"
+#| "# any other WASTE folders listed in the config file\n"
+#| "#\n"
+#| "# If you want it checked for files that need purging, simply uncomment\n"
+#| "# The line below. Files you move with rmw will go to the folder above by\n"
+#| "# default.\n"
+#| "#\n"
+#| "#WASTE=$HOME/.local/share/Trash\n"
 msgid ""
 "\n"
 "# If you would like this to be your primary trash folder (which usually "
@@ -208,13 +222,12 @@ msgid ""
 "#\n"
 "#WASTE=$HOME/.local/share/Trash\n"
 msgstr ""
-"# Jos haluat tämän olevan ensisijainen roskakorisi (mikä yleensä "
-"tarkoittaa\n"
-"# että se on sama kuin Työpöytäsi roskakori) varmista että se "
-"on ennen\n"
+"# Jos haluat tämän olevan ensisijainen roskakorisi (mikä yleensä tarkoittaa\n"
+"# että se on sama kuin Työpöytäsi roskakori) varmista että se on ennen\n"
 "# kaikkia muita ROSKA hakemistoja asetustiedostossa\n"
 "#\n"
-"# Jos haluat sen tarkistettavaksi puhdistusta vaativien tiedostojen varalta \n"
+"# Jos haluat sen tarkistettavaksi puhdistusta vaativien tiedostojen "
+"varalta \n"
 "# Poista kommentti alemmalta riviltä. Tiedostot jotka siirrät rmw:lla\n"
 "# menevät ylempänä määriteltyyn hakemistoon oletuksena\n"
 "#\n"
@@ -222,21 +235,32 @@ msgstr ""
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/functions/trivial_rmw.c:127
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "# removable media: if a folder has ',removable' appended to it, rmw\n"
+#| "# will not try to create it; it must be initially created manually. if\n"
+#| "# the folder exists when rmw is run, it will be used; if not, it will be\n"
+#| "# skipped once you create \"example_waste\", rmw will automatically "
+#| "create\n"
+#| "# example_waste/info and example_waste/files\n"
+#| "#\n"
+#| "#waste=/mnt/sda10000/example_waste, removable"
 msgid ""
 "\n"
-"# removable media: if a folder has ',removable' appended to it, rmw\n"
-"# will not try to create it; it must be initially created manually. if\n"
+"# Removable media: If a folder has ',removable' appended to it, rmw\n"
+"# will not try to create it; it must be initially created manually. If\n"
 "# the folder exists when rmw is run, it will be used; if not, it will be\n"
-"# skipped once you create \"example_waste\", rmw will automatically create\n"
+"# skipped Once you create \"example_waste\", rmw will automatically create\n"
 "# example_waste/info and example_waste/files\n"
 "#\n"
-"#waste=/mnt/sda10000/example_waste, removable"
+"#WASTE=/mnt/sda10000/example_waste, removable"
 msgstr ""
 "\n"
 "# irroitettava media: jos hakemiston perään on kirjoitettu ',removable' rmw\n"
 "# ei yritä luoda sitä; se täytyy ensin luoda manuaalisesti. jos\n"
-"# jos hakemisto on olemassa kun rmw ajetaan, sitä käytetään; jos ei, niin sen\n"
+"# jos hakemisto on olemassa kun rmw ajetaan, sitä käytetään; jos ei, niin "
+"sen\n"
 "# yli hypätään kun luot \"example_waste\", rmw luo automaattisesti\n"
 "# example_waste/info ja example_waste/tiedostot\n"
 "#\n"
@@ -275,8 +299,7 @@ msgid ""
 "#force_not_required\n"
 msgstr ""
 "\n"
-"# puhdistusta ei ajeta ilman `--force` valitsinta. "
-"Poista\n"
+"# puhdistusta ei ajeta ilman `--force` valitsinta. Poista\n"
 "# kommentti alemmalta riviltä jos haluat päivittäisen tarkistuksen\n"
 "# tiedostojen varalta jotka ovat vanhempiaa kuin purge_after määrittelee\n"
 "#\n"
@@ -295,8 +318,8 @@ msgid ""
 "# PROTECT = $HOME/src\n"
 msgstr ""
 "\n"
-"# Jos yrität käyttää rmw:ta tämän hakemiston tiedoistoihin, niitä ei"
-"käsitellä\n"
+"# Jos yrität käyttää rmw:ta tämän hakemiston tiedoistoihin, niitä "
+"eikäsitellä\n"
 "# paitsi jos -B --bypass annetaan argumenttina.\n"
 "#\n"
 "# PROTECT = /usr/local/bin\n"
@@ -315,7 +338,7 @@ msgstr "-r / --recurse: ei toteutettu\n"
 #: src/main.c:159
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
-msgstr "Virhe: kotihakemistosi polkua etsiessä"
+msgstr "Virhe: kotihakemistosi polkua etsiessä\n"
 
 #: src/main.c:174
 #, c-format
@@ -342,7 +365,7 @@ msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/main.c:221
+#: src/main.c:224
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -351,7 +374,7 @@ msgstr ""
 "Puhdistaminen on poistettu käytöstä ('purge_after' on asetettu arvoon '0')\n"
 "\n"
 
-#: src/main.c:230
+#: src/main.c:232
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "puhdistus on ohitettu: käytä -f tai --force\n"
@@ -360,43 +383,43 @@ msgstr "puhdistus on ohitettu: käytä -f tai --force\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/main.c:369
+#: src/main.c:371
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Ohitettiin: %s on suojatussa hakemistossa\n"
 
-#: src/main.c:377
+#: src/main.c:379
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Tiedostoa ei löytynyt: '%s'\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/main.c:466
+#: src/main.c:468
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Virhe: numero %d yritettäessä luoda .trashinfo tiedostoa\n"
 
-#: src/main.c:470
+#: src/main.c:472
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Virhe numero %d yritettäessä liikuttaa %s :\n"
 
-#: src/main.c:490
+#: src/main.c:492
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Ei sopivaa tiedostojärjestelmää löydetty kohteelle \"%s\"\n"
 
-#: src/main.c:500
+#: src/main.c:502
 #, c-format
 msgid "1 file was removed to the waste folder"
 msgstr "1 tiedosto poistettiin roska hakemistoon"
 
-#: src/main.c:501
+#: src/main.c:503
 #, c-format
 msgid "%d files were removed to the waste folder"
 msgstr "%d tiedostoa poistettiin roska hakemistoon"
 
-#: src/main.c:508
+#: src/main.c:510
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -430,8 +453,7 @@ msgstr ""
 #, c-format
 msgid ""
 "  :Error: The number of lines in configuration file must be less than %d\n"
-msgstr ""
-"  :Virhe: Asetustiedoston rivien määrän täytyy olla alle %d"\n
+msgstr "  :Virhe: Asetustiedoston rivien määrän täytyy olla alle %d\n"
 
 #. TRANSLATORS:  "purge_after" is a varible
 #: src/functions/config_rmw.c:237
@@ -442,7 +464,7 @@ msgstr "  :Virhe: muuttujan purge_after arvo on epäkelpo\n"
 #: src/functions/config_rmw.c:274
 #, c-format
 msgid "  :Error: invalid option in config\n"
-msgstr "  :Virhe: epäkelpo asetus asetustiedostossa"\n
+msgstr "  :Virhe: epäkelpo asetus asetustiedostossa\n"
 
 #: src/functions/config_rmw.c:347
 #, c-format
@@ -455,14 +477,21 @@ msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr " :varoitus: Suojattujen hakemitojen maksimimäärä saavutettu: %d\n"
 
 #: src/functions/config_rmw.c:366
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "  :error: no usable waste folder could be found\n"
+#| "please check your configuration file and permissions\n"
+#| "if you need further help, or to report a possible bug,\n"
+#| "visit the rmw web site at\n"
+#| "  https://github.com/andy5995/rmw/wiki\n"
+#| "unable to continue. exiting...\n"
 msgid ""
-"  :error: no usable waste folder could be found\n"
-"please check your configuration file and permissions\n"
-"if you need further help, or to report a possible bug,\n"
+"  :Error: no usable WASTE folder could be found\n"
+"Please check your configuration file and permissions\n"
+"If you need further help, or to report a possible bug,\n"
 "visit the rmw web site at\n"
 "  https://github.com/andy5995/rmw/wiki\n"
-"unable to continue. exiting...\n"
+"Unable to continue. Exiting...\n"
 msgstr ""
 "  :Virhe: yhtäkään käytettävää roska hakemistoa ei löytynyt\n"
 "tarkista asetustiedostosi ja oikeudet\n"
@@ -510,7 +539,8 @@ msgstr " :varoitus: Restore() palautti virheitä\n"
 #: src/functions/trashinfo_rmw.c:85 src/functions/trashinfo_rmw.c:96
 #, c-format
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
-msgstr "rmw: %s(): puskuri on liian pieni (saatiin %hu, tarvittiin minimissään %hu)\n"
+msgstr ""
+"rmw: %s(): puskuri on liian pieni (saatiin %hu, tarvittiin minimissään %hu)\n"
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
 #: src/functions/restore_rmw.c:148
@@ -541,13 +571,15 @@ msgstr "Palautus epäonnistui: %s\n"
 #: src/functions/restore_rmw.c:279
 #, c-format
 msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
-msgstr "  :Virhe: Tiedoston '%s' avaaminen onnistui, mutta kohdattiin tuntematon virhe\n"
+msgstr ""
+"  :Virhe: Tiedoston '%s' avaaminen onnistui, mutta kohdattiin tuntematon "
+"virhe\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/functions/restore_rmw.c:295
 #, c-format
 msgid "'%s' not found\n"
-msgstr "Kohdetta '%s' ei löydetty"
+msgstr "Kohdetta '%s' ei löydetty\n"
 
 #: src/functions/restore_rmw.c:421
 #, c-format
@@ -569,7 +601,8 @@ msgstr "<OIKEA-KURSORI / VASEN-KURSORI> - vaihda roska hakemistoja"
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
-"<VÄLI> - lisää tai poista kohteen valinta. / <ENTER> - palauta valitut kohteet"
+"<VÄLI> - lisää tai poista kohteen valinta. / <ENTER> - palauta valitut "
+"kohteet"
 
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
@@ -588,7 +621,7 @@ msgstr " :varoitus: poistaminen epäonnistui %s\n"
 msgid "  :Error: while changing permissions of %s\n"
 msgstr "  :Virhe: muutettaessa oikeuksia kohteelle %s\n"
 
-#: src/functions/purging_rmw.c:311
+#: src/functions/purging_rmw.c:292
 #, c-format
 msgid ""
 "\n"
@@ -597,57 +630,57 @@ msgstr ""
 "\n"
 "Puhdistetaan tiedostoja (purge_after = %u) ...\n"
 
-#: src/functions/purging_rmw.c:438
+#: src/functions/purging_rmw.c:419
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr " :varoitus: Hakemistoa ei puhdistettu - sisältää yhä tiedostoja\n"
 
-#: src/functions/purging_rmw.c:440
+#: src/functions/purging_rmw.c:421
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(tarkista omistaja/kirjoitus oikeudet)\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/functions/purging_rmw.c:447
+#: src/functions/purging_rmw.c:428
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :varoitus: Maksimi syvyys %u saavutettu, ohitetaan\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/functions/purging_rmw.c:460 src/functions/purging_rmw.c:466
-#: src/functions/purging_rmw.c:481 src/functions/purging_rmw.c:499
+#: src/functions/purging_rmw.c:441 src/functions/purging_rmw.c:447
+#: src/functions/purging_rmw.c:462 src/functions/purging_rmw.c:480
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr "  :Virhe: poistettaessa %s\n"
 
-#: src/functions/purging_rmw.c:514
+#: src/functions/purging_rmw.c:495
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d hakemistoa ohitettu (RMDIR_MAX_DEPTH saavutettu)\n"
 
-#: src/functions/purging_rmw.c:519
+#: src/functions/purging_rmw.c:500
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d hakemistoa ohitettu (sisältää vain-luku tiedostoja)\n"
 
-#: src/functions/purging_rmw.c:522
+#: src/functions/purging_rmw.c:503
 #, c-format
 msgid "%d file purged"
 msgstr "%d tiedosto puhdistettu"
 
-#: src/functions/purging_rmw.c:522
+#: src/functions/purging_rmw.c:503
 #, c-format
 msgid "%d files purged"
 msgstr "%d tiedostoa puhdistettu"
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/functions/purging_rmw.c:579
+#: src/functions/purging_rmw.c:560
 #, c-format
 msgid "Created %s\n"
 msgstr "Luotiin %s\n"
 
-#: src/functions/purging_rmw.c:581 src/functions/utils_rmw.c:80
+#: src/functions/purging_rmw.c:562 src/functions/utils_rmw.c:80
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr "  :Virhe: luotaessa %s\n"
@@ -664,7 +697,8 @@ msgstr "  :Virhe: puskurin ylivuoto (segmentaatio vika) estetty.\n"
 msgid ""
 "If you think this may be a bug, please report it to the rmw developers.\n"
 msgstr ""
-"Jos epäilet tämän olevan bugi, ole hyvä ja ilmoita siitä rmw:n kehittäjille.\n"
+"Jos epäilet tämän olevan bugi, ole hyvä ja ilmoita siitä rmw:n "
+"kehittäjille.\n"
 
 #: src/functions/strings_rmw.c:58
 #, c-format
