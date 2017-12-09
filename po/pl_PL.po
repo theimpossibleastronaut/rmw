@@ -125,6 +125,12 @@ msgid ""
 "#\n"
 "WASTE = $HOME/.trash.rmw\n"
 msgstr ""
+"\n"
+"# UWAGA: Jeżeli dwa katalogi WASTE znajdują się w ramach tego samego\n"
+"# systemu plików, rmw będzie przenosić pliki tylko do pierwszego z nich,\n"
+"# zupełnie ignorując drugi wpis.\n"
+"#\n"
+"WASTE = $HOME/.trash.rmw\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/functions/trivial_rmw.c:115
@@ -143,6 +149,16 @@ msgid ""
 "#\n"
 "#WASTE=$HOME/.local/share/Trash\n"
 msgstr ""
+"\n"
+"# Jeżeli chcesz, żeby ten wpis (zazwyczaj jednoznaczny z Koszem używanym\n"
+"# przez programy graficzne) był twoim głównym katalogiem-koszem,\n"
+"# upewnij się, że wystąpi on przed wszystkimi innymi katalogami WASTE.\n"
+"#\n"
+"# Jeżeli chcesz, aby był on sprawdzany w poszukiwaniu plików do oczyszczenia,\n"
+"# po prostu odkomentuj linię poniżej.\n"
+"# Pliki usunięte przez rmw trafią domyślnie do katalogu powyżej.\n"
+"#\n"
+"#WASTE=$HOME/.local/share/Trash\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/functions/trivial_rmw.c:127
@@ -157,6 +173,15 @@ msgid ""
 "#\n"
 "#WASTE=/mnt/sda10000/example_waste, removable"
 msgstr ""
+"\n"
+"# Dyski przenośne: jeżeli katalog ma dodane ',removable' na końcu jego nazwy,\n"
+"# rmw nie będzie próbować do utworzyć; musi on zostać stworzony ręcznie.\n"
+"# Jeżeli katalog będzie istniał podczas działania rmw, zostanie on użyty;\n"
+"# w przeciwnym wypadku, zostanie pominięty.\n"
+"# Kiedy już stworzysz \"przykladowy_kosz\", rmw automatycznie utworzy\n"
+"# \"przykladowy_kosz/info\" oraz \"przykladowy_kosz/files\".\n"
+"#\n"
+"#WASTE=/mnt/sda10000/przykladowy_kosz, removable"
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/functions/trivial_rmw.c:137
