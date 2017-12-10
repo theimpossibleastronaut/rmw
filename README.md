@@ -38,7 +38,7 @@ Use `./configure --help` to view available compile-time options.
     make
     make install
 
-If --prefix and --sysconfdir option are omitted, "/usr/local" will be used
+If the --prefix and --sysconfdir options are omitted, "/usr/local" will be used
 instead. If you are using MacOSX and have problems installing to /usr/bin,
 try omitting those two options.
 
@@ -48,8 +48,8 @@ try omitting those two options.
     make
     make install
 
-rmw would installed to $HOME/usr/bin and the configuration file would be
-located in $HOME/usr/etc
+rmw will be installed to $HOME/usr/bin and the configuration file will be
+copied to $HOME/usr/etc
 
 ### Pre-built binary packages
 
