@@ -4,8 +4,8 @@
 
 rmw 0.4.01 has been released
 
-Please see the [AUTHORS.md](https://github.com/andy5995/rmw/blob/master/AUTHORS.md)
-file to see a list of the contributors who have helped shape this release.
+Please see the [contributors](https://github.com/andy5995/rmw/graphs/contributors)
+file to see a list of the people who have helped shape this release.
 
 Martijn de Boer has done some testing and found that rmw will build and run on
 Linux, Mac OS X, and *BSD. He also reports that it builds and runs on Windows using
@@ -22,13 +22,13 @@ feature)
 
 Support for translating output messages using
 [gettext](https://www.gnu.org/software/gettext/)
-has been added. At present, only Dutch and Hindi languages are included with the
-distribution. If you would like to add a translation, please see
-[the Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating)
+has been added. At present, only Dutch, Finnish, and Hindi languages are
+included with the distribution. If you would like to add a translation, please
+see [the Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating)
 for information and instructions.
 
 -t --translate option added. This option will display a translation of the config
-file in your native language. Unfortunately, as mentioned above, only 2 languages
+file in your native language. Unfortunately, as mentioned above, only 3 languages
 are supported at present.
 
 man pages are now available in the following languages:
