@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
 "POT-Creation-Date: 2017-12-05 23:15-0600\n"
-"PO-Revision-Date: 2017-12-02 20:47+0100\n"
+"PO-Revision-Date: 2017-12-10 09:05+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ../src\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -19,28 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-1: functions\n"
 
 #: src/functions/trivial_rmw.c:30
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: rmw [OPTION]... FILE...\n"
-#| "ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
-#| "\n"
-#| "   or: rmw -z FILE...\n"
-#| "Restore FILE(s) from a WASTE directory\n"
-#| "\n"
-#| "  -h, --help\n"
-#| "  -t, --translate           display a translation of the configuration "
-#| "file\n"
-#| "  -c, --config filename     use an alternate configuration\n"
-#| "  -l, --list                list waste directories\n"
-#| "  -g, --purge               run purge even if it's been run today\n"
-#| "  -o, --orphaned            check for orphaned files (maintenance)\n"
-#| "  -f, --force               allow purge to run\n"
-#| "  -i, --interactive         not implemented\n"
-#| "  -r, --recurse             not implemented\n"
-#| "  -B, --bypass              bypass directory protection\n"
-#| "  -v, --verbose             increase output messages\n"
-#| "  -w, --warranty            display warranty\n"
-#| "  -V, --version             display version and license information\n"
+#, c-format
 msgid ""
 "Usage: rmw [OPTION]... FILE...\n"
 "ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
@@ -66,6 +45,8 @@ msgstr ""
 "Verwijder het/de BESTAND(en) naar een AFVAL directory opgegeven in "
 "configuratie bestand\n"
 "\n"
+"   of: rmw -s\n"
+"   of: rmw -u\n"
 "   of: rmw -z BESTAND…\n"
 "Zet BESTAND(en) terug uit een AFVAL directory\n"
 "\n"
@@ -406,7 +387,7 @@ msgstr "Bestand niet gevonden: '%s'\n"
 #: src/main.c:466
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
-msgstr ": Fout: nummer %d bij maken van een .trashinfo bestand\n"
+msgstr " :Fout: nummer %d bij maken van een .trashinfo bestand\n"
 
 #: src/main.c:470
 #, c-format
@@ -440,7 +421,7 @@ msgstr ""
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
 #: src/functions/config_rmw.c:181
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  :Error: Can not open configuration file\n"
 "%s (or)\n"
@@ -585,30 +566,32 @@ msgstr "'%s' niet gevonden\n"
 #: src/functions/restore_rmw.c:421
 #, c-format
 msgid "== contains %d file =="
-msgstr ""
+msgstr "== bevat %d bestand =="
 
 #: src/functions/restore_rmw.c:422
 #, c-format
 msgid "== contains %d files =="
-msgstr ""
+msgstr "== bevat %d bestanden =="
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
 #: src/functions/restore_rmw.c:426
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
-msgstr ""
+msgstr "<CURSOR-RECHTS / CURSOR-LINKS> - wissel afval mappen"
 
 #: src/functions/restore_rmw.c:427
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
+"<SPATIE> - selecteer of deselecteer een bestand. / <ENTER> - zet "
+"geselecteerde bestanden terug"
 
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
 #: src/functions/restore_rmw.c:433
 msgid "'q' - quit"
-msgstr ""
+msgstr "'q' - afsluiten"
 
 #: src/functions/restore_rmw.c:553
 #, c-format
@@ -616,9 +599,9 @@ msgid " :warning: failed to remove %s\n"
 msgstr " :waarschuwing: kon %s niet verwijderen\n"
 
 #: src/functions/purging_rmw.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "  :Error: while changing permissions of %s\n"
-msgstr " :Error: bij het maken van %s\n"
+msgstr "  :Error: bij het maken van %s\n"
 
 #: src/functions/purging_rmw.c:311
 #, c-format
