@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-05 23:15-0600\n"
+"POT-Creation-Date: 2017-12-10 15:02-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -226,14 +226,14 @@ msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/main.c:221
+#: src/main.c:224
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
 "\n"
 msgstr ""
 
-#: src/main.c:230
+#: src/main.c:232
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""
@@ -242,43 +242,43 @@ msgstr ""
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/main.c:369
+#: src/main.c:371
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr ""
 
-#: src/main.c:377
+#: src/main.c:379
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/main.c:466
+#: src/main.c:468
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr ""
 
-#: src/main.c:470
+#: src/main.c:472
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr ""
 
-#: src/main.c:490
+#: src/main.c:492
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr ""
 
-#: src/main.c:500
+#: src/main.c:502
 #, c-format
 msgid "1 file was removed to the waste folder"
 msgstr ""
 
-#: src/main.c:501
+#: src/main.c:503
 #, c-format
 msgid "%d files were removed to the waste folder"
 msgstr ""
 
-#: src/main.c:508
+#: src/main.c:510
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -451,64 +451,64 @@ msgstr ""
 msgid "  :Error: while changing permissions of %s\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:311
+#: src/functions/purging_rmw.c:292
 #, c-format
 msgid ""
 "\n"
 "Purging files (purge_after = %u) ...\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:438
+#: src/functions/purging_rmw.c:419
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:440
+#: src/functions/purging_rmw.c:421
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr ""
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/functions/purging_rmw.c:447
+#: src/functions/purging_rmw.c:428
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr ""
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/functions/purging_rmw.c:460 src/functions/purging_rmw.c:466
-#: src/functions/purging_rmw.c:481 src/functions/purging_rmw.c:499
+#: src/functions/purging_rmw.c:441 src/functions/purging_rmw.c:447
+#: src/functions/purging_rmw.c:462 src/functions/purging_rmw.c:480
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:514
+#: src/functions/purging_rmw.c:495
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:519
+#: src/functions/purging_rmw.c:500
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:522
+#: src/functions/purging_rmw.c:503
 #, c-format
 msgid "%d file purged"
 msgstr ""
 
-#: src/functions/purging_rmw.c:522
+#: src/functions/purging_rmw.c:503
 #, c-format
 msgid "%d files purged"
 msgstr ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/functions/purging_rmw.c:579
+#: src/functions/purging_rmw.c:560
 #, c-format
 msgid "Created %s\n"
 msgstr ""
 
-#: src/functions/purging_rmw.c:581 src/functions/utils_rmw.c:80
+#: src/functions/purging_rmw.c:562 src/functions/utils_rmw.c:80
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr ""
