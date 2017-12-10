@@ -32,9 +32,15 @@ package.
 
 ### With superuser privileges:
 
+Use `./configure --help` to view available compile-time options.
+
     ./configure --prefix=/usr --sysconfdir=/etc
     make
     make install
+
+If --prefix and --sysconfdir option are omitted, "/usr/local" will be used
+instead. If you are using MacOSX and have problems installing to /usr/bin,
+try omitting those two options.
 
 ### As a normal user:
 
