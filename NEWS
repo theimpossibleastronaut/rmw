@@ -22,13 +22,13 @@ feature)
 
 Support for translating output messages using
 [gettext](https://www.gnu.org/software/gettext/)
-has been added. At present, only Dutch, Finnish, and Hindi languages are
+has been added. At present, only Dutch, Finnish, Polish, and Hindi languages are
 included with the distribution. If you would like to add a translation, please
 see [the Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating)
 for information and instructions.
 
 -t --translate option added. This option will display a translation of the config
-file in your native language. Unfortunately, as mentioned above, only 3 languages
+file in your native language. Unfortunately, as mentioned above, only 4 languages
 are supported at present.
 
 man pages are now available in the following languages:
