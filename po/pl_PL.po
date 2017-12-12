@@ -159,6 +159,14 @@ msgid ""
 "under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n"
 "for details.\n"
 msgstr ""
+"rmw %s\n"
+"Autor: Andy Alt (andy400-dev@yahoo.com)\n"
+"Zespół RMW: zobacz plik AUTHORS\n"
+"Ten program rozpowszechniany jest BEZ ABSOLUTNIE ŻADNEJ GWARANCJI;\n"
+"aby dowiedzieć się więcej, użyj 'rmw -w.'\n"
+"Ten program jest wolnym oprogramowaniem; możesz go rozpowszechniać przy\n"
+"przy zachowaniu pewnych warunków; aby uzyskać szczegółówe informacje,\n"
+"odwiedź <http://www.gnu.org/licenses/gpl.html>.\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/functions/trivial_rmw.c:108
