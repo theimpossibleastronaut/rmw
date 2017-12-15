@@ -259,7 +259,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-LINGUAS = de pt_BR es pl fi nl
+LINGUAS = de pt_BR es pl fi ne nl
 all: all-am
 
 .SUFFIXES:
