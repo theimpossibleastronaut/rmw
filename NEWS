@@ -1,6 +1,6 @@
 === RMW Release Notes ===
 
-2017-12-21
+2017-12-20
 
 rmw 0.4.01 has been released
 
@@ -35,12 +35,12 @@ instructions.
 
 man pages are now available in the following languages:
 
-    * en
     * de
+    * en
     * es
     * fi
     * ne
-    * nl
+    * nl_NL
     * pl
     * pt_BR
 

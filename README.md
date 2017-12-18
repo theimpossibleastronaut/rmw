@@ -63,8 +63,8 @@ Packages for some operating systems are available on the
 ```
 man pages are now available in the following languages:
 
-    * en
     * de
+    * en
     * es
     * fi
     * ne
