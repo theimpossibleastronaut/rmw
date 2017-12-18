@@ -9,24 +9,24 @@ be overwritten (duplication protection).
 
 Web site: https://github.com/andy5995/rmw/wiki
 
-This is the README for the development version of rmw. It may mention
-features that aren't included in the last release, or differ in other ways.
-The README from the last release is at
+This is the README for the development version of rmw. It may mention features
+that aren't included in the last release, or differ in other ways. The README
+from the last release is at
 https://github.com/andy5995/rmw/blob/v2016.09.19.01a/README
 
-Anyone interested in this project is welcome to join the
-[chat room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
+Anyone interested in this project is welcome to join the [chat
+room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
 
 If you would like to help translate the man page or the output messages for
-this program, please see the
-[Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating).
+this program, please see the [Translating wiki
+page](https://github.com/andy5995/rmw/wiki/Translating).
 
 ## Required libraries
 
 libncurses5
 
 If you are building from source, you will need the libncurses(5 or 6)-dev
-package.
+package from your operating system distribution.
 
 ## Installation
 
@@ -38,9 +38,9 @@ Use `./configure --help` to view available compile-time options.
     make
     make install
 
-If the --prefix and --sysconfdir options are omitted, "/usr/local" will be used
-instead. If you are using MacOSX and have problems installing to /usr/bin,
-try omitting those two options.
+If the --prefix and --sysconfdir options are omitted, "/usr/local" will be
+used instead. If you are using **MacOSX** and have problems installing to
+/usr/bin, try omitting those two options.
 
 ### As a normal user:
 
@@ -67,9 +67,10 @@ man pages are now available in the following languages:
     * de
     * es
     * fi
+    * ne
+    * nl_NL
     * pl
     * pt_BR
-    * nl
 
 If you installed rmw as a normal user, this next step can be skipped.
 
@@ -123,9 +124,9 @@ option of appending ',removable' (details in etc/rmwrc).
 == Purging ==
 
 If purging is 'on', rmw will permanently delete files from the folders
-specified in the configuration file after 'x' number of days. Purging
-can be disabled by using 'purge_after = 0' in configuration file. rmw will
-only check once per day if it's time to purge (use -g to check more often).
+specified in the configuration file after 'x' number of days. Purging can be
+disabled by using 'purge_after = 0' in configuration file. rmw will only check
+once per day if it's time to purge (use -g to check more often).
 
 Purge requires -f (--force) to run.
 
@@ -151,14 +152,14 @@ e.g. 'rmw -z ~/.local/share/Trash/files/foo*'
 
 Files can also be restored using only the basename, from within any directory.
 NOTE: That feature will not process wildcards unless the user is in a
-<WASTE>/files folder and the filespec actually exists in the present
-working directory.
+<WASTE>/files folder and the filespec actually exists in the present working
+directory.
 
 == Protected directories ==
 
-If 'PROTECT = /home/andy' is specified in the config file, /home/andy, and
-all dirs and files beneath it will be "protected"; they will be skipped, and
-this warning will be displayed:
+If 'PROTECT = /home/andy' is specified in the config file, /home/andy, and all
+dirs and files beneath it will be "protected"; they will be skipped, and this
+warning will be displayed:
 
 "File is in protected directory: <filename/dir>"
 
@@ -169,8 +170,8 @@ Protection can by bypassed using -B
 
 == -t, --translate ==
 
-If a translation of the configuration file is available in your native language
-is available, it will be displayed.
+If a translation of the configuration file is available in your native
+language is available, it will be displayed.
 
 (If you would be interested in adding a translation, please visit
 https://github.com/andy5995/rmw/wiki/Translating)

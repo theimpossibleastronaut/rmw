@@ -1,18 +1,19 @@
 === RMW Release Notes ===
 
-2017-11-14
+2017-12-21
 
 rmw 0.4.01 has been released
 
-Please see the [contributors](https://github.com/andy5995/rmw/graphs/contributors)
-file to see a list of the people who have helped shape this release.
+Please see the
+[contributors](https://github.com/andy5995/rmw/graphs/contributors) file to
+see a list of the people who have helped shape this release.
 
 Martijn de Boer has done some testing and found that rmw will build and run on
-Linux, Mac OS X, and *BSD. He also reports that it builds and runs on Windows using
-[WSL](https://github.com/ethanhs/WSL-Programs). We'd like rmw to have the ability
-to run natively on Windows and if anyone is interested in helping with that, please
-subscribe to the [ticket](https://github.com/andy5995/rmw/issues/71), or leave a
-comment.
+Linux, Mac OS X, and *BSD. He also reports that it builds and runs on Windows
+using [WSL](https://github.com/ethanhs/WSL-Programs). We'd like rmw to have
+the ability to run natively on Windows and if anyone is interested in helping
+with that, please subscribe to the
+[ticket](https://github.com/andy5995/rmw/issues/71), or leave a comment.
 
 The --select feature now displays a list that can be scrolled through, and
 file sizes are now shown next to each file.
@@ -21,15 +22,16 @@ libncurses(5 or 6)-dev is now required to build (used for the --select
 feature)
 
 Support for translating output messages using
-[gettext](https://www.gnu.org/software/gettext/)
-has been added. At present, only Dutch, Finnish, Polish, and Hindi languages are
-included with the distribution. If you would like to add a translation, please
-see [the Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating)
-for information and instructions.
+[gettext](https://www.gnu.org/software/gettext/) has been added. rmw has been
+translated into the following languages:
+    * Dutch
+    * Finnish
+    * Nepali
+    * Polish
 
--t --translate option added. This option will display a translation of the config
-file in your native language. Unfortunately, as mentioned above, only 4 languages
-are supported at present.
+If you would like to add a translation, please see [the Translating wiki
+page](https://github.com/andy5995/rmw/wiki/Translating) for information and
+instructions.
 
 man pages are now available in the following languages:
 
@@ -37,39 +39,46 @@ man pages are now available in the following languages:
     * de
     * es
     * fi
+    * ne
+    * nl
     * pl
     * pt_BR
-    * nl
 
-Using extra force at runtime (-ff) will now prevent messages such as
-"Directory not purged - still contains files" when purging directories that
-contain non-writable subdirectories.
+-t --translate option added. This option will display a
+translation of the config file in your native language. Unfortunately, as
+mentioned above, only 4 languages are supported at present.
+
+-ff option added. Using extra force at runtime (-ff) will now prevent messages
+such as "Directory not purged - still contains files" when purging directories
+that contain non-writable subdirectories.
 
 A new feature for testing has been added. Temporarily setting the RMWTRASH
-environmental variable at run-time to "fake-year" will write the year 1999
-to the DeletionDate string in the .trashinfo file when removed with rmw.
+environmental variable at run-time to "fake-year" will write the year 1999 to
+the DeletionDate string in the .trashinfo file when removed with rmw.
 
     Ex: `RMWTRASH=fake-year rmw some.txt temp.asc files.doc`
 
-Then run rmw with the purge option: `rmw -fg` and those three files would
-be removed.
+Then run rmw with the purge option: `rmw -fg` and those three files would be
+removed.
 
 If purge_after is > 0, rmw will only  show the message "purge has been
 skipped: use -f or --force" once a day, regardless of verbosity level. This
 improves the behavior where that message would display every time if --force
 wasn't used (or if "force_not_required" was used in the config file).
 
--o, --orphaned option added
-This will create a .trashinfo file if the corresponding .trashinfo is not
-found (missing trashinfo files were a problem in the early days of
-testing. If it happens now, it would be because of a bug that has yet to
-be discovered).
+-o, --orphaned option added This will create a .trashinfo file if the
+corresponding .trashinfo is not found (missing trashinfo files were a problem
+in the early days of testing. If it happens now, it would be because of a bug
+that has yet to be discovered).
 
 The -p, --pause option has been removed
 
 The undo_file (lastrmw) is now removed after when -u is used.
 
-We are now using Slack for the [rmw chat room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM). Anyone who is interested in rmw may join, regardless of their contribution level.
+We are now using Slack for the [rmw chat
+room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
+Anyone who is interested in rmw may join, regardless of their contribution
+level.
 
 Please visit the web site and leave feedback; bug reports are also requested.
 https://github.com/andy5995/rmw/wiki
