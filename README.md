@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/andy5995/rmw.svg?branch=master)](https://travis-ci.org/andy5995/rmw)
 
+# rmw 0.4.01
+
 rmw is an OS portable cli trash can utility written in C. It can send files to
 your "Desktop" trash, or a completely separate folder. It can also: restore
 files; permanently delete files that were rmw'ed more than xx number of days
@@ -8,11 +10,6 @@ configuration file; and append a unique string to the filenames so they won't
 be overwritten (duplication protection).
 
 Web site: https://github.com/andy5995/rmw/wiki
-
-This is the README for the development version of rmw. It may mention features
-that aren't included in the last release, or differ in other ways. The README
-from the last release is at
-https://github.com/andy5995/rmw/blob/v2016.09.19.01a/README
 
 Anyone interested in this project is welcome to join the [chat
 room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
