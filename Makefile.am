@@ -11,6 +11,8 @@ INSTALL             \
 NEWS                \
 TODO
 
+packextras_DATA=$(EXTRA_DIST)
+
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
