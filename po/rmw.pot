@@ -209,7 +209,6 @@ msgid ""
 "#\n"
 "#WASTE=$HOME/.local/share/Trash\n"
 msgstr ""
-msgid ""
 "\n"
 "# Se você gostaria que esta fosse sua pasta de lixo primária (que geralmente "
 "significa\n"
@@ -581,7 +580,7 @@ msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<ESPAÇO> - selecione ou desmarque um item. / <ENTER> - restaurar itens "
-selecionados"
+"selecionados"
 
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
