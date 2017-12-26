@@ -41,12 +41,8 @@
 static void del_char_shift_left (const char c, char **str)
 {
   while (**str == c)
-  {
     ++(*str);
-    printf ("'%c'\n", **str);
-  }
 
-  printf ("--%s--\n", *str);
   return;
 }
 
@@ -55,20 +51,20 @@ static void del_char_shift_left (const char c, char **str)
  * change to the value of "HOMEDIR"
  */
 
-static bool make_home_real (char *str, const char *HOMEDIR)
+static bool make_home_real (char **str, const char *HOMEDIR)
 {
   bool ok = 0;
-  if (str[0] == '~')
+  if (*str[0] == '~')
   {
-    del_char_shift_left ('~', &str);
+    del_char_shift_left ('~', str);
     ok = 1;
   }
-  else if (strncmp (str, "$HOME", 5) == 0)
+  else if (strncmp (*str, "$HOME", 5) == 0)
   {
     int chars_to_delete;
 
     for (chars_to_delete = 0; chars_to_delete < 5; chars_to_delete++)
-      del_char_shift_left (str[0], &str);
+      del_char_shift_left (*str[0], str);
 
     ok = 1;
   }
@@ -76,12 +72,8 @@ static bool make_home_real (char *str, const char *HOMEDIR)
     return 0;
 
   char temp[MP];
-  printf ("str  = %s\n", str);
-  sprintf (temp, "%s%s", HOMEDIR, str);
-  printf ("temp  = %s\n", temp);
-  strcpy (str, temp);
-
-  printf ("HOME = %s\n", str);
+  sprintf (temp, "%s%s", HOMEDIR, *str);
+  strcpy (*str, temp);
 
   return ok;
 }
@@ -277,8 +269,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       trim (token_ptr);
       trim_slash (token_ptr);
       del_char_shift_left (' ', &token_ptr);
-      make_home_real (token_ptr, HOMEDIR);
-      printf ("token_ptr = %s\n", token_ptr);
+      make_home_real (&token_ptr, HOMEDIR);
 
       /* make the parent... */
       strcpy (waste[waste_ctr].parent, token_ptr);
@@ -342,7 +333,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       token_ptr = strtok (NULL, "=");
 
       del_char_shift_left (' ', &token_ptr);
-      make_home_real (token_ptr, HOMEDIR);
+      make_home_real (&token_ptr, HOMEDIR);
 
       strcpy (protected_dir[prot_dir_ctr], token_ptr);
 
