@@ -25,7 +25,13 @@
  */
 
 #include <sys/stat.h>
-#include "main.h"
+#include "rmw.h"
+#include "utils_rmw.h"
+#include "restore_rmw.h"
+#include "trivial_rmw.h"
+#include "config_rmw.h"
+#include "trashinfo_rmw.h"
+#include "purging_rmw.h"
 
 int
 main (int argc, char *argv[])
