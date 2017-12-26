@@ -154,7 +154,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
     static short ctr;
     ctr = START_WASTE_COUNTER;
 
-    while (strcmp (waste[++ctr].parent, "NULL") != 0)
+    while (*waste[++ctr].parent != '\0')
     {
       static char *possibly_in_path;
 
@@ -330,7 +330,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
   do
   {
-    if (strcmp (waste[ctr].parent, "NULL") == 0)
+    if (*waste[ctr].parent == '\0')
       break;
 
     static ushort entries;
@@ -491,7 +491,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
       break;
     }
 
-    if (c == KEY_RIGHT && strcmp (waste[ctr + 1].parent, "NULL") != 0)
+    if (c == KEY_RIGHT && *waste[ctr + 1].parent != '\0')
     {
       ctr++;
     }
@@ -499,7 +499,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     if (c == KEY_LEFT && ctr)
       ctr--;
 
-  }while (strcmp (waste[ctr].parent, "NULL") != 0);
+  }while (*waste[ctr].parent != '\0');
 
   /* endwin was already run if c == 10 */
   if (c != 10)

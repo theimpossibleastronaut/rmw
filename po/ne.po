@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre3\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-26 04:10-0600\n"
+"POT-Creation-Date: 2017-12-26 06:38-0600\n"
 "PO-Revision-Date: 2017-12-08 14:04-0700\n"
 "Last-Translator: ram <ram.dahal@gmail.com>\n"
 "Language-Team: Nepali\n"
@@ -484,7 +484,7 @@ msgstr " :चेतावनी: Waste फोल्डरहरू अधिक�
 msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr " :चेतावनी: सुरक्षित फोल्डरहरू अधिकतम संख्या पुगेको: %d\n"
 
-#: src/config_rmw.c:383
+#: src/config_rmw.c:384
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"

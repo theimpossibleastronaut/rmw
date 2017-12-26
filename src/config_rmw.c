@@ -367,8 +367,9 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       printf (_(" :warning: Maximum number of protected folders reached: %d\n"), PROTECT_MAX);
   }
 
-  strcpy (waste[waste_ctr].parent, "NULL");
-  strcpy (protected_dir[prot_dir_ctr], "NULL");
+  *waste[waste_ctr].parent = '\0';
+  *protected_dir[prot_dir_ctr] = '\0';
+
   /**
    * The earlier "breaks" will allow the config file to be closed here
    */

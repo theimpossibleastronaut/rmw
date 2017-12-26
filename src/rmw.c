@@ -385,7 +385,7 @@ Unable to continue. Exiting...\n"));
      * removable devices are specified.
      */
     short ctr = START_WASTE_COUNTER;
-    while (strcmp (waste[++ctr].parent, "NULL") != 0)
+    while (*waste[++ctr].parent != '\0')
       printf ("%s\n", waste[ctr].parent);
 
     return 0;
@@ -491,7 +491,7 @@ Unable to continue. Exiting...\n"));
           static short prot_ctr;
           prot_ctr = START_WASTE_COUNTER;
 
-          while (strcmp (protected_dir[++prot_ctr], "NULL") != 0)
+          while (*protected_dir[++prot_ctr] != '\0')
           {
             if (strncmp (file.real_path, protected_dir[prot_ctr],
                           strlen (protected_dir[prot_ctr])) == 0)
@@ -550,7 +550,7 @@ Unable to continue. Exiting...\n"));
       static short dir_num;
       dir_num = START_WASTE_COUNTER;
 
-      while (strcmp (waste[++dir_num].parent, "NULL") != 0)
+      while (*waste[++dir_num].parent != '\0')
       {
         lstat (file.main_argv, &st);
 

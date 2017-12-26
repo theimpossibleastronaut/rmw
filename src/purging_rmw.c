@@ -185,7 +185,7 @@ purge (const short purge_after, const struct waste_containers *waste,
    */
   short ctr = START_WASTE_COUNTER;
 
-  while (strcmp (waste[++ctr].parent, "NULL") != 0)
+  while (*waste[++ctr].parent != '\0')
   {
     static struct dirent *entry;
     DIR *dir = opendir (waste[ctr].info);
@@ -415,7 +415,7 @@ orphan_maint (struct waste_containers *waste,
 
   int status;
 
-  while (strcmp (waste[++ctr].parent, "NULL") != 0)
+  while (*waste[++ctr].parent != '\0')
   {
     struct dirent *entry;
     DIR *files;

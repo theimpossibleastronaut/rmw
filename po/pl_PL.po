@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-26 04:10-0600\n"
+"POT-Creation-Date: 2017-12-26 06:38-0600\n"
 "PO-Revision-Date: 2017-12-07 18:35+0100\n"
 "Last-Translator: suve <veg@svgames.pl>\n"
 "Language-Team: Polish\n"
@@ -460,7 +460,7 @@ msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr ""
 " :ostrzeżenie: Osiągnięto maksymalną liczbę chronionych katalogów: %d\n"
 
-#: src/config_rmw.c:383
+#: src/config_rmw.c:384
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"

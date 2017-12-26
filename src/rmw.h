@@ -90,9 +90,9 @@
 
 struct waste_containers
 {
-  char parent[MP];
-  char info[MP];
-  char files[MP];
+  char parent[PATH_MAX + 1];
+  char info[PATH_MAX + 1];
+  char files[PATH_MAX + 1];
 
   int dev_num;
 };
