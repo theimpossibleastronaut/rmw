@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-25 23:08-0600\n"
+"POT-Creation-Date: 2017-12-25 23:44-0600\n"
 "PO-Revision-Date: 2017-12-10 18:35+0100\n"
 "Last-Translator: jmrodriguesgoncalves <jmrodriguesgoncalves@myseneca.ca>\n"
 "Language-Team: Portuguese\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/functions/trivial_rmw.c:30
+#: src/trivial_rmw.c:30
 #, c-format
 msgid ""
 "Usage: rmw [OPTION]... FILE...\n"
@@ -61,7 +61,7 @@ msgstr ""
 "  -w, --warranty            mostra a garantia\n"
 "  -V, --version             mostra informação sobre versão e licença\n"
 
-#: src/functions/trivial_rmw.c:50
+#: src/trivial_rmw.c:50
 #, c-format
 msgid ""
 "  \n"
@@ -80,7 +80,7 @@ msgstr ""
 "  -s, --select              seleciona ficheiros da lista para restaurar\n"
 "  -u, --undo-last           reverse a última remoção\n"
 
-#: src/functions/trivial_rmw.c:56
+#: src/trivial_rmw.c:56
 #, c-format
 msgid ""
 "  \n"
@@ -130,14 +130,14 @@ msgstr ""
 #. for this package.  Please add _another line_ saying
 #. "Report translation bugs to <...>\n" with the address for translation
 #. bugs (typically your translation team's web or email address).
-#: src/functions/trivial_rmw.c:73
+#: src/trivial_rmw.c:73
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
 "Comunicar erros a <%s>.\n"
 "Comunicar erros de tradução a <jmrodriguesgoncalves@myseneca.ca>.\n"
 
-#: src/functions/trivial_rmw.c:78
+#: src/trivial_rmw.c:78
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -160,7 +160,7 @@ msgstr ""
 "O PROGRAMA ESTIVER DEFECTUOSO, VOCÊ ASSUME O CUSTO DE TODA A MANUTENÇÃO,\n"
 "REPARAÇÃO OU CORRECÇÃO NECESSÁRIAS.\n"
 
-#: src/functions/trivial_rmw.c:93
+#: src/trivial_rmw.c:93
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -181,7 +181,7 @@ msgstr ""
 "para mais detalhes.\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/functions/trivial_rmw.c:108
+#: src/trivial_rmw.c:108
 #, c-format
 msgid ""
 "\n"
@@ -199,7 +199,7 @@ msgstr ""
 "WASTE = $HOME/.trash.rmw\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/functions/trivial_rmw.c:115
+#: src/trivial_rmw.c:115
 #, c-format
 msgid ""
 "\n"
@@ -231,7 +231,7 @@ msgstr ""
 "#WASTE=$HOME/.local/share/Trash\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/functions/trivial_rmw.c:127
+#: src/trivial_rmw.c:127
 #, c-format
 msgid ""
 "\n"
@@ -253,7 +253,7 @@ msgstr ""
 "#WASTE=/mnt/sda10000/example_waste, removable"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/functions/trivial_rmw.c:137
+#: src/trivial_rmw.c:137
 #, c-format
 msgid ""
 "\n"
@@ -274,7 +274,7 @@ msgstr ""
 "purge_after = 90\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/functions/trivial_rmw.c:146
+#: src/trivial_rmw.c:146
 #, c-format
 msgid ""
 "\n"
@@ -294,7 +294,7 @@ msgstr ""
 "#force_not_required\n"
 
 #. TRANSLATORS:  Do not translate the last two lines in this section
-#: src/functions/trivial_rmw.c:154
+#: src/trivial_rmw.c:154
 #, c-format
 msgid ""
 "\n"
@@ -418,7 +418,7 @@ msgstr ""
 
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
-#: src/functions/config_rmw.c:181
+#: src/config_rmw.c:181
 #, c-format
 msgid ""
 "  :Error: Can not open configuration file\n"
@@ -437,7 +437,7 @@ msgstr ""
 "https://github.com/andy5995/rmw/tree/master/etc\n"
 "Terminando...\n"
 
-#: src/functions/config_rmw.c:206
+#: src/config_rmw.c:206
 #, c-format
 msgid ""
 "  :Error: The number of lines in configuration file must be less than %d\n"
@@ -446,27 +446,27 @@ msgstr ""
 "%d\n"
 
 #. TRANSLATORS:  "purge_after" is a varible
-#: src/functions/config_rmw.c:237
+#: src/config_rmw.c:237
 #, c-format
 msgid "  :Error: invalid purge_after value in configuration\n"
 msgstr "  : Erro: valor purge_after inválido na configuração\n"
 
-#: src/functions/config_rmw.c:274
+#: src/config_rmw.c:274
 #, c-format
 msgid "  :Error: invalid option in config\n"
 msgstr "  : Erro: opção inválida no config\n"
 
-#: src/functions/config_rmw.c:347
+#: src/config_rmw.c:347
 #, c-format
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr " :aviso: Número máximo de pastas de lixo atingidas: %d\n"
 
-#: src/functions/config_rmw.c:350
+#: src/config_rmw.c:350
 #, c-format
 msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr " :aviso: Número máximo de pastas protegidas atingidas: %d\n"
 
-#: src/functions/config_rmw.c:366
+#: src/config_rmw.c:366
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"
@@ -484,19 +484,19 @@ msgstr ""
 "Não é possível continuar. Saindo...\n"
 
 #. TRANSLATORS:  "opening" refers to a file
-#: src/functions/messages_rmw.c:37
+#: src/messages_rmw.c:37
 #, c-format
 msgid "  :Error: while opening %s\n"
 msgstr "  :Erro: ao abrir %s\n"
 
 #. TRANSLATORS:  "function" refers to a C function
-#: src/functions/messages_rmw.c:41 src/functions/messages_rmw.c:63
+#: src/messages_rmw.c:41 src/messages_rmw.c:63
 #, c-format
 msgid "function: <%s>"
 msgstr "função: <%s>"
 
 #. TRANSLATORS:  "closing" refers to a file
-#: src/functions/messages_rmw.c:60
+#: src/messages_rmw.c:60
 #, c-format
 msgid "  :Error: while closing %s\n"
 msgstr "  :Error: ao fechar %s\n"
@@ -506,78 +506,78 @@ msgstr "  :Error: ao fechar %s\n"
 #. *               "format" refers to the layout of the file
 #. *                contents
 #.
-#: src/functions/messages_rmw.c:77
+#: src/messages_rmw.c:77
 #, c-format
 msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
 msgstr "  :Erro: formato do `ficheiro %s` .trashinfo está incorreto (Linha %d)"
 
-#: src/functions/messages_rmw.c:85
+#: src/messages_rmw.c:85
 #, c-format
 msgid " :warning: Restore() returned errors\n"
 msgstr " :aviso: Restore() returnou erros\n"
 
-#: src/functions/restore_rmw.c:87 src/functions/restore_rmw.c:102
-#: src/functions/trashinfo_rmw.c:85 src/functions/trashinfo_rmw.c:96
+#: src/restore_rmw.c:87 src/restore_rmw.c:102 src/trashinfo_rmw.c:85
+#: src/trashinfo_rmw.c:96
 #, c-format
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""
 "rmw: %s(): buffer muito pequeno (obteve %hu, precisava de um mínimo de %hu)\n"
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
-#: src/functions/restore_rmw.c:148
+#: src/restore_rmw.c:148
 #, c-format
 msgid "Searching using only the basename...\n"
 msgstr "Pesquisando utilizando apenas o ponto de referência...\n"
 
-#: src/functions/restore_rmw.c:167
+#: src/restore_rmw.c:167
 #, c-format
 msgid "search complete\n"
 msgstr "pesquisa completa\n"
 
-#: src/functions/restore_rmw.c:250
+#: src/restore_rmw.c:250
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 "Duplica de nome do ficheiro no destino - adicionando linha com horas...\n"
 
-#: src/functions/restore_rmw.c:268
+#: src/restore_rmw.c:268
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Erro: ao remover ficheiro .trashinfo: '%s'\n"
 
-#: src/functions/restore_rmw.c:274
+#: src/restore_rmw.c:274
 #, c-format
 msgid "Restore failed: %s\n"
 msgstr "Restauração falhou: %s\n"
 
-#: src/functions/restore_rmw.c:279
+#: src/restore_rmw.c:279
 #, c-format
 msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
 msgstr "  : Erro: Capaz de abrir '%s' mas encontrou um erro desconhecido\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/functions/restore_rmw.c:295
+#: src/restore_rmw.c:295
 #, c-format
 msgid "'%s' not found\n"
 msgstr "'%s' não encontrado\n"
 
-#: src/functions/restore_rmw.c:421
+#: src/restore_rmw.c:421
 #, c-format
 msgid "== contains %d file =="
 msgstr "== contem %d ficheiro=="
 
-#: src/functions/restore_rmw.c:422
+#: src/restore_rmw.c:422
 #, c-format
 msgid "== contains %d files =="
 msgstr "== contem %d ficheiros=="
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/functions/restore_rmw.c:426
+#: src/restore_rmw.c:426
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-DIREITO / CURSOR-ESQUERDO> - troca pastas de lixo"
 
-#: src/functions/restore_rmw.c:427
+#: src/restore_rmw.c:427
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
@@ -587,21 +587,21 @@ msgstr ""
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/functions/restore_rmw.c:433
+#: src/restore_rmw.c:433
 msgid "'q' - quit"
 msgstr "'q' - sair"
 
-#: src/functions/restore_rmw.c:553
+#: src/restore_rmw.c:553
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " : aviso: não foi possível remover %s\n"
 
-#: src/functions/purging_rmw.c:91
+#: src/purging_rmw.c:91
 #, c-format
 msgid "  :Error: while changing permissions of %s\n"
 msgstr "  : Erro: ao alterar permissões de %s\n"
 
-#: src/functions/purging_rmw.c:292
+#: src/purging_rmw.c:292
 #, c-format
 msgid ""
 "\n"
@@ -610,76 +610,76 @@ msgstr ""
 "\n"
 "Purgando arquivos (purge_after = %u) ...\n"
 
-#: src/functions/purging_rmw.c:419
+#: src/purging_rmw.c:419
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr " :aviso: Diretório não purgado - ainda contém arquivos\n"
 
-#: src/functions/purging_rmw.c:421
+#: src/purging_rmw.c:421
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(verifique as permissões de proprietário/escrita)\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/functions/purging_rmw.c:428
+#: src/purging_rmw.c:428
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :aviso: Profundidade máxima de %u alcançada, ignorando\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/functions/purging_rmw.c:441 src/functions/purging_rmw.c:447
-#: src/functions/purging_rmw.c:462 src/functions/purging_rmw.c:480
+#: src/purging_rmw.c:441 src/purging_rmw.c:447 src/purging_rmw.c:462
+#: src/purging_rmw.c:480
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr "  :Erro: ao remover %s\n"
 
-#: src/functions/purging_rmw.c:495
+#: src/purging_rmw.c:495
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d diretórios ignorados (RMDIR_MAX_DEPTH atingido)\n"
 
-#: src/functions/purging_rmw.c:500
+#: src/purging_rmw.c:500
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d diretórios ignorados (contém arquivos somente de leitura)\n"
 
-#: src/functions/purging_rmw.c:503
+#: src/purging_rmw.c:503
 #, c-format
 msgid "%d file purged"
 msgstr "%d ficheiro purgado"
 
-#: src/functions/purging_rmw.c:503
+#: src/purging_rmw.c:503
 #, c-format
 msgid "%d files purged"
 msgstr "%d ficheiros purgados"
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/functions/purging_rmw.c:560
+#: src/purging_rmw.c:560
 #, c-format
 msgid "Created %s\n"
 msgstr "Criou %s\n"
 
-#: src/functions/purging_rmw.c:562 src/functions/utils_rmw.c:80
+#: src/purging_rmw.c:562 src/utils_rmw.c:80
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr "  :Error ao criar %s\n"
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
 #. * of memory allocated for a string
-#: src/functions/strings_rmw.c:39
+#: src/strings_rmw.c:39
 #, c-format
 msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
 msgstr " :Erro: saturação de buffer (falha de segmentação) impedida.\n"
 
-#: src/functions/strings_rmw.c:40
+#: src/strings_rmw.c:40
 #, c-format
 msgid ""
 "If you think this may be a bug, please report it to the rmw developers.\n"
 msgstr ""
 "Se você acha que isso pode ser um erro, informe os desenvolvedores do rmw.\n"
 
-#: src/functions/strings_rmw.c:58
+#: src/strings_rmw.c:58
 #, c-format
 msgid ""
 " <--> Displaying part of the string that caused the error <-->\n"
@@ -688,12 +688,12 @@ msgstr ""
 "<--> Exibindo parte da cadeia que causou o erro <-->\n"
 "\n"
 
-#: src/functions/strings_rmw.c:158
+#: src/strings_rmw.c:158
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Erro: realpath() returnou um erro.\n"
 
-#: src/functions/utils_rmw.c:76
+#: src/utils_rmw.c:76
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Diretório criado %s\n"
