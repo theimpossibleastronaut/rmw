@@ -23,10 +23,11 @@
  *
  */
 
-#ifndef _INC_MESSAGES_H
-#define _INC_MESSAGES_H
+#ifndef INC_RMW_H
+#define INC_RMW_H
+  #include "rmw.h"
+#endif
 
-#include "rmw.h"
 #include "strings_rmw.h"
 
 #define MAX_MSG_SIZE 512
@@ -40,5 +41,3 @@ close_file (FILE *file_ptr, const char *filename, const char *function_name);
 void display_dot_trashinfo_error (const char *dti, const int line);
 
 void msg_warn_restore (void);
-
-#endif

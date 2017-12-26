@@ -25,13 +25,20 @@
  */
 
 #include <sys/stat.h>
-#include "rmw.h"
+
+#ifndef INC_RMW_H
+#define INC_RMW_H
+  #include "rmw.h"
+#endif
+
 #include "utils_rmw.h"
 #include "restore_rmw.h"
 #include "trivial_rmw.h"
 #include "config_rmw.h"
 #include "trashinfo_rmw.h"
 #include "purging_rmw.h"
+#include "strings_rmw.h"
+#include "messages_rmw.h"
 
 int
 main (int argc, char *argv[])

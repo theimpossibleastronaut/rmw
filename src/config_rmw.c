@@ -23,8 +23,16 @@
  *
  */
 
-#include <sys/stat.h>
+#ifndef INC_RMW_H
+#define INC_RMW_H
+  #include "rmw.h"
+#endif
+
 #include "config_rmw.h"
+#include "utils_rmw.h"
+#include "strings_rmw.h"
+#include "trivial_rmw.h"
+#include "messages_rmw.h"
 
 /**
  * Erases characters from the beginning of a string

@@ -23,9 +23,6 @@
  *
  */
 
-#ifndef _RESTORE_RMW_H
-#define _RESTORE_RMW_H
-
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
@@ -44,5 +41,3 @@ restore_select (struct waste_containers *waste, char *time_str_appended);
 
 void
 undo_last_rmw (char *time_str_appended, struct waste_containers *waste);
-
-#endif

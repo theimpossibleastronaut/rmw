@@ -23,15 +23,10 @@
  *
  */
 
-#ifndef INC_UTIL_FUNCS_H
-#define INC_UTIL_FUNCS_H
-
-#include "rmw.h"
+#include <sys/stat.h>
 
 int
 make_dir (const char *dir);
 
 int
 exists (const char *filename);
-
-#endif

@@ -23,17 +23,10 @@
  *
  */
 
-#include <sys/stat.h>
-
-#include <time.h>
-/* strptime prototype from time.h
- *
- * This gets rid of the warning "implicit declaration of function ‘strptime’"
- */
-char *strptime (const char *__restrict __s,
-                       const char *__restrict __fmt, struct tm *__tp);
-#include <dirent.h>
-#include <unistd.h> /* for rmdir() */
+#ifndef INC_RMW_H
+#define INC_RMW_H
+  #include "rmw.h"
+#endif
 
 #include "purging_rmw.h"
 #include "messages_rmw.h"

@@ -24,9 +24,6 @@
  *
  */
 
-#ifndef INC_RMW_H
-#define INC_RMW_H
-
 /* Enable support for files over 2G  */
 #define _FILE_OFFSET_BITS 64
 
@@ -128,5 +125,3 @@ enum {
   ERR_OPEN,
   ERR_CLOSE
 };
-
-#endif

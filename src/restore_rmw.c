@@ -23,7 +23,11 @@
  *
  */
 
-#include "rmw.h"
+#ifndef INC_RMW_H
+#define INC_RMW_H
+  #include "rmw.h"
+#endif
+
 #include "restore_rmw.h"
 #include "utils_rmw.h"
 #include "messages_rmw.h"

@@ -23,6 +23,11 @@
  *
  */
 
+#ifndef INC_RMW_H
+#define INC_RMW_H
+  #include "rmw.h"
+#endif
+
 #include "strings_rmw.h"
 
 short

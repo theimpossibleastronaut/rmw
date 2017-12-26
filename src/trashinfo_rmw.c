@@ -25,7 +25,6 @@
 
 #include <sys/stat.h>
 #include "utils_rmw.h"
-// #include "strings_rmw.h"
 #include "messages_rmw.h"
 
 /**

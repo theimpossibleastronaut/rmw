@@ -23,12 +23,8 @@
  *
  */
 
-#ifndef _INC_STRINGS_H
-#define _INC_STRINGS_H
-
 #include <libgen.h>
 #include <time.h>
-#include "rmw.h"
 
 short
 bufchk (const char *str, unsigned short boundary);
@@ -47,5 +43,3 @@ resolve_path (const char *src, char *abs_path);
 
 void
 get_time_string (char *tm_str, ushort len, const char *format);
-
-#endif

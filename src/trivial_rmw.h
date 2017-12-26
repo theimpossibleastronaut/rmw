@@ -23,8 +23,6 @@
  *
  */
 
-#include "rmw.h"
-
 void
 print_usage (void);
 

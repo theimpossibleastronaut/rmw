@@ -23,7 +23,11 @@
  *
  */
 
-#include <sys/stat.h>
+#ifndef INC_RMW_H
+#define INC_RMW_H
+  #include "rmw.h"
+#endif
+
 #include "utils_rmw.h"
 
 /**

@@ -23,10 +23,16 @@
  *
  */
 
-#ifndef _INC_PURGING_H
-#define _INC_PURGING_H
-
-#include "rmw.h"
+#include <sys/stat.h>
+#include <time.h>
+/* strptime prototype from time.h
+ *
+ * This gets rid of the warning "implicit declaration of function ‘strptime’"
+ */
+char *strptime (const char *__restrict __s,
+                       const char *__restrict __fmt, struct tm *__tp);
+#include <dirent.h>
+#include <unistd.h> /* for rmdir() */
 
 #define RMDIR_MAX_DEPTH 32
 #define NOT_WRITEABLE 101
@@ -42,5 +48,3 @@ is_time_to_purge (void);
 short
 orphan_maint(struct waste_containers *waste,
               char *time_now, char *time_str_appended);
-
-#endif

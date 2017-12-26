@@ -23,11 +23,7 @@
  *
  */
 
-#include "rmw.h"
-#include "utils_rmw.h"
-#include "strings_rmw.h"
-#include "trivial_rmw.h"
-#include "messages_rmw.h"
+#include <sys/stat.h>
 
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,

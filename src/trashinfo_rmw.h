@@ -23,13 +23,11 @@
  *
  */
 
-#ifndef INC_PRIMARY_FUNCS_H
-#define INC_PRIMARY_FUNCS_H
-
-#include "rmw.h"
+#ifndef INC_RMW_H
+#define INC_RMW_H
+  #include "rmw.h"
+#endif
 
 int
 create_trashinfo (struct rmw_target file, struct waste_containers *waste,
                   char *time_now, char *time_str_appended, const short int cnum);
-
-#endif
