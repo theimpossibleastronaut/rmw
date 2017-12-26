@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-26 00:34-0600\n"
+"POT-Creation-Date: 2017-12-26 01:35-0600\n"
 "PO-Revision-Date: 2017-12-10 09:05+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
@@ -315,22 +315,22 @@ msgstr ""
 "# PROTECT = /usr/local/bin\n"
 "# PROTECT = $HOME/src\n"
 
-#: src/rmw.c:256
+#: src/rmw.c:252
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: nog niet beschikbaar\n"
 
-#: src/rmw.c:259
+#: src/rmw.c:255
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: nog niet beschikbaar\n"
 
-#: src/rmw.c:292
+#: src/rmw.c:288
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Fout: bij het ophalen van het pad naar je thuismap\n"
 
-#: src/rmw.c:307
+#: src/rmw.c:303
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"

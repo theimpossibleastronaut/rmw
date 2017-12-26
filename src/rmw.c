@@ -323,10 +323,6 @@ Unable to continue. Exiting...\n"));
   else if (conf_err == EXIT_BUF_ERR)
     return EXIT_BUF_ERR;
 
-    /* used for DeletionDate in trashinfo file
-     * and for comparison in purge() */
-  char time_now[21];
-
   /* helps test the purge function */
   bool use_fake_year = 0;
 
@@ -335,14 +331,22 @@ Unable to continue. Exiting...\n"));
     use_fake_year = strcmp (getenv ("RMWTRASH"), "fake-year") ? 0 : 1;
   }
 
+  char *t_fmt;
+
   if (!use_fake_year)
   {
-    get_time_string (time_now, 21, "%FT%T");
+    t_fmt = "%FT%T";
   }
   else
   {
-    get_time_string (time_now, 21, "1999-%m-%dT%T");
+    t_fmt = "1999-%m-%dT%T";
   }
+
+  /* time_now is used for DeletionDate in trashinfo file
+    * and for comparison in purge() */
+  /* The length of the format above doesn't exceed 21 */
+  char time_now[21];
+  get_time_string (time_now, 21, t_fmt);
 
   /** This if statement spits out a message if someone tries to use -g on
    * the command line but has purge_after set to 0 in the config

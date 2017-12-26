@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre3\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-26 00:34-0600\n"
+"POT-Creation-Date: 2017-12-26 01:35-0600\n"
 "PO-Revision-Date: 2017-12-08 14:04-0700\n"
 "Last-Translator: ram <ram.dahal@gmail.com>\n"
 "Language-Team: Nepali\n"
@@ -323,22 +323,22 @@ msgstr ""
 "# PROTECT = /usr/local/bin\n"
 "# PROTECT = $HOME/src\n"
 
-#: src/rmw.c:256
+#: src/rmw.c:252
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: कार्यान्वयन गरिएको छैन \n"
 
-#: src/rmw.c:259
+#: src/rmw.c:255
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: कार्यान्वयन गरिएको छैन \n"
 
-#: src/rmw.c:292
+#: src/rmw.c:288
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "त्रुटि: तपाईंको गृह डाइरेक्टरीको बाटो प्राप्त गर्दा \n"
 
-#: src/rmw.c:307
+#: src/rmw.c:303
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
