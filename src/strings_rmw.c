@@ -163,14 +163,3 @@ resolve_path (const char *src, char *abs_path)
   printf (_("Error: realpath() returned an error.\n"));
   return 1;
 }
-
-void
-get_time_string (char *tm_str, ushort len, const char *format)
-{
-  struct tm *time_ptr;
-  time_t now = time (NULL);
-  time_ptr = localtime (&now);
-  strftime (tm_str, len, format, time_ptr);
-  bufchk (tm_str, len);
-  trim (tm_str);
-}

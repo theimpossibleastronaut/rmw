@@ -25,17 +25,13 @@
  */
 
 #include <sys/stat.h>
+#include <getopt.h>
 
 #ifndef INC_RMW_H
 #define INC_RMW_H
   #include "rmw.h"
 #endif
 
-/* _XOPEN Needed for strptime() */
-# define __USE_XOPEN
-#include <time.h>
-
-#include <getopt.h>
 #include "utils_rmw.h"
 #include "restore_rmw.h"
 #include "trivial_rmw.h"
@@ -44,6 +40,121 @@
 #include "purging_rmw.h"
 #include "strings_rmw.h"
 #include "messages_rmw.h"
+
+static void
+get_time_string (char *tm_str, ushort len, const char *format)
+{
+  struct tm *time_ptr;
+  time_t now = time (NULL);
+  time_ptr = localtime (&now);
+  strftime (tm_str, len, format, time_ptr);
+  bufchk (tm_str, len);
+  trim (tm_str);
+}
+
+/*
+ * is_time_to_purge()
+ *
+ * Creates lastpurge file
+ * checks to see if purge() was run today
+ * if not, returns 1 and writes the day
+ * to the lastpurge file.
+ */
+static ushort
+is_time_to_purge (void)
+{
+  #ifndef WIN32
+  char *HOMEDIR = getenv ("HOME");
+  #else
+  char *HOMEDIR = getenv ("LOCALAPPDATA");
+  #endif
+  char file_lastpurge[MP];
+  sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
+
+  if (bufchk (file_lastpurge, MP))
+    return EXIT_BUF_ERR;
+
+  char today_dd[3];
+  get_time_string (today_dd, 3, "%d");
+
+  FILE *fp;
+
+  if (!exists (file_lastpurge))
+  {
+    fp = fopen (file_lastpurge, "r");
+    if (fp == NULL)
+    {
+      open_err (file_lastpurge, __func__);
+      return ERR_OPEN;
+    }
+
+    char last_purge_dd[3];
+
+    if (fgets (last_purge_dd, sizeof (last_purge_dd), fp) == NULL)
+    {
+      printf ("Error: while getting line from %s\n", file_lastpurge);
+      perror (__func__);
+      close_file (fp, file_lastpurge, __func__);
+      return 0;
+    }
+
+    bufchk (last_purge_dd, 3);
+    trim (last_purge_dd);
+
+    close_file (fp, file_lastpurge, __func__);
+
+    /** if these are the same, purge has already been run today
+     */
+
+    if (!strcmp (today_dd, last_purge_dd))
+      return IS_SAME_DAY;
+
+    fp = fopen (file_lastpurge, "w");
+
+    if (fp != NULL)
+    {
+      fprintf (fp, "%s\n", today_dd);
+      close_file (fp, file_lastpurge, __func__);
+      return IS_NEW_DAY;
+    }
+
+    else
+    {
+      open_err (file_lastpurge, __func__);
+      return ERR_OPEN;
+    }
+  }
+
+  else
+  {
+    /**
+     * Create file if it doesn't exist
+     */
+    fp = fopen (file_lastpurge, "w");
+
+    if (fp != NULL)
+    {
+      fprintf (fp, "%s\n", today_dd);
+
+      close_file (fp, file_lastpurge, __func__);
+
+      return IS_NEW_DAY;
+    }
+
+    else
+    {
+      /**
+       * if we can't even write this file to the config directory, something
+       * is not right. Make it fatal.
+       *
+       * If the user gets this far though,
+       * chances are this error will never be a problem.
+       */
+      open_err (file_lastpurge, __func__);
+      exit (ERR_OPEN);
+    }
+  }
+}
 
 int
 main (int argc, char *argv[])

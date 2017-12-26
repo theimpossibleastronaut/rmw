@@ -40,6 +40,3 @@ truncate_str (char *str, ushort pos);
 
 int
 resolve_path (const char *src, char *abs_path);
-
-void
-get_time_string (char *tm_str, ushort len, const char *format);

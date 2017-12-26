@@ -40,9 +40,6 @@ int
 purge (const short purge_after, const struct waste_containers *waste,
         char *time_now, const ushort force);
 
-ushort
-is_time_to_purge (void);
-
 short
 orphan_maint(struct waste_containers *waste,
               char *time_now, char *time_str_appended);
