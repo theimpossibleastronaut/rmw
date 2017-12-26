@@ -1,5 +1,12 @@
 === rmw ChangeLog ===
 
+2017-12-26
+
+    [#140] Bugfix: rmw will now create the files/ and info/ directories
+    without displaying an error message. This happened if there was only
+    one WASTE folder in the config file, and if the files/ and info/
+    hadn't been created yet.
+
 2017-12-25
 
     Portuguese (pt_PT) translation added / thanks @jmrodriguesgoncalves

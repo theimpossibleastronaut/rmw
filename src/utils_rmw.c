@@ -78,12 +78,12 @@ make_dir (const char *dir)
   if (!mk_err)
   {
     printf (_("Created directory %s\n"), dir);
-    return DATA_DIR_CREATED;
+    return MAKE_DIR_SUCCESS;
   }
 
   printf (_("  :Error: while creating %s\n"), add_to_path);
   perror ("make_dir()");
-  return errno;
+  return MAKE_DIR_FAILURE;
 }
 
 /**
@@ -92,10 +92,20 @@ make_dir (const char *dir)
  * display the reason
  *
  * return: the return value of lstat()
+ * 0 if success (if a file or dir exists)
+ */
+
+/* FIXME: This function should return the opposite
+ *
+ * Right now.. if (exists) is true that means the file does not exist
+ * if (!exists) means the file does exist
  */
 int exists (const char *filename)
 {
   static struct stat st;
-
-  return (lstat (filename, &st));
+  static ushort state = 0;
+  /* using a varible here to make debugging a little easier in the future */
+  state = (lstat (filename, &st));
+  // printf ("%d\n", state);
+  return state;
 }

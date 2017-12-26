@@ -140,7 +140,6 @@ is_time_to_purge (void)
 
       return IS_NEW_DAY;
     }
-
     else
     {
       /**
@@ -295,7 +294,14 @@ main (int argc, char *argv[])
   if (bufchk (data_dir, MP))
     return EXIT_BUF_ERR;
 
-  const ushort created_data_dir = make_dir (data_dir);
+  ushort created_data_dir;
+  created_data_dir = make_dir (data_dir);
+  /* make_dir now returns MAKE_DIR_SUCCESS or FAILURE
+   * We want to assign something more specific that can be used later
+   */
+  if (created_data_dir)
+    created_data_dir = DATA_DIR_CREATED;
+
   if (!created_data_dir || created_data_dir == DATA_DIR_CREATED)
   {}
   else

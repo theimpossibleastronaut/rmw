@@ -203,7 +203,6 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
   /**
    * protect DATA_DIR by default
    */
-
   sprintf (protected_dir[prot_dir_ctr], "%s%s", HOMEDIR, DATA_DIR);
   prot_dir_ctr++;
 
@@ -309,14 +308,24 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
         continue;
       }
 
-      if (make_dir (waste[waste_ctr].files))
-        continue;
+      if (exists (waste[waste_ctr].files))
+      {
+        if (make_dir (waste[waste_ctr].files) == MAKE_DIR_FAILURE)
+        {
+          exit (EXIT_FAILURE);
+        }
+      }
 
-      /* and the info. */
+        /* and the info. */
       sprintf (waste[waste_ctr].info, "%s%s", waste[waste_ctr].parent, "/info/");
 
-      if (make_dir (waste[waste_ctr].info))
-        continue;
+      if (exists (waste[waste_ctr].info))
+      {
+        if (make_dir (waste[waste_ctr].info) == MAKE_DIR_FAILURE)
+        {
+          exit (EXIT_FAILURE);
+        }
+      }
 
       /**
        * protect WASTE dirs by default

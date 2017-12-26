@@ -261,6 +261,7 @@ Duplicate filename at destination - appending time string...\n"));
 
         truncate_str (parent_dir, strlen (basename (file.dest)));
 
+        /* FIXME: needs error checking */
         if (exists (parent_dir))
           make_dir (parent_dir);
 
