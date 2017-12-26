@@ -1,7 +1,7 @@
 bin_PROGRAMS=rmw
 AM_CFLAGS= -std=gnu11 -Wall -pedantic -I./functions
 rmw_SOURCES=			\
-main.c 				\
+rmw.c 				\
 restore_rmw.c 	\
 config_rmw.c	\
 trivial_rmw.c 	\
@@ -13,8 +13,6 @@ utils_rmw.c
 
 noinst_HEADERS = 						\
 rmw.h												\
-main.h 											\
-gettext.h										\
 restore_rmw.h 	\
 config_rmw.h		\
 trivial_rmw.h 	\
@@ -22,7 +20,8 @@ strings_rmw.h 	\
 purging_rmw.h		\
 messages_rmw.h	\
 trashinfo_rmw.h	\
-utils_rmw.h
+utils_rmw.h			\
+gettext.h
 
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@

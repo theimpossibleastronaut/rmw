@@ -109,7 +109,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_rmw_OBJECTS = main.$(OBJEXT) restore_rmw.$(OBJEXT) \
+am_rmw_OBJECTS = rmw.$(OBJEXT) restore_rmw.$(OBJEXT) \
 	config_rmw.$(OBJEXT) trivial_rmw.$(OBJEXT) \
 	strings_rmw.$(OBJEXT) purging_rmw.$(OBJEXT) \
 	messages_rmw.$(OBJEXT) trashinfo_rmw.$(OBJEXT) \
@@ -323,7 +323,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -std=gnu11 -Wall -pedantic -I./functions
 rmw_SOURCES = \
-main.c 				\
+rmw.c 				\
 restore_rmw.c 	\
 config_rmw.c	\
 trivial_rmw.c 	\
@@ -335,8 +335,6 @@ utils_rmw.c
 
 noinst_HEADERS = \
 rmw.h												\
-main.h 											\
-gettext.h										\
 restore_rmw.h 	\
 config_rmw.h		\
 trivial_rmw.h 	\
@@ -344,7 +342,8 @@ strings_rmw.h 	\
 purging_rmw.h		\
 messages_rmw.h	\
 trashinfo_rmw.h	\
-utils_rmw.h
+utils_rmw.h			\
+gettext.h
 
 subdir = src
 rmw_LDADD = @LIBINTL@
@@ -460,10 +459,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/config_rmw.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/messages_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/purging_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/restore_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strings_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trashinfo_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trivial_rmw.Po@am__quote@
