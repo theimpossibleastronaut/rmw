@@ -24,13 +24,11 @@
  */
 
 #include <sys/stat.h>
+
+/* _XOPEN Needed for strptime() */
+# define __USE_XOPEN
 #include <time.h>
-/* strptime prototype from time.h
- *
- * This gets rid of the warning "implicit declaration of function ‘strptime’"
- */
-char *strptime (const char *__restrict __s,
-                       const char *__restrict __fmt, struct tm *__tp);
+
 #include <dirent.h>
 #include <unistd.h> /* for rmdir() */
 

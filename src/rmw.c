@@ -31,6 +31,11 @@
   #include "rmw.h"
 #endif
 
+/* _XOPEN Needed for strptime() */
+# define __USE_XOPEN
+#include <time.h>
+
+#include <getopt.h>
 #include "utils_rmw.h"
 #include "restore_rmw.h"
 #include "trivial_rmw.h"

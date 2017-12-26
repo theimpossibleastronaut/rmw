@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-26 00:14-0600\n"
+"POT-Creation-Date: 2017-12-26 00:30-0600\n"
 "PO-Revision-Date: 2017-12-07 18:35+0100\n"
 "Last-Translator: suve <veg@svgames.pl>\n"
 "Language-Team: Polish\n"
@@ -310,22 +310,22 @@ msgstr ""
 "# PROTECT = /usr/local/bin\n"
 "# PROTECT = $HOME/src\n"
 
-#: src/rmw.c:136
+#: src/rmw.c:141
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: nie zaimplementowano\n"
 
-#: src/rmw.c:139
+#: src/rmw.c:144
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: nie zaimplementowano\n"
 
-#: src/rmw.c:172
+#: src/rmw.c:177
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Błąd: podczas ustalania ścieżki katalogu domowego użytkownika\n"
 
-#: src/rmw.c:187
+#: src/rmw.c:192
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -348,7 +348,7 @@ msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:237
+#: src/rmw.c:242
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -357,7 +357,7 @@ msgstr ""
 "oczyszczanie jest wyłączone ('purge_after' ustawiono na '0')\n"
 "\n"
 
-#: src/rmw.c:245
+#: src/rmw.c:250
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "pomięto proces oczyszczania: użyj -f albo --force\n"
@@ -366,43 +366,43 @@ msgstr "pomięto proces oczyszczania: użyj -f albo --force\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:384
+#: src/rmw.c:389
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Pominięto: %s jest chronionym katalogiem\n"
 
-#: src/rmw.c:392
+#: src/rmw.c:397
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Nie znaleziono pliku: '%s'\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:481
+#: src/rmw.c:486
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Błąd: numer %d podczas próby utworzenia pliku .trashinfo\n"
 
-#: src/rmw.c:485
+#: src/rmw.c:490
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Błąd: numer %d podczas próby przeniesienia %s :\n"
 
-#: src/rmw.c:505
+#: src/rmw.c:510
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Nie znaleziono odpowiedniego systemu plików dla \"%s\"\n"
 
-#: src/rmw.c:515
+#: src/rmw.c:520
 #, c-format
 msgid "1 file was removed to the waste folder"
 msgstr "przeniesiono 1 plik do kosza"
 
-#: src/rmw.c:516
+#: src/rmw.c:521
 #, c-format
 msgid "%d files were removed to the waste folder"
 msgstr "przeniesiono %d plików do kosza"
 
-#: src/rmw.c:523
+#: src/rmw.c:528
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"

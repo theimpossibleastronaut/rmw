@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-26 00:14-0600\n"
+"POT-Creation-Date: 2017-12-26 00:30-0600\n"
 "PO-Revision-Date: 2017-12-10 18:35+0100\n"
 "Last-Translator: jmrodriguesgoncalves <jmrodriguesgoncalves@myseneca.ca>\n"
 "Language-Team: Portuguese\n"
@@ -313,22 +313,22 @@ msgstr ""
 "# PROTECT = /usr/local/bin\n"
 "# PROTECT = $HOME/src\n"
 
-#: src/rmw.c:136
+#: src/rmw.c:141
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: não implementado\n"
 
-#: src/rmw.c:139
+#: src/rmw.c:144
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: não implementado\n"
 
-#: src/rmw.c:172
+#: src/rmw.c:177
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Erro: ao obter o caminho para o diretório inicial\n"
 
-#: src/rmw.c:187
+#: src/rmw.c:192
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -353,7 +353,7 @@ msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:237
+#: src/rmw.c:242
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -362,7 +362,7 @@ msgstr ""
 "a purga está desativada ('purge_after' está definido para '0')\n"
 "\n"
 
-#: src/rmw.c:245
+#: src/rmw.c:250
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "A purga foi ignorada: use -f ou --force\n"
@@ -371,43 +371,43 @@ msgstr "A purga foi ignorada: use -f ou --force\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:384
+#: src/rmw.c:389
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Ignorado: %s está em um diretório protegido\n"
 
-#: src/rmw.c:392
+#: src/rmw.c:397
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Ficheiro não foi encontrado: '%s'\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:481
+#: src/rmw.c:486
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  : Erro: número %d tentando criar um ficheiro .trashinfo\n"
 
-#: src/rmw.c:485
+#: src/rmw.c:490
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Erro número %d tentando mover %s :\n"
 
-#: src/rmw.c:505
+#: src/rmw.c:510
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Nenhum sistema de arquivos adequado encontrado para \"%s\"\n"
 
-#: src/rmw.c:515
+#: src/rmw.c:520
 #, c-format
 msgid "1 file was removed to the waste folder"
 msgstr "1 ficheiro foi removido para a pasta de lixo"
 
-#: src/rmw.c:516
+#: src/rmw.c:521
 #, c-format
 msgid "%d files were removed to the waste folder"
 msgstr "%d ficheiros foram removidos para a pasta de lixo"
 
-#: src/rmw.c:523
+#: src/rmw.c:528
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
