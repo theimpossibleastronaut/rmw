@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-26 06:38-0600\n"
+"POT-Creation-Date: 2017-12-27 02:06-0600\n"
 "PO-Revision-Date: 2017-12-07 18:35+0100\n"
 "Last-Translator: suve <veg@svgames.pl>\n"
 "Language-Team: Polish\n"
@@ -310,22 +310,22 @@ msgstr ""
 "# PROTECT = /usr/local/bin\n"
 "# PROTECT = $HOME/src\n"
 
-#: src/rmw.c:251
+#: src/rmw.c:143
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: nie zaimplementowano\n"
 
-#: src/rmw.c:254
+#: src/rmw.c:146
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: nie zaimplementowano\n"
 
-#: src/rmw.c:287
+#: src/rmw.c:179
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Błąd: podczas ustalania ścieżki katalogu domowego użytkownika\n"
 
-#: src/rmw.c:309
+#: src/rmw.c:201
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -348,7 +348,7 @@ msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:363
+#: src/rmw.c:255
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -357,7 +357,7 @@ msgstr ""
 "oczyszczanie jest wyłączone ('purge_after' ustawiono na '0')\n"
 "\n"
 
-#: src/rmw.c:371
+#: src/rmw.c:263
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "pomięto proces oczyszczania: użyj -f albo --force\n"
@@ -366,43 +366,43 @@ msgstr "pomięto proces oczyszczania: użyj -f albo --force\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:510
+#: src/rmw.c:402
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Pominięto: %s jest chronionym katalogiem\n"
 
-#: src/rmw.c:518
+#: src/rmw.c:410
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Nie znaleziono pliku: '%s'\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:607
+#: src/rmw.c:499
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Błąd: numer %d podczas próby utworzenia pliku .trashinfo\n"
 
-#: src/rmw.c:611
+#: src/rmw.c:503
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Błąd: numer %d podczas próby przeniesienia %s :\n"
 
-#: src/rmw.c:631
+#: src/rmw.c:523
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Nie znaleziono odpowiedniego systemu plików dla \"%s\"\n"
 
-#: src/rmw.c:641
+#: src/rmw.c:533
 #, c-format
 msgid "1 file was removed to the waste folder"
 msgstr "przeniesiono 1 plik do kosza"
 
-#: src/rmw.c:642
+#: src/rmw.c:534
 #, c-format
 msgid "%d files were removed to the waste folder"
 msgstr "przeniesiono %d plików do kosza"
 
-#: src/rmw.c:649
+#: src/rmw.c:541
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -413,7 +413,7 @@ msgstr ""
 
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
-#: src/config_rmw.c:189
+#: src/config_rmw.c:171
 #, c-format
 msgid ""
 "  :Error: Can not open configuration file\n"
@@ -432,35 +432,35 @@ msgstr ""
 "https://github.com/andy5995/rmw/tree/master/etc\n"
 "Zamykanie programu...\n"
 
-#: src/config_rmw.c:213
+#: src/config_rmw.c:196
 #, c-format
 msgid ""
 "  :Error: The number of lines in configuration file must be less than %d\n"
 msgstr "  :Błąd: plik ustawień musi zawierać poniżej %d linii\n"
 
 #. TRANSLATORS:  "purge_after" is a varible
-#: src/config_rmw.c:244
+#: src/config_rmw.c:227
 #, c-format
 msgid "  :Error: invalid purge_after value in configuration\n"
 msgstr "  :Błąd: nieprawidłowa wartość purge_after w ustawieniach\n"
 
-#: src/config_rmw.c:281
+#: src/config_rmw.c:264
 #, c-format
 msgid "  :Error: invalid option in config\n"
 msgstr "  :Błąd: nieprawidłowa opcja w ustawieniach\n"
 
-#: src/config_rmw.c:364
+#: src/config_rmw.c:347
 #, c-format
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr " :ostrzeżenie: Osięgnięto maksymalną liczbę katalogów-koszy: %d\n"
 
-#: src/config_rmw.c:367
+#: src/config_rmw.c:350
 #, c-format
 msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr ""
 " :ostrzeżenie: Osiągnięto maksymalną liczbę chronionych katalogów: %d\n"
 
-#: src/config_rmw.c:384
+#: src/config_rmw.c:371
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"
