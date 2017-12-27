@@ -1,5 +1,31 @@
 === RMW Release Notes ===
 
+2017-12-27
+
+rmw v0.4.03 has been released
+
+Please see [contributors](https://github.com/andy5995/rmw/graphs/contributors) to
+view the list of people who have helped shape this release.
+
+Bugfix: Errors displayed while creating necessary directories, which
+would happen if only one WASTE folder was listed in the config file.
+
+A Portuguese (pt_PT) translation has been added.
+
+If you would like to add a translation, please see [the Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating)
+for information and instructions.
+
+The last major release of rmw was v0.4.01, which was released on
+2017-12-20. See the [NEWS](https://github.com/andy5995/rmw/blob/master/NEWS) file for
+information about many other notable changes and improvements to rmw.
+
+We are now using Slack for the [rmw chat room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
+Anyone who is interested in rmw may join, regardless of their
+contribution level.
+
+Please visit the web site and leave feedback; bug reports are also
+requested. https://github.com/andy5995/rmw/wiki
+
 2017-12-20
 
 rmw 0.4.01 has been released
