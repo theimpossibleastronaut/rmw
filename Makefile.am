@@ -6,7 +6,7 @@ README.md            \
 ChangeLog           \
 AUTHORS.md           \
 THANKS	            \
-COPYING			\
+COPYING							\
 INSTALL             \
 NEWS                \
 TODO

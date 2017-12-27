@@ -160,6 +160,10 @@ main (int argc, char *argv[])
   }
   while (next_option != -1);
 
+#ifdef DEBUG
+verbose = 1;
+#endif
+
   #ifndef WIN32
   char *HOMEDIR = getenv ("HOME");
   #else
@@ -237,6 +241,7 @@ Unable to continue. Exiting...\n"));
   }
   else
   {
+    printf ("  :test mode: Using fake year\n");
     t_fmt = "1999-%m-%dT%T";
   }
 
@@ -294,12 +299,11 @@ Unable to continue. Exiting...\n"));
   }
 
   /* FIXME:
-   * restore_select() should return a value
+   * The program can just exit after this.
    */
   if (select)
   {
-    restore_select (waste, time_str_appended);
-    return 0;
+    return restore_select (waste, time_str_appended);
   }
 
   /* FIXME:

@@ -182,7 +182,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
     sprintf (file.info, "%s%s%s%s", file.relative_path, "../info/",
              file.base_name, DOT_TRASHINFO);
 
-#if DEBUG == 1
+#ifdef DEBUG
     printf ("Restore()/debug: %s\n", file.info);
 #endif
 
@@ -312,7 +312,7 @@ Duplicate filename at destination - appending time string...\n"));
  *
  * FIXME: This function needs to be re-worked
  */
-void
+int
 restore_select (struct waste_containers *waste, char *time_str_appended)
 {
   int c;
@@ -338,13 +338,17 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
     struct stat st;
     struct dirent *entry;
-    static DIR *dir;
-    dir = opendir (waste[ctr].files);
+    static DIR *waste_dir;
+    if ((waste_dir = opendir (waste[ctr].files)) == NULL)
+    {
+      fprintf (stderr, "  :Error: while opening directory: %s", waste[ctr].files);
+      return EXIT_OPENDIR_FAILURE;
+    }
 
     /* This first loop is used to get the number of entries in the
      * directory.
      */
-    while ((entry = readdir (dir)) != NULL)
+    while ((entry = readdir (waste_dir)) != NULL)
     {
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
         continue;
@@ -353,7 +357,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     }
 
     /* FIXME: needs error checking on close() */
-    closedir (dir);
+    closedir (waste_dir);
 
     ITEM **my_items;
     MENU *my_menu;
@@ -374,9 +378,9 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     entries = 0;
     clear ();
 
-    dir = opendir (waste[ctr].files);
+    waste_dir = opendir (waste[ctr].files);
 
-    while ((entry = readdir (dir)) != NULL)
+    while ((entry = readdir (waste_dir)) != NULL)
     {
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
         continue;
@@ -403,7 +407,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
       entries++;
     }
 
-    closedir (dir);
+    closedir (waste_dir);
 
     /* Initialize items */
     n_choices = ARRAY_SIZE(choices);
@@ -506,7 +510,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
   {
     endwin ();
   }
-  return;
+  return 0;
 }
 
 void

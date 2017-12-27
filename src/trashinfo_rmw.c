@@ -122,6 +122,12 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
 
   sprintf (finalInfoDest, "%s%s", waste[cnum].info, file.base_name);
 
+#ifdef DEBUG
+printf ("\t--\n\n");
+printf ("time_str_appended = %s\n", time_str_appended);
+printf ("\t--\n\n");
+#endif
+
   if (file.is_duplicate)
     strcat (finalInfoDest, time_str_appended);
 
@@ -144,6 +150,17 @@ create_trashinfo (struct rmw_target file, struct waste_containers *waste,
       close_file (fp, finalInfoDest, __func__);
       return 1;
     }
+
+#ifdef DEBUG
+
+printf ("--\n\n");
+printf ("[Trash Info]\n");
+printf ("Path=%s\n", escaped_path);
+printf ("DeletionDate=%s", time_now);
+printf ("--\n\n");
+
+#endif
+
 
     fprintf (fp, "[Trash Info]\n");
     fprintf (fp, "Path=%s\n", escaped_path);
