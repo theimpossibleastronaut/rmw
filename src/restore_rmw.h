@@ -36,7 +36,7 @@
 int
 Restore (char *argv, char *time_str_appended, struct waste_containers *waste);
 
-void
+int
 restore_select (struct waste_containers *waste, char *time_str_appended);
 
 void
