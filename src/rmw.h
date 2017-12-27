@@ -45,8 +45,6 @@
   #define VERSION "unversioned"
 #endif
 
-#define DEBUG 0
-
 #ifndef SYSCONFDIR
 #define SYSCONFDIR "/usr/local/etc"
 #endif

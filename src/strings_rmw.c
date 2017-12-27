@@ -150,7 +150,7 @@ resolve_path (const char *src, char *abs_path)
     strcat (abs_path, "/");
     strcat (abs_path, basename (src_temp_basename));
 
-#if DEBUG == 1
+#ifdef DEBUG
   printf ("resolve_path()/debug: %s\n", abs_path);
 #endif
 
