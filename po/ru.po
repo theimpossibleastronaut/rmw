@@ -1,0 +1,688 @@
+# Russian translations for rmw package
+# Copyright (C) 2017 Andy Alt
+# This file is distributed under the same license as the rmw package.
+# svitlana-galianova <sgalianova@myseneca.ca>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rmw 0.4.03\n"
+"Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
+"POT-Creation-Date: 2017-12-27 03:22-0600\n"
+"PO-Revision-Date: 2017-12-30 17:22-0500\n"
+"Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CP1251\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. TRANSLATORS:  Do not translate the last line in this section
+#: src/trivial_rmw.c:142
+#, c-format
+msgid ""
+"\n"
+"# How many days should files be allowed to stay in the waste folders before\n"
+"# they are permanently deleted\n"
+"#\n"
+"# use '0' to disable purging\n"
+"#\n"
+"purge_after = 90\n"
+msgstr ""
+"\n"
+"# Сколько дней файлы могут оставаться в корзине\n"
+"# перед полным удалением\n"
+"#\n"
+"# нажмите '0' чтобы отключить очистку\n"
+"#\n"
+"purge_after = 90\n"
+
+#. TRANSLATORS:  Do not translate the last two lines in this section
+#: src/trivial_rmw.c:159
+#, c-format
+msgid ""
+"\n"
+"# If attempting to rmw files under this directory, they will not be "
+"processed\n"
+"# unless -B --bypass is given as an argument.\n"
+"#\n"
+"# PROTECT = /usr/local/bin\n"
+"# PROTECT = $HOME/src\n"
+msgstr ""
+"\n"
+"# При попытке удаления файлов в этой папке, они не будут "
+"удалены\n"
+"# если не указан -B --bypass аргумент.\n"
+"#\n"
+"# PROTECT = /usr/local/bin\n"
+"# PROTECT = $HOME/src\n"
+
+#. TRANSLATORS:  Do not translate the last line in this section
+#: src/trivial_rmw.c:120
+#, c-format
+msgid ""
+"\n"
+"# If you would like this to be your primary trash folder (which usually "
+"means\n"
+"# that it will be the same as your Desktop Trash folder) be sure it "
+"precedes\n"
+"# any other WASTE folders listed in the config file\n"
+"#\n"
+"# If you want it checked for files that need purging, simply uncomment\n"
+"# The line below. Files you move with rmw will go to the folder above by\n"
+"# default.\n"
+"#\n"
+"#WASTE=$HOME/.local/share/Trash\n"
+msgstr ""
+"\n"
+"# Если вы хотите, чтобы эта папка была главной для хранения удаленных файлов, (что обычно "
+"значит\n"
+"# что она будет такой же как ваша Корзина на Рабочем Столе) убедитесь что она "
+"предшествует\n"
+"# любым другим папкам для хранения удаленных файлов, перечисленных в конфигурационном файле\n"
+"#\n"
+"# Если вы хотите проверять файлы, которые нуждаются в очистке, просто раскомментируйте\n"
+"# следующую строку. Файлы, которые перемещены с помощью rmw будут помещены в указанную выше папку\n"
+"# по умолчанию.\n"
+"#\n"
+"#WASTE=$HOME/.local/share/Trash\n"
+
+#. TRANSLATORS:  Do not translate the last line in this section
+#: src/trivial_rmw.c:113
+#, c-format
+msgid ""
+"\n"
+"# NOTE: If two WASTE folders are on the same file system, rmw will move "
+"files\n"
+"# to the first WASTE folder listed, ignoring the second one.\n"
+"#\n"
+"WASTE = $HOME/.trash.rmw\n"
+msgstr ""
+"\n"
+"# ВНИМАНИЕ: Если в одной системе указаны две КОРЗИНЫ, rmw переместит "
+"файлы\n"
+"# в первую Корзину в списке, игнорируя вторую.\n"
+"#\n"
+"WASTE = $HOME/.trash.rmw\n"
+
+#. TRANSLATORS:  Do not translate the last line in this section
+#: src/trivial_rmw.c:132
+#, c-format
+msgid ""
+"\n"
+"# Removable media: If a folder has ',removable' appended to it, rmw\n"
+"# will not try to create it; it must be initially created manually. If\n"
+"# the folder exists when rmw is run, it will be used; if not, it will be\n"
+"# skipped Once you create \"example_waste\", rmw will automatically create\n"
+"# example_waste/info and example_waste/files\n"
+"#\n"
+"#WASTE=/mnt/sda10000/example_waste, removable"
+msgstr ""
+"\n"
+"# Удаляемая медия: Если имя папки содержит ',removable', rmw\n"
+"# не создаст ее; это должно быть сделано вручную. Если\n"
+"# папка создана когда rmw запускается, она будет использована; если нет, то она будет\n"
+"# пропущенна Как только вы создадите \"example_waste\", rmw автоматически создаст\n"
+"# example_waste/info и example_waste/files\n"
+"#\n"
+"#WASTE=/mnt/sda10000/example_waste, removable"
+
+#. TRANSLATORS:  Do not translate the last line in this section
+#: src/trivial_rmw.c:151
+#, c-format
+msgid ""
+"\n"
+"# purge will not run unless `--force` is used at the command line. "
+"Uncomment\n"
+"# the line below if you would like purge to check daily for files that\n"
+"# that exceed the days specified in purge_after\n"
+"#\n"
+"#force_not_required\n"
+msgstr ""
+"\n"
+"# purge не будет совершена если `--force` не указан в коммандной строке. "
+"Раскомментируйте\n"
+"# следующую строку чтобы purge ежедневно проверял файлы которые\n"
+"# превышают количество дней указанных в purge_after\n"
+"#\n"
+"#force_not_required\n"
+
+#: src/purging_rmw.c:181
+#, c-format
+msgid ""
+"\n"
+"Purging files (purge_after = %u) ...\n"
+msgstr ""
+"\n"
+"Удаление файлов (purge_after = %u) ...\n"
+
+#: src/trivial_rmw.c:61
+#, c-format
+msgid ""
+"  \n"
+"\n"
+"  \t===] First time use [===\n"
+"\n"
+"After rmw is installed, create the user configuration directory\n"
+"by typing 'rmw' and hitting enter. It's recommended to copy\n"
+"\n"
+"  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
+"\n"
+"and then rename it to 'config':\n"
+"\n"
+"  'cd ~/.config/rmw'\n"
+"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
+"  '~/.config/rmw$ mv rmwrc config'\n"
+"\n"
+"Then edit the file to suit your needs.\n"
+"\n"
+"Visit the rmw home page for more help, and information about\n"
+"how to obtain support - http://github.com/andy5995/rmw/wiki\n"
+"\n"
+msgstr ""
+"  \n"
+"\n"
+"  \t===] При первом использовании [===\n"
+"\n"
+"После того как rmw установлен, создайте папку конфигураций пользователя\n"
+"введите 'rmw' и нажмите enter. Рекомендуется скопировать\n"
+"\n"
+"  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
+"\n"
+"и потом переименнуйте в 'config':\n"
+"\n"
+"  'cd ~/.config/rmw'\n"
+"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
+"  '~/.config/rmw$ mv rmwrc config'\n"
+"\n"
+"После этого отредактируйте файл для ваших нужд.\n"
+"\n"
+"Посетите rmw домашнюю страницу для помощи, и информации\n"
+"о поддержке - http://github.com/andy5995/rmw/wiki\n"
+"\n"
+
+#: src/trivial_rmw.c:55
+#, c-format
+msgid ""
+"  \n"
+"\n"
+"  \t===] Restoring [===\n"
+"\n"
+"  -z, --restore <wildcard filename(s) pattern>\n"
+"  -s, --select              select files from list to restore\n"
+"  -u, --undo-last           undo last ReMove\n"
+msgstr ""
+"  \n"
+"\n"
+"  \t===] Восстановление [===\n"
+"\n"
+"  -z, --restore <шаблон названия файла(ов)>\n"
+"  -s, --select              выбрать файлы со списка для восстановления\n"
+"  -u, --undo-last           отменить последнее удаление\n"
+
+#: src/rmw.c:507
+#, c-format
+msgid "  :Error number %d trying to move %s :\n"
+msgstr "  :Номер ошибки %d попытка переместить %s :\n"
+
+#: src/restore_rmw.c:284
+#, c-format
+msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
+msgstr "  :Ошибка: Удачно открыт '%s' но возникла неизвестная ошибка\n"
+
+#. TRANSLATORS:  any time "open" or "close" is used in this program
+#. * I am referring to a file or a directory
+#: src/config_rmw.c:171
+#, c-format
+msgid ""
+"  :Error: Can not open configuration file\n"
+"%s (or)\n"
+"%s%s\n"
+"\n"
+"A default configuration file can be found at\n"
+"https://github.com/andy5995/rmw/tree/master/etc\n"
+"Terminating...\n"
+msgstr ""
+"  :Ошибка: Невозможно открыть конфигурационный файл\n"
+"%s (или)\n"
+"%s%s\n"
+"\n"
+"Конфигурационный файл по умолчанию находится\n"
+"https://github.com/andy5995/rmw/tree/master/etc\n"
+"Остановка...\n"
+
+#: src/config_rmw.c:196
+#, c-format
+msgid ""
+"  :Error: The number of lines in configuration file must be less than %d\n"
+msgstr ""
+"  :Ошибка: Количество строк в конфигурационном файле не может превышать %d\n"
+
+#. TRANSLATORS:  "buffer" in the following instances refers to the amount
+#. * of memory allocated for a string
+#: src/strings_rmw.c:44
+#, c-format
+msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
+msgstr "  :Ошибка: предотвращена перезагрузка буффера (segmentation fault).\n"
+
+#. TRANSLATORS:  ".trashinfo" should remain untranslated
+#. *
+#. *               "format" refers to the layout of the file
+#. *                contents
+#.
+#: src/messages_rmw.c:77
+#, c-format
+msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
+msgstr "  :Ошибка: Неправильный формат .trashinfo `file %s` (Строка %d)"
+
+#: src/config_rmw.c:264
+#, c-format
+msgid "  :Error: invalid option in config\n"
+msgstr "  :Ошибка: неправильная опция в config\n"
+
+#. TRANSLATORS:  "purge_after" is a varible
+#: src/config_rmw.c:227
+#, c-format
+msgid "  :Error: invalid purge_after value in configuration\n"
+msgstr "  :Ошибка: неверное значение purge_after в конфигурации\n"
+
+#: src/config_rmw.c:371
+#, c-format
+msgid ""
+"  :Error: no usable WASTE folder could be found\n"
+"Please check your configuration file and permissions\n"
+"If you need further help, or to report a possible bug,\n"
+"visit the rmw web site at\n"
+"  https://github.com/andy5995/rmw/wiki\n"
+"Unable to continue. Exiting...\n"
+msgstr ""
+"  :Ошибка: доступная Корзина не найдена\n"
+"Пожалуйста проверьте конфигурационный файли и права доступа к файлу\n"
+"Для помощи, или сообщения возможного бага,\n"
+"перейдите на rmw веб страницу\n"
+"  https://github.com/andy5995/rmw/wiki\n"
+"Невозможно продолжить. Остановка...\n"
+
+#. TRANSLATORS: Do not translate ".trashinfo"
+#: src/rmw.c:503
+#, c-format
+msgid "  :Error: number %d trying to create a .trashinfo file\n"
+msgstr "  :Ошибка: %d пытается создать .trashinfo файл\n"
+
+#: src/rmw.c:205
+#, c-format
+msgid ""
+"  :Error: unable to create config and data directory\n"
+"Please check your configuration file and permissions\n"
+"\n"
+"If you need further help, or to report a possible bug,\n"
+"visit the rmw web site at\n"
+"\n"
+"  https://github.com/andy5995/rmw/wiki\n"
+"\n"
+"Unable to continue. Exiting...\n"
+msgstr ""
+"  :Ошибка: Невозможно создать config и data папку\n"
+"Пожалуйста проверьте конфигурационный файли и права доступа к файлу\n"
+"\n"
+"Для помощи, или сообщения возможного бага,\n"
+"перейдите на rmw веб страницу\n"
+"\n"
+"  https://github.com/andy5995/rmw/wiki\n"
+"\n"
+"Unable to continue. Exiting...\n"
+
+#: src/purging_rmw.c:84
+#, c-format
+msgid "  :Error: while changing permissions of %s\n"
+msgstr "  :Ошибка: при изменении прав доступа %s\n"
+
+#. TRANSLATORS:  "closing" refers to a file
+#: src/messages_rmw.c:60
+#, c-format
+msgid "  :Error: while closing %s\n"
+msgstr "  :Ошибка: при закрытии %s\n"
+
+#: src/purging_rmw.c:451 src/utils_rmw.c:84
+#, c-format
+msgid "  :Error: while creating %s\n"
+msgstr "  :Ошибка: при создании %s\n"
+
+#. TRANSLATORS:  "opening" refers to a file
+#: src/messages_rmw.c:37
+#, c-format
+msgid "  :Error: while opening %s\n"
+msgstr "  :Ошибка: при открытии %s\n"
+
+#. TRANSLATORS:  "removing" refers to a file or folder
+#: src/purging_rmw.c:330 src/purging_rmw.c:336 src/purging_rmw.c:351
+#: src/purging_rmw.c:369
+#, c-format
+msgid "  :Error: while removing %s\n"
+msgstr "  :Ошибка: при удалении %s\n"
+
+#: src/restore_rmw.c:273
+#, c-format
+msgid "  :Error: while removing .trashinfo file: '%s'\n"
+msgstr "  :Ошибка: при удалении .trashinfo file: '%s'\n"
+
+#: src/rmw.c:527
+#, c-format
+msgid "  No suitable filesystem found for \"%s\"\n"
+msgstr "  Подходящяя система файлов не найдена для \"%s\"\n"
+
+#: src/purging_rmw.c:308
+#, c-format
+msgid " :warning: Directory not purged - still contains files\n"
+msgstr " :предупреждение: Папка не очищена - все еще содержит файлы\n"
+
+#. TRANSLATORS:  "depth" refers to the recursion depth in a
+#. * directory
+#: src/purging_rmw.c:317
+#, c-format
+msgid " :warning: Maximum depth of %u reached, skipping\n"
+msgstr " :предупреждение: Максимальная глубина %u достигнута, пропускаем\n"
+
+#: src/config_rmw.c:350
+#, c-format
+msgid " :warning: Maximum number of protected folders reached: %d\n"
+msgstr " :предупреждение: Максимальное количество защищенных папок достигнуто: %d\n"
+
+#: src/config_rmw.c:347
+#, c-format
+msgid " :warning: Maximum number of waste folders reached: %d\n"
+msgstr " :предупреждение: Максимальное количество корзин достигнуто: %d\n"
+
+#: src/messages_rmw.c:85
+#, c-format
+msgid " :warning: Restore() returned errors\n"
+msgstr " :предупреждение: Restore() восстановление возвращенных ошибок\n"
+
+#: src/restore_rmw.c:562
+#, c-format
+msgid " :warning: failed to remove %s\n"
+msgstr " :предупреждение: неудачная попытка удаления %s\n"
+
+#: src/strings_rmw.c:63
+#, c-format
+msgid ""
+" <--> Displaying part of the string that caused the error <-->\n"
+"\n"
+msgstr ""
+" <--> Отображение части строки, вызвавшей ошибку <-->\n"
+"\n"
+
+#: src/purging_rmw.c:384
+#, c-format
+msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
+msgstr "%d папки пропущены (RMDIR_MAX_DEPTH достигнуто)\n"
+
+#: src/purging_rmw.c:389
+#, c-format
+msgid "%d directories skipped (contains read-only files)\n"
+msgstr "%d папки пропущены (содержит доступные только для чтения файлы)\n"
+
+#: src/purging_rmw.c:392
+#, c-format
+msgid "%d file purged"
+msgstr "%d файл удален"
+
+#: src/purging_rmw.c:392
+#, c-format
+msgid "%d files purged"
+msgstr "%d файлы удалены"
+
+#: src/rmw.c:538
+#, c-format
+msgid "%d files were removed to the waste folder"
+msgstr "%d файлы перемещены в корзину"
+
+#. TRANSLATORS:  "%s" refers to a file or directory
+#: src/restore_rmw.c:300
+#, c-format
+msgid "'%s' not found\n"
+msgstr "'%s' не найден(а)\n"
+
+#. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
+#. * for input in this case.
+#.
+#: src/restore_rmw.c:442
+msgid "'q' - quit"
+msgstr "'q' - выход"
+
+#: src/purging_rmw.c:310
+#, c-format
+msgid "(check owner/write permissions)\n"
+msgstr "(проверьте owner/write права доступа)\n"
+
+#: src/rmw.c:143
+#, c-format
+msgid "-i / --interactive: not implemented\n"
+msgstr "-i / --interactive: не разработано\n"
+
+#: src/rmw.c:146
+#, c-format
+msgid "-r / --recurse: not implemented\n"
+msgstr "-r / --recurse: не разработано\n"
+
+#: src/rmw.c:537
+#, c-format
+msgid "1 file was removed to the waste folder"
+msgstr "1 файл перемещен в корзину"
+
+#. TRANSLATORS: I believe the words between the < and > can be translated
+#.
+#: src/restore_rmw.c:435
+msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
+msgstr "<КУРСОР-ВПРАВО / КУРСОР-ВЛЕВО> - переключить корзины"
+
+#: src/restore_rmw.c:436
+msgid ""
+"<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
+msgstr ""
+"<ПРОБЕЛ> - выбрать или отменить выбор элемента. / <ENTER> - востановить выбранный елемент"
+
+#: src/restore_rmw.c:430
+#, c-format
+msgid "== contains %d file =="
+msgstr "== содержит %d файл =="
+
+#: src/restore_rmw.c:431
+#, c-format
+msgid "== contains %d files =="
+msgstr "== содержит %d файлы =="
+
+#. TRANSLATORS:  "created" refers to a file
+#: src/purging_rmw.c:449
+#, c-format
+msgid "Created %s\n"
+msgstr "Создан %s\n"
+
+#: src/utils_rmw.c:80
+#, c-format
+msgid "Created directory %s\n"
+msgstr "Папка создана %s\n"
+
+#: src/restore_rmw.c:254
+#, c-format
+msgid "Duplicate filename at destination - appending time string...\n"
+msgstr "Файл с таким именем уже существует - добавляем стринг со временем...\n"
+
+#: src/strings_rmw.c:163
+#, c-format
+msgid "Error: realpath() returned an error.\n"
+msgstr "Ошибка: realpath() ошибка возращена.\n"
+
+#: src/rmw.c:183
+#, c-format
+msgid "Error: while getting the path to your home directory\n"
+msgstr "Ошибка: при попытке получении системного пути к домашней директории\n"
+
+#: src/rmw.c:414
+#, c-format
+msgid "File not found: '%s'\n"
+msgstr "Файл не найден: '%s'\n"
+
+#: src/strings_rmw.c:45
+#, c-format
+msgid ""
+"If you think this may be a bug, please report it to the rmw developers.\n"
+msgstr ""
+"Если вы думаете что это может быть баг, пожалуйста свяжитесь с rmw разработчиками.\n"
+
+#: src/rmw.c:545
+#, c-format
+msgid ""
+"No filenames or command line options were given\n"
+"Enter '%s -h' for more information\n"
+msgstr ""
+"Файлы или опции коммандной строки не найдены\n"
+"Введите '%s -h' для дополнительной информации\n"
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: src/trivial_rmw.c:78
+#, c-format
+msgid "Report bugs to <%s>.\n"
+msgstr ""
+"Пожалуйста сообщите о баге по этому адрессу <%s>.\n"
+"Пожалуйста сообщите о проблеме с переводом по этому адрессу <sgalianova@myseneca.ca>.\n"
+
+#: src/restore_rmw.c:279
+#, c-format
+msgid "Restore failed: %s\n"
+msgstr "Восстановление безуспешно: %s\n"
+
+#. TRANSLATORS:  "basename" refers to the basename of a file
+#: src/restore_rmw.c:152
+#, c-format
+msgid "Searching using only the basename...\n"
+msgstr "Поиск используя только базовое имя файла...\n"
+
+#. TRANSLATORS:  "protection" is a feature. It means that
+#. * this program will pass over files that are in
+#. * "protected" directories, which can be specified in the
+#. * configuration file.
+#: src/rmw.c:406
+#, c-format
+msgid "Skipped: %s is in a protected directory\n"
+msgstr "Пропущено: %s это защищенная папка\n"
+
+#: src/trivial_rmw.c:83
+#, c-format
+msgid ""
+"THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
+"APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
+"HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n"
+"OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
+"THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
+"PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
+"IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
+"ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
+msgstr ""
+"НЕТ НИКАКИХ ГАРАНТИЙ ДЛЯ ПРОГРАММЫ ДО РАМОК, ДОПУСТИМЫХ ДЕЙСТВУЮЩИМ"
+"ЗАКОНОДАТЕЛЬСТВОМ. ЕСЛИ ИНОЕ НЕ УСТАНОВЛЕНО В ПИСЬМЕННОЙ ФОРМЕ,"
+"ПРАВООБЛАДАТЕЛЬ И/ИЛИ ДРУГИЕ СТОРОНЫ ПРЕДОСТАВЛЯЮТ ПРОГРАММУ «КАК ЕСТЬ», БЕЗ КАКИХ ЛИБО ГАРАНТИЙ"
+"(ЗАЯВЛЕННЫХ ИЛИ ПОДРАЗУМЕВАЕМЫХ), ВКЛЮЧАЯ, НО, НЕ ОГРАНИЧИВАЯСЬ,"
+"ПОДРАЗУМЕВАЕМЫМИ ГАРАНТИЯМИ ТОВАРНОГО СОСТОЯНИЯ ПРИ ПРОДАЖЕ И ГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННОГО ПРИМЕНЕНИЯ."
+"ВЕСЬ РИСК, КАК В ОТНОШЕНИИ КАЧЕСТВА, ТАК И ПРОИЗВОДИТЕЛЬНОСТИ ПРОГРАММЫ ВЫ БЕРЕТЕ НА СЕБЯ."
+"ЕСЛИ В ПРОГРАММЕ ОБНАРУЖЕН ДЕФЕКТ, ВЫ БЕРЕТЕ НА СЕБЯ СТОИМОСТЬ"
+"НЕОБХОДИМОГО ОБСЛУЖИВАНИЯ, ПОЧИНКИ ИЛИ ИСПРАВЛЕНИЯ."
+
+#: src/trivial_rmw.c:35
+#, c-format
+msgid ""
+"Usage: rmw [OPTION]... FILE...\n"
+"ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
+"\n"
+"   or: rmw -s\n"
+"   or: rmw -u\n"
+"   or: rmw -z FILE...\n"
+"Restore FILE(s) from a WASTE directory\n"
+"\n"
+"  -h, --help\n"
+"  -t, --translate           display a translation of the configuration file\n"
+"  -c, --config filename     use an alternate configuration\n"
+"  -l, --list                list waste directories\n"
+"  -g, --purge               run purge even if it's been run today\n"
+"  -o, --orphaned            check for orphaned files (maintenance)\n"
+"  -f, --force               allow purge to run\n"
+"  -B, --bypass              bypass directory protection\n"
+"  -v, --verbose             increase output messages\n"
+"  -w, --warranty            display warranty\n"
+"  -V, --version             display version and license information\n"
+msgstr ""
+"Использование: rmw [ОПЦИЯ]... ФАЙЛ...\n"
+"Удаление ФАЙЛА(ОВ) в КОРЗИНУ указанную в конфигурационном файле\n"
+"\n"
+"   или: rmw -s\n"
+"   или: rmw -u\n"
+"   или: rmw -z ФАЙЛ...\n"
+"Восстановление ФАЙЛА(ОВ) из КОРЗИНЫ\n"
+"\n"
+"  -h, --help\n"
+"  -t, --translate           показать перевод конфигурационного файла\n"
+"  -c, --config filename     использовать альтернативные настройки\n"
+"  -l, --list                показать список корзин\n"
+"  -g, --purge               запустить purge даже если он был запущен ранее сегодня\n"
+"  -o, --orphaned            проверить осиротевшие файлы (обслуживание)\n"
+"  -f, --force               разрешить запуск purge\n"
+"  -B, --bypass              обойти защиту папки\n"
+"  -v, --verbose             увеличить сообщения вывода\n"
+"  -w, --warranty            показать гарантию\n"
+"  -V, --version             показать версию и лицензионную информацию\n"
+
+#. TRANSLATORS:  "function" refers to a C function
+#: src/messages_rmw.c:41 src/messages_rmw.c:63
+#, c-format
+msgid "function: <%s>"
+msgstr "функция: <%s>"
+
+#: src/rmw.c:268
+#, c-format
+msgid "purge has been skipped: use -f or --force\n"
+msgstr "purge пропущен: используйте -f или --force\n"
+
+#. TRANSLATORS:  "purging" refers to permanently deleting a file or a
+#. * directory
+#: src/rmw.c:260
+#, c-format
+msgid ""
+"purging is disabled ('purge_after' is set to '0')\n"
+"\n"
+msgstr ""
+"необратимое удаление выключено ('purge_after' имеет значение '0')\n"
+"\n"
+
+#: src/trivial_rmw.c:98
+#, c-format
+msgid ""
+"rmw %s\n"
+"Author: Andy Alt (andy400-dev@yahoo.com)\n"
+"The RMW team: see AUTHORS file\n"
+"This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n"
+"This is free software, and you are welcome to redistribute it\n"
+"under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n"
+"for details.\n"
+msgstr ""
+"rmw %s\n"
+"Автор: Энди Альт (andy400-dev@yahoo.com)\n"
+"RMW команда: смотрите AUTHORS файл\n"
+"Эта программа не включает АБСОЛЮТНО НИКАКОЙ ГАРАНТИИ; для детальной информации введите 'rmw -w.'\n"
+"Это бессплатная программа, может быть дистрибютирована без ограничений\n"
+"при определенных условиях; проверьте <http://www.gnu.org/licenses/gpl.html>\n"
+"для детальной информации.\n"
+
+#: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:84
+#: src/trashinfo_rmw.c:95
+#, c-format
+msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
+msgstr "rmw: %s(): буффер очень мал (имеем %hu, необходимо минимум %hu)\n"
+
+#: src/restore_rmw.c:171
+#, c-format
+msgid "search complete\n"
+msgstr "поиск завершен\n"
