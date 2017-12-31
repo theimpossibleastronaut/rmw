@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/andy5995/rmw.svg?branch=master)](https://travis-ci.org/andy5995/rmw)
 
-# rmw v0.4.03
+# rmw v0.4.04 (development)
 
 rmw is an OS portable cli trash can utility written in C. It can send
 files to your "Desktop" trash, or a completely separate folder. It can
@@ -11,6 +11,11 @@ string to the filenames so they won't be overwritten (duplication
 protection).
 
 Web site: https://github.com/andy5995/rmw/wiki
+
+This is the README for the development version of rmw. It may mention
+features that aren't included in the last release, or differ in other
+ways. The README from the last release is at
+https://github.com/andy5995/rmw/blob/v0.4.03/README.md
 
 Anyone interested in this project is welcome to join the [chat
 room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
@@ -69,6 +74,7 @@ man pages are now available in the following languages:
     * nl_NL
     * pl
     * pt_BR
+    * ru
 
 If you installed rmw as a normal user, this next step can be skipped.
 
