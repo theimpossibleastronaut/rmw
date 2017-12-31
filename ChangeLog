@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2017-12-31
+
+    Russian (ru) translation added /thanks @Svitlana Galianova
+
 2017-12-26
 
     [#140] Bugfix: rmw will now create the files/ and info/ directories
