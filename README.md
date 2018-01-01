@@ -74,7 +74,6 @@ man pages are now available in the following languages:
     * nl_NL
     * pl
     * pt_BR
-    * ru
 
 If you installed rmw as a normal user, this next step can be skipped.
 
