@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/andy5995/rmw.svg?branch=master)](https://travis-ci.org/andy5995/rmw)
+[![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw)
 
 # rmw v0.4.04 (development)
 
