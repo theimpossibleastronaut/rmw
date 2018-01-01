@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2017-12-27 03:22-0600\n"
+"POT-Creation-Date: 2018-01-01 10:54-0600\n"
 "PO-Revision-Date: 2018-01-01 10:09-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Ukrainian\n"
@@ -224,7 +224,6 @@ msgstr ""
 "  -s, --select              обрати файли зі списку для відновлення\n"
 "  -u, --undo-last           відмінити останнє видалення\n"
 
-
 #: src/rmw.c:507
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
@@ -261,7 +260,8 @@ msgstr ""
 msgid ""
 "  :Error: The number of lines in configuration file must be less than %d\n"
 msgstr ""
-"  :Помилка: Кількість ліній у конфігураційному файлі не може перевищувати %d\n"
+"  :Помилка: Кількість ліній у конфігураційному файлі не може перевищувати "
+"%d\n"
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
 #. * of memory allocated for a string
@@ -269,7 +269,6 @@ msgstr ""
 #, c-format
 msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
 msgstr "  :Помилка: запобігання перезагрузки буфера (segmentation fault).\n"
-
 
 #. TRANSLATORS:  ".trashinfo" should remain untranslated
 #. *
@@ -423,7 +422,6 @@ msgstr ""
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d папки пропущені (RMDIR_MAX_DEPTH досягнуто)\n"
 
-
 #: src/purging_rmw.c:389
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
@@ -521,7 +519,6 @@ msgstr "Файл с таким ім'ям вже існує - додаємо ст
 msgid "Error: realpath() returned an error.\n"
 msgstr "Помилка: realpath() помилку повернено.\n"
 
-
 #: src/rmw.c:183
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
@@ -556,7 +553,8 @@ msgstr ""
 #: src/trivial_rmw.c:78
 #, c-format
 msgid "Report bugs to <%s>.\n"
-msgstr "Пожалуйста сообщите о баге по этому адрессу <%s>.\n"
+msgstr ""
+"Пожалуйста сообщите о баге по этому адрессу <%s>.\n"
 "Пожалуйста сообщите о проблеме с переводом по этому адрессу "
 "<sgalianova@myseneca.ca>.\n"
 
@@ -592,15 +590,14 @@ msgid ""
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 msgstr ""
-"НЕМАЄ ЖОДНИХ ГАРАНТІЙ ДЛЯ ПРОГРАМИ ДО РАМОК, ДОЗВОЛЕНИХ "
-"ДІЮЧИМ ЗАКОНОДАВСТВОМ. ЯКЩО ІНШЕ НЕ ВСТАНОВЛЕНО В ПИСЬМОВІЙ ФОРМІ,"
-"ПРАВООБЛАЧ ТА/АБО ІНШІ СТОРОНИ НАДАЮТЬ ПРОГРАМУ «ЯК Є», БЕЗ "
-"ЖОДНИХ ГАРАНТІЙ(ЗАЯВЛЕНИХ ЧИ ПІДРОЗУМІЮЧИХ), ВКЛЮЧАЮЧИ, АЛЕ, НЕ "
-"ОБМЕЖУЮЧИСЬ,ПІДРОЗУМІЮЧИМИ ГАРАНТІЯМИ ТОВАРНОГО СТАНУ ПРИ ПРОДАЖУ ТА "
-"ПРИДАТНОСТІ ДЛЯ ПЕВНОГО ВИКОРИСТАННЯ. ВЕСЬ РИЗИК, ЯК У ВІДНОШЕННІ ЯКОСТІ, "
-"ТАК І РОБОТА ПРОГРАМИ ВИ БЕРЕТЕ НА СЕБЕ. ЯКЩО В ПРОГРАМІ "
-"ЗНАЙДЕНО ДЕФЕКТ, ВИ БЕРЕТЕ НА СЕБЯ ВАРТІСТЬ НЕОБХІДНОГО ОБСЛУГОВУВАННЯ, "
-"РЕМОНТУ ЧИ ВИПРАВЛЕННЯ.\n"
+"НЕМАЄ ЖОДНИХ ГАРАНТІЙ ДЛЯ ПРОГРАМИ ДО РАМОК, ДОЗВОЛЕНИХ ДІЮЧИМ "
+"ЗАКОНОДАВСТВОМ. ЯКЩО ІНШЕ НЕ ВСТАНОВЛЕНО В ПИСЬМОВІЙ ФОРМІ,ПРАВООБЛАЧ ТА/АБО "
+"ІНШІ СТОРОНИ НАДАЮТЬ ПРОГРАМУ «ЯК Є», БЕЗ ЖОДНИХ ГАРАНТІЙ(ЗАЯВЛЕНИХ ЧИ "
+"ПІДРОЗУМІЮЧИХ), ВКЛЮЧАЮЧИ, АЛЕ, НЕ ОБМЕЖУЮЧИСЬ,ПІДРОЗУМІЮЧИМИ ГАРАНТІЯМИ "
+"ТОВАРНОГО СТАНУ ПРИ ПРОДАЖУ ТА ПРИДАТНОСТІ ДЛЯ ПЕВНОГО ВИКОРИСТАННЯ. ВЕСЬ "
+"РИЗИК, ЯК У ВІДНОШЕННІ ЯКОСТІ, ТАК І РОБОТА ПРОГРАМИ ВИ БЕРЕТЕ НА СЕБЕ. ЯКЩО "
+"В ПРОГРАМІ ЗНАЙДЕНО ДЕФЕКТ, ВИ БЕРЕТЕ НА СЕБЯ ВАРТІСТЬ НЕОБХІДНОГО "
+"ОБСЛУГОВУВАННЯ, РЕМОНТУ ЧИ ВИПРАВЛЕННЯ.\n"
 
 #: src/trivial_rmw.c:35
 #, c-format
@@ -637,8 +634,8 @@ msgstr ""
 "  -t, --translate           показати переклад конфігураційного файлу\n"
 "  -c, --config filename     використати альтернативні налаштування\n"
 "  -l, --list                показати список корзин\n"
-"  -g, --purge               запустити purge навіть якщо він був запущений раніше "
-"сегодня\n"
+"  -g, --purge               запустити purge навіть якщо він був запущений "
+"раніше сегодня\n"
 "  -o, --orphaned            перевірити осиротівші файли (обслуговування)\n"
 "  -f, --force               дозволити запуск purge\n"
 "  -B, --bypass              обійти захист папки\n"
@@ -682,8 +679,8 @@ msgstr ""
 "rmw %s\n"
 "Автор: Енді Альт (andy400-dev@yahoo.com)\n"
 "RMW команда: дивіться AUTHORS файл\n"
-"Ця програма не включає АБСОЛЮТНО ЖОДНОЇ ГАРАНТІЇ; для детальної "
-"інформації введіть 'rmw -w.'\n"
+"Ця програма не включає АБСОЛЮТНО ЖОДНОЇ ГАРАНТІЇ; для детальної інформації "
+"введіть 'rmw -w.'\n"
 "Це безкоштовна програма, може бути дистрибютована без обмежень\n"
 "при певних умовах; перевірте <http://www.gnu.org/licenses/gpl.html>\n"
 "для детальної інформації.\n"
