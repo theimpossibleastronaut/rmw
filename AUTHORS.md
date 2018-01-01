@@ -13,4 +13,4 @@ GitHub's automated list: [graphs/contributors](https://github.com/andy5995/rmw/g
 | [Ankur Jyoti Phukan](https://github.com/ajphukan) | C |
 | [Guillermo Franco](https://github.com/gfranco93) | man page |
 | [João Rodrigues](https://github.com/jmrodriguesgoncalves) | PT translation |
-| [Svitlana Galianova](https://github.com/svitlana-galianova) | RU translation |
+| [Svitlana Galianova](https://github.com/svitlana-galianova) | RU & UK translation |
