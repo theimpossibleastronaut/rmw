@@ -15,7 +15,6 @@ branches:
   only:
   - master
   - travis_platforms
-  - prep_0.4.01
 
 notifications:
   slack: removetowaste:u16fiNsaMeLmg7J4WXifW3Zm
