@@ -427,8 +427,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 
     mvprintw (LINES - 7, 0, "== %s ==", waste[ctr].files);
     mvprintw (LINES - 6, 0,
-          entries == 1 ? _("== contains %d file ==") :
-          _("== contains %d files =="), entries);
+          ngettext ("== contains %d file ==", "== contains %d files ==", entries), entries);
 
     /* TRANSLATORS: I believe the words between the < and > can be translated
      */
