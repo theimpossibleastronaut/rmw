@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ./VARS
+source ./VARS
 
 # show commands that are run
 set -x
