@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2018-01-03
+
+    [#133] Improve handling of plural forms (for translations);
+    introduce the use of ngettext
+
 2018-01-01
 
     Ukrainian (uk) translation added /thanks @Svitlana Galianova
