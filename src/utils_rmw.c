@@ -58,7 +58,7 @@ make_dir (const char *dir)
 
   while (tokenPtr != NULL)
   {
-    if (strlen (add_to_path) > 1)
+    if (strlen (add_to_path) > 1 || *add_to_path == '.')
       strcat (add_to_path, "/");
 
     strcat (add_to_path, tokenPtr);
