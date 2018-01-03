@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre3\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-01 10:54-0600\n"
+"POT-Creation-Date: 2018-01-03 06:26-0600\n"
 "PO-Revision-Date: 2017-12-08 14:04-0700\n"
 "Last-Translator: ram <ram.dahal@gmail.com>\n"
 "Language-Team: Nepali\n"
@@ -359,7 +359,7 @@ msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :त्रुटि: बन्द हुँदा %s\n"
 
-#: src/purging_rmw.c:451 src/utils_rmw.c:84
+#: src/purging_rmw.c:450 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
@@ -414,7 +414,7 @@ msgstr " :चेतावनी: Waste फोल्डरहरू अधिक�
 msgid " :warning: Restore() returned errors\n"
 msgstr " :चेतावनी: Restore() त्रुटिहरू फर्काइएको छ\n"
 
-#: src/restore_rmw.c:562
+#: src/restore_rmw.c:561
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :चेतावनी: %s हटाउन असफल भयो  \n"
@@ -439,19 +439,20 @@ msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d डाइरेक्टरीहरू छोडियो (पढ्ने-मात्र फाइलहरू समावेश छ)\n"
 
 #: src/purging_rmw.c:392
-#, c-format
+#, fuzzy, c-format
+#| msgid "%d file purged"
 msgid "%d file purged"
-msgstr "%d फाईलहरू बन्द गरियो"
+msgid_plural "%d files purged"
+msgstr[0] "%d फाईलहरू बन्द गरियो"
+msgstr[1] "%d फाईलहरू बन्द गरियो"
 
-#: src/purging_rmw.c:392
-#, c-format
-msgid "%d files purged"
-msgstr "%d फाईलहरू बन्द गरियो"
-
-#: src/rmw.c:538
-#, c-format
-msgid "%d files were removed to the waste folder"
-msgstr "waste फोल्डरमा %d फाइलहरू हटाइयो"
+#: src/rmw.c:537
+#, fuzzy, c-format
+#| msgid "1 file was removed to the waste folder"
+msgid "%d file was removed to the waste folder"
+msgid_plural "%d files were removed to the waste folder"
+msgstr[0] "1 फाइललाई waste फोल्डरमा हटाइएको थियो"
+msgstr[1] "1 फाइललाई waste फोल्डरमा हटाइएको थियो"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -462,7 +463,7 @@ msgstr "'%s' फेला परेन\n"
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:442
+#: src/restore_rmw.c:441
 msgid "'q' - quit"
 msgstr ""
 
@@ -481,18 +482,13 @@ msgstr "-i / --interactive: कार्यान्वयन गरिएको
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: कार्यान्वयन गरिएको छैन \n"
 
-#: src/rmw.c:537
-#, c-format
-msgid "1 file was removed to the waste folder"
-msgstr "1 फाइललाई waste फोल्डरमा हटाइएको थियो"
-
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:434
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr ""
 
-#: src/restore_rmw.c:436
+#: src/restore_rmw.c:435
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
@@ -500,15 +496,12 @@ msgstr ""
 #: src/restore_rmw.c:430
 #, c-format
 msgid "== contains %d file =="
-msgstr ""
-
-#: src/restore_rmw.c:431
-#, c-format
-msgid "== contains %d files =="
-msgstr ""
+msgid_plural "== contains %d files =="
+msgstr[0] ""
+msgstr[1] ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:449
+#: src/purging_rmw.c:448
 #, c-format
 msgid "Created %s\n"
 msgstr "सिर्जना गरिएको %s\n"
@@ -713,6 +706,12 @@ msgstr "rmw: %s(): बफर धेरै सानो (%hu मिल्यो, 
 #, c-format
 msgid "search complete\n"
 msgstr "खोजी पूरा \n"
+
+#~ msgid "%d files purged"
+#~ msgstr "%d फाईलहरू बन्द गरियो"
+
+#~ msgid "%d files were removed to the waste folder"
+#~ msgstr "waste फोल्डरमा %d फाइलहरू हटाइयो"
 
 #~ msgid ""
 #~ "Input the number to restore, 'enter' for next waste folder, 'q' to quit) "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-01 10:54-0600\n"
+"POT-Creation-Date: 2018-01-03 06:26-0600\n"
 "PO-Revision-Date: 2017-12-08 16:16+0200\n"
 "Last-Translator: samwise <codinghobo@gmail.com>\n"
 "Language-Team: Finnish\n"
@@ -373,7 +373,7 @@ msgstr "  :Virhe: muutettaessa oikeuksia kohteelle %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :Virhe: suljettaessa tiedostoa %s\n"
 
-#: src/purging_rmw.c:451 src/utils_rmw.c:84
+#: src/purging_rmw.c:450 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr "  :Virhe: luotaessa %s\n"
@@ -428,7 +428,7 @@ msgstr " :varoitus: Roska hakemistojen maksimimäärä saavutettu: %d\n"
 msgid " :warning: Restore() returned errors\n"
 msgstr " :varoitus: Restore() palautti virheitä\n"
 
-#: src/restore_rmw.c:562
+#: src/restore_rmw.c:561
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :varoitus: poistaminen epäonnistui %s\n"
@@ -453,19 +453,20 @@ msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d hakemistoa ohitettu (sisältää vain-luku tiedostoja)\n"
 
 #: src/purging_rmw.c:392
-#, c-format
+#, fuzzy, c-format
+#| msgid "%d file purged"
 msgid "%d file purged"
-msgstr "%d tiedosto puhdistettu"
+msgid_plural "%d files purged"
+msgstr[0] "%d tiedosto puhdistettu"
+msgstr[1] "%d tiedosto puhdistettu"
 
-#: src/purging_rmw.c:392
-#, c-format
-msgid "%d files purged"
-msgstr "%d tiedostoa puhdistettu"
-
-#: src/rmw.c:538
-#, c-format
-msgid "%d files were removed to the waste folder"
-msgstr "%d tiedostoa poistettiin roska hakemistoon"
+#: src/rmw.c:537
+#, fuzzy, c-format
+#| msgid "1 file was removed to the waste folder"
+msgid "%d file was removed to the waste folder"
+msgid_plural "%d files were removed to the waste folder"
+msgstr[0] "1 tiedosto poistettiin roska hakemistoon"
+msgstr[1] "1 tiedosto poistettiin roska hakemistoon"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -476,7 +477,7 @@ msgstr "Kohdetta '%s' ei löydetty\n"
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:442
+#: src/restore_rmw.c:441
 msgid "'q' - quit"
 msgstr "'q' - lopeta"
 
@@ -495,18 +496,13 @@ msgstr "-i / --interactive: ei toteutettu\n"
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: ei toteutettu\n"
 
-#: src/rmw.c:537
-#, c-format
-msgid "1 file was removed to the waste folder"
-msgstr "1 tiedosto poistettiin roska hakemistoon"
-
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:434
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<OIKEA-KURSORI / VASEN-KURSORI> - vaihda roska hakemistoja"
 
-#: src/restore_rmw.c:436
+#: src/restore_rmw.c:435
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
@@ -514,17 +510,15 @@ msgstr ""
 "kohteet"
 
 #: src/restore_rmw.c:430
-#, c-format
+#, fuzzy, c-format
+#| msgid "== contains %d file =="
 msgid "== contains %d file =="
-msgstr "== sisältää %d tiedoston"
-
-#: src/restore_rmw.c:431
-#, c-format
-msgid "== contains %d files =="
-msgstr "== sisältää %d tiedostoa =="
+msgid_plural "== contains %d files =="
+msgstr[0] "== sisältää %d tiedoston"
+msgstr[1] "== sisältää %d tiedoston"
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:449
+#: src/purging_rmw.c:448
 #, c-format
 msgid "Created %s\n"
 msgstr "Luotiin %s\n"
@@ -718,3 +712,12 @@ msgstr ""
 #, c-format
 msgid "search complete\n"
 msgstr "haku valmis\n"
+
+#~ msgid "%d files purged"
+#~ msgstr "%d tiedostoa puhdistettu"
+
+#~ msgid "%d files were removed to the waste folder"
+#~ msgstr "%d tiedostoa poistettiin roska hakemistoon"
+
+#~ msgid "== contains %d files =="
+#~ msgstr "== sisältää %d tiedostoa =="

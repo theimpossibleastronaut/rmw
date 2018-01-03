@@ -534,8 +534,8 @@ Unable to continue. Exiting...\n"));
     else
       free (undo_file_ptr);
 
-    printf (rmwed_files == 1 ? _("1 file was removed to the waste folder") :
-    _("%d files were removed to the waste folder"), rmwed_files);
+    printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
+            rmwed_files), rmwed_files);
     printf ("\n");
 
     if (main_error > 1)

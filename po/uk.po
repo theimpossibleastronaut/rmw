@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-01 10:54-0600\n"
+"POT-Creation-Date: 2018-01-03 06:26-0600\n"
 "PO-Revision-Date: 2018-01-01 10:09-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Ukrainian\n"
@@ -348,7 +348,7 @@ msgstr "  :Помилка: при зміні прав доступу %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :Помилка: при закриванні %s\n"
 
-#: src/purging_rmw.c:451 src/utils_rmw.c:84
+#: src/purging_rmw.c:450 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr "  :Помилка: при створенні %s\n"
@@ -403,7 +403,7 @@ msgstr " :попередження: Максимальну кількість к
 msgid " :warning: Restore() returned errors\n"
 msgstr " :попередження: Restore() (відновлення) повернуті помилки\n"
 
-#: src/restore_rmw.c:562
+#: src/restore_rmw.c:561
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :попередження: неможливо видалити %s\n"
@@ -428,19 +428,22 @@ msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d папки пропущені (вміщують доступні лише для читання файли)\n"
 
 #: src/purging_rmw.c:392
-#, c-format
+#, fuzzy, c-format
+#| msgid "%d file purged"
 msgid "%d file purged"
-msgstr "%d файл очищено"
+msgid_plural "%d files purged"
+msgstr[0] "%d файл очищено"
+msgstr[1] "%d файл очищено"
+msgstr[2] "%d файл очищено"
 
-#: src/purging_rmw.c:392
-#, c-format
-msgid "%d files purged"
-msgstr "%d файли очищено"
-
-#: src/rmw.c:538
-#, c-format
-msgid "%d files were removed to the waste folder"
-msgstr "%d файли переміщені в корзину"
+#: src/rmw.c:537
+#, fuzzy, c-format
+#| msgid "1 file was removed to the waste folder"
+msgid "%d file was removed to the waste folder"
+msgid_plural "%d files were removed to the waste folder"
+msgstr[0] "1 файл переміщено в корзину"
+msgstr[1] "1 файл переміщено в корзину"
+msgstr[2] "1 файл переміщено в корзину"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -451,7 +454,7 @@ msgstr "'%s' не знайдено\n"
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:442
+#: src/restore_rmw.c:441
 msgid "'q' - quit"
 msgstr "'q' - вихід"
 
@@ -470,18 +473,13 @@ msgstr "-i / --interactive: не розроблено\n"
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: не розроблено\n"
 
-#: src/rmw.c:537
-#, c-format
-msgid "1 file was removed to the waste folder"
-msgstr "1 файл переміщено в корзину"
-
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:434
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<КУРСОР-ВПРАВО / КУРСОР-ВЛІВО> - переключити корзини"
 
-#: src/restore_rmw.c:436
+#: src/restore_rmw.c:435
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
@@ -489,17 +487,16 @@ msgstr ""
 "обраний елемент"
 
 #: src/restore_rmw.c:430
-#, c-format
+#, fuzzy, c-format
+#| msgid "== contains %d file =="
 msgid "== contains %d file =="
-msgstr "== містить %d файл =="
-
-#: src/restore_rmw.c:431
-#, c-format
-msgid "== contains %d files =="
-msgstr "== містить %d файли =="
+msgid_plural "== contains %d files =="
+msgstr[0] "== містить %d файл =="
+msgstr[1] "== містить %d файл =="
+msgstr[2] "== містить %d файл =="
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:449
+#: src/purging_rmw.c:448
 #, c-format
 msgid "Created %s\n"
 msgstr "Створено %s\n"
@@ -695,3 +692,12 @@ msgstr "rmw: %s(): буфер занадто малий (маємо %hu, пот�
 #, c-format
 msgid "search complete\n"
 msgstr "пошук завершено\n"
+
+#~ msgid "%d files purged"
+#~ msgstr "%d файли очищено"
+
+#~ msgid "%d files were removed to the waste folder"
+#~ msgstr "%d файли переміщені в корзину"
+
+#~ msgid "== contains %d files =="
+#~ msgstr "== містить %d файли =="

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-01 10:54-0600\n"
+"POT-Creation-Date: 2018-01-03 06:26-0600\n"
 "PO-Revision-Date: 2017-12-10 09:05+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
@@ -352,7 +352,7 @@ msgstr "  :Error: bij het maken van %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :Fout: bij sluiten van %s\n"
 
-#: src/purging_rmw.c:451 src/utils_rmw.c:84
+#: src/purging_rmw.c:450 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr " :Error: bij het maken van %s\n"
@@ -407,7 +407,7 @@ msgstr " :waarschuwing: Het maximum aantal afval mappen is bereikt: %d\n"
 msgid " :warning: Restore() returned errors\n"
 msgstr " :warning: Restore() gaf fouten\n"
 
-#: src/restore_rmw.c:562
+#: src/restore_rmw.c:561
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :waarschuwing: kon %s niet verwijderen\n"
@@ -432,19 +432,20 @@ msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d directories overgeslagen (bevat alleen-lezen bestanden)\n"
 
 #: src/purging_rmw.c:392
-#, c-format
+#, fuzzy, c-format
+#| msgid "%d file purged"
 msgid "%d file purged"
-msgstr "%d bestand gepurged"
+msgid_plural "%d files purged"
+msgstr[0] "%d bestand gepurged"
+msgstr[1] "%d bestand gepurged"
 
-#: src/purging_rmw.c:392
-#, c-format
-msgid "%d files purged"
-msgstr "%d bestaden gepurged"
-
-#: src/rmw.c:538
-#, c-format
-msgid "%d files were removed to the waste folder"
-msgstr "%d bestanden zijn naar de afval map verwijderd"
+#: src/rmw.c:537
+#, fuzzy, c-format
+#| msgid "1 file was removed to the waste folder"
+msgid "%d file was removed to the waste folder"
+msgid_plural "%d files were removed to the waste folder"
+msgstr[0] "1 bestand werd verwijderd naar de afval map"
+msgstr[1] "1 bestand werd verwijderd naar de afval map"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -455,7 +456,7 @@ msgstr "'%s' niet gevonden\n"
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:442
+#: src/restore_rmw.c:441
 msgid "'q' - quit"
 msgstr "'q' - afsluiten"
 
@@ -474,18 +475,13 @@ msgstr "-i / --interactive: nog niet beschikbaar\n"
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: nog niet beschikbaar\n"
 
-#: src/rmw.c:537
-#, c-format
-msgid "1 file was removed to the waste folder"
-msgstr "1 bestand werd verwijderd naar de afval map"
-
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:434
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RECHTS / CURSOR-LINKS> - wissel afval mappen"
 
-#: src/restore_rmw.c:436
+#: src/restore_rmw.c:435
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
@@ -493,17 +489,15 @@ msgstr ""
 "geselecteerde bestanden terug"
 
 #: src/restore_rmw.c:430
-#, c-format
+#, fuzzy, c-format
+#| msgid "== contains %d file =="
 msgid "== contains %d file =="
-msgstr "== bevat %d bestand =="
-
-#: src/restore_rmw.c:431
-#, c-format
-msgid "== contains %d files =="
-msgstr "== bevat %d bestanden =="
+msgid_plural "== contains %d files =="
+msgstr[0] "== bevat %d bestand =="
+msgstr[1] "== bevat %d bestand =="
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:449
+#: src/purging_rmw.c:448
 #, c-format
 msgid "Created %s\n"
 msgstr "Aangemaakt %s\n"
@@ -699,6 +693,15 @@ msgstr ""
 #, c-format
 msgid "search complete\n"
 msgstr "zoeken voltooid\n"
+
+#~ msgid "%d files purged"
+#~ msgstr "%d bestaden gepurged"
+
+#~ msgid "%d files were removed to the waste folder"
+#~ msgstr "%d bestanden zijn naar de afval map verwijderd"
+
+#~ msgid "== contains %d files =="
+#~ msgstr "== bevat %d bestanden =="
 
 #~ msgid ""
 #~ "Input the number to restore, 'enter' for next waste folder, 'q' to quit) "

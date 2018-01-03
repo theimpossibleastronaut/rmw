@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-01 10:54-0600\n"
+"POT-Creation-Date: 2018-01-03 06:26-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/trivial_rmw.c:142
@@ -244,7 +245,7 @@ msgstr ""
 msgid "  :Error: while closing %s\n"
 msgstr ""
 
-#: src/purging_rmw.c:451 src/utils_rmw.c:84
+#: src/purging_rmw.c:450 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr ""
@@ -299,7 +300,7 @@ msgstr ""
 msgid " :warning: Restore() returned errors\n"
 msgstr ""
 
-#: src/restore_rmw.c:562
+#: src/restore_rmw.c:561
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr ""
@@ -324,17 +325,16 @@ msgstr ""
 #: src/purging_rmw.c:392
 #, c-format
 msgid "%d file purged"
-msgstr ""
+msgid_plural "%d files purged"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/purging_rmw.c:392
+#: src/rmw.c:537
 #, c-format
-msgid "%d files purged"
-msgstr ""
-
-#: src/rmw.c:538
-#, c-format
-msgid "%d files were removed to the waste folder"
-msgstr ""
+msgid "%d file was removed to the waste folder"
+msgid_plural "%d files were removed to the waste folder"
+msgstr[0] ""
+msgstr[1] ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -345,7 +345,7 @@ msgstr ""
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:442
+#: src/restore_rmw.c:441
 msgid "'q' - quit"
 msgstr ""
 
@@ -364,18 +364,13 @@ msgstr ""
 msgid "-r / --recurse: not implemented\n"
 msgstr ""
 
-#: src/rmw.c:537
-#, c-format
-msgid "1 file was removed to the waste folder"
-msgstr ""
-
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:434
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr ""
 
-#: src/restore_rmw.c:436
+#: src/restore_rmw.c:435
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
@@ -383,15 +378,12 @@ msgstr ""
 #: src/restore_rmw.c:430
 #, c-format
 msgid "== contains %d file =="
-msgstr ""
-
-#: src/restore_rmw.c:431
-#, c-format
-msgid "== contains %d files =="
-msgstr ""
+msgid_plural "== contains %d files =="
+msgstr[0] ""
+msgstr[1] ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:449
+#: src/purging_rmw.c:448
 #, c-format
 msgid "Created %s\n"
 msgstr ""
