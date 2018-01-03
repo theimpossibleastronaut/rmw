@@ -432,15 +432,15 @@ msgstr "%d diretórios ignorados (contém arquivos somente de leitura)\n"
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d ficheiro purgado"
-msgstr[1] "%d ficheiro purgado"
+msgstr[1] "%d ficheiros purgados"
 
 #: src/rmw.c:537
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
-msgstr[0] "1 ficheiro foi removido para a pasta de lixo"
-msgstr[1] "1 ficheiro foi removido para a pasta de lixo"
+msgstr[0] "%d ficheiro foi removido para a pasta de lixo"
+msgstr[1] "%d ficheiros foram removidos para a pasta de lixo"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -489,7 +489,7 @@ msgstr ""
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== contem %d ficheiro=="
-msgstr[1] "== contem %d ficheiro=="
+msgstr[1] "== contem %d ficheiros=="
 
 #. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:448
