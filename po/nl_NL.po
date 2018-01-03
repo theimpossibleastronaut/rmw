@@ -437,15 +437,15 @@ msgstr "%d directories overgeslagen (bevat alleen-lezen bestanden)\n"
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d bestand gepurged"
-msgstr[1] "%d bestand gepurged"
+msgstr[1] "%d bestanden gepurged"
 
 #: src/rmw.c:537
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
-msgstr[0] "1 bestand werd verwijderd naar de afval map"
-msgstr[1] "1 bestand werd verwijderd naar de afval map"
+msgstr[0] "%d bestand werd verwijderd naar de afval map"
+msgstr[1] "%d bestanden werden verwijderd naar de afval map"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -494,7 +494,7 @@ msgstr ""
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== bevat %d bestand =="
-msgstr[1] "== bevat %d bestand =="
+msgstr[1] "== bevat %d bestanden =="
 
 #. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:448
