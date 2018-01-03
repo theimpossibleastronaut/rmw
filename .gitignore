@@ -46,7 +46,7 @@ slackpkg
 .dirstamp
 *.patch
 Screenshot*
-README
+/README
 *~
 inputfiles
 extract_strings.sh

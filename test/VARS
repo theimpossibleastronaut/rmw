@@ -1,0 +1,12 @@
+DIRECTORY=`dirname $0`
+cd $DIRECTORY
+
+HOME=$DIRECTORY
+
+# Testing without installing rmw
+# use the default config that comes with the source package
+#
+# Normally rmw would look in /etc or the user's data directory, but
+# these tests will assume rmw hasn't been installed, so use
+# an alternate configuration file
+CONFIG=../etc/rmwrc
