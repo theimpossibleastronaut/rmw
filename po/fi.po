@@ -458,15 +458,15 @@ msgstr "%d hakemistoa ohitettu (sisältää vain-luku tiedostoja)\n"
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d tiedosto puhdistettu"
-msgstr[1] "%d tiedosto puhdistettu"
+msgstr[1] "%d tiedostoa puhdistettu"
 
 #: src/rmw.c:537
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
-msgstr[0] "1 tiedosto poistettiin roska hakemistoon"
-msgstr[1] "1 tiedosto poistettiin roska hakemistoon"
+msgstr[0] "%d tiedosto poistettiin roska hakemistoon"
+msgstr[1] "%d tiedostoa poistettiin roska hakemistoon"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -514,8 +514,8 @@ msgstr ""
 #| msgid "== contains %d file =="
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
-msgstr[0] "== sisältää %d tiedoston"
-msgstr[1] "== sisältää %d tiedoston"
+msgstr[0] "== sisältää %d tiedoston =="
+msgstr[1] "== sisältää %d tiedostoa =="
 
 #. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:448

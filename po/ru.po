@@ -433,17 +433,17 @@ msgstr "%d папки пропущены (содержит доступные т
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d файл удален"
-msgstr[1] "%d файл удален"
-msgstr[2] "%d файл удален"
+msgstr[1] "%d файлы удалены"
+msgstr[2] "%d файлы удалены"
 
 #: src/rmw.c:537
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
-msgstr[0] "1 файл перемещен в корзину"
-msgstr[1] "1 файл перемещен в корзину"
-msgstr[2] "1 файл перемещен в корзину"
+msgstr[0] "%d файл перемещен в корзину"
+msgstr[1] "%d файлы перемещены в корзину"
+msgstr[2] "%d файлы перемещены в корзину"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -492,8 +492,8 @@ msgstr ""
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== содержит %d файл =="
-msgstr[1] "== содержит %d файл =="
-msgstr[2] "== содержит %d файл =="
+msgstr[1] "== содержит %d файлы =="
+msgstr[2] "== содержит %d файлы =="
 
 #. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:448

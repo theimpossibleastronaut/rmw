@@ -451,8 +451,8 @@ msgstr[1] "%d फाईलहरू बन्द गरियो"
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
-msgstr[0] "1 फाइललाई waste फोल्डरमा हटाइएको थियो"
-msgstr[1] "1 फाइललाई waste फोल्डरमा हटाइएको थियो"
+msgstr[0] "%d फाइललाई waste फोल्डरमा हटाइएको थियो"
+msgstr[1] "waste फोल्डरमा %d फाइलहरू हटाइयो"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300

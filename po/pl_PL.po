@@ -427,17 +427,17 @@ msgstr "Pominięto %d katalogów (zawierających pliki tylko-do-odczytu)\n"
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "Usunięto %d plik"
-msgstr[1] "Usunięto %d plik"
-msgstr[2] "Usunięto %d plik"
+msgstr[1] "Usunięto %d plików"
+msgstr[2] "Usunięto %d plików"
 
 #: src/rmw.c:537
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
-msgstr[0] "przeniesiono 1 plik do kosza"
-msgstr[1] "przeniesiono 1 plik do kosza"
-msgstr[2] "przeniesiono 1 plik do kosza"
+msgstr[0] "przeniesiono %d plik do kosza"
+msgstr[1] "przeniesiono %d plików do kosza"
+msgstr[2] "przeniesiono %d plików do kosza"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/restore_rmw.c:300
@@ -485,8 +485,8 @@ msgstr ""
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== zawiera %d plik =="
-msgstr[1] "== zawiera %d plik =="
-msgstr[2] "== zawiera %d plik =="
+msgstr[1] "== zawiera %d plików =="
+msgstr[2] "== zawiera %d plików =="
 
 #. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:448
