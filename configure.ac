@@ -14,11 +14,6 @@ if test "x$found_curses" = xno; then
 		AC_MSG_ERROR("required ncurses library not found. Please install libncurses5-dev")
 fi
 
-AC_CHECK_LIB([menu], [new_menu], found_menu=yes, found_menu=no)
-if test "x$found_menu" = xno; then
-		AC_MSG_ERROR("required menu library not found. This is normally included with the libncurses library.")
-fi
-
 AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
