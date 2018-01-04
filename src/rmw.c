@@ -363,15 +363,15 @@ Unable to continue. Exiting...\n"));
 
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
-      strcpy (file.main_argv, argv[file_arg]);
-
       /**
        * The undo file may be open at this point, so using 'break'
        * After the for loop is the statement to close file, then
        * return EXIT_BUF_ERR
        */
-      if ((main_error = bufchk (file.main_argv, MP)))
+      if ((main_error = bufchk (argv[file_arg], MP)))
         break;
+
+      strcpy (file.main_argv, argv[file_arg]);
 
       /**
        * Check to see if the file exists, and if so, see if it's protected
