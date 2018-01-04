@@ -33,6 +33,11 @@
 short
 bufchk (const char *str, ushort boundary)
 {
+  /* str_part defines the first n characters of the string to display.
+   * This assumes 10 will never exceed a buffer size. In this program,
+   * there are no buffers that are <= 10 (that I can think of right now)
+   */
+  const ushort str_part = 10;
   static ushort len;
   len = strlen (str);
 
@@ -52,24 +57,22 @@ bufchk (const char *str, ushort boundary)
   static ushort display_len;
   display_len = 0;
 
-  display_len = (boundary > 80) ? 80 : boundary;
+  display_len = (boundary > str_part) ? str_part : boundary;
 
   char temp[display_len];
-
   strncpy (temp, str, display_len);
+  temp[display_len] = '\0';
 
-  truncate_str (temp, 1);
+  /* This was replaced by the line above.
+   *
+   * I'm not sure why this didn't work to prevent the problem
+   * mentioned in https://github.com/andy5995/rmw/issues/156 */
+  // truncate_str (temp, 1);
 
-  printf (_(" <--> Displaying part of the string that caused the error <-->\n\n"));
-  printf ("%s\n\n", temp);
+  fprintf (stderr, _(" <--> Displaying part of the string that caused the error <-->\n\n"));
+  fprintf (stderr, "%s\n\n", temp);
 
   return EXIT_BUF_ERR;
-
-     /**
-     * This exit() is related to issue #8
-     * https://github.com/andy5995/rmw/issues/8
-     */
-  // exit (-1);
 }
 
 /**

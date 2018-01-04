@@ -50,6 +50,13 @@ get_time_string (char *tm_str, ushort len, const char *format);
 int
 main (int argc, char *argv[])
 {
+  /* If MP was defined as something other than a number when building */
+  if (MP < 1)
+  {
+    fprintf (stderr, "  :Error: MP must be defined as a number\n");
+    exit (1);
+  }
+
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);

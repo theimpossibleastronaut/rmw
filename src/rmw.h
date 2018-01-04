@@ -79,8 +79,13 @@
 #define PATH_MAX 256
 #endif
 
+/* MP can be defined before building when running running ./configure
+ * ex. '$ CFLAGS=-DMP=n ./configure`
+ */
+#ifndef MP
 /** shorten PATH_MAX to two characters */
-#define MP PATH_MAX + 1
+#   define MP PATH_MAX + 1
+#endif
 
 #ifndef ushort
   #define ushort unsigned short int
