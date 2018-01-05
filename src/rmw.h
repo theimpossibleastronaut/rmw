@@ -26,6 +26,7 @@
 
 /* Enable support for files over 2G  */
 #define _FILE_OFFSET_BITS 64
+#define _XOPEN_SOURCE 500
 
 #include "config.h"
 #include <errno.h>
@@ -34,6 +35,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+
+#include <sys/stat.h>
 
 #include <locale.h>
 #include "gettext.h"

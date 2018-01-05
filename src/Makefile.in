@@ -320,7 +320,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -std=gnu11 -Wall -pedantic -I./functions
+AM_CFLAGS = -std=c99 -Wall -pedantic -I./functions
 rmw_SOURCES = \
 rmw.c 				\
 restore_rmw.c 	\
