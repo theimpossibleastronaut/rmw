@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-03 06:26-0600\n"
+"POT-Creation-Date: 2018-01-05 13:05-0600\n"
 "PO-Revision-Date: 2017-12-10 09:05+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
@@ -153,7 +153,7 @@ msgstr ""
 "#\n"
 "#force_not_required\n"
 
-#: src/purging_rmw.c:181
+#: src/purging_rmw.c:177
 #, c-format
 msgid ""
 "\n"
@@ -227,7 +227,7 @@ msgstr ""
 "  -s, --select              selecteer bestand(en) uit een lijst\n"
 "  -u, --undo-last           maak laatste verwijdering ongedaan\n"
 
-#: src/rmw.c:507
+#: src/rmw.c:511
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr " :Fout nummer %d bij verplaatsen van %s:\n"
@@ -268,7 +268,7 @@ msgstr ""
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
 #. * of memory allocated for a string
-#: src/strings_rmw.c:44
+#: src/strings_rmw.c:49
 #, c-format
 msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
 msgstr "  :Error: buffer overrun (segmentatie fout) voorkomen.\n"
@@ -313,12 +313,12 @@ msgstr ""
 "Kan niet doorgaan. Afsluiten…\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:503
+#: src/rmw.c:507
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr " :Fout: nummer %d bij maken van een .trashinfo bestand\n"
 
-#: src/rmw.c:205
+#: src/rmw.c:209
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -341,7 +341,7 @@ msgstr ""
 "\n"
 "Kan niet doorgaan. Afsluiten…\n"
 
-#: src/purging_rmw.c:84
+#: src/purging_rmw.c:80
 #, c-format
 msgid "  :Error: while changing permissions of %s\n"
 msgstr "  :Error: bij het maken van %s\n"
@@ -352,7 +352,7 @@ msgstr "  :Error: bij het maken van %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :Fout: bij sluiten van %s\n"
 
-#: src/purging_rmw.c:450 src/utils_rmw.c:84
+#: src/purging_rmw.c:446 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr " :Error: bij het maken van %s\n"
@@ -364,8 +364,8 @@ msgid "  :Error: while opening %s\n"
 msgstr "  :Fout: bij openen van %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:330 src/purging_rmw.c:336 src/purging_rmw.c:351
-#: src/purging_rmw.c:369
+#: src/purging_rmw.c:326 src/purging_rmw.c:332 src/purging_rmw.c:347
+#: src/purging_rmw.c:365
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr "  :Fout: bij het verwijderen van %s\n"
@@ -375,19 +375,19 @@ msgstr "  :Fout: bij het verwijderen van %s\n"
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Fout: bij het verwijderen van .trashinfo bestand: '%s'\n"
 
-#: src/rmw.c:527
+#: src/rmw.c:531
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr " Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
 
-#: src/purging_rmw.c:308
+#: src/purging_rmw.c:304
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr " :waarschuwing: Directory niet gepurged - bevat nog steeds bestanden\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:317
+#: src/purging_rmw.c:313
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :waarschuwing: Maximale diepte van %u bereikt, overslaan\n"
@@ -412,7 +412,7 @@ msgstr " :warning: Restore() gaf fouten\n"
 msgid " :warning: failed to remove %s\n"
 msgstr " :waarschuwing: kon %s niet verwijderen\n"
 
-#: src/strings_rmw.c:63
+#: src/strings_rmw.c:72
 #, c-format
 msgid ""
 " <--> Displaying part of the string that caused the error <-->\n"
@@ -421,17 +421,17 @@ msgstr ""
 " <--> Deel van de tekenreeks waarin de fout op trad <-->\n"
 "\n"
 
-#: src/purging_rmw.c:384
+#: src/purging_rmw.c:380
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d directories overgeslagen (RMDIR_MAX_DEPTH bereikt)\n"
 
-#: src/purging_rmw.c:389
+#: src/purging_rmw.c:385
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d directories overgeslagen (bevat alleen-lezen bestanden)\n"
 
-#: src/purging_rmw.c:392
+#: src/purging_rmw.c:388
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "%d file purged"
@@ -439,7 +439,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d bestand gepurged"
 msgstr[1] "%d bestanden gepurged"
 
-#: src/rmw.c:537
+#: src/rmw.c:541
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -460,17 +460,17 @@ msgstr "'%s' niet gevonden\n"
 msgid "'q' - quit"
 msgstr "'q' - afsluiten"
 
-#: src/purging_rmw.c:310
+#: src/purging_rmw.c:306
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(controleer eigenaar/schrijf permissies)\n"
 
-#: src/rmw.c:143
+#: src/rmw.c:147
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: nog niet beschikbaar\n"
 
-#: src/rmw.c:146
+#: src/rmw.c:150
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: nog niet beschikbaar\n"
@@ -497,7 +497,7 @@ msgstr[0] "== bevat %d bestand =="
 msgstr[1] "== bevat %d bestanden =="
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:448
+#: src/purging_rmw.c:444
 #, c-format
 msgid "Created %s\n"
 msgstr "Aangemaakt %s\n"
@@ -512,29 +512,29 @@ msgstr "Map %s aangemaakt\n"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe…\n"
 
-#: src/strings_rmw.c:163
+#: src/strings_rmw.c:166
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Fout: realpath() gaf een fout terug.\n"
 
-#: src/rmw.c:183
+#: src/rmw.c:187
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Fout: bij het ophalen van het pad naar je thuismap\n"
 
-#: src/rmw.c:414
+#: src/rmw.c:418
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
 
-#: src/strings_rmw.c:45
+#: src/strings_rmw.c:50
 #, c-format
 msgid ""
 "If you think this may be a bug, please report it to the rmw developers.\n"
 msgstr ""
 "Als je denkt dat dit een fout is, rapporteer dit aan de rmw ontwikkelaars.\n"
 
-#: src/rmw.c:545
+#: src/rmw.c:549
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -567,7 +567,7 @@ msgstr "Zoeken enkel op de basis naam…\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:406
+#: src/rmw.c:410
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Overgeslagen: %s is in een beveiligde map\n"
@@ -646,14 +646,14 @@ msgstr ""
 msgid "function: <%s>"
 msgstr "functie: <%s>"
 
-#: src/rmw.c:268
+#: src/rmw.c:272
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of —force\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:260
+#: src/rmw.c:264
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"

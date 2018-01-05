@@ -23,11 +23,7 @@
  *
  */
 
-#ifndef INC_RMW_H
-#define INC_RMW_H
-  #include "rmw.h"
-#endif
-
+#include "rmw.h"
 #include "strings_rmw.h"
 
 #define MAX_MSG_SIZE 512
