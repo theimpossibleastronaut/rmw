@@ -1,5 +1,5 @@
 bin_PROGRAMS=rmw
-AM_CFLAGS= -std=gnu11 -Wall -pedantic -I./functions
+AM_CFLAGS= -std=c99 -Wall -pedantic -I./functions
 rmw_SOURCES=			\
 rmw.c 				\
 restore_rmw.c 	\
