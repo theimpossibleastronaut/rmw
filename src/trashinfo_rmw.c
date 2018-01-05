@@ -23,7 +23,7 @@
  *
  */
 
-#include <sys/stat.h>
+#include "trashinfo_rmw.h"
 #include "utils_rmw.h"
 #include "messages_rmw.h"
 
@@ -73,6 +73,11 @@ static bool escape_url (const char *str, char *dest, ushort len)
   pos_str = 0;
   pos_dest = 0;
 
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("str = %s in %s\n", str, __func__);
+#endif
+
   while (str[pos_str])
   {
     if (is_unreserved (str[pos_str]))
@@ -111,6 +116,11 @@ static bool escape_url (const char *str, char *dest, ushort len)
 
   dest[pos_dest] = '\0';
 
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("dest = %s in %s\n", dest, __func__);
+#endif
+
   return 0;
 }
 
@@ -118,14 +128,15 @@ int
 create_trashinfo (struct rmw_target file, struct waste_containers *waste,
                   char *time_now, char *time_str_appended, const short int cnum)
 {
-  static char finalInfoDest[PATH_MAX + 1];
+  static char finalInfoDest[MP];
 
   sprintf (finalInfoDest, "%s%s", waste[cnum].info, file.base_name);
 
 #ifdef DEBUG
-printf ("\t--\n\n");
-printf ("time_str_appended = %s\n", time_str_appended);
-printf ("\t--\n\n");
+DEBUG_PREFIX
+printf ("file.real_path = %s in %s line %d\n", file.real_path, __func__, __LINE__);
+DEBUG_PREFIX
+printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE__);
 #endif
 
   if (file.is_duplicate)
@@ -152,13 +163,12 @@ printf ("\t--\n\n");
     }
 
 #ifdef DEBUG
-
-printf ("--\n\n");
+DEBUG_PREFIX
 printf ("[Trash Info]\n");
+DEBUG_PREFIX
 printf ("Path=%s\n", escaped_path);
-printf ("DeletionDate=%s", time_now);
-printf ("--\n\n");
-
+DEBUG_PREFIX
+printf ("DeletionDate=%s\n", time_now);
 #endif
 
 

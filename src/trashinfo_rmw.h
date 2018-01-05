@@ -23,10 +23,8 @@
  *
  */
 
-#ifndef INC_RMW_H
-#define INC_RMW_H
-  #include "rmw.h"
-#endif
+#include "rmw.h"
+#include <sys/stat.h>
 
 int
 create_trashinfo (struct rmw_target file, struct waste_containers *waste,

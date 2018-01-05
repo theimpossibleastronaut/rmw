@@ -1,1 +1,4 @@
 These tests must be run from inside the test directory.
+
+The tmp-home/ directory needs to be manually deleted before running
+a new test.
