@@ -378,6 +378,13 @@ Unable to continue. Exiting...\n"));
       {
         main_error = resolve_path (file.main_argv, file.real_path);
 
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("file.real_path = %s in %s\n", file.real_path, __func__);
+DEBUG_PREFIX
+printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
+#endif
+
         if (main_error == 1)
           continue;
         else if (main_error > 1)
@@ -482,8 +489,21 @@ Unable to continue. Exiting...\n"));
               printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
 
             rmwed_files++;
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("file.real_path = %s in %s line %d\n", file.real_path, __func__, __LINE__);
+DEBUG_PREFIX
+printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE__);
+#endif
             info_status = create_trashinfo (file, waste,
                               time_now, time_str_appended, current_waste_num);
+
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("file.real_path = %s in %s line %d\n", file.real_path, __func__, __LINE__);
+DEBUG_PREFIX
+printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE__);
+#endif
 
             if (info_status == 0)
             {

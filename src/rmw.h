@@ -46,6 +46,10 @@
 #define gettext_noop(String) String
 #define N_(String) gettext_noop (String)
 
+#ifdef DEBUG
+# define DEBUG_PREFIX printf ("[DEBUG] ");
+#endif
+
 #ifndef VERSION
   #define VERSION "unversioned"
 #endif

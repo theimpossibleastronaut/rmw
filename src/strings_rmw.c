@@ -154,7 +154,8 @@ resolve_path (const char *src, char *abs_path)
     strcat (abs_path, basename (src_temp_basename));
 
 #ifdef DEBUG
-  printf ("resolve_path()/debug: %s\n", abs_path);
+DEBUG_PREFIX
+printf ("abs_path = %s in %s\n", abs_path, __func__);
 #endif
 
     if ((func_error = bufchk (abs_path, MP)))
