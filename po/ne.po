@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre3\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-03 06:26-0600\n"
+"POT-Creation-Date: 2018-01-05 13:05-0600\n"
 "PO-Revision-Date: 2017-12-08 14:04-0700\n"
 "Last-Translator: ram <ram.dahal@gmail.com>\n"
 "Language-Team: Nepali\n"
@@ -153,7 +153,7 @@ msgstr ""
 "#\n"
 "#force_not_required\n"
 
-#: src/purging_rmw.c:181
+#: src/purging_rmw.c:177
 #, c-format
 msgid ""
 "\n"
@@ -226,7 +226,7 @@ msgstr ""
 "  -s, --select              सूचीबाट फाइलहरू पुन: स्थापित गर्न चयन गर्नुहोस्\n"
 "  -u, --undo-last           अन्तिम पुनःप्राप्त पूर्ववत गर्नुहोस्\n"
 
-#: src/rmw.c:507
+#: src/rmw.c:511
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :त्रुटि संख्या %d ले %s सार्न प्रयास गर्दै: \n"
@@ -275,7 +275,7 @@ msgstr ""
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
 #. * of memory allocated for a string
-#: src/strings_rmw.c:44
+#: src/strings_rmw.c:49
 #, c-format
 msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
 msgstr "  :त्रुटि: बफर ओभरराइन (विभाजन त्रुटि) रोकियो\n"
@@ -319,12 +319,12 @@ msgstr ""
 "जारी गर्न सकिएन।विद्यमान ...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:503
+#: src/rmw.c:507
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :त्रुटि: संख्या% d .trashinfo फाइल सिर्जना गर्न प्रयास गर्दै \n"
 
-#: src/rmw.c:205
+#: src/rmw.c:209
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -347,7 +347,7 @@ msgstr ""
 "\n"
 "जारी गर्न असमर्थ। बाहिर निस्किँदै...\n"
 
-#: src/purging_rmw.c:84
+#: src/purging_rmw.c:80
 #, fuzzy, c-format
 #| msgid "  :Error: while creating %s\n"
 msgid "  :Error: while changing permissions of %s\n"
@@ -359,7 +359,7 @@ msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :त्रुटि: बन्द हुँदा %s\n"
 
-#: src/purging_rmw.c:450 src/utils_rmw.c:84
+#: src/purging_rmw.c:446 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
@@ -371,8 +371,8 @@ msgid "  :Error: while opening %s\n"
 msgstr "  :त्रुटि: खोल्दा  %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:330 src/purging_rmw.c:336 src/purging_rmw.c:351
-#: src/purging_rmw.c:369
+#: src/purging_rmw.c:326 src/purging_rmw.c:332 src/purging_rmw.c:347
+#: src/purging_rmw.c:365
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr "  :त्रुटि: हटाउँदै %s\n"
@@ -382,19 +382,19 @@ msgstr "  :त्रुटि: हटाउँदै %s\n"
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :त्रुटि: .trashinfo हटाउने क्रममा: '%s'\n"
 
-#: src/rmw.c:527
+#: src/rmw.c:531
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  \"%s\" को लागि उपयुक्त फाइल प्रणाली भेटिएन \n"
 
-#: src/purging_rmw.c:308
+#: src/purging_rmw.c:304
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr " :चेतावनी: डाइरेक्टरी  बन्द छैन - अझै फाइलहरू समावेश गर्दछ\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:317
+#: src/purging_rmw.c:313
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :चेतावनी: %u को अधिकतम गहिराई पुग्यो, छोडिदैछ\n"
@@ -419,7 +419,7 @@ msgstr " :चेतावनी: Restore() त्रुटिहरू फर्
 msgid " :warning: failed to remove %s\n"
 msgstr " :चेतावनी: %s हटाउन असफल भयो  \n"
 
-#: src/strings_rmw.c:63
+#: src/strings_rmw.c:72
 #, c-format
 msgid ""
 " <--> Displaying part of the string that caused the error <-->\n"
@@ -428,17 +428,17 @@ msgstr ""
 " <--> त्रुटि सिर्जनागर्ने स्ट्रिङ्को भाग प्रदर्शन गर्दै <-->\n"
 "\n"
 
-#: src/purging_rmw.c:384
+#: src/purging_rmw.c:380
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d डाइरेक्टरीहरू छोडियो (RMDIR_MAX_DEPTH पुग्यो)\n"
 
-#: src/purging_rmw.c:389
+#: src/purging_rmw.c:385
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d डाइरेक्टरीहरू छोडियो (पढ्ने-मात्र फाइलहरू समावेश छ)\n"
 
-#: src/purging_rmw.c:392
+#: src/purging_rmw.c:388
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "%d file purged"
@@ -446,7 +446,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d फाईलहरू बन्द गरियो"
 msgstr[1] "%d फाईलहरू बन्द गरियो"
 
-#: src/rmw.c:537
+#: src/rmw.c:541
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -467,17 +467,17 @@ msgstr "'%s' फेला परेन\n"
 msgid "'q' - quit"
 msgstr ""
 
-#: src/purging_rmw.c:310
+#: src/purging_rmw.c:306
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(मालिक जाँच / लेख्ने अनुमतिहरू हेर्नुहोस्)\n"
 
-#: src/rmw.c:143
+#: src/rmw.c:147
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: कार्यान्वयन गरिएको छैन \n"
 
-#: src/rmw.c:146
+#: src/rmw.c:150
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: कार्यान्वयन गरिएको छैन \n"
@@ -501,7 +501,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:448
+#: src/purging_rmw.c:444
 #, c-format
 msgid "Created %s\n"
 msgstr "सिर्जना गरिएको %s\n"
@@ -516,22 +516,22 @@ msgstr "डाइरेक्टरी सिर्जना गरियो %s\
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "गन्तव्यमा डुप्लिकेट फाइलनाम - जोड्दै  time स्ट्रिङ...\n"
 
-#: src/strings_rmw.c:163
+#: src/strings_rmw.c:166
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "त्रुटि: realpath() ले एउटा त्रुटि फर्कायो  ।\n"
 
-#: src/rmw.c:183
+#: src/rmw.c:187
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "त्रुटि: तपाईंको गृह डाइरेक्टरीको बाटो प्राप्त गर्दा \n"
 
-#: src/rmw.c:414
+#: src/rmw.c:418
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "फाइल फेला परेन: '%s'\n"
 
-#: src/strings_rmw.c:45
+#: src/strings_rmw.c:50
 #, c-format
 msgid ""
 "If you think this may be a bug, please report it to the rmw developers.\n"
@@ -539,7 +539,7 @@ msgstr ""
 "यदि तपाईंलाई लाग्छ कि यो बग हुन सक्छ, कृपया यसलाई rmw विकासकर्ताहरूमा रिपोर्ट "
 "गर्नुहोस्।\n"
 
-#: src/rmw.c:545
+#: src/rmw.c:549
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -572,7 +572,7 @@ msgstr "केवल basename प्रयोग गर्दै खोजी �
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:406
+#: src/rmw.c:410
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "छोडियो: %s सुरक्षित डाइरेक्टरीमा छ \n"
@@ -668,14 +668,14 @@ msgstr ""
 msgid "function: <%s>"
 msgstr "प्रकार्य: <%s>"
 
-#: src/rmw.c:268
+#: src/rmw.c:272
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:260
+#: src/rmw.c:264
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
