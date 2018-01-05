@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-03 06:26-0600\n"
+"POT-Creation-Date: 2018-01-05 13:05-0600\n"
 "PO-Revision-Date: 2017-12-08 16:16+0200\n"
 "Last-Translator: samwise <codinghobo@gmail.com>\n"
 "Language-Team: Finnish\n"
@@ -167,7 +167,7 @@ msgstr ""
 "#\n"
 "#force_not_required\n"
 
-#: src/purging_rmw.c:181
+#: src/purging_rmw.c:177
 #, c-format
 msgid ""
 "\n"
@@ -240,7 +240,7 @@ msgstr ""
 "  -s, --select              valitse tiedostoja palautettavaksi listasta\n"
 "  -u, --undo-last           peruuta viimeisin poisto toimenpide\n"
 
-#: src/rmw.c:507
+#: src/rmw.c:511
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Virhe numero %d yritettäessä liikuttaa %s :\n"
@@ -281,7 +281,7 @@ msgstr "  :Virhe: Asetustiedoston rivien määrän täytyy olla alle %d\n"
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
 #. * of memory allocated for a string
-#: src/strings_rmw.c:44
+#: src/strings_rmw.c:49
 #, c-format
 msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
 msgstr "  :Virhe: puskurin ylivuoto (segmentaatio vika) estetty.\n"
@@ -334,12 +334,12 @@ msgstr ""
 "Jatkaminen mahdonta. Lopetetaan...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:503
+#: src/rmw.c:507
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Virhe: numero %d yritettäessä luoda .trashinfo tiedostoa\n"
 
-#: src/rmw.c:205
+#: src/rmw.c:209
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -362,7 +362,7 @@ msgstr ""
 "\n"
 "Jatkaminen mahdotonta. Lopetetaan\n"
 
-#: src/purging_rmw.c:84
+#: src/purging_rmw.c:80
 #, c-format
 msgid "  :Error: while changing permissions of %s\n"
 msgstr "  :Virhe: muutettaessa oikeuksia kohteelle %s\n"
@@ -373,7 +373,7 @@ msgstr "  :Virhe: muutettaessa oikeuksia kohteelle %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :Virhe: suljettaessa tiedostoa %s\n"
 
-#: src/purging_rmw.c:450 src/utils_rmw.c:84
+#: src/purging_rmw.c:446 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr "  :Virhe: luotaessa %s\n"
@@ -385,8 +385,8 @@ msgid "  :Error: while opening %s\n"
 msgstr "  :Virhe: avattaessa tiedostoa %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:330 src/purging_rmw.c:336 src/purging_rmw.c:351
-#: src/purging_rmw.c:369
+#: src/purging_rmw.c:326 src/purging_rmw.c:332 src/purging_rmw.c:347
+#: src/purging_rmw.c:365
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr "  :Virhe: poistettaessa %s\n"
@@ -396,19 +396,19 @@ msgstr "  :Virhe: poistettaessa %s\n"
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Virhe: poistettaessa .trashinfo tiedostoa: '%s'\n"
 
-#: src/rmw.c:527
+#: src/rmw.c:531
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Ei sopivaa tiedostojärjestelmää löydetty kohteelle \"%s\"\n"
 
-#: src/purging_rmw.c:308
+#: src/purging_rmw.c:304
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr " :varoitus: Hakemistoa ei puhdistettu - sisältää yhä tiedostoja\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:317
+#: src/purging_rmw.c:313
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :varoitus: Maksimi syvyys %u saavutettu, ohitetaan\n"
@@ -433,7 +433,7 @@ msgstr " :varoitus: Restore() palautti virheitä\n"
 msgid " :warning: failed to remove %s\n"
 msgstr " :varoitus: poistaminen epäonnistui %s\n"
 
-#: src/strings_rmw.c:63
+#: src/strings_rmw.c:72
 #, c-format
 msgid ""
 " <--> Displaying part of the string that caused the error <-->\n"
@@ -442,17 +442,17 @@ msgstr ""
 " <--> Näytetään virheen aiheuttanut tekstin osa <-->\n"
 "\n"
 
-#: src/purging_rmw.c:384
+#: src/purging_rmw.c:380
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d hakemistoa ohitettu (RMDIR_MAX_DEPTH saavutettu)\n"
 
-#: src/purging_rmw.c:389
+#: src/purging_rmw.c:385
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d hakemistoa ohitettu (sisältää vain-luku tiedostoja)\n"
 
-#: src/purging_rmw.c:392
+#: src/purging_rmw.c:388
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "%d file purged"
@@ -460,7 +460,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d tiedosto puhdistettu"
 msgstr[1] "%d tiedostoa puhdistettu"
 
-#: src/rmw.c:537
+#: src/rmw.c:541
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -481,17 +481,17 @@ msgstr "Kohdetta '%s' ei löydetty\n"
 msgid "'q' - quit"
 msgstr "'q' - lopeta"
 
-#: src/purging_rmw.c:310
+#: src/purging_rmw.c:306
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(tarkista omistaja/kirjoitus oikeudet)\n"
 
-#: src/rmw.c:143
+#: src/rmw.c:147
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: ei toteutettu\n"
 
-#: src/rmw.c:146
+#: src/rmw.c:150
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: ei toteutettu\n"
@@ -518,7 +518,7 @@ msgstr[0] "== sisältää %d tiedoston =="
 msgstr[1] "== sisältää %d tiedostoa =="
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:448
+#: src/purging_rmw.c:444
 #, c-format
 msgid "Created %s\n"
 msgstr "Luotiin %s\n"
@@ -533,22 +533,22 @@ msgstr "Luotiin hakemisto %s\n"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Duplikaatti tiedostonnimi kohteessa - lisätään aika tekstiin...\n"
 
-#: src/strings_rmw.c:163
+#: src/strings_rmw.c:166
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Virhe: realpath() palautti virheen.\n"
 
-#: src/rmw.c:183
+#: src/rmw.c:187
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Virhe: kotihakemistosi polkua etsiessä\n"
 
-#: src/rmw.c:414
+#: src/rmw.c:418
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Tiedostoa ei löytynyt: '%s'\n"
 
-#: src/strings_rmw.c:45
+#: src/strings_rmw.c:50
 #, c-format
 msgid ""
 "If you think this may be a bug, please report it to the rmw developers.\n"
@@ -556,7 +556,7 @@ msgstr ""
 "Jos epäilet tämän olevan bugi, ole hyvä ja ilmoita siitä rmw:n "
 "kehittäjille.\n"
 
-#: src/rmw.c:545
+#: src/rmw.c:549
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -589,7 +589,7 @@ msgstr "Etsitään vain tiedoston perusnimen perusteella...\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:406
+#: src/rmw.c:410
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Ohitettiin: %s on suojatussa hakemistossa\n"
@@ -665,14 +665,14 @@ msgstr ""
 msgid "function: <%s>"
 msgstr "funktio: <%s>"
 
-#: src/rmw.c:268
+#: src/rmw.c:272
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "puhdistus on ohitettu: käytä -f tai --force\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:260
+#: src/rmw.c:264
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
