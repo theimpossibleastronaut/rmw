@@ -30,7 +30,7 @@
 /* Enable support for files over 2G  */
 #define _FILE_OFFSET_BITS 64
 
-#define _XOPEN_SOURCE 500
+#define _XOPEN_SOURCE 600
 
 #include "config.h"
 #include <errno.h>
