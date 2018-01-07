@@ -69,4 +69,43 @@ set -x
 $BIN_DIR/rmw --verbose --force --purge -c $CONFIG
 test_result $?
 
+set +x
+echo
+echo
+echo " == Show that the files are really gone"
+
+set -x
+ls -l $HOME/.trash.rmw/files
+ls -l $HOME/.trash.rmw/info
+
+set +x
+echo
+echo
+echo " using 'cp' to copy files from test/somefiles"
+cp -av somefiles $HOME
+
+echo
+echo
+echo " == rmw should be able to purge directories and subdirectories"
+echo " == even if some of the dirs are read-only"
+
+set -x
+RMWTRASH=fake-year $BIN_DIR/rmw --verbose -c $CONFIG $HOME/somefiles
+test_result $?
+
+$BIN_DIR/rmw --verbose -ff --purge -c $CONFIG
+test_result $?
+
+set +x
+echo
+echo
+echo " == Show that the files are really gone"
+
+set -x
+ls -l $HOME/.trash.rmw/files
+ls -l $HOME/.trash.rmw/info
+
+set +x
+echo "Purging tests passed"
+
 exit 0
