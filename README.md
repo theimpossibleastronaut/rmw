@@ -22,8 +22,7 @@ Anyone interested in this project is welcome to join the [chat
 room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
 
 If you would like to help translate the man page or the output messages
-for this program, please see the [Translating wiki page]
-(https://github.com/andy5995/rmw/wiki/Translating).
+for this program, please see the [Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating).
 
 ## Required libraries
 
@@ -60,8 +59,8 @@ Packages for some operating systems are available on the
 
 Add a tap and install rmw:
 
-    brew tap [theimpossibleastronaut/homebrew-extras](https://github.com/theimpossibleastronaut/homebrew-extras)
-    brew install rmw
+* brew tap [theimpossibleastronaut/homebrew-extras](https://github.com/theimpossibleastronaut/homebrew-extras)
+* brew install rmw
 
 ## Uninstall / Cleaning up
 
@@ -69,6 +68,7 @@ Add a tap and install rmw:
 * make distclean (removes files in the build directory created by
 `configure` and 'make')
 
+## Usage
 ```
 man pages are now available in the following languages:
 
