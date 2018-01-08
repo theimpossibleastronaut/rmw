@@ -3,10 +3,10 @@
 
 # rmw v0.4.04 (development)
 
-rmw is an OS portable cli trash can utility written in C. It can send
+rmw is a cross-platform command-line "trash can" utility. It can send
 files to your "Desktop" trash, or a completely separate folder. It can
 also: restore files; permanently delete files that were rmw'ed more
-than xx number of days ago; skip files or directories that have a
+than x number of days ago; skip files or directories that have a
 "PROTECT" directive in the configuration file; and append a unique
 string to the filenames so they won't be overwritten (duplication
 protection).
@@ -22,8 +22,8 @@ Anyone interested in this project is welcome to join the [chat
 room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
 
 If you would like to help translate the man page or the output messages
-for this program, please see the [Translating wiki
-page](https://github.com/andy5995/rmw/wiki/Translating).
+for this program, please see the [Translating wiki page]
+(https://github.com/andy5995/rmw/wiki/Translating).
 
 ## Required libraries
 
@@ -38,13 +38,9 @@ package from your operating system distribution.
 
 Use `./configure --help` to view available compile-time options.
 
-    ./configure --prefix=/usr --sysconfdir=/etc
+    ./configure
     make
     make install
-
-If the --prefix and --sysconfdir options are omitted, "/usr/local" will be
-used instead. If you are using **MacOSX** and have problems installing to
-/usr/bin, try omitting those two options.
 
 ### As a normal user:
 
@@ -60,10 +56,19 @@ copied to $HOME/usr/etc
 Packages for some operating systems are available on the
 [Downloads](https://github.com/andy5995/rmw/releases) page
 
+### Using _Brew_ on **Mac OS X**
+
+Add a tap and install rmw:
+
+    brew tap [theimpossibleastronaut/homebrew-extras](https://github.com/theimpossibleastronaut/homebrew-extras)
+    brew install rmw
+
 ## Uninstall / Cleaning up
 
-    make uninstall
-    make distclean
+* make uninstall (uninstalls the program if installed with 'make install`)
+* make distclean (removes files in the build directory created by
+`configure` and 'make')
+
 ```
 man pages are now available in the following languages:
 
@@ -78,18 +83,18 @@ man pages are now available in the following languages:
 
 If you installed rmw as a normal user, this next step can be skipped.
 
-After rmw is installed, create the user configuration directory by typing
-'rmw' and hitting enter. Afterward, it's recommended to copy /etc/rmwrc (or
-/usr/local/etc/rmwrc) to $HOME/.config/rmw and then rename it to 'config':
+After rmw is installed, create the user configuration directory by
+typing 'rmw' and hitting enter. Afterward, copy /usr/local/etc/rmwrc to
+$HOME/.config/rmw and rename it to 'config':
 
-'cd ~/.config/rmw'
-'~/.config/rmw$ cp /etc/rmwrc .'
-'~/.config/rmw$ mv rmwrc config'
+    cd ~/.config/rmw
+    ~/.config/rmw$ cp /usr/local/etc/rmwrc .
+    ~/.config/rmw$ mv rmwrc config
 
 Then edit the file to suit your needs.
 
-At some point, rmw will automatically create a 'lastpurge' and 'lastrmw'
-in that same directory.
+rmw will automatically create a 'lastpurge' and 'lastrmw' in that same
+directory.
 
 == Configuration File ==
 
