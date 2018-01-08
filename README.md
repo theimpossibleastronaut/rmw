@@ -55,7 +55,7 @@ copied to $HOME/usr/etc
 Packages for some operating systems are available on the
 [Downloads](https://github.com/andy5995/rmw/releases) page
 
-### Using _Brew_ on **Mac OS X**
+### Using _Homebrew_ on Mac OS X
 
 Add a tap and install rmw:
 
