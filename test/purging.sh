@@ -106,6 +106,34 @@ ls -l $HOME/.trash.rmw/files
 ls -l $HOME/.trash.rmw/info
 
 set +x
+echo
+echo
+echo " using 'cp' to copy files from test/somefiles for RMWTRASH=empty test"
+cp -av somefiles $HOME
+test_result $?
+
+echo
+echo
+echo " == preceding RMWTRASH=empty with the rmw command should completely"
+echo " == purge the waste folders, no matter when they were deleted"
+
+set -x
+$BIN_DIR/rmw --verbose -c $CONFIG $HOME/somefiles
+test_result $?
+
+RMWTRASH=empty $BIN_DIR/rmw --verbose -ff --purge -c $CONFIG
+test_result $?
+
+set +x
+echo
+echo
+echo " == Show that the files are really gone"
+
+set -x
+ls -l $HOME/.trash.rmw/files
+ls -l $HOME/.trash.rmw/info
+
+set +x
 echo "Purging tests passed"
 
 exit 0
