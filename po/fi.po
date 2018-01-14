@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-05 13:05-0600\n"
+"POT-Creation-Date: 2018-01-14 15:53-0600\n"
 "PO-Revision-Date: 2017-12-08 16:16+0200\n"
 "Last-Translator: samwise <codinghobo@gmail.com>\n"
 "Language-Team: Finnish\n"
@@ -240,7 +240,7 @@ msgstr ""
 "  -s, --select              valitse tiedostoja palautettavaksi listasta\n"
 "  -u, --undo-last           peruuta viimeisin poisto toimenpide\n"
 
-#: src/rmw.c:511
+#: src/rmw.c:531
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Virhe numero %d yritettäessä liikuttaa %s :\n"
@@ -334,7 +334,7 @@ msgstr ""
 "Jatkaminen mahdonta. Lopetetaan...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:507
+#: src/rmw.c:527
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Virhe: numero %d yritettäessä luoda .trashinfo tiedostoa\n"
@@ -396,7 +396,7 @@ msgstr "  :Virhe: poistettaessa %s\n"
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Virhe: poistettaessa .trashinfo tiedostoa: '%s'\n"
 
-#: src/rmw.c:531
+#: src/rmw.c:551
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Ei sopivaa tiedostojärjestelmää löydetty kohteelle \"%s\"\n"
@@ -460,7 +460,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d tiedosto puhdistettu"
 msgstr[1] "%d tiedostoa puhdistettu"
 
-#: src/rmw.c:541
+#: src/rmw.c:561
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -533,7 +533,7 @@ msgstr "Luotiin hakemisto %s\n"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Duplikaatti tiedostonnimi kohteessa - lisätään aika tekstiin...\n"
 
-#: src/strings_rmw.c:166
+#: src/strings_rmw.c:167
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Virhe: realpath() palautti virheen.\n"
@@ -543,7 +543,7 @@ msgstr "Virhe: realpath() palautti virheen.\n"
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Virhe: kotihakemistosi polkua etsiessä\n"
 
-#: src/rmw.c:418
+#: src/rmw.c:425
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Tiedostoa ei löytynyt: '%s'\n"
@@ -556,7 +556,7 @@ msgstr ""
 "Jos epäilet tämän olevan bugi, ole hyvä ja ilmoita siitä rmw:n "
 "kehittäjille.\n"
 
-#: src/rmw.c:549
+#: src/rmw.c:569
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -589,7 +589,7 @@ msgstr "Etsitään vain tiedoston perusnimen perusteella...\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:410
+#: src/rmw.c:417
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Ohitettiin: %s on suojatussa hakemistossa\n"
@@ -701,8 +701,8 @@ msgstr ""
 "tiettyjen ehtojen all; katso <http://www.gnu.org/licenses/gpl.html>\n"
 "yksityiskohtia varten.\n"
 
-#: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:84
-#: src/trashinfo_rmw.c:95
+#: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:89
+#: src/trashinfo_rmw.c:100
 #, c-format
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""

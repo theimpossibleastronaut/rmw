@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-05 13:05-0600\n"
+"POT-Creation-Date: 2018-01-14 15:53-0600\n"
 "PO-Revision-Date: 2017-12-10 09:05+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
@@ -227,7 +227,7 @@ msgstr ""
 "  -s, --select              selecteer bestand(en) uit een lijst\n"
 "  -u, --undo-last           maak laatste verwijdering ongedaan\n"
 
-#: src/rmw.c:511
+#: src/rmw.c:531
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr " :Fout nummer %d bij verplaatsen van %s:\n"
@@ -313,7 +313,7 @@ msgstr ""
 "Kan niet doorgaan. Afsluiten…\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:507
+#: src/rmw.c:527
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr " :Fout: nummer %d bij maken van een .trashinfo bestand\n"
@@ -375,7 +375,7 @@ msgstr "  :Fout: bij het verwijderen van %s\n"
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Fout: bij het verwijderen van .trashinfo bestand: '%s'\n"
 
-#: src/rmw.c:531
+#: src/rmw.c:551
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr " Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
@@ -439,7 +439,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d bestand gepurged"
 msgstr[1] "%d bestanden gepurged"
 
-#: src/rmw.c:541
+#: src/rmw.c:561
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -512,7 +512,7 @@ msgstr "Map %s aangemaakt\n"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe…\n"
 
-#: src/strings_rmw.c:166
+#: src/strings_rmw.c:167
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Fout: realpath() gaf een fout terug.\n"
@@ -522,7 +522,7 @@ msgstr "Fout: realpath() gaf een fout terug.\n"
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Fout: bij het ophalen van het pad naar je thuismap\n"
 
-#: src/rmw.c:418
+#: src/rmw.c:425
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
@@ -534,7 +534,7 @@ msgid ""
 msgstr ""
 "Als je denkt dat dit een fout is, rapporteer dit aan de rmw ontwikkelaars.\n"
 
-#: src/rmw.c:549
+#: src/rmw.c:569
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -567,7 +567,7 @@ msgstr "Zoeken enkel op de basis naam…\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:410
+#: src/rmw.c:417
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Overgeslagen: %s is in een beveiligde map\n"
@@ -682,8 +682,8 @@ msgstr ""
 "bepaalde condities;\n"
 "zie <http://www.gnu.org/licenses/gpl.html> voor details.\n"
 
-#: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:84
-#: src/trashinfo_rmw.c:95
+#: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:89
+#: src/trashinfo_rmw.c:100
 #, c-format
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""

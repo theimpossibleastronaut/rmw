@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-05 13:05-0600\n"
+"POT-Creation-Date: 2018-01-14 15:53-0600\n"
 "PO-Revision-Date: 2017-12-10 18:35+0100\n"
 "Last-Translator: jmrodriguesgoncalves <jmrodriguesgoncalves@myseneca.ca>\n"
 "Language-Team: Portuguese\n"
@@ -223,7 +223,7 @@ msgstr ""
 "  -s, --select              seleciona ficheiros da lista para restaurar\n"
 "  -u, --undo-last           reverse a última remoção\n"
 
-#: src/rmw.c:511
+#: src/rmw.c:531
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Erro número %d tentando mover %s :\n"
@@ -308,7 +308,7 @@ msgstr ""
 "Não é possível continuar. Saindo...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:507
+#: src/rmw.c:527
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  : Erro: número %d tentando criar um ficheiro .trashinfo\n"
@@ -370,7 +370,7 @@ msgstr "  :Erro: ao remover %s\n"
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Erro: ao remover ficheiro .trashinfo: '%s'\n"
 
-#: src/rmw.c:531
+#: src/rmw.c:551
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Nenhum sistema de arquivos adequado encontrado para \"%s\"\n"
@@ -434,7 +434,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d ficheiro purgado"
 msgstr[1] "%d ficheiros purgados"
 
-#: src/rmw.c:541
+#: src/rmw.c:561
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -508,7 +508,7 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 "Duplica de nome do ficheiro no destino - adicionando linha com horas...\n"
 
-#: src/strings_rmw.c:166
+#: src/strings_rmw.c:167
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Erro: realpath() returnou um erro.\n"
@@ -518,7 +518,7 @@ msgstr "Erro: realpath() returnou um erro.\n"
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Erro: ao obter o caminho para o diretório inicial\n"
 
-#: src/rmw.c:418
+#: src/rmw.c:425
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Ficheiro não foi encontrado: '%s'\n"
@@ -530,7 +530,7 @@ msgid ""
 msgstr ""
 "Se você acha que isso pode ser um erro, informe os desenvolvedores do rmw.\n"
 
-#: src/rmw.c:549
+#: src/rmw.c:569
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -565,7 +565,7 @@ msgstr "Pesquisando utilizando apenas o ponto de referência...\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:410
+#: src/rmw.c:417
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Ignorado: %s está em um diretório protegido\n"
@@ -680,8 +680,8 @@ msgstr ""
 "sob certas condições; Veja <http://www.gnu.org/licenses/gpl.html>\n"
 "para mais detalhes.\n"
 
-#: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:84
-#: src/trashinfo_rmw.c:95
+#: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:89
+#: src/trashinfo_rmw.c:100
 #, c-format
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""

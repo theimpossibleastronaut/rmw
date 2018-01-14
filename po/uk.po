@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-05 13:05-0600\n"
+"POT-Creation-Date: 2018-01-14 15:53-0600\n"
 "PO-Revision-Date: 2018-01-01 10:09-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Ukrainian\n"
@@ -224,7 +224,7 @@ msgstr ""
 "  -s, --select              обрати файли зі списку для відновлення\n"
 "  -u, --undo-last           відмінити останнє видалення\n"
 
-#: src/rmw.c:511
+#: src/rmw.c:531
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Номер помилки %d спроба перемістити %s :\n"
@@ -309,7 +309,7 @@ msgstr ""
 "Неможливо продовжити. Зупиняємо...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:507
+#: src/rmw.c:527
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Помилка: %d намагається створити .trashinfo файл\n"
@@ -371,7 +371,7 @@ msgstr "  :Помилка: при видаленні %s\n"
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Помилка: при видаленні .trashinfo файлу: '%s'\n"
 
-#: src/rmw.c:531
+#: src/rmw.c:551
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Потрібна система файлів не знайдена для \"%s\"\n"
@@ -436,7 +436,7 @@ msgstr[0] "%d файл очищено"
 msgstr[1] "%d файли очищено"
 msgstr[2] "%d файли очищено"
 
-#: src/rmw.c:541
+#: src/rmw.c:561
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -511,7 +511,7 @@ msgstr "Створено папку %s\n"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Файл с таким ім'ям вже існує - додаємо стрінг з часом...\n"
 
-#: src/strings_rmw.c:166
+#: src/strings_rmw.c:167
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Помилка: realpath() помилку повернено.\n"
@@ -521,7 +521,7 @@ msgstr "Помилка: realpath() помилку повернено.\n"
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Помилка: при спробі отримати системний шлях до домашньої директорії\n"
 
-#: src/rmw.c:418
+#: src/rmw.c:425
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Файл не знайдено: '%s'\n"
@@ -534,7 +534,7 @@ msgstr ""
 "Якщо ви думаєте що це може бути баг, будь ласка зв'яжіться з rmw "
 "розробниками.\n"
 
-#: src/rmw.c:549
+#: src/rmw.c:569
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -570,7 +570,7 @@ msgstr "Пошук використовуючи лише базове ім'я ф
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:410
+#: src/rmw.c:417
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Пропущено: %s це захищена папка\n"
@@ -682,8 +682,8 @@ msgstr ""
 "при певних умовах; перевірте <http://www.gnu.org/licenses/gpl.html>\n"
 "для детальної інформації.\n"
 
-#: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:84
-#: src/trashinfo_rmw.c:95
+#: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:89
+#: src/trashinfo_rmw.c:100
 #, c-format
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr "rmw: %s(): буфер занадто малий (маємо %hu, потрібно мінімум %hu)\n"

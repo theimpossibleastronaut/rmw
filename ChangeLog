@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2018-01-14
+
+    [#162] es_MX (Spanish Mexican) translation added /thanks @marioecg
+
 2018-01-03
 
     [#133] Improve handling of plural forms (for translations);
