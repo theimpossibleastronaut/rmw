@@ -162,7 +162,7 @@ purge (const short purge_after, const struct waste_containers *waste,
     cmd_empty = strcmp (getenv ("RMWTRASH"), "empty") ? 0 : 1;
     
   if(cmd_empty)
-    printf ("\nPurging all files in waste folders ...\n");
+    printf (_("\nPurging all files in waste folders ...\n"));
   else
     printf (_("\nPurging files based on number of days in the waste folders (%u) ...\n"), purge_after);
 
