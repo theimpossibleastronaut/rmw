@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre3\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-14 15:53-0600\n"
+"POT-Creation-Date: 2018-01-17 16:50-0600\n"
 "PO-Revision-Date: 2017-12-08 14:04-0700\n"
 "Last-Translator: ram <ram.dahal@gmail.com>\n"
 "Language-Team: Nepali\n"
@@ -153,14 +153,24 @@ msgstr ""
 "#\n"
 "#force_not_required\n"
 
-#: src/purging_rmw.c:177
-#, c-format
+#: src/purging_rmw.c:165
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Purging files (purge_after = %u) ...\n"
 msgid ""
 "\n"
-"Purging files (purge_after = %u) ...\n"
+"Purging all files in waste folders ...\n"
 msgstr ""
 "\n"
 "फाइलहरू बन्द गर्दै (purge_after = %u) ...\n"
+
+#: src/purging_rmw.c:167
+#, c-format
+msgid ""
+"\n"
+"Purging files based on number of days in the waste folders (%u) ...\n"
+msgstr ""
 
 #: src/trivial_rmw.c:61
 #, c-format
@@ -359,7 +369,7 @@ msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :त्रुटि: बन्द हुँदा %s\n"
 
-#: src/purging_rmw.c:446 src/utils_rmw.c:84
+#: src/purging_rmw.c:449 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
@@ -371,8 +381,8 @@ msgid "  :Error: while opening %s\n"
 msgstr "  :त्रुटि: खोल्दा  %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:326 src/purging_rmw.c:332 src/purging_rmw.c:347
-#: src/purging_rmw.c:365
+#: src/purging_rmw.c:329 src/purging_rmw.c:335 src/purging_rmw.c:350
+#: src/purging_rmw.c:368
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr "  :त्रुटि: हटाउँदै %s\n"
@@ -387,14 +397,14 @@ msgstr "  :त्रुटि: .trashinfo हटाउने क्रममा:
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  \"%s\" को लागि उपयुक्त फाइल प्रणाली भेटिएन \n"
 
-#: src/purging_rmw.c:304
+#: src/purging_rmw.c:307
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr " :चेतावनी: डाइरेक्टरी  बन्द छैन - अझै फाइलहरू समावेश गर्दछ\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:313
+#: src/purging_rmw.c:316
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :चेतावनी: %u को अधिकतम गहिराई पुग्यो, छोडिदैछ\n"
@@ -428,17 +438,17 @@ msgstr ""
 " <--> त्रुटि सिर्जनागर्ने स्ट्रिङ्को भाग प्रदर्शन गर्दै <-->\n"
 "\n"
 
-#: src/purging_rmw.c:380
+#: src/purging_rmw.c:383
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d डाइरेक्टरीहरू छोडियो (RMDIR_MAX_DEPTH पुग्यो)\n"
 
-#: src/purging_rmw.c:385
+#: src/purging_rmw.c:388
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d डाइरेक्टरीहरू छोडियो (पढ्ने-मात्र फाइलहरू समावेश छ)\n"
 
-#: src/purging_rmw.c:388
+#: src/purging_rmw.c:391
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "%d file purged"
@@ -467,7 +477,7 @@ msgstr "'%s' फेला परेन\n"
 msgid "'q' - quit"
 msgstr ""
 
-#: src/purging_rmw.c:306
+#: src/purging_rmw.c:309
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(मालिक जाँच / लेख्ने अनुमतिहरू हेर्नुहोस्)\n"
@@ -501,7 +511,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:444
+#: src/purging_rmw.c:447
 #, c-format
 msgid "Created %s\n"
 msgstr "सिर्जना गरिएको %s\n"

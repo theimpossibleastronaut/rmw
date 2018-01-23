@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-14 15:53-0600\n"
+"POT-Creation-Date: 2018-01-17 16:50-0600\n"
 "PO-Revision-Date: 2017-12-07 18:35+0100\n"
 "Last-Translator: suve <veg@svgames.pl>\n"
 "Language-Team: Polish\n"
@@ -147,14 +147,24 @@ msgstr ""
 "#\n"
 "#force_not_required\n"
 
-#: src/purging_rmw.c:177
-#, c-format
+#: src/purging_rmw.c:165
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "Purging files (purge_after = %u) ...\n"
 msgid ""
 "\n"
-"Purging files (purge_after = %u) ...\n"
+"Purging all files in waste folders ...\n"
 msgstr ""
 "\n"
 "Usuwanie plików (purge_after = %u) ...\n"
+
+#: src/purging_rmw.c:167
+#, c-format
+msgid ""
+"\n"
+"Purging files based on number of days in the waste folders (%u) ...\n"
+msgstr ""
 
 #: src/trivial_rmw.c:61
 #, c-format
@@ -341,7 +351,7 @@ msgstr "  :Błąd: podczas zmiany praw uprawnień do %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :Błąd: podczas zamykania %s\n"
 
-#: src/purging_rmw.c:446 src/utils_rmw.c:84
+#: src/purging_rmw.c:449 src/utils_rmw.c:84
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr "  :Błąd: podczas tworzenia %s\n"
@@ -353,8 +363,8 @@ msgid "  :Error: while opening %s\n"
 msgstr "  :Błąd: podczas otwierania %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:326 src/purging_rmw.c:332 src/purging_rmw.c:347
-#: src/purging_rmw.c:365
+#: src/purging_rmw.c:329 src/purging_rmw.c:335 src/purging_rmw.c:350
+#: src/purging_rmw.c:368
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr "  :Błąd: podczas usuwania %s\n"
@@ -369,14 +379,14 @@ msgstr "  :Błąd: podczas usuwania pliku .trashinfo: '%s'\n"
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Nie znaleziono odpowiedniego systemu plików dla \"%s\"\n"
 
-#: src/purging_rmw.c:304
+#: src/purging_rmw.c:307
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr " :ostrzeżenie: Katalog nieoczyszczony - nadal zawiera pliki\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:313
+#: src/purging_rmw.c:316
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :ostrzeżenie: Maksymalna głębokość %u osiągnięta, pomijam\n"
@@ -411,17 +421,17 @@ msgstr ""
 " <--> Wyświetlam część tekstu, który wywołał błąd <-->\n"
 "\n"
 
-#: src/purging_rmw.c:380
+#: src/purging_rmw.c:383
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "Pominięto %d katalogów (osiągnięto RMDIR_MAX_DEPTH)\n"
 
-#: src/purging_rmw.c:385
+#: src/purging_rmw.c:388
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "Pominięto %d katalogów (zawierających pliki tylko-do-odczytu)\n"
 
-#: src/purging_rmw.c:388
+#: src/purging_rmw.c:391
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "%d file purged"
@@ -452,7 +462,7 @@ msgstr "nie znaleziono '%s'\n"
 msgid "'q' - quit"
 msgstr "'q' - wyjdź"
 
-#: src/purging_rmw.c:306
+#: src/purging_rmw.c:309
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(sprawdź właściciela/prawa dostępu)\n"
@@ -489,7 +499,7 @@ msgstr[1] "== zawiera %d pliki =="
 msgstr[2] "== zawiera %d plików =="
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:444
+#: src/purging_rmw.c:447
 #, c-format
 msgid "Created %s\n"
 msgstr "Utworzono %s\n"
