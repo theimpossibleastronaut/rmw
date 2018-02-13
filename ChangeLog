@@ -1,4 +1,14 @@
 === rmw ChangeLog ===
+rmw ChangeLog
+
+2018-02-13
+
+    libtool removed from configure
+
+    Translations added:
+      es_AR
+      es_ES
+      pt_BR
 
 2018-01-14
 
