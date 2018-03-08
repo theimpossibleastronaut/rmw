@@ -29,7 +29,7 @@
 short
 bufchk (const char *str, unsigned short boundary);
 
-int
+void
 trim (char s[]);
 
 void
