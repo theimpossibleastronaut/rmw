@@ -1,12 +1,23 @@
 language: c
 
-os:
-  - linux
-  - osx
-
-compiler:
-  - clang
-  - gcc
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      env: BUILD=linux_gcc
+    - os: linux
+      compiler: clang
+      addons:
+          apt:
+            packages:
+            - libncurses5-dev
+      env: BUILD=linux_clang
+    - os: osx
+      osx_image: xcode9.3beta
+      env: BUILD=osx_xcode9_3
+    - os: osx
+      osx_image: xcode9.2
+      env: BUILD=osx_xcode9_2
 
 script:
   - ./configure --prefix=$PWD/temp-build
@@ -18,12 +29,6 @@ script:
   - ./purging.sh
   - cd ..
   - make uninstall
-
-# safelist
-branches:
-  only:
-  - master
-  - travis_platforms
 
 notifications:
   slack: removetowaste:u16fiNsaMeLmg7J4WXifW3Zm
