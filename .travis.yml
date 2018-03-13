@@ -6,7 +6,7 @@ matrix:
       compiler: gcc
       env: BUILD=linux_gcc
     - os: linux
-      compiler:clang
+      compiler: clang
       addons:
           apt:
             packages:
@@ -14,7 +14,7 @@ matrix:
       env: BUILD=linux_clang
     - os: osx
       osx_image: xcode9.3beta
-      env:BUILD=osx_xcode9_3
+      env: BUILD=osx_xcode9_3
     - os: osx
       osx_image: xcode9.2
       env: BUILD=osx_xcode9_2
