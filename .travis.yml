@@ -36,5 +36,4 @@ branches:
 
 notifications:
   slack: removetowaste:u16fiNsaMeLmg7J4WXifW3Zm
-    on_error: always
 
