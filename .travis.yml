@@ -30,11 +30,5 @@ script:
   - cd ..
   - make uninstall
 
-# safelist
-branches:
-  only:
-  - master
-  - travis_platforms
-
 notifications:
   slack: removetowaste:u16fiNsaMeLmg7J4WXifW3Zm
