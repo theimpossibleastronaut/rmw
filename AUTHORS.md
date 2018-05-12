@@ -15,3 +15,4 @@ GitHub's automated list: [graphs/contributors](https://github.com/andy5995/rmw/g
 | [João Rodrigues](https://github.com/jmrodriguesgoncalves) | PT translation |
 | [Svitlana Galianova](https://github.com/svitlana-galianova) | RU & UK translation |
 | [Mario Carrillo](https://github.com/marioecg) | Spanish (MX) translation |
+Keith Sammut

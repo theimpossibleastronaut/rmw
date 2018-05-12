@@ -68,7 +68,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
 
     lstat (dir_path, &st);
 
-    if (S_ISDIR (st.st_mode) && force == 2 && st.st_mode != S_IWUSR)
+    if (force == 2 && ~st.st_mode&S_IWUSR)
     {
       if (!chmod (dir_path, 00700))
       {
@@ -160,7 +160,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
   if (getenv ("RMWTRASH") != NULL)
     cmd_empty = strcmp (getenv ("RMWTRASH"), "empty") ? 0 : 1;
-    
+
   if(cmd_empty)
     printf (_("\nPurging all files in waste folders ...\n"));
   else
