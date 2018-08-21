@@ -11,7 +11,7 @@ than x number of days ago; skip files or directories that have a
 string to the filenames so they won't be overwritten (duplication
 protection).
 
-Web site: https://github.com/andy5995/rmw/wiki
+Web site: https://github.com/theimpossibleastronaut/rmw/wiki
 
 This is the README for the development version of rmw. It may mention
 features that aren't included in the last release, or differ in other
