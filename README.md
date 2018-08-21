@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/andy5995/rmw)
+[![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/theimpossibleastronaut/rmw)
 [![Build Status](https://semaphoreci.com/api/v1/theimpossibleastronaut/rmw/branches/master/badge.svg)](https://semaphoreci.com/theimpossibleastronaut/rmw)
 
 # rmw v0.4.04 (development)
