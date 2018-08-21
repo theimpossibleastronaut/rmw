@@ -114,8 +114,6 @@ am_rmw_OBJECTS = rmw.$(OBJEXT) restore_rmw.$(OBJEXT) \
 	utils_rmw.$(OBJEXT)
 rmw_OBJECTS = $(am_rmw_OBJECTS)
 rmw_DEPENDENCIES =
-rmw_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(rmw_LDFLAGS) $(LDFLAGS) -o \
-	$@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -314,8 +312,7 @@ utils_rmw.h			\
 gettext.h
 
 subdir = src
-rmw_LDADD = @LIBINTL@
-rmw_LDFLAGS = -lcurses -lmenu
+rmw_LDADD = @LIBINTL@ -lcurses -lmenu
 distdir = ../$(PACKAGE)-$(VERSION)/$(subdir)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -411,7 +408,7 @@ clean-binPROGRAMS:
 
 rmw$(EXEEXT): $(rmw_OBJECTS) $(rmw_DEPENDENCIES) $(EXTRA_rmw_DEPENDENCIES) 
 	@rm -f rmw$(EXEEXT)
-	$(AM_V_CCLD)$(rmw_LINK) $(rmw_OBJECTS) $(rmw_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(LINK) $(rmw_OBJECTS) $(rmw_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
