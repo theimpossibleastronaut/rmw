@@ -65,9 +65,6 @@ matrix:
       osx_image: xcode9.2
       env: BUILD=osx_xcode9_2
 
-before_install:
-  #- if [ "$TRAVIS_OS_NAME" = "linux" ]; then sh ./.travis_before_linux_install.sh; fi
-
 script:
   - export CXX=$CXX$Tr_Compiler_Version
   - export CC=$CC$Tr_Compiler_Version
