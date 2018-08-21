@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/andy5995/rmw.svg?branch=master)](https://travis-ci.org/andy5995/rmw)
-[![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw)
+[![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/andy5995/rmw)
+[![Build Status](https://semaphoreci.com/api/v1/theimpossibleastronaut/rmw/branches/master/badge.svg)](https://semaphoreci.com/theimpossibleastronaut/rmw)
 
 # rmw v0.4.04 (development)
 
@@ -16,13 +16,13 @@ Web site: https://github.com/andy5995/rmw/wiki
 This is the README for the development version of rmw. It may mention
 features that aren't included in the last release, or differ in other
 ways. The README from the last release is at
-https://github.com/andy5995/rmw/blob/v0.4.03/README.md
+https://github.com/theimpossibleastronaut/rmw/blob/v0.4.03/README.md
 
 Anyone interested in this project is welcome to join the [chat
 room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
 
 If you would like to help translate the man page or the output messages
-for this program, please see the [Translating wiki page](https://github.com/andy5995/rmw/wiki/Translating).
+for this program, please see the [Translating wiki page](https://github.com/theimpossibleastronaut/rmw/wiki/Translating).
 
 ## Required libraries
 
@@ -53,7 +53,7 @@ copied to $HOME/usr/etc
 ### Pre-built binary packages
 
 Packages for some operating systems are available on the
-[Downloads](https://github.com/andy5995/rmw/releases) page
+[Downloads](https://github.com/theimpossibleastronaut/rmw/releases) page
 
 ### Using _Homebrew_ on Mac OS X
 
@@ -183,7 +183,7 @@ If a translation of the configuration file is available in your native
 language is available, it will be displayed.
 
 (If you would be interested in adding a translation, please visit
-https://github.com/andy5995/rmw/wiki/Translating)
+https://github.com/theimpossibleastronaut/rmw/wiki/Translating)
 
 == -f, --force ==
 rmw will normally refuse to purge directories if they contain non-writable
