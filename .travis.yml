@@ -57,7 +57,6 @@ matrix:
 
 before_install:
   #- if [ "$TRAVIS_OS_NAME" = "linux" ]; then sh ./.travis_before_linux_install.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install libncurses-dev; fi
 
 script:
   - export CXX=$CXX$Tr_Compiler_Version
