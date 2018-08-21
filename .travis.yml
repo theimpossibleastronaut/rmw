@@ -64,6 +64,8 @@ matrix:
     - os: osx
       osx_image: xcode9.2
       env: BUILD=osx_xcode9_2
+  allow_failures:
+  - os: osx
 
 script:
   - export CXX=$CXX$Tr_Compiler_Version
