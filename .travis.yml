@@ -4,7 +4,43 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      env: BUILD=linux_gcc
+      env: Compiler_Version="default"
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - gcc-5
+      env: Tr_Compiler_Version="-5"
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - gcc-6
+      env: Tr_Compiler_Version="-6"
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - gcc-7
+      env: Tr_Compiler_Version="-7"
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - gcc-8
+      env: Tr_Compiler_Version="-8"
     - os: linux
       compiler: clang
       addons:
@@ -19,7 +55,13 @@ matrix:
       osx_image: xcode9.2
       env: BUILD=osx_xcode9_2
 
+before_install:
+  #- if [ "$TRAVIS_OS_NAME" = "linux" ]; then sh ./.travis_before_linux_install.sh; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install libncurses-dev; fi
+
 script:
+  - export CXX=$CXX$Tr_Compiler_Version
+  - export CC=$CC$Tr_Compiler_Version
   - ./configure --prefix=$PWD/temp-build
   - make
   - make install
