@@ -583,7 +583,7 @@ PACKAGE_TARNAME='rmw'
 PACKAGE_VERSION='0.4.04'
 PACKAGE_STRING='rmw 0.4.04'
 PACKAGE_BUGREPORT='andy400-dev@yahoo.com'
-PACKAGE_URL=''
+PACKAGE_URL=''https://github.com/theimpossibleastronaut/rmw/wiki''
 
 # Factoring default headers for most tests.
 ac_includes_default="\
@@ -1421,6 +1421,7 @@ Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
 
 Report bugs to <andy400-dev@yahoo.com>.
+rmw home page: <'https://github.com/theimpossibleastronaut/rmw/wiki'>.
 _ACEOF
 ac_status=$?
 fi
@@ -7116,7 +7117,8 @@ $config_headers
 Configuration commands:
 $config_commands
 
-Report bugs to <andy400-dev@yahoo.com>."
+Report bugs to <andy400-dev@yahoo.com>.
+rmw home page: <'https://github.com/theimpossibleastronaut/rmw/wiki'>."
 
 _ACEOF
 cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
