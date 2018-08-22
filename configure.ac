@@ -6,7 +6,6 @@ AC_PROG_CC([cc])
 AC_CONFIG_MACRO_DIRS([m4])
 AC_PROG_INSTALL
 AC_HEADER_STDBOOL
-AM_PROG_CC_C_O
 
 AC_CHECK_LIB([curses], [initscr], found_curses=yes, found_curses=no)
 if test "x$found_curses" = xno; then

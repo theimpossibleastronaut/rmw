@@ -4047,7 +4047,6 @@ $as_echo "#define HAVE_STDBOOL_H 1" >>confdefs.h
 fi
 
 
-
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for initscr in -lcurses" >&5
 $as_echo_n "checking for initscr in -lcurses... " >&6; }
 if ${ac_cv_lib_curses_initscr+:} false; then :
