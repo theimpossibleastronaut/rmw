@@ -27,8 +27,8 @@
 #ifndef _INC_RMW_H
 #define _INC_RMW_H
 
-/* Enable support for files over 2G  */
-#define _FILE_OFFSET_BITS 64
+/* Enable support for files over 2G
+#define _FILE_OFFSET_BITS 64 */
 
 #define _XOPEN_SOURCE 600
 
