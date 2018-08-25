@@ -16,4 +16,9 @@ fi
 AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
-AC_OUTPUT(Makefile src/Makefile etc/Makefile man/Makefile po/Makefile.in)
+AC_CONFIG_FILES([	Makefile
+			src/Makefile
+			etc/Makefile
+			man/Makefile
+			po/Makefile.in])
+AC_OUTPUT
