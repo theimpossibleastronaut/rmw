@@ -31,7 +31,6 @@
 /config.log
 /config.status
 /src/.deps/rmw-rmw.Po
-autom4te.cache
 /indent
 .svn
 .deps
