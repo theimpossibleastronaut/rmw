@@ -652,6 +652,9 @@ MSGFMT
 GETTEXT_MACRO_VERSION
 USE_NLS
 SED
+MAINT
+MAINTAINER_MODE_FALSE
+MAINTAINER_MODE_TRUE
 EGREP
 GREP
 CPP
@@ -744,6 +747,7 @@ enable_option_checking
 enable_silent_rules
 enable_dependency_tracking
 enable_largefile
+enable_maintainer_mode
 enable_nls
 with_gnu_ld
 enable_rpath
@@ -1395,6 +1399,9 @@ Optional Features:
   --disable-dependency-tracking
                           speeds up one-time build
   --disable-largefile     omit support for large files
+  --enable-maintainer-mode
+                          enable make rules and dependencies not useful (and
+                          sometimes confusing) to the casual installer
   --disable-nls           do not use Native Language Support
   --disable-rpath         do not hardcode runtime library paths
 
@@ -4250,6 +4257,33 @@ rm -rf conftest*
 fi
 
 
+# This prevents problems such as those shown in
+# https://github.com/theimpossibleastronaut/rmw/commit/90200c2df06b16f16b5d21d25c51966c0ee65b23#commitcomment-30291627
+# and https://github.com/theimpossibleastronaut/rmw/issues/21
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable maintainer-specific portions of Makefiles" >&5
+$as_echo_n "checking whether to enable maintainer-specific portions of Makefiles... " >&6; }
+    # Check whether --enable-maintainer-mode was given.
+if test "${enable_maintainer_mode+set}" = set; then :
+  enableval=$enable_maintainer_mode; USE_MAINTAINER_MODE=$enableval
+else
+  USE_MAINTAINER_MODE=no
+fi
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $USE_MAINTAINER_MODE" >&5
+$as_echo "$USE_MAINTAINER_MODE" >&6; }
+   if test $USE_MAINTAINER_MODE = yes; then
+  MAINTAINER_MODE_TRUE=
+  MAINTAINER_MODE_FALSE='#'
+else
+  MAINTAINER_MODE_TRUE='#'
+  MAINTAINER_MODE_FALSE=
+fi
+
+  MAINT=$MAINTAINER_MODE_TRUE
+
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for initscr in -lcurses" >&5
 $as_echo_n "checking for initscr in -lcurses... " >&6; }
 if ${ac_cv_lib_curses_initscr+:} false; then :
@@ -6658,6 +6692,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
+  as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
