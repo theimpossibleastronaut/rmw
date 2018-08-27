@@ -1,5 +1,11 @@
 language: c
 
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "v10SlX/9SRxCSFYqvD0gUP6qMJlqpy9T7BUb8YF35+YqUUPFAQckdQBI+PZc4lwvun3G9XnY6XZXnnmAKVaK+pbh4Q+b5hh76rmQzS3vw+j/PpWtpK63h2WzARYTLr/ktH3E2EouR1Wydzsf6nsdZWHUJ0v4w7aQjzp6V+bTdFwZCrAWEFCq56wnWDo3FOYjx1YU1FG9qDEnwvU8aN0VAt3HLQwortfjdvPqG0PFgqyKqBuNcwbHsqHd0a+qkUaIXVi2oqEdLCbc18LvjpS95GxjjVsA4aP4IqfqzHm0SkprBz9nMRiGsrOmksixZvur1ZMs/wxiKLFTPh+V5ZxeKlMKPUW3P34p5BqdRbLZfX6CgI8MUjvX/PCL3ppyz5fEshi9yPi8Fzb/mCJljaPmjRylQrpq19U4r95Uq3v+IflvHAqybqjCLCwBqjhyf5vbIHq7Uc3PvNRsGR3Z7hTLsZaak2Slvx/ZylOpKGNbUhB+ZrW/hb2vRNza77NWOuXQE7eb+/dfQ0cbnq3ojgiGnBElF18jTbzJeYST9Q9kyEU3tmP5obvUlGjuRzVXPIZKj8vja9tkX3MV1Wq/ZoXCIoyizhTBJnxhidpRvdprSeZst5bxYEMw1Tb1t/Z0akxqT11lHtFD5h2b2Gm42Uip0imfpz87odHLnP8CWVMI02o="
+
 matrix:
   include:
     - os: linux
@@ -22,6 +28,14 @@ matrix:
           - ubuntu-toolchain-r-test
           packages:
           - gcc-6
+        coverity_scan:
+          project:
+            name: "theimpossibleastronaut/rmw"
+            description: "a cross-platform command-line 'trash can' utility"
+          notification_email: andy400-dev@yahoo.com
+          build_command_prepend: "./configure"
+          build_command: "make"
+          branch_pattern: coverity_scan
       env: Tr_Compiler_Version="-6"
     - os: linux
       compiler: gcc
@@ -66,6 +80,9 @@ matrix:
       env: BUILD=osx_xcode9_2
   allow_failures:
   - os: osx
+
+before_install:
+  - if [ "$Tr_Compiler_Version" = "-6" ]; then  echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-; fi
 
 script:
   - export CXX=$CXX$Tr_Compiler_Version
