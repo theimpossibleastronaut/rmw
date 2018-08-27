@@ -22,6 +22,8 @@ matrix:
       env: Tr_Compiler_Version="-5"
     - os: linux
       compiler: gcc
+      before_install:
+      - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
       addons:
         apt:
           sources:
@@ -35,7 +37,7 @@ matrix:
           notification_email: andy400-dev@yahoo.com
           build_command_prepend: "./configure"
           build_command: "make"
-          branch_pattern: coverity_scan
+          branch_pattern: master
       env: Tr_Compiler_Version="-6"
     - os: linux
       compiler: gcc
@@ -80,9 +82,6 @@ matrix:
       env: BUILD=osx_xcode9_2
   allow_failures:
   - os: osx
-
-before_install:
-  - if [ "$Tr_Compiler_Version" = "-6" ]; then  echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-; fi
 
 script:
   - export CXX=$CXX$Tr_Compiler_Version
