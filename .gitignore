@@ -57,3 +57,7 @@ test/tmp-home
 /po/Makevars.template
 /po/Makefile.in
 /po/POTFILES
+
+# coverity
+cov-int
+rmw.tgz
