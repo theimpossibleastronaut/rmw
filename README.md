@@ -71,16 +71,7 @@ Add a tap and install rmw:
 
 ## Usage
 ```
-man pages are now available in the following languages:
-
-    * de
-    * en
-    * es
-    * fi
-    * ne
-    * nl_NL
-    * pl
-    * pt_BR
+== First-time use ==
 
 If you installed rmw as a normal user, this next step can be skipped.
 
@@ -111,6 +102,14 @@ If one of the WASTE folders is on removable media, then the user has the
 option of appending ',removable' (details in etc/rmwrc).
 
 == Features and Options ==
+
+Usage: rmw [OPTION]... FILE...
+ReMove the FILE(s) to a WASTE directory listed in configuration file
+
+   or: rmw -s
+   or: rmw -u
+   or: rmw -z FILE...
+Restore FILE(s) from a WASTE directory
 
 -h, --help
 -t, --translate           display a translation of the configuration file
