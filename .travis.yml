@@ -1,11 +1,5 @@
 language: c
 
-env:
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "2Qzomc4N6PqIdb7jyV82kaJAeWwQhyaI7INhuT23oPnfqe5A165pyKlInvIqTzpzZLsCp6/2D1N25u9+YASSm12Tp9vOJpVZzrNjBzsd3QNH6I++z1nbz/B6ntR5vcAwprUNvq9c10ScpU0067x/WO+os+3US7e8bbluyiWwzeZMb0RzJt4J8Fo0/KTULm6Pf1N0Nfp4QGV7n0wCCIvcJMwPcrHRNiYxrZkyOjwR58DvH5LLZusgqmrIwswDsSVpEvf2t65jQpWJpRH4c6rsB+X4+GF5tXdpQXXwnuM06lPlUn+TVMTdmrNxefqHPq8jLMI4sGTcTPv72s7LN3wHUYGypJ45fhtIGnKPcAywzXowJBxbvmTRSJPIGW+WyLvoBElHH2sy+tWkglX+/cwwn8o/Yb44pT0Vk/9Yv/XbrIKOMp3yBpH1QDz771IL9HJdd5kYS/jxLIMTimMdJ2jJD/w3bjW81Lbzc6npVkvGJ5LrZLTyZoUzdBMDxcJifgfUI77nn/cFzKejzxFIzaR7gLveJPwZYb8q5WM6qL5RK8WIOZ8egywq5hJ6Gtb3q5GWvxRIpEjU13ORtIVHQ/d+RdK5ZORTZyR0RrWtwWlQmTeuKH22WXQpJqSshfpFMurcpVihmbI0eXeKa6m+qKZpX82VyCjNV6kqqNIL+vIvwYE="
-
 matrix:
   include:
     - os: linux
@@ -22,22 +16,12 @@ matrix:
       env: Tr_Compiler_Version="-5"
     - os: linux
       compiler: gcc
-      before_install:
-      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
       addons:
         apt:
           sources:
           - ubuntu-toolchain-r-test
           packages:
           - gcc-6
-        coverity_scan:
-          project:
-            name: "theimpossibleastronaut/rmw"
-            description: "a cross-platform command-line 'trash can' utility"
-          notification_email: andy400-dev@yahoo.com
-          build_command_prepend: "./configure"
-          build_command: "make"
-          branch_pattern: coverity_scan
       env: Tr_Compiler_Version="-6"
     - os: linux
       compiler: gcc
