@@ -313,7 +313,6 @@ gettext.h
 
 subdir = src
 rmw_LDADD = @LIBINTL@ -lcurses -lmenu
-distdir = ../$(PACKAGE)-$(VERSION)/$(subdir)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -648,10 +647,6 @@ uninstall-am: uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
-dist: Makefile $(DISTFILES)
-	for file in $(DISTFILES); do \
-	  ln $$file $(distdir) 2>/dev/null || cp -p $$file $(distdir) || exit 1; \
-	done
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -1,4 +1,6 @@
-LINGUAS = de pt_BR es pl fi ne nl
+LINGUAS = de es fi ne nl pl pt_BR
+
+EXTRA_DIST = $(PACKAGE_NAME).1 $(LINGUAS)
 
 install-data-local:
 		$(mkinstalldirs) $(DESTDIR)$(mandir)/man1; \

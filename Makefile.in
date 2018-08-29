@@ -196,6 +196,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in ABOUT-NLS AUTHORS COPYING \
 	ChangeLog INSTALL NEWS README THANKS TODO compile config.guess \
 	config.rpath config.sub depcomp install-sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
 am__remove_distdir = \
   if test -d "$(distdir)"; then \
@@ -366,7 +367,6 @@ TODO
 
 packextras_DATA = $(EXTRA_DIST)
 ACLOCAL_AMFLAGS = --install -I m4
-distdir = $(PACKAGE)-$(VERSION)
 all: all-recursive
 
 .SUFFIXES:

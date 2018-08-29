@@ -17,5 +17,3 @@ PACKAGE = @PACKAGE@
 VERSION = @VERSION@
 
 ACLOCAL_AMFLAGS = --install -I m4
-
-distdir = $(PACKAGE)-$(VERSION)

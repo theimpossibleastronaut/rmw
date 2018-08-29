@@ -36,9 +36,3 @@ DEFS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\" @DEFS@
 
 LIBS = @LIBINTL@ @LIBS@
 rmw_LDADD = @LIBINTL@ -lcurses -lmenu
-
-distdir = ../$(PACKAGE)-$(VERSION)/$(subdir)
-dist: Makefile $(DISTFILES)
-	for file in $(DISTFILES); do \
-	  ln $$file $(distdir) 2>/dev/null || cp -p $$file $(distdir) || exit 1; \
-	done
