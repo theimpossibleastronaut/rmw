@@ -31,8 +31,7 @@ subdir = src
 datadir = @datadir@
 datarootdir= @datarootdir@
 localedir = @localedir@
-sysconfdir = @sysconfdir@
-DEFS = -DLOCALEDIR=\"$(localedir)\" -DSYSCONFDIR=\"$(sysconfdir)\" @DEFS@
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 LIBS = @LIBINTL@ @LIBS@
 rmw_LDADD = @LIBINTL@ -lcurses -lmenu

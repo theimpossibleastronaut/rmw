@@ -21,6 +21,17 @@ fi
 AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
+
+if test "x$sysconfdir" = 'x${prefix}/etc'; then
+	if test "x$prefix" = 'xNONE'; then
+		sysconfdir=$ac_default_prefix/etc
+	else
+		sysconfdir=$prefix/etc
+	fi
+fi
+
+AC_DEFINE_UNQUOTED([SYSCONFDIR], ["$sysconfdir"], [location of system configuration directory])
+
 AC_CONFIG_FILES([	Makefile
 			src/Makefile
 			etc/Makefile
