@@ -221,54 +221,34 @@ purge (const short purge_after, const struct waste_containers *waste,
 
         if (info_file_ptr != NULL)
         {
+          bool passed = 0;
         /**
          * unused  and unneeded Trash Info line.
          * retrieved but not used.
          * Check to see if it's really a .trashinfo file
          */
-          if (fgets (trashinfo_line, sizeof (trashinfo_line),
-              info_file_ptr) == NULL)
-            continue;
-
-          if (strncmp (trashinfo_line, "[Trash Info]", 12) != 0)
+          if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) != NULL)
           {
-            display_dot_trashinfo_error (entry_path, 1);
-            continue;
-          }
-
-        /** The second line is unneeded at this point
-         * But check to see if there's a Path= statement to help ensure
-         * that it's a properly formatted .trashinfo file
-         */
-          if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr)
-              == NULL)
-            continue;
-
-          if (strncmp (trashinfo_line, "Path=", 5) != 0)
-          {
-            display_dot_trashinfo_error (entry_path, 2);
-            continue;
-          }
-
-        /** The third line is needed for the deletion time
-         */
-          if (fgets (trashinfo_line, sizeof (trashinfo_line),
-                     info_file_ptr) == NULL)
-            continue;
-
-          bufchk (trashinfo_line, 40);
-          trim (trashinfo_line);
-
-          if (strncmp (trashinfo_line, "DeletionDate=", 13) != 0
-              || strlen (trashinfo_line) != 32)
-          {
-            display_dot_trashinfo_error (entry_path, 3);
-            continue;
+            if (strncmp (trashinfo_line, "[Trash Info]", 12) == 0)
+              if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) != NULL)
+                if (strncmp (trashinfo_line, "Path=", 5) == 0)
+                   if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) != NULL)
+                   {
+                      bufchk (trashinfo_line, 40);
+                      trim (trashinfo_line);
+                      if (strncmp (trashinfo_line, "DeletionDate=", 13) == 0 && strlen (trashinfo_line) == 32)
+                      passed = 1;
+                    }
           }
 
           close_file (info_file_ptr, entry_path, __func__);
-        }
 
+          if (! passed)
+          {
+            display_dot_trashinfo_error (entry_path);
+            continue;
+          }
+        }
         else
         {
           open_err (entry_path, __func__);

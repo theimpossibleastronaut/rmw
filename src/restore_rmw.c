@@ -212,7 +212,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
         }
         else
         {
-          display_dot_trashinfo_error (file.info, 1);
+          display_dot_trashinfo_error (file.info);
           close_file (fp, file.info, __func__);
 
           return 1;
@@ -238,7 +238,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
         }
         else
         {
-          display_dot_trashinfo_error (file.info, 2);
+          display_dot_trashinfo_error (file.info);
           close_file (fp, file.info, __func__);
 
           return 1;

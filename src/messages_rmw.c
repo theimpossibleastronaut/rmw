@@ -67,15 +67,14 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
   }
 }
 
-void display_dot_trashinfo_error (const char *dti, const int line)
+void display_dot_trashinfo_error (const char *dti)
 {
   /* TRANSLATORS:  ".trashinfo" should remain untranslated
    *
    *               "format" refers to the layout of the file
    *                contents
    */
-  printf (_("  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"),
-                  dti, line);
+  printf (_("  :Error: format of .trashinfo `file %s` is incorrect)"), dti);
   printf ("\n");
   return;
 }
