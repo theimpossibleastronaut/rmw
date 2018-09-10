@@ -192,9 +192,9 @@ ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
-am__DIST_COMMON = $(srcdir)/Makefile.in ABOUT-NLS AUTHORS COPYING \
-	ChangeLog INSTALL NEWS README THANKS TODO compile config.guess \
-	config.rpath config.sub depcomp install-sh missing
+am__DIST_COMMON = $(srcdir)/Makefile.in ABOUT-NLS COPYING ChangeLog \
+	INSTALL NEWS README THANKS compile config.guess config.rpath \
+	config.sub depcomp install-sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -354,16 +354,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 packextrasdir = @docdir@
 SUBDIRS = src etc man po
-EXTRA_DIST = \
-BUGS                \
-README.md            \
-ChangeLog           \
-AUTHORS.md           \
-THANKS	            \
-COPYING							\
-INSTALL             \
-NEWS                \
-TODO
+EXTRA_DIST = BUGS README.md ChangeLog AUTHORS.md THANKS COPYING \
+		INSTALL NEWS
 
 packextras_DATA = $(EXTRA_DIST)
 ACLOCAL_AMFLAGS = --install -I m4

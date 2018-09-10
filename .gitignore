@@ -49,7 +49,6 @@ Screenshot*
 *~
 inputfiles
 extract_strings.sh
-/ABOUT-NLS
 
 autom4te.cache
 test/tmp-home

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-17 16:50-0600\n"
+"POT-Creation-Date: 2018-09-06 10:13-0500\n"
 "PO-Revision-Date: 2018-01-12 21:46-0700\n"
 "Last-Translator: Mario Carrillo <marioecg@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -512,7 +512,7 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 "Nombre del archivo duplicado en el destino - anexando cadena de tiempo...\n"
 
-#: src/strings_rmw.c:167
+#: src/strings_rmw.c:169
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Error: realpath() regres un error.\n"
