@@ -61,7 +61,7 @@ bufchk (const char *str, ushort boundary)
 
   char temp[display_len];
   strncpy (temp, str, display_len);
-  temp[display_len] = '\0';
+  temp[display_len - 1] = '\0';
 
   /* This was replaced by the line above.
    *

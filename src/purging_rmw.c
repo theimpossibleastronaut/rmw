@@ -174,7 +174,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
   struct tm tmPtr, tm_then;
   time_t now;
-  time_t then;
+  time_t then = 0;
 
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);

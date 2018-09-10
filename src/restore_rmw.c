@@ -315,7 +315,7 @@ Duplicate filename at destination - appending time string...\n"));
 int
 restore_select (struct waste_containers *waste, char *time_str_appended)
 {
-  int c;
+  int c = 0;
 
   /* Initialize curses */
   initscr ();
