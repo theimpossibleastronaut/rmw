@@ -147,6 +147,7 @@ resolve_path (const char *src, char *abs_path)
   char src_temp_dirname[MP];
   char src_temp_basename[MP];
 
+  bufchk (src, MP);
   strcpy (src_temp_dirname, src);
   strcpy (src_temp_basename, src);
 

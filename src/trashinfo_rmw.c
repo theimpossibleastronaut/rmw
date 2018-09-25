@@ -140,7 +140,10 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
 #endif
 
   if (file.is_duplicate)
+  {
+    bufchk (time_str_appended, MP - strlen (finalInfoDest));
     strcat (finalInfoDest, time_str_appended);
+  }
 
   strcat (finalInfoDest, DOT_TRASHINFO);
 

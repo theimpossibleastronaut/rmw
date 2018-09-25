@@ -248,6 +248,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
          */
         if (!exists (file.dest))
         {
+          bufchk (time_str_appended, MP - strlen (file.dest));
           strcat (file.dest, time_str_appended);
 
           if (verbose)

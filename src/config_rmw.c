@@ -236,6 +236,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
       char rem_opt[CFG_MAX_LEN];
+      bufchk (token_ptr, CFG_MAX_LEN);
       strcpy (rem_opt, token_ptr);
 
       comma_ptr = strtok (rem_opt, ",");

@@ -54,6 +54,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
     if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
       continue;
 
+    bufchk (path, MP);
     strcpy (dir_path, path);
 
     short pathLen = strlen (dir_path);
@@ -410,6 +411,7 @@ orphan_maint (struct waste_containers *waste,
           strcmp (entry->d_name, "..") == 0)
         continue;
 
+      bufchk (basename (entry->d_name), MP);
       strcpy (file.base_name, basename (entry->d_name));
 
       sprintf (path_to_trashinfo, "%s%s%s", waste[ctr].info, file.base_name, DOT_TRASHINFO);

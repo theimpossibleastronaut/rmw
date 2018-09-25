@@ -447,6 +447,7 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
       static ushort current_waste_num;
       current_waste_num = 0;
 
+      bufchk (basename (file.main_argv), MP);
       strcpy (file.base_name, basename (file.main_argv));
 
       /**

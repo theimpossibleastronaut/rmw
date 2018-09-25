@@ -29,6 +29,7 @@
 #endif
 
 #include "utils_rmw.h"
+#include "strings_rmw.h"
 
 /**
  * make_dir()
@@ -61,6 +62,7 @@ make_dir (const char *dir)
     if (strlen (add_to_path) > 1 || *add_to_path == '.')
       strcat (add_to_path, "/");
 
+    bufchk (tokenPtr, MP - strlen (add_to_path));
     strcat (add_to_path, tokenPtr);
     tokenPtr = strtok (NULL, "/");
 
