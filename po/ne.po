@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre3\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-17 16:50-0600\n"
+"POT-Creation-Date: 2018-10-02 12:14-0500\n"
 "PO-Revision-Date: 2017-12-08 14:04-0700\n"
 "Last-Translator: ram <ram.dahal@gmail.com>\n"
 "Language-Team: Nepali\n"
@@ -153,7 +153,7 @@ msgstr ""
 "#\n"
 "#force_not_required\n"
 
-#: src/purging_rmw.c:165
+#: src/purging_rmw.c:166
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -165,7 +165,7 @@ msgstr ""
 "\n"
 "फाइलहरू बन्द गर्दै (purge_after = %u) ...\n"
 
-#: src/purging_rmw.c:167
+#: src/purging_rmw.c:168
 #, c-format
 msgid ""
 "\n"
@@ -236,12 +236,12 @@ msgstr ""
 "  -s, --select              सूचीबाट फाइलहरू पुन: स्थापित गर्न चयन गर्नुहोस्\n"
 "  -u, --undo-last           अन्तिम पुनःप्राप्त पूर्ववत गर्नुहोस्\n"
 
-#: src/rmw.c:531
+#: src/rmw.c:532
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :त्रुटि संख्या %d ले %s सार्न प्रयास गर्दै: \n"
 
-#: src/restore_rmw.c:284
+#: src/restore_rmw.c:285
 #, c-format
 msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
 msgstr "  :त्रुटि: '%s' खोल्न सक्षम भयो तर अज्ञात त्रुटिको सामना गर्यो \n"
@@ -296,11 +296,12 @@ msgstr "  :त्रुटि: बफर ओभरराइन (विभाज�
 #. *                contents
 #.
 #: src/messages_rmw.c:77
-#, c-format
-msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
+#, fuzzy, c-format
+#| msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
+msgid "  :Error: format of .trashinfo `file %s` is incorrect)"
 msgstr "  :त्रुटि: .trashinfo `फाइल %s` को ढाँचा गलत छ (लाइन %d)"
 
-#: src/config_rmw.c:264
+#: src/config_rmw.c:265
 #, c-format
 msgid "  :Error: invalid option in config\n"
 msgstr "  :त्रुटि: config मा अवैध विकल्प\n"
@@ -311,7 +312,7 @@ msgstr "  :त्रुटि: config मा अवैध विकल्प\n"
 msgid "  :Error: invalid purge_after value in configuration\n"
 msgstr "  :त्रुटि: कन्फिगरेसन फाइलमा अवैध purge_after मान \n"
 
-#: src/config_rmw.c:371
+#: src/config_rmw.c:372
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"
@@ -329,7 +330,7 @@ msgstr ""
 "जारी गर्न सकिएन।विद्यमान ...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:527
+#: src/rmw.c:528
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :त्रुटि: संख्या% d .trashinfo फाइल सिर्जना गर्न प्रयास गर्दै \n"
@@ -357,7 +358,7 @@ msgstr ""
 "\n"
 "जारी गर्न असमर्थ। बाहिर निस्किँदै...\n"
 
-#: src/purging_rmw.c:80
+#: src/purging_rmw.c:81
 #, fuzzy, c-format
 #| msgid "  :Error: while creating %s\n"
 msgid "  :Error: while changing permissions of %s\n"
@@ -369,7 +370,7 @@ msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :त्रुटि: बन्द हुँदा %s\n"
 
-#: src/purging_rmw.c:449 src/utils_rmw.c:84
+#: src/purging_rmw.c:431 src/utils_rmw.c:86
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
@@ -381,50 +382,50 @@ msgid "  :Error: while opening %s\n"
 msgstr "  :त्रुटि: खोल्दा  %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:329 src/purging_rmw.c:335 src/purging_rmw.c:350
-#: src/purging_rmw.c:368
+#: src/purging_rmw.c:310 src/purging_rmw.c:316 src/purging_rmw.c:331
+#: src/purging_rmw.c:349
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr "  :त्रुटि: हटाउँदै %s\n"
 
-#: src/restore_rmw.c:273
+#: src/restore_rmw.c:274
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :त्रुटि: .trashinfo हटाउने क्रममा: '%s'\n"
 
-#: src/rmw.c:551
+#: src/rmw.c:552
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  \"%s\" को लागि उपयुक्त फाइल प्रणाली भेटिएन \n"
 
-#: src/purging_rmw.c:307
+#: src/purging_rmw.c:288
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr " :चेतावनी: डाइरेक्टरी  बन्द छैन - अझै फाइलहरू समावेश गर्दछ\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:316
+#: src/purging_rmw.c:297
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :चेतावनी: %u को अधिकतम गहिराई पुग्यो, छोडिदैछ\n"
 
-#: src/config_rmw.c:350
+#: src/config_rmw.c:351
 #, c-format
 msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr " :चेतावनी: सुरक्षित फोल्डरहरू अधिकतम संख्या पुगेको: %d\n"
 
-#: src/config_rmw.c:347
+#: src/config_rmw.c:348
 #, c-format
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr " :चेतावनी: Waste फोल्डरहरू अधिकतम संख्या पुगेको: %d\n"
 
-#: src/messages_rmw.c:85
+#: src/messages_rmw.c:84
 #, c-format
 msgid " :warning: Restore() returned errors\n"
 msgstr " :चेतावनी: Restore() त्रुटिहरू फर्काइएको छ\n"
 
-#: src/restore_rmw.c:561
+#: src/restore_rmw.c:562
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :चेतावनी: %s हटाउन असफल भयो  \n"
@@ -438,17 +439,17 @@ msgstr ""
 " <--> त्रुटि सिर्जनागर्ने स्ट्रिङ्को भाग प्रदर्शन गर्दै <-->\n"
 "\n"
 
-#: src/purging_rmw.c:383
+#: src/purging_rmw.c:364
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d डाइरेक्टरीहरू छोडियो (RMDIR_MAX_DEPTH पुग्यो)\n"
 
-#: src/purging_rmw.c:388
+#: src/purging_rmw.c:369
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d डाइरेक्टरीहरू छोडियो (पढ्ने-मात्र फाइलहरू समावेश छ)\n"
 
-#: src/purging_rmw.c:391
+#: src/purging_rmw.c:372
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "%d file purged"
@@ -456,7 +457,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d फाईलहरू बन्द गरियो"
 msgstr[1] "%d फाईलहरू बन्द गरियो"
 
-#: src/rmw.c:561
+#: src/rmw.c:562
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -465,7 +466,7 @@ msgstr[0] "%d फाइललाई waste फोल्डरमा हटाइ�
 msgstr[1] "waste फोल्डरमा %d फाइलहरू हटाइयो"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/restore_rmw.c:300
+#: src/restore_rmw.c:301
 #, c-format
 msgid "'%s' not found\n"
 msgstr "'%s' फेला परेन\n"
@@ -473,11 +474,11 @@ msgstr "'%s' फेला परेन\n"
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:441
+#: src/restore_rmw.c:442
 msgid "'q' - quit"
 msgstr ""
 
-#: src/purging_rmw.c:309
+#: src/purging_rmw.c:290
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(मालिक जाँच / लेख्ने अनुमतिहरू हेर्नुहोस्)\n"
@@ -494,16 +495,16 @@ msgstr "-r / --recurse: कार्यान्वयन गरिएको छ
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:434
+#: src/restore_rmw.c:435
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr ""
 
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:436
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 
-#: src/restore_rmw.c:430
+#: src/restore_rmw.c:431
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -511,22 +512,22 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:447
+#: src/purging_rmw.c:429
 #, c-format
 msgid "Created %s\n"
 msgstr "सिर्जना गरिएको %s\n"
 
-#: src/utils_rmw.c:80
+#: src/utils_rmw.c:82
 #, c-format
 msgid "Created directory %s\n"
 msgstr "डाइरेक्टरी सिर्जना गरियो %s\n"
 
-#: src/restore_rmw.c:254
+#: src/restore_rmw.c:255
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "गन्तव्यमा डुप्लिकेट फाइलनाम - जोड्दै  time स्ट्रिङ...\n"
 
-#: src/strings_rmw.c:167
+#: src/strings_rmw.c:170
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "त्रुटि: realpath() ले एउटा त्रुटि फर्कायो  ।\n"
@@ -549,7 +550,7 @@ msgstr ""
 "यदि तपाईंलाई लाग्छ कि यो बग हुन सक्छ, कृपया यसलाई rmw विकासकर्ताहरूमा रिपोर्ट "
 "गर्नुहोस्।\n"
 
-#: src/rmw.c:569
+#: src/rmw.c:570
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -567,7 +568,7 @@ msgstr ""
 msgid "Report bugs to <%s>.\n"
 msgstr ""
 
-#: src/restore_rmw.c:279
+#: src/restore_rmw.c:280
 #, c-format
 msgid "Restore failed: %s\n"
 msgstr "पुनर्स्थापना असफल भयो: %s\n"

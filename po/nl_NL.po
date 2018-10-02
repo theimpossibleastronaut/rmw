@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-01-17 16:50-0600\n"
+"POT-Creation-Date: 2018-10-02 12:14-0500\n"
 "PO-Revision-Date: 2017-12-10 09:05+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
@@ -153,7 +153,7 @@ msgstr ""
 "#\n"
 "#force_not_required\n"
 
-#: src/purging_rmw.c:165
+#: src/purging_rmw.c:166
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -165,7 +165,7 @@ msgstr ""
 "\n"
 "Wissen van bestanden (purge_after = %u)...\n"
 
-#: src/purging_rmw.c:167
+#: src/purging_rmw.c:168
 #, c-format
 msgid ""
 "\n"
@@ -237,12 +237,12 @@ msgstr ""
 "  -s, --select              selecteer bestand(en) uit een lijst\n"
 "  -u, --undo-last           maak laatste verwijdering ongedaan\n"
 
-#: src/rmw.c:531
+#: src/rmw.c:532
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr " :Fout nummer %d bij verplaatsen van %s:\n"
 
-#: src/restore_rmw.c:284
+#: src/restore_rmw.c:285
 #, c-format
 msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
 msgstr "  :Fout: Kan '%s' openen maar trof een onverwachte fout aan\n"
@@ -289,11 +289,12 @@ msgstr "  :Error: buffer overrun (segmentatie fout) voorkomen.\n"
 #. *                contents
 #.
 #: src/messages_rmw.c:77
-#, c-format
-msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
+#, fuzzy, c-format
+#| msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
+msgid "  :Error: format of .trashinfo `file %s` is incorrect)"
 msgstr "  :Fout: formaat van .trashinfo `bestand %s` is incorrect (Lijn %d)"
 
-#: src/config_rmw.c:264
+#: src/config_rmw.c:265
 #, c-format
 msgid "  :Error: invalid option in config\n"
 msgstr "  :Fout: onjuiste optie in configuratie\n"
@@ -304,7 +305,7 @@ msgstr "  :Fout: onjuiste optie in configuratie\n"
 msgid "  :Error: invalid purge_after value in configuration\n"
 msgstr "  :Fout: onjuiste waarde voor purge_after in configuratie\n"
 
-#: src/config_rmw.c:371
+#: src/config_rmw.c:372
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"
@@ -323,7 +324,7 @@ msgstr ""
 "Kan niet doorgaan. Afsluiten…\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:527
+#: src/rmw.c:528
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr " :Fout: nummer %d bij maken van een .trashinfo bestand\n"
@@ -351,7 +352,7 @@ msgstr ""
 "\n"
 "Kan niet doorgaan. Afsluiten…\n"
 
-#: src/purging_rmw.c:80
+#: src/purging_rmw.c:81
 #, c-format
 msgid "  :Error: while changing permissions of %s\n"
 msgstr "  :Error: bij het maken van %s\n"
@@ -362,7 +363,7 @@ msgstr "  :Error: bij het maken van %s\n"
 msgid "  :Error: while closing %s\n"
 msgstr "  :Fout: bij sluiten van %s\n"
 
-#: src/purging_rmw.c:449 src/utils_rmw.c:84
+#: src/purging_rmw.c:431 src/utils_rmw.c:86
 #, c-format
 msgid "  :Error: while creating %s\n"
 msgstr " :Error: bij het maken van %s\n"
@@ -374,50 +375,50 @@ msgid "  :Error: while opening %s\n"
 msgstr "  :Fout: bij openen van %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:329 src/purging_rmw.c:335 src/purging_rmw.c:350
-#: src/purging_rmw.c:368
+#: src/purging_rmw.c:310 src/purging_rmw.c:316 src/purging_rmw.c:331
+#: src/purging_rmw.c:349
 #, c-format
 msgid "  :Error: while removing %s\n"
 msgstr "  :Fout: bij het verwijderen van %s\n"
 
-#: src/restore_rmw.c:273
+#: src/restore_rmw.c:274
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Fout: bij het verwijderen van .trashinfo bestand: '%s'\n"
 
-#: src/rmw.c:551
+#: src/rmw.c:552
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr " Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
 
-#: src/purging_rmw.c:307
+#: src/purging_rmw.c:288
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr " :waarschuwing: Directory niet gepurged - bevat nog steeds bestanden\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:316
+#: src/purging_rmw.c:297
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :waarschuwing: Maximale diepte van %u bereikt, overslaan\n"
 
-#: src/config_rmw.c:350
+#: src/config_rmw.c:351
 #, c-format
 msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr " :waarschuwing: Het maximaal aantal beschermde mappen is bereikt: %d\n"
 
-#: src/config_rmw.c:347
+#: src/config_rmw.c:348
 #, c-format
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr " :waarschuwing: Het maximum aantal afval mappen is bereikt: %d\n"
 
-#: src/messages_rmw.c:85
+#: src/messages_rmw.c:84
 #, c-format
 msgid " :warning: Restore() returned errors\n"
 msgstr " :warning: Restore() gaf fouten\n"
 
-#: src/restore_rmw.c:561
+#: src/restore_rmw.c:562
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :waarschuwing: kon %s niet verwijderen\n"
@@ -431,17 +432,17 @@ msgstr ""
 " <--> Deel van de tekenreeks waarin de fout op trad <-->\n"
 "\n"
 
-#: src/purging_rmw.c:383
+#: src/purging_rmw.c:364
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d directories overgeslagen (RMDIR_MAX_DEPTH bereikt)\n"
 
-#: src/purging_rmw.c:388
+#: src/purging_rmw.c:369
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d directories overgeslagen (bevat alleen-lezen bestanden)\n"
 
-#: src/purging_rmw.c:391
+#: src/purging_rmw.c:372
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "%d file purged"
@@ -449,7 +450,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d bestand gepurged"
 msgstr[1] "%d bestanden gepurged"
 
-#: src/rmw.c:561
+#: src/rmw.c:562
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -458,7 +459,7 @@ msgstr[0] "%d bestand werd verwijderd naar de afval map"
 msgstr[1] "%d bestanden werden verwijderd naar de afval map"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/restore_rmw.c:300
+#: src/restore_rmw.c:301
 #, c-format
 msgid "'%s' not found\n"
 msgstr "'%s' niet gevonden\n"
@@ -466,11 +467,11 @@ msgstr "'%s' niet gevonden\n"
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:441
+#: src/restore_rmw.c:442
 msgid "'q' - quit"
 msgstr "'q' - afsluiten"
 
-#: src/purging_rmw.c:309
+#: src/purging_rmw.c:290
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(controleer eigenaar/schrijf permissies)\n"
@@ -487,18 +488,18 @@ msgstr "-r / --recurse: nog niet beschikbaar\n"
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:434
+#: src/restore_rmw.c:435
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RECHTS / CURSOR-LINKS> - wissel afval mappen"
 
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:436
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<SPATIE> - selecteer of deselecteer een bestand. / <ENTER> - zet "
 "geselecteerde bestanden terug"
 
-#: src/restore_rmw.c:430
+#: src/restore_rmw.c:431
 #, fuzzy, c-format
 #| msgid "== contains %d file =="
 msgid "== contains %d file =="
@@ -507,22 +508,22 @@ msgstr[0] "== bevat %d bestand =="
 msgstr[1] "== bevat %d bestanden =="
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:447
+#: src/purging_rmw.c:429
 #, c-format
 msgid "Created %s\n"
 msgstr "Aangemaakt %s\n"
 
-#: src/utils_rmw.c:80
+#: src/utils_rmw.c:82
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/restore_rmw.c:254
+#: src/restore_rmw.c:255
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe…\n"
 
-#: src/strings_rmw.c:167
+#: src/strings_rmw.c:170
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Fout: realpath() gaf een fout terug.\n"
@@ -544,7 +545,7 @@ msgid ""
 msgstr ""
 "Als je denkt dat dit een fout is, rapporteer dit aan de rmw ontwikkelaars.\n"
 
-#: src/rmw.c:569
+#: src/rmw.c:570
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -562,7 +563,7 @@ msgstr ""
 msgid "Report bugs to <%s>.\n"
 msgstr "Rapporteer fouten aan <%s>.\n"
 
-#: src/restore_rmw.c:279
+#: src/restore_rmw.c:280
 #, c-format
 msgid "Restore failed: %s\n"
 msgstr "Fout bij terugzetten: %s\n"
