@@ -31,9 +31,9 @@ msgid ""
 msgstr ""
 "\n"
 "# Combien de jours les fichiers peuvent rester dans la corbeille\n"
-"# avant qu'ils ne sont complètement supprimés\n"
+"# avant qu'ils ne soient complètement supprimés\n"
 "#\n"
-"# Utilisez '0' pour desactiver le purge des fichiers\n"
+"# Utilisez '0' pour désactiver la purge des fichiers\n"
 "#\n"
 "purge_after = 90\n"
 
@@ -50,7 +50,7 @@ msgid ""
 "# PROTECT = $HOME/src\n"
 msgstr ""
 "\n"
-"# Si vous essayer de rmw  des fichiers dans ce repertoire, ca n'aboutira "
+"# Si vous essayer de rmw  des fichiers dans ce repertoire, ça n'aboutira "
 "pas\n"
 "# sauf si  -B --bypass est utilisé comme arguments.\n"
 "#\n"
@@ -75,15 +75,15 @@ msgid ""
 "#WASTE=$HOME/.local/share/Trash\n"
 msgstr ""
 "\n"
-"# Si vous souhaitez que ceci est votre corbeille principale (ce qui "
+"# Si vous souhaitez que ceci soit votre corbeille principale (ce qui "
 "implique\n"
-"# qu'il sera identique à la corbeille de votre bureau) veuillez vous\n"
-"# assurez qu'il precede tous les autres corbeille listés dans votre fichier "
+"# qu'elle sera identique à la corbeille de votre bureau) veuillez vous\n"
+"# assurez qu'elle précède toutes les autres corbeille listées dans votre fichier "
 "de configuration \n"
 "#\n"
-"# Si vous souhaitez le selectioner pour les fichier qui doivent etre "
-"supprimé mettez tout simplement en commentaire\n"
-"# la ligne ci-dessous. Les fichiers que vous bouger avec rmw iront "
+"# Si vous souhaitez la sélectionner pour les fichiers qui doivent être "
+"supprimés, mettez tout simplement en commentaire\n"
+"# la ligne ci-dessous. Les fichiers que vous déplacez avec rmw iront "
 "automatiquement dans leci-dessus.\n"
 "#\n"
 "#WASTE=$HOME/.local/share/Trash\n"
@@ -100,9 +100,9 @@ msgid ""
 "WASTE = $HOME/.trash.rmw\n"
 msgstr ""
 "\n"
-"# NOTE: Si deux corbeilles sont sur le meme repertoire, rmw bougera les "
+"# NOTE: Si deux corbeilles sont sur le même répertoire, rmw déplacera les "
 "fichiers\n"
-"# sur la premiere corbeille de la liste, et ignorera le second.\n"
+"# sur la première corbeille de la liste, et ignorera la seconde.\n"
 "#\n"
 "WASTE = $HOME/.trash.rmw\n"
 
@@ -123,9 +123,9 @@ msgstr ""
 "# Stockage amovible: Si un dossier a ',removable' dans son nom, rmw\n"
 "# n'essaiera pas de le créer; il faudra, dans un premier temps, le créer "
 "manuellement\n"
-"# Si le dossier existes quand rmw est lancé, il sera utilisé; sinon, il "
+"# Si le dossier existe quand rmw est lancé, il sera utilisé; sinon, il "
 "sera \n"
-"# ignoré. Des que vous créez   \"example_waste\", rmw va automatiquement "
+"# ignoré. Dès que vous créez   \"example_waste\", rmw va automatiquement "
 "créer\n"
 "# example_waste/info et example_waste/files\n"
 "#\n"
@@ -146,8 +146,8 @@ msgstr ""
 "\n"
 "# Purge ne se lancera pas si `--force` n'est pas utilisé en ligne de "
 "commande Décommentez\n"
-"# la ligne ci-dessous si vous souhaitez que Purge verifie de façon "
-"quotidienne les fichiers qui depassent le nombre de jour specifié dans "
+"# la ligne ci-dessous si vous souhaitez que Purge vérifie de façon "
+"quotidienne les fichiers qui dépassent le nombre de jour specifié dans "
 "purge_after\n"
 "#\n"
 "#force_not_required\n"
@@ -202,7 +202,7 @@ msgstr ""
 "\n"
 "  \t===] Première utilisation[===\n"
 "\n"
-"Apres l'installation de rmw, il faut creer le repetoire de configuration "
+"Après l'installation de rmw, il faut créer le répertoire de configuration "
 "utilisateur\n"
 "en typant 'rmw' et faire 'Entrée'. C'est vivement conseillé de copier\n"
 "\n"
@@ -270,14 +270,14 @@ msgstr ""
 "\n"
 "un fichier de configuration par defaut est disponible sur\n"
 "https://github.com/andy5995/rmw/tree/master/etc\n"
-"Resiliation...\n"
+"Résiliation...\n"
 
 #: src/config_rmw.c:196
 #, c-format
 msgid ""
 "  :Error: The number of lines in configuration file must be less than %d\n"
 msgstr ""
-"  :Error: Le nombre de lines dans le fichier de configuration doit etre "
+"  :Error: Le nombre de lignes dans le fichier de configuration doit être "
 "inférieur à  %d\n"
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
@@ -286,7 +286,7 @@ msgstr ""
 #, c-format
 msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
 msgstr ""
-"  :Error: Prevention du remplissage de la memoire tampon(segmentation "
+"  :Error: Prévention du remplissage de la mémoire tampon(segmentation "
 "fault) \n"
 
 #. TRANSLATORS:  ".trashinfo" should remain untranslated
@@ -310,7 +310,7 @@ msgstr "  :Error: Option invalid dans la configuration\n"
 #, c-format
 msgid "  :Error: invalid purge_after value in configuration\n"
 msgstr ""
-"  :Error: La valeur depurge_after du fichier configuration est invalide\n"
+"  :Error: La valeur depurge_after du fichier de configuration est invalide\n"
 
 #: src/config_rmw.c:372
 #, c-format
@@ -323,7 +323,7 @@ msgid ""
 "Unable to continue. Exiting...\n"
 msgstr ""
 "  :Error: Impossible de trouver une corbeille valide/utilisable\n"
-"Merci de verifier votre fichier de configuration et vos permissions\n"
+"Merci de vérifier votre fichier de configuration et vos permissions\n"
 "Si vous avez besoin de plus d'aides ou de remonter un problème,\n"
 "visitez le site de rmw sur\n"
 "  https://github.com/andy5995/rmw/wiki\n"
@@ -348,11 +348,11 @@ msgid ""
 "\n"
 "Unable to continue. Exiting...\n"
 msgstr ""
-"  :Error: Impossible de créer le repertoire de configuration et "
+"  :Error: Impossible de créer le répertoire de configuration et "
 "data(données)\n"
 "Merci de vérifier votre fichier de configuration et vos permissions\n"
 "\n"
-"Si vous avez besoin d'aide supplementaire ou de rapporter un eventuel bug,\n"
+"Si vous avez besoin d'aide supplementaire ou de rapporter un éventuel bug,\n"
 "merci de visiter le site de rmw en\n"
 "  https://github.com/andy5995/rmw/wiki\n"
 "Impossible de continuer. Fin...\n"
@@ -371,7 +371,7 @@ msgstr "  :Error: Pendant la fermeture %s\n"
 #: src/purging_rmw.c:431 src/utils_rmw.c:86
 #, c-format
 msgid "  :Error: while creating %s\n"
-msgstr "  :Error: Pendant la creation %s\n"
+msgstr "  :Error: Pendant la création %s\n"
 
 #. TRANSLATORS:  "opening" refers to a file
 #: src/messages_rmw.c:37
@@ -400,7 +400,7 @@ msgstr "  Il n'y a aucun filesystem trouvé pour \"%s\"\n"
 #, c-format
 msgid " :warning: Directory not purged - still contains files\n"
 msgstr ""
-" :Alerte: le repertoire n'a pas été supprimé - il contient toujours des "
+" :Alerte: le répertoire n'a pas été supprimé - il contient toujours des "
 "fichiers\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
@@ -408,17 +408,17 @@ msgstr ""
 #: src/purging_rmw.c:297
 #, c-format
 msgid " :warning: Maximum depth of %u reached, skipping\n"
-msgstr " :Alerte: Nombre maximum de %u atteint, ignorer la recursion\n"
+msgstr " :Alerte: Nombre maximum de %u atteint, ignorer la récursion\n"
 
 #: src/config_rmw.c:351
 #, c-format
 msgid " :warning: Maximum number of protected folders reached: %d\n"
-msgstr " :Alerte: Nombre maximum de dossier proteger atteinte: %d\n"
+msgstr " :Alerte: Nombre maximum de dossier protégé atteint: %d\n"
 
 #: src/config_rmw.c:348
 #, c-format
 msgid " :warning: Maximum number of waste folders reached: %d\n"
-msgstr " :Alerte: Nombre maximum de dossier corbeille atteinte: %d\n"
+msgstr " :Alerte: Nombre maximum de dossier corbeille atteint: %d\n"
 
 #: src/messages_rmw.c:84
 #, c-format
@@ -428,7 +428,7 @@ msgstr " :Alerte: Restore() a retourné des erreurs \n"
 #: src/restore_rmw.c:562
 #, c-format
 msgid " :warning: failed to remove %s\n"
-msgstr " :Alerte: echec pour la suppresion de %s\n"
+msgstr " :Alerte: échec de la suppresion de %s\n"
 
 #: src/strings_rmw.c:72
 #, c-format
@@ -436,7 +436,7 @@ msgid ""
 " <--> Displaying part of the string that caused the error <-->\n"
 "\n"
 msgstr ""
-" <--> Affichage d'un extrait du string qui a causé l'erreur <-->\n"
+" <--> Affichage d'un extrait de la string qui a causé l'erreur <-->\n"
 "\n"
 
 #: src/purging_rmw.c:364
@@ -447,7 +447,7 @@ msgstr "%d repertoires ignoré (RMDIR_MAX_DEPTH atteinte)\n"
 #: src/purging_rmw.c:369
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
-msgstr "%d repertoires ignoré (contient des fichiers en lecture seule)\n"
+msgstr "%d répertoires ignorés (contient des fichiers en lecture seule)\n"
 
 #: src/purging_rmw.c:372
 #, c-format
@@ -479,17 +479,17 @@ msgstr "'q' - quitter"
 #: src/purging_rmw.c:290
 #, c-format
 msgid "(check owner/write permissions)\n"
-msgstr "(vérifier le proprietaire/permissions de lecture)\n"
+msgstr "(vérifier le propriétaire/permissions de lecture)\n"
 
 #: src/rmw.c:147
 #, c-format
 msgid "-i / --interactive: not implemented\n"
-msgstr "-i / --interactive: n'est pas implementé\n"
+msgstr "-i / --interactive: n'est pas implémenté\n"
 
 #: src/rmw.c:150
 #, c-format
 msgid "-r / --recurse: not implemented\n"
-msgstr "-r / --recurse: n'est pas implementé\n"
+msgstr "-r / --recurse: n'est pas implémenté\n"
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
@@ -501,8 +501,8 @@ msgstr "<CURSOR-DROIT / CURSOR-GAUCHE> - changer de corbeille"
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
-"<ESPACIO> - selectioner or deselectionner un élément / <ENTRAR> - Restaurer "
-"les éléments séléctionnés"
+"<ESPACIO> - sélectionner ou désélectionner un élément / <ENTRAR> - Restaurer "
+"les éléments sélectionnés"
 
 #: src/restore_rmw.c:431
 #, c-format
@@ -515,18 +515,18 @@ msgstr[1] "== contient %d fichiers =="
 #: src/purging_rmw.c:429
 #, c-format
 msgid "Created %s\n"
-msgstr "Créeation %s\n"
+msgstr "Création %s\n"
 
 #: src/utils_rmw.c:82
 #, c-format
 msgid "Created directory %s\n"
-msgstr "Repertoire  %s  crée\n"
+msgstr "Répertoire  %s  créé\n"
 
 #: src/restore_rmw.c:255
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
-"Nom de fichier doublon à la destination - annexation d'un horodatage...\n"
+"Nom de fichier doublon à la destination - ajout d'un horodatage...\n"
 
 #: src/strings_rmw.c:170
 #, c-format
@@ -536,7 +536,7 @@ msgstr "Erreur: realpath() a retourné une erreur.\n"
 #: src/rmw.c:187
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
-msgstr "Erreur: a la recuperation du chemin de votre répertoire personnel \n"
+msgstr "Erreur: a la récuperation du chemin de votre répertoire personnel \n"
 
 #: src/rmw.c:425
 #, c-format
@@ -548,8 +548,8 @@ msgstr "Fichier introuvable: '%s'\n"
 msgid ""
 "If you think this may be a bug, please report it to the rmw developers.\n"
 msgstr ""
-"Si vous pensez que ceci peut etre un bug, merci de le remonter aux "
-"developpeurs de rmw.\n"
+"Si vous pensez que ceci peut être un bug, merci de le reporter aux "
+"développeurs de rmw.\n"
 
 #: src/rmw.c:570
 #, c-format
@@ -574,13 +574,13 @@ msgstr ""
 #: src/restore_rmw.c:280
 #, c-format
 msgid "Restore failed: %s\n"
-msgstr "Restauration échoué: %s\n"
+msgstr "Restauration échouée: %s\n"
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
 #: src/restore_rmw.c:152
 #, c-format
 msgid "Searching using only the basename...\n"
-msgstr "Recherche encours avec uniquement le nom de base du fichier...\n"
+msgstr "Recherche en cours avec uniquement le nom de base du fichier...\n"
 
 #. TRANSLATORS:  "protection" is a feature. It means that
 #. * this program will pass over files that are in
@@ -589,7 +589,7 @@ msgstr "Recherche encours avec uniquement le nom de base du fichier...\n"
 #: src/rmw.c:417
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
-msgstr "Ignorer: %s est un repertoire protégé (protected)\n"
+msgstr "Ignorer: %s est un répertoire protégé (protected)\n"
 
 #: src/trivial_rmw.c:83
 #, c-format
@@ -603,8 +603,8 @@ msgid ""
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 msgstr ""
-"IL N'Y PAS DE GARANTIE ASSOCIE A CE PROGRAM DANS LA MESURE PERMISE PAR LA\n"
-" EN VIGEUR. A L'EXCEPTION LORSQUE INDIQUÉ AUTREMENT DANS L’ÉCRITURE DU "
+"IL N'Y PAS DE GARANTIE ASSOCIE A CE PROGRAMME DANS LA MESURE PERMISE PAR LA\n"
+"LOI EN VIGEUR. A L'EXCEPTION LORSQUE INDIQUÉ AUTREMENT DANS L’ÉCRITURE DU "
 "COPYRIGHT\n"
 "LES TITULAIRES ET/OU AUTRES PARTIES FOURNISSENT LE PROGRAMME \" TEL QUEL \", "
 "SANS GARANTIE \n"
@@ -612,7 +612,7 @@ msgstr ""
 "LES GARANTIES IMPLICITES DE QUALITÉ MARCHANDE ET D’ADAPTATION À UN BESOIN "
 "PARTICULIER\n"
 "TOUT RISQUE LIÉ À LA QUALITÉ ET AUX PERFORMANCES DU PROGRAMME EST AVEC VOUS\n"
-"SI LE PROGRAMME S'AVERAIT DEFECTUEUX, VOUS ASSUMEZ LE COUT DE TOUTE\n"
+"SI LE PROGRAMME S'AVERAIT DEFECTUEUX, VOUS ASSUMEZ LE COUT DE TOUT\n"
 "ENTRETIEN, RÉPARATION OU CORRECTION NÉCESSAIRE.\n"
 
 #: src/trivial_rmw.c:35
@@ -650,15 +650,15 @@ msgstr ""
 "  -t, --translate           affiche une traduction du fichier de "
 "configuration\n"
 "  -c, --config filename     changer de fichier de configuration\n"
-"  -l, --list                affichier la liste de corbeilles\n"
+"  -l, --list                afficher la liste des corbeilles\n"
 "  -g, --purge               relancer la commande purge meme si elle a déjà "
-"tournéaujourd'hui\n"
-"  -o, --orphaned            verification des fichier orphelin(maintenance)\n"
+"tourné aujourd'hui\n"
+"  -o, --orphaned            vérification des fichiers orphelins (maintenance)\n"
 "  -f, --force               Laisse la commande purge tourner\n"
-"  -B, --bypass              outre-passer la protection du repertoire\n"
+"  -B, --bypass              outre-passer la protection du répertoire\n"
 "  -v, --verbose             rendre plus verbeux les messages\n"
 "  -w, --warranty            afficher la garantie\n"
-"  -V, --version             display la version et la licence\n"
+"  -V, --version             afficher la version et la licence\n"
 
 #. TRANSLATORS:  "function" refers to a C function
 #: src/messages_rmw.c:41 src/messages_rmw.c:63
@@ -679,7 +679,7 @@ msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
 "\n"
 msgstr ""
-"la suppression definitive 'purge' a été desactivé('purge_after' est à '0')\n"
+"la suppression définitive 'purge' a été désactivé('purge_after' est à '0')\n"
 "\n"
 
 #: src/trivial_rmw.c:98
@@ -699,7 +699,7 @@ msgstr ""
 "Ce programme vient avec ABSOLUMENT AUCUNE GARANTIE; pour les détails tapez "
 "'rmw -w.'\n"
 "C'est un logiciel libre, et vous pouvez le redistribuer\n"
-"sous certains conditions; voir <http://www.gnu.org/licenses/gpl.html>\n"
+"sous certaines conditions; voir <http://www.gnu.org/licenses/gpl.html>\n"
 "pour plus d'infos.\n"
 
 #: src/restore_rmw.c:91 src/restore_rmw.c:106 src/trashinfo_rmw.c:89
@@ -707,10 +707,10 @@ msgstr ""
 #, c-format
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""
-"rmw: %s(): la memoire tampon est trop petit (vous avez %hu, il vous faut un "
+"rmw: %s(): la mémoire tampon est trop petit (vous avez %hu, il vous faut un "
 "minimum de %hu)\n"
 
 #: src/restore_rmw.c:171
 #, c-format
 msgid "search complete\n"
-msgstr "recherche terminé\n"
+msgstr "recherche terminée\n"
