@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-02 12:14-0500\n"
+"POT-Creation-Date: 2018-10-15 18:25-0500\n"
 "PO-Revision-Date: 2018-01-01 10:09-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Ukrainian\n"
@@ -288,7 +288,7 @@ msgstr "  :Помилка: запобігання перезагрузки бу�
 #: src/messages_rmw.c:77
 #, fuzzy, c-format
 #| msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
-msgid "  :Error: format of .trashinfo `file %s` is incorrect)"
+msgid "  :Error: format of .trashinfo `file %s` is incorrect"
 msgstr "  :Помилка: Невірний формат .trashinfo `file %s` (Лінія %d)"
 
 #: src/config_rmw.c:265

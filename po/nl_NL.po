@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-02 12:14-0500\n"
+"POT-Creation-Date: 2018-10-15 18:25-0500\n"
 "PO-Revision-Date: 2017-12-10 09:05+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
@@ -291,7 +291,7 @@ msgstr "  :Error: buffer overrun (segmentatie fout) voorkomen.\n"
 #: src/messages_rmw.c:77
 #, fuzzy, c-format
 #| msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
-msgid "  :Error: format of .trashinfo `file %s` is incorrect)"
+msgid "  :Error: format of .trashinfo `file %s` is incorrect"
 msgstr "  :Fout: formaat van .trashinfo `bestand %s` is incorrect (Lijn %d)"
 
 #: src/config_rmw.c:265

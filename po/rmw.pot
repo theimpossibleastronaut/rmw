@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-02 12:14-0500\n"
+"POT-Creation-Date: 2018-10-15 18:25-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -196,7 +196,7 @@ msgstr ""
 #.
 #: src/messages_rmw.c:77
 #, c-format
-msgid "  :Error: format of .trashinfo `file %s` is incorrect)"
+msgid "  :Error: format of .trashinfo `file %s` is incorrect"
 msgstr ""
 
 #: src/config_rmw.c:265

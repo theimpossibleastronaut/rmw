@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-02 12:14-0500\n"
+"POT-Creation-Date: 2018-10-15 18:25-0500\n"
 "PO-Revision-Date: 2018-10-02 20:02+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -295,8 +295,9 @@ msgstr "  :Fehler: Pufferüberlauf (Speicherzugriffsverletzung) verhindert.\n"
 #. *                contents
 #.
 #: src/messages_rmw.c:77
-#, c-format
-msgid "  :Error: format of .trashinfo `file %s` is incorrect)"
+#, fuzzy, c-format
+#| msgid "  :Error: format of .trashinfo `file %s` is incorrect)"
+msgid "  :Error: format of .trashinfo `file %s` is incorrect"
 msgstr "  :Fehler: Format von .trashinfo `Datei %s` ist fehlerhaft)"
 
 #: src/config_rmw.c:265
