@@ -23,7 +23,10 @@ Anyone interested in this project is welcome to join the [chat
 room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
 
 If you would like to help translate the man page or the output messages
-for this program, please see the [Translating wiki page](https://github.com/theimpossibleastronaut/rmw/wiki/Translating).
+for this program, please see the [Translating wiki
+page](https://github.com/theimpossibleastronaut/rmw/wiki/Translating)
+or join the [rmw Transifex
+team](https://www.transifex.com/na-309/rmw/).
 
 ## Required libraries
 
