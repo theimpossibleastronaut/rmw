@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/theimpossibleastronaut/rmw)
 [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
-[![Build Status](https://scan.coverity.com/projects/16607/badge.svg)](https://scan.coverity.com/projects/theimpossibleastronaut-rmw)
 
 # rmw v0.4.04 (development)
 
@@ -22,8 +21,13 @@ https://github.com/theimpossibleastronaut/rmw/blob/v0.4.03/README.md
 Anyone interested in this project is welcome to join the [chat
 room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
 
-If you would like to help translate the man page or the output messages
-for this program, please see the [Translating wiki page](https://github.com/theimpossibleastronaut/rmw/wiki/Translating).
+## For Translators
+
+We use Transifex to translate the output messages. To start translating
+rmw, ​create an account in Transifex and ask to join a translation
+team (or create a new one) at
+https://www.transifex.com/na-309/rmw/
+
 
 ## Required libraries
 
