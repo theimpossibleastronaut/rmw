@@ -64,3 +64,6 @@ rmw.tgz
 # temp install directory when ./configure --prefix=$PWD/temp_install
 # is used
 temp_install
+
+build
+
