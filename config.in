@@ -79,9 +79,6 @@
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
-/* location of system configuration directory */
-#undef SYSCONFDIR
-
 /* Version number of package */
 #undef VERSION
 

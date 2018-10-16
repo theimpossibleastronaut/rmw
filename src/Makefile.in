@@ -90,6 +90,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = rmw$(EXEEXT)
+subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
@@ -185,7 +186,7 @@ CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
@@ -207,7 +208,7 @@ LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBOBJS = @LIBOBJS@
-LIBS = @LIBINTL@ @LIBS@
+LIBS = @LIBS@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
@@ -287,32 +288,31 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -std=c99 -Wall -pedantic -I./functions
+AM_CFLAGS = -std=c99 -Wall
 rmw_SOURCES = \
-rmw.c 				\
-restore_rmw.c 	\
-config_rmw.c	\
-trivial_rmw.c 	\
-strings_rmw.c 	\
-purging_rmw.c	\
-messages_rmw.c		\
-trashinfo_rmw.c		\
-utils_rmw.c
+	rmw.c	\
+	restore_rmw.c	\
+	config_rmw.c	\
+	trivial_rmw.c	\
+	strings_rmw.c	\
+	purging_rmw.c	\
+	messages_rmw.c	\
+	trashinfo_rmw.c	\
+	utils_rmw.c
 
 noinst_HEADERS = \
-rmw.h												\
-restore_rmw.h 	\
-config_rmw.h		\
-trivial_rmw.h 	\
-strings_rmw.h 	\
-purging_rmw.h		\
-messages_rmw.h	\
-trashinfo_rmw.h	\
-utils_rmw.h			\
-gettext.h
+	rmw.h	\
+	restore_rmw.h 	\
+	config_rmw.h	\
+	trivial_rmw.h	\
+	strings_rmw.h	\
+	purging_rmw.h	\
+	messages_rmw.h	\
+	trashinfo_rmw.h	\
+	utils_rmw.h	\
+	gettext.h
 
-subdir = src
-rmw_LDADD = @LIBINTL@ -lcurses -lmenu
+rmw_LDADD = -lcurses -lmenu
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 

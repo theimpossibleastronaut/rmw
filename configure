@@ -6559,21 +6559,6 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 
 
 
-
-if test "x$sysconfdir" = 'x${prefix}/etc'; then
-	if test "x$prefix" = 'xNONE'; then
-		sysconfdir=$ac_default_prefix/etc
-	else
-		sysconfdir=$prefix/etc
-	fi
-fi
-
-
-cat >>confdefs.h <<_ACEOF
-#define SYSCONFDIR "$sysconfdir"
-_ACEOF
-
-
 ac_config_files="$ac_config_files Makefile src/Makefile etc/Makefile man/Makefile po/Makefile.in"
 
 cat >confcache <<\_ACEOF
