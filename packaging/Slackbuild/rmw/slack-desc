@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+   |-----handy-ruler------------------------------------------------------|
+rmw: rmw (command line trash can/recycle bin)
+rmw:
+rmw: rmw is an OS portable cli trash can utility written in C. It can send
+rmw: files to your "Desktop" trash, or a completely separate folder. It
+rmw: can rmw: also: restore files; permanently delete files that were
+rmw: rmw'ed more than xx number of days ago; skip files or directories
+rmw: that have a "PROTECT" directive in the configuration file; and append
+rmw: a unique string to the filenames so they won't be overwritten
+rmw: (duplication protection).
+rmw:
+rmw: Homepage: https://github.com/andy5995/rmw/wiki
