@@ -650,14 +650,16 @@ uninstall-am: uninstall-binPROGRAMS
 
 
 check-local:
+	dest_tests_dir=$(top_builddir)/test;	\
+	mkdir $$dest_tests_dir;	\
 	vars=$(top_builddir)/test/VARS;	\
-	tests_dir=$(top_srcdir)/test;	\
-	echo HOME=$(top_builddir)/test > $$vars;	\
-	echo TESTS_DIR=$$tests_dir >> $$vars;	\
+	source_tests_dir=$(top_srcdir)/test;	\
+	echo HOME=$$dest_tests_dir > $$vars;	\
+	echo TESTS_DIR=$$source_tests_dir >> $$vars;	\
 	echo CONFIG=$(top_srcdir)/etc/rmwrc >> $$vars;	\
 	echo BIN_DIR=$(top_builddir)/src >> $$vars;	\
-	$$tests_dir/basic.sh $$vars;	\
-	$$tests_dir/purging.sh $$vars;
+	$$source_tests_dir/basic.sh $$vars;	\
+	$$source_tests_dir/purging.sh $$vars;
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
