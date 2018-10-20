@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# include VARS file
-. ./VARS
+. ${1}
 
 echo "== On first run, directories should get created"
 # show commands that are run
@@ -31,8 +30,8 @@ if [ $err != 0 ]; then
 fi
 
 # Make some temporary files
-mkdir tmp-home/tmp-files
-cd tmp-home/tmp-files
+mkdir $HOME/tmp-files
+cd $HOME/tmp-files
 echo "\n\n == creating temporary files to be deleted"
 set -x
 for file in 1 2 3

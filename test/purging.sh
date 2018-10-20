@@ -5,8 +5,7 @@
 # new users, and for testing for bugs
 #
 
-# include VARS file
-. ./VARS
+. ${1}
 
 test_result() {
 
@@ -28,8 +27,8 @@ $BIN_DIR/rmw -c $CONFIG
 test_result $?
 
 # Make some temporary files using a fake-year
-mkdir tmp-home/tmp-files
-cd tmp-home/tmp-files
+mkdir $HOME/tmp-files
+cd $HOME/tmp-files
 
 set +x
 
@@ -82,7 +81,7 @@ set +x
 echo
 echo
 echo " using 'cp' to copy files from test/somefiles"
-cp -av somefiles $HOME
+cp -av ${TESTS_DIR}/somefiles $HOME
 
 echo
 echo
@@ -109,7 +108,7 @@ set +x
 echo
 echo
 echo " using 'cp' to copy files from test/somefiles for RMWTRASH=empty test"
-cp -av somefiles $HOME
+cp -av ${TESTS_DIR}/somefiles $HOME
 test_result $?
 
 echo

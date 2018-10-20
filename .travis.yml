@@ -43,15 +43,13 @@ before_install:
   - $CXX --version
 
 script:
-  - ./configure --prefix=$PWD/temp-build
+  - mkdir build
+  - cd build
+  - ../configure --prefix=$PWD/install-test
   - make
   - make install
-  - cd test
-  - ./basic.sh
-  - rm -rf tmp-home
-  - ./purging.sh
-  - cd ..
   - make uninstall
+  - make check
 
 notifications:
   slack: removetowaste:u16fiNsaMeLmg7J4WXifW3Zm

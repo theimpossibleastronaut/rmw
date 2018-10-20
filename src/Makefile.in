@@ -524,6 +524,7 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) check-local
 check: check-am
 all-am: Makefile $(PROGRAMS) $(HEADERS) config.h
 installdirs:
@@ -629,9 +630,9 @@ ps-am:
 
 uninstall-am: uninstall-binPROGRAMS
 
-.MAKE: all install-am install-strip
+.MAKE: all check-am install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
+.PHONY: CTAGS GTAGS TAGS all all-am check check-am check-local clean \
 	clean-binPROGRAMS clean-generic cscopelist-am ctags ctags-am \
 	distclean distclean-compile distclean-generic distclean-hdr \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
@@ -647,6 +648,16 @@ uninstall-am: uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
+
+check-local:
+	vars=$(top_builddir)/test/VARS;	\
+	tests_dir=$(top_srcdir)/test;	\
+	echo HOME=$(top_builddir)/test > $$vars;	\
+	echo TESTS_DIR=$$tests_dir >> $$vars;	\
+	echo CONFIG=$(top_srcdir)/etc/rmwrc >> $$vars;	\
+	echo BIN_DIR=$(top_builddir)/src >> $$vars;	\
+	$$tests_dir/basic.sh $$vars;	\
+	$$tests_dir/purging.sh $$vars;
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
