@@ -43,7 +43,9 @@ before_install:
   - $CXX --version
 
 script:
-  - ./configure --prefix=$PWD/install-test
+  - mkdir build
+  - cd build
+  - ../configure --prefix=$PWD/install-test
   - make
   - make install
   - make uninstall
