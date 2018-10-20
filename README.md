@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/theimpossibleastronaut/rmw)
 [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
 
-# rmw v0.4.04 (development)
+# rmw v0.4.05 (development)
 
 rmw is a cross-platform command-line "trash can" utility. It can send
 files to your "Desktop" trash, or a completely separate folder. It can
@@ -18,8 +18,8 @@ features that aren't included in the last release, or differ in other
 ways. The README from the last release is at
 https://github.com/theimpossibleastronaut/rmw/blob/v0.4.03/README.md
 
-Anyone interested in this project is welcome to join the [chat
-room](https://join.slack.com/t/removetowaste/shared_invite/enQtMjU3NTA0NTI2OTgzLTkzMzQxNDhjYzlkM2UxMTA2MzJjNWYyZjAyYzkyNWNmZjJmYWZmYjUyODk2NzNkNzBhMzFjOGZkMTg2MzAxMTM).
+Anyone interested in this project is welcome to join the [Matrix chat
+room](https://matrix.to/#/!XeJxcdkywroPaRKKtr:matrix.org).
 
 ## For Translators
 
