@@ -43,11 +43,10 @@ before_install:
   - $CXX --version
 
 script:
-  - ../configure --prefix=$PWD/install-test
+  - ./configure --prefix=$PWD/install-test
   - make
   - make install
   - make uninstall
-  - make check
   - make check
 
 notifications:
