@@ -25,5 +25,6 @@ AC_CONFIG_FILES([	Makefile
 			src/Makefile
 			etc/Makefile
 			man/Makefile
+			test/Makefile
 			po/Makefile.in])
 AC_OUTPUT

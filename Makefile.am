@@ -1,5 +1,5 @@
 packextrasdir=@docdir@
-SUBDIRS = src etc man po
+SUBDIRS = src etc man test po
 EXTRA_DIST = BUGS README.md ChangeLog AUTHORS.md THANKS COPYING \
 		INSTALL NEWS
 

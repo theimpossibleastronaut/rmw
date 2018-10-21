@@ -6559,7 +6559,7 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile etc/Makefile man/Makefile po/Makefile.in"
+ac_config_files="$ac_config_files Makefile src/Makefile etc/Makefile man/Makefile test/Makefile po/Makefile.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -7305,6 +7305,7 @@ do
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "etc/Makefile") CONFIG_FILES="$CONFIG_FILES etc/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
+    "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
     "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
