@@ -2,6 +2,7 @@ test_scripts = basic.sh purging.sh
 
 EXTRA_DIST=	\
 	README	\
+	COMMON \
 	$(test_scripts)
 
 test:
