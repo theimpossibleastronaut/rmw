@@ -51,6 +51,8 @@ script:
   - make uninstall
   # this fails on Travis for some reason. "rmw returns "no suitable filesystem found"
   # - make check
+  - cd test
+  - make test
 
 notifications:
   webhooks:
