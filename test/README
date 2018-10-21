@@ -1,1 +1,5 @@
-Don't run these scripts directly - use 'make check` instead.
+Don't run these scripts directly - use 'make test` instead.
+
+After running `configure` and `make`, you can run tests by changing to
+the test/ directory (of your build directory) and run `make test`. Use
+`make testclean` after to remove temporary files.

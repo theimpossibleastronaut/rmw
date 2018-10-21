@@ -6,17 +6,7 @@
 #
 
 . ${1}
-
-test_result() {
-
-set +x
-
-if [ $1 != 0 ]; then
-  echo "\n  --:Test failure:--"
-  exit $1
-fi
-
-}
+. ${TESTS_DIR}/COMMON
 
 echo "== On first run, directories should get created"
 # show commands that are run

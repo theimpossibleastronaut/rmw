@@ -1,0 +1,22 @@
+# included by tests scripts
+
+if [ "${TESTS_DIR}" = "" ]; then
+  echo "Don't run this script directly. After running 'configure' and 'make',"
+  echo "change to the test/ directory and run 'make test'. If you're using a separate"
+  echo "build directory, use that test/ directory."
+  exit 1
+fi
+
+test_result() {
+  set +x
+
+  if [ $1 != 0 ]; then
+    echo "\n  --:Test failure:--"
+    exit $1
+  fi
+}
+
+if [ -e tmp-home ]; then
+  rm -rf tmp-home
+fi
+
