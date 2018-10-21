@@ -1,6 +1,10 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-10-21
+
+* test scripts are now run using 'make test' from the test directory
+
 2018-10-11
 
 * fr_FR translation added
@@ -23,10 +27,16 @@ rmw ChangeLog
 
     [#162] es_MX (Spanish Mexican) translation added /thanks @marioecg
 
+2018-01-07
+
+    Added test script (test/purging.sh)
+
 2018-01-03
 
     [#133] Improve handling of plural forms (for translations);
     introduce the use of ngettext
+
+    Added test script (test/basic.sh)
 
 2018-01-01
 
@@ -35,6 +45,10 @@ rmw ChangeLog
 2017-12-31
 
     Russian (ru) translation added /thanks @Svitlana Galianova
+
+2017-12-27
+
+    rmw-0.4.03 released
 
 2017-12-26
 
