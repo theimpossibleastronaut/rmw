@@ -1,5 +1,13 @@
 Don't run these scripts directly - use 'make test` instead.
 
 After running `configure` and `make`, you can run tests by changing to
-the test/ directory (of your build directory) and run `make test`. Use
-`make testclean` after to remove temporary files.
+the test/ directory (of your build directory) and run make followed by
+any of these:
+
+  test-basic
+  test-purging
+
+*Hint: typing `make test` and pressing the TAB key will show you
+available options.
+
+When you're done, enter `make testclean` to remove temporary files.
