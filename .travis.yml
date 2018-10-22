@@ -52,6 +52,7 @@ script:
   - cd test
   - make test-basic
   - make test-purging
+  - make test-restore
 
 notifications:
   webhooks:

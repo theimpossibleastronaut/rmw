@@ -6,6 +6,7 @@ any of these:
 
   test-basic
   test-purging
+  test-restore
 
 *Hint: typing `make test` and pressing the TAB key will show you
 available options.

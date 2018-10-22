@@ -1,6 +1,10 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-10-22
+
+* tests for the Restore feature have been added.
+
 2018-10-21
 
 * test scripts are now run using 'make test' from the test directory

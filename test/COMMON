@@ -20,3 +20,5 @@ if [ -e tmp-home ]; then
   rm -rf tmp-home
 fi
 
+RMW_TEST_CMD_STRING="$BIN_DIR/rmw -c $CONFIG"
+SEPARATOR="\n\n--- "
