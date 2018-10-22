@@ -49,10 +49,9 @@ script:
   - make
   - make install
   - make uninstall
-  # this fails on Travis for some reason. "rmw returns "no suitable filesystem found"
-  # - make check
   - cd test
-  - make test
+  - make test-basic
+  - make test-purging
 
 notifications:
   webhooks:
