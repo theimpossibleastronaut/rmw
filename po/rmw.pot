@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-15 18:25-0500\n"
+"POT-Creation-Date: 2018-10-22 14:02-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:142
+#: src/trivial_rmw.c:129
 #, c-format
 msgid ""
 "\n"
@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS:  Do not translate the last two lines in this section
-#: src/trivial_rmw.c:159
+#: src/trivial_rmw.c:146
 #, c-format
 msgid ""
 "\n"
@@ -45,7 +45,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:120
+#: src/trivial_rmw.c:107
 #, c-format
 msgid ""
 "\n"
@@ -63,7 +63,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:113
+#: src/trivial_rmw.c:100
 #, c-format
 msgid ""
 "\n"
@@ -75,7 +75,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:132
+#: src/trivial_rmw.c:119
 #, c-format
 msgid ""
 "\n"
@@ -89,7 +89,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:151
+#: src/trivial_rmw.c:138
 #, c-format
 msgid ""
 "\n"
@@ -115,31 +115,6 @@ msgid ""
 "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 
-#: src/trivial_rmw.c:61
-#, c-format
-msgid ""
-"  \n"
-"\n"
-"  \t===] First time use [===\n"
-"\n"
-"After rmw is installed, create the user configuration directory\n"
-"by typing 'rmw' and hitting enter. It's recommended to copy\n"
-"\n"
-"  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
-"\n"
-"and then rename it to 'config':\n"
-"\n"
-"  'cd ~/.config/rmw'\n"
-"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
-"  '~/.config/rmw$ mv rmwrc config'\n"
-"\n"
-"Then edit the file to suit your needs.\n"
-"\n"
-"Visit the rmw home page for more help, and information about\n"
-"how to obtain support - http://github.com/andy5995/rmw/wiki\n"
-"\n"
-msgstr ""
-
 #: src/trivial_rmw.c:55
 #, c-format
 msgid ""
@@ -150,6 +125,16 @@ msgid ""
 "  -z, --restore <wildcard filename(s) pattern>\n"
 "  -s, --select              select files from list to restore\n"
 "  -u, --undo-last           undo last ReMove\n"
+msgstr ""
+
+#: src/trivial_rmw.c:61
+#, c-format
+msgid ""
+"  \n"
+"\n"
+"Visit the rmw home page for more help, and information about\n"
+"how to obtain support - http://github.com/andy5995/rmw/wiki\n"
+"\n"
 msgstr ""
 
 #: src/rmw.c:532
@@ -172,7 +157,7 @@ msgid ""
 "%s%s\n"
 "\n"
 "A default configuration file can be found at\n"
-"https://github.com/andy5995/rmw/tree/master/etc\n"
+"https://github.com/andy5995/rmw/tree/master\n"
 "Terminating...\n"
 msgstr ""
 
@@ -433,11 +418,7 @@ msgid ""
 "Enter '%s -h' for more information\n"
 msgstr ""
 
-#. TRANSLATORS: The placeholder indicates the bug-reporting address
-#. for this package.  Please add _another line_ saying
-#. "Report translation bugs to <...>\n" with the address for translation
-#. bugs (typically your translation team's web or email address).
-#: src/trivial_rmw.c:78
+#: src/trivial_rmw.c:65
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
@@ -462,7 +443,7 @@ msgstr ""
 msgid "Skipped: %s is in a protected directory\n"
 msgstr ""
 
-#: src/trivial_rmw.c:83
+#: src/trivial_rmw.c:70
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -519,7 +500,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/trivial_rmw.c:98
+#: src/trivial_rmw.c:85
 #, c-format
 msgid ""
 "rmw %s\n"

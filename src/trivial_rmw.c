@@ -60,21 +60,8 @@ Restore FILE(s) from a WASTE directory\n\
   -u, --undo-last           undo last ReMove\n"));
   printf (_("\
   \n\n\
-  \t===] First time use [===\n\n\
-After rmw is installed, create the user configuration directory\n\
-by typing 'rmw' and hitting enter. It's recommended to copy\n\n\
-  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n\n\
-and then rename it to 'config':\n\n\
-  'cd ~/.config/rmw'\n\
-  '~/.config/rmw$ cp /etc/rmwrc .'\n\
-  '~/.config/rmw$ mv rmwrc config'\n\n\
-Then edit the file to suit your needs.\n\n\
 Visit the rmw home page for more help, and information about\n\
 how to obtain support - http://github.com/andy5995/rmw/wiki\n\n"));
-  /* TRANSLATORS: The placeholder indicates the bug-reporting address
-   for this package.  Please add _another line_ saying
-   "Report translation bugs to <...>\n" with the address for translation
-   bugs (typically your translation team's web or email address).  */
   printf (_("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
 }
 

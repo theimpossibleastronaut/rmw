@@ -80,12 +80,11 @@ Add a tap and install rmw:
 If you installed rmw as a normal user, this next step can be skipped.
 
 After rmw is installed, create the user configuration directory by
-typing 'rmw' and hitting enter. Afterward, copy /usr/local/etc/rmwrc to
+typing 'rmw' and hitting enter. Afterward, copy rmwrc to
 $HOME/.config/rmw and rename it to 'config':
 
     cd ~/.config/rmw
-    ~/.config/rmw$ cp /usr/local/etc/rmwrc .
-    ~/.config/rmw$ mv rmwrc config
+    ~/.config/rmw$ cp rmwrc config
 
 Then edit the file to suit your needs.
 
@@ -94,7 +93,7 @@ directory.
 
 == Configuration File ==
 
-Documentation explaining the configuration can be found in 'etc/rmwrc'
+Documentation explaining the configuration can be found in rmwrc.
 
 Waste folders will be created automatically. (e.g. if '$HOME/trash.rmw'
 is listed in the config file, these 3 directories will be created:

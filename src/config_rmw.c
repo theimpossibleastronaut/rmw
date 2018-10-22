@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -174,7 +174,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
 %s%s\n\
 \n\
 A default configuration file can be found at\n\
-https://github.com/andy5995/rmw/tree/master/etc\n\
+https://github.com/andy5995/rmw/tree/master\n\
 Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       return NO_WASTE_FOLDER;
     }

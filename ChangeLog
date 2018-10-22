@@ -4,10 +4,12 @@ rmw ChangeLog
 2018-10-22
 
 * tests for the Restore feature have been added.
+* The configuration file (rmwrc) is no longer installed when `make
+  install` is run.
 
 2018-10-21
 
-* test scripts are now run using 'make test' from the test directory
+* test scripts are now run using 'make test-...' from the test directory
 
 2018-10-11
 

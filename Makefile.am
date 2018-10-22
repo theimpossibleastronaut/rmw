@@ -1,7 +1,7 @@
 packextrasdir=@docdir@
-SUBDIRS = src etc man test po
+SUBDIRS = src man test po
 EXTRA_DIST = BUGS README.md ChangeLog AUTHORS.md THANKS COPYING \
-		INSTALL NEWS
+		INSTALL NEWS rmwrc
 
 packextras_DATA=$(EXTRA_DIST)
 

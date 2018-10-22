@@ -23,7 +23,6 @@ AM_GNU_GETTEXT_VERSION([0.19.8])
 
 AC_CONFIG_FILES([	Makefile
 			src/Makefile
-			etc/Makefile
 			man/Makefile
 			test/Makefile
 			po/Makefile.in])
