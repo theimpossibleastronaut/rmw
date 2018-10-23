@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-15 18:25-0500\n"
+"POT-Creation-Date: 2018-10-23 00:54-0500\n"
 "PO-Revision-Date: 2018-10-02 20:02+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:142
+#: src/trivial_rmw.c:129
 #, c-format
 msgid ""
 "\n"
@@ -39,7 +39,7 @@ msgstr ""
 "purge_after = 90\n"
 
 #. TRANSLATORS:  Do not translate the last two lines in this section
-#: src/trivial_rmw.c:159
+#: src/trivial_rmw.c:146
 #, c-format
 msgid ""
 "\n"
@@ -59,7 +59,7 @@ msgstr ""
 "# PROTECT = $HOME/src\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:120
+#: src/trivial_rmw.c:107
 #, c-format
 msgid ""
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "#WASTE=$HOME/.local/share/Trash\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:113
+#: src/trivial_rmw.c:100
 #, c-format
 msgid ""
 "\n"
@@ -110,7 +110,7 @@ msgstr ""
 "WASTE = $HOME/.trash.rmw\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:132
+#: src/trivial_rmw.c:119
 #, c-format
 msgid ""
 "\n"
@@ -134,7 +134,7 @@ msgstr ""
 "#WASTE=/mnt/sda10000/example_waste, removable"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:151
+#: src/trivial_rmw.c:138
 #, c-format
 msgid ""
 "\n"
@@ -174,53 +174,6 @@ msgstr ""
 "\n"
 "Lösche Dateien auf Grundlage der Verweildauer in den Papierkörben (%u) ...\n"
 
-#: src/trivial_rmw.c:61
-#, c-format
-msgid ""
-"  \n"
-"\n"
-"  \t===] First time use [===\n"
-"\n"
-"After rmw is installed, create the user configuration directory\n"
-"by typing 'rmw' and hitting enter. It's recommended to copy\n"
-"\n"
-"  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
-"\n"
-"and then rename it to 'config':\n"
-"\n"
-"  'cd ~/.config/rmw'\n"
-"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
-"  '~/.config/rmw$ mv rmwrc config'\n"
-"\n"
-"Then edit the file to suit your needs.\n"
-"\n"
-"Visit the rmw home page for more help, and information about\n"
-"how to obtain support - http://github.com/andy5995/rmw/wiki\n"
-"\n"
-msgstr ""
-"  \n"
-"\n"
-"  \t===] Erstmaliger Aufruf [===\n"
-"\n"
-"Nachdem rmw installiert wurde, lege das Benutzerkonfigurationsverzeichnis\n"
-"an, indem du 'rmw' eintippst und die Eingabetast drückst. Es wird "
-"empfohlen,\n"
-"\n"
-"  /etc/rmwrc (oder /usr/local/etc/rmwrc) nach '$HOME/.config/rmw'\n"
-"\n"
-"zu kopieren und die Datei dann in 'config' umzubenennen:\n"
-"\n"
-"  'cd ~/.config/rmw'\n"
-"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
-"  '~/.config/rmw$ mv rmwrc config'\n"
-"\n"
-"Passe die Datei dann an deine Bedürfnisse an.\n"
-"\n"
-"Besuche die rmw-Homepage für mehr Hilfe und Informationen\n"
-"darüber, wie du Unterstützung bekommen kannst - http://github.com/andy5995/"
-"rmw/wiki\n"
-"\n"
-
 #: src/trivial_rmw.c:55
 #, c-format
 msgid ""
@@ -241,29 +194,40 @@ msgstr ""
 "Wiederherstellung\n"
 "  -u, --undo-last           letzten Entfernvorgang rückgängig machen\n"
 
-#: src/rmw.c:532
+#: src/trivial_rmw.c:61
+#, c-format
+msgid ""
+"  \n"
+"\n"
+"Visit the rmw home page for more help, and information about\n"
+"how to obtain support - http://github.com/andy5995/rmw/wiki\n"
+"\n"
+msgstr ""
+
+#: src/rmw.c:529
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Fehler Nr. %d beim Versuch, %s zu verschieben :\n"
 
-#: src/restore_rmw.c:285
-#, c-format
-msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
-msgstr ""
-"  :Fehler: '%s' kann geöffnet werden, aber ein unbekannter Fehler ist "
-"aufgetreten\n"
-
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
 #: src/config_rmw.c:171
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "  :Error: Can not open configuration file\n"
+#| "%s (or)\n"
+#| "%s%s\n"
+#| "\n"
+#| "A default configuration file can be found at\n"
+#| "https://github.com/andy5995/rmw/tree/master/etc\n"
+#| "Terminating...\n"
 msgid ""
 "  :Error: Can not open configuration file\n"
 "%s (or)\n"
 "%s%s\n"
 "\n"
 "A default configuration file can be found at\n"
-"https://github.com/andy5995/rmw/tree/master/etc\n"
+"https://github.com/andy5995/rmw/tree/master\n"
 "Terminating...\n"
 msgstr ""
 "  :Fehler: Konfigurationsdatei kann nicht geöffnet werden\n"
@@ -274,6 +238,13 @@ msgstr ""
 "https://github.com/andy5995/rmw/tree/master/etc\n"
 "heruntergeladen werden.\n"
 "Beende...\n"
+
+#. TRANSLATORS: ignore "rename"
+#: src/restore_rmw.c:280
+#, fuzzy, c-format
+#| msgid "Restore failed: %s\n"
+msgid "  :Error: Restore (rename) failed: %s\n"
+msgstr "Wiederherstellung fehlgeschlagen: %s\n"
 
 #: src/config_rmw.c:196
 #, c-format
@@ -329,7 +300,7 @@ msgstr ""
 "Kann nicht fortfahren. Beende...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:528
+#: src/rmw.c:525
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Fehler: Nr. %d beim Versuch, eine .trashinfo-Datei anzulegen\n"
@@ -386,12 +357,12 @@ msgstr "  :Fehler: %s konnte nicht geöffnet werden\n"
 msgid "  :Error: while removing %s\n"
 msgstr "  :Fehler: %s konnte nicht entfernt werden\n"
 
-#: src/restore_rmw.c:274
+#: src/restore_rmw.c:272
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Fehler: .trashinfo-Datei '%s' konnte nicht entfernt werden\n"
 
-#: src/rmw.c:552
+#: src/rmw.c:549
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Kein passendes Dateisystem für \"%s\" gefunden\n"
@@ -418,12 +389,14 @@ msgstr " :Warnung: Maximale Anzahl geschützter Ordner erreicht: %d\n"
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr " :Warnung: Maximale Anzahl von Papierkörben erreicht: %d\n"
 
-#: src/messages_rmw.c:84
-#, c-format
-msgid " :warning: Restore() returned errors\n"
+#. TRANSLATORS: ignore "Restore()"
+#: src/messages_rmw.c:89
+#, fuzzy, c-format
+#| msgid " :warning: Restore() returned errors\n"
+msgid " :warning: Restore() returned %d\n"
 msgstr " :Warnung: Restore() hat Fehler gemeldet\n"
 
-#: src/restore_rmw.c:562
+#: src/restore_rmw.c:565
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :Warnung: Konnte %s nicht entfernen\n"
@@ -454,23 +427,17 @@ msgid_plural "%d files purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/rmw.c:562
+#: src/rmw.c:559
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
 msgstr[0] "%d Datei wurde in den Papierkorb verschoben"
 msgstr[1] "%d Dateien wurden in den Papierkorb verschoben"
 
-#. TRANSLATORS:  "%s" refers to a file or directory
-#: src/restore_rmw.c:301
-#, c-format
-msgid "'%s' not found\n"
-msgstr "'%s' nicht gefunden\n"
-
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:442
+#: src/restore_rmw.c:446
 msgid "'q' - quit"
 msgstr "'q' - beenden"
 
@@ -491,18 +458,18 @@ msgstr "-r / --recurse: nicht implementiert\n"
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:439
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<PFEIL-RECHTS / PFEIL-LINKS> - zwischen Papierkörben wechseln"
 
-#: src/restore_rmw.c:436
+#: src/restore_rmw.c:440
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<LEERTASTE> - Eintrag auswählen oder Auswahl aufheben. / <ENTER> - "
 "ausgewählte Einträge wiederherstellen"
 
-#: src/restore_rmw.c:431
+#: src/restore_rmw.c:435
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -520,7 +487,7 @@ msgstr "%s wurde angelegt\n"
 msgid "Created directory %s\n"
 msgstr "Verzeichnis %s wurde angelegt\n"
 
-#: src/restore_rmw.c:255
+#: src/restore_rmw.c:252
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelter Dateiname im Ziel - füge Zeitstempel an...\n"
@@ -536,7 +503,8 @@ msgid "Error: while getting the path to your home directory\n"
 msgstr ""
 "Fehler: Pfad zu deinem Home-Verzeichnis konnte nicht ermittelt werden\n"
 
-#: src/rmw.c:425
+#. TRANSLATORS:  "%s" refers to a file or directory
+#: src/rmw.c:422 src/restore_rmw.c:305
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Datei nicht gefunden: '%s'\n"
@@ -549,7 +517,7 @@ msgstr ""
 "Wenn du denkst, dass es sich dabei um einen Fehler handeln könnte, melde ihn "
 "bitte an die rmw-Entwickler.\n"
 
-#: src/rmw.c:570
+#: src/rmw.c:567
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -558,19 +526,10 @@ msgstr ""
 "Keine Dateinamen oder Kommandozeilenoptionen wurden übergeben\n"
 "Gib '%s -h' ein, um mehr Informationen zu erhalten\n"
 
-#. TRANSLATORS: The placeholder indicates the bug-reporting address
-#. for this package.  Please add _another line_ saying
-#. "Report translation bugs to <...>\n" with the address for translation
-#. bugs (typically your translation team's web or email address).
-#: src/trivial_rmw.c:78
+#: src/trivial_rmw.c:65
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Melde Fehler an <%s>.\n"
-
-#: src/restore_rmw.c:280
-#, c-format
-msgid "Restore failed: %s\n"
-msgstr "Wiederherstellung fehlgeschlagen: %s\n"
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
 #: src/restore_rmw.c:152
@@ -582,12 +541,12 @@ msgstr "Suche nur nach dem Basisnamen...\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:417
+#: src/rmw.c:414
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Übersprungen: %s befindet sich in einem geschützten Verzeichnis\n"
 
-#: src/trivial_rmw.c:83
+#: src/trivial_rmw.c:70
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -677,7 +636,7 @@ msgstr ""
 "Papierkorbleerung ist deaktiviert ('purge_after' steht auf '0')\n"
 "\n"
 
-#: src/trivial_rmw.c:98
+#: src/trivial_rmw.c:85
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -705,7 +664,61 @@ msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""
 "rmw: %s(): Puffer zu klein (habe %hu erhalten, brauche mindestens %hu)\n"
 
-#: src/restore_rmw.c:171
+#: src/restore_rmw.c:168
 #, c-format
 msgid "search complete\n"
 msgstr "Suche abgeschlossen\n"
+
+#~ msgid ""
+#~ "  \n"
+#~ "\n"
+#~ "  \t===] First time use [===\n"
+#~ "\n"
+#~ "After rmw is installed, create the user configuration directory\n"
+#~ "by typing 'rmw' and hitting enter. It's recommended to copy\n"
+#~ "\n"
+#~ "  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
+#~ "\n"
+#~ "and then rename it to 'config':\n"
+#~ "\n"
+#~ "  'cd ~/.config/rmw'\n"
+#~ "  '~/.config/rmw$ cp /etc/rmwrc .'\n"
+#~ "  '~/.config/rmw$ mv rmwrc config'\n"
+#~ "\n"
+#~ "Then edit the file to suit your needs.\n"
+#~ "\n"
+#~ "Visit the rmw home page for more help, and information about\n"
+#~ "how to obtain support - http://github.com/andy5995/rmw/wiki\n"
+#~ "\n"
+#~ msgstr ""
+#~ "  \n"
+#~ "\n"
+#~ "  \t===] Erstmaliger Aufruf [===\n"
+#~ "\n"
+#~ "Nachdem rmw installiert wurde, lege das "
+#~ "Benutzerkonfigurationsverzeichnis\n"
+#~ "an, indem du 'rmw' eintippst und die Eingabetast drückst. Es wird "
+#~ "empfohlen,\n"
+#~ "\n"
+#~ "  /etc/rmwrc (oder /usr/local/etc/rmwrc) nach '$HOME/.config/rmw'\n"
+#~ "\n"
+#~ "zu kopieren und die Datei dann in 'config' umzubenennen:\n"
+#~ "\n"
+#~ "  'cd ~/.config/rmw'\n"
+#~ "  '~/.config/rmw$ cp /etc/rmwrc .'\n"
+#~ "  '~/.config/rmw$ mv rmwrc config'\n"
+#~ "\n"
+#~ "Passe die Datei dann an deine Bedürfnisse an.\n"
+#~ "\n"
+#~ "Besuche die rmw-Homepage für mehr Hilfe und Informationen\n"
+#~ "darüber, wie du Unterstützung bekommen kannst - http://github.com/"
+#~ "andy5995/rmw/wiki\n"
+#~ "\n"
+
+#~ msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
+#~ msgstr ""
+#~ "  :Fehler: '%s' kann geöffnet werden, aber ein unbekannter Fehler ist "
+#~ "aufgetreten\n"
+
+#~ msgid "'%s' not found\n"
+#~ msgstr "'%s' nicht gefunden\n"

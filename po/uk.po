@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-15 18:25-0500\n"
+"POT-Creation-Date: 2018-10-23 00:54-0500\n"
 "PO-Revision-Date: 2018-01-01 10:09-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Ukrainian\n"
@@ -19,7 +19,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:142
+#: src/trivial_rmw.c:129
 #, c-format
 msgid ""
 "\n"
@@ -39,7 +39,7 @@ msgstr ""
 "purge_after = 90\n"
 
 #. TRANSLATORS:  Do not translate the last two lines in this section
-#: src/trivial_rmw.c:159
+#: src/trivial_rmw.c:146
 #, c-format
 msgid ""
 "\n"
@@ -58,7 +58,7 @@ msgstr ""
 "# PROTECT = $HOME/src\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:120
+#: src/trivial_rmw.c:107
 #, c-format
 msgid ""
 "\n"
@@ -91,7 +91,7 @@ msgstr ""
 "#WASTE=$HOME/.local/share/Trash\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:113
+#: src/trivial_rmw.c:100
 #, c-format
 msgid ""
 "\n"
@@ -108,7 +108,7 @@ msgstr ""
 "WASTE = $HOME/.trash.rmw\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:132
+#: src/trivial_rmw.c:119
 #, c-format
 msgid ""
 "\n"
@@ -132,7 +132,7 @@ msgstr ""
 "#WASTE=/mnt/sda10000/example_waste, removable"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/trivial_rmw.c:151
+#: src/trivial_rmw.c:138
 #, c-format
 msgid ""
 "\n"
@@ -170,51 +170,6 @@ msgid ""
 "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 
-#: src/trivial_rmw.c:61
-#, c-format
-msgid ""
-"  \n"
-"\n"
-"  \t===] First time use [===\n"
-"\n"
-"After rmw is installed, create the user configuration directory\n"
-"by typing 'rmw' and hitting enter. It's recommended to copy\n"
-"\n"
-"  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
-"\n"
-"and then rename it to 'config':\n"
-"\n"
-"  'cd ~/.config/rmw'\n"
-"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
-"  '~/.config/rmw$ mv rmwrc config'\n"
-"\n"
-"Then edit the file to suit your needs.\n"
-"\n"
-"Visit the rmw home page for more help, and information about\n"
-"how to obtain support - http://github.com/andy5995/rmw/wiki\n"
-"\n"
-msgstr ""
-"  \n"
-"\n"
-"  \t===] При першому використанні [===\n"
-"\n"
-"Після того як rmw встановлено, створіть папку конфігурацій користувача\n"
-"введіте 'rmw' та натисніть enter. Рекомендуєтся скопіювати\n"
-"\n"
-"  /etc/rmwrc (or /usr/local/etc/rmwrc) в '$HOME/.config/rmw'\n"
-"\n"
-"і потім перейменуйте в 'config':\n"
-"\n"
-"  'cd ~/.config/rmw'\n"
-"  '~/.config/rmw$ cp /etc/rmwrc .'\n"
-"  '~/.config/rmw$ mv rmwrc config'\n"
-"\n"
-"Після цього відредагуйте файл для ваших потреб.\n"
-"\n"
-"Відвідайте rmw домашню сторінку для допомоги, та інформації\n"
-"про підтримку - http://github.com/andy5995/rmw/wiki\n"
-"\n"
-
 #: src/trivial_rmw.c:55
 #, c-format
 msgid ""
@@ -234,27 +189,40 @@ msgstr ""
 "  -s, --select              обрати файли зі списку для відновлення\n"
 "  -u, --undo-last           відмінити останнє видалення\n"
 
-#: src/rmw.c:532
+#: src/trivial_rmw.c:61
+#, c-format
+msgid ""
+"  \n"
+"\n"
+"Visit the rmw home page for more help, and information about\n"
+"how to obtain support - http://github.com/andy5995/rmw/wiki\n"
+"\n"
+msgstr ""
+
+#: src/rmw.c:529
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Номер помилки %d спроба перемістити %s :\n"
 
-#: src/restore_rmw.c:285
-#, c-format
-msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
-msgstr "  :Помилка: Вдало відкритий '%s' але виникла невідома помилка\n"
-
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
 #: src/config_rmw.c:171
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "  :Error: Can not open configuration file\n"
+#| "%s (or)\n"
+#| "%s%s\n"
+#| "\n"
+#| "A default configuration file can be found at\n"
+#| "https://github.com/andy5995/rmw/tree/master/etc\n"
+#| "Terminating...\n"
 msgid ""
 "  :Error: Can not open configuration file\n"
 "%s (or)\n"
 "%s%s\n"
 "\n"
 "A default configuration file can be found at\n"
-"https://github.com/andy5995/rmw/tree/master/etc\n"
+"https://github.com/andy5995/rmw/tree/master\n"
 "Terminating...\n"
 msgstr ""
 "  :Помилка: Неможливо відкрити конфігураційний файл\n"
@@ -264,6 +232,13 @@ msgstr ""
 "Конфігураційний файл за замовчуванням знаходиться\n"
 "https://github.com/andy5995/rmw/tree/master/etc\n"
 "Зупиняємо...\n"
+
+#. TRANSLATORS: ignore "rename"
+#: src/restore_rmw.c:280
+#, fuzzy, c-format
+#| msgid "Restore failed: %s\n"
+msgid "  :Error: Restore (rename) failed: %s\n"
+msgstr "Неможливо відновити: %s\n"
 
 #: src/config_rmw.c:196
 #, c-format
@@ -320,7 +295,7 @@ msgstr ""
 "Неможливо продовжити. Зупиняємо...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:528
+#: src/rmw.c:525
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Помилка: %d намагається створити .trashinfo файл\n"
@@ -377,12 +352,12 @@ msgstr "  :Помилка: при відкриванні %s\n"
 msgid "  :Error: while removing %s\n"
 msgstr "  :Помилка: при видаленні %s\n"
 
-#: src/restore_rmw.c:274
+#: src/restore_rmw.c:272
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Помилка: при видаленні .trashinfo файлу: '%s'\n"
 
-#: src/rmw.c:552
+#: src/rmw.c:549
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Потрібна система файлів не знайдена для \"%s\"\n"
@@ -409,12 +384,14 @@ msgstr " :попередження: Максимальну кількість з
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr " :попередження: Максимальну кількість корзин досягнуто: %d\n"
 
-#: src/messages_rmw.c:84
-#, c-format
-msgid " :warning: Restore() returned errors\n"
+#. TRANSLATORS: ignore "Restore()"
+#: src/messages_rmw.c:89
+#, fuzzy, c-format
+#| msgid " :warning: Restore() returned errors\n"
+msgid " :warning: Restore() returned %d\n"
 msgstr " :попередження: Restore() (відновлення) повернуті помилки\n"
 
-#: src/restore_rmw.c:562
+#: src/restore_rmw.c:565
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :попередження: неможливо видалити %s\n"
@@ -448,7 +425,7 @@ msgstr[1] "%d файли очищено"
 msgstr[2] "%d файли очищено"
 msgstr[3] "%d файли очищено"
 
-#: src/rmw.c:562
+#: src/rmw.c:559
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -458,16 +435,10 @@ msgstr[1] "%d файли переміщені в корзину"
 msgstr[2] "%d файли переміщені в корзину"
 msgstr[3] "%d файли переміщені в корзину"
 
-#. TRANSLATORS:  "%s" refers to a file or directory
-#: src/restore_rmw.c:301
-#, c-format
-msgid "'%s' not found\n"
-msgstr "'%s' не знайдено\n"
-
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:442
+#: src/restore_rmw.c:446
 msgid "'q' - quit"
 msgstr "'q' - вихід"
 
@@ -488,18 +459,18 @@ msgstr "-r / --recurse: не розроблено\n"
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:439
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<КУРСОР-ВПРАВО / КУРСОР-ВЛІВО> - переключити корзини"
 
-#: src/restore_rmw.c:436
+#: src/restore_rmw.c:440
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<ПРОБІЛ> - обрати або відмінити вибір елемента. / <ENTER> - відновити "
 "обраний елемент"
 
-#: src/restore_rmw.c:431
+#: src/restore_rmw.c:435
 #, fuzzy, c-format
 #| msgid "== contains %d file =="
 msgid "== contains %d file =="
@@ -520,7 +491,7 @@ msgstr "Створено %s\n"
 msgid "Created directory %s\n"
 msgstr "Створено папку %s\n"
 
-#: src/restore_rmw.c:255
+#: src/restore_rmw.c:252
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Файл с таким ім'ям вже існує - додаємо стрінг з часом...\n"
@@ -535,7 +506,8 @@ msgstr "Помилка: realpath() помилку повернено.\n"
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Помилка: при спробі отримати системний шлях до домашньої директорії\n"
 
-#: src/rmw.c:425
+#. TRANSLATORS:  "%s" refers to a file or directory
+#: src/rmw.c:422 src/restore_rmw.c:305
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Файл не знайдено: '%s'\n"
@@ -548,7 +520,7 @@ msgstr ""
 "Якщо ви думаєте що це може бути баг, будь ласка зв'яжіться з rmw "
 "розробниками.\n"
 
-#: src/rmw.c:570
+#: src/rmw.c:567
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -557,22 +529,13 @@ msgstr ""
 "Файли або опції командної строки не знайдено\n"
 "Введіть '%s -h' для додаткової інформації\n"
 
-#. TRANSLATORS: The placeholder indicates the bug-reporting address
-#. for this package.  Please add _another line_ saying
-#. "Report translation bugs to <...>\n" with the address for translation
-#. bugs (typically your translation team's web or email address).
-#: src/trivial_rmw.c:78
+#: src/trivial_rmw.c:65
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
 "Пожалуйста сообщите о баге по этому адрессу <%s>.\n"
 "Пожалуйста сообщите о проблеме с переводом по этому адрессу "
 "<sgalianova@myseneca.ca>.\n"
-
-#: src/restore_rmw.c:280
-#, c-format
-msgid "Restore failed: %s\n"
-msgstr "Неможливо відновити: %s\n"
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
 #: src/restore_rmw.c:152
@@ -584,12 +547,12 @@ msgstr "Пошук використовуючи лише базове ім'я ф
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:417
+#: src/rmw.c:414
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Пропущено: %s це захищена папка\n"
 
-#: src/trivial_rmw.c:83
+#: src/trivial_rmw.c:70
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -676,7 +639,7 @@ msgstr ""
 "повне видалення вимкнуто ('purge_after' має значення '0')\n"
 "\n"
 
-#: src/trivial_rmw.c:98
+#: src/trivial_rmw.c:85
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -702,16 +665,65 @@ msgstr ""
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr "rmw: %s(): буфер занадто малий (маємо %hu, потрібно мінімум %hu)\n"
 
-#: src/restore_rmw.c:171
+#: src/restore_rmw.c:168
 #, c-format
 msgid "search complete\n"
 msgstr "пошук завершено\n"
+
+#~ msgid ""
+#~ "  \n"
+#~ "\n"
+#~ "  \t===] First time use [===\n"
+#~ "\n"
+#~ "After rmw is installed, create the user configuration directory\n"
+#~ "by typing 'rmw' and hitting enter. It's recommended to copy\n"
+#~ "\n"
+#~ "  /etc/rmwrc (or /usr/local/etc/rmwrc) to '$HOME/.config/rmw'\n"
+#~ "\n"
+#~ "and then rename it to 'config':\n"
+#~ "\n"
+#~ "  'cd ~/.config/rmw'\n"
+#~ "  '~/.config/rmw$ cp /etc/rmwrc .'\n"
+#~ "  '~/.config/rmw$ mv rmwrc config'\n"
+#~ "\n"
+#~ "Then edit the file to suit your needs.\n"
+#~ "\n"
+#~ "Visit the rmw home page for more help, and information about\n"
+#~ "how to obtain support - http://github.com/andy5995/rmw/wiki\n"
+#~ "\n"
+#~ msgstr ""
+#~ "  \n"
+#~ "\n"
+#~ "  \t===] При першому використанні [===\n"
+#~ "\n"
+#~ "Після того як rmw встановлено, створіть папку конфігурацій користувача\n"
+#~ "введіте 'rmw' та натисніть enter. Рекомендуєтся скопіювати\n"
+#~ "\n"
+#~ "  /etc/rmwrc (or /usr/local/etc/rmwrc) в '$HOME/.config/rmw'\n"
+#~ "\n"
+#~ "і потім перейменуйте в 'config':\n"
+#~ "\n"
+#~ "  'cd ~/.config/rmw'\n"
+#~ "  '~/.config/rmw$ cp /etc/rmwrc .'\n"
+#~ "  '~/.config/rmw$ mv rmwrc config'\n"
+#~ "\n"
+#~ "Після цього відредагуйте файл для ваших потреб.\n"
+#~ "\n"
+#~ "Відвідайте rmw домашню сторінку для допомоги, та інформації\n"
+#~ "про підтримку - http://github.com/andy5995/rmw/wiki\n"
+#~ "\n"
+
+#~ msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
+#~ msgstr "  :Помилка: Вдало відкритий '%s' але виникла невідома помилка\n"
 
 #~ msgid "%d files purged"
 #~ msgstr "%d файли очищено"
 
 #~ msgid "%d files were removed to the waste folder"
 #~ msgstr "%d файли переміщені в корзину"
+
+#~ msgid "'%s' not found\n"
+#~ msgstr "'%s' не знайдено\n"
 
 #~ msgid "== contains %d files =="
 #~ msgstr "== містить %d файли =="
