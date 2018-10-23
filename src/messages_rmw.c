@@ -79,8 +79,14 @@ void display_dot_trashinfo_error (const char *dti)
   return;
 }
 
-void msg_warn_restore (void)
+void msg_warn_restore (int result)
 {
-  printf (_(" :warning: Restore() returned errors\n"));
+  if (result == 0)
+    return;
+
+  if (result != FILE_NOT_FOUND)
+    /* TRANSLATORS: ignore "Restore()" */
+    printf (_(" :warning: Restore() returned %d\n"), result);
+
   return;
 }

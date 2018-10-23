@@ -328,10 +328,7 @@ Unable to continue. Exiting...\n"));
      */
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
     {
-      if (Restore (argv[file_arg], time_str_appended, waste))
-      {
-        msg_warn_restore();
-      }
+      msg_warn_restore(Restore (argv[file_arg], time_str_appended, waste));
     }
 
     return 0;

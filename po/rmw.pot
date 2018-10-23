@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-22 14:02-0500\n"
+"POT-Creation-Date: 2018-10-23 00:54-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,14 +137,9 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/rmw.c:532
+#: src/rmw.c:529
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
-msgstr ""
-
-#: src/restore_rmw.c:285
-#, c-format
-msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
 msgstr ""
 
 #. TRANSLATORS:  any time "open" or "close" is used in this program
@@ -159,6 +154,12 @@ msgid ""
 "A default configuration file can be found at\n"
 "https://github.com/andy5995/rmw/tree/master\n"
 "Terminating...\n"
+msgstr ""
+
+#. TRANSLATORS: ignore "rename"
+#: src/restore_rmw.c:280
+#, c-format
+msgid "  :Error: Restore (rename) failed: %s\n"
 msgstr ""
 
 #: src/config_rmw.c:196
@@ -207,7 +208,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:528
+#: src/rmw.c:525
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr ""
@@ -255,12 +256,12 @@ msgstr ""
 msgid "  :Error: while removing %s\n"
 msgstr ""
 
-#: src/restore_rmw.c:274
+#: src/restore_rmw.c:272
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr ""
 
-#: src/rmw.c:552
+#: src/rmw.c:549
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr ""
@@ -287,12 +288,13 @@ msgstr ""
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr ""
 
-#: src/messages_rmw.c:84
+#. TRANSLATORS: ignore "Restore()"
+#: src/messages_rmw.c:89
 #, c-format
-msgid " :warning: Restore() returned errors\n"
+msgid " :warning: Restore() returned %d\n"
 msgstr ""
 
-#: src/restore_rmw.c:562
+#: src/restore_rmw.c:565
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr ""
@@ -321,23 +323,17 @@ msgid_plural "%d files purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/rmw.c:562
+#: src/rmw.c:559
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
 msgstr[0] ""
 msgstr[1] ""
 
-#. TRANSLATORS:  "%s" refers to a file or directory
-#: src/restore_rmw.c:301
-#, c-format
-msgid "'%s' not found\n"
-msgstr ""
-
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:442
+#: src/restore_rmw.c:446
 msgid "'q' - quit"
 msgstr ""
 
@@ -358,16 +354,16 @@ msgstr ""
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:439
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr ""
 
-#: src/restore_rmw.c:436
+#: src/restore_rmw.c:440
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 
-#: src/restore_rmw.c:431
+#: src/restore_rmw.c:435
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -385,7 +381,7 @@ msgstr ""
 msgid "Created directory %s\n"
 msgstr ""
 
-#: src/restore_rmw.c:255
+#: src/restore_rmw.c:252
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
@@ -400,7 +396,8 @@ msgstr ""
 msgid "Error: while getting the path to your home directory\n"
 msgstr ""
 
-#: src/rmw.c:425
+#. TRANSLATORS:  "%s" refers to a file or directory
+#: src/rmw.c:422 src/restore_rmw.c:305
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
@@ -411,7 +408,7 @@ msgid ""
 "If you think this may be a bug, please report it to the rmw developers.\n"
 msgstr ""
 
-#: src/rmw.c:570
+#: src/rmw.c:567
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -421,11 +418,6 @@ msgstr ""
 #: src/trivial_rmw.c:65
 #, c-format
 msgid "Report bugs to <%s>.\n"
-msgstr ""
-
-#: src/restore_rmw.c:280
-#, c-format
-msgid "Restore failed: %s\n"
 msgstr ""
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
@@ -438,7 +430,7 @@ msgstr ""
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:417
+#: src/rmw.c:414
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr ""
@@ -518,7 +510,7 @@ msgstr ""
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""
 
-#: src/restore_rmw.c:171
+#: src/restore_rmw.c:168
 #, c-format
 msgid "search complete\n"
 msgstr ""

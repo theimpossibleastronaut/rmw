@@ -162,10 +162,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 
       strcat (possibly_in_path, argv);
 
-      if (Restore (possibly_in_path, time_str_appended, waste))
-      {
-        msg_warn_restore();
-      }
+      msg_warn_restore (Restore (possibly_in_path, time_str_appended, waste));
     }
 
     printf (_("search complete\n"));
@@ -215,7 +212,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
           display_dot_trashinfo_error (file.info);
           close_file (fp, file.info, __func__);
 
-          return 1;
+          return ERR_TRASHINFO_FORMAT;
         }
 
           /** adding 5 for the 'Path=' preceding the path. */
@@ -241,7 +238,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
           display_dot_trashinfo_error (file.info);
           close_file (fp, file.info, __func__);
 
-          return 1;
+          return ERR_FGETS;
         }
 
         /* Check for duplicate filename
@@ -266,7 +263,8 @@ Duplicate filename at destination - appending time string...\n"));
         if (exists (parent_dir))
           make_dir (parent_dir);
 
-        if (!rename (argv, file.dest))
+        int r_result = rename (argv, file.dest);
+        if (!r_result)
         {
           printf ("+'%s' -> '%s'\n", argv, file.dest);
 
@@ -277,29 +275,35 @@ Duplicate filename at destination - appending time string...\n"));
             printf ("-%s\n", file.info);
         }
         else
-          printf (_("Restore failed: %s\n"), file.dest);
+        {
+          /* TRANSLATORS: ignore "rename" */
+          printf (_("  :Error: Restore (rename) failed: %s\n"), file.dest);
+          return r_result;
+        }
       }
       else
       {
-        printf (_
-                ("  :Error: Able to open '%s' but encountered an unknown error\n"),
+         printf ("  :Error: (fgets) Able to open '%s' but encountered an unknown error\n",
                 file.info);
         close_file (fp, file.info, __func__);
-        return 1;
+        return ERR_FGETS;
       }
 
     }
     else
     {
       open_err (file.info, __func__);
-      return 1;
+      return ERR_OPEN;
     }
   }
   else
   {
+    /* This printf statement is on a separate line to leave the translated
+     * string below it unchanged */
+    printf (" :");
     /* TRANSLATORS:  "%s" refers to a file or directory  */
-    printf (_("'%s' not found\n"), argv);
-    return 1;
+    printf (_("File not found: '%s'\n"), argv);
+    return FILE_NOT_FOUND;
   }
 
   return 0;
@@ -478,10 +482,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
         {
           static char recover_file[PATH_MAX + 1];
           sprintf (recover_file, "%s%s", waste[ctr].files, item_name (items[i]));
-          if (Restore (recover_file, time_str_appended, waste))
-          {
-            msg_warn_restore();
-          }
+          msg_warn_restore(Restore (recover_file, time_str_appended, waste));
         }
       }
     }
@@ -544,18 +545,20 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
     return;
   }
 
-  static int err_ct;
-  err_ct = 0;
+  int err_ctr = 0;
 
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
   {
+    int result = 0;
     trim (line);
-    err_ct += Restore (line, time_str_appended, waste);
+    result = Restore (line, time_str_appended, waste);
+    msg_warn_restore (result);
+    err_ctr += result;
   }
 
   close_file (undo_file_ptr, undo_path, __func__);
 
-  if (err_ct == 0)
+  if (err_ctr == 0)
   {
     if (remove (undo_path))
     {
@@ -565,8 +568,6 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
 
     return;
   }
-
-  msg_warn_restore();
 
   return;
 }
