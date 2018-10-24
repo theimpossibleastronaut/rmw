@@ -6,7 +6,12 @@
 #
 
 . ${1}
-. ${TESTS_DIR}/COMMON
+
+if [ -e COMMON ]; then
+  . ./COMMON
+else
+  . ${TESTS_DIR}/COMMON
+fi
 
 echo "== On first run, directories should get created"
 # show commands that are run

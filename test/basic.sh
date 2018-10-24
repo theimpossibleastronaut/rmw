@@ -8,15 +8,10 @@ else
   . ${TESTS_DIR}/COMMON
 fi
 
-if [ -e tmp-home ]; then
-  rm -rf tmp-home
-fi
-
 echo "== On first run, directories should get created"
 # show commands that are run
 set -x
-$BIN_DIR/rmw -c $CONFIG
-
+$RMW_TEST_CMD_STRING
 test_result $?
 
 echo "\n\n == List the waste folders"

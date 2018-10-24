@@ -16,6 +16,10 @@ test_result() {
   fi
 }
 
+#
+# HOME is defined in test/Makefile as "tmp-home". But...
+# Don't use the var $HOME here, just in case something went wrong somewhere ;)
+#
 if [ -e tmp-home ]; then
   rm -rf tmp-home
 fi
