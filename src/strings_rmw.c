@@ -37,7 +37,7 @@ bufchk (const char *str, ushort boundary)
    * This assumes 10 will never exceed a buffer size. In this program,
    * there are no buffers that are <= 10 (that I can think of right now)
    */
-  const ushort str_part = 10;
+  #define STR_PART 10
   static ushort len;
   len = strlen (str);
 
@@ -57,20 +57,20 @@ bufchk (const char *str, ushort boundary)
   static ushort display_len;
   display_len = 0;
 
-  display_len = (boundary > str_part) ? str_part : boundary;
+  display_len = (boundary > STR_PART) ? STR_PART : boundary;
 
   char temp[display_len];
   strncpy (temp, str, display_len);
   temp[display_len - 1] = '\0';
 
-  /* This was replaced by the line above.
-   *
-   * I'm not sure why this didn't work to prevent the problem
-   * mentioned in https://github.com/andy5995/rmw/issues/156 */
-  // truncate_str (temp, 1);
-
-  fprintf (stderr, _(" <--> Displaying part of the string that caused the error <-->\n\n"));
-  fprintf (stderr, "%s\n\n", temp);
+  /* Though we've set STR_PART to 10, we don't really know what's "safe",
+   * so only display this if verbosity is on
+   */
+  if (verbose)
+  {
+    fprintf (stderr, _(" <--> Displaying part of the string that caused the error <-->\n\n"));
+    fprintf (stderr, "%s\n\n", temp);
+  }
 
   exit (EXIT_BUF_ERR);
 }
