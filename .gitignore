@@ -59,11 +59,13 @@ test/tmp-home
 
 # coverity
 cov-int
-rmw.tgz
+*.tgz
+*.tar.gz
 
 # temp install directory when ./configure --prefix=$PWD/temp_install
 # is used
 temp_install
 
 build
+
 
