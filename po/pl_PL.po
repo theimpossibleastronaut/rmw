@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-23 22:48-0500\n"
+"POT-Creation-Date: 2018-10-24 12:55-0500\n"
 "PO-Revision-Date: 2017-12-07 18:35+0100\n"
 "Last-Translator: suve <veg@svgames.pl>\n"
 "Language-Team: Polish\n"
@@ -195,7 +195,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/rmw.c:514
+#: src/rmw.c:512
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Błąd: numer %d podczas próby przeniesienia %s :\n"
@@ -230,7 +230,7 @@ msgstr ""
 "Zamykanie programu...\n"
 
 #. TRANSLATORS: ignore "rename"
-#: src/restore_rmw.c:272
+#: src/restore_rmw.c:273
 #, fuzzy, c-format
 #| msgid "Restore failed: %s\n"
 msgid "  :Error: Restore (rename) failed: %s\n"
@@ -284,7 +284,7 @@ msgstr ""
 "Zamykanie programu...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:510
+#: src/rmw.c:508
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Błąd: numer %d podczas próby utworzenia pliku .trashinfo\n"
@@ -339,12 +339,12 @@ msgstr "  :Błąd: podczas otwierania %s\n"
 msgid "  :Error: while removing %s\n"
 msgstr "  :Błąd: podczas usuwania %s\n"
 
-#: src/restore_rmw.c:264
+#: src/restore_rmw.c:265
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Błąd: podczas usuwania pliku .trashinfo: '%s'\n"
 
-#: src/rmw.c:534
+#: src/rmw.c:532
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Nie znaleziono odpowiedniego systemu plików dla \"%s\"\n"
@@ -379,7 +379,7 @@ msgstr " :ostrzeżenie: Osięgnięto maksymalną liczbę katalogów-koszy: %d\n"
 msgid " :warning: Restore() returned %d\n"
 msgstr " :ostrzeżenie: Restore() zwróciło błędy\n"
 
-#: src/restore_rmw.c:547
+#: src/restore_rmw.c:548
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :ostrzeżenie: niepowodzenie podczas usuwania %s\n"
@@ -413,7 +413,7 @@ msgstr[1] "Usunięto %d pliki"
 msgstr[2] "Usunięto %d plików"
 msgstr[3] "Usunięto %d plików"
 
-#: src/rmw.c:544
+#: src/rmw.c:542
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -426,7 +426,7 @@ msgstr[3] "przeniesiono %d plików do kosza"
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:438
+#: src/restore_rmw.c:439
 msgid "'q' - quit"
 msgstr "'q' - wyjdź"
 
@@ -447,17 +447,17 @@ msgstr "-r / --recurse: nie zaimplementowano\n"
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:431
+#: src/restore_rmw.c:432
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<LEWO / PRAWO> - przełączaj się między katalogami-koszami"
 
-#: src/restore_rmw.c:432
+#: src/restore_rmw.c:433
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<SPACJA> - zaznacz albo odznacz wpis. / <ENTER> - przywróć wybrane wpisy"
 
-#: src/restore_rmw.c:427
+#: src/restore_rmw.c:428
 #, fuzzy, c-format
 #| msgid "== contains %d file =="
 msgid "== contains %d file =="
@@ -478,7 +478,7 @@ msgstr "Utworzono %s\n"
 msgid "Created directory %s\n"
 msgstr "Utworzono katalog %s\n"
 
-#: src/restore_rmw.c:244
+#: src/restore_rmw.c:245
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
@@ -495,7 +495,7 @@ msgid "Error: while getting the path to your home directory\n"
 msgstr "Błąd: podczas ustalania ścieżki katalogu domowego użytkownika\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:409 src/restore_rmw.c:297
+#: src/rmw.c:407 src/restore_rmw.c:298
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Nie znaleziono pliku: '%s'\n"
@@ -506,7 +506,7 @@ msgid ""
 "If you think this may be a bug, please report it to the rmw developers.\n"
 msgstr "Jeśli uważasz, że to może być błąd programu, zaraportuj go autorom.\n"
 
-#: src/rmw.c:552
+#: src/rmw.c:550
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -523,7 +523,7 @@ msgstr ""
 "Zgłaszanie błędów tłumaczenia: <veg@svgames.pl>\n"
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
-#: src/restore_rmw.c:148
+#: src/restore_rmw.c:149
 #, c-format
 msgid "Searching using only the basename...\n"
 msgstr "Wyszukuję, używając tylko nazwy pliku...\n"
@@ -532,7 +532,7 @@ msgstr "Wyszukuję, używając tylko nazwy pliku...\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:401
+#: src/rmw.c:399
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Pominięto: %s jest chronionym katalogiem\n"
@@ -611,14 +611,14 @@ msgstr ""
 msgid "function: <%s>"
 msgstr "funkcja: <%s>"
 
-#: src/rmw.c:268
+#: src/rmw.c:266
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "pomięto proces oczyszczania: użyj -f albo --force\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:260
+#: src/rmw.c:258
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -654,7 +654,7 @@ msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""
 "rmw: %s(): zbyt mały bufor (otrzymano %hu, potrzebne co najmniej %hu)\n"
 
-#: src/restore_rmw.c:164
+#: src/restore_rmw.c:165
 #, c-format
 msgid "search complete\n"
 msgstr "wyszukiwanie zakończone\n"
