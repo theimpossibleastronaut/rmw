@@ -126,9 +126,6 @@ unescape_url (const char *str, char *dest, ushort len)
 int
 Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 {
-  static short func_error;
-  func_error = 0;
-
   static struct restore
   {
     char *base_name;
@@ -137,8 +134,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
     char info[MP];
   } file;
 
-  if ((func_error = bufchk (argv, PATH_MAX)))
-    return EXIT_BUF_ERR;
+  bufchk (argv, MP);
 
   file.base_name = basename (argv);
 
@@ -183,11 +179,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
     printf ("Restore()/debug: %s\n", file.info);
 #endif
 
-      /**
-       * No open files yet, so just return if bufchk fails
-       */
-    if ((func_error = bufchk (file.info, MP)))
-      return func_error;
+    bufchk (file.info, MP);
 
     FILE *fp;
 
@@ -528,11 +520,7 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
 #endif
 
   sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
-  /* FIXME should there be a bufchk() here?
-   *
-   * undo_last_rmw() should return a value, so if a bufchk fails,
-   * that value can be returned
-   */
+  bufchk (undo_path, MP);
 
   undo_file_ptr = fopen (undo_path, "r");
 

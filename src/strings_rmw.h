@@ -26,7 +26,7 @@
 #include <libgen.h>
 #include <time.h>
 
-short
+void
 bufchk (const char *str, unsigned short boundary);
 
 void

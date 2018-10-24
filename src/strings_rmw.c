@@ -30,7 +30,7 @@
 
 #include "strings_rmw.h"
 
-short
+void
 bufchk (const char *str, ushort boundary)
 {
   /* str_part defines the first n characters of the string to display.
@@ -42,7 +42,7 @@ bufchk (const char *str, ushort boundary)
   len = strlen (str);
 
   if (len < boundary)
-    return 0;
+    return;
 
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */
@@ -72,7 +72,7 @@ bufchk (const char *str, ushort boundary)
   fprintf (stderr, _(" <--> Displaying part of the string that caused the error <-->\n\n"));
   fprintf (stderr, "%s\n\n", temp);
 
-  return EXIT_BUF_ERR;
+  exit (EXIT_BUF_ERR);
 }
 
 /**
@@ -138,9 +138,6 @@ truncate_str (char *str, ushort pos)
 int
 resolve_path (const char *src, char *abs_path)
 {
-  static short func_error;
-  func_error = 0;
-
   /*
    * dirname() and basename() alters the src string, so making a copy
    */
@@ -161,8 +158,7 @@ DEBUG_PREFIX
 printf ("abs_path = %s in %s\n", abs_path, __func__);
 #endif
 
-    if ((func_error = bufchk (abs_path, MP)))
-      return func_error;
+    bufchk (abs_path, MP);
 
     return 0;
   }

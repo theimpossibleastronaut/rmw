@@ -130,8 +130,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   else
     strcpy (config_file, alt_config);
 
-  if (bufchk (config_file, MP))
-    return EXIT_BUF_ERR;
+  bufchk (config_file, MP);
 
   FILE *config_ptr;
 
@@ -153,11 +152,7 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
     sprintf (str_temp, "%s%s", SYSCONFDIR, "/rmwrc");
 
     strcpy (config_file, str_temp);
-
-    if (bufchk (config_file, MP))
-    {
-      return EXIT_BUF_ERR;
-    }
+    bufchk (config_file, MP);
 
     config_ptr = fopen (config_file, "r");
 
@@ -191,12 +186,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
   char *line_from_config = calloc (CFG_MAX_LEN + 1, 1);
   while (fgets (line_from_config, CFG_MAX_LEN, config_ptr) != NULL)
   {
-    if ((func_error = bufchk (line_from_config, CFG_MAX_LEN)))
-    {
-      printf (_("  :Error: The number of lines in configuration file must be less than %d\n"),
-          CFG_MAX_LEN);
-      break;
-    }
+    bufchk (line_from_config, CFG_MAX_LEN);
 
     char *token_ptr;
 
@@ -277,9 +267,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
 
       /* and the files... */
       sprintf (waste[waste_ctr].files, "%s%s", waste[waste_ctr].parent, "/files/");
-
-      if ((func_error = bufchk (waste[waste_ctr].files, MP)))
-        break;
+      bufchk (waste[waste_ctr].files, MP);
 
       if (removable && exists (waste[waste_ctr].parent) != 0)
       {
@@ -337,9 +325,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       make_home_real (&token_ptr, HOMEDIR);
 
       strcpy (protected_dir[prot_dir_ctr], token_ptr);
-
-      if ((func_error = bufchk (protected_dir[prot_dir_ctr], MP)))
-        break;
+      bufchk (protected_dir[prot_dir_ctr], MP);
 
       prot_dir_ctr++;
     }

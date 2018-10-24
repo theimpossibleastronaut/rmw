@@ -175,10 +175,7 @@ verbose = 1;
   #endif
 
   if (HOMEDIR != NULL)
-  {
-    if (bufchk (HOMEDIR, MP))
-      return EXIT_BUF_ERR;
-  }
+    bufchk (HOMEDIR, MP);
   else
   {
     /* FIXME: Perhaps there should be an option in the config file so a
@@ -191,8 +188,7 @@ verbose = 1;
   char data_dir[MP];
 
   sprintf (data_dir, "%s%s", HOMEDIR, DATA_DIR);
-  if (bufchk (data_dir, MP))
-    return EXIT_BUF_ERR;
+  bufchk (data_dir, MP);
 
   ushort created_data_dir;
   created_data_dir = make_dir (data_dir);
@@ -347,24 +343,15 @@ Unable to continue. Exiting...\n"));
     /**
      * No files are open at this point, so just using 'return;'
      */
-    if (bufchk (undo_path, MP))
-      return EXIT_BUF_ERR;
+    bufchk (undo_path, MP);
 
     static ushort main_error;
-    main_error = 0;
 
     int rmwed_files = 0;
 
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
-      /**
-       * The undo file may be open at this point, so using 'break'
-       * After the for loop is the statement to close file, then
-       * return EXIT_BUF_ERR
-       */
-      if ((main_error = bufchk (argv[file_arg], MP)))
-        break;
-
+      bufchk (argv[file_arg], MP);
       strcpy (file.main_argv, argv[file_arg]);
 
       /**
@@ -475,9 +462,7 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
             // passed to create_trashinfo()
             file.is_duplicate = 1;
           }
-
-          if ((main_error = bufchk (file.dest_name, MP)))
-              break;
+          bufchk (file.dest_name, MP);
 
           rename_status = rename (file.main_argv, file.dest_name);
 
@@ -600,8 +585,7 @@ is_time_to_purge (void)
   char file_lastpurge[MP];
   sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
 
-  if (bufchk (file_lastpurge, MP))
-    return EXIT_BUF_ERR;
+  bufchk (file_lastpurge, MP);
 
   char today_dd[3];
   get_time_string (today_dd, 3, "%d");

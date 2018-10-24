@@ -147,8 +147,7 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
 
   strcat (finalInfoDest, DOT_TRASHINFO);
 
-  if (bufchk (finalInfoDest, MP))
-    return 1;
+  bufchk (finalInfoDest, MP);
 
   FILE *fp = fopen (finalInfoDest, "w");
 
