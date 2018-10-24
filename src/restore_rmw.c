@@ -124,7 +124,7 @@ unescape_url (const char *str, char *dest, ushort len)
  * written more efficiently
  */
 int
-Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
+Restore (const char *argv, char *time_str_appended, struct waste_containers *waste)
 {
   static struct restore
   {
@@ -135,14 +135,15 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
   } file;
 
   bufchk (argv, MP);
-
-  file.base_name = basename (argv);
+  char file_arg[MP];
+  strcpy (file_arg, argv);
+  file.base_name = basename (file_arg);
 
 /**
  * The 2 code blocks below address
  * restoring files with only the basename #14
  */
-  if ((strcmp (file.base_name, argv) == 0) && exists (file.base_name))
+  if ((strcmp (file.base_name, file_arg) == 0) && exists (file.base_name))
   {
     /* TRANSLATORS:  "basename" refers to the basename of a file  */
     printf (_("Searching using only the basename...\n"));
@@ -156,7 +157,7 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
 
       possibly_in_path = waste[ctr].files;
 
-      strcat (possibly_in_path, argv);
+      strcat (possibly_in_path, file_arg);
 
       msg_warn_restore (Restore (possibly_in_path, time_str_appended, waste));
     }
@@ -166,9 +167,9 @@ Restore (char *argv, char *time_str_appended, struct waste_containers *waste)
     return 0;
   }
 
-  if (!exists (argv))
+  if (!exists (file_arg))
   {
-    strcpy (file.relative_path, argv);
+    strcpy (file.relative_path, file_arg);
 
     truncate_str (file.relative_path, strlen (file.base_name));
 
@@ -255,10 +256,10 @@ Duplicate filename at destination - appending time string...\n"));
         if (exists (parent_dir))
           make_dir (parent_dir);
 
-        int r_result = rename (argv, file.dest);
+        int r_result = rename (file_arg, file.dest);
         if (!r_result)
         {
-          printf ("+'%s' -> '%s'\n", argv, file.dest);
+          printf ("+'%s' -> '%s'\n", file_arg, file.dest);
 
           if (remove (file.info) != 0)
             printf (_("  :Error: while removing .trashinfo file: '%s'\n"),
@@ -294,7 +295,7 @@ Duplicate filename at destination - appending time string...\n"));
      * string below it unchanged */
     printf (" :");
     /* TRANSLATORS:  "%s" refers to a file or directory  */
-    printf (_("File not found: '%s'\n"), argv);
+    printf (_("File not found: '%s'\n"), file_arg);
     return FILE_NOT_FOUND;
   }
 

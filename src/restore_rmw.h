@@ -35,7 +35,7 @@
 #define CTRLD 	4
 
 int
-Restore (char *argv, char *time_str_appended, struct waste_containers *waste);
+Restore (const char *argv, char *time_str_appended, struct waste_containers *waste);
 
 int
 restore_select (struct waste_containers *waste, char *time_str_appended);

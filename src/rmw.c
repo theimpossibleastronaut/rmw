@@ -45,7 +45,7 @@ static void
 get_time_string (char *tm_str, ushort len, const char *format);
 
 int
-main (int argc, char *argv[])
+main (const int argc, char* const argv[])
 {
   /* If MP was defined as something other than a number when building */
   if (MP < 1)
