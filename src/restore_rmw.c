@@ -507,17 +507,11 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 }
 
 void
-undo_last_rmw (char *time_str_appended, struct waste_containers *waste)
+undo_last_rmw (char *time_str_appended, struct waste_containers *waste, const char *HOMEDIR)
 {
   FILE *undo_file_ptr;
   static char undo_path[MP];
   static char line[MP];
-
-#ifndef WIN32
-  char *HOMEDIR = getenv ("HOME");
-#else
-  char *HOMEDIR = getenv ("LOCALAPPDATA");
-#endif
 
   sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
   bufchk (undo_path, MP);

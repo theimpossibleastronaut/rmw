@@ -28,4 +28,4 @@
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
       ushort *purge_after,
-      char protected_dir[PROTECT_MAX][MP], ushort *force);
+      char protected_dir[PROTECT_MAX][MP], ushort *force, const char *HOMEDIR);

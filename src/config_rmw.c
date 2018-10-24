@@ -85,7 +85,7 @@ static bool make_home_real (char **str, const char *HOMEDIR)
 short
 get_config_data(struct waste_containers *waste, const char *alt_config,
       ushort *purge_after,
-      char protected_dir[PROTECT_MAX][MP], ushort *force)
+      char protected_dir[PROTECT_MAX][MP], ushort *force, const char *HOMEDIR)
 {
   char config_file[MP];
   const ushort CFG_MAX_LEN = PATH_MAX + 16;
@@ -100,12 +100,6 @@ get_config_data(struct waste_containers *waste, const char *alt_config,
   *purge_after = 90;
 
   short func_error = 0;
-
-  #ifndef WIN32
-  char *HOMEDIR = getenv ("HOME");
-  #else
-  char *HOMEDIR = getenv ("LOCALAPPDATA");
-  #endif
 
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)

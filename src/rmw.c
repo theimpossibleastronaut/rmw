@@ -39,7 +39,7 @@
 #include "messages_rmw.h"
 
 static ushort
-is_time_to_purge (void);
+is_time_to_purge (const char *HOMEDIR);
 
 static void
 get_time_string (char *tm_str, ushort len, const char *format);
@@ -169,14 +169,14 @@ verbose = 1;
 #endif
 
   #ifndef WIN32
-  char *HOMEDIR = getenv ("HOME");
+    bufchk (getenv ("HOME"), MP);
+    const char *HOMEDIR = getenv ("HOME");
   #else
-  char *HOMEDIR = getenv ("LOCALAPPDATA");
+    bufchk (getenv ("LOCALAPPDATA"), MP);
+    const char *HOMEDIR = getenv ("LOCALAPPDATA");
   #endif
 
-  if (HOMEDIR != NULL)
-    bufchk (HOMEDIR, MP);
-  else
+  if (HOMEDIR == NULL)
   {
     /* FIXME: Perhaps there should be an option in the config file so a
      * user can specify a home directory, and pass the $HOME variable
@@ -218,7 +218,7 @@ Unable to continue. Exiting...\n"));
   ushort purge_after = 0;
 
   short conf_err =
-    get_config_data (waste, alt_config, &purge_after, protected_dir, &force);
+    get_config_data (waste, alt_config, &purge_after, protected_dir, &force, HOMEDIR);
 
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
@@ -260,10 +260,10 @@ Unable to continue. Exiting...\n"));
     printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
   else if (purge_after)
   {
-    if (is_time_to_purge () == IS_NEW_DAY || cmd_opt_purge)
+    if (is_time_to_purge (HOMEDIR) == IS_NEW_DAY || cmd_opt_purge)
     {
       if (force)
-        purge (purge_after, waste, time_now, force);
+        purge (purge_after, waste, time_now, force, HOMEDIR);
       else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }
@@ -311,7 +311,7 @@ Unable to continue. Exiting...\n"));
    */
   if (undo_last)
   {
-    undo_last_rmw (time_str_appended, waste);
+    undo_last_rmw (time_str_appended, waste, HOMEDIR);
     return 0;
   }
 
@@ -575,13 +575,8 @@ get_time_string (char *tm_str, ushort len, const char *format)
  * to the lastpurge file.
  */
 static ushort
-is_time_to_purge (void)
+is_time_to_purge (const char *HOMEDIR)
 {
-  #ifndef WIN32
-  char *HOMEDIR = getenv ("HOME");
-  #else
-  char *HOMEDIR = getenv ("LOCALAPPDATA");
-  #endif
   char file_lastpurge[MP];
   sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
 
