@@ -8,6 +8,8 @@ any of these:
   test-purging
   test-restore
 
+Use `make test-all` to run all the tests listed above.
+
 *Hint: typing `make test` and pressing the TAB key will show you
 available options.
 
