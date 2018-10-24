@@ -222,8 +222,6 @@ Unable to continue. Exiting...\n"));
 
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
-  else if (conf_err == EXIT_BUF_ERR)
-    return EXIT_BUF_ERR;
 
   /* helps test the purge function */
   bool use_fake_year = 0;
