@@ -1,6 +1,10 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-10-24
+
+* released rmw v0.4.05
+
 2018-10-22
 
 * tests for the Restore feature have been added.
