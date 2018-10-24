@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 2017.11.xx.dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-23 00:54-0500\n"
+"POT-Creation-Date: 2018-10-23 22:48-0500\n"
 "PO-Revision-Date: 2017-12-10 09:05+0100\n"
 "Last-Translator: Martijn de Boer <translations@sexybiggetje.nl>\n"
 "Language-Team: rmw <andy400-dev@yahoo.com>\n"
@@ -201,14 +201,14 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/rmw.c:529
+#: src/rmw.c:514
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr " :Fout nummer %d bij verplaatsen van %s:\n"
 
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
-#: src/config_rmw.c:171
+#: src/config_rmw.c:160
 #, fuzzy, c-format
 #| msgid ""
 #| "  :Error: Can not open configuration file\n"
@@ -236,19 +236,11 @@ msgstr ""
 "Afsluiten…\n"
 
 #. TRANSLATORS: ignore "rename"
-#: src/restore_rmw.c:280
+#: src/restore_rmw.c:272
 #, fuzzy, c-format
 #| msgid "Restore failed: %s\n"
 msgid "  :Error: Restore (rename) failed: %s\n"
 msgstr "Fout bij terugzetten: %s\n"
-
-#: src/config_rmw.c:196
-#, c-format
-msgid ""
-"  :Error: The number of lines in configuration file must be less than %d\n"
-msgstr ""
-"  :Fout: Het aantal regels in het configuratie bestand moet kleiner zijn dan "
-"%d\n"
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
 #. * of memory allocated for a string
@@ -268,18 +260,18 @@ msgstr "  :Error: buffer overrun (segmentatie fout) voorkomen.\n"
 msgid "  :Error: format of .trashinfo `file %s` is incorrect"
 msgstr "  :Fout: formaat van .trashinfo `bestand %s` is incorrect (Lijn %d)"
 
-#: src/config_rmw.c:265
+#: src/config_rmw.c:249
 #, c-format
 msgid "  :Error: invalid option in config\n"
 msgstr "  :Fout: onjuiste optie in configuratie\n"
 
 #. TRANSLATORS:  "purge_after" is a varible
-#: src/config_rmw.c:227
+#: src/config_rmw.c:211
 #, c-format
 msgid "  :Error: invalid purge_after value in configuration\n"
 msgstr "  :Fout: onjuiste waarde voor purge_after in configuratie\n"
 
-#: src/config_rmw.c:372
+#: src/config_rmw.c:352
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"
@@ -298,12 +290,12 @@ msgstr ""
 "Kan niet doorgaan. Afsluiten…\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:525
+#: src/rmw.c:510
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr " :Fout: nummer %d bij maken van een .trashinfo bestand\n"
 
-#: src/rmw.c:209
+#: src/rmw.c:205
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -355,12 +347,12 @@ msgstr "  :Fout: bij openen van %s\n"
 msgid "  :Error: while removing %s\n"
 msgstr "  :Fout: bij het verwijderen van %s\n"
 
-#: src/restore_rmw.c:272
+#: src/restore_rmw.c:264
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Fout: bij het verwijderen van .trashinfo bestand: '%s'\n"
 
-#: src/rmw.c:549
+#: src/rmw.c:534
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr " Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
@@ -377,12 +369,12 @@ msgstr " :waarschuwing: Directory niet gepurged - bevat nog steeds bestanden\n"
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :waarschuwing: Maximale diepte van %u bereikt, overslaan\n"
 
-#: src/config_rmw.c:351
+#: src/config_rmw.c:331
 #, c-format
 msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr " :waarschuwing: Het maximaal aantal beschermde mappen is bereikt: %d\n"
 
-#: src/config_rmw.c:348
+#: src/config_rmw.c:328
 #, c-format
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr " :waarschuwing: Het maximum aantal afval mappen is bereikt: %d\n"
@@ -394,12 +386,12 @@ msgstr " :waarschuwing: Het maximum aantal afval mappen is bereikt: %d\n"
 msgid " :warning: Restore() returned %d\n"
 msgstr " :warning: Restore() gaf fouten\n"
 
-#: src/restore_rmw.c:565
+#: src/restore_rmw.c:547
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :waarschuwing: kon %s niet verwijderen\n"
 
-#: src/strings_rmw.c:72
+#: src/strings_rmw.c:71
 #, c-format
 msgid ""
 " <--> Displaying part of the string that caused the error <-->\n"
@@ -426,7 +418,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d bestand gepurged"
 msgstr[1] "%d bestanden gepurged"
 
-#: src/rmw.c:559
+#: src/rmw.c:544
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -437,7 +429,7 @@ msgstr[1] "%d bestanden werden verwijderd naar de afval map"
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:446
+#: src/restore_rmw.c:438
 msgid "'q' - quit"
 msgstr "'q' - afsluiten"
 
@@ -458,18 +450,18 @@ msgstr "-r / --recurse: nog niet beschikbaar\n"
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:439
+#: src/restore_rmw.c:431
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RECHTS / CURSOR-LINKS> - wissel afval mappen"
 
-#: src/restore_rmw.c:440
+#: src/restore_rmw.c:432
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<SPATIE> - selecteer of deselecteer een bestand. / <ENTER> - zet "
 "geselecteerde bestanden terug"
 
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:427
 #, fuzzy, c-format
 #| msgid "== contains %d file =="
 msgid "== contains %d file =="
@@ -488,23 +480,23 @@ msgstr "Aangemaakt %s\n"
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/restore_rmw.c:252
+#: src/restore_rmw.c:244
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe…\n"
 
-#: src/strings_rmw.c:170
+#: src/strings_rmw.c:166
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Fout: realpath() gaf een fout terug.\n"
 
-#: src/rmw.c:187
+#: src/rmw.c:184
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Fout: bij het ophalen van het pad naar je thuismap\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:422 src/restore_rmw.c:305
+#: src/rmw.c:409 src/restore_rmw.c:297
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
@@ -516,7 +508,7 @@ msgid ""
 msgstr ""
 "Als je denkt dat dit een fout is, rapporteer dit aan de rmw ontwikkelaars.\n"
 
-#: src/rmw.c:567
+#: src/rmw.c:552
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -531,7 +523,7 @@ msgid "Report bugs to <%s>.\n"
 msgstr "Rapporteer fouten aan <%s>.\n"
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
-#: src/restore_rmw.c:152
+#: src/restore_rmw.c:148
 #, c-format
 msgid "Searching using only the basename...\n"
 msgstr "Zoeken enkel op de basis naam…\n"
@@ -540,7 +532,7 @@ msgstr "Zoeken enkel op de basis naam…\n"
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:414
+#: src/rmw.c:401
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Overgeslagen: %s is in een beveiligde map\n"
@@ -619,14 +611,14 @@ msgstr ""
 msgid "function: <%s>"
 msgstr "functie: <%s>"
 
-#: src/rmw.c:272
+#: src/rmw.c:268
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of —force\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:264
+#: src/rmw.c:260
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -662,7 +654,7 @@ msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr ""
 "rmw: %s(): buffer te klein (wou %hu hebben, had een minimum nodig van %hu)\n"
 
-#: src/restore_rmw.c:168
+#: src/restore_rmw.c:164
 #, c-format
 msgid "search complete\n"
 msgstr "zoeken voltooid\n"
@@ -715,6 +707,12 @@ msgstr "zoeken voltooid\n"
 
 #~ msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
 #~ msgstr "  :Fout: Kan '%s' openen maar trof een onverwachte fout aan\n"
+
+#~ msgid ""
+#~ "  :Error: The number of lines in configuration file must be less than %d\n"
+#~ msgstr ""
+#~ "  :Fout: Het aantal regels in het configuratie bestand moet kleiner zijn "
+#~ "dan %d\n"
 
 #~ msgid "%d files purged"
 #~ msgstr "%d bestaden gepurged"

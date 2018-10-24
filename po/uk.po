@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-10-23 00:54-0500\n"
+"POT-Creation-Date: 2018-10-23 22:48-0500\n"
 "PO-Revision-Date: 2018-01-01 10:09-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Ukrainian\n"
@@ -199,14 +199,14 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/rmw.c:529
+#: src/rmw.c:514
 #, c-format
 msgid "  :Error number %d trying to move %s :\n"
 msgstr "  :Номер помилки %d спроба перемістити %s :\n"
 
 #. TRANSLATORS:  any time "open" or "close" is used in this program
 #. * I am referring to a file or a directory
-#: src/config_rmw.c:171
+#: src/config_rmw.c:160
 #, fuzzy, c-format
 #| msgid ""
 #| "  :Error: Can not open configuration file\n"
@@ -234,19 +234,11 @@ msgstr ""
 "Зупиняємо...\n"
 
 #. TRANSLATORS: ignore "rename"
-#: src/restore_rmw.c:280
+#: src/restore_rmw.c:272
 #, fuzzy, c-format
 #| msgid "Restore failed: %s\n"
 msgid "  :Error: Restore (rename) failed: %s\n"
 msgstr "Неможливо відновити: %s\n"
-
-#: src/config_rmw.c:196
-#, c-format
-msgid ""
-"  :Error: The number of lines in configuration file must be less than %d\n"
-msgstr ""
-"  :Помилка: Кількість ліній у конфігураційному файлі не може перевищувати "
-"%d\n"
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
 #. * of memory allocated for a string
@@ -266,18 +258,18 @@ msgstr "  :Помилка: запобігання перезагрузки бу�
 msgid "  :Error: format of .trashinfo `file %s` is incorrect"
 msgstr "  :Помилка: Невірний формат .trashinfo `file %s` (Лінія %d)"
 
-#: src/config_rmw.c:265
+#: src/config_rmw.c:249
 #, c-format
 msgid "  :Error: invalid option in config\n"
 msgstr "  :Помилка: невірна опція в config\n"
 
 #. TRANSLATORS:  "purge_after" is a varible
-#: src/config_rmw.c:227
+#: src/config_rmw.c:211
 #, c-format
 msgid "  :Error: invalid purge_after value in configuration\n"
 msgstr "  :Помилка: невірне значення purge_after в конфігурації\n"
 
-#: src/config_rmw.c:372
+#: src/config_rmw.c:352
 #, c-format
 msgid ""
 "  :Error: no usable WASTE folder could be found\n"
@@ -295,12 +287,12 @@ msgstr ""
 "Неможливо продовжити. Зупиняємо...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:525
+#: src/rmw.c:510
 #, c-format
 msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgstr "  :Помилка: %d намагається створити .trashinfo файл\n"
 
-#: src/rmw.c:209
+#: src/rmw.c:205
 #, c-format
 msgid ""
 "  :Error: unable to create config and data directory\n"
@@ -352,12 +344,12 @@ msgstr "  :Помилка: при відкриванні %s\n"
 msgid "  :Error: while removing %s\n"
 msgstr "  :Помилка: при видаленні %s\n"
 
-#: src/restore_rmw.c:272
+#: src/restore_rmw.c:264
 #, c-format
 msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgstr "  :Помилка: при видаленні .trashinfo файлу: '%s'\n"
 
-#: src/rmw.c:549
+#: src/rmw.c:534
 #, c-format
 msgid "  No suitable filesystem found for \"%s\"\n"
 msgstr "  Потрібна система файлів не знайдена для \"%s\"\n"
@@ -374,12 +366,12 @@ msgstr " :попередження: Папка не очищена - все ще
 msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgstr " :попередження: Максимальна глибина %u досягнута, пропускаємо\n"
 
-#: src/config_rmw.c:351
+#: src/config_rmw.c:331
 #, c-format
 msgid " :warning: Maximum number of protected folders reached: %d\n"
 msgstr " :попередження: Максимальну кількість захищених папок досягнуто: %d\n"
 
-#: src/config_rmw.c:348
+#: src/config_rmw.c:328
 #, c-format
 msgid " :warning: Maximum number of waste folders reached: %d\n"
 msgstr " :попередження: Максимальну кількість корзин досягнуто: %d\n"
@@ -391,12 +383,12 @@ msgstr " :попередження: Максимальну кількість к
 msgid " :warning: Restore() returned %d\n"
 msgstr " :попередження: Restore() (відновлення) повернуті помилки\n"
 
-#: src/restore_rmw.c:565
+#: src/restore_rmw.c:547
 #, c-format
 msgid " :warning: failed to remove %s\n"
 msgstr " :попередження: неможливо видалити %s\n"
 
-#: src/strings_rmw.c:72
+#: src/strings_rmw.c:71
 #, c-format
 msgid ""
 " <--> Displaying part of the string that caused the error <-->\n"
@@ -425,7 +417,7 @@ msgstr[1] "%d файли очищено"
 msgstr[2] "%d файли очищено"
 msgstr[3] "%d файли очищено"
 
-#: src/rmw.c:559
+#: src/rmw.c:544
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -438,7 +430,7 @@ msgstr[3] "%d файли переміщені в корзину"
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:446
+#: src/restore_rmw.c:438
 msgid "'q' - quit"
 msgstr "'q' - вихід"
 
@@ -459,18 +451,18 @@ msgstr "-r / --recurse: не розроблено\n"
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:439
+#: src/restore_rmw.c:431
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<КУРСОР-ВПРАВО / КУРСОР-ВЛІВО> - переключити корзини"
 
-#: src/restore_rmw.c:440
+#: src/restore_rmw.c:432
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<ПРОБІЛ> - обрати або відмінити вибір елемента. / <ENTER> - відновити "
 "обраний елемент"
 
-#: src/restore_rmw.c:435
+#: src/restore_rmw.c:427
 #, fuzzy, c-format
 #| msgid "== contains %d file =="
 msgid "== contains %d file =="
@@ -491,23 +483,23 @@ msgstr "Створено %s\n"
 msgid "Created directory %s\n"
 msgstr "Створено папку %s\n"
 
-#: src/restore_rmw.c:252
+#: src/restore_rmw.c:244
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Файл с таким ім'ям вже існує - додаємо стрінг з часом...\n"
 
-#: src/strings_rmw.c:170
+#: src/strings_rmw.c:166
 #, c-format
 msgid "Error: realpath() returned an error.\n"
 msgstr "Помилка: realpath() помилку повернено.\n"
 
-#: src/rmw.c:187
+#: src/rmw.c:184
 #, c-format
 msgid "Error: while getting the path to your home directory\n"
 msgstr "Помилка: при спробі отримати системний шлях до домашньої директорії\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:422 src/restore_rmw.c:305
+#: src/rmw.c:409 src/restore_rmw.c:297
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Файл не знайдено: '%s'\n"
@@ -520,7 +512,7 @@ msgstr ""
 "Якщо ви думаєте що це може бути баг, будь ласка зв'яжіться з rmw "
 "розробниками.\n"
 
-#: src/rmw.c:567
+#: src/rmw.c:552
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -538,7 +530,7 @@ msgstr ""
 "<sgalianova@myseneca.ca>.\n"
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
-#: src/restore_rmw.c:152
+#: src/restore_rmw.c:148
 #, c-format
 msgid "Searching using only the basename...\n"
 msgstr "Пошук використовуючи лише базове ім'я файлу...\n"
@@ -547,7 +539,7 @@ msgstr "Пошук використовуючи лише базове ім'я ф
 #. * this program will pass over files that are in
 #. * "protected" directories, which can be specified in the
 #. * configuration file.
-#: src/rmw.c:414
+#: src/rmw.c:401
 #, c-format
 msgid "Skipped: %s is in a protected directory\n"
 msgstr "Пропущено: %s це захищена папка\n"
@@ -623,14 +615,14 @@ msgstr ""
 msgid "function: <%s>"
 msgstr "функція: <%s>"
 
-#: src/rmw.c:272
+#: src/rmw.c:268
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge пропущено: використайте -f або --force\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:264
+#: src/rmw.c:260
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -665,7 +657,7 @@ msgstr ""
 msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgstr "rmw: %s(): буфер занадто малий (маємо %hu, потрібно мінімум %hu)\n"
 
-#: src/restore_rmw.c:168
+#: src/restore_rmw.c:164
 #, c-format
 msgid "search complete\n"
 msgstr "пошук завершено\n"
@@ -715,6 +707,12 @@ msgstr "пошук завершено\n"
 
 #~ msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
 #~ msgstr "  :Помилка: Вдало відкритий '%s' але виникла невідома помилка\n"
+
+#~ msgid ""
+#~ "  :Error: The number of lines in configuration file must be less than %d\n"
+#~ msgstr ""
+#~ "  :Помилка: Кількість ліній у конфігураційному файлі не може перевищувати "
+#~ "%d\n"
 
 #~ msgid "%d files purged"
 #~ msgstr "%d файли очищено"
