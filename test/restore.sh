@@ -27,6 +27,11 @@ set +x
 test_result $?
 
 echo $SEPARATOR
+echo "Show result when no undo file exists..."
+$RMW_TEST_CMD_STRING -u
+test_result $?
+
+echo $SEPARATOR
 echo "Restore by using the basename, from anywhere"
 $RMW_TEST_CMD_STRING $HOME/somefiles/topdir
 $RMW_TEST_CMD_STRING -z topdir
