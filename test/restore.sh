@@ -23,7 +23,6 @@ echo "ReMove files and then restore them by using -u"
 set -x
 $RMW_TEST_CMD_STRING $HOME/somefiles/*
 $RMW_TEST_CMD_STRING -u
-set +x
 test_result $?
 
 echo $SEPARATOR
@@ -47,14 +46,30 @@ echo "Restore using wildcard pattern, but be in the trash directory"
 set -x
 cd $HOME/.trash.rmw/files
 $RMW_TEST_CMD_STRING -z topd*
-set +x
 test_result $?
 
 echo $SEPARATOR
 echo "Try restoring a file that doesn't exist"
 $RMW_TEST_CMD_STRING -z nonexistent_fil*
+test_result $?
 
+echo $SEPARATOR
+echo "What happens when trying to ReMove file inside dir with no write permissions..."
+set -x
+mkdir $HOME/no_write_perms
+touch $HOME/no_write_perms/test.tmp
+chmod -R -w $HOME/no_write_perms
+$RMW_TEST_CMD_STRING $HOME/no_write_perms
+
+# can't test_result here because it should return 1, and we want this script
+# to continue. Instead, just show what's returned.
+echo error $? returned;
 set +x
+
+# change permissions back to writable so the dir gets removed before the
+# next test (done in COMMON)
+chmod +w -R $HOME/no_write_perms
+
 echo $SEPARATOR
 echo "Restore tests passed"
 
