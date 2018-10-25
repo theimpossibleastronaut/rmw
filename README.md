@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/theimpossibleastronaut/rmw)
 [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
 
-# rmw v0.4.05
+# rmw v0.4.06 (development)
 
 rmw is a cross-platform command-line "trash can" utility. It can send
 files to your "Desktop" trash, or a completely separate folder. It can
@@ -12,6 +12,11 @@ string to the filenames so they won't be overwritten (duplication
 protection).
 
 Web site: https://github.com/theimpossibleastronaut/rmw/wiki
+
+This is the README for the development version of rmw. It may mention
+features that aren't included in the last release, or differ in other
+ways. The README from the last release is at
+https://github.com/theimpossibleastronaut/rmw/blob/v0.4.05/README.md
 
 Anyone interested in this project is welcome to join the [Matrix chat
 room](https://matrix.to/#/!XeJxcdkywroPaRKKtr:matrix.org).
