@@ -17,7 +17,7 @@ test-all:
 	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
 	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
 	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(top_srcdir)/rmwrc >> $$vars;	\
+	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
 	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
 	for script in $(test_scripts); do \
 		$(srcdir)/$$script $$vars;	\
@@ -28,7 +28,7 @@ test-basic:
 	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
 	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
 	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(top_srcdir)/rmwrc >> $$vars;	\
+	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
 	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
 	$(srcdir)/basic.sh $$vars;
 
@@ -37,7 +37,7 @@ test-purging:
 	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
 	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
 	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(top_srcdir)/rmwrc >> $$vars;	\
+	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
 	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
 	$(srcdir)/purging.sh $$vars;
 
@@ -46,7 +46,7 @@ test-restore:
 	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
 	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
 	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(top_srcdir)/rmwrc >> $$vars;	\
+	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
 	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
 	$(srcdir)/restore.sh $$vars;
 
