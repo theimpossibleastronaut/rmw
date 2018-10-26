@@ -70,5 +70,12 @@ set -x
 ls -al $HOME/.trash.rmw/info
 test_result $?
 
+echo $SEPARATOR
+echo "Test buffer overrun prevention... (should return 12)"
+set -x
+RMW_TESTBUF=20 $RMW_TEST_CMD_STRING
+echo err $? returned
+set +x
+
 echo "Basic tests passed"
 exit 0

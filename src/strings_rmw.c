@@ -38,6 +38,17 @@ bufchk (const char *str, ushort boundary)
    * there are no buffers that are <= 10 (that I can think of right now)
    */
   #define STR_PART 10
+
+  int rmw_testbuf = 0;
+  if (getenv ("RMW_TESTBUF") != NULL)
+  {
+    printf ("  :test mode: Using RMW_TESTBUF\n");
+    rmw_testbuf = atoi (getenv ("RMW_TESTBUF"));
+    if (rmw_testbuf > STR_PART + 1 && rmw_testbuf < boundary)
+
+      boundary = rmw_testbuf;
+  }
+
   static ushort len;
   len = strlen (str);
 
