@@ -3,13 +3,10 @@
 
 # rmw v0.4.06 (development)
 
-rmw is a cross-platform command-line "trash can" utility. It can send
-files to your "Desktop" trash, or a completely separate folder. It can
-also: restore files; permanently delete files that were rmw'ed more
-than x number of days ago; skip files or directories that have a
-"PROTECT" directive in the configuration file; and append a unique
-string to the filenames so they won't be overwritten (duplication
-protection).
+rmw (ReMove to Waste) is a cross-platform command-line "trash can"
+utility. It can send files to your "Desktop" trash, or a completely
+separate folder; restore files and append a unique string to the
+filenames so they won't be overwritten (duplication protection).
 
 Web site: https://github.com/theimpossibleastronaut/rmw/wiki
 
@@ -121,7 +118,6 @@ Restore FILE(s) from a WASTE directory
 -g, --purge               run purge even if it's been run today
 -o, --orphaned            check for orphaned files (maintenance)
 -f, --force               allow purge to run
--B, --bypass              bypass directory protection
 -v, --verbose             increase output messages
 -w, --warranty            display warranty
 -V, --version             display version and license information
@@ -166,19 +162,6 @@ Files can also be restored using only the basename, from within any directory.
 NOTE: That feature will not process wildcards unless the user is in a
 <WASTE>/files folder and the filespec actually exists in the present working
 directory.
-
-== Protected directories ==
-
-If 'PROTECT = /home/andy' is specified in the config file, /home/andy, and all
-dirs and files beneath it will be "protected"; they will be skipped, and this
-warning will be displayed:
-
-"File is in protected directory: <filename/dir>"
-
-WASTE folders and the rmw configuration/data directory are protected by
-default (there is no need to add a 'PROTECT =' line for them.
-
-Protection can by bypassed using -B
 
 == -t, --translate ==
 

@@ -71,18 +71,7 @@
 #define UNDO_FILE DATA_DIR"/lastrmw"
 #define PURGE_DAY_FILE DATA_DIR"/lastpurge"
 
-/* Set a sane limit on maximum number of Waste dirs */
-/* This will provide 16 MAX, and 1 extra that will be "NULL" */
-#define WASTENUM_MAX 17
-
-/**
- * How many folder can be set for "protection" in rmwrc
- */
-#define PROTECT_MAX 32
-
 #define DOT_TRASHINFO ".trashinfo"
-
-#define START_WASTE_COUNTER -1
 
 #ifndef PATH_MAX /* for portability */
 #define PATH_MAX 256

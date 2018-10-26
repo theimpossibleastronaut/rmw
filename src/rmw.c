@@ -3,8 +3,8 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- * Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
- * Other authors: https://github.com/andy5995/rmw/blob/master/AUTHORS.md
+ * Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ * Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ main (const int argc, char* const argv[])
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  const char *const short_options = "hvc:goz:lstuBwVfir";
+  const char *const short_options = "hvc:goz:lstuwVfir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -71,7 +71,6 @@ main (const int argc, char* const argv[])
     {"restore", 1, NULL, 'z'},
     {"select", 0, NULL, 's'},
     {"undo-last", 0, NULL, 'u'},
-    {"bypass", 0, NULL, 'B'},
     {"warranty", 0, NULL, 'w'},
     {"version", 0, NULL, 'V'},
     {"interactive", 0, NULL, 'i'},
@@ -89,7 +88,6 @@ main (const int argc, char* const argv[])
   bool restoreYes = 0;
   bool select = 0;
   bool undo_last = 0;
-  bool bypass = 0;
   bool list = 0;
 
   ushort force = 0;
@@ -131,9 +129,6 @@ main (const int argc, char* const argv[])
       break;
     case 'u':
       undo_last = 1;
-      break;
-    case 'B':
-      bypass = 1;
       break;
     case 'w':
       warranty ();
@@ -210,8 +205,6 @@ Unable to continue. Exiting...\n"));
     return 1;
   }
 
-  char protected_dir[PROTECT_MAX][MP];
-
   /* is reassigned a value in get_config_data() */
   ushort purge_after = 0;
 
@@ -224,7 +217,7 @@ Unable to continue. Exiting...\n"));
   waste_head = waste_curr;
 
   short conf_err =
-    get_config_data (waste_curr, alt_config, &purge_after, protected_dir, &force, HOMEDIR);
+    get_config_data (waste_curr, alt_config, &purge_after, &force, HOMEDIR);
 
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
@@ -385,36 +378,6 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
           continue;
         else if (main_error > 1)
           break;
-
-        if (!bypass)
-        {
-          static bool flagged;
-          flagged = 0;
-
-          static short prot_ctr;
-          prot_ctr = START_WASTE_COUNTER;
-
-          while (*protected_dir[++prot_ctr] != '\0')
-          {
-            if (strncmp (file.real_path, protected_dir[prot_ctr],
-                          strlen (protected_dir[prot_ctr])) == 0)
-            {
-              flagged = 1;
-              break;
-            }
-          }
-
-          if (flagged)
-          {
-            /* TRANSLATORS:  "protection" is a feature. It means that
-             * this program will pass over files that are in
-             * "protected" directories, which can be specified in the
-             * configuration file.  */
-            printf (_("Skipped: %s is in a protected directory\n"),
-                file.real_path);
-            continue;
-          }
-        }
       }
       else
       {

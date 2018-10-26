@@ -41,10 +41,3 @@ purge_after = 90
 #
 #force_not_required
 #
-
-# If attempting to rmw files under this directory, they will not be processed
-# unless -B --bypass is given as an argument.
-#
-# PROTECT = /usr/local/bin
-# PROTECT = $HOME/src
-#

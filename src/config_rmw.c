@@ -84,12 +84,10 @@ static bool make_home_real (char **str, const char *HOMEDIR)
  */
 short
 get_config_data(st_waste *waste_curr, const char *alt_config,
-      ushort *purge_after,
-      char protected_dir[PROTECT_MAX][MP], ushort *force, const char *HOMEDIR)
+      ushort *purge_after, ushort *force, const char *HOMEDIR)
 {
   char config_file[MP];
   const ushort CFG_MAX_LEN = PATH_MAX + 16;
-
 
   /**
    *  purge_after will default to 90 if there's no setting
@@ -168,14 +166,6 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       return NO_WASTE_FOLDER;
     }
   }
-
-  int prot_dir_ctr = 0;
-
-  /**
-   * protect DATA_DIR by default
-   */
-  sprintf (protected_dir[prot_dir_ctr], "%s%s", HOMEDIR, DATA_DIR);
-  prot_dir_ctr++;
 
   char *line_from_config = calloc (CFG_MAX_LEN + 1, 1);
   while (fgets (line_from_config, CFG_MAX_LEN, config_ptr) != NULL)
@@ -292,15 +282,6 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
         }
       }
 
-      /**
-       * protect WASTE dirs by default
-       *
-       * No need for a buffer check; they are declared the same as the
-       * Waste folders
-       */
-      strcpy (protected_dir[prot_dir_ctr], waste_curr->parent);
-      prot_dir_ctr++;
-
       /* get device number to use later for rename
        */
       struct stat st;
@@ -314,28 +295,16 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       temp_node->prev_node = waste_curr;
       waste_curr = temp_node;
     }
-    else if (prot_dir_ctr < PROTECT_MAX && !strncmp ("PROTECT", line_from_config, 7))
+    else if (!strncmp ("PROTECT", line_from_config, 7))
     {
-      token_ptr = strtok (line_from_config, "=");
-      token_ptr = strtok (NULL, "=");
-
-      del_char_shift_left (' ', &token_ptr);
-      make_home_real (&token_ptr, HOMEDIR);
-
-      strcpy (protected_dir[prot_dir_ctr], token_ptr);
-      bufchk (protected_dir[prot_dir_ctr], MP);
-
-      prot_dir_ctr++;
+      static bool pctr = 0;
+      if (!pctr)
+        printf ("The PROTECT feature has been removed.\n");
+      pctr = 1;
     }
 
-    if (prot_dir_ctr == PROTECT_MAX)
-      printf (_(" :warning: Maximum number of protected folders reached: %d\n"), PROTECT_MAX);
-
-    *line_from_config = '\0';
   }
   free (line_from_config);
-
-  *protected_dir[prot_dir_ctr] = '\0';
 
   /**
    * The earlier "breaks" will allow the config file to be closed here

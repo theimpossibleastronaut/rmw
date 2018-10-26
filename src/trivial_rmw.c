@@ -48,7 +48,6 @@ Restore FILE(s) from a WASTE directory\n\
   -g, --purge               run purge even if it's been run today\n\
   -o, --orphaned            check for orphaned files (maintenance)\n\
   -f, --force               allow purge to run\n\
-  -B, --bypass              bypass directory protection\n\
   -v, --verbose             increase output messages\n\
   -w, --warranty            display warranty\n\
   -V, --version             display version and license information\n"));
@@ -141,13 +140,4 @@ purge_after = 90\n"));
 # that exceed the days specified in purge_after\n\
 #\n\
 #force_not_required\n"));
-
-/* TRANSLATORS:  Do not translate the last two lines in this section  */
-  printf (_("\n\
-# If attempting to rmw files under this directory, they will not be processed\n\
-# unless -B --bypass is given as an argument.\n\
-#\n\
-# PROTECT = /usr/local/bin\n\
-# PROTECT = $HOME/src\n"));
-
 }

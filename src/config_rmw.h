@@ -3,7 +3,7 @@
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,5 +27,4 @@
 
 short
 get_config_data(st_waste *waste_curr, const char *alt_config,
-      ushort *purge_after,
-      char protected_dir[PROTECT_MAX][MP], ushort *force, const char *HOMEDIR);
+      ushort *purge_after, ushort *force, const char *HOMEDIR);
