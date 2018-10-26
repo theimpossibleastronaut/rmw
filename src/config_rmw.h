@@ -26,6 +26,6 @@
 #include <sys/stat.h>
 
 short
-get_config_data(struct waste_containers *waste, const char *alt_config,
+get_config_data(st_waste *waste_curr, const char *alt_config,
       ushort *purge_after,
       char protected_dir[PROTECT_MAX][MP], ushort *force, const char *HOMEDIR);

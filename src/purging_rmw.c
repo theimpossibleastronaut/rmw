@@ -152,7 +152,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
 }
 
 int
-purge (const short purge_after, const struct waste_containers *waste,
+purge (const short purge_after, const st_waste *waste_curr,
        char *time_now, const ushort force, const char *HOMEDIR)
 {
   short status = 0;
@@ -180,15 +180,10 @@ purge (const short purge_after, const struct waste_containers *waste,
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
 
-  /**
-   *  Read each <WASTE>/info directory
-   */
-  short ctr = START_WASTE_COUNTER;
-
-  while (*waste[++ctr].parent != '\0')
+  while (waste_curr->next_node != NULL)
   {
     static struct dirent *entry;
-    DIR *dir = opendir (waste[ctr].info);
+    DIR *dir = opendir (waste_curr->info);
     if (dir == NULL)
     {
       perror ("purge -> opendir");
@@ -204,7 +199,7 @@ purge (const short purge_after, const struct waste_containers *waste,
         continue;
 
       char entry_path[MP];
-      sprintf (entry_path, "%s%s", waste[ctr].info, entry->d_name);
+      sprintf (entry_path, "%s%s", waste_curr->info, entry->d_name);
 
       // printf ("%s\n", entry_path);
 
@@ -269,7 +264,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 
         char purgeFile[MP];
 
-        strcpy (purgeFile, waste[ctr].files);
+        strcpy (purgeFile, waste_curr->files);
 
         char temp[MP];
         strcpy (temp, entry->d_name);
@@ -358,6 +353,7 @@ purge (const short purge_after, const struct waste_containers *waste,
     if (status)
       perror ("purge -> closedir");
 
+    waste_curr = waste_curr->next_node;
   }
 
   if (max_depth_reached_ctr)
@@ -377,7 +373,7 @@ purge (const short purge_after, const struct waste_containers *waste,
 }
 
 short
-orphan_maint (struct waste_containers *waste,
+orphan_maint (st_waste *waste_curr,
               char *time_now, char *time_str_appended)
 {
   struct rmw_target file;
@@ -390,15 +386,13 @@ orphan_maint (struct waste_containers *waste,
 
   char path_to_trashinfo[MP];
 
-  short ctr = START_WASTE_COUNTER;
-
   int status;
 
-  while (*waste[++ctr].parent != '\0')
+  while (waste_curr->next_node != NULL)
   {
     struct dirent *entry;
     DIR *files;
-    files = opendir (waste[ctr].files);
+    files = opendir (waste_curr->files);
     if (files == NULL)
     {
       perror ("orphan_maint -> opendir");
@@ -414,16 +408,16 @@ orphan_maint (struct waste_containers *waste,
       bufchk (basename (entry->d_name), MP);
       strcpy (file.base_name, basename (entry->d_name));
 
-      sprintf (path_to_trashinfo, "%s%s%s", waste[ctr].info, file.base_name, DOT_TRASHINFO);
+      sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info, file.base_name, DOT_TRASHINFO);
 
       if (!exists (path_to_trashinfo))
         continue;
 
       /* destination if restored */
-      sprintf (file.real_path, "%s%s%s", waste[ctr].parent, "/orphans/", file.base_name);
+      sprintf (file.real_path, "%s%s%s", waste_curr->parent, "/orphans/", file.base_name);
 
       short ok = 0;
-      ok = create_trashinfo (file, waste, time_now, time_str_appended, ctr);
+      ok = create_trashinfo (file, waste_curr, time_now, time_str_appended);
       if (ok == 0)
       /* TRANSLATORS:  "created" refers to a file  */
         printf (_("Created %s\n"), path_to_trashinfo);
@@ -434,6 +428,8 @@ orphan_maint (struct waste_containers *waste,
     status = closedir (files);
     if (status)
       perror ("rmdir_recursive -> closedir");
+
+    waste_curr = waste_curr->next_node;
   }
 
   return 0;

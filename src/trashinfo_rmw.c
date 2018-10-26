@@ -125,12 +125,12 @@ printf ("dest = %s in %s\n", dest, __func__);
 }
 
 int
-create_trashinfo (struct rmw_target file, struct waste_containers *waste,
-                  char *time_now, char *time_str_appended, const short int cnum)
+create_trashinfo (struct rmw_target file, st_waste *waste_curr,
+                  char *time_now, char *time_str_appended)
 {
   static char finalInfoDest[MP];
 
-  sprintf (finalInfoDest, "%s%s", waste[cnum].info, file.base_name);
+  sprintf (finalInfoDest, "%s%s", waste_curr->info, file.base_name);
 
 #ifdef DEBUG
 DEBUG_PREFIX

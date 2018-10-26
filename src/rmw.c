@@ -58,8 +58,6 @@ main (const int argc, char* const argv[])
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  struct waste_containers waste[WASTENUM_MAX];
-
   const char *const short_options = "hvc:goz:lstuBwVfir";
 
   const struct option long_options[] = {
@@ -217,11 +215,21 @@ Unable to continue. Exiting...\n"));
   /* is reassigned a value in get_config_data() */
   ushort purge_after = 0;
 
+  st_waste *waste_head = (st_waste*)malloc (sizeof (st_waste));
+  chk_malloc (waste_head, __func__, __LINE__);
+  st_waste *waste_curr = (st_waste*)malloc (sizeof (st_waste));
+  chk_malloc (waste_curr, __func__, __LINE__);
+  waste_curr->prev_node = NULL;
+  waste_curr->next_node = NULL;
+  waste_head = waste_curr;
+
   short conf_err =
-    get_config_data (waste, alt_config, &purge_after, protected_dir, &force, HOMEDIR);
+    get_config_data (waste_curr, alt_config, &purge_after, protected_dir, &force, HOMEDIR);
 
   if (conf_err == NO_WASTE_FOLDER)
     return NO_WASTE_FOLDER;
+
+  waste_curr = waste_head;
 
   /* helps test the purge function */
   bool use_fake_year = 0;
@@ -261,7 +269,7 @@ Unable to continue. Exiting...\n"));
     if (is_time_to_purge (HOMEDIR) == IS_NEW_DAY || cmd_opt_purge)
     {
       if (force)
-        purge (purge_after, waste, time_now, force, HOMEDIR);
+        purge (purge_after, waste_curr, time_now, force, HOMEDIR);
       else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }
@@ -279,10 +287,12 @@ Unable to continue. Exiting...\n"));
      * the user has to look at the config file to get reminded of what
      * removable devices are specified.
      */
-    short ctr = START_WASTE_COUNTER;
-    while (*waste[++ctr].parent != '\0')
-      printf ("%s\n", waste[ctr].parent);
-
+    waste_curr = waste_head;
+    while (waste_curr->next_node != NULL)
+    {
+      printf ("%s\n", waste_curr->parent);
+      waste_curr = waste_curr->next_node;
+    }
     return 0;
   }
 
@@ -292,7 +302,8 @@ Unable to continue. Exiting...\n"));
 
   if (orphan_chk)
   {
-    orphan_maint(waste, time_now, time_str_appended);
+    waste_curr = waste_head;
+    orphan_maint(waste_curr, time_now, time_str_appended);
     return 0;
   }
 
@@ -301,7 +312,8 @@ Unable to continue. Exiting...\n"));
    */
   if (select)
   {
-    return restore_select (waste, time_str_appended);
+    waste_curr = waste_head;
+    return restore_select (waste_curr, time_str_appended);
   }
 
   /* FIXME:
@@ -309,7 +321,8 @@ Unable to continue. Exiting...\n"));
    */
   if (undo_last)
   {
-    undo_last_rmw (time_str_appended, waste, HOMEDIR);
+    waste_curr = waste_head;
+    undo_last_rmw (time_str_appended, waste_curr, HOMEDIR);
     return 0;
   }
 
@@ -322,7 +335,8 @@ Unable to continue. Exiting...\n"));
      */
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
     {
-      msg_warn_restore(Restore (argv[file_arg], time_str_appended, waste));
+      waste_curr = waste_head;
+      msg_warn_restore(Restore (argv[file_arg], time_str_appended, waste_curr));
     }
 
     return 0;
@@ -426,9 +440,6 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
 
       file.is_duplicate = 0;
 
-      static ushort current_waste_num;
-      current_waste_num = 0;
-
       bufchk (basename (file.main_argv), MP);
       strcpy (file.base_name, basename (file.main_argv));
 
@@ -437,18 +448,14 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
        * device number of file.main_argv. Once found, the ReMoval
        * happens (provided all the tests are passed.
        */
-      static short dir_num;
-      dir_num = START_WASTE_COUNTER;
-
-      while (*waste[++dir_num].parent != '\0')
+      waste_curr = waste_head;
+      while (waste_curr->next_node != NULL)
       {
         lstat (file.main_argv, &st);
 
-        if (waste[dir_num].dev_num == st.st_dev)
+        if (waste_curr->dev_num == st.st_dev)
         {
-          // used by create_trashinfo
-          current_waste_num = dir_num;
-          sprintf (file.dest_name, "%s%s", waste[dir_num].files, file.base_name);
+          sprintf (file.dest_name, "%s%s", waste_curr->files, file.base_name);
 
           /* If a duplicate file exists
            */
@@ -476,8 +483,8 @@ printf ("file.real_path = %s in %s line %d\n", file.real_path, __func__, __LINE_
 DEBUG_PREFIX
 printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE__);
 #endif
-            info_status = create_trashinfo (file, waste,
-                              time_now, time_str_appended, current_waste_num);
+            info_status = create_trashinfo (file, waste_curr,
+                              time_now, time_str_appended);
 
 #ifdef DEBUG
 DEBUG_PREFIX
@@ -525,6 +532,8 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
           match = 1;
           break;
         }
+
+        waste_curr = waste_curr->next_node;
       }
 
       if (!match)
@@ -549,6 +558,20 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
   else if (!cmd_opt_purge && !created_data_dir)
       printf (_("No filenames or command line options were given\n\
 Enter '%s -h' for more information\n"), argv[0]);
+
+  waste_curr = waste_head;
+  while (waste_curr->next_node != NULL)
+  {
+    waste_curr = waste_curr->next_node;
+  }
+  while (waste_curr->prev_node != NULL)
+  {
+    free (waste_curr->next_node);
+    waste_curr = waste_curr->prev_node;
+  }
+  waste_head = NULL;
+  free (waste_curr);
+  free (waste_head);
 
   return 0;
 }

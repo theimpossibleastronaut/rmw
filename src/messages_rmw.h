@@ -37,3 +37,5 @@ close_file (FILE *file_ptr, const char *filename, const char *function_name);
 void display_dot_trashinfo_error (const char *dti);
 
 void msg_warn_restore (int result);
+
+void chk_malloc (void *state, const const char *func, const int line);

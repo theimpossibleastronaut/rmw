@@ -100,13 +100,16 @@
   #define ushort unsigned short int
 #endif
 
-struct waste_containers
-{
+typedef struct st_waste st_waste;
+
+struct st_waste{
   char parent[PATH_MAX + 1];
   char info[PATH_MAX + 1];
   char files[PATH_MAX + 1];
-
   int dev_num;
+
+  st_waste *prev_node;
+  st_waste *next_node;
 };
 
 struct rmw_target
@@ -125,7 +128,7 @@ enum {
   EXIT_FAILED_GETENV = 10,
   NO_WASTE_FOLDER,
   EXIT_BUF_ERR,
-  EXIT_MALLOC,
+  EXIT_MALLOC_ERR,
   EXIT_OPENDIR_FAILURE,
   DATA_DIR_CREATED,
   MAKE_DIR_SUCCESS,

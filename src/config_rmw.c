@@ -83,7 +83,7 @@ static bool make_home_real (char **str, const char *HOMEDIR)
  * and gets the value of 'purge_after'
  */
 short
-get_config_data(struct waste_containers *waste, const char *alt_config,
+get_config_data(st_waste *waste_curr, const char *alt_config,
       ushort *purge_after,
       char protected_dir[PROTECT_MAX][MP], ushort *force, const char *HOMEDIR)
 {
@@ -169,7 +169,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
     }
   }
 
-  short waste_ctr = 0, prot_dir_ctr = 0;
+  int prot_dir_ctr = 0;
 
   /**
    * protect DATA_DIR by default
@@ -214,8 +214,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       {
         *force = 1;
       }
-    else if (waste_ctr < WASTENUM_MAX &&
-        strncmp ("WASTE", line_from_config, 5) == 0)
+    else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
@@ -256,38 +255,38 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       del_char_shift_left (' ', &token_ptr);
       make_home_real (&token_ptr, HOMEDIR);
 
-      /* make the parent... */
-      strcpy (waste[waste_ctr].parent, token_ptr);
-
-      /* and the files... */
-      sprintf (waste[waste_ctr].files, "%s%s", waste[waste_ctr].parent, "/files/");
-      bufchk (waste[waste_ctr].files, MP);
-
-      if (removable && exists (waste[waste_ctr].parent) != 0)
+      if (removable && exists (token_ptr) != 0)
       {
         /* If the folder doesn't exist, this message shows up every time rmw
          * is run, which gets annoying. Commented out.
          */
 
-        /* printf (_("!%s\n"), waste[waste_ctr].parent);
+        /* printf (_("!%s\n"), waste_curr->parent);
          */
         continue;
       }
 
-      if (exists (waste[waste_ctr].files))
+      /* make the parent... */
+      strcpy (waste_curr->parent, token_ptr);
+
+      /* and the files... */
+      sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
+      bufchk (waste_curr->files, MP);
+
+      if (exists (waste_curr->files))
       {
-        if (make_dir (waste[waste_ctr].files) == MAKE_DIR_FAILURE)
+        if (make_dir (waste_curr->files) == MAKE_DIR_FAILURE)
         {
           exit (EXIT_FAILURE);
         }
       }
 
         /* and the info. */
-      sprintf (waste[waste_ctr].info, "%s%s", waste[waste_ctr].parent, "/info/");
+      sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
 
-      if (exists (waste[waste_ctr].info))
+      if (exists (waste_curr->info))
       {
-        if (make_dir (waste[waste_ctr].info) == MAKE_DIR_FAILURE)
+        if (make_dir (waste_curr->info) == MAKE_DIR_FAILURE)
         {
           exit (EXIT_FAILURE);
         }
@@ -299,16 +298,21 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
        * No need for a buffer check; they are declared the same as the
        * Waste folders
        */
-      strcpy (protected_dir[prot_dir_ctr], waste[waste_ctr].parent);
+      strcpy (protected_dir[prot_dir_ctr], waste_curr->parent);
       prot_dir_ctr++;
 
       /* get device number to use later for rename
        */
       struct stat st;
-      lstat (waste[waste_ctr].parent, &st);
-      waste[waste_ctr].dev_num = st.st_dev;
+      lstat (waste_curr->parent, &st);
+      waste_curr->dev_num = st.st_dev;
 
-      waste_ctr++;
+      st_waste *temp_node = (st_waste*)malloc (sizeof (st_waste));
+      chk_malloc (temp_node, __func__, __LINE__);
+      waste_curr->next_node = temp_node;
+      temp_node->next_node = NULL;
+      temp_node->prev_node = waste_curr;
+      waste_curr = temp_node;
     }
     else if (prot_dir_ctr < PROTECT_MAX && !strncmp ("PROTECT", line_from_config, 7))
     {
@@ -324,18 +328,13 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       prot_dir_ctr++;
     }
 
-    if (waste_ctr == WASTENUM_MAX)
-      printf (_(" :warning: Maximum number of waste folders reached: %d\n"), WASTENUM_MAX);
-
     if (prot_dir_ctr == PROTECT_MAX)
       printf (_(" :warning: Maximum number of protected folders reached: %d\n"), PROTECT_MAX);
 
     *line_from_config = '\0';
-
   }
   free (line_from_config);
 
-  *waste[waste_ctr].parent = '\0';
   *protected_dir[prot_dir_ctr] = '\0';
 
   /**
@@ -347,7 +346,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       config_opened = 0;
   }
 
-  if (waste_ctr == 0)
+  if (waste_curr->prev_node == NULL && waste_curr->next_node == NULL)
   {
     printf (_("  :Error: no usable WASTE folder could be found\n\
 Please check your configuration file and permissions\n\

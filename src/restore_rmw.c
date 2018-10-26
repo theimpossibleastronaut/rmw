@@ -124,7 +124,7 @@ unescape_url (const char *str, char *dest, ushort len)
  * written more efficiently
  */
 int
-Restore (const char *argv, char *time_str_appended, struct waste_containers *waste)
+Restore (const char *argv, char *time_str_appended, st_waste *waste_curr)
 {
   static struct restore
   {
@@ -148,18 +148,16 @@ Restore (const char *argv, char *time_str_appended, struct waste_containers *was
     /* TRANSLATORS:  "basename" refers to the basename of a file  */
     printf (_("Searching using only the basename...\n"));
 
-    static short ctr;
-    ctr = START_WASTE_COUNTER;
-
-    while (*waste[++ctr].parent != '\0')
+    while (waste_curr->next_node != NULL)
     {
       static char *possibly_in_path;
 
-      possibly_in_path = waste[ctr].files;
+      possibly_in_path = waste_curr->files;
 
       strcat (possibly_in_path, file_arg);
 
-      msg_warn_restore (Restore (possibly_in_path, time_str_appended, waste));
+      msg_warn_restore (Restore (possibly_in_path, time_str_appended, waste_curr));
+      waste_curr = waste_curr->next_node;
     }
 
     printf (_("search complete\n"));
@@ -311,7 +309,7 @@ Duplicate filename at destination - appending time string...\n"));
  * FIXME: This function needs to be re-worked
  */
 int
-restore_select (struct waste_containers *waste, char *time_str_appended)
+restore_select (st_waste *waste_curr, char *time_str_appended)
 {
   int c = 0;
 
@@ -320,26 +318,18 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
   cbreak ();
   noecho ();
   keypad (stdscr, TRUE);
-  /*
-   * ctr increments at the end of the loop, if choice hasn't been made,
-   * so not using START_WASTE_COUNTER here
-   */
-  short ctr = 0;
 
   do
   {
-    if (*waste[ctr].parent == '\0')
-      break;
-
     static ushort entries;
     entries = 0;
 
     struct stat st;
     struct dirent *entry;
     static DIR *waste_dir;
-    if ((waste_dir = opendir (waste[ctr].files)) == NULL)
+    if ((waste_dir = opendir (waste_curr->files)) == NULL)
     {
-      fprintf (stderr, "  :Error: while opening directory: %s", waste[ctr].files);
+      fprintf (stderr, "  :Error: while opening directory: %s", waste_curr->files);
       return EXIT_OPENDIR_FAILURE;
     }
 
@@ -376,7 +366,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     entries = 0;
     clear ();
 
-    waste_dir = opendir (waste[ctr].files);
+    waste_dir = opendir (waste_curr->files);
 
     while ((entry = readdir (waste_dir)) != NULL)
     {
@@ -387,7 +377,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
        *
        */
       char full_path[PATH_MAX + 1];
-      sprintf (full_path, "%s%s", waste[ctr].files, entry->d_name);
+      sprintf (full_path, "%s%s", waste_curr->files, entry->d_name);
       /* I tried this using only "entry->d_name but got weird results, so
        * going to use the full path
        */
@@ -423,7 +413,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     my_menu = new_menu ((ITEM **) my_items);
     menu_opts_off (my_menu, O_ONEVALUE);
 
-    mvprintw (LINES - 7, 0, "== %s ==", waste[ctr].files);
+    mvprintw (LINES - 7, 0, "== %s ==", waste_curr->files);
     mvprintw (LINES - 6, 0,
           ngettext ("== contains %d file ==", "== contains %d files ==", entries), entries);
 
@@ -474,8 +464,8 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
         if (item_value (items[i]) == TRUE)
         {
           static char recover_file[PATH_MAX + 1];
-          sprintf (recover_file, "%s%s", waste[ctr].files, item_name (items[i]));
-          msg_warn_restore(Restore (recover_file, time_str_appended, waste));
+          sprintf (recover_file, "%s%s", waste_curr->files, item_name (items[i]));
+          msg_warn_restore(Restore (recover_file, time_str_appended, waste_curr));
         }
       }
     }
@@ -484,21 +474,16 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
     free_item (my_items[1]);
     free_menu (my_menu);
 
-    if (c == 'q' || c == 10)
-    {
-      break;
-    }
+    if (c == KEY_RIGHT && waste_curr->next_node->next_node != NULL)
+      waste_curr = waste_curr->next_node;
+    if (c == KEY_LEFT && waste_curr->prev_node != NULL)
+      waste_curr = waste_curr->prev_node;
 
-    if (c == KEY_RIGHT && *waste[ctr + 1].parent != '\0')
-    {
-      ctr++;
-    }
+  }while (c != 'q' && c != 10);
 
-    if (c == KEY_LEFT && ctr)
-      ctr--;
-
-  }while (*waste[ctr].parent != '\0');
-
+#ifdef TEMP_LOG
+  fclose (tmp_log);
+#endif
   /* endwin was already run if c == 10 */
   if (c != 10)
   {
@@ -508,7 +493,7 @@ restore_select (struct waste_containers *waste, char *time_str_appended)
 }
 
 void
-undo_last_rmw (char *time_str_appended, struct waste_containers *waste, const char *HOMEDIR)
+undo_last_rmw (char *time_str_appended, st_waste *waste_curr, const char *HOMEDIR)
 {
   FILE *undo_file_ptr;
   static char undo_path[MP];
@@ -534,7 +519,7 @@ undo_last_rmw (char *time_str_appended, struct waste_containers *waste, const ch
   {
     int result = 0;
     trim (line);
-    result = Restore (line, time_str_appended, waste);
+    result = Restore (line, time_str_appended, waste_curr);
     msg_warn_restore (result);
     err_ctr += result;
   }

@@ -35,10 +35,10 @@
 #define CTRLD 	4
 
 int
-Restore (const char *argv, char *time_str_appended, struct waste_containers *waste);
+Restore (const char *argv, char *time_str_appended, st_waste *waste_curr);
 
 int
-restore_select (struct waste_containers *waste, char *time_str_appended);
+restore_select (st_waste *waste_curr, char *time_str_appended);
 
 void
-undo_last_rmw (char *time_str_appended, struct waste_containers *waste, const char *HOMEDIR);
+undo_last_rmw (char *time_str_appended, st_waste *waste_curr, const char *HOMEDIR);
