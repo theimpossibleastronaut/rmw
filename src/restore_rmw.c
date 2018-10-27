@@ -148,7 +148,7 @@ Restore (const char *argv, char *time_str_appended, st_waste *waste_curr)
     /* TRANSLATORS:  "basename" refers to the basename of a file  */
     printf (_("Searching using only the basename...\n"));
 
-    while (waste_curr->next_node != NULL)
+    while (waste_curr != NULL)
     {
       static char *possibly_in_path;
 
@@ -474,7 +474,7 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
     free_item (my_items[1]);
     free_menu (my_menu);
 
-    if (c == KEY_RIGHT && waste_curr->next_node->next_node != NULL)
+    if (c == KEY_RIGHT && waste_curr->next_node != NULL)
       waste_curr = waste_curr->next_node;
     if (c == KEY_LEFT && waste_curr->prev_node != NULL)
       waste_curr = waste_curr->prev_node;

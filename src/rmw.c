@@ -208,21 +208,10 @@ Unable to continue. Exiting...\n"));
   /* is reassigned a value in get_config_data() */
   ushort purge_after = 0;
 
-  st_waste *waste_head = (st_waste*)malloc (sizeof (st_waste));
-  chk_malloc (waste_head, __func__, __LINE__);
-  st_waste *waste_curr = (st_waste*)malloc (sizeof (st_waste));
-  chk_malloc (waste_curr, __func__, __LINE__);
-  waste_curr->prev_node = NULL;
-  waste_curr->next_node = NULL;
-  waste_head = waste_curr;
+  st_waste *waste_head;
+  waste_head = get_config_data (alt_config, &purge_after, &force, HOMEDIR);
 
-  short conf_err =
-    get_config_data (waste_curr, alt_config, &purge_after, &force, HOMEDIR);
-
-  if (conf_err == NO_WASTE_FOLDER)
-    return NO_WASTE_FOLDER;
-
-  waste_curr = waste_head;
+  st_waste *waste_curr = waste_head;
 
   /* helps test the purge function */
   bool use_fake_year = 0;
@@ -281,7 +270,8 @@ Unable to continue. Exiting...\n"));
      * removable devices are specified.
      */
     waste_curr = waste_head;
-    while (waste_curr->next_node != NULL)
+
+    while (waste_curr != NULL)
     {
       printf ("%s\n", waste_curr->parent);
       waste_curr = waste_curr->next_node;
@@ -412,7 +402,7 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
        * happens (provided all the tests are passed.
        */
       waste_curr = waste_head;
-      while (waste_curr->next_node != NULL)
+      while (waste_curr != NULL)
       {
         lstat (file.main_argv, &st);
 
@@ -523,11 +513,11 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
 Enter '%s -h' for more information\n"), argv[0]);
 
   waste_curr = waste_head;
-  while (waste_curr->next_node != NULL)
+  while (waste_curr != NULL)
   {
     waste_curr = waste_curr->next_node;
   }
-  while (waste_curr->prev_node != NULL)
+  while (waste_curr != NULL)
   {
     free (waste_curr->next_node);
     waste_curr = waste_curr->prev_node;

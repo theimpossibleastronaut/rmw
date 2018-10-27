@@ -180,7 +180,7 @@ purge (const short purge_after, const st_waste *waste_curr,
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
 
-  while (waste_curr->next_node != NULL)
+  while (waste_curr != NULL)
   {
     static struct dirent *entry;
     DIR *dir = opendir (waste_curr->info);
@@ -388,7 +388,7 @@ orphan_maint (st_waste *waste_curr,
 
   int status;
 
-  while (waste_curr->next_node != NULL)
+  while (waste_curr != NULL)
   {
     struct dirent *entry;
     DIR *files;

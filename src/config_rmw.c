@@ -82,9 +82,8 @@ static bool make_home_real (char **str, const char *HOMEDIR)
  * Reads the config file, checks for the existence of waste directories,
  * and gets the value of 'purge_after'
  */
-short
-get_config_data(st_waste *waste_curr, const char *alt_config,
-      ushort *purge_after, ushort *force, const char *HOMEDIR)
+st_waste*
+get_config_data(const char *alt_config, ushort *purge_after, ushort *force, const char *HOMEDIR)
 {
   char config_file[MP];
   const ushort CFG_MAX_LEN = PATH_MAX + 16;
@@ -96,8 +95,6 @@ get_config_data(st_waste *waste_curr, const char *alt_config,
    /* FIXME: A default value should be declared elsewhere
     */
   *purge_after = 90;
-
-  short func_error = 0;
 
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
@@ -163,11 +160,15 @@ get_config_data(st_waste *waste_curr, const char *alt_config,
 A default configuration file can be found at\n\
 https://github.com/andy5995/rmw/tree/master\n\
 Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
-      return NO_WASTE_FOLDER;
+      exit (ERR_OPEN_CONFIG);
     }
   }
 
+  st_waste *waste_head = NULL;
+  st_waste *waste_curr = NULL;
+
   char *line_from_config = calloc (CFG_MAX_LEN + 1, 1);
+
   while (fgets (line_from_config, CFG_MAX_LEN, config_ptr) != NULL)
   {
     bufchk (line_from_config, CFG_MAX_LEN);
@@ -256,6 +257,22 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
         continue;
       }
 
+      st_waste *temp_node = (st_waste*)malloc (sizeof (st_waste));
+      chk_malloc (temp_node , __func__, __LINE__);
+
+      if (waste_curr != NULL)
+      {
+        waste_curr->next_node = temp_node;
+        temp_node->prev_node = waste_curr;
+        waste_curr = waste_curr->next_node;
+      }
+      else
+      {
+        waste_head = temp_node;
+        waste_curr = waste_head;
+        waste_curr->prev_node = NULL;
+      }
+
       /* make the parent... */
       strcpy (waste_curr->parent, token_ptr);
 
@@ -287,13 +304,6 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       struct stat st;
       lstat (waste_curr->parent, &st);
       waste_curr->dev_num = st.st_dev;
-
-      st_waste *temp_node = (st_waste*)malloc (sizeof (st_waste));
-      chk_malloc (temp_node, __func__, __LINE__);
-      waste_curr->next_node = temp_node;
-      temp_node->next_node = NULL;
-      temp_node->prev_node = waste_curr;
-      waste_curr = temp_node;
     }
     else if (!strncmp ("PROTECT", line_from_config, 7))
     {
@@ -315,7 +325,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       config_opened = 0;
   }
 
-  if (waste_curr->prev_node == NULL && waste_curr->next_node == NULL)
+  if (waste_curr == NULL)
   {
     printf (_("  :Error: no usable WASTE folder could be found\n\
 Please check your configuration file and permissions\n\
@@ -323,8 +333,10 @@ If you need further help, or to report a possible bug,\n\
 visit the rmw web site at\n\
   https://github.com/andy5995/rmw/wiki\n\
 Unable to continue. Exiting...\n"));
-    return NO_WASTE_FOLDER;
+    exit (NO_WASTE_FOLDER);
   }
+  else
+   waste_curr->next_node = NULL;
 
-  return func_error ? func_error : 0;
+  return waste_head;
 }

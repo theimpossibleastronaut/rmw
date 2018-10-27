@@ -25,6 +25,5 @@
 
 #include <sys/stat.h>
 
-short
-get_config_data(st_waste *waste_curr, const char *alt_config,
-      ushort *purge_after, ushort *force, const char *HOMEDIR);
+st_waste*
+get_config_data(const char *alt_config, ushort *purge_after, ushort *force, const char *HOMEDIR);
