@@ -250,7 +250,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       if (removable && exists (token_ptr) != 0)
       {
         if (list)
-          printf ("%s (removable, detached)\n", token_ptr);
+          printf (_("%s (removable, detached)\n"), token_ptr);
         continue;
       }
 
