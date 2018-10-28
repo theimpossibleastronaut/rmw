@@ -209,7 +209,7 @@ Unable to continue. Exiting...\n"));
   ushort purge_after = 0;
 
   st_waste *waste_head;
-  waste_head = get_config_data (alt_config, &purge_after, &force, HOMEDIR);
+  waste_head = get_config_data (alt_config, &purge_after, list, &force, HOMEDIR);
 
   st_waste *waste_curr = waste_head;
 
@@ -262,13 +262,6 @@ Unable to continue. Exiting...\n"));
  */
   if (list)
   {
-    /* FIXME: if a removable device is specified in the config file but not
-     * mounted, it will not show up in this list. It would be better if it
-     * showed up in this list, but if not mounted, a '!' next to it, or some
-     * other indication it's inactive due to not being mounted. Otherwise,
-     * the user has to look at the config file to get reminded of what
-     * removable devices are specified.
-     */
     waste_curr = waste_head;
 
     while (waste_curr != NULL)

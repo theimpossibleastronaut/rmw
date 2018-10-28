@@ -14,10 +14,10 @@ set -x
 $RMW_TEST_CMD_STRING
 test_result $?
 
-echo "\n\n == List the waste folders"
-set -x
-$BIN_DIR/rmw -c $CONFIG -l
-
+echo $SEPARATOR
+echo "List the waste folders..."
+echo "rmw should display folders on removable devices that are not mounted"
+$RMW_TEST_CMD_STRING -l
 test_result $?
 
 # Make some temporary files

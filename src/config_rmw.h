@@ -1,7 +1,7 @@
 /*
  * config_rmw.h
  *
- * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
+ * This file is part of rmw (https://github.com/theimpossibleastronaut/rmw/wiki)
  *
  *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  *
@@ -26,4 +26,5 @@
 #include <sys/stat.h>
 
 st_waste*
-get_config_data(const char *alt_config, ushort *purge_after, ushort *force, const char *HOMEDIR);
+get_config_data(const char *alt_config, ushort *purge_after,
+  const bool list, ushort *force, const char *HOMEDIR);

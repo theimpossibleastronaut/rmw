@@ -1,10 +1,10 @@
 /*
  * rmw.h
  *
- * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
+ * This file is part of rmw (https://github.com/theimpossibleastronaut/rmw/wiki)
  *
- * Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
- * Other authors: https://github.com/andy5995/rmw/blob/master/AUTHORS.md
+ * Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ * Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,9 +27,6 @@
 #ifndef _INC_RMW_H
 #define _INC_RMW_H
 
-/* Enable support for files over 2G
-#define _FILE_OFFSET_BITS 64 */
-
 #define _XOPEN_SOURCE 600
 
 #include "config.h"
@@ -50,10 +47,12 @@
 # define DEBUG_PREFIX printf ("[DEBUG] ");
 #endif
 
+/* This is always defined when 'configure' is used */
 #ifndef VERSION
   #define VERSION "unversioned"
 #endif
 
+/* This is always defined when 'configure' is used */
 #ifndef SYSCONFDIR
 #define SYSCONFDIR "/usr/local/etc"
 #endif

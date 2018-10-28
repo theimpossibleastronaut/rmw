@@ -83,7 +83,8 @@ static bool make_home_real (char **str, const char *HOMEDIR)
  * and gets the value of 'purge_after'
  */
 st_waste*
-get_config_data(const char *alt_config, ushort *purge_after, ushort *force, const char *HOMEDIR)
+get_config_data(const char *alt_config, ushort *purge_after, const bool list,
+  ushort *force, const char *HOMEDIR)
 {
   char config_file[MP];
   const ushort CFG_MAX_LEN = PATH_MAX + 16;
@@ -248,12 +249,8 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
 
       if (removable && exists (token_ptr) != 0)
       {
-        /* If the folder doesn't exist, this message shows up every time rmw
-         * is run, which gets annoying. Commented out.
-         */
-
-        /* printf (_("!%s\n"), waste_curr->parent);
-         */
+        if (list)
+          printf ("%s (removable, detached)\n", token_ptr);
         continue;
       }
 
