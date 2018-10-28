@@ -211,7 +211,17 @@ Unable to continue. Exiting...\n"));
   st_waste *waste_head;
   waste_head = get_config_data (alt_config, &purge_after, list, &force, HOMEDIR);
 
-  st_waste *waste_curr = waste_head;
+  if (list)
+  {
+    waste_curr = waste_head;
+
+    while (waste_curr != NULL)
+    {
+      printf ("%s\n", waste_curr->parent);
+      waste_curr = waste_curr->next_node;
+    }
+    return 0;
+  }
 
   /* helps test the purge function */
   bool use_fake_year = 0;
@@ -255,18 +265,6 @@ Unable to continue. Exiting...\n"));
       else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }
-  }
-
-  if (list)
-  {
-    waste_curr = waste_head;
-
-    while (waste_curr != NULL)
-    {
-      printf ("%s\n", waste_curr->parent);
-      waste_curr = waste_curr->next_node;
-    }
-    return 0;
   }
 
   /* String appended to duplicate filenames */
