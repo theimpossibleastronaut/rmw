@@ -50,9 +50,7 @@ script:
   - make install
   - make uninstall
   - cd test
-  - make test-basic
-  - make test-purging
-  - make test-restore
+  - make test-all
 
 notifications:
   webhooks:

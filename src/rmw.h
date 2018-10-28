@@ -112,8 +112,9 @@ struct rmw_target
 
 bool verbose;
 
+#define RETURN_CODE_OFFSET 10
 enum {
-  EXIT_FAILED_GETENV = 10,
+  EXIT_FAILED_GETENV = RETURN_CODE_OFFSET,
   NO_WASTE_FOLDER,
   EXIT_BUF_ERR,
   EXIT_MALLOC_ERR,

@@ -257,9 +257,6 @@ Unable to continue. Exiting...\n"));
     }
   }
 
-/* I don't know of any reason why --list would be needed with other features,
- * so exit rmw (if -l was passed, it was performed in get_config_data())
- */
   if (list)
   {
     waste_curr = waste_head;
@@ -462,6 +459,10 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
           }
           else
           {
+            /* can't use the msg_return_code() function here because the return code
+             * is different than the ones specified. It would be easy to change a couple
+             * things though so the function could be used and would help with consistent
+             * display of the message strings */
             printf (_("  :Error number %d trying to move %s :\n"),
                 rename_status, file.main_argv);
             /* FIXME: better to return rename_status. Any side effects
@@ -625,6 +626,7 @@ is_time_to_purge (const char *HOMEDIR)
        * chances are this error will never be a problem.
        */
       open_err (file_lastpurge, __func__);
+      msg_return_code (ERR_OPEN);
       exit (ERR_OPEN);
     }
   }

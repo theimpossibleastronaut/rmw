@@ -29,6 +29,7 @@
 #endif
 
 #include "strings_rmw.h"
+#include "messages_rmw.h"
 
 void
 bufchk (const char *str, ushort boundary)
@@ -83,6 +84,7 @@ bufchk (const char *str, ushort boundary)
     fprintf (stderr, "%s\n\n", temp);
   }
 
+  msg_return_code (EXIT_BUF_ERR);
   exit (EXIT_BUF_ERR);
 }
 

@@ -43,7 +43,7 @@ $RMW_TEST_CMD_STRING -z topdir
 echo $SEPARATOR
 echo "Try restoring with -z using a wildcard (will fail)"
 $RMW_TEST_CMD_STRING $HOME/somefiles/topdir
-$RMW_TEST_CMD_STRING -z topd*
+$RMW_TEST_CMD_STRING --verbose -z topd*
 test_result $?
 
 echo $SEPARATOR
@@ -64,11 +64,9 @@ set -x
 mkdir $HOME/no_write_perms
 touch $HOME/no_write_perms/test.tmp
 chmod -R -w $HOME/no_write_perms
-$RMW_TEST_CMD_STRING $HOME/no_write_perms
-
+$RMW_TEST_CMD_STRING --verbose $HOME/no_write_perms
 # can't test_result here because it should return 1, and we want this script
-# to continue. Instead, just show what's returned.
-echo error $? returned;
+# to continue. Instead, just show what's returned using the '--verbose' option.
 set +x
 
 # change permissions back to writable so the dir gets removed before the

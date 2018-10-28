@@ -161,6 +161,7 @@ get_config_data(const char *alt_config, ushort *purge_after, const bool list,
 A default configuration file can be found at\n\
 https://github.com/andy5995/rmw/tree/master\n\
 Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
+      msg_return_code (ERR_OPEN_CONFIG);
       exit (ERR_OPEN_CONFIG);
     }
   }
@@ -330,6 +331,7 @@ If you need further help, or to report a possible bug,\n\
 visit the rmw web site at\n\
   https://github.com/andy5995/rmw/wiki\n\
 Unable to continue. Exiting...\n"));
+    msg_return_code (NO_WASTE_FOLDER);
     exit (NO_WASTE_FOLDER);
   }
   else

@@ -1,9 +1,9 @@
 /*
  * messages_rmw.h
  *
- * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
+ * This file is part of rmw (https://github.com/theimpossibleastronaut/rmw/wiki)
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,3 +39,6 @@ void display_dot_trashinfo_error (const char *dti);
 void msg_warn_restore (int result);
 
 void chk_malloc (void *state, const const char *func, const int line);
+
+void
+msg_return_code (int code);

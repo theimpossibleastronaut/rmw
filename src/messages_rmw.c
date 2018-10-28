@@ -25,6 +25,31 @@
 
 #include "messages_rmw.h"
 
+/* These strings need to match the order listed in the enum statement
+ * in rmw.h */
+static const char *ERR_STRING[] = {
+  "EXIT_FAILED_GETENV",
+  "NO_WASTE_FOLDER",
+  "EXIT_BUF_ERR",
+  "EXIT_MALLOC_ERR",
+  "EXIT_OPENDIR_FAILURE",
+  "DATA_DIR_CREATED",
+  "MAKE_DIR_SUCCESS",
+  "MAKE_DIR_FAILURE",
+  "FORCE_NOT_USED",
+  "IS_NEW_DAY",
+  "IS_SAME_DAY",
+  "ERR_OPEN",
+  "ERR_CLOSE",
+  "ERR_FGETS",
+  "ERR_TRASHINFO_FORMAT",
+  "FILE_NOT_FOUND",
+  "ERR_OPEN_CONFIG"
+};
+
+#define MSG_WARNING gettext (" :warning: ")
+#define MSG_ERROR   gettext ("  :error: ")
+
 /**
  * open_file()
  *
@@ -33,8 +58,9 @@
 void
 open_err (const char *filename, const char *function_name)
 {
+    printf (MSG_ERROR);
     /* TRANSLATORS:  "opening" refers to a file  */
-    printf (_("  :Error: while opening %s\n"), filename);
+    printf (_("while opening %s\n"), filename);
 
     static char combined_msg[MAX_MSG_SIZE];
      /* TRANSLATORS:  "function" refers to a C function  */
@@ -57,24 +83,27 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
   else
   {
     /* TRANSLATORS:  "closing" refers to a file  */
-    printf (_("  :Error: while closing %s\n"), filename);
+    printf (MSG_ERROR);
+    printf (_("while closing %s\n"), filename);
 
     static char combined_msg[MAX_MSG_SIZE];
     sprintf (combined_msg, _("function: <%s>"), function_name);
     perror (combined_msg);
 
+    msg_return_code (ERR_CLOSE);
     return ERR_CLOSE;
   }
 }
 
 void display_dot_trashinfo_error (const char *dti)
 {
+  printf (MSG_ERROR);
   /* TRANSLATORS:  ".trashinfo" should remain untranslated
    *
    *               "format" refers to the layout of the file
    *                contents
    */
-  printf (_("  :Error: format of .trashinfo `file %s` is incorrect"), dti);
+  printf (_("format of .trashinfo `file %s` is incorrect"), dti);
   printf ("\n");
   return;
 }
@@ -85,8 +114,16 @@ void msg_warn_restore (int result)
     return;
 
   if (result != FILE_NOT_FOUND)
-    /* TRANSLATORS: ignore "Restore()" */
-    printf (_(" :warning: Restore() returned %d\n"), result);
+  {
+    printf (MSG_WARNING);
+    if (result != FILE_NOT_FOUND)
+    {
+      /* TRANSLATORS: ignore "Restore()"
+       * "returned" refers to an error code (number) that was returned by
+       * an operation */
+      printf (_("Restore() returned %d\n"), result);
+    }
+  }
 
   return;
 }
@@ -95,8 +132,21 @@ void chk_malloc (void *state, const const char *func, const int line)
 {
   if (state == NULL)
   {
-    printf (_("  :Error: allocating memory\n"));
+    printf (MSG_ERROR);
+    printf (_("while attempting to allocate memory\n"));
+    msg_return_code (EXIT_MALLOC_ERR);
     exit (EXIT_MALLOC_ERR);
   }
   return;
+}
+
+void
+msg_return_code (int code)
+{
+  if (verbose)
+  {
+    /* TRANSLATORS: "return" code refers to a number returned by an operation
+     * or function */
+    printf (_("  :return code: %d -- %s\n"), code, ERR_STRING[code - RETURN_CODE_OFFSET]);
+  }
 }

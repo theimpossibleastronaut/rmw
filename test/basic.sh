@@ -73,8 +73,7 @@ test_result $?
 echo $SEPARATOR
 echo "Test buffer overrun prevention... (should return 12)"
 set -x
-RMW_TESTBUF=20 $RMW_TEST_CMD_STRING
-echo err $? returned
+RMW_TESTBUF=20 $RMW_TEST_CMD_STRING --verbose
 set +x
 
 echo "Basic tests passed"
