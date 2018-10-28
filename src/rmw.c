@@ -211,10 +211,10 @@ Unable to continue. Exiting...\n"));
   st_waste *waste_head;
   waste_head = get_config_data (alt_config, &purge_after, list, &force, HOMEDIR);
 
+  st_waste *waste_curr = waste_head;
+
   if (list)
   {
-    waste_curr = waste_head;
-
     while (waste_curr != NULL)
     {
       printf ("%s\n", waste_curr->parent);
