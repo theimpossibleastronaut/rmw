@@ -410,7 +410,7 @@ orphan_maint (st_waste *waste_curr,
 
       sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info, file.base_name, DOT_TRASHINFO);
 
-      if (!exists (path_to_trashinfo))
+      if (exists (path_to_trashinfo))
         continue;
 
       /* destination if restored */

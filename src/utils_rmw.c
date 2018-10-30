@@ -40,7 +40,7 @@
 int
 make_dir (const char *dir)
 {
-  if (exists (dir) == 0)
+  if (exists (dir))
     return 0;
 
   char temp_dir[MP];
@@ -66,7 +66,7 @@ make_dir (const char *dir)
     strcat (add_to_path, tokenPtr);
     tokenPtr = strtok (NULL, "/");
 
-    if (exists (add_to_path))
+    if (!exists (add_to_path))
     {
       mk_err = (mkdir (add_to_path, S_IRWXU));
 
@@ -90,24 +90,12 @@ make_dir (const char *dir)
 
 /**
  * int exists (const char *filename);
- * Checks for the existence of *filename. On error, uses perror() to
- * display the reason
- *
- * return: the return value of lstat()
- * 0 if success (if a file or dir exists)
- */
-
-/* FIXME: This function should return the opposite
- *
- * Right now.. if (exists) is true that means the file does not exist
- * if (!exists) means the file does exist
+ * Checks for the existence of *filename.
  */
 int exists (const char *filename)
 {
   static struct stat st;
   static ushort state = 0;
-  /* using a varible here to make debugging a little easier in the future */
   state = (lstat (filename, &st));
-  // printf ("%d\n", state);
-  return state == 0 ? false : FILE_NOT_FOUND;
+  return state == 0 ? true : false;
 }

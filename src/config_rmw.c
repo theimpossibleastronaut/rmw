@@ -248,7 +248,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       del_char_shift_left (' ', &token_ptr);
       make_home_real (&token_ptr, HOMEDIR);
 
-      if (removable && exists (token_ptr) == FILE_NOT_FOUND)
+      if (removable && !exists (token_ptr))
       {
         if (list)
           printf (_("%s (removable, detached)\n"), token_ptr);
@@ -280,7 +280,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
       bufchk (waste_curr->files, MP);
 
-      if (exists (waste_curr->files))
+      if (!exists (waste_curr->files))
       {
         if (make_dir (waste_curr->files) == MAKE_DIR_FAILURE)
         {
@@ -291,7 +291,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
         /* and the info. */
       sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
 
-      if (exists (waste_curr->info))
+      if (!exists (waste_curr->info))
       {
         if (make_dir (waste_curr->info) == MAKE_DIR_FAILURE)
         {

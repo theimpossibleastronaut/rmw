@@ -341,11 +341,7 @@ Unable to continue. Exiting...\n"));
       bufchk (argv[file_arg], MP);
       strcpy (file.main_argv, argv[file_arg]);
 
-      /**
-       * Check to see if the file exists, and if so, see if it's protected
-       */
-
-      if (exists (file.main_argv) == 0)
+      if (exists (file.main_argv))
       {
         main_error = resolve_path (file.main_argv, file.real_path);
 
@@ -404,7 +400,7 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
 
           /* If a duplicate file exists
            */
-          if (exists (file.dest_name) == 0)
+          if (exists (file.dest_name))
           {
             // append a time string
             strcat (file.dest_name, time_str_appended);
@@ -557,7 +553,7 @@ is_time_to_purge (const char *HOMEDIR)
 
   FILE *fp;
 
-  if (!exists (file_lastpurge))
+  if (exists (file_lastpurge))
   {
     fp = fopen (file_lastpurge, "r");
     if (fp == NULL)

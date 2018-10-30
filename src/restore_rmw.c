@@ -144,7 +144,7 @@ Restore (const char *argv, char *time_str_appended, st_waste *waste_curr)
  * The 2 code blocks below address
  * restoring files with only the basename #14
  */
-  if ((strcmp (file.base_name, file_arg) == 0) && exists (file.base_name))
+  if ((strcmp (file.base_name, file_arg) == 0) && !exists (file.base_name))
   {
     /* TRANSLATORS:  "basename" refers to the basename of a file  */
     printf (_("Searching using only the basename...\n"));
@@ -166,7 +166,7 @@ Restore (const char *argv, char *time_str_appended, st_waste *waste_curr)
     return 0;
   }
 
-  if (!exists (file_arg))
+  if (exists (file_arg))
   {
     strcpy (file.relative_path, file_arg);
 
@@ -235,7 +235,7 @@ Restore (const char *argv, char *time_str_appended, st_waste *waste_curr)
 
         /* Check for duplicate filename
          */
-        if (!exists (file.dest))
+        if (exists (file.dest))
         {
           bufchk (time_str_appended, MP - strlen (file.dest));
           strcat (file.dest, time_str_appended);
@@ -252,7 +252,7 @@ Duplicate filename at destination - appending time string...\n"));
         truncate_str (parent_dir, strlen (basename (file.dest)));
 
         /* FIXME: needs error checking */
-        if (exists (parent_dir))
+        if (!exists (parent_dir))
           make_dir (parent_dir);
 
         int r_result = rename (file_arg, file.dest);
