@@ -95,7 +95,7 @@ struct st_waste{
   char info[PATH_MAX + 1];
   char files[PATH_MAX + 1];
   int dev_num;
-
+  bool removable;
   st_waste *prev_node;
   st_waste *next_node;
 };

@@ -248,7 +248,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       del_char_shift_left (' ', &token_ptr);
       make_home_real (&token_ptr, HOMEDIR);
 
-      if (removable && exists (token_ptr) != 0)
+      if (removable && exists (token_ptr) == FILE_NOT_FOUND)
       {
         if (list)
           printf (_("%s (removable, detached)\n"), token_ptr);
@@ -270,6 +270,8 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
         waste_curr = waste_head;
         waste_curr->prev_node = NULL;
       }
+
+      waste_curr->removable = removable ? true : false;
 
       /* make the parent... */
       strcpy (waste_curr->parent, token_ptr);

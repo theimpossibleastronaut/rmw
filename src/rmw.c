@@ -217,7 +217,11 @@ Unable to continue. Exiting...\n"));
   {
     while (waste_curr != NULL)
     {
-      printf ("%s\n", waste_curr->parent);
+      printf ("%s", waste_curr->parent);
+      if (waste_curr->removable)
+        printf (_(" (removable, attached)"));
+      printf ("\n");
+
       waste_curr = waste_curr->next_node;
     }
     return 0;

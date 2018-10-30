@@ -109,5 +109,5 @@ int exists (const char *filename)
   /* using a varible here to make debugging a little easier in the future */
   state = (lstat (filename, &st));
   // printf ("%d\n", state);
-  return state;
+  return state == 0 ? false : FILE_NOT_FOUND;
 }
