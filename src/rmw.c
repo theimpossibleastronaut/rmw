@@ -224,6 +224,11 @@ Unable to continue. Exiting...\n"));
 
       waste_curr = waste_curr->next_node;
     }
+
+    waste_curr = waste_head;
+    dispose_waste (waste_curr);
+    waste_head = NULL;
+    free (waste_head);
     return 0;
   }
 
@@ -505,17 +510,8 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
 Enter '%s -h' for more information\n"), argv[0]);
 
   waste_curr = waste_head;
-  while (waste_curr != NULL)
-  {
-    waste_curr = waste_curr->next_node;
-  }
-  while (waste_curr != NULL)
-  {
-    free (waste_curr->next_node);
-    waste_curr = waste_curr->prev_node;
-  }
+  dispose_waste (waste_curr);
   waste_head = NULL;
-  free (waste_curr);
   free (waste_head);
 
   return 0;

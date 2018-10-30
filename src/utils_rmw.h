@@ -30,3 +30,6 @@ make_dir (const char *dir);
 
 int
 exists (const char *filename);
+
+void
+dispose_waste (st_waste *node);

@@ -99,3 +99,14 @@ int exists (const char *filename)
   state = (lstat (filename, &st));
   return state == 0 ? true : false;
 }
+
+void
+dispose_waste (st_waste *node)
+{
+  if (node != NULL)
+  {
+    dispose_waste (node->next_node);
+    node = NULL;
+    free (node);
+  }
+}
