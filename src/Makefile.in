@@ -112,7 +112,7 @@ am_rmw_OBJECTS = rmw.$(OBJEXT) restore_rmw.$(OBJEXT) \
 	config_rmw.$(OBJEXT) trivial_rmw.$(OBJEXT) \
 	strings_rmw.$(OBJEXT) purging_rmw.$(OBJEXT) \
 	messages_rmw.$(OBJEXT) trashinfo_rmw.$(OBJEXT) \
-	utils_rmw.$(OBJEXT)
+	utils_rmw.$(OBJEXT) bst.$(OBJEXT)
 rmw_OBJECTS = $(am_rmw_OBJECTS)
 rmw_DEPENDENCIES =
 AM_V_P = $(am__v_P_@AM_V@)
@@ -298,7 +298,8 @@ rmw_SOURCES = \
 	purging_rmw.c	\
 	messages_rmw.c	\
 	trashinfo_rmw.c	\
-	utils_rmw.c
+	utils_rmw.c	\
+	bst.c
 
 noinst_HEADERS = \
 	rmw.h	\
@@ -310,6 +311,7 @@ noinst_HEADERS = \
 	messages_rmw.h	\
 	trashinfo_rmw.h	\
 	utils_rmw.h	\
+	bst.h	\
 	gettext.h
 
 rmw_LDADD = -lcurses -lmenu
@@ -415,6 +417,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bst.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/config_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/messages_rmw.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/purging_rmw.Po@am__quote@

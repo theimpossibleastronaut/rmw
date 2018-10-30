@@ -31,6 +31,7 @@
 #include "restore_rmw.h"
 #include "utils_rmw.h"
 #include "messages_rmw.h"
+#include "bst.h"
 
 static char *
 human_readable_size (off_t size)
@@ -322,9 +323,6 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
 
   do
   {
-    static ushort entries;
-    entries = 0;
-
     struct stat st;
     struct dirent *entry;
     static DIR *waste_dir;
@@ -334,38 +332,13 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
       return EXIT_OPENDIR_FAILURE;
     }
 
-    /* This first loop is used to get the number of entries in the
-     * directory.
-     */
-    while ((entry = readdir (waste_dir)) != NULL)
-    {
-      if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
-        continue;
-
-      entries++;
-    }
-
-    /* FIXME: needs error checking on close() */
-    closedir (waste_dir);
-
+    node *root = NULL;
+    comparer int_cmp = strcasecmp;
     ITEM **my_items;
     MENU *my_menu;
-
-    int n_choices;
-
-    /* Now that we know the number of entries, we declare an array
-     */
-    char choices[entries][PATH_MAX + 1];
-
-    /* the 2nd argument of new_item() from the ncurses library is for the
-     * description.
-     */
-    char desc[entries][80 + 1];
-
-    /* reset entries to 0 for the next loop
-     */
-    entries = 0;
     clear ();
+
+    int n_choices = 0;
 
     waste_dir = opendir (waste_curr->files);
 
@@ -383,32 +356,28 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
        * going to use the full path
        */
       lstat (full_path, &st);
-      sprintf (desc[entries], "[%s]", human_readable_size (st.st_size));
+      char *hr_size = human_readable_size (st.st_size);
+      /* the 2nd argument of new_item() from the ncurses library is for the
+      * description.
+      */
+      char *desc = (char*)calloc (strlen (hr_size) + 2 + 4 + 1, 1);
+      sprintf (desc, "[%s]", human_readable_size (st.st_size));
 
       if (S_ISDIR (st.st_mode))
-        strcat (desc[entries], " (D)");
+        strcat (desc, " (D)");
+      else if (S_ISLNK (st.st_mode))
+        strcat (desc, " (L)");
 
-      if (S_ISLNK (st.st_mode))
-        strcat (desc[entries], " (L)");
+      root = insert_node(root, int_cmp, entry->d_name, desc);
 
-      strcpy (choices[entries], entry->d_name);
-
-      entries++;
+      n_choices++;
     }
 
     closedir (waste_dir);
 
     /* Initialize items */
-    n_choices = ARRAY_SIZE(choices);
     my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
-
-    int i;
-
-    for(i = 0; i < n_choices; ++i)
-    {
-      my_items[i] = new_item(choices[i], desc[i]);
-    }
-
+    populate_menu (root, my_items, true);
     my_items[n_choices] = (ITEM *)NULL;
 
     my_menu = new_menu ((ITEM **) my_items);
@@ -416,7 +385,7 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
 
     mvprintw (LINES - 7, 0, "== %s ==", waste_curr->files);
     mvprintw (LINES - 6, 0,
-          ngettext ("== contains %d file ==", "== contains %d files ==", entries), entries);
+          ngettext ("== contains %d file ==", "== contains %d files ==", n_choices), n_choices);
 
     /* TRANSLATORS: I believe the words between the < and > can be translated
      */
@@ -442,6 +411,16 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
       case KEY_UP:
         menu_driver (my_menu, REQ_UP_ITEM);
         break;
+      case KEY_LEFT:
+        if (waste_curr->prev_node != NULL)
+          waste_curr = waste_curr->prev_node;
+        else c = 0;
+        break;
+      case KEY_RIGHT:
+        if (waste_curr->next_node != NULL)
+          waste_curr = waste_curr->next_node;
+        else c = 0;
+        break;
       case KEY_NPAGE:
         menu_driver (my_menu, REQ_SCR_DPAGE);
         break;
@@ -460,6 +439,7 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
       ITEM **items;
       items = menu_items (my_menu);
 
+      int i;
       for (i = 0; i < item_count (my_menu); ++i)
       {
         if (item_value (items[i]) == TRUE)
@@ -470,21 +450,13 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
         }
       }
     }
-
     free_item (my_items[0]);
     free_item (my_items[1]);
     free_menu (my_menu);
-
-    if (c == KEY_RIGHT && waste_curr->next_node != NULL)
-      waste_curr = waste_curr->next_node;
-    if (c == KEY_LEFT && waste_curr->prev_node != NULL)
-      waste_curr = waste_curr->prev_node;
+    dispose (root);
 
   }while (c != 'q' && c != 10);
 
-#ifdef TEMP_LOG
-  fclose (tmp_log);
-#endif
   /* endwin was already run if c == 10 */
   if (c != 10)
   {

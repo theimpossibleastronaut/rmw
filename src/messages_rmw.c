@@ -133,7 +133,7 @@ void chk_malloc (void *state, const const char *func, const int line)
   if (state == NULL)
   {
     printf (MSG_ERROR);
-    printf (_("while attempting to allocate memory\n"));
+    printf (_("while attempting to allocate memory -- %s:%d\n"), func, line);
     msg_return_code (EXIT_MALLOC_ERR);
     exit (EXIT_MALLOC_ERR);
   }

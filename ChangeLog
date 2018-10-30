@@ -1,6 +1,10 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-10-30
+
+* `rmw -s` now returns a sorted list of files
+
 2018-10-26
 
 * PROTECT feature removed

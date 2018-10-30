@@ -10,7 +10,8 @@ rmw_SOURCES=	\
 	purging_rmw.c	\
 	messages_rmw.c	\
 	trashinfo_rmw.c	\
-	utils_rmw.c
+	utils_rmw.c	\
+	bst.c
 
 noinst_HEADERS = \
 	rmw.h	\
@@ -22,6 +23,7 @@ noinst_HEADERS = \
 	messages_rmw.h	\
 	trashinfo_rmw.h	\
 	utils_rmw.h	\
+	bst.h	\
 	gettext.h
 
 DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
