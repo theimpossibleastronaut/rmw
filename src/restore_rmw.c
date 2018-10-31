@@ -335,8 +335,10 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
     waste_dir = opendir (waste_curr->files);
     if (waste_dir == NULL)
     {
-      msg_err_open_dir (waste_curr->files, __func__, __LINE__);
+      /* we don't want errno to be changed because it's used in msg_error_open_dir()
+       * but afaik, endwin() doesn't change errno */
       endwin();
+      msg_err_open_dir (waste_curr->files, __func__, __LINE__);
     }
     while ((entry = readdir (waste_dir)) != NULL)
     {
@@ -368,8 +370,8 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
 
     if (closedir (waste_dir))
     {
-      msg_err_close_dir (waste_curr->files, __func__, __LINE__);
       endwin();
+      msg_err_close_dir (waste_curr->files, __func__, __LINE__);
     }
 
     /* Initialize items */
