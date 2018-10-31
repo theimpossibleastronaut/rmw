@@ -30,9 +30,7 @@
 #include <curses.h>
 #include <menu.h>
 
-/* for curses/restore_select() */
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-#define CTRLD 	4
+#define CTRLD 4
 
 int
 Restore (const char *argv, char *time_str_appended, st_waste *waste_curr);
