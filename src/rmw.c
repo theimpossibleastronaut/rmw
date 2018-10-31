@@ -179,9 +179,8 @@ verbose = 1;
   }
 
   char data_dir[MP];
-
+  bufchk (HOMEDIR, MP - strlen (DATA_DIR));
   sprintf (data_dir, "%s%s", HOMEDIR, DATA_DIR);
-  bufchk (data_dir, MP);
 
   ushort created_data_dir;
   created_data_dir = make_dir (data_dir);
