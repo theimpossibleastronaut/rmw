@@ -328,8 +328,8 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
     static DIR *waste_dir;
     if ((waste_dir = opendir (waste_curr->files)) == NULL)
     {
-      fprintf (stderr, "  :Error: while opening directory: %s", waste_curr->files);
-      return EXIT_OPENDIR_FAILURE;
+      msg_err_open_dir (waste_curr->files, __func__, __LINE__);
+      endwin();
     }
 
     node *root = NULL;
@@ -341,20 +341,17 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
     int n_choices = 0;
 
     waste_dir = opendir (waste_curr->files);
+    if (waste_dir == NULL)
+      msg_err_open_dir (waste_curr->files, __func__, __LINE__);
 
     while ((entry = readdir (waste_dir)) != NULL)
     {
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
         continue;
 
-      /* display the file size
-       *
-       */
-      char full_path[PATH_MAX + 1];
+      char full_path[MP];
+      bufchk (full_path, MP - strlen (entry->d_name));
       sprintf (full_path, "%s%s", waste_curr->files, entry->d_name);
-      /* I tried this using only "entry->d_name but got weird results, so
-       * going to use the full path
-       */
       lstat (full_path, &st);
       char *hr_size = human_readable_size (st.st_size);
       /* the 2nd argument of new_item() from the ncurses library is for the
@@ -373,7 +370,11 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
       n_choices++;
     }
 
-    closedir (waste_dir);
+    if (closedir (waste_dir))
+    {
+      msg_err_close_dir (waste_curr->files, __func__, __LINE__);
+      endwin();
+    }
 
     /* Initialize items */
     my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));

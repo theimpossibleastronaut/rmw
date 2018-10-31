@@ -32,7 +32,6 @@ static const char *ERR_STRING[] = {
   "NO_WASTE_FOLDER",
   "EXIT_BUF_ERR",
   "EXIT_MALLOC_ERR",
-  "EXIT_OPENDIR_FAILURE",
   "DATA_DIR_CREATED",
   "MAKE_DIR_SUCCESS",
   "MAKE_DIR_FAILURE",
@@ -149,4 +148,22 @@ msg_return_code (int code)
      * or function */
     printf (_("  :return code: %d -- %s\n"), code, ERR_STRING[code - RETURN_CODE_OFFSET]);
   }
+}
+
+void
+msg_err_close_dir (const char *dir, const char *func, const int line)
+{
+  fprintf (stderr, MSG_ERROR);
+  fprintf (stderr, "while closing %s -- %s:%d\n", dir, func, line);
+  perror ("closedir()");
+  exit (errno);
+}
+
+void
+msg_err_open_dir (const char *dir, const char *func, const int line)
+{
+  fprintf (stderr, MSG_ERROR);
+  fprintf (stderr, _("while opening %s -- %s:%d\n"), dir, func, line);
+  perror ("opendir()");
+  exit (errno);
 }

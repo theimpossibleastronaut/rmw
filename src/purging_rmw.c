@@ -44,10 +44,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
 
   dir = opendir (path);
   if (dir == NULL)
-    {
-      perror ("opendir");
-      exit (EXIT_OPENDIR_FAILURE);
-    }
+    msg_err_open_dir (path, __func__, __LINE__);
 
   while ((entry = readdir (dir)) != NULL)
   {
@@ -109,15 +106,13 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
         {
 
         case NOT_WRITEABLE:
-          status = closedir (dir);
-          if (status)
-            perror ("rmdir_recursive -> closedir");
+          if (closedir (dir))
+            msg_err_close_dir (path, __func__, __LINE__);
           return NOT_WRITEABLE;
           break;
         case MAX_DEPTH_REACHED:
-          status = closedir (dir);
-          if (status)
-            perror ("rmdir_recursive -> closedir");
+          if (closedir (dir))
+            msg_err_close_dir (path, __func__, __LINE__);
           return MAX_DEPTH_REACHED;
           break;
         }
@@ -129,17 +124,15 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
       printf ("\nPermission denied while deleting\n");
       printf ("%s\n", dir_path);
 
-      status = closedir (dir);
-      if (status)
-        perror ("rmdir_recusive -> closedir");
+      if (closedir (dir))
+        msg_err_close_dir (path, __func__, __LINE__);
 
       return NOT_WRITEABLE;
     }
   }
 
-  status = (closedir (dir));
-  if (status)
-    perror ("rmdir_recursive -> closedir");
+  if (closedir (dir))
+    msg_err_close_dir (path, __func__, __LINE__);
 
   if (level > 1)
   {
@@ -185,10 +178,7 @@ purge (const short purge_after, const st_waste *waste_curr,
     static struct dirent *entry;
     DIR *dir = opendir (waste_curr->info);
     if (dir == NULL)
-    {
-      perror ("purge -> opendir");
-      exit (EXIT_OPENDIR_FAILURE);
-    }
+      msg_err_open_dir (waste_curr->info, __func__, __LINE__);
 
     /**
      *  Read each file in <WASTE>/info
@@ -349,9 +339,8 @@ purge (const short purge_after, const st_waste *waste_curr,
       }
     }
 
-    status = closedir (dir);
-    if (status)
-      perror ("purge -> closedir");
+    if (closedir (dir))
+      msg_err_close_dir (waste_curr->info, __func__, __LINE__);
 
     waste_curr = waste_curr->next_node;
   }
@@ -386,18 +375,13 @@ orphan_maint (st_waste *waste_curr,
 
   char path_to_trashinfo[MP];
 
-  int status;
-
   while (waste_curr != NULL)
   {
     struct dirent *entry;
     DIR *files;
     files = opendir (waste_curr->files);
     if (files == NULL)
-    {
-      perror ("orphan_maint -> opendir");
-      exit (EXIT_OPENDIR_FAILURE);
-    }
+      msg_err_open_dir (waste_curr->files, __func__, __LINE__);
 
     while ((entry = readdir (files)) != NULL)
     {
@@ -425,9 +409,8 @@ orphan_maint (st_waste *waste_curr,
         printf (_("  :Error: while creating %s\n"), path_to_trashinfo);
 
     }
-    status = closedir (files);
-    if (status)
-      perror ("rmdir_recursive -> closedir");
+    if (closedir (files))
+      msg_err_close_dir (waste_curr->files, __func__, __LINE__);
 
     waste_curr = waste_curr->next_node;
   }
