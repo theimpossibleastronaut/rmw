@@ -178,12 +178,16 @@ verbose = 1;
     return 1;
   }
 
-  char data_dir[MP];
+  char *data_dir = calloc(strlen (HOMEDIR) + strlen (DATA_DIR) + 1, 1);
+  chk_malloc (data_dir, __func__, __LINE__);
   bufchk (HOMEDIR, MP - strlen (DATA_DIR));
   sprintf (data_dir, "%s%s", HOMEDIR, DATA_DIR);
 
   ushort created_data_dir;
   created_data_dir = make_dir (data_dir);
+  data_dir = NULL;
+  free (data_dir);
+
   /* make_dir now returns MAKE_DIR_SUCCESS or FAILURE
    * We want to assign something more specific that can be used later
    */
