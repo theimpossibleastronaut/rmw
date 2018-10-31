@@ -323,27 +323,21 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
 
   do
   {
-    struct stat st;
-    struct dirent *entry;
-    static DIR *waste_dir;
-    if ((waste_dir = opendir (waste_curr->files)) == NULL)
-    {
-      msg_err_open_dir (waste_curr->files, __func__, __LINE__);
-      endwin();
-    }
-
     node *root = NULL;
     comparer int_cmp = strcasecmp;
     ITEM **my_items;
     MENU *my_menu;
     clear ();
-
     int n_choices = 0;
 
+    struct dirent *entry;
+    static DIR *waste_dir;
     waste_dir = opendir (waste_curr->files);
     if (waste_dir == NULL)
+    {
       msg_err_open_dir (waste_curr->files, __func__, __LINE__);
-
+      endwin();
+    }
     while ((entry = readdir (waste_dir)) != NULL)
     {
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
@@ -352,6 +346,8 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
       char full_path[MP];
       bufchk (full_path, MP - strlen (entry->d_name));
       sprintf (full_path, "%s%s", waste_curr->files, entry->d_name);
+
+      struct stat st;
       lstat (full_path, &st);
       char *hr_size = human_readable_size (st.st_size);
       /* the 2nd argument of new_item() from the ncurses library is for the
@@ -379,6 +375,9 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
     /* Initialize items */
     my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
     populate_menu (root, my_items, true);
+
+    /* add 1 for the NULL terminating the ARRAY */
+    n_choices++;
     my_items[n_choices] = (ITEM *)NULL;
 
     my_menu = new_menu ((ITEM **) my_items);
