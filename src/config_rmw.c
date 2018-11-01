@@ -87,7 +87,12 @@ get_config_data(const char *alt_config, ushort *purge_after, const bool list,
   ushort *force, const char *HOMEDIR)
 {
   char config_file[MP];
-  const ushort CFG_MAX_LEN = PATH_MAX + 16;
+
+  /* This is somewhat of an arbitrary value, used for allocating a string
+   * with calloc. When the string is tokenized, each element is validated, so
+   * if the there's a problem, that's where the check will fail.
+   */
+  int CFG_LINE_LEN_MAX = MP * 2;
 
   /**
    *  purge_after will default to 90 if there's no setting
@@ -100,13 +105,7 @@ get_config_data(const char *alt_config, ushort *purge_after, const bool list,
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
-    #ifndef WIN32
     strcpy (config_file, HOMEDIR);
-    #else
-    char *local_app_data = getenv ("LOCALAPPDATA");
-    if (local_app_data != NULL)
-      strcpy (config_file, local_app_data);
-    #endif
 
     /**
      * CFG_FILE is the file name of the rmw config file relative to
@@ -114,13 +113,11 @@ get_config_data(const char *alt_config, ushort *purge_after, const bool list,
      *
      * Create full path to config_file
      */
-    strcat (config_file, CFG_FILE);
-
+    bufchk (config_file, MP - strlen (HOMEDIR));
+    snprintf (config_file, sizeof (HOMEDIR), "%s", CFG_FILE);
   }
   else
     strcpy (config_file, alt_config);
-
-  bufchk (config_file, MP);
 
   FILE *config_ptr;
 
@@ -169,11 +166,11 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
   st_waste *waste_head = NULL;
   st_waste *waste_curr = NULL;
 
-  char *line_from_config = calloc (CFG_MAX_LEN + 1, 1);
+  char *line_from_config = calloc (CFG_LINE_LEN_MAX + 1, 1);
 
-  while (fgets (line_from_config, CFG_MAX_LEN, config_ptr) != NULL)
+  while (fgets (line_from_config, CFG_LINE_LEN_MAX, config_ptr) != NULL)
   {
-    bufchk (line_from_config, CFG_MAX_LEN);
+    bufchk (line_from_config, CFG_LINE_LEN_MAX);
 
     char *token_ptr;
 
@@ -211,8 +208,8 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
     {
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
-      char rem_opt[CFG_MAX_LEN];
-      bufchk (token_ptr, CFG_MAX_LEN);
+      char rem_opt[CFG_LINE_LEN_MAX];
+      bufchk (token_ptr, CFG_LINE_LEN_MAX);
       strcpy (rem_opt, token_ptr);
 
       comma_ptr = strtok (rem_opt, ",");
@@ -314,16 +311,14 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
     }
 
   }
+  line_from_config = NULL;
   free (line_from_config);
 
   /**
    * The earlier "breaks" will allow the config file to be closed here
    */
   if (config_opened)
-  {
-    if (!close_file (config_ptr, config_file, __func__))
-      config_opened = 0;
-  }
+    close_file (config_ptr, config_file, __func__);
 
   if (waste_curr == NULL)
   {
