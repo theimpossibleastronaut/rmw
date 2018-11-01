@@ -78,22 +78,121 @@ static bool make_home_real (char **str, const char *HOMEDIR)
   return ok;
 }
 
+static st_waste*
+parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
+  const char *HOMEDIR, bool *do_continue)
+{
+  bool removable = 0;
+  char *comma_ptr;
+  token_ptr = strtok (line_from_config, "=");
+  token_ptr = strtok (NULL, "=");
+  char rem_opt[CFG_LINE_LEN_MAX];
+  bufchk (token_ptr, CFG_LINE_LEN_MAX);
+  strcpy (rem_opt, token_ptr);
+
+  comma_ptr = strtok (rem_opt, ",");
+  comma_ptr = strtok (NULL, ",");
+
+  /**
+   * Does the line have the comma?
+   */
+  if (comma_ptr != NULL)
+  {
+    del_char_shift_left (' ', &comma_ptr);
+    unsigned int ctr = 0;
+
+    while (ctr < strlen (token_ptr))
+    {
+      if (token_ptr[ctr] == ',')
+        token_ptr[ctr] = '\0';
+
+      ctr++;
+    }
+
+    if (strcmp ("removable", comma_ptr) == 0)
+      removable = 1;
+    else
+    {
+      printf (_("  :Error: invalid option in config\n"));
+      *do_continue = 1;
+      return waste_curr;
+    }
+  }
+
+  trim (token_ptr);
+  trim_slash (token_ptr);
+  del_char_shift_left (' ', &token_ptr);
+  make_home_real (&token_ptr, HOMEDIR);
+
+  if (removable && !exists (token_ptr))
+  {
+    if (list)
+      printf (_("%s (removable, detached)\n"), token_ptr);
+
+    *do_continue = 1;
+    return waste_curr;
+  }
+
+  st_waste *temp_node = (st_waste*)malloc (sizeof (st_waste));
+  chk_malloc (temp_node , __func__, __LINE__);
+
+  if (waste_curr != NULL)
+  {
+    waste_curr->next_node = temp_node;
+    temp_node->prev_node = waste_curr;
+    waste_curr = waste_curr->next_node;
+  }
+  else
+  {
+    waste_curr = temp_node;
+    waste_curr->prev_node = NULL;
+  }
+
+  waste_curr->removable = removable ? true : false;
+
+  /* make the parent... */
+  strcpy (waste_curr->parent, token_ptr);
+
+  /* and the files... */
+  sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
+  bufchk (waste_curr->files, MP);
+
+  if (!exists (waste_curr->files))
+  {
+    if (make_dir (waste_curr->files) == MAKE_DIR_FAILURE)
+    {
+      exit (EXIT_FAILURE);
+    }
+  }
+
+    /* and the info. */
+  sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
+
+  if (!exists (waste_curr->info))
+  {
+    if (make_dir (waste_curr->info) == MAKE_DIR_FAILURE)
+    {
+      exit (EXIT_FAILURE);
+    }
+  }
+
+  /* get device number to use later for rename
+   */
+  struct stat st;
+  lstat (waste_curr->parent, &st);
+  waste_curr->dev_num = st.st_dev;
+
+  return waste_curr;
+}
+
 /**
  * Reads the config file, checks for the existence of waste directories,
  * and gets the value of 'purge_after'
  */
 st_waste*
-get_config_data(const char *alt_config, ushort *purge_after, const bool list,
+get_config_data(const char *alt_config, ushort *purge_after,
   ushort *force, const char *HOMEDIR)
 {
-  char config_file[MP];
-
-  /* This is somewhat of an arbitrary value, used for allocating a string
-   * with calloc. When the string is tokenized, each element is validated, so
-   * if the there's a problem, that's where the check will fail.
-   */
-  int CFG_LINE_LEN_MAX = MP * 2;
-
   /**
    *  purge_after will default to 90 if there's no setting
    * in the config file
@@ -102,19 +201,19 @@ get_config_data(const char *alt_config, ushort *purge_after, const bool list,
     */
   *purge_after = 90;
 
+  char config_file[MP];
+
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
-    strcpy (config_file, HOMEDIR);
-
     /**
      * CFG_FILE is the file name of the rmw config file relative to
      * the $HOME directory, defined at the top of rmw.h
      *
      * Create full path to config_file
      */
-    bufchk (config_file, MP - strlen (HOMEDIR));
-    snprintf (config_file, sizeof (HOMEDIR), "%s", CFG_FILE);
+    bufchk (CFG_FILE, MP - strlen (HOMEDIR));
+    sprintf (config_file, "%s%s", HOMEDIR, CFG_FILE);
   }
   else
     strcpy (config_file, alt_config);
@@ -165,17 +264,13 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
 
   st_waste *waste_head = NULL;
   st_waste *waste_curr = NULL;
-
   char *line_from_config = calloc (CFG_LINE_LEN_MAX + 1, 1);
-
   while (fgets (line_from_config, CFG_LINE_LEN_MAX, config_ptr) != NULL)
   {
+    bool do_continue = 0;
     bufchk (line_from_config, CFG_LINE_LEN_MAX);
 
     char *token_ptr;
-
-    bool removable = 0;
-    char *comma_ptr;
 
     trim (line_from_config);
     del_char_shift_left (' ', &line_from_config);
@@ -206,101 +301,9 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
       }
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
-      token_ptr = strtok (line_from_config, "=");
-      token_ptr = strtok (NULL, "=");
-      char rem_opt[CFG_LINE_LEN_MAX];
-      bufchk (token_ptr, CFG_LINE_LEN_MAX);
-      strcpy (rem_opt, token_ptr);
-
-      comma_ptr = strtok (rem_opt, ",");
-      comma_ptr = strtok (NULL, ",");
-
-      /**
-       * Does the line have the comma?
-       */
-      if (comma_ptr != NULL)
-      {
-        del_char_shift_left (' ', &comma_ptr);
-        unsigned int ctr = 0;
-
-        while (ctr < strlen (token_ptr))
-        {
-          if (token_ptr[ctr] == ',')
-            token_ptr[ctr] = '\0';
-
-          ctr++;
-        }
-
-        if (strcmp ("removable", comma_ptr) == 0)
-          removable = 1;
-        else
-        {
-          printf (_("  :Error: invalid option in config\n"));
-          continue;
-        }
-      }
-
-      trim (token_ptr);
-      trim_slash (token_ptr);
-      del_char_shift_left (' ', &token_ptr);
-      make_home_real (&token_ptr, HOMEDIR);
-
-      if (removable && !exists (token_ptr))
-      {
-        if (list)
-          printf (_("%s (removable, detached)\n"), token_ptr);
+      waste_curr = parse_line_waste (token_ptr, waste_curr, line_from_config, HOMEDIR, &do_continue);
+      if (do_continue)
         continue;
-      }
-
-      st_waste *temp_node = (st_waste*)malloc (sizeof (st_waste));
-      chk_malloc (temp_node , __func__, __LINE__);
-
-      if (waste_curr != NULL)
-      {
-        waste_curr->next_node = temp_node;
-        temp_node->prev_node = waste_curr;
-        waste_curr = waste_curr->next_node;
-      }
-      else
-      {
-        waste_head = temp_node;
-        waste_curr = waste_head;
-        waste_curr->prev_node = NULL;
-      }
-
-      waste_curr->removable = removable ? true : false;
-
-      /* make the parent... */
-      strcpy (waste_curr->parent, token_ptr);
-
-      /* and the files... */
-      sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
-      bufchk (waste_curr->files, MP);
-
-      if (!exists (waste_curr->files))
-      {
-        if (make_dir (waste_curr->files) == MAKE_DIR_FAILURE)
-        {
-          exit (EXIT_FAILURE);
-        }
-      }
-
-        /* and the info. */
-      sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
-
-      if (!exists (waste_curr->info))
-      {
-        if (make_dir (waste_curr->info) == MAKE_DIR_FAILURE)
-        {
-          exit (EXIT_FAILURE);
-        }
-      }
-
-      /* get device number to use later for rename
-       */
-      struct stat st;
-      lstat (waste_curr->parent, &st);
-      waste_curr->dev_num = st.st_dev;
     }
     else if (!strncmp ("PROTECT", line_from_config, 7))
     {
@@ -309,7 +312,8 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
         printf ("The PROTECT feature has been removed.\n");
       pctr = 1;
     }
-
+    if (waste_curr != NULL && waste_head == NULL)
+        waste_head = waste_curr;
   }
   line_from_config = NULL;
   free (line_from_config);

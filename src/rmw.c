@@ -88,7 +88,6 @@ main (const int argc, char* const argv[])
   bool restoreYes = 0;
   bool select = 0;
   bool undo_last = 0;
-  bool list = 0;
 
   ushort force = 0;
 
@@ -215,7 +214,7 @@ Unable to continue. Exiting...\n"));
   ushort purge_after = 0;
 
   st_waste *waste_head;
-  waste_head = get_config_data (alt_config, &purge_after, list, &force, HOMEDIR);
+  waste_head = get_config_data (alt_config, &purge_after, &force, HOMEDIR);
 
   st_waste *waste_curr = waste_head;
 

@@ -25,6 +25,14 @@
 
 #include <sys/stat.h>
 
+/* This is somewhat of an arbitrary value, used for allocating a string
+ * with calloc. When the string is tokenized, each element is validated, so
+ * if the there's a problem, that's where the check will fail.
+ */
+#define CFG_LINE_LEN_MAX MP * 2
+
+enum { CONTINUE = 1 };
+
 st_waste*
 get_config_data(const char *alt_config, ushort *purge_after,
-  const bool list, ushort *force, const char *HOMEDIR);
+  ushort *force, const char *HOMEDIR);

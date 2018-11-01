@@ -110,7 +110,7 @@ struct rmw_target
   bool is_duplicate;
 };
 
-bool verbose;
+bool verbose, list;
 
 #define RETURN_CODE_OFFSET 10
 enum {
