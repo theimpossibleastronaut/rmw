@@ -185,6 +185,59 @@ parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
   return waste_curr;
 }
 
+static FILE*
+realize_config_file (const char *alt_config, char *config_file, const char *HOMEDIR)
+{
+ /* If no alternate configuration was specifed (-c) */
+  if (alt_config == NULL)
+  {
+    /**
+     * CFG_FILE is the file name of the rmw config file relative to
+     * the $HOME directory, defined at the top of rmw.h
+     *
+     * Create full path to config_file
+     */
+    bufchk (CFG_FILE, MP - strlen (HOMEDIR));
+    sprintf (config_file, "%s%s", HOMEDIR, CFG_FILE);
+  }
+  else
+    strcpy (config_file, alt_config);
+
+  /**
+   * if config_file isn't found in home directory,
+   * else open the system default (SYSCONFDIR/rmwrc)
+   */
+
+  FILE *fp;
+
+  fp = fopen (config_file, "r");
+  if (fp != NULL)
+    return fp;
+
+  bufchk ("/rmwrc", MP - strlen (SYSCONFDIR));
+  sprintf (config_file, "%s%s", SYSCONFDIR, "/rmwrc");
+
+  fp = fopen (config_file, "r");
+  if (fp != NULL)
+    return fp;
+  else
+  {
+    open_err (config_file, __func__);
+     /* TRANSLATORS:  any time "open" or "close" is used in this program
+      * I am referring to a file or a directory  */
+    printf (_("\
+:Error: Can not open configuration file\n\
+%s (or)\n\
+%s%s\n\
+\n\
+A default configuration file can be found at\n\
+https://github.com/andy5995/rmw/tree/master\n\
+Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
+    msg_return_code (ERR_OPEN_CONFIG);
+    exit (ERR_OPEN_CONFIG);
+  }
+}
+
 /**
  * Reads the config file, checks for the existence of waste directories,
  * and gets the value of 'purge_after'
@@ -202,65 +255,7 @@ get_config_data(const char *alt_config, ushort *purge_after,
   *purge_after = 90;
 
   char config_file[MP];
-
-  /* If no alternate configuration was specifed (-c) */
-  if (alt_config == NULL)
-  {
-    /**
-     * CFG_FILE is the file name of the rmw config file relative to
-     * the $HOME directory, defined at the top of rmw.h
-     *
-     * Create full path to config_file
-     */
-    bufchk (CFG_FILE, MP - strlen (HOMEDIR));
-    sprintf (config_file, "%s%s", HOMEDIR, CFG_FILE);
-  }
-  else
-    strcpy (config_file, alt_config);
-
-  FILE *config_ptr;
-
-  /**
-   * if config_file isn't found in home directory,
-   * else open the system default (SYSCONFDIR/rmwrc)
-   */
-
-  bool config_opened = 0;
-
-  if ((config_ptr = fopen (config_file, "r")) != NULL)
-    config_opened = 1;
-
-  if (config_opened)
-  {}
-  else
-  {
-    char str_temp[MP];
-    sprintf (str_temp, "%s%s", SYSCONFDIR, "/rmwrc");
-
-    strcpy (config_file, str_temp);
-    bufchk (config_file, MP);
-
-    config_ptr = fopen (config_file, "r");
-
-    if (config_ptr != NULL)
-      config_opened = 1;
-    else
-    {
-      open_err (config_file, __func__);
-       /* TRANSLATORS:  any time "open" or "close" is used in this program
-        * I am referring to a file or a directory  */
-      printf (_("\
-  :Error: Can not open configuration file\n\
-%s (or)\n\
-%s%s\n\
-\n\
-A default configuration file can be found at\n\
-https://github.com/andy5995/rmw/tree/master\n\
-Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
-      msg_return_code (ERR_OPEN_CONFIG);
-      exit (ERR_OPEN_CONFIG);
-    }
-  }
+  FILE *config_ptr = realize_config_file (alt_config, config_file, HOMEDIR);
 
   st_waste *waste_head = NULL;
   st_waste *waste_curr = NULL;
@@ -318,11 +313,7 @@ Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
   line_from_config = NULL;
   free (line_from_config);
 
-  /**
-   * The earlier "breaks" will allow the config file to be closed here
-   */
-  if (config_opened)
-    close_file (config_ptr, config_file, __func__);
+  close_file (config_ptr, config_file, __func__);
 
   if (waste_curr == NULL)
   {
