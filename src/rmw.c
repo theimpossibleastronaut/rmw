@@ -328,13 +328,8 @@ Please check your configuration file and permissions\n\n"));
     bool undo_opened = 0;
     FILE *undo_file_ptr = NULL;
     char undo_path[MP];
-
+    bufchk (UNDO_FILE, MP - strlen (HOMEDIR));
     sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
-
-    /**
-     * No files are open at this point, so just using 'return;'
-     */
-    bufchk (undo_path, MP);
 
     static ushort main_error;
 
@@ -475,7 +470,7 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
 
       /**
        * If we get to this point, it means a WASTE folder was found
-       * that matches the file system file.main_argv was on.
+       * that matches the file system that file.main_argv was on.
        * Setting match to 1 and breaking from the for loop
        */
           match = 1;
