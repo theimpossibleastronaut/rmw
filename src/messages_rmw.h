@@ -28,6 +28,9 @@
 
 #define MAX_MSG_SIZE 512
 
+#define MSG_WARNING gettext (" :warning: ")
+#define MSG_ERROR   gettext ("  :error: ")
+
 void
 open_err (const char *filename, const char *function_name);
 

@@ -202,11 +202,8 @@ verbose = 1;
   {
     printf (_("\
   :Error: unable to create config and data directory\n\
-Please check your configuration file and permissions\n\n\
-If you need further help, or to report a possible bug,\n\
-visit the rmw web site at\n\n\
-  https://github.com/andy5995/rmw/wiki\n\n\
-Unable to continue. Exiting...\n"));
+Please check your configuration file and permissions\n\n"));
+    printf (_("Unable to continue. Exiting...\n"));
     return 1;
   }
 

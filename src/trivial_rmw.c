@@ -60,7 +60,8 @@ Restore FILE(s) from a WASTE directory\n\
   printf (_("\
   \n\n\
 Visit the rmw home page for more help, and information about\n\
-how to obtain support - http://github.com/andy5995/rmw/wiki\n\n"));
+how to obtain support - "));
+  printf ("<" PACKAGE_URL ">\n\n");
   printf (_("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
 }
 

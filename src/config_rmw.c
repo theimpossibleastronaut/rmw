@@ -225,14 +225,15 @@ realize_config_file (const char *alt_config, char *config_file, const char *HOME
     open_err (config_file, __func__);
      /* TRANSLATORS:  any time "open" or "close" is used in this program
       * I am referring to a file or a directory  */
+    printf (MSG_ERROR);
     printf (_("\
-:Error: Can not open configuration file\n\
+Can not open configuration file\n\
 %s (or)\n\
 %s%s\n\
 \n\
-A default configuration file can be found at\n\
-https://github.com/andy5995/rmw/tree/master\n\
-Terminating...\n"), config_file, HOMEDIR, CFG_FILE);
+A default configuration file can be found at\n"), config_file, HOMEDIR, CFG_FILE);
+    printf ("<https://github.com/theimpossibleastronaut/rmw/tree/master>\n\n");
+    printf (_("Unable to continue. Exiting...\n"));
     msg_return_code (ERR_OPEN_CONFIG);
     exit (ERR_OPEN_CONFIG);
   }
@@ -320,9 +321,9 @@ get_config_data(const char *alt_config, ushort *purge_after,
     printf (_("  :Error: no usable WASTE folder could be found\n\
 Please check your configuration file and permissions\n\
 If you need further help, or to report a possible bug,\n\
-visit the rmw web site at\n\
-  https://github.com/andy5995/rmw/wiki\n\
-Unable to continue. Exiting...\n"));
+visit the rmw web site at\n"));
+    printf ("  " PACKAGE_URL "\n");
+    printf ("Unable to continue. Exiting...\n");
     msg_return_code (NO_WASTE_FOLDER);
     exit (NO_WASTE_FOLDER);
   }

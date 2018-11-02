@@ -46,9 +46,6 @@ static const char *ERR_STRING[] = {
   "ERR_OPEN_CONFIG"
 };
 
-#define MSG_WARNING gettext (" :warning: ")
-#define MSG_ERROR   gettext ("  :error: ")
-
 /**
  * open_file()
  *

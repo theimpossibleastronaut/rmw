@@ -1,4 +1,4 @@
-AC_INIT([rmw], [0.4.06-dev], [andy400-dev@yahoo.com],,['https://github.com/theimpossibleastronaut/rmw/wiki'])
+AC_INIT([rmw], [0.4.06-dev], [https://github.com/theimpossibleastronaut/rmw/issues],,['https://github.com/theimpossibleastronaut/rmw/wiki'])
 AM_INIT_AUTOMAKE([subdir-objects foreign])
 AC_PREREQ(2.69)
 AC_CONFIG_HEADERS([src/config.h:config.in])
