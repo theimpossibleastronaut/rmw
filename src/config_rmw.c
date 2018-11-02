@@ -46,11 +46,14 @@ static void del_char_shift_left (const char c, char **str)
   return;
 }
 
-/**
+/*
+ *
+ * name: make_home_real
+ *
  * if "$HOME" or "~" is used on configuration file
  * change to the value of "HOMEDIR"
+ *
  */
-
 static bool make_home_real (char **str, const char *HOMEDIR)
 {
   bool ok = 0;
@@ -78,6 +81,14 @@ static bool make_home_real (char **str, const char *HOMEDIR)
   return ok;
 }
 
+/*
+ *
+ * name: parse_line_waste
+ *
+ * This function is called when the "WASTE" option is encountered in the
+ * config file.
+ *
+ */
 static st_waste*
 parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
   const char *HOMEDIR, bool *do_continue)
@@ -185,6 +196,13 @@ parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
   return waste_curr;
 }
 
+/*
+ *
+ * name: realize_config_file
+ *
+ * determine the exact name of the config file to use, and return a file pointer
+ *
+ */
 static FILE*
 realize_config_file (const char *alt_config, char *config_file, const char *HOMEDIR)
 {
@@ -239,9 +257,14 @@ A default configuration file can be found at\n"), config_file, HOMEDIR, CFG_FILE
   }
 }
 
-/**
- * Reads the config file, checks for the existence of waste directories,
- * and gets the value of 'purge_after'
+/*
+ *
+ * name: get_config_data
+ *
+ * get configuration data (parse the config file), returns a pointer to
+ * a linked list, each node containing info about usable "waste"
+ * directories
+ *
  */
 st_waste*
 get_config_data(const char *alt_config, ushort *purge_after,
