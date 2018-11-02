@@ -160,9 +160,6 @@ main (const int argc, char* const argv[])
 verbose = 1;
 #endif
 
-  if (alt_config != NULL)
-    bufchk (alt_config, MP);
-
   #ifndef WIN32
     bufchk (getenv ("HOME"), MP);
     const char *HOMEDIR = getenv ("HOME");

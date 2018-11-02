@@ -219,7 +219,10 @@ realize_config_file (const char *alt_config, char *config_file, const char *HOME
     sprintf (config_file, "%s%s", HOMEDIR, CFG_FILE);
   }
   else
+  {
+    bufchk (alt_config, MP);
     strcpy (config_file, alt_config);
+  }
 
   /**
    * if config_file isn't found in home directory,
