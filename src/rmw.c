@@ -639,6 +639,7 @@ add_removal (st_removed *removals, const char *file)
     removals = removals->next_node;
   }
   removals->next_node = NULL;
+  bufchk (file, MP);
   strcpy (removals->file, file);
   return removals;
 }
