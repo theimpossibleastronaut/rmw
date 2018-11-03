@@ -320,7 +320,7 @@ get_config_data(const char *alt_config, ushort *purge_after,
 
       ushort num_value = atoi (token_ptr);
 
-      if (num_value >= 0 && num_value < USHRT_MAX)
+      if (num_value <= USHRT_MAX)
         *purge_after = num_value;
 
       else
