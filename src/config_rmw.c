@@ -185,10 +185,19 @@ parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
   }
 
   /* get device number to use later for rename
+   *
+   * coverity complains if the return value of lstat isn't checked.
+   * Really, if we get to this point, lstat shouldn't have any problem,
+   * checking return values is good practice so we'll do it.
    */
   struct stat st;
-  lstat (waste_curr->parent, &st);
-  waste_curr->dev_num = st.st_dev;
+  if (lstat (waste_curr->parent, &st) == 0)
+    waste_curr->dev_num = st.st_dev;
+  else
+  {
+    printf (MSG_WARNING);
+    perror ("lstat()");
+  }
 
   return waste_curr;
 
