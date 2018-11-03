@@ -479,9 +479,8 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
 
       if (!match)
       {
-        printf (_("  No suitable filesystem found for \"%s\"\n"),
-                 file->main_argv);
-        return 1;
+        printf (MSG_WARNING);
+        printf (_("No suitable filesystem found for \"%s\"\n"), file->main_argv);
       }
     }
 
