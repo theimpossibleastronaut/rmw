@@ -347,8 +347,8 @@ get_config_data(const char *alt_config, ushort *purge_after,
     if (waste_curr != NULL && waste_head == NULL)
         waste_head = waste_curr;
   }
-  line_from_config = NULL;
   free (line_from_config);
+  line_from_config = NULL;
 
   close_file (config_ptr, config_file, __func__);
 

@@ -416,8 +416,8 @@ orphan_maint (st_waste *waste_curr,
     waste_curr = waste_curr->next_node;
   }
 
-  file = NULL;
   free (file);
+  file = NULL;
 
   return 0;
 }

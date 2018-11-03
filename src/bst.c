@@ -107,11 +107,13 @@ dispose (node * root)
   {
     dispose (root->left);
     dispose (root->right);
-    root->data = NULL;
-    root->desc = NULL;
+
     free (root->data);
     free (root->desc);
-    root = NULL;
+    root->data = NULL;
+    root->desc = NULL;
+
     free (root);
+    root = NULL;
   }
 }

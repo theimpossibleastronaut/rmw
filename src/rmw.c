@@ -194,8 +194,8 @@ verbose = 1;
 
   ushort created_data_dir;
   created_data_dir = make_dir (data_dir);
-  data_dir = NULL;
   free (data_dir);
+  data_dir = NULL;
 
   /* make_dir now returns MAKE_DIR_SUCCESS or FAILURE
    * We want to assign something more specific that can be used later
@@ -236,8 +236,8 @@ Please check your configuration file and permissions\n\n"));
 
     waste_curr = waste_head;
     dispose_waste (waste_curr);
-    waste_head = NULL;
     free (waste_head);
+    waste_head = NULL;
     return 0;
   }
 
@@ -491,8 +491,8 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
             rmwed_files), rmwed_files);
     printf ("\n");
 
-    file = NULL;
     free (file);
+    file = NULL;
 
     if (main_error > 1)
       return main_error;
@@ -691,8 +691,8 @@ dispose_removed (st_removed *node)
   if (node != NULL)
   {
     dispose_removed (node->next_node);
-    node = NULL;
     free (node);
+    node = NULL;
   }
 
   return;
