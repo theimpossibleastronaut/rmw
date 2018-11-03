@@ -105,6 +105,12 @@ struct rmw_target
   bool is_duplicate;
 };
 
+typedef struct st_removed st_removed;
+struct st_removed{
+  char file[MP];
+  st_removed *next_node;
+};
+
 bool verbose, list;
 
 #define RETURN_CODE_OFFSET 10

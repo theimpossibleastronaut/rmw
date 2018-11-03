@@ -44,6 +44,16 @@ is_time_to_purge (const char *HOMEDIR);
 static void
 get_time_string (char *tm_str, ushort len, const char *format);
 
+static st_removed*
+add_removal (st_removed *removals, const char *file);
+
+static void
+create_undo_file (st_removed *removals, st_removed *removals_head,
+  const char *HOMEDIR);
+
+static void
+dispose_removed (st_removed *node);
+
 int
 main (const int argc, char* const argv[])
 {
@@ -325,11 +335,8 @@ Please check your configuration file and permissions\n\n"));
 
   if (optind < argc)
   {
-    bool undo_opened = 0;
-    FILE *undo_file_ptr = NULL;
-    char undo_path[MP];
-    bufchk (UNDO_FILE, MP - strlen (HOMEDIR));
-    sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
+    st_removed *removals = NULL;
+    st_removed *removals_head = NULL;
 
     static ushort main_error;
 
@@ -435,20 +442,9 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
 
             if (info_status == 0)
             {
-                /**
-                 * Open undo_file for writing if it hasn't been yet
-                 */
-                if (!undo_opened)
-                {
-                  if ((undo_file_ptr = fopen (undo_path, "w")) != NULL)
-                    undo_opened = 1;
-                  else
-                  {
-                    open_err (undo_path, __func__);
-                    return 1;
-                  }
-                }
-              fprintf (undo_file_ptr, "%s\n", file.dest_name);
+              removals = add_removal (removals, file.dest_name);
+              if (removals_head == NULL)
+                removals_head = removals;
             }
             else
               /* TRANSLATORS: Do not translate ".trashinfo"  */
@@ -487,10 +483,9 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
         return 1;
       }
     }
-    if (undo_opened)
-      close_file (undo_file_ptr, undo_path, __func__);
-    else
-      free (undo_file_ptr);
+
+    if (removals != NULL)
+      create_undo_file (removals, removals_head, HOMEDIR);
 
     printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
             rmwed_files), rmwed_files);
@@ -618,4 +613,83 @@ is_time_to_purge (const char *HOMEDIR)
       exit (ERR_OPEN);
     }
   }
+}
+
+/*
+ *
+ * name: add_removal()
+ *
+ * When a file has been successfully rmw'ed, add the filename to
+ * a linked list.
+ *
+ */
+static st_removed*
+add_removal (st_removed *removals, const char *file)
+{
+  if (removals == NULL)
+  {
+    st_removed *temp_node = (st_removed*)malloc (sizeof (st_removed));
+    chk_malloc (temp_node, __func__, __LINE__);
+    removals = temp_node;
+  }
+  else
+  {
+    removals->next_node = (st_removed*)malloc (sizeof (st_removed));
+    chk_malloc (removals->next_node, __func__, __LINE__);
+    removals = removals->next_node;
+  }
+  removals->next_node = NULL;
+  strcpy (removals->file, file);
+  return removals;
+}
+
+/*
+ *
+ * name: create_undo_file()
+ *
+ * create the undo file by writing out the filenames from a linked list
+ * created by add_removal()
+ *
+ */
+static void
+create_undo_file (st_removed *removals, st_removed *removals_head, const char *HOMEDIR)
+{
+  char undo_path[MP];
+  bufchk (UNDO_FILE, MP - strlen (HOMEDIR));
+  sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
+
+  FILE *undo_file_ptr = fopen (undo_path, "w");
+  if (undo_file_ptr != NULL)
+  {
+    removals = removals_head;
+    while (removals != NULL)
+    {
+      fprintf (undo_file_ptr, "%s\n", removals->file);
+      removals = removals->next_node;
+    }
+    dispose_removed (removals);
+    close_file (undo_file_ptr, undo_path, __func__);
+  }
+  else
+    open_err (undo_path, __func__);
+}
+
+/*
+ *
+ * name: dispose_removed()
+ *
+ * free the list of removals created by add_removals()
+ *
+ */
+static void
+dispose_removed (st_removed *node)
+{
+  if (node != NULL)
+  {
+    dispose_removed (node->next_node);
+    node = NULL;
+    free (node);
+  }
+
+  return;
 }
