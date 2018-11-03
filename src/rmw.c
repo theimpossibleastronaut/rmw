@@ -331,10 +331,11 @@ Please check your configuration file and permissions\n\n"));
     return 0;
   }
 
-  struct rmw_target file;
-
   if (optind < argc)
   {
+    rmw_target *file = (rmw_target*)malloc (sizeof (rmw_target));
+    chk_malloc (file, __func__, __LINE__);
+
     st_removed *removals = NULL;
     st_removed *removals_head = NULL;
 
@@ -345,17 +346,17 @@ Please check your configuration file and permissions\n\n"));
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
       bufchk (argv[file_arg], MP);
-      strcpy (file.main_argv, argv[file_arg]);
+      strcpy (file->main_argv, argv[file_arg]);
 
-      if (exists (file.main_argv))
+      if (exists (file->main_argv))
       {
-        main_error = resolve_path (file.main_argv, file.real_path);
+        main_error = resolve_path (file->main_argv, file->real_path);
 
 #ifdef DEBUG
 DEBUG_PREFIX
-printf ("file.real_path = %s in %s\n", file.real_path, __func__);
+printf ("file->real_path = %s in %s\n", file->real_path, __func__);
 DEBUG_PREFIX
-printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
+printf ("file->main_argv = %s in %s\n", file->main_argv, __func__);
 #endif
 
         if (main_error == 1)
@@ -365,7 +366,7 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
       }
       else
       {
-        printf (_("File not found: '%s'\n"), file.main_argv);
+        printf (_("File not found: '%s'\n"), file->main_argv);
         continue;
       }
 
@@ -385,10 +386,10 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
       static bool info_status;
       info_status = 0;
 
-      file.is_duplicate = 0;
+      file->is_duplicate = 0;
 
-      bufchk (basename (file.main_argv), MP);
-      strcpy (file.base_name, basename (file.main_argv));
+      bufchk (basename (file->main_argv), MP);
+      strcpy (file->base_name, basename (file->main_argv));
 
       /**
        * cycle through wasteDirs to see which one matches
@@ -398,51 +399,51 @@ printf ("file.main_argv = %s in %s\n", file.main_argv, __func__);
       waste_curr = waste_head;
       while (waste_curr != NULL)
       {
-        lstat (file.main_argv, &st);
+        lstat (file->main_argv, &st);
 
         if (waste_curr->dev_num == st.st_dev)
         {
-          sprintf (file.dest_name, "%s%s", waste_curr->files, file.base_name);
+          sprintf (file->dest_name, "%s%s", waste_curr->files, file->base_name);
 
           /* If a duplicate file exists
            */
-          if (exists (file.dest_name))
+          if (exists (file->dest_name))
           {
             // append a time string
-            strcat (file.dest_name, time_str_appended);
+            strcat (file->dest_name, time_str_appended);
 
             // passed to create_trashinfo()
-            file.is_duplicate = 1;
+            file->is_duplicate = 1;
           }
-          bufchk (file.dest_name, MP);
+          bufchk (file->dest_name, MP);
 
-          rename_status = rename (file.main_argv, file.dest_name);
+          rename_status = rename (file->main_argv, file->dest_name);
 
           if (rename_status == 0)
           {
             if (verbose)
-              printf ("'%s' -> '%s'\n", file.main_argv, file.dest_name);
+              printf ("'%s' -> '%s'\n", file->main_argv, file->dest_name);
 
             rmwed_files++;
 #ifdef DEBUG
 DEBUG_PREFIX
-printf ("file.real_path = %s in %s line %d\n", file.real_path, __func__, __LINE__);
+printf ("file->real_path = %s in %s line %d\n", file->real_path, __func__, __LINE__);
 DEBUG_PREFIX
-printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE__);
+printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LINE__);
 #endif
             info_status = create_trashinfo (file, waste_curr,
                               time_now, time_str_appended);
 
 #ifdef DEBUG
 DEBUG_PREFIX
-printf ("file.real_path = %s in %s line %d\n", file.real_path, __func__, __LINE__);
+printf ("file->real_path = %s in %s line %d\n", file->real_path, __func__, __LINE__);
 DEBUG_PREFIX
-printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE__);
+printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LINE__);
 #endif
 
             if (info_status == 0)
             {
-              removals = add_removal (removals, file.dest_name);
+              removals = add_removal (removals, file->dest_name);
               if (removals_head == NULL)
                 removals_head = removals;
             }
@@ -457,7 +458,7 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
              * things though so the function could be used and would help with consistent
              * display of the message strings */
             printf (_("  :Error number %d trying to move %s :\n"),
-                rename_status, file.main_argv);
+                rename_status, file->main_argv);
             /* FIXME: better to return rename_status. Any side effects
              * if that were done?
              */
@@ -466,7 +467,7 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
 
       /**
        * If we get to this point, it means a WASTE folder was found
-       * that matches the file system that file.main_argv was on.
+       * that matches the file system that file->main_argv was on.
        * Setting match to 1 and breaking from the for loop
        */
           match = 1;
@@ -479,7 +480,7 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
       if (!match)
       {
         printf (_("  No suitable filesystem found for \"%s\"\n"),
-                 file.main_argv);
+                 file->main_argv);
         return 1;
       }
     }
@@ -490,6 +491,9 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
     printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
             rmwed_files), rmwed_files);
     printf ("\n");
+
+    file = NULL;
+    free (file);
 
     if (main_error > 1)
       return main_error;

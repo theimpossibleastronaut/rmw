@@ -95,6 +95,7 @@ struct st_waste{
   st_waste *next_node;
 };
 
+typedef struct rmw_target rmw_target;
 struct rmw_target
 {
   char main_argv[MP];

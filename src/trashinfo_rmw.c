@@ -125,21 +125,21 @@ printf ("dest = %s in %s\n", dest, __func__);
 }
 
 int
-create_trashinfo (struct rmw_target file, st_waste *waste_curr,
+create_trashinfo (rmw_target *file, st_waste *waste_curr,
                   char *time_now, char *time_str_appended)
 {
   static char finalInfoDest[MP];
 
-  sprintf (finalInfoDest, "%s%s", waste_curr->info, file.base_name);
+  sprintf (finalInfoDest, "%s%s", waste_curr->info, file->base_name);
 
 #ifdef DEBUG
 DEBUG_PREFIX
-printf ("file.real_path = %s in %s line %d\n", file.real_path, __func__, __LINE__);
+printf ("file->real_path = %s in %s line %d\n", file->real_path, __func__, __LINE__);
 DEBUG_PREFIX
-printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE__);
+printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LINE__);
 #endif
 
-  if (file.is_duplicate)
+  if (file->is_duplicate)
   {
     bufchk (time_str_appended, MP - strlen (finalInfoDest));
     strcat (finalInfoDest, time_str_appended);
@@ -158,7 +158,7 @@ printf ("file.base_name = %s in %s line %d\n", file.base_name, __func__, __LINE_
      **/
     static char escaped_path[MP * 3];
 
-    if (escape_url (file.real_path, escaped_path, MP * 3) )
+    if (escape_url (file->real_path, escaped_path, MP * 3) )
     {
       close_file (fp, finalInfoDest, __func__);
       return 1;

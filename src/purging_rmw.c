@@ -365,13 +365,14 @@ short
 orphan_maint (st_waste *waste_curr,
               char *time_now, char *time_str_appended)
 {
-  struct rmw_target file;
+  rmw_target *file = (rmw_target*)malloc (sizeof (rmw_target));
+  chk_malloc (file, __func__, __LINE__);
 
   /* searching for files that don't have a trashinfo: There will
    * never be a duplicate, but it initializes the struct member, and
    * create_trashinfo() will check for it, which is called later.
    */
-  file.is_duplicate = 0;
+  file->is_duplicate = 0;
 
   char path_to_trashinfo[MP];
 
@@ -390,15 +391,15 @@ orphan_maint (st_waste *waste_curr,
         continue;
 
       bufchk (basename (entry->d_name), MP);
-      strcpy (file.base_name, basename (entry->d_name));
+      strcpy (file->base_name, basename (entry->d_name));
 
-      sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info, file.base_name, DOT_TRASHINFO);
+      sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info, file->base_name, DOT_TRASHINFO);
 
       if (exists (path_to_trashinfo))
         continue;
 
       /* destination if restored */
-      sprintf (file.real_path, "%s%s%s", waste_curr->parent, "/orphans/", file.base_name);
+      sprintf (file->real_path, "%s%s%s", waste_curr->parent, "/orphans/", file->base_name);
 
       short ok = 0;
       ok = create_trashinfo (file, waste_curr, time_now, time_str_appended);
@@ -414,6 +415,9 @@ orphan_maint (st_waste *waste_curr,
 
     waste_curr = waste_curr->next_node;
   }
+
+  file = NULL;
+  free (file);
 
   return 0;
 }
