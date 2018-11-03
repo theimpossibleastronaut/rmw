@@ -52,11 +52,6 @@
   #define VERSION "unversioned"
 #endif
 
-/* This is always defined when 'configure' is used */
-#ifndef SYSCONFDIR
-#define SYSCONFDIR "/usr/local/etc"
-#endif
-
 /* DATA_DIR is relative to $HOME */
 #ifndef DATA_DIR
   #ifndef WIN32

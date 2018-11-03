@@ -25,6 +25,11 @@
 
 #include <sys/stat.h>
 
+/* This is always defined when 'configure' is used */
+#ifndef SYSCONFDIR
+#define SYSCONFDIR "/usr/local/etc"
+#endif
+
 /* This is somewhat of an arbitrary value, used for allocating a string
  * with calloc. When the string is tokenized, each element is validated, so
  * if the there's a problem, that's where the check will fail.
