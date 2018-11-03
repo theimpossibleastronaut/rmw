@@ -125,8 +125,7 @@ parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
     else
     {
       printf (_("  :Error: invalid option in config\n"));
-      *do_continue = 1;
-      return waste_curr;
+      goto DO_CONT;
     }
   }
 
@@ -139,9 +138,7 @@ parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
   {
     if (list)
       printf (_("%s (removable, detached)\n"), token_ptr);
-
-    *do_continue = 1;
-    return waste_curr;
+    goto DO_CONT;
   }
 
   st_waste *temp_node = (st_waste*)malloc (sizeof (st_waste));
@@ -194,6 +191,10 @@ parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
   waste_curr->dev_num = st.st_dev;
 
   return waste_curr;
+
+  DO_CONT:
+    *do_continue = 1;
+    return waste_curr;
 }
 
 /*
