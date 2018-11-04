@@ -31,7 +31,7 @@
 #include "trashinfo_rmw.h"
 
 static int rmdir_recursive (char *path, short unsigned level, const ushort force,
-  unsigned int *deleted_files_ctr, unsigned int *deleted_dirs_ctr)
+  unsigned int *deleted_files_ctr, unsigned int *deleted_dirs_ctr, off_t *bytes_freed)
 {
   if (level == RMDIR_MAX_DEPTH)
     return MAX_DEPTH_REACHED;
@@ -95,14 +95,17 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
       {
         status = remove (dir_path);
         if (status == 0)
+        {
           (*deleted_files_ctr)++;
+          (*bytes_freed) += st.st_size;
+        }
         else
           perror ("rmdir_recursive -> remove");
       }
       else
       {
 
-        status = rmdir_recursive (dir_path, ++level, force, deleted_files_ctr, deleted_dirs_ctr);
+        status = rmdir_recursive (dir_path, ++level, force, deleted_files_ctr, deleted_dirs_ctr, bytes_freed);
         level--;
 
         switch (status)
@@ -141,7 +144,10 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
   {
     status = rmdir (path);
     if (status == 0)
+    {
       (*deleted_dirs_ctr)++;
+      (*bytes_freed) += st.st_size;
+    }
     else
       perror ("rmdir_recursive -> rmdir");
   }
@@ -180,6 +186,7 @@ purge (const short purge_after, const st_waste *waste_curr,
 
   unsigned int deleted_files_ctr = 0;
   unsigned int deleted_dirs_ctr = 0;
+  off_t bytes_freed = 0;
 
   while (waste_curr != NULL)
   {
@@ -274,7 +281,7 @@ purge (const short purge_after, const st_waste *waste_curr,
 
         if (S_ISDIR (st.st_mode))
         {
-          status = rmdir_recursive (purgeFile, 1, force, &deleted_files_ctr, &deleted_dirs_ctr);
+          status = rmdir_recursive (purgeFile, 1, force, &deleted_files_ctr, &deleted_dirs_ctr, &bytes_freed);
           switch (status)
           {
           case NOT_WRITEABLE:
@@ -299,6 +306,7 @@ purge (const short purge_after, const st_waste *waste_curr,
             {
               success = 1;
               deleted_dirs_ctr++;
+              bytes_freed += st.st_size;
             }
             else
             {
@@ -324,6 +332,7 @@ purge (const short purge_after, const st_waste *waste_curr,
           {
             success = 1;
             deleted_files_ctr++;
+            bytes_freed += st.st_size;
           }
           else
           {
@@ -375,6 +384,8 @@ purge (const short purge_after, const st_waste *waste_curr,
   printf (ngettext("(%d file deleted)" , "(%d files deleted)", deleted_files_ctr), deleted_files_ctr);
   printf ("\n");
   printf (ngettext("(%d directory deleted)" , "(%d directories deleted)", deleted_dirs_ctr), deleted_dirs_ctr);
+  printf ("\n");
+  printf (ngettext("%s byte freed" , "%s bytes freed", bytes_freed), human_readable_size (bytes_freed));
   printf ("\n");
 
   return 0;

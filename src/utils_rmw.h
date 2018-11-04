@@ -33,3 +33,6 @@ exists (const char *filename);
 
 void
 dispose_waste (st_waste *node);
+
+char *
+human_readable_size (off_t size);

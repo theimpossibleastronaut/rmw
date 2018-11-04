@@ -28,10 +28,11 @@ cd $HOME/tmp-files
 set +x
 
 echo "\n\n == creating temporary files to be rmw'ed"
-set -x
-for file in abc 123 xyz
-do
-  touch $file
+set +x
+for file in abc 123 xyz; do
+  for _null in `seq 1 4096`; do
+    echo 0 >> $file
+  done
 done
 
 set +x

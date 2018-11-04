@@ -110,3 +110,33 @@ dispose_waste (st_waste *node)
     free (node);
   }
 }
+
+char *
+human_readable_size (off_t size)
+{
+  /* "xxxx.y GiB" - 10 chars + '\0' */
+  static char buffer[12];
+
+  /* Store only the first letter; we add "iB" later during snprintf(). */
+  const char prefix[] = { 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y' };
+  short power = -1;
+
+  static short remainder;
+  remainder = 0;
+
+  while (size >= 1024)
+  {
+    remainder = size % 1024;
+    size /= 1024;
+
+    ++power;
+  }
+
+  if (power >= 0)
+    snprintf (buffer, sizeof (buffer), "%ld.%hd %ciB", (long) size,
+              (remainder * 10) / 1024, prefix[power]);
+  else
+    snprintf (buffer, sizeof (buffer), "%ld B", (long) size);
+
+  return buffer;
+}
