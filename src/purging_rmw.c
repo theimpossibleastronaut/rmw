@@ -30,7 +30,8 @@
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
-static int rmdir_recursive (char *path, short unsigned level, const ushort force)
+static int rmdir_recursive (char *path, short unsigned level, const ushort force,
+  unsigned int *deleted_files_ctr, unsigned int *deleted_dirs_ctr)
 {
   if (level == RMDIR_MAX_DEPTH)
     return MAX_DEPTH_REACHED;
@@ -93,13 +94,15 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
       if (!S_ISDIR (st.st_mode))
       {
         status = remove (dir_path);
-        if (status != 0)
+        if (status == 0)
+          (*deleted_files_ctr)++;
+        else
           perror ("rmdir_recursive -> remove");
       }
       else
       {
 
-        status = rmdir_recursive (dir_path, ++level, force);
+        status = rmdir_recursive (dir_path, ++level, force, deleted_files_ctr, deleted_dirs_ctr);
         level--;
 
         switch (status)
@@ -137,7 +140,9 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
   if (level > 1)
   {
     status = rmdir (path);
-    if (status)
+    if (status == 0)
+      (*deleted_dirs_ctr)++;
+    else
       perror ("rmdir_recursive -> rmdir");
   }
 
@@ -172,6 +177,9 @@ purge (const short purge_after, const st_waste *waste_curr,
 
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
+
+  unsigned int deleted_files_ctr = 0;
+  unsigned int deleted_dirs_ctr = 0;
 
   while (waste_curr != NULL)
   {
@@ -266,7 +274,7 @@ purge (const short purge_after, const st_waste *waste_curr,
 
         if (S_ISDIR (st.st_mode))
         {
-          status = rmdir_recursive (purgeFile, 1, force);
+          status = rmdir_recursive (purgeFile, 1, force, &deleted_files_ctr, &deleted_dirs_ctr);
           switch (status)
           {
           case NOT_WRITEABLE:
@@ -287,8 +295,11 @@ purge (const short purge_after, const st_waste *waste_curr,
 
           case 0:
             status = rmdir (purgeFile);
-            if (!status)
+            if (status == 0)
+            {
               success = 1;
+              deleted_dirs_ctr++;
+            }
             else
             {
               /* TRANSLATORS:  "removing" refers to a file or folder  */
@@ -309,8 +320,11 @@ purge (const short purge_after, const st_waste *waste_curr,
         {
           status = remove (purgeFile);
 
-          if (!status)
+          if (status == 0)
+          {
             success = 1;
+            deleted_files_ctr++;
+          }
           else
           {
             printf (_("  :Error: while removing %s\n"), purgeFile);
@@ -321,7 +335,9 @@ purge (const short purge_after, const st_waste *waste_curr,
 
         if (success)
         {
-          status = remove (entry_path);
+          status = remove (entry_path); /* the info file. (This var name needs
+                                           *changing) We won't count this in
+                                           * deleted_files_ctr */
 
           if (!status)
           {
@@ -355,6 +371,10 @@ purge (const short purge_after, const st_waste *waste_curr,
              dirs_containing_files_ctr);
 
   printf (ngettext("%d file purged" , "%d files purged", purge_ctr), purge_ctr);
+  printf ("\n");
+  printf (ngettext("(%d file deleted)" , "(%d files deleted)", deleted_files_ctr), deleted_files_ctr);
+  printf ("\n");
+  printf (ngettext("(%d directory deleted)" , "(%d directories deleted)", deleted_dirs_ctr), deleted_dirs_ctr);
   printf ("\n");
 
   return 0;
