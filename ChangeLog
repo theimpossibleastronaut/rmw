@@ -1,6 +1,11 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-11-04
+
+* When running purge, rmw will now show the total number of files and
+  directories deleted, as well as the amount of bytes that were freed.
+
 2018-10-30
 
 * `rmw -s` now returns a sorted list of files
