@@ -136,6 +136,7 @@ parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
 
   if (removable && !exists (token_ptr))
   {
+    extern bool list;
     if (list)
       printf (_("%s (removable, detached)\n"), token_ptr);
     goto DO_CONT;
@@ -214,8 +215,9 @@ parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
  *
  */
 static FILE*
-realize_config_file (const char *alt_config, char *config_file, const char *HOMEDIR)
+realize_config_file (char *config_file, const char *HOMEDIR)
 {
+  extern const char* alt_config;
  /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
@@ -280,8 +282,7 @@ A default configuration file can be found at\n"), config_file, HOMEDIR, CFG_FILE
  *
  */
 st_waste*
-get_config_data(const char *alt_config, ushort *purge_after,
-  ushort *force, const char *HOMEDIR)
+get_config_data(ushort *purge_after, ushort *force, const char *HOMEDIR)
 {
   /**
    *  purge_after will default to 90 if there's no setting
@@ -292,7 +293,8 @@ get_config_data(const char *alt_config, ushort *purge_after,
   *purge_after = 90;
 
   char config_file[MP];
-  FILE *config_ptr = realize_config_file (alt_config, config_file, HOMEDIR);
+  extern const char *alt_config;
+  FILE *config_ptr = realize_config_file (config_file, HOMEDIR);
 
   st_waste *waste_head = NULL;
   st_waste *waste_curr = NULL;

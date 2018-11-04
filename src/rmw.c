@@ -98,10 +98,11 @@ main (const int argc, char* const argv[])
   bool restoreYes = 0;
   bool select = 0;
   bool undo_last = 0;
+  extern bool list;
 
   ushort force = 0;
 
-  const char *alt_config = NULL;
+  extern const char *alt_config;
 
   do
   {
@@ -218,7 +219,7 @@ Please check your configuration file and permissions\n\n"));
   ushort purge_after = 0;
 
   st_waste *waste_head;
-  waste_head = get_config_data (alt_config, &purge_after, &force, HOMEDIR);
+  waste_head = get_config_data (&purge_after, &force, HOMEDIR);
 
   st_waste *waste_curr = waste_head;
 
@@ -697,3 +698,12 @@ dispose_removed (st_removed *node)
 
   return;
 }
+
+/*
+ * These are only used by a few functions and don't need to be global.
+ * will use "extern" to declare it where it's needed.
+ *
+ */
+
+bool list;
+const char *alt_config = NULL;

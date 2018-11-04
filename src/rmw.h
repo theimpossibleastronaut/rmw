@@ -112,7 +112,7 @@ struct st_removed{
   st_removed *next_node;
 };
 
-bool verbose, list;
+bool verbose;
 
 #define RETURN_CODE_OFFSET 10
 enum {
