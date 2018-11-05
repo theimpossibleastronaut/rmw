@@ -387,7 +387,7 @@ Please check your configuration file and permissions\n\n"));
 
           /* If a duplicate file exists
            */
-          if (!exists (file->dest_name))
+          if (exists (file->dest_name))
           {
             // append a time string
             strcat (file->dest_name, time_str_appended);
