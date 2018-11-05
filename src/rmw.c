@@ -474,6 +474,7 @@ Enter '%s -h' for more information\n"), argv[0]);
   free (waste_head);
   free (time_now);
   free (time_str_appended);
+  free (HOMEDIR);
 
   return 0;
 }
