@@ -25,14 +25,26 @@ mkdir $HOME/tmp-files
 cd $HOME/tmp-files
 echo "\n\n == creating temporary files to be deleted"
 set -x
-for file in 1 2 3
-do
+for file in 1 2 3; do
   touch $file
 done
 cd $HOME/..
 echo "\n\n == rmw should be able to operate on multiple files\n"
 $BIN_DIR/rmw --verbose -c $CONFIG $HOME/tmp-files/*
 
+test_result $?
+
+echo $SEPARATOR
+echo "rmw should append a time_string to duplicate files..."
+cd $HOME/tmp-files
+for file in 1 2 3; do
+  touch $file
+done
+$RMW_TEST_CMD_STRING 1 2 3
+for file in 1 2 3; do
+  touch $file
+done
+$RMW_TEST_CMD_STRING 1 2 3
 test_result $?
 
 echo "\n\n == Show contents of the files and info directories"
