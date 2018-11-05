@@ -187,10 +187,12 @@ verbose = 1;
   #ifndef WIN32
     bufchk (getenv ("HOME"), MP);
     HOMEDIR = calloc (strlen (getenv ("HOME")) + 1, 1);
+    chk_malloc (HOMEDIR, __func__, __LINE__);
     strcpy (HOMEDIR, getenv ("HOME"));
   #else
     bufchk (getenv ("LOCALAPPDATA"), MP);
     HOMEDIR = calloc (strlen (getenv ("LOCALAPPDATA")) + 1, 1);
+    chk_malloc (HOMEDIR, __func__, __LINE__);
     strcpy (HOMEDIR, (getenv ("LOCALAPPDATA"));
   #endif
 
@@ -263,6 +265,7 @@ Please check your configuration file and permissions\n\n"));
     * and for comparison in purge() */
   /* The length of the format above doesn't exceed 21 */
   time_now = calloc (LEN_TIME_NOW, 1);
+  chk_malloc (time_now, __func__, __LINE__);
   get_time_string (time_now, LEN_TIME_NOW, t_fmt);
   free (t_fmt);
   t_fmt = NULL;
@@ -478,6 +481,7 @@ static char*
 set_time_now_format (void)
 {
   char *t_fmt = calloc (LEN_TIME_NOW, 1);
+  chk_malloc (t_fmt, __func__, __LINE__);
 
   if  (getenv ("RMWTRASH") == NULL ||
       (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
