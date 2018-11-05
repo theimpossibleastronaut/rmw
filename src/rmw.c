@@ -266,7 +266,7 @@ Please check your configuration file and permissions\n\n"));
   /* time_now is used for DeletionDate in trashinfo file
     * and for comparison in purge() */
   /* The length of the format above doesn't exceed 21 */
-  char time_now[21];
+  extern char time_now[];
   get_time_string (time_now, 21, t_fmt);
 
   /** This if statement spits out a message if someone tries to use -g on
@@ -281,26 +281,23 @@ Please check your configuration file and permissions\n\n"));
     if (is_time_to_purge (HOMEDIR) == IS_NEW_DAY || cmd_opt_purge)
     {
       if (force)
-        purge (purge_after, waste_curr, time_now, force, HOMEDIR);
+        purge (purge_after, waste_curr, force, HOMEDIR);
       else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }
   }
 
   /* String appended to duplicate filenames */
-  char time_str_appended[16];
+  extern char time_str_appended[];
   get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
 
   if (orphan_chk)
   {
     waste_curr = waste_head;
-    orphan_maint(waste_curr, time_now, time_str_appended);
+    orphan_maint(waste_curr);
     return 0;
   }
 
-  /* FIXME:
-   * The program can just exit after this.
-   */
   if (select)
   {
     waste_curr = waste_head;
@@ -433,8 +430,7 @@ printf ("file->real_path = %s in %s line %d\n", file->real_path, __func__, __LIN
 DEBUG_PREFIX
 printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LINE__);
 #endif
-            info_status = create_trashinfo (file, waste_curr,
-                              time_now, time_str_appended);
+            info_status = create_trashinfo (file, waste_curr);
 
 #ifdef DEBUG
 DEBUG_PREFIX
@@ -518,8 +514,8 @@ get_time_string (char *tm_str, ushort len, const char *format)
   time_t now = time (NULL);
   time_ptr = localtime (&now);
   strftime (tm_str, len, format, time_ptr);
-  bufchk (tm_str, len);
   trim (tm_str);
+  bufchk (tm_str, len + 1);
 }
 
 /*
@@ -708,3 +704,6 @@ dispose_removed (st_removed *node)
 
 bool list;
 const char *alt_config = NULL;
+char time_now[21];
+char time_str_appended[16];
+

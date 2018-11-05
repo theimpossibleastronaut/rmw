@@ -125,8 +125,7 @@ printf ("dest = %s in %s\n", dest, __func__);
 }
 
 int
-create_trashinfo (rmw_target *file, st_waste *waste_curr,
-                  char *time_now, char *time_str_appended)
+create_trashinfo (rmw_target *file, st_waste *waste_curr)
 {
   static char finalInfoDest[MP];
 
@@ -141,6 +140,7 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
 
   if (file->is_duplicate)
   {
+    extern char time_str_appended[];
     bufchk (time_str_appended, MP - strlen (finalInfoDest));
     strcat (finalInfoDest, time_str_appended);
   }
@@ -164,6 +164,7 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
       return 1;
     }
 
+    extern char *time_now;
 #ifdef DEBUG
 DEBUG_PREFIX
 printf ("[Trash Info]\n");

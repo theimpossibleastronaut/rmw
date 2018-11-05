@@ -35,8 +35,7 @@
 
 int
 purge (const short purge_after, const st_waste *waste_curr,
-        char *time_now, const ushort force, const char *HOMEDIR);
+  const ushort force, const char *HOMEDIR);
 
 short
-orphan_maint(st_waste *waste_curr,
-              char *time_now, char *time_str_appended);
+orphan_maint(st_waste *waste_curr);

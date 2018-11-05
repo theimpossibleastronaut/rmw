@@ -157,7 +157,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
 
 int
 purge (const short purge_after, const st_waste *waste_curr,
-       char *time_now, const ushort force, const char *HOMEDIR)
+  const ushort force, const char *HOMEDIR)
 {
   short status = 0;
 
@@ -181,6 +181,7 @@ purge (const short purge_after, const st_waste *waste_curr,
   time_t now;
   time_t then = 0;
 
+  extern char time_now[];
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
 
@@ -393,8 +394,7 @@ purge (const short purge_after, const st_waste *waste_curr,
 }
 
 short
-orphan_maint (st_waste *waste_curr,
-              char *time_now, char *time_str_appended)
+orphan_maint (st_waste *waste_curr)
 {
   rmw_target *file = (rmw_target*)malloc (sizeof (rmw_target));
   chk_malloc (file, __func__, __LINE__);
@@ -433,7 +433,7 @@ orphan_maint (st_waste *waste_curr,
       sprintf (file->real_path, "%s%s%s", waste_curr->parent, "/orphans/", file->base_name);
 
       short ok = 0;
-      ok = create_trashinfo (file, waste_curr, time_now, time_str_appended);
+      ok = create_trashinfo (file, waste_curr);
       if (ok == 0)
       /* TRANSLATORS:  "created" refers to a file  */
         printf (_("Created %s\n"), path_to_trashinfo);

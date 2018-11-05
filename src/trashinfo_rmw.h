@@ -27,5 +27,4 @@
 #include <sys/stat.h>
 
 int
-create_trashinfo (rmw_target *file, st_waste *waste_curr,
-                  char *time_now, char *time_str_appended);
+create_trashinfo (rmw_target *file, st_waste *waste_curr);
