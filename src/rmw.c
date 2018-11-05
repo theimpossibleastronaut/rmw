@@ -38,8 +38,10 @@
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
-#define LEN_TIME_NOW 21
-#define LEN_TIME_STR_APPENDED 16
+
+/* used by get_time_string() */
+#define LEN_TIME_NOW 19 + 1
+#define LEN_TIME_STR_APPENDED 14 + 1
 
 /*
  * These variables are used by only a few functions and don't need to be global.
@@ -69,11 +71,11 @@ set_time_now_format (void)
 
   if  (getenv ("RMWTRASH") == NULL ||
       (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
-    strcpy (t_fmt, "%FT%T");
+    t_fmt = "%FT%T";
   else
   {
     printf ("  :test mode: Using fake year\n");
-    strcpy (t_fmt, "1999-%m-%dT%T");
+    t_fmt = "1999-%m-%dT%T";
   }
 
   return t_fmt;
@@ -471,14 +473,17 @@ Please check your configuration file and permissions\n\n"));
 
   char *t_fmt = set_time_now_format();
 
-  /* time_now is used for DeletionDate in trashinfo file
-    * and for comparison in purge() */
-  /* The length of the format above doesn't exceed 21 */
+  /*
+   * time_now is used for DeletionDate in trashinfo file
+   * and for comparison in purge()
+   *
+   * The length of the format above never exceeds 20 (including the NULL
+   * terminator) and is defined by LEN_TIME_NOW
+   *
+   */
   time_now = calloc (LEN_TIME_NOW, 1);
   chk_malloc (time_now, __func__, __LINE__);
   get_time_string (time_now, LEN_TIME_NOW, t_fmt);
-  free (t_fmt);
-  t_fmt = NULL;
 
   /** This if statement spits out a message if someone tries to use -g on
    * the command line but has purge_after set to 0 in the config
