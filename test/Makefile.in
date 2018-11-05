@@ -447,6 +447,9 @@ test-all:
 	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
 	for script in $(test_scripts); do \
 		$(srcdir)/$$script $$vars;	\
+		if [ $$? -ne 0 ]; then	\
+			break;	\
+		fi	\
 	done;
 
 test-basic:
