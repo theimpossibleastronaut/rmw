@@ -339,9 +339,7 @@ Please check your configuration file and permissions\n\n"));
     st_removed *removals_head = NULL;
 
     static ushort main_error;
-
     int rmwed_files = 0;
-
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
       bufchk (argv[file_arg], MP);
@@ -350,14 +348,6 @@ Please check your configuration file and permissions\n\n"));
       if (exists (file->main_argv))
       {
         main_error = resolve_path (file->main_argv, file->real_path);
-
-#ifdef DEBUG
-DEBUG_PREFIX
-printf ("file->real_path = %s in %s\n", file->real_path, __func__);
-DEBUG_PREFIX
-printf ("file->main_argv = %s in %s\n", file->main_argv, __func__);
-#endif
-
         if (main_error == 1)
           continue;
         else if (main_error > 1)
@@ -374,18 +364,8 @@ printf ("file->main_argv = %s in %s\n", file->main_argv, __func__);
        * get ready for the ReMoval
        */
 
-      static struct stat st;
-
       static bool match;
       match = 0;
-
-      static short rename_status;
-      rename_status = 0;
-
-      static bool info_status;
-      info_status = 0;
-
-      file->is_duplicate = 0;
 
       bufchk (basename (file->main_argv), MP);
       strcpy (file->base_name, basename (file->main_argv));
@@ -398,6 +378,7 @@ printf ("file->main_argv = %s in %s\n", file->main_argv, __func__);
       waste_curr = waste_head;
       while (waste_curr != NULL)
       {
+        static struct stat st;
         lstat (file->main_argv, &st);
 
         if (waste_curr->dev_num == st.st_dev)
@@ -406,7 +387,7 @@ printf ("file->main_argv = %s in %s\n", file->main_argv, __func__);
 
           /* If a duplicate file exists
            */
-          if (exists (file->dest_name))
+          if (!exists (file->dest_name))
           {
             // append a time string
             strcat (file->dest_name, time_str_appended);
@@ -414,32 +395,20 @@ printf ("file->main_argv = %s in %s\n", file->main_argv, __func__);
             // passed to create_trashinfo()
             file->is_duplicate = 1;
           }
+          else
+            file->is_duplicate = 0;
+
           bufchk (file->dest_name, MP);
-
-          rename_status = rename (file->main_argv, file->dest_name);
-
-          if (rename_status == 0)
+          int rename_res = rename (file->main_argv, file->dest_name);
+          if (rename_res == 0)
           {
             if (verbose)
               printf ("'%s' -> '%s'\n", file->main_argv, file->dest_name);
 
             rmwed_files++;
-#ifdef DEBUG
-DEBUG_PREFIX
-printf ("file->real_path = %s in %s line %d\n", file->real_path, __func__, __LINE__);
-DEBUG_PREFIX
-printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LINE__);
-#endif
-            info_status = create_trashinfo (file, waste_curr);
 
-#ifdef DEBUG
-DEBUG_PREFIX
-printf ("file->real_path = %s in %s line %d\n", file->real_path, __func__, __LINE__);
-DEBUG_PREFIX
-printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LINE__);
-#endif
-
-            if (info_status == 0)
+            int create_ti_res = create_trashinfo (file, waste_curr);
+            if (create_ti_res == 0)
             {
               removals = add_removal (removals, file->dest_name);
               if (removals_head == NULL)
@@ -447,21 +416,10 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
             }
             else
               /* TRANSLATORS: Do not translate ".trashinfo"  */
-              printf (_("  :Error: number %d trying to create a .trashinfo file\n"), info_status);
+              printf (_("  :Error: number %d trying to create a .trashinfo file\n"), create_ti_res);
           }
           else
-          {
-            /* can't use the msg_return_code() function here because the return code
-             * is different than the ones specified. It would be easy to change a couple
-             * things though so the function could be used and would help with consistent
-             * display of the message strings */
-            printf (_("  :Error number %d trying to move %s :\n"),
-                rename_status, file->main_argv);
-            /* FIXME: better to return rename_status. Any side effects
-             * if that were done?
-             */
-            return 1;
-          }
+            msg_err_rename (file->main_argv, file->dest_name, __func__, __LINE__);
 
       /**
        * If we get to this point, it means a WASTE folder was found

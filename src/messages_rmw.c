@@ -164,3 +164,13 @@ msg_err_open_dir (const char *dir, const char *func, const int line)
   perror ("opendir()");
   exit (errno);
 }
+
+void
+msg_err_rename (const char *src_file, const char *dest_file, const char *func, const int line)
+{
+  printf (MSG_ERROR);
+  printf (_("while trying to move (rename)\n\
+  %s -> %s -- %s:%d\n"), src_file, dest_file, func, line);
+  perror ("rename()");
+  exit (errno);
+}

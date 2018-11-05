@@ -225,8 +225,8 @@ Duplicate filename at destination - appending time string...\n"));
         if (!exists (parent_dir))
           make_dir (parent_dir);
 
-        int r_result = rename (file_arg, file.dest);
-        if (!r_result)
+        int rename_res = rename (file_arg, file.dest);
+        if (!rename_res)
         {
           printf ("+'%s' -> '%s'\n", file_arg, file.dest);
 
@@ -238,9 +238,8 @@ Duplicate filename at destination - appending time string...\n"));
         }
         else
         {
-          /* TRANSLATORS: ignore "rename" */
-          printf (_("  :Error: Restore (rename) failed: %s\n"), file.dest);
-          return r_result;
+          msg_err_rename (file_arg, file.dest, __func__, __LINE__);
+          return rename_res;
         }
       }
       else
