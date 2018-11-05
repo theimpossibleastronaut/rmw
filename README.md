@@ -37,15 +37,19 @@ package from your operating system distribution.
 
 ### With superuser privileges:
 
-Use `./configure --help` to view available compile-time options.
+Use `../configure --help` to view available compile-time options.
 
-    ./configure
+    mkdir build
+    cd build
+    ../configure
     make
     make install
 
 ### As a normal user:
 
-    ./configure --prefix=$HOME/usr
+    mkdir build
+    cd build
+    ../configure --prefix=$HOME/usr
     make
     make install
 

@@ -29,3 +29,11 @@ noinst_HEADERS = \
 DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 
 rmw_LDADD = -lcurses -lmenu
+
+all-local:
+	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;
+
+clean-local:
+	if test -f $(top_builddir)/rmw; then	\
+		rm $(top_builddir)/rmw;	\
+	fi
