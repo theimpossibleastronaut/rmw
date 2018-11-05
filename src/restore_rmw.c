@@ -95,7 +95,7 @@ unescape_url (const char *str, char *dest, ushort len)
  * written more efficiently
  */
 int
-Restore (const char *argv, char *time_str_appended, st_waste *waste_curr)
+Restore (const char *argv, st_waste *waste_curr)
 {
   static struct restore
   {
@@ -127,7 +127,7 @@ Restore (const char *argv, char *time_str_appended, st_waste *waste_curr)
 
       strcat (possibly_in_path, file_arg);
 
-      msg_warn_restore (Restore (possibly_in_path, time_str_appended, waste_curr));
+      msg_warn_restore (Restore (possibly_in_path, waste_curr));
       waste_curr = waste_curr->next_node;
     }
 
@@ -207,6 +207,7 @@ Restore (const char *argv, char *time_str_appended, st_waste *waste_curr)
          */
         if (exists (file.dest))
         {
+          extern const char *time_str_appended;
           bufchk (time_str_appended, MP - strlen (file.dest));
           strcat (file.dest, time_str_appended);
 
@@ -280,7 +281,7 @@ Duplicate filename at destination - appending time string...\n"));
  * FIXME: This function needs to be re-worked
  */
 int
-restore_select (st_waste *waste_curr, char *time_str_appended)
+restore_select (st_waste *waste_curr)
 {
   int c = 0;
 
@@ -417,7 +418,7 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
         {
           static char recover_file[PATH_MAX + 1];
           sprintf (recover_file, "%s%s", waste_curr->files, item_name (items[i]));
-          msg_warn_restore(Restore (recover_file, time_str_appended, waste_curr));
+          msg_warn_restore(Restore (recover_file, waste_curr));
         }
       }
     }
@@ -437,7 +438,7 @@ restore_select (st_waste *waste_curr, char *time_str_appended)
 }
 
 void
-undo_last_rmw (char *time_str_appended, st_waste *waste_curr, const char *HOMEDIR)
+undo_last_rmw (st_waste *waste_curr, const char *HOMEDIR)
 {
   FILE *undo_file_ptr;
   static char undo_path[MP];
@@ -463,7 +464,7 @@ undo_last_rmw (char *time_str_appended, st_waste *waste_curr, const char *HOMEDI
   {
     int result = 0;
     trim (line);
-    result = Restore (line, time_str_appended, waste_curr);
+    result = Restore (line, waste_curr);
     msg_warn_restore (result);
     err_ctr += result;
   }

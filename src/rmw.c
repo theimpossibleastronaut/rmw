@@ -271,7 +271,7 @@ Please check your configuration file and permissions\n\n"));
   /* The length of the format above doesn't exceed 21 */
   extern char *time_now;
   time_now = calloc (LEN_TIME_NOW, 1);
-  get_time_string (time_now, 21, t_fmt);
+  get_time_string (time_now, LEN_TIME_NOW, t_fmt);
 
   /** This if statement spits out a message if someone tries to use -g on
    * the command line but has purge_after set to 0 in the config
@@ -294,7 +294,7 @@ Please check your configuration file and permissions\n\n"));
   /* String appended to duplicate filenames */
   extern char *time_str_appended;
   time_str_appended = calloc (LEN_TIME_STR_APPENDED, 1);
-  get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
+  get_time_string (time_str_appended, LEN_TIME_STR_APPENDED, "_%H%M%S-%y%m%d");
 
   if (orphan_chk)
   {
@@ -306,7 +306,7 @@ Please check your configuration file and permissions\n\n"));
   if (select)
   {
     waste_curr = waste_head;
-    return restore_select (waste_curr, time_str_appended);
+    return restore_select (waste_curr);
   }
 
   /* FIXME:
@@ -315,7 +315,7 @@ Please check your configuration file and permissions\n\n"));
   if (undo_last)
   {
     waste_curr = waste_head;
-    undo_last_rmw (time_str_appended, waste_curr, HOMEDIR);
+    undo_last_rmw (waste_curr, HOMEDIR);
     return 0;
   }
 
@@ -329,7 +329,7 @@ Please check your configuration file and permissions\n\n"));
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
     {
       waste_curr = waste_head;
-      msg_warn_restore(Restore (argv[file_arg], time_str_appended, waste_curr));
+      msg_warn_restore(Restore (argv[file_arg], waste_curr));
     }
 
     return 0;

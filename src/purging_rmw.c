@@ -181,7 +181,7 @@ purge (const short purge_after, const st_waste *waste_curr,
   time_t now;
   time_t then = 0;
 
-  extern char *time_now;
+  extern const char *time_now;
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
 

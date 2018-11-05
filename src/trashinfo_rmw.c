@@ -140,7 +140,7 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
 
   if (file->is_duplicate)
   {
-    extern char *time_str_appended;
+    extern const char *time_str_appended;
     bufchk (time_str_appended, MP - strlen (finalInfoDest));
     strcat (finalInfoDest, time_str_appended);
   }
@@ -164,7 +164,7 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
       return 1;
     }
 
-    extern char *time_now;
+    extern const char *time_now;
 #ifdef DEBUG
 DEBUG_PREFIX
 printf ("[Trash Info]\n");
