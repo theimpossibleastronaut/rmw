@@ -90,11 +90,12 @@ static bool make_home_real (char **str, const char *HOMEDIR)
  *
  */
 static st_waste*
-parse_line_waste(char *token_ptr, st_waste *waste_curr, char *line_from_config,
+parse_line_waste(st_waste *waste_curr, char *line_from_config,
   const char *HOMEDIR, bool *do_continue)
 {
   bool removable = 0;
   char *comma_ptr;
+  char *token_ptr;
   token_ptr = strtok (line_from_config, "=");
   token_ptr = strtok (NULL, "=");
   char rem_opt[CFG_LINE_LEN_MAX];
@@ -303,9 +304,6 @@ get_config_data(ushort *purge_after, ushort *force, const char *HOMEDIR)
   {
     bool do_continue = 0;
     bufchk (line_from_config, CFG_LINE_LEN_MAX);
-
-    char *token_ptr;
-
     trim (line_from_config);
     del_char_shift_left (' ', &line_from_config);
 
@@ -315,6 +313,7 @@ get_config_data(ushort *purge_after, ushort *force, const char *HOMEDIR)
     if (strncmp (line_from_config, "purge_after", 11) == 0 ||
         strncmp (line_from_config, "purgeDays", 9) == 0)
     {
+      char *token_ptr;
       token_ptr = strtok (line_from_config, "=");
       token_ptr = strtok (NULL, "=");
 
@@ -335,7 +334,7 @@ get_config_data(ushort *purge_after, ushort *force, const char *HOMEDIR)
       }
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
-      waste_curr = parse_line_waste (token_ptr, waste_curr, line_from_config, HOMEDIR, &do_continue);
+      waste_curr = parse_line_waste (waste_curr, line_from_config, HOMEDIR, &do_continue);
       if (do_continue)
         continue;
     }
