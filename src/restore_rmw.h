@@ -39,4 +39,4 @@ int
 restore_select (st_waste *waste_curr);
 
 void
-undo_last_rmw (st_waste *waste_curr, const char *HOMEDIR);
+undo_last_rmw (st_waste *waste_curr);

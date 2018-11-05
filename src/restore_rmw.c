@@ -438,12 +438,13 @@ restore_select (st_waste *waste_curr)
 }
 
 void
-undo_last_rmw (st_waste *waste_curr, const char *HOMEDIR)
+undo_last_rmw (st_waste *waste_curr)
 {
   FILE *undo_file_ptr;
   static char undo_path[MP];
   static char line[MP];
 
+  extern const char *HOMEDIR;
   sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
   bufchk (undo_path, MP);
 

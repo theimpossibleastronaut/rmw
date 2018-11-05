@@ -156,8 +156,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
 }
 
 int
-purge (const short purge_after, const st_waste *waste_curr,
-  const ushort force, const char *HOMEDIR)
+purge (const short purge_after, const st_waste *waste_curr, const ushort force)
 {
   short status = 0;
 

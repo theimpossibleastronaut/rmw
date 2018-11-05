@@ -54,7 +54,7 @@ static void del_char_shift_left (const char c, char **str)
  * change to the value of "HOMEDIR"
  *
  */
-static bool make_home_real (char **str, const char *HOMEDIR)
+static bool make_home_real (char **str)
 {
   bool ok = 0;
   if (*str[0] == '~')
@@ -75,6 +75,7 @@ static bool make_home_real (char **str, const char *HOMEDIR)
     return 0;
 
   char temp[MP];
+  extern const char *HOMEDIR;
   sprintf (temp, "%s%s", HOMEDIR, *str);
   strcpy (*str, temp);
 
@@ -90,8 +91,7 @@ static bool make_home_real (char **str, const char *HOMEDIR)
  *
  */
 static st_waste*
-parse_line_waste(st_waste *waste_curr, char *line_from_config,
-  const char *HOMEDIR, bool *do_continue)
+parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue)
 {
   bool removable = 0;
   char *comma_ptr;
@@ -133,7 +133,7 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config,
   trim (token_ptr);
   trim_slash (token_ptr);
   del_char_shift_left (' ', &token_ptr);
-  make_home_real (&token_ptr, HOMEDIR);
+  make_home_real (&token_ptr);
 
   if (removable && !exists (token_ptr))
   {
@@ -216,8 +216,9 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config,
  *
  */
 static FILE*
-realize_config_file (char *config_file, const char *HOMEDIR)
+realize_config_file (char *config_file)
 {
+  extern const char *HOMEDIR;
   extern const char* alt_config;
  /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
@@ -283,7 +284,7 @@ A default configuration file can be found at\n"), config_file, HOMEDIR, CFG_FILE
  *
  */
 st_waste*
-get_config_data(ushort *purge_after, ushort *force, const char *HOMEDIR)
+get_config_data(ushort *purge_after, ushort *force)
 {
   /**
    *  purge_after will default to 90 if there's no setting
@@ -295,7 +296,7 @@ get_config_data(ushort *purge_after, ushort *force, const char *HOMEDIR)
 
   char config_file[MP];
   extern const char *alt_config;
-  FILE *config_ptr = realize_config_file (config_file, HOMEDIR);
+  FILE *config_ptr = realize_config_file (config_file);
 
   st_waste *waste_head = NULL;
   st_waste *waste_curr = NULL;
@@ -334,7 +335,7 @@ get_config_data(ushort *purge_after, ushort *force, const char *HOMEDIR)
       }
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
-      waste_curr = parse_line_waste (waste_curr, line_from_config, HOMEDIR, &do_continue);
+      waste_curr = parse_line_waste (waste_curr, line_from_config, &do_continue);
       if (do_continue)
         continue;
     }

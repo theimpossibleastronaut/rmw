@@ -41,8 +41,20 @@
 #define LEN_TIME_NOW 21
 #define LEN_TIME_STR_APPENDED 16
 
+/*
+ * These variables only used by a few functions and don't need to be global.
+ * will use "extern" to declare it where it's needed.
+ *
+ */
+
+bool list;
+char *HOMEDIR;
+const char *alt_config = NULL;
+char *time_now;
+char *time_str_appended;
+
 static ushort
-is_time_to_purge (const char *HOMEDIR);
+is_time_to_purge (void);
 
 static void
 get_time_string (char *tm_str, ushort len, const char *format);
@@ -51,8 +63,7 @@ static st_removed*
 add_removal (st_removed *removals, const char *file);
 
 static void
-create_undo_file (st_removed *removals, st_removed *removals_head,
-  const char *HOMEDIR);
+create_undo_file (st_removed *removals, st_removed *removals_head);
 
 static void
 dispose_removed (st_removed *node);
@@ -101,11 +112,7 @@ main (const int argc, char* const argv[])
   bool restoreYes = 0;
   bool select = 0;
   bool undo_last = 0;
-  extern bool list;
-
   ushort force = 0;
-
-  extern const char *alt_config;
 
   do
   {
@@ -176,10 +183,12 @@ verbose = 1;
 
   #ifndef WIN32
     bufchk (getenv ("HOME"), MP);
-    const char *HOMEDIR = getenv ("HOME");
+    HOMEDIR = calloc (strlen (getenv ("HOME")) + 1, 1);
+    strcpy (HOMEDIR, getenv ("HOME"));
   #else
     bufchk (getenv ("LOCALAPPDATA"), MP);
-    const char *HOMEDIR = getenv ("LOCALAPPDATA");
+    HOMEDIR = calloc (strlen (getenv ("LOCALAPPDATA")) + 1, 1);
+    strcpy (HOMEDIR, (getenv ("LOCALAPPDATA"));
   #endif
 
   if (HOMEDIR == NULL)
@@ -222,7 +231,7 @@ Please check your configuration file and permissions\n\n"));
   ushort purge_after = 0;
 
   st_waste *waste_head;
-  waste_head = get_config_data (&purge_after, &force, HOMEDIR);
+  waste_head = get_config_data (&purge_after, &force);
 
   st_waste *waste_curr = waste_head;
 
@@ -268,7 +277,6 @@ Please check your configuration file and permissions\n\n"));
   /* time_now is used for DeletionDate in trashinfo file
     * and for comparison in purge() */
   /* The length of the format above doesn't exceed 21 */
-  extern char *time_now;
   time_now = calloc (LEN_TIME_NOW, 1);
   get_time_string (time_now, LEN_TIME_NOW, t_fmt);
 
@@ -281,17 +289,16 @@ Please check your configuration file and permissions\n\n"));
     printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
   else if (purge_after)
   {
-    if (is_time_to_purge (HOMEDIR) == IS_NEW_DAY || cmd_opt_purge)
+    if (is_time_to_purge () == IS_NEW_DAY || cmd_opt_purge)
     {
       if (force)
-        purge (purge_after, waste_curr, force, HOMEDIR);
+        purge (purge_after, waste_curr, force);
       else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }
   }
 
   /* String appended to duplicate filenames */
-  extern char *time_str_appended;
   time_str_appended = calloc (LEN_TIME_STR_APPENDED, 1);
   get_time_string (time_str_appended, LEN_TIME_STR_APPENDED, "_%H%M%S-%y%m%d");
 
@@ -314,7 +321,7 @@ Please check your configuration file and permissions\n\n"));
   if (undo_last)
   {
     waste_curr = waste_head;
-    undo_last_rmw (waste_curr, HOMEDIR);
+    undo_last_rmw (waste_curr);
     return 0;
   }
 
@@ -445,7 +452,7 @@ Please check your configuration file and permissions\n\n"));
     }
 
     if (removals != NULL)
-      create_undo_file (removals, removals_head, HOMEDIR);
+      create_undo_file (removals, removals_head);
 
     printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
             rmwed_files), rmwed_files);
@@ -491,7 +498,7 @@ get_time_string (char *tm_str, ushort len, const char *format)
  * to the lastpurge file.
  */
 static ushort
-is_time_to_purge (const char *HOMEDIR)
+is_time_to_purge (void)
 {
   char file_lastpurge[MP];
   sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
@@ -618,7 +625,7 @@ add_removal (st_removed *removals, const char *file)
  *
  */
 static void
-create_undo_file (st_removed *removals, st_removed *removals_head, const char *HOMEDIR)
+create_undo_file (st_removed *removals, st_removed *removals_head)
 {
   char undo_path[MP];
   bufchk (UNDO_FILE, MP - strlen (HOMEDIR));
@@ -659,15 +666,3 @@ dispose_removed (st_removed *node)
 
   return;
 }
-
-/*
- * These are only used by a few functions and don't need to be global.
- * will use "extern" to declare it where it's needed.
- *
- */
-
-bool list;
-const char *alt_config = NULL;
-char *time_now;
-char *time_str_appended;
-

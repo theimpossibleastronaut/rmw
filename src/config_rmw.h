@@ -39,4 +39,4 @@
 enum { CONTINUE = 1 };
 
 st_waste*
-get_config_data(ushort *purge_after, ushort *force, const char *HOMEDIR);
+get_config_data(ushort *purge_after, ushort *force);
