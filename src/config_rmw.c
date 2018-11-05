@@ -137,7 +137,7 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config,
 
   if (removable && !exists (token_ptr))
   {
-    extern bool list;
+    extern const bool list;
     if (list)
       printf (_("%s (removable, detached)\n"), token_ptr);
     goto DO_CONT;

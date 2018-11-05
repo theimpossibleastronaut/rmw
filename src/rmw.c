@@ -106,7 +106,6 @@ main (const int argc, char* const argv[])
   ushort force = 0;
 
   extern const char *alt_config;
-  alt_config = NULL;
 
   do
   {
