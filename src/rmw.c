@@ -38,6 +38,9 @@
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
+#define LEN_TIME_NOW 21
+#define LEN_TIME_STR_APPENDED 16
+
 static ushort
 is_time_to_purge (const char *HOMEDIR);
 
@@ -266,7 +269,8 @@ Please check your configuration file and permissions\n\n"));
   /* time_now is used for DeletionDate in trashinfo file
     * and for comparison in purge() */
   /* The length of the format above doesn't exceed 21 */
-  extern char time_now[];
+  extern char *time_now;
+  time_now = calloc (LEN_TIME_NOW, 1);
   get_time_string (time_now, 21, t_fmt);
 
   /** This if statement spits out a message if someone tries to use -g on
@@ -288,7 +292,8 @@ Please check your configuration file and permissions\n\n"));
   }
 
   /* String appended to duplicate filenames */
-  extern char time_str_appended[];
+  extern char *time_str_appended;
+  time_str_appended = calloc (LEN_TIME_STR_APPENDED, 1);
   get_time_string (time_str_appended, 16, "_%H%M%S-%y%m%d");
 
   if (orphan_chk)
@@ -461,6 +466,8 @@ Enter '%s -h' for more information\n"), argv[0]);
   dispose_waste (waste_curr);
   waste_head = NULL;
   free (waste_head);
+  free (time_now);
+  free (time_str_appended);
 
   return 0;
 }
@@ -473,7 +480,7 @@ get_time_string (char *tm_str, ushort len, const char *format)
   time_ptr = localtime (&now);
   strftime (tm_str, len, format, time_ptr);
   trim (tm_str);
-  bufchk (tm_str, len + 1);
+  bufchk (tm_str, len);
 }
 
 /*
@@ -662,6 +669,6 @@ dispose_removed (st_removed *node)
 
 bool list;
 const char *alt_config = NULL;
-char time_now[21];
-char time_str_appended[16];
+char *time_now;
+char *time_str_appended;
 
