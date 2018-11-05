@@ -42,7 +42,7 @@ echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
 set -x
-RMWTRASH=fake-year $BIN_DIR/rmw --verbose -c $CONFIG $HOME/tmp-files/*
+RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose -c $CONFIG $HOME/tmp-files/*
 test_result $?
 set +x
 

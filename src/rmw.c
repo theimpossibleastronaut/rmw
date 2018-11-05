@@ -53,11 +53,14 @@ const char *alt_config = NULL;
 char *time_now;
 char *time_str_appended;
 
-static ushort
-is_time_to_purge (void);
+static char*
+set_time_now_format (void);
 
 static void
 get_time_string (char *tm_str, ushort len, const char *format);
+
+static ushort
+is_time_to_purge (void);
 
 static st_removed*
 add_removal (st_removed *removals, const char *file);
@@ -254,31 +257,15 @@ Please check your configuration file and permissions\n\n"));
     return 0;
   }
 
-  /* helps test the purge function */
-  bool use_fake_year = 0;
-
-  if (getenv ("RMWTRASH") != NULL)
-  {
-    use_fake_year = strcmp (getenv ("RMWTRASH"), "fake-year") ? 0 : 1;
-  }
-
-  char *t_fmt;
-
-  if (!use_fake_year)
-  {
-    t_fmt = "%FT%T";
-  }
-  else
-  {
-    printf ("  :test mode: Using fake year\n");
-    t_fmt = "1999-%m-%dT%T";
-  }
+  char *t_fmt = set_time_now_format();
 
   /* time_now is used for DeletionDate in trashinfo file
     * and for comparison in purge() */
   /* The length of the format above doesn't exceed 21 */
   time_now = calloc (LEN_TIME_NOW, 1);
   get_time_string (time_now, LEN_TIME_NOW, t_fmt);
+  free (t_fmt);
+  t_fmt = NULL;
 
   /** This if statement spits out a message if someone tries to use -g on
    * the command line but has purge_after set to 0 in the config
@@ -479,6 +466,38 @@ Enter '%s -h' for more information\n"), argv[0]);
   return 0;
 }
 
+/*
+ *
+ * name: set_time_now_format()
+ *
+ * returns a formatted string based on whether or not
+ * a fake year is requested at runtime.
+ *
+ */
+static char*
+set_time_now_format (void)
+{
+  char *t_fmt = calloc (LEN_TIME_NOW, 1);
+
+  if  (getenv ("RMWTRASH") == NULL ||
+      (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
+    strcpy (t_fmt, "%FT%T");
+  else
+  {
+    printf ("  :test mode: Using fake year\n");
+    strcpy (t_fmt, "1999-%m-%dT%T");
+  }
+
+  return t_fmt;
+}
+
+/*
+ *
+ * name: get_time_string()
+ *
+ * assigns a time string to *tm_str based on the format requested.
+ *
+ */
 static void
 get_time_string (char *tm_str, ushort len, const char *format)
 {
