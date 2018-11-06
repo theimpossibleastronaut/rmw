@@ -1,0 +1,30 @@
+{% include head.html %}
+<div class="w3-container w3-display-topmiddle w3-black" style="width:60%">
+  <h1 class="w3-center">{{site.title}}</h1>
+  <div class="w3-cell-row">
+    <div class="w3-container w3-amber w3-cell" style="width:30%">
+      <ul class="w3-ul">
+        <li><a href="/" class="w3-btn w3-brown">Home</a></li>
+        <li><a href="https://github.com/theimpossibleastronaut/rmw/blob/master/README.md" class="w3-btn w3-brown">README</a></li>
+        <li><a href="https://github.com/theimpossibleastronaut/rmw/releases" class="w3-btn w3-brown">Downloads (Releases)</a></li>
+        <li><a href="https://slackbuilds.org/repository/14.2/system/rmw/" class="w3-btn w3-brown">SlackBuild</a></li>
+        <li><a href="https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING" class="w3-btn w3-brown">License</a></li>
+      </ul>
+    </div>
+    <div class="w3-container w3-light-gray w3-cell">
+      <p>
+        {{content}}
+      </p>
+      <p>
+        <a href="https://github.com/theimpossibleastronaut/rmw/blob/master/docs/{{ page.path }}" class="w3-button w3-right">Edit or Improve this page</a>
+      </p>
+      </div>
+    </div>
+        <p class="w3-center">
+      <a href="https://validator.w3.org/check?uri=referer"><img
+        src="http://www.w3.org/Icons/valid-xhtml10"
+        alt="Valid XHTML 1.0!" height="31" width="88" /></a>
+    </p>
+  </div>
+{% include tail.html %}
+
