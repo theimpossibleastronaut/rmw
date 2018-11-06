@@ -54,6 +54,7 @@ char *HOMEDIR;
 const char *alt_config = NULL;
 char *time_now;
 char *time_str_appended;
+int purge_after = 0;
 
 /*
  *
@@ -444,11 +445,8 @@ Please check your configuration file and permissions\n\n"));
     return 1;
   }
 
-  /* is reassigned a value in get_config_data() */
-  ushort purge_after = 0;
-
   st_waste *waste_head;
-  waste_head = get_config_data (&purge_after, &force);
+  waste_head = get_config_data (&force);
 
   st_waste *waste_curr = waste_head;
 
@@ -497,7 +495,7 @@ Please check your configuration file and permissions\n\n"));
     if (is_time_to_purge () == IS_NEW_DAY || cmd_opt_purge)
     {
       if (force)
-        purge (purge_after, waste_curr, force);
+        purge (waste_curr, force);
       else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }

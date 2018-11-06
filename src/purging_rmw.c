@@ -156,7 +156,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
 }
 
 int
-purge (const short purge_after, const st_waste *waste_curr, const ushort force)
+purge (const st_waste *waste_curr, const ushort force)
 {
   short status = 0;
 
@@ -165,6 +165,7 @@ purge (const short purge_after, const st_waste *waste_curr, const ushort force)
   if (getenv ("RMWTRASH") != NULL)
     cmd_empty = strcmp (getenv ("RMWTRASH"), "empty") ? 0 : 1;
 
+  extern const int purge_after;
   if(cmd_empty)
     printf (_("\nPurging all files in waste folders ...\n"));
   else

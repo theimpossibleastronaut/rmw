@@ -1,6 +1,13 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-11-06
+
+* If there is no default configuration file present, one will be
+  written to $HOME/.config/rmw/config when rmw is first run.
+
+* If verbosity is on, rmw will tell the user which config file is being used
+
 2018-11-04
 
 * When running purge, rmw will now show the total number of files and

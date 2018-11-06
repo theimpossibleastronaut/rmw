@@ -34,7 +34,7 @@
 #define MAX_DEPTH_REACHED 201
 
 int
-purge (const short purge_after, const st_waste *waste_curr, const ushort force);
+purge (const st_waste *waste_curr, const ushort force);
 
 short
 orphan_maint(st_waste *waste_curr);

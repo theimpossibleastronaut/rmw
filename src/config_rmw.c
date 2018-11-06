@@ -34,6 +34,8 @@
 #include "trivial_rmw.h"
 #include "messages_rmw.h"
 
+static const int DEFAULT_PURGE_AFTER = 90;
+
 /**
  * Erases characters from the beginning of a string
  * (i.e. shifts the remaining string to the left
@@ -238,40 +240,116 @@ realize_config_file (char *config_file)
     strcpy (config_file, alt_config);
   }
 
-  /**
-   * if config_file isn't found in home directory,
-   * else open the system default (SYSCONFDIR/rmwrc)
-   */
+#define MSG_USING_CONFIG if (verbose) printf (_("config file: %s\n"), config_file)
 
   FILE *fp;
-
   fp = fopen (config_file, "r");
   if (fp != NULL)
+  {
+    MSG_USING_CONFIG;
     return fp;
+  }
+
+  char tmp_config_file[MP];
+  strcpy (tmp_config_file, config_file);
 
   bufchk ("/rmwrc", MP - strlen (SYSCONFDIR));
   sprintf (config_file, "%s%s", SYSCONFDIR, "/rmwrc");
 
   fp = fopen (config_file, "r");
   if (fp != NULL)
-    return fp;
-  else
   {
-    open_err (config_file, __func__);
-     /* TRANSLATORS:  any time "open" or "close" is used in this program
-      * I am referring to a file or a directory  */
-    printf (MSG_ERROR);
-    printf (_("\
-Can not open configuration file\n\
-%s (or)\n\
-%s%s\n\
-\n\
-A default configuration file can be found at\n"), config_file, HOMEDIR, CFG_FILE);
-    printf ("<https://github.com/theimpossibleastronaut/rmw/tree/master>\n\n");
-    printf (_("Unable to continue. Exiting...\n"));
-    msg_return_code (ERR_OPEN_CONFIG);
-    exit (ERR_OPEN_CONFIG);
+    MSG_USING_CONFIG;
+    return fp;
   }
+
+  strcpy (config_file, tmp_config_file);
+
+/*
+ * If any changes are made to rmwrc, the text here will need to be updated
+ * to match
+ */
+  fp = fopen (config_file, "w");
+  if (fp != NULL)
+  {
+    printf (_("Creating default configuration file:"));
+
+    /*
+     * To reduce clutter in the translation file (rmw.pot), we'll just
+     * separate this from the translatable string above.
+     *
+     */
+    printf ("\n  %s\n\n", config_file);
+
+    fprintf (fp, "\n\
+# rmw default configuration file\n\
+# https://github.com/andy5995/rmw/wiki/\n\
+#\n\
+# NOTE: If two WASTE folders are on the same file system, rmw will move files\n\
+# to the first WASTE folder listed, ignoring the second one.\n\
+#\n\
+WASTE = $HOME/.trash.rmw\n\
+#\n\
+\n\
+# If you would like this to be your primary trash folder (which usually means\n\
+# that it will be the same as your Desktop Trash folder) be sure it precedes\n\
+# any other WASTE folders listed in the config file\n\
+#\n\
+# If you want it checked for files that need purging, simply uncomment\n\
+# The line below. Files you move with rmw will go to the folder above by\n\
+# default.\n\
+#\n\
+#WASTE=$HOME/.local/share/Trash\n\
+#\n\
+\n\
+# Removable media: If a folder has ',removable' appended to it, rmw\n\
+# will not try to create it; it must be initially created manually. If\n\
+# the folder exists when rmw is run, it will be used; if not, it will be\n\
+# skipped. Once you create \"example_waste\", rmw will automatically create\n\
+# example_waste/info and example_waste/files\n\
+#\n\
+#WASTE=/mnt/sda10000/example_waste, removable\n\
+#\n\
+\n\
+# How many days should files be allowed to stay in the waste folders before\n\
+# they are permanently deleted\n\
+#\n\
+# use '0' to disable purging\n\
+#\n\
+purge_after = %d\n\
+#\n\
+\n\
+# purge will not run unless `--force` is used at the command line. Uncomment\n\
+# the line below if you would like purge to check daily for files that\n\
+# that exceed the days specified in purge_after\n\
+#\n\
+#force_not_required\n\
+#\n\
+\n", DEFAULT_PURGE_AFTER);
+
+    close_file (fp, config_file, __func__);
+    fp = fopen (config_file, "r");
+    if (fp != NULL)
+    {
+      MSG_USING_CONFIG;
+      return fp;
+    }
+  }
+
+  /*
+   * There are only 3 reasons this may happen:
+   *
+   * 1. a bug in the program
+   * 2. the user has insufficient permissions to write to his HOME directory
+   * 3. a bad hard drive
+   *
+   * Therefore, no extra info will be output in the message below until
+   * such a time as it seems necessary.
+   *
+   */
+  open_err (config_file, __func__);
+  printf (_("Unable to read or write a configuration file.\n"));
+  exit (errno);
 }
 
 /*
@@ -284,15 +362,14 @@ A default configuration file can be found at\n"), config_file, HOMEDIR, CFG_FILE
  *
  */
 st_waste*
-get_config_data(ushort *purge_after, ushort *force)
+get_config_data(ushort *force)
 {
-  /**
-   *  purge_after will default to 90 if there's no setting
-   * in the config file
+  /*
+   * The default value for purge_after is only used as a last resort,
+   * if for some reason purge_after isn't specified in the config file.
    */
-   /* FIXME: A default value should be declared elsewhere
-    */
-  *purge_after = 90;
+  extern int purge_after;
+  purge_after = DEFAULT_PURGE_AFTER;
 
   char config_file[MP];
   extern const char *alt_config;
@@ -323,7 +400,7 @@ get_config_data(ushort *purge_after, ushort *force)
       ushort num_value = atoi (token_ptr);
 
       if (num_value <= USHRT_MAX)
-        *purge_after = num_value;
+        purge_after = num_value;
 
       else
         /* TRANSLATORS:  "purge_after" is a varible  */

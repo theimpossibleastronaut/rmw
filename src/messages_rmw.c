@@ -42,8 +42,7 @@ static const char *ERR_STRING[] = {
   "ERR_CLOSE",
   "ERR_FGETS",
   "ERR_TRASHINFO_FORMAT",
-  "FILE_NOT_FOUND",
-  "ERR_OPEN_CONFIG"
+  "FILE_NOT_FOUND"
 };
 
 /**
