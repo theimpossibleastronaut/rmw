@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if page.title %}{{ page.title | escape }} | {{ site.title}}
     {% elsif page.tag %}{{ page.tag | escape }} | {{ site.title}}
     {% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="rmw Releases" href="https://github.com/theimpossibleastronaut/rmw/releases.atom">
-   <link rel="stylesheet" href="/assets/w3.css">
+  <link rel="stylesheet" href="/assets/w3.css">
+  <link rel="stylesheet" href="/assets/w3pro.css">
 </head>
 <body>
