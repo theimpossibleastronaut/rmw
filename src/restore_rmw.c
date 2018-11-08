@@ -348,8 +348,6 @@ restore_select (st_waste *waste_curr)
     my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
     populate_menu (root, my_items, true);
 
-    /* add 1 for the NULL terminating the ARRAY */
-    n_choices++;
     my_items[n_choices] = (ITEM *)NULL;
 
     my_menu = new_menu ((ITEM **) my_items);
