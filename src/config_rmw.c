@@ -220,6 +220,9 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue
 static FILE*
 realize_config_file (char *config_file)
 {
+  if (verbose)
+    printf ("sysconfdir = " SYSCONFDIR "\n");
+
   extern const char *HOMEDIR;
   extern const char* alt_config;
  /* If no alternate configuration was specifed (-c) */
