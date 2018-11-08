@@ -584,7 +584,7 @@ PACKAGE_TARNAME='rmw'
 PACKAGE_VERSION='0.4.06-dev'
 PACKAGE_STRING='rmw 0.4.06-dev'
 PACKAGE_BUGREPORT='https://github.com/theimpossibleastronaut/rmw/issues'
-PACKAGE_URL=''https://github.com/theimpossibleastronaut/rmw/wiki''
+PACKAGE_URL='https://remove-to-waste.info/'
 
 # Factoring default headers for most tests.
 ac_includes_default="\
@@ -1429,7 +1429,7 @@ Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
 
 Report bugs to <https://github.com/theimpossibleastronaut/rmw/issues>.
-rmw home page: <'https://github.com/theimpossibleastronaut/rmw/wiki'>.
+rmw home page: <https://remove-to-waste.info/>.
 _ACEOF
 ac_status=$?
 fi
@@ -7157,7 +7157,7 @@ Configuration commands:
 $config_commands
 
 Report bugs to <https://github.com/theimpossibleastronaut/rmw/issues>.
-rmw home page: <'https://github.com/theimpossibleastronaut/rmw/wiki'>."
+rmw home page: <https://remove-to-waste.info/>."
 
 _ACEOF
 cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1

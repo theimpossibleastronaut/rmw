@@ -8,7 +8,7 @@ utility. It can send files to your "Desktop" trash, or a completely
 separate folder; restore files and append a unique string to the
 filenames so they won't be overwritten (duplication protection).
 
-Web site: https://github.com/theimpossibleastronaut/rmw/wiki
+Web site: https://remove-to-waste.info/
 
 This is the README for the development version of rmw. It may mention
 features that aren't included in the last release, or differ in other
@@ -17,14 +17,6 @@ https://github.com/theimpossibleastronaut/rmw/blob/v0.4.05/README.md
 
 Anyone interested in this project is welcome to join the [Matrix chat
 room](https://matrix.to/#/!XeJxcdkywroPaRKKtr:matrix.org).
-
-## For Translators
-
-We use Transifex to translate the output messages. To start translating
-rmw, ​create an account in Transifex and ask to join a translation
-team (or create a new one) at
-https://www.transifex.com/na-309/rmw/
-
 
 ## Required libraries
 
