@@ -1,9 +1,9 @@
 /*
  * strings_rmw.c
  *
- * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
+ * This file is part of rmw (https://remove-to-waste.info/)
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
   #include "rmw.h"
 #endif
 
+#include <ctype.h>
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
@@ -88,8 +89,10 @@ bufchk (const char *str, ushort boundary)
   exit (EXIT_BUF_ERR);
 }
 
-/**
+/*
+ *
  * trim: remove trailing blanks, tabs, newlines, carriage returns
+ *
  */
 void
 trim (char *str)
@@ -103,9 +106,7 @@ trim (char *str)
   /* set pointer to segment preceding NULL terminator */
   str--;
 
-  /* /r added to fix a bug. It was failing on files when the lines ended
-   * with CRLF */
-  while (*str == ' ' || *str == '\t' || *str == '\n' || *str == EOF || *str == '\r')
+  while (isspace (*str))
   {
     *str = '\0';
     str--;
