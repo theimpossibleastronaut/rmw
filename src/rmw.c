@@ -1,7 +1,7 @@
 /*
  * rmw.c
  *
- * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
+ * This file is part of rmw <https://remove-to-waste.info/>
  *
  * Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  * Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
@@ -55,6 +55,7 @@ const char *alt_config = NULL;
 char *time_now;
 char *time_str_appended;
 int purge_after = 0;
+ushort force = 0;
 
 /*
  *
@@ -328,7 +329,6 @@ main (const int argc, char* const argv[])
   bool restoreYes = 0;
   bool select = 0;
   bool undo_last = 0;
-  ushort force = 0;
 
   do
   {
@@ -446,7 +446,7 @@ Please check your configuration file and permissions\n\n"));
   }
 
   st_waste *waste_head;
-  waste_head = get_config_data (&force);
+  waste_head = get_config_data ();
 
   st_waste *waste_curr = waste_head;
 
@@ -495,7 +495,7 @@ Please check your configuration file and permissions\n\n"));
     if (is_time_to_purge () == IS_NEW_DAY || cmd_opt_purge)
     {
       if (force)
-        purge (waste_curr, force);
+        purge (waste_curr);
       else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }

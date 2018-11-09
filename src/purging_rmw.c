@@ -1,9 +1,9 @@
 /*
  * purging_rmw.c
  *
- * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
+ * This file is part of rmw <https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,8 +30,11 @@
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
-static int rmdir_recursive (char *path, short unsigned level, const ushort force,
-  unsigned int *deleted_files_ctr, unsigned int *deleted_dirs_ctr, off_t *bytes_freed)
+static unsigned int deleted_files_ctr = 0;
+static unsigned int deleted_dirs_ctr = 0;
+static off_t bytes_freed = 0;
+
+static int rmdir_recursive (char *path, short unsigned level)
 {
   if (level == RMDIR_MAX_DEPTH)
     return MAX_DEPTH_REACHED;
@@ -66,7 +69,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
     strcat (dir_path, entry->d_name);
 
     lstat (dir_path, &st);
-
+    extern const ushort force;
     if (force == 2 && ~st.st_mode&S_IWUSR)
     {
       if (!chmod (dir_path, 00700))
@@ -96,8 +99,8 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
         status = remove (dir_path);
         if (status == 0)
         {
-          (*deleted_files_ctr)++;
-          (*bytes_freed) += st.st_size;
+          deleted_files_ctr++;
+          bytes_freed += st.st_size;
         }
         else
           perror ("rmdir_recursive -> remove");
@@ -105,7 +108,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
       else
       {
 
-        status = rmdir_recursive (dir_path, ++level, force, deleted_files_ctr, deleted_dirs_ctr, bytes_freed);
+        status = rmdir_recursive (dir_path, ++level);
         level--;
 
         switch (status)
@@ -145,8 +148,8 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
     status = rmdir (path);
     if (status == 0)
     {
-      (*deleted_dirs_ctr)++;
-      (*bytes_freed) += st.st_size;
+      deleted_dirs_ctr++;
+      bytes_freed += st.st_size;
     }
     else
       perror ("rmdir_recursive -> rmdir");
@@ -156,7 +159,7 @@ static int rmdir_recursive (char *path, short unsigned level, const ushort force
 }
 
 int
-purge (const st_waste *waste_curr, const ushort force)
+purge (const st_waste *waste_curr)
 {
   short status = 0;
 
@@ -184,10 +187,6 @@ purge (const st_waste *waste_curr, const ushort force)
   extern const char *time_now;
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
-
-  unsigned int deleted_files_ctr = 0;
-  unsigned int deleted_dirs_ctr = 0;
-  off_t bytes_freed = 0;
 
   while (waste_curr != NULL)
   {
@@ -277,12 +276,11 @@ purge (const st_waste *waste_curr, const ushort force)
         truncate_str (temp, strlen (DOT_TRASHINFO));    /* acquire the basename */
 
         strcat (purgeFile, temp);       /* path to file in <WASTE>/files */
-
         lstat (purgeFile, &st);
 
         if (S_ISDIR (st.st_mode))
         {
-          status = rmdir_recursive (purgeFile, 1, force, &deleted_files_ctr, &deleted_dirs_ctr, &bytes_freed);
+          status = rmdir_recursive (purgeFile, 1);
           switch (status)
           {
           case NOT_WRITEABLE:

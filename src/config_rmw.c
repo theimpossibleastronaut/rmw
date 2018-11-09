@@ -1,7 +1,7 @@
 /*
  * config_rmw.c
  *
- * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
+ * This file is part of rmw <https://remove-to-waste.info/>
  *
  *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  *
@@ -365,13 +365,14 @@ purge_after = %d\n\
  *
  */
 st_waste*
-get_config_data(ushort *force)
+get_config_data(void)
 {
   /*
    * The default value for purge_after is only used as a last resort,
    * if for some reason purge_after isn't specified in the config file.
    */
   extern int purge_after;
+  extern ushort force;
   purge_after = DEFAULT_PURGE_AFTER;
 
   char config_file[MP];
@@ -409,9 +410,9 @@ get_config_data(ushort *force)
         /* TRANSLATORS:  "purge_after" is a varible  */
         printf (_("  :Error: invalid purge_after value in configuration\n"));
     }
-    else if (!*force && strncmp (line_from_config, "force_not_required", 18) == 0)
+    else if (!force && strncmp (line_from_config, "force_not_required", 18) == 0)
       {
-        *force = 1;
+        force = 1;
       }
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {

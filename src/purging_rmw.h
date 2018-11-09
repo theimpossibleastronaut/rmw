@@ -1,9 +1,9 @@
 /*
  * purging_rmw.h
  *
- * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
+ * This file is part of rmw <https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@
 #define MAX_DEPTH_REACHED 201
 
 int
-purge (const st_waste *waste_curr, const ushort force);
+purge (const st_waste *waste_curr);
 
 short
 orphan_maint(st_waste *waste_curr);
