@@ -147,10 +147,7 @@ rmdir_recursive (char *path, short unsigned level)
   {
     status = rmdir (path);
     if (status == 0)
-    {
       deleted_dirs_ctr++;
-      bytes_freed += st.st_size;
-    }
     else
       perror ("rmdir_recursive -> rmdir");
   }
