@@ -27,14 +27,12 @@
 #include <time.h>
 
 #include <dirent.h>
-#include <unistd.h> /* for rmdir() */
+#include <unistd.h>             /* for rmdir() */
 
 #define RMDIR_MAX_DEPTH 32
 #define NOT_WRITEABLE 101
 #define MAX_DEPTH_REACHED 201
 
-int
-purge (const st_waste *waste_curr);
+int purge (const st_waste * waste_curr);
 
-short
-orphan_maint(st_waste *waste_curr);
+short orphan_maint (st_waste * waste_curr);

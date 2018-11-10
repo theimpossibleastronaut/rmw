@@ -34,7 +34,8 @@ static unsigned int deleted_files_ctr = 0;
 static unsigned int deleted_dirs_ctr = 0;
 static off_t bytes_freed = 0;
 
-static int rmdir_recursive (char *path, short unsigned level)
+static int
+rmdir_recursive (char *path, short unsigned level)
 {
   if (level == RMDIR_MAX_DEPTH)
     return MAX_DEPTH_REACHED;
@@ -70,7 +71,7 @@ static int rmdir_recursive (char *path, short unsigned level)
 
     lstat (dir_path, &st);
     extern const ushort force;
-    if (force == 2 && ~st.st_mode&S_IWUSR)
+    if (force == 2 && ~st.st_mode & S_IWUSR)
     {
       if (!chmod (dir_path, 00700))
       {
@@ -79,16 +80,15 @@ static int rmdir_recursive (char *path, short unsigned level)
       }
       else
       {
-        printf (_("  :Error: while changing permissions of %s\n"),
-        path);
+        printf (_("  :Error: while changing permissions of %s\n"), path);
         perror ("chmod: ");
         printf ("\n");
         /* if permissions aren't changed, the directory is still
-        * not writable. This error shouldn't really happen. I don't
-        * know what to do next if that happens. Right now, the program
-        * will continue as normal, with the warning message about
-        * permissions
-        */
+         * not writable. This error shouldn't really happen. I don't
+         * know what to do next if that happens. Right now, the program
+         * will continue as normal, with the warning message about
+         * permissions
+         */
       }
     }
 
@@ -159,7 +159,7 @@ static int rmdir_recursive (char *path, short unsigned level)
 }
 
 int
-purge (const st_waste *waste_curr)
+purge (const st_waste * waste_curr)
 {
   short status = 0;
 
@@ -169,10 +169,12 @@ purge (const st_waste *waste_curr)
     cmd_empty = strcmp (getenv ("RMWTRASH"), "empty") ? 0 : 1;
 
   extern const int purge_after;
-  if(cmd_empty)
+  if (cmd_empty)
     printf (_("\nPurging all files in waste folders ...\n"));
   else
-    printf (_("\nPurging files based on number of days in the waste folders (%u) ...\n"), purge_after);
+    printf (_
+            ("\nPurging files based on number of days in the waste folders (%u) ...\n"),
+            purge_after);
 
   struct stat st;
 
@@ -228,23 +230,29 @@ purge (const st_waste *waste_curr)
          * retrieved but not used.
          * Check to see if it's really a .trashinfo file
          */
-          if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) != NULL)
+          if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr)
+              != NULL)
           {
             if (strncmp (trashinfo_line, "[Trash Info]", 12) == 0)
-              if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) != NULL)
+              if (fgets
+                  (trashinfo_line, sizeof (trashinfo_line),
+                   info_file_ptr) != NULL)
                 if (strncmp (trashinfo_line, "Path=", 5) == 0)
-                   if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr) != NULL)
-                   {
-                      bufchk (trashinfo_line, 40);
-                      trim (trashinfo_line);
-                      if (strncmp (trashinfo_line, "DeletionDate=", 13) == 0 && strlen (trashinfo_line) == 32)
+                  if (fgets
+                      (trashinfo_line, sizeof (trashinfo_line),
+                       info_file_ptr) != NULL)
+                  {
+                    bufchk (trashinfo_line, 40);
+                    trim (trashinfo_line);
+                    if (strncmp (trashinfo_line, "DeletionDate=", 13) == 0
+                        && strlen (trashinfo_line) == 32)
                       passed = 1;
-                    }
+                  }
           }
 
           close_file (info_file_ptr, entry_path, __func__);
 
-          if (! passed)
+          if (!passed)
           {
             display_dot_trashinfo_error (entry_path);
             continue;
@@ -284,17 +292,18 @@ purge (const st_waste *waste_curr)
           switch (status)
           {
           case NOT_WRITEABLE:
-            printf (_(" :warning: Directory not purged - still contains files\n"));
+            printf (_
+                    (" :warning: Directory not purged - still contains files\n"));
             printf ("%s\n", purgeFile);
             printf (_("(check owner/write permissions)\n"));
             dirs_containing_files_ctr++;
             break;
 
           case MAX_DEPTH_REACHED:
-          /* TRANSLATORS:  "depth" refers to the recursion depth in a
-           * directory   */
+            /* TRANSLATORS:  "depth" refers to the recursion depth in a
+             * directory   */
             printf (_(" :warning: Maximum depth of %u reached, skipping\n"),
-                     RMDIR_MAX_DEPTH);
+                    RMDIR_MAX_DEPTH);
             printf ("%s\n", purgeFile);
             max_depth_reached_ctr++;
             break;
@@ -344,8 +353,8 @@ purge (const st_waste *waste_curr)
         if (success)
         {
           status = remove (entry_path); /* the info file. (This var name needs
-                                           *changing) We won't count this in
-                                           * deleted_files_ctr */
+                                         *changing) We won't count this in
+                                         * deleted_files_ctr */
 
           if (!status)
           {
@@ -371,20 +380,25 @@ purge (const st_waste *waste_curr)
 
   if (max_depth_reached_ctr)
     printf (_("%d directories skipped (RMDIR_MAX_DEPTH reached)\n"),
-             max_depth_reached_ctr);
+            max_depth_reached_ctr);
 
   if (dirs_containing_files_ctr)
-    printf (
-             _("%d directories skipped (contains read-only files)\n"),
-             dirs_containing_files_ctr);
+    printf (_("%d directories skipped (contains read-only files)\n"),
+            dirs_containing_files_ctr);
 
-  printf (ngettext("%d file purged" , "%d files purged", purge_ctr), purge_ctr);
+  printf (ngettext ("%d file purged", "%d files purged", purge_ctr),
+          purge_ctr);
   printf ("\n");
-  printf (ngettext("(%d file deleted)" , "(%d files deleted)", deleted_files_ctr), deleted_files_ctr);
+  printf (ngettext
+          ("(%d file deleted)", "(%d files deleted)", deleted_files_ctr),
+          deleted_files_ctr);
   printf ("\n");
-  printf (ngettext("(%d directory deleted)" , "(%d directories deleted)", deleted_dirs_ctr), deleted_dirs_ctr);
+  printf (ngettext
+          ("(%d directory deleted)", "(%d directories deleted)",
+           deleted_dirs_ctr), deleted_dirs_ctr);
   printf ("\n");
-  printf (ngettext("%s byte freed" , "%s bytes freed", bytes_freed), human_readable_size (bytes_freed));
+  printf (ngettext ("%s byte freed", "%s bytes freed", bytes_freed),
+          human_readable_size (bytes_freed));
   printf ("\n");
 
   return 0;
@@ -392,9 +406,9 @@ purge (const st_waste *waste_curr)
 }
 
 short
-orphan_maint (st_waste *waste_curr)
+orphan_maint (st_waste * waste_curr)
 {
-  rmw_target *file = (rmw_target*)malloc (sizeof (rmw_target));
+  rmw_target *file = (rmw_target *) malloc (sizeof (rmw_target));
   chk_malloc (file, __func__, __LINE__);
 
   /* searching for files that don't have a trashinfo: There will
@@ -422,18 +436,20 @@ orphan_maint (st_waste *waste_curr)
       bufchk (basename (entry->d_name), MP);
       strcpy (file->base_name, basename (entry->d_name));
 
-      sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info, file->base_name, DOT_TRASHINFO);
+      sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info, file->base_name,
+               DOT_TRASHINFO);
 
       if (exists (path_to_trashinfo))
         continue;
 
       /* destination if restored */
-      sprintf (file->real_path, "%s%s%s", waste_curr->parent, "/orphans/", file->base_name);
+      sprintf (file->real_path, "%s%s%s", waste_curr->parent, "/orphans/",
+               file->base_name);
 
       short ok = 0;
       ok = create_trashinfo (file, waste_curr);
       if (ok == 0)
-      /* TRANSLATORS:  "created" refers to a file  */
+        /* TRANSLATORS:  "created" refers to a file  */
         printf (_("Created %s\n"), path_to_trashinfo);
       else
         printf (_("  :Error: while creating %s\n"), path_to_trashinfo);
