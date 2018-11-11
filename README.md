@@ -15,6 +15,10 @@ features that aren't included in the last release, or differ in other
 ways. The README from the last release is at
 https://github.com/theimpossibleastronaut/rmw/blob/v0.4.05/README.md
 
+![rmw usage output](https://remove-to-waste.info/images/Screenshot_2018-11-01_21-45-05_911x795.png)
+
+[More Screenshots](https://remove-to-waste.info/screenshots.html)
+
 Anyone interested in this project is welcome to join the [Matrix chat
 room](https://matrix.to/#/!XeJxcdkywroPaRKKtr:matrix.org).
 
