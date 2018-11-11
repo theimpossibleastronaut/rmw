@@ -389,6 +389,13 @@ get_config_data(void)
     trim (line_from_config);
     del_char_shift_left (' ', &line_from_config);
 
+    switch (*line_from_config)
+    {
+      case '#':
+        continue;
+      case '\0':
+        continue;
+    }
     /**
      * assign purge_after the value from config file
      */
@@ -427,9 +434,22 @@ get_config_data(void)
         printf ("The PROTECT feature has been removed.\n");
       pctr = 1;
     }
+    else
+    {
+      fprintf (stderr, MSG_WARNING);
+      fprintf (stderr, _("Unknown or invalid option: '%s'\n"), line_from_config);
+    }
+
+    /*
+     * FIXME: Why is this here?? I know it's needed, but I don't remember
+     * why it's located in this block. Needs review to see if there's a
+     * better location for it.
+     *
+     */
     if (waste_curr != NULL && waste_head == NULL)
         waste_head = waste_curr;
   }
+
   free (line_from_config);
   line_from_config = NULL;
 
