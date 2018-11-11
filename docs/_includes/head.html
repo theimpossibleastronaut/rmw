@@ -10,23 +10,26 @@
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="rmw Releases" href="https://github.com/theimpossibleastronaut/rmw/releases.atom">
   <link rel="stylesheet" href="/assets/w3.css">
+  <link href="/assets/fontawesome/css/fontawesome.css" rel="stylesheet">
+  <link href="/assets/fontawesome/css/brands.css" rel="stylesheet">
+  <link href="/assets/fontawesome/css/solid.css" rel="stylesheet">
 </head>
 <body>
-  <div class="w3-sidebar w3-bar-block w3-collapse w3-amber" style="width:250px;" id="mySidebar">
+  <div class="w3-sidebar w3-bar-block w3-collapse w3-amber" style="margin-left:100px;width:200px;" id="mySidebar">
   <button class="w3-bar-item w3-button w3-hide-large"
   onclick="w3_close()">Close &times;</button>
   <ul class="w3-ul">
-    <li><a href="/" class="w3-btn w3-brown">Home</a></li>
-    <li><a title="source code on GitHub" href="https://github.com/theimpossibleastronaut/rmw/" class="w3-btn w3-brown">GitHub Repo</a></li>
-    <li><a href="https://github.com/theimpossibleastronaut/rmw/blob/master/README.md" class="w3-btn w3-brown">README</a></li>
-    <li><a href="https://github.com/theimpossibleastronaut/rmw/releases" class="w3-btn w3-brown">Downloads (Releases)</a></li>
-    <li><a href="/screenshots.html" class="w3-btn w3-brown">Screenshots</a></li>
-    <li><a title="Bug reporting, feature requests and discussion" href="https://github.com/theimpossibleastronaut/rmw/issues" class="w3-btn w3-brown">Bug Reporting</a></li>
-    <li><a title="rmw Matrix Chat Room" href="https://matrix.to/#/!XeJxcdkywroPaRKKtr:matrix.org" class="w3-btn w3-brown">Chat Room</a></li>
-    <li><a href="https://slackbuilds.org/repository/14.2/system/rmw/" class="w3-btn w3-brown">SlackBuild</a></li>
+    <li><span class="fas fa-home fa-fw"></span>&nbsp;<a href="/" class="w3-btn w3-brown">Home</a></li>
+    <li><span class="fab fa-github-square fa-fw"></span>&nbsp;<a title="source code on GitHub" href="https://github.com/theimpossibleastronaut/rmw/" class="w3-btn w3-brown">GitHub Repo</a></li>
+    <li><span class="fab fa-readme fa-fw"></span>&nbsp;<a href="https://github.com/theimpossibleastronaut/rmw/blob/master/README.md" class="w3-btn w3-brown">README</a></li>
+    <li><span class="fas fa-download fa-fw"></span>&nbsp;<a href="https://github.com/theimpossibleastronaut/rmw/releases" class="w3-btn w3-brown">Releases</a></li>
+    <li><span class="fas fa-image fa-fw"></span>&nbsp;<a href="/screenshots.html" class="w3-btn w3-brown">Screenshots</a></li>
+    <li><span class="fas fa-bug fa-fw"></span>&nbsp;<a title="Bug reporting, feature requests and discussion" href="https://github.com/theimpossibleastronaut/rmw/issues" class="w3-btn w3-brown">Bug Reporting</a></li>
+    <li><span class="fas fa-comments fa-fw"></span>&nbsp;<a title="rmw Matrix Chat Room" href="https://matrix.to/#/!XeJxcdkywroPaRKKtr:matrix.org" class="w3-btn w3-brown">Chat Room</a></li>
+    <li><span class="fab fa-linux fa-fw"></span>&nbsp;<a href="https://slackbuilds.org/repository/14.2/system/rmw/" class="w3-btn w3-brown">SlackBuild</a></li>
   </ul>
 </div>
-<div class="w3-black w3-main w3-twothird" style="margin-left:250px">
+<div class="w3-black w3-main w3-twothird" style="margin-left:300px">
   <h1 class="w3-center">{{site.title}}</h1>
   <h2 class="w3-center">{{page.title}}</h2>
   <div class="w3-row w3-light-gray">
