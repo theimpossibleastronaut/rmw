@@ -96,34 +96,31 @@ static st_waste*
 parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue)
 {
   bool removable = 0;
-  char *comma_ptr;
-  char *token_ptr;
-  token_ptr = strtok (line_from_config, "=");
-  token_ptr = strtok (NULL, "=");
+
+  char* value = strchr (line_from_config, '=');
+  del_char_shift_left ('=', &value);
+  del_char_shift_left (' ', &value);
   char rem_opt[CFG_LINE_LEN_MAX];
-  bufchk (token_ptr, CFG_LINE_LEN_MAX);
-  strcpy (rem_opt, token_ptr);
+  bufchk (value, CFG_LINE_LEN_MAX);
+  strcpy (rem_opt, value);
 
-  comma_ptr = strtok (rem_opt, ",");
-  comma_ptr = strtok (NULL, ",");
+  char *comma_val = strchr (rem_opt, ',');
 
-  /**
-   * Does the line have the comma?
-   */
-  if (comma_ptr != NULL)
+  if (comma_val != NULL)
   {
-    del_char_shift_left (' ', &comma_ptr);
+    del_char_shift_left (',', &comma_val);
+    del_char_shift_left (' ', &comma_val);
     unsigned int ctr = 0;
 
-    while (ctr < strlen (token_ptr))
+    while (ctr < strlen (value))
     {
-      if (token_ptr[ctr] == ',')
-        token_ptr[ctr] = '\0';
+      if (value[ctr] == ',')
+        value[ctr] = '\0';
 
       ctr++;
     }
 
-    if (strcmp ("removable", comma_ptr) == 0)
+    if (strcmp ("removable", comma_val) == 0)
       removable = 1;
     else
     {
@@ -132,16 +129,15 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue
     }
   }
 
-  trim (token_ptr);
-  trim_slash (token_ptr);
-  del_char_shift_left (' ', &token_ptr);
-  make_home_real (&token_ptr);
+  trim (value);
+  trim_slash (value);
+  make_home_real (&value);
 
-  if (removable && !exists (token_ptr))
+  if (removable && !exists (value))
   {
     extern const bool list;
     if (list)
-      printf (_("%s (removable, detached)\n"), token_ptr);
+      printf (_("%s (removable, detached)\n"), value);
     goto DO_CONT;
   }
 
@@ -163,7 +159,7 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue
   waste_curr->removable = removable ? true : false;
 
   /* make the parent... */
-  strcpy (waste_curr->parent, token_ptr);
+  strcpy (waste_curr->parent, value);
 
   /* and the files... */
   sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
@@ -402,13 +398,11 @@ get_config_data(void)
     if (strncmp (line_from_config, "purge_after", 11) == 0 ||
         strncmp (line_from_config, "purgeDays", 9) == 0)
     {
-      char *token_ptr;
-      token_ptr = strtok (line_from_config, "=");
-      token_ptr = strtok (NULL, "=");
+      char *value = strchr (line_from_config, '=');
+      del_char_shift_left ('=', &value);
+      del_char_shift_left (' ', &value);
 
-      del_char_shift_left (' ', &token_ptr);
-
-      ushort num_value = atoi (token_ptr);
+      ushort num_value = atoi (value);
 
       if (num_value <= USHRT_MAX)
         purge_after = num_value;
