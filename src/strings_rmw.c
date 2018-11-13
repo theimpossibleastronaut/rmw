@@ -106,7 +106,7 @@ trim (char *str)
   /* set pointer to segment preceding NULL terminator */
   str--;
 
-  while (isspace (*str))
+  while (isspace ((int)*str))
   {
     *str = '\0';
     str--;
