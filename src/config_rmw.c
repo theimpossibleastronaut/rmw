@@ -25,7 +25,7 @@
 
 #ifndef INC_RMW_H
 #define INC_RMW_H
-  #include "rmw.h"
+#include "rmw.h"
 #endif
 
 #include "config_rmw.h"
@@ -40,7 +40,8 @@ static const int DEFAULT_PURGE_AFTER = 90;
  * Erases characters from the beginning of a string
  * (i.e. shifts the remaining string to the left
  */
-static void del_char_shift_left (const char c, char **str)
+static void
+del_char_shift_left (const char c, char **str)
 {
   while (**str == c)
     ++(*str);
@@ -56,7 +57,8 @@ static void del_char_shift_left (const char c, char **str)
  * change to the value of "HOMEDIR"
  *
  */
-static bool make_home_real (char **str)
+static bool
+make_home_real (char **str)
 {
   bool ok = 0;
   if (*str[0] == '~')
@@ -92,12 +94,13 @@ static bool make_home_real (char **str)
  * config file.
  *
  */
-static st_waste*
-parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue)
+static st_waste *
+parse_line_waste (st_waste * waste_curr, char *line_from_config,
+                  bool * do_continue)
 {
   bool removable = 0;
 
-  char* value = strchr (line_from_config, '=');
+  char *value = strchr (line_from_config, '=');
   del_char_shift_left ('=', &value);
   del_char_shift_left (' ', &value);
   char rem_opt[CFG_LINE_LEN_MAX];
@@ -141,8 +144,8 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue
     goto DO_CONT;
   }
 
-  st_waste *temp_node = (st_waste*)malloc (sizeof (st_waste));
-  chk_malloc (temp_node , __func__, __LINE__);
+  st_waste *temp_node = (st_waste *) malloc (sizeof (st_waste));
+  chk_malloc (temp_node, __func__, __LINE__);
 
   if (waste_curr != NULL)
   {
@@ -173,7 +176,7 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue
     }
   }
 
-    /* and the info. */
+  /* and the info. */
   sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
 
   if (!exists (waste_curr->info))
@@ -201,9 +204,9 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue
 
   return waste_curr;
 
-  DO_CONT:
-    *do_continue = 1;
-    return waste_curr;
+DO_CONT:
+  *do_continue = 1;
+  return waste_curr;
 }
 
 /*
@@ -213,15 +216,15 @@ parse_line_waste(st_waste *waste_curr, char *line_from_config, bool *do_continue
  * determine the exact name of the config file to use, and return a file pointer
  *
  */
-static FILE*
+static FILE *
 realize_config_file (char *config_file)
 {
   if (verbose)
     printf ("sysconfdir = " SYSCONFDIR "\n");
 
   extern const char *HOMEDIR;
-  extern const char* alt_config;
- /* If no alternate configuration was specifed (-c) */
+  extern const char *alt_config;
+  /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
     /**
@@ -360,8 +363,8 @@ purge_after = %d\n\
  * directories
  *
  */
-st_waste*
-get_config_data(void)
+st_waste *
+get_config_data (void)
 {
   /*
    * The default value for purge_after is only used as a last resort,
@@ -387,10 +390,10 @@ get_config_data(void)
 
     switch (*line_from_config)
     {
-      case '#':
-        continue;
-      case '\0':
-        continue;
+    case '#':
+      continue;
+    case '\0':
+      continue;
     }
     /**
      * assign purge_after the value from config file
@@ -411,13 +414,15 @@ get_config_data(void)
         /* TRANSLATORS:  "purge_after" is a varible  */
         printf (_("  :Error: invalid purge_after value in configuration\n"));
     }
-    else if (!force && strncmp (line_from_config, "force_not_required", 18) == 0)
-      {
-        force = 1;
-      }
+    else if (!force
+             && strncmp (line_from_config, "force_not_required", 18) == 0)
+    {
+      force = 1;
+    }
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
-      waste_curr = parse_line_waste (waste_curr, line_from_config, &do_continue);
+      waste_curr =
+        parse_line_waste (waste_curr, line_from_config, &do_continue);
       if (do_continue)
         continue;
     }
@@ -431,7 +436,8 @@ get_config_data(void)
     else
     {
       fprintf (stderr, MSG_WARNING);
-      fprintf (stderr, _("Unknown or invalid option: '%s'\n"), line_from_config);
+      fprintf (stderr, _("Unknown or invalid option: '%s'\n"),
+               line_from_config);
     }
 
     /*
@@ -441,7 +447,7 @@ get_config_data(void)
      *
      */
     if (waste_curr != NULL && waste_head == NULL)
-        waste_head = waste_curr;
+      waste_head = waste_curr;
   }
 
   free (line_from_config);
@@ -461,7 +467,7 @@ visit the rmw web site at\n"));
     exit (NO_WASTE_FOLDER);
   }
   else
-   waste_curr->next_node = NULL;
+    waste_curr->next_node = NULL;
 
   return waste_head;
 }

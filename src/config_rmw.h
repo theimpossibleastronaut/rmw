@@ -36,7 +36,7 @@
  */
 #define CFG_LINE_LEN_MAX MP * 2
 
-enum { CONTINUE = 1 };
+enum
+{ CONTINUE = 1 };
 
-st_waste*
-get_config_data(void);
+st_waste *get_config_data (void);
