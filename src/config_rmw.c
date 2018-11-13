@@ -414,11 +414,11 @@ get_config_data (void)
         /* TRANSLATORS:  "purge_after" is a varible  */
         printf (_("  :Error: invalid purge_after value in configuration\n"));
     }
-    else if (!force
-             && strncmp (line_from_config, "force_not_required", 18) == 0)
-    {
-      force = 1;
-    }
+    else if (strncmp (line_from_config, "force_not_required", 18) == 0)
+      if (!force)
+        force = 1;
+      else
+        continue;
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
       waste_curr =
