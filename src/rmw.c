@@ -454,9 +454,18 @@ Please check your configuration file and permissions\n\n"));
   {
     while (waste_curr != NULL)
     {
-      printf ("%s", waste_curr->parent);
+      printf ("%s ", waste_curr->parent);
       if (waste_curr->removable)
-        printf (_(" (removable, attached)"));
+      {
+      /*
+       * These lines are separated to ease translation
+       *
+       */
+        printf ("(");
+        printf (_("removable, "));
+        printf (_("attached"));
+        printf (")");
+      }
       printf ("\n");
 
       waste_curr = waste_curr->next_node;

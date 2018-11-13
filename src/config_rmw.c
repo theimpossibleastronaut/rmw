@@ -140,7 +140,17 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
   {
     extern const bool list;
     if (list)
-      printf (_("%s (removable, detached)\n"), value);
+    {
+      /*
+       * These lines are separated to ease translation
+       *
+       */
+      printf ("%s ", value);
+      printf ("(");
+      printf (_("removable, "));
+      printf (_("detached"));
+      printf (")\n");
+    }
     goto DO_CONT;
   }
 
