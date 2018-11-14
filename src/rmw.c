@@ -668,7 +668,7 @@ Please check your configuration file and permissions\n\n"));
     if (main_error > 1)
       return main_error;
   }
-  else if (!cmd_opt_purge && !created_data_dir)
+  else if (!cmd_opt_purge && created_data_dir == MAKE_DIR_SUCCESS)
       printf (_("No filenames or command line options were given\n\
 Enter '%s -h' for more information\n"), argv[0]);
 
