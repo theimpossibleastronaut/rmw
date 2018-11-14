@@ -401,12 +401,12 @@ verbose = 1;
     bufchk (getenv ("HOME"), MP);
     HOMEDIR = calloc (strlen (getenv ("HOME")) + 1, 1);
     chk_malloc (HOMEDIR, __func__, __LINE__);
-    strcpy (HOMEDIR, getenv ("HOME"));
+    snprintf (HOMEDIR, MP, "%s", getenv ("HOME"));
   #else
     bufchk (getenv ("LOCALAPPDATA"), MP);
     HOMEDIR = calloc (strlen (getenv ("LOCALAPPDATA")) + 1, 1);
     chk_malloc (HOMEDIR, __func__, __LINE__);
-    strcpy (HOMEDIR, (getenv ("LOCALAPPDATA"));
+    snprintf (HOMEDIR, MP, "%s", getenv ("LOCALAPPDATA"));
   #endif
 
   if (HOMEDIR == NULL)
@@ -421,7 +421,7 @@ verbose = 1;
   char *data_dir = calloc(strlen (HOMEDIR) + strlen (DATA_DIR) + 1, 1);
   chk_malloc (data_dir, __func__, __LINE__);
   bufchk (HOMEDIR, MP - strlen (DATA_DIR));
-  sprintf (data_dir, "%s%s", HOMEDIR, DATA_DIR);
+  snprintf (data_dir, MP, "%s%s", HOMEDIR, DATA_DIR);
 
   ushort created_data_dir;
   created_data_dir = make_dir (data_dir);
