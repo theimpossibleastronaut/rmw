@@ -97,7 +97,7 @@ get_time_string (char *tm_str, ushort len, const char *format)
   time_t now = time (NULL);
   time_ptr = localtime (&now);
   strftime (tm_str, len, format, time_ptr);
-  trim (tm_str);
+  trim_white_space (tm_str);
   bufchk (tm_str, len);
 }
 
@@ -142,7 +142,7 @@ is_time_to_purge (void)
     }
 
     bufchk (last_purge_dd, 3);
-    trim (last_purge_dd);
+    trim_white_space (last_purge_dd);
 
     close_file (fp, file_lastpurge, __func__);
 

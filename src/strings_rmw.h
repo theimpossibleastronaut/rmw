@@ -30,10 +30,10 @@ void
 bufchk (const char *str, unsigned short boundary);
 
 void
-trim (char s[]);
+trim_white_space (char *str);
 
 void
-trim_slash (char str[]);
+trim_char (const char c, char *str);
 
 void
 truncate_str (char *str, ushort pos);

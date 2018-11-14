@@ -123,7 +123,7 @@ void msg_warn_restore (int result)
   return;
 }
 
-void chk_malloc (void *state, const const char *func, const int line)
+void chk_malloc (void *state, const char *func, const int line)
 {
   if (state == NULL)
   {

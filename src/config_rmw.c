@@ -36,17 +36,25 @@
 
 static const int DEFAULT_PURGE_AFTER = 90;
 
-/**
+/*
+ *
+ * del_char_shift_left():
+ *
  * Erases characters from the beginning of a string
  * (i.e. shifts the remaining string to the left
+ *
  */
-static void
-del_char_shift_left (const char c, char **str)
+static char*
+del_char_shift_left (const char c, char *str)
 {
-  while (**str == c)
-    ++(*str);
+  char *temp_str = (char*)malloc (sizeof (char) * MP);
+  chk_malloc (temp_str, __func__, __LINE__);
+  strcpy (temp_str, str);
 
-  return;
+  while (*temp_str == c)
+    temp_str++;
+
+  return temp_str;
 }
 
 /*
@@ -57,33 +65,25 @@ del_char_shift_left (const char c, char **str)
  * change to the value of "HOMEDIR"
  *
  */
-static bool
-make_home_real (char **str)
+static void
+make_home_real (char *str)
 {
-  bool ok = 0;
-  if (*str[0] == '~')
-  {
-    del_char_shift_left ('~', str);
-    ok = 1;
-  }
-  else if (strncmp (*str, "$HOME", 5) == 0)
-  {
-    int chars_to_delete;
-
-    for (chars_to_delete = 0; chars_to_delete < 5; chars_to_delete++)
-      del_char_shift_left (*str[0], str);
-
-    ok = 1;
-  }
+  /*
+   *
+   * FIXME: This will need some work in order to be implemented
+   * on Windows
+   *
+   */
+  char *orig_str = del_char_shift_left (' ', str);
+  if (*orig_str == '~')
+    orig_str = del_char_shift_left ('~', orig_str);
+  else if (strncmp (orig_str, "$HOME", 5) == 0)
+    orig_str += 5;
   else
-    return 0;
+    return;
 
-  char temp[MP];
   extern const char *HOMEDIR;
-  sprintf (temp, "%s%s", HOMEDIR, *str);
-  strcpy (*str, temp);
-
-  return ok;
+  snprintf (str, MP, "%s%s", HOMEDIR, orig_str);
 }
 
 /*
@@ -101,8 +101,9 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
   bool removable = 0;
 
   char *value = strchr (line_from_config, '=');
-  del_char_shift_left ('=', &value);
-  del_char_shift_left (' ', &value);
+  value = del_char_shift_left ('=', value);
+  value = del_char_shift_left (' ', value);
+
   char rem_opt[CFG_LINE_LEN_MAX];
   bufchk (value, CFG_LINE_LEN_MAX);
   strcpy (rem_opt, value);
@@ -111,13 +112,10 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
 
   if (comma_val != NULL)
   {
-    del_char_shift_left (',', &comma_val);
-    del_char_shift_left (' ', &comma_val);
+    trim_char (',', value);
 
-    char *value_orig_ptr = value;
-    while (*value_orig_ptr != ',')
-      value_orig_ptr++;
-    *value_orig_ptr = '\0';
+    comma_val = del_char_shift_left (',', comma_val);
+    comma_val = del_char_shift_left (' ', comma_val);
 
     if (strcmp ("removable", comma_val) == 0)
       removable = 1;
@@ -128,9 +126,8 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
     }
   }
 
-  trim (value);
-  trim_slash (value);
-  make_home_real (&value);
+  trim_char ('/', value);
+  make_home_real (value);
 
   if (removable && !exists (value))
   {
@@ -391,8 +388,8 @@ get_config_data (void)
   {
     bool do_continue = 0;
     bufchk (line_from_config, CFG_LINE_LEN_MAX);
-    trim (line_from_config);
-    del_char_shift_left (' ', &line_from_config);
+    trim_white_space (line_from_config);
+    line_from_config = del_char_shift_left (' ', line_from_config);
 
     switch (*line_from_config)
     {
@@ -408,8 +405,8 @@ get_config_data (void)
         strncmp (line_from_config, "purgeDays", 9) == 0)
     {
       char *value = strchr (line_from_config, '=');
-      del_char_shift_left ('=', &value);
-      del_char_shift_left (' ', &value);
+      value = del_char_shift_left ('=', value);
+      value = del_char_shift_left (' ', value);
 
       ushort num_value = atoi (value);
 

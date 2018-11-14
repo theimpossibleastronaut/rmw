@@ -190,7 +190,7 @@ Restore (const char *argv, st_waste *waste_curr)
              */
           unescape_url (tokenPtr, file.dest, MP);
           tokenPtr = NULL;
-          trim (file.dest);
+          trim_white_space (file.dest);
 
           close_file (fp, file.info, __func__);
 
@@ -462,7 +462,7 @@ undo_last_rmw (st_waste *waste_curr)
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
   {
     int result = 0;
-    trim (line);
+    trim_white_space (line);
     result = Restore (line, waste_curr);
     msg_warn_restore (result);
     err_ctr += result;

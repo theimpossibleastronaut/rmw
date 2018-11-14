@@ -95,7 +95,7 @@ bufchk (const char *str, ushort boundary)
  *
  */
 void
-trim (char *str)
+trim_white_space (char *str)
 {
   char *orig_str = str;
   /* Advance pointer until NULL terminator is found */
@@ -107,7 +107,7 @@ trim (char *str)
   /* set pointer to segment preceding NULL terminator */
   orig_str--;
 
-  while (isspace ((int)*orig_str))
+  while (isspace ((unsigned int)*orig_str))
   {
     *orig_str = '\0';
     orig_str--;
@@ -116,19 +116,24 @@ trim (char *str)
   return;
 }
 
-/**
- * Trim a trailing slash if present. Only checks for 1
+/*
+ * trim();
+ *
+ * Trim a trailing char if present
+ *
  */
 void
-trim_slash (char str[])
+trim_char (const char c, char *str)
 {
-  static int len;
-  len = strlen(str) - 1;
+  trim_white_space (str);
+  char *orig_str = str;
+  while (*orig_str != '\0')
+    orig_str++;
 
-  if (str[len] != '/')
-    return;
+  orig_str--;
 
-  str[len] = '\0';
+  if (*orig_str == c)
+    *orig_str = '\0';
 
   return;
 }

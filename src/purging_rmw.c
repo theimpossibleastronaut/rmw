@@ -240,7 +240,7 @@ purge (const st_waste * waste_curr)
                        info_file_ptr) != NULL)
                   {
                     bufchk (trashinfo_line, 40);
-                    trim (trashinfo_line);
+                    trim_white_space (trashinfo_line);
                     if (strncmp (trashinfo_line, "DeletionDate=", 13) == 0
                         && strlen (trashinfo_line) == 32)
                       passed = 1;

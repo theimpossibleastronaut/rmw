@@ -41,7 +41,7 @@ void display_dot_trashinfo_error (const char *dti);
 
 void msg_warn_restore (int result);
 
-void chk_malloc (void *state, const const char *func, const int line);
+void chk_malloc (void *state, const char *func, const int line);
 
 void
 msg_return_code (int code);
