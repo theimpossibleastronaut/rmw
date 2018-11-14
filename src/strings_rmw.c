@@ -165,8 +165,8 @@ resolve_path (const char *src, char *abs_path)
   char src_temp_basename[MP];
 
   bufchk (src, MP);
-  strcpy (src_temp_dirname, src);
-  strcpy (src_temp_basename, src);
+  snprintf (src_temp_dirname, MP, "%s", src);
+  snprintf (src_temp_basename, MP, "%s", src);
 
   if ((realpath (dirname (src_temp_dirname), abs_path)) != NULL)
   {

@@ -60,10 +60,10 @@ make_dir (const char *dir)
   while (tokenPtr != NULL)
   {
     if (strlen (add_to_path) > 1 || *add_to_path == '.')
-      strcat (add_to_path, "/");
+      snprintf (add_to_path + strlen (add_to_path), MP - strlen (add_to_path), "/");
 
     bufchk (tokenPtr, MP - strlen (add_to_path));
-    strcat (add_to_path, tokenPtr);
+    snprintf (add_to_path + strlen (add_to_path), MP - strlen (add_to_path), tokenPtr);
     tokenPtr = strtok (NULL, "/");
 
     if (!exists (add_to_path))

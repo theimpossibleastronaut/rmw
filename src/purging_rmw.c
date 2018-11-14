@@ -57,7 +57,7 @@ rmdir_recursive (char *path, short unsigned level)
       continue;
 
     bufchk (path, MP);
-    strcpy (dir_path, path);
+    snprintf (dir_path, MP, "%s", path);
 
     short pathLen = strlen (dir_path);
     if (dir_path[pathLen - 1] != '/')
