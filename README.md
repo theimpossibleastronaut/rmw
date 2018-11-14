@@ -39,7 +39,7 @@ Use `../configure --help` to view available compile-time options.
     cd build
     ../configure
     make
-    make install
+    make install-strip
 
 ### As a normal user:
 
@@ -47,7 +47,7 @@ Use `../configure --help` to view available compile-time options.
     cd build
     ../configure --prefix=$HOME/usr
     make
-    make install
+    make install-strip
 
 rmw will be installed to $HOME/usr/bin and the configuration file will be
 copied to $HOME/usr/etc
