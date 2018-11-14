@@ -113,15 +113,11 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
   {
     del_char_shift_left (',', &comma_val);
     del_char_shift_left (' ', &comma_val);
-    unsigned int ctr = 0;
 
-    while (ctr < strlen (value))
-    {
-      if (value[ctr] == ',')
-        value[ctr] = '\0';
-
-      ctr++;
-    }
+    char *value_orig_ptr = value;
+    while (*value_orig_ptr != ',')
+      value_orig_ptr++;
+    *value_orig_ptr = '\0';
 
     if (strcmp ("removable", comma_val) == 0)
       removable = 1;

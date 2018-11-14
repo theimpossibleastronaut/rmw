@@ -97,19 +97,20 @@ bufchk (const char *str, ushort boundary)
 void
 trim (char *str)
 {
+  char *orig_str = str;
   /* Advance pointer until NULL terminator is found */
-  while (*str != '\0')
+  while (*orig_str != '\0')
   {
-    str++;
+    orig_str++;
   };
 
   /* set pointer to segment preceding NULL terminator */
-  str--;
+  orig_str--;
 
-  while (isspace ((int)*str))
+  while (isspace ((int)*orig_str))
   {
-    *str = '\0';
-    str--;
+    *orig_str = '\0';
+    orig_str--;
   }
 
   return;
