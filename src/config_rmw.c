@@ -112,7 +112,8 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
 
   if (comma_val != NULL)
   {
-    trim_char (',', value);
+    char *comma_pos = strchr (value, ',');
+    *comma_pos = '\0';
 
     comma_val = del_char_shift_left (',', comma_val);
     comma_val = del_char_shift_left (' ', comma_val);
