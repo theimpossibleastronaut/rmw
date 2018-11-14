@@ -28,7 +28,12 @@ noinst_HEADERS = \
 
 DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 
-rmw_LDADD = -lcurses -lmenu
+#
+# On OpenBSD, without @LIBINTL@ present here, the result is a lot of
+# undefined reference errors when building. That doesn't happen when
+# building on Debian
+#
+rmw_LDADD = @LIBINTL@ -lcurses -lmenu
 
 all-local:
 	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;

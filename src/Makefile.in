@@ -314,7 +314,13 @@ noinst_HEADERS = \
 	bst.h	\
 	gettext.h
 
-rmw_LDADD = -lcurses -lmenu
+
+#
+# On OpenBSD, without @LIBINTL@ present here, the result is a lot of
+# undefined reference errors when building. That doesn't happen when
+# building on Debian
+#
+rmw_LDADD = @LIBINTL@ -lcurses -lmenu
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
