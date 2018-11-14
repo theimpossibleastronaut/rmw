@@ -407,15 +407,7 @@ get_config_data (void)
       char *value = strchr (line_from_config, '=');
       del_char_shift_left ('=', &value);
       del_char_shift_left (' ', &value);
-
-      ushort num_value = atoi (value);
-
-      if (num_value <= USHRT_MAX)
-        purge_after = num_value;
-
-      else
-        /* TRANSLATORS:  "purge_after" is a varible  */
-        printf (_("  :Error: invalid purge_after value in configuration\n"));
+      purge_after = atoi (value);
     }
     else if (strncmp (line_from_config, "force_not_required", 18) == 0)
       if (!force)
