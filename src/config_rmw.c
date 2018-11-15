@@ -55,14 +55,14 @@ del_char_shift_left (const char c, char **str)
 
 /*
  *
- * name: make_home_real
+ * name: realize_home
  *
  * if "$HOME" or "~" is used on configuration file
  * change to the value of "HOMEDIR"
  *
  */
 static void
-make_home_real (char **str)
+realize_home (char **str)
 {
   /*
    *
@@ -127,7 +127,7 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
   }
 
   trim_char ('/', value);
-  make_home_real (&value);
+  realize_home (&value);
 
   if (removable && !exists (value))
   {

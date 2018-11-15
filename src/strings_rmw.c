@@ -35,7 +35,7 @@
 void
 bufchk (const char *str, ushort boundary)
 {
-  /* str_part defines the first n characters of the string to display.
+  /* STR_PART defines the first n characters of the string to display.
    * This assumes 10 will never exceed a buffer size. In this program,
    * there are no buffers that are <= 10 (that I can think of right now)
    */
@@ -91,33 +91,30 @@ bufchk (const char *str, ushort boundary)
 
 /*
  *
- * trim: remove trailing blanks, tabs, newlines, carriage returns
+ * trim_white_space: remove trailing blanks, tabs, newlines, carriage returns
  *
  */
 void
 trim_white_space (char *str)
 {
-  char *orig_str = str;
   /* Advance pointer until NULL terminator is found */
-  while (*orig_str != '\0')
-  {
-    orig_str++;
-  };
+  while (*str != '\0')
+    str++;
 
   /* set pointer to segment preceding NULL terminator */
-  orig_str--;
+  str--;
 
-  while (isspace ((unsigned int)*orig_str))
+  while (isspace ((unsigned int)*str))
   {
-    *orig_str = '\0';
-    orig_str--;
+    *str = '\0';
+    str--;
   }
 
   return;
 }
 
 /*
- * trim();
+ * trim_char();
  *
  * Trim a trailing char if present
  *
@@ -126,14 +123,13 @@ void
 trim_char (const char c, char *str)
 {
   trim_white_space (str);
-  char *orig_str = str;
-  while (*orig_str != '\0')
-    orig_str++;
+  while (*str != '\0')
+    str++;
 
-  orig_str--;
+  str--;
 
-  if (*orig_str == c)
-    *orig_str = '\0';
+  if (*str == c)
+    *str = '\0';
 
   return;
 }
