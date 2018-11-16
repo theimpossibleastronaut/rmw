@@ -288,7 +288,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -std=c99 -Wall
+AM_CFLAGS = -std=c99 -Wall -g -O0
 rmw_SOURCES = \
 	rmw.c	\
 	restore_rmw.c	\

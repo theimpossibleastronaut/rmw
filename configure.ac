@@ -2,7 +2,11 @@ AC_INIT([rmw], [0.4.06-dev], [https://github.com/theimpossibleastronaut/rmw/issu
 AM_INIT_AUTOMAKE([subdir-objects foreign])
 AC_PREREQ(2.69)
 AC_CONFIG_HEADERS([src/config.h:config.in])
-AC_PROG_CC([cc])
+
+# Don't add -g and -O2 by default
+: ${CFLAGS=""}
+
+AC_PROG_CC
 AC_CONFIG_MACRO_DIRS([m4])
 AC_PROG_INSTALL
 AC_HEADER_STDBOOL

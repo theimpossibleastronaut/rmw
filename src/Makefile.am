@@ -1,5 +1,5 @@
 bin_PROGRAMS=rmw
-AM_CFLAGS= -std=c99 -Wall
+AM_CFLAGS= -std=c99 -Wall -g -O0
 
 rmw_SOURCES=	\
 	rmw.c	\
