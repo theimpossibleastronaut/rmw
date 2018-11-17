@@ -97,17 +97,31 @@ bufchk (const char *str, ushort boundary)
 void
 trim_white_space (char *str)
 {
+  if (str == NULL)
+  {
+    MSG_ERROR;
+    fprintf (stderr, _("String passed to %s is NULL.\n\
+Please report this bug to the rmw development team. Exiting...\n"), __func__);
+    exit (EXIT_FAILURE);
+  }
+  char *pos_0 = str;
   /* Advance pointer until NULL terminator is found */
   while (*str != '\0')
     str++;
 
   /* set pointer to segment preceding NULL terminator */
-  str--;
+  if (str != pos_0)
+    str--;
+  else
+    return;
 
   while (isspace ((unsigned int)*str))
   {
     *str = '\0';
-    str--;
+    if (str != pos_0)
+      str--;
+    else
+      break;
   }
 
   return;
