@@ -115,7 +115,7 @@ Please report this bug to the rmw development team. Exiting...\n"), __func__);
   else
     return;
 
-  while (isspace ((unsigned int)*str))
+  while (isspace (*str))
   {
     *str = '\0';
     if (str != pos_0)
