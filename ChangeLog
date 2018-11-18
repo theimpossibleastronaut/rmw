@@ -1,6 +1,13 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-11-16
+
+* Bugfix: On OpenBSD rmw would segfault 80% of the time.
+https://github.com/theimpossibleastronaut/rmw/commit/7117c4f7761b7a5ba670e48260d0fcddb3908c35
+
+Thanks to GazL for pointing the problem out to me.
+
 2018-11-11
 
 * rmw will warn the user about invalid or unknown options if it finds any
