@@ -1,3 +1,6 @@
+/** \file rmw.h
+ * contains most of the global variables used by rmw
+ */
 /*
  * rmw.h
  *
@@ -27,6 +30,8 @@
 #ifndef _INC_RMW_H
 #define _INC_RMW_H
 
+/** Allows for the use of some GNU extensions, such as itoa() and strptime()
+ */
 #define _XOPEN_SOURCE 600
 
 #include "config.h"
@@ -67,15 +72,19 @@
 
 #define DOT_TRASHINFO ".trashinfo"
 
+/** Some system don't define PATH_MAX. A limit needs to be set however,
+ * and if it's not defined in a system header file, define it here
+ */
 #ifndef PATH_MAX /* for portability */
 #define PATH_MAX 256
 #endif
 
-/* MP can be defined before building when running running ./configure
- * ex. '$ CFLAGS=-DMP=n ./configure`
- */
 #ifndef MP
-/** shorten PATH_MAX to two characters */
+/**
+ * MP can be defined before building when running running ./configure
+ *
+ * ex. \code '$ CFLAGS=-DMP=n ./configure` \endcode
+ */
 #   define MP PATH_MAX + 1
 #endif
 
@@ -85,24 +94,64 @@
 
 typedef struct st_waste st_waste;
 
+/** Each waste directory is added to a linked list and has the data
+ * from this structure associated with it.
+ */
 struct st_waste{
-  char parent[PATH_MAX + 1]; /*!< The parent directory, e.g. $HOME/.local/share/Trash */
-  char info[PATH_MAX + 1]; /*!< The info directory will be appended to the parent directory */
+  /** The parent directory, e.g. $HOME/.local/share/Trash */
+  char parent[PATH_MAX + 1];
+
+  /*! The info directory (where .trashinfo files are written) will be appended to the parent directory */
+  char info[PATH_MAX + 1];
+
+  /** Appended to the parent directory, where files are moved to when they are rmw'ed
+   */
   char files[PATH_MAX + 1];
+
+  /** The device number of the filesystem on which the file resides. rmw does
+   * not copy files from one filesystem to another, but rather only moves them.
+   * They must reside on the same filesystem as a WASTE folder specified in
+   * the configuration file.
+   */
   int dev_num;
+
+  /** set to <tt>true</tt> if the parent directory is on a removable device,
+   * <tt>false</tt> otherwise.
+   */
   bool removable;
+
+  /** Points to the previous WASTE directory in the linked list
+   */
   st_waste *prev_node;
+
+  /** Points to the next WASTE directory in the linked list
+   */
   st_waste *next_node;
 };
 
+/** Holds information about a file that was specified for rmw'ing
+ */
 typedef struct rmw_target rmw_target;
 struct rmw_target
 {
+  /** Replaced by the filename to be rmw'ed, usually specified on the command line */
   char main_argv[MP];
+
+  /** The absolute path to the file, stored later in a .trashinfo file */
   char real_path[MP];
+
+  /** The basename of the target file, and used for the basename of it's corresponding
+   * .trashinfo file */
   char base_name[MP];
+
+  /** The destination file name. This may be different if a file of the same name already
+   *  exists in the WASTE folder */
   char dest_name[MP];
 
+  /** Is <tt>true</tt> if the file exists in the destination WASTE/files folder,
+   * false otherwise. If it's a duplicate, a string based on the current time
+   * will be appended to \ref dest_name
+   */
   bool is_duplicate;
 };
 
@@ -112,6 +161,8 @@ struct st_removed{
   st_removed *next_node;
 };
 
+/** Set when rmw is run with the --verbose option. Enables increased output
+ * to stdout */
 bool verbose;
 
 #define RETURN_CODE_OFFSET 10
