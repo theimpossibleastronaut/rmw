@@ -86,8 +86,8 @@
 typedef struct st_waste st_waste;
 
 struct st_waste{
-  char parent[PATH_MAX + 1];
-  char info[PATH_MAX + 1];
+  char parent[PATH_MAX + 1]; /*!< The parent directory, e.g. $HOME/.local/share/Trash */
+  char info[PATH_MAX + 1]; /*!< The info directory will be appended to the parent directory */
   char files[PATH_MAX + 1];
   int dev_num;
   bool removable;

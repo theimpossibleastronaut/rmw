@@ -1,3 +1,7 @@
+/** \file rmw.c
+ * Contains the main() function, along with a few other functions that
+ * are only used by main().
+ */
 /*
  * rmw.c
  *

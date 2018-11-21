@@ -71,4 +71,8 @@ build
 # by the rmw project. We use transifex for translations.
 ABOUT-NLS
 
+# Doxygen
+docs/doxygen
+doxy-warn.log
+
 

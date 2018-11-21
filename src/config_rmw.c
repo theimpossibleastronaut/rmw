@@ -1,3 +1,6 @@
+/** \file config_rmw.c
+ * Contains functions used to read and parse the configuration file
+ */
 /*
  * config_rmw.c
  *
@@ -36,19 +39,25 @@
 
 static const int DEFAULT_PURGE_AFTER = 90;
 
-/*
+/**
+ * Erases characters from the beginning of a string (i.e. shifts the
+ * remaining string to the left.
  *
- * del_char_shift_left():
+ * What really happens is that the address of str_addr is moved to the right.
+ * Because this function alters the address of str_address (rather than characters
+ * within the string itself), the address to str_addr (pointer to a pointer)
+ * is passed.
  *
- * Erases characters from the beginning of a string
- * (i.e. shifts the remaining string to the left
- *
+ * Example: \code del_char_shift_left ('=', &src_string); \endcode
+ * @param[in] c the character to erase
+ * @param[in,out] str_addr The address of str_addr
+ * @return void
  */
 static void
-del_char_shift_left (const char c, char **str)
+del_char_shift_left (const char c, char **str_addr)
 {
-  while (**str == c)
-    (*str)++;
+  while (**str_addr == c)
+    (*str_addr)++;
 
   return;
 }

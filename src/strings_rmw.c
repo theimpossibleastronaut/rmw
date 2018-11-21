@@ -1,3 +1,6 @@
+/**\file strings_rmw.c
+ * Contains functions primarily related to strings
+ */
 /*
  * strings_rmw.c
  *
@@ -62,7 +65,7 @@ bufchk (const char *str, ushort boundary)
   printf (_("  :Error: buffer overrun (segmentation fault) prevented.\n"));
   printf (_("If you think this may be a bug, please report it to the rmw developers.\n"));
 
-  /**
+  /*
    * This will add a null terminator within the boundary specified by
    * display_len, making it possible to view part of the strings to help
    * with debugging or tracing the error.
@@ -89,10 +92,11 @@ bufchk (const char *str, ushort boundary)
   exit (EXIT_BUF_ERR);
 }
 
-/*
- *
- * trim_white_space: remove trailing blanks, tabs, newlines, carriage returns
- *
+/**
+ * Removes trailing white space from a string (including newlines, formfeeds,
+ * tabs, etc
+ * @param[in,out] str The string to be altered
+ * @return void
  */
 void
 trim_white_space (char *str)
@@ -127,11 +131,11 @@ Please report this bug to the rmw development team. Exiting...\n"), __func__);
   return;
 }
 
-/*
- * trim_char();
- *
- * Trim a trailing char if present
- *
+/*!
+ * Trim a trailing character of a string
+ * @param[in] c The character to erase
+ * @param[in,out] str The string to alter
+ * @return void
  */
 void
 trim_char (const char c, char *str)
@@ -149,8 +153,11 @@ trim_char (const char c, char *str)
 }
 
 /**
- * adding the null terminator to chop off part of a string
+ * Add a null terminator to chop off part of a string
  * at a given position
+ * @param[in] pos The position at which to add the \0 character
+ * @param[in,out] str The string to change
+ * @return void
  */
 void
 truncate_str (char *str, ushort pos)
