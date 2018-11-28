@@ -1,5 +1,6 @@
-/*
- * messages_rmw.c
+/**
+ * @file messages_rmw.c functions that handle messages to the user
+ * These are designed to keep messages consistent, in one place.
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
@@ -45,9 +46,11 @@ static const char *ERR_STRING[] = {
 };
 
 /**
- * open_file()
- *
- * called if fopen() returns NULL. Print error message
+ * Called if fopen() returns NULL. prints an error message and some
+ * extra info about the cause.
+ * @param[in] filename the name of the file
+ * @parm [in] function_name the name of the function where the error originated
+ * @return void
  */
 void
 open_err (const char *filename, const char *function_name)
@@ -65,10 +68,13 @@ open_err (const char *filename, const char *function_name)
 }
 
 /**
- * close_file()
+ * Closes a file, checks for an error. If one is returned, print a message
+ * with some extra info about the error.
  *
- * Closes a file, checks for an error. If error print message and
- * return 1, else, returns 0
+ * @param[in] file_ptr a file pointer that already exists
+ * @param[in] filename
+ * @parm[in] function_name the name of the calling function
+ * @return an error number, 0 if no error
  */
 short close_file (FILE *file_ptr, const char *filename, const char *function_name)
 {
