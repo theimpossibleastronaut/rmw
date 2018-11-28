@@ -287,19 +287,9 @@ restore_select (st_waste *waste_curr)
 {
   int c = 0;
 
-  /* Initialize curses */
-  initscr ();
-  cbreak ();
-  noecho ();
-  keypad (stdscr, TRUE);
-
   do
   {
     node *root = NULL;
-    comparer int_cmp = strcasecmp;
-    ITEM **my_items;
-    MENU *my_menu;
-    clear ();
     int n_choices = 0;
 
     struct dirent *entry;
@@ -309,9 +299,15 @@ restore_select (st_waste *waste_curr)
     {
       /* we don't want errno to be changed because it's used in msg_error_open_dir()
        * but afaik, endwin() doesn't change errno */
-      endwin();
       msg_err_open_dir (waste_curr->files, __func__, __LINE__);
     }
+    /*
+     *  Sometimes there is a pause before the next waste folder is read.
+     * This message should help fill the time before curses is initialized
+     * and the list appears
+     */
+    printf (_("Reading %s...\n"), waste_curr->files);
+
     while ((entry = readdir (waste_dir)) != NULL)
     {
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
@@ -335,17 +331,24 @@ restore_select (st_waste *waste_curr)
       else if (S_ISLNK (st.st_mode))
         strcat (desc, " (L)");
 
+      comparer int_cmp = strcasecmp;
       root = insert_node(root, int_cmp, entry->d_name, desc);
 
       n_choices++;
     }
 
     if (closedir (waste_dir))
-    {
-      endwin();
       msg_err_close_dir (waste_curr->files, __func__, __LINE__);
-    }
 
+    /* Initialize curses */
+    initscr ();
+    clear ();
+    cbreak ();
+    noecho ();
+    keypad (stdscr, TRUE);
+
+    ITEM **my_items;
+    MENU *my_menu;
     /* Initialize items */
     my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
     populate_menu (root, my_items, true);
@@ -408,6 +411,7 @@ restore_select (st_waste *waste_curr)
     if (c == 10)
     {
       endwin ();
+      printf ("\n");
       ITEM **items;
       items = menu_items (my_menu);
 
@@ -422,6 +426,8 @@ restore_select (st_waste *waste_curr)
         }
       }
     }
+    if (c != 10)
+      endwin ();
     free_item (my_items[0]);
     free_item (my_items[1]);
     free_menu (my_menu);
@@ -429,11 +435,6 @@ restore_select (st_waste *waste_curr)
 
   }while (c != 'q' && c != 10);
 
-  /* endwin was already run if c == 10 */
-  if (c != 10)
-  {
-    endwin ();
-  }
   return 0;
 }
 
