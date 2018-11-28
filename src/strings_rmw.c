@@ -1,4 +1,5 @@
-/**\file strings_rmw.c
+/**
+ * @file strings_rmw.c
  * Contains functions primarily related to strings
  */
 /*

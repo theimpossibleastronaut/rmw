@@ -1,5 +1,7 @@
+/**
+ * @file restore_rmw.c
+ */
 /*
- * restore_rmw.c
  *
  * This file is part of rmw <https://remove-to-waste.info/>
  *
@@ -34,8 +36,6 @@
 #include "bst.h"
 
 /**
- * unescape_url()
- *
  * Convert a URL valid string into a regular string, unescaping any '%'s
  * that appear.
  * returns 0 on succes, 1 on failure
@@ -91,8 +91,10 @@ unescape_url (const char *str, char *dest, ushort len)
 }
 
 /**
- * FIXME: This apparently needs re-working too. I'm sure it could be
- * written more efficiently
+ * restores a file that was previously moved via rmw.
+ *
+ *
+ *
  */
 int
 Restore (const char *argv, st_waste *waste_curr)
@@ -272,13 +274,13 @@ Duplicate filename at destination - appending time string...\n"));
   return 0;
 }
 
-/*
- * restore_select()
+/**
+ * Displays a list of files that can be restored, user can select multiple
+ * files using a curses-bases interface.
  *
- * Displays files that can be restored, user can select a file by
- * entering the corresponding number
- *
- * FIXME: This function needs to be re-worked
+ * @param[in] waste_curr The linked list of waste folders
+ * @return an error number
+ * @see Restore()
  */
 int
 restore_select (st_waste *waste_curr)

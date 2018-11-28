@@ -1,6 +1,7 @@
+/**
+ * @file strings_rmw.h
+ */
 /*
- * strings_rmw.h
- *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
