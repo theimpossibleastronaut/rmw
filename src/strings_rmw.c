@@ -103,7 +103,7 @@ trim_white_space (char *str)
 {
   if (str == NULL)
   {
-    MSG_ERROR;
+    fprintf (stderr, MSG_ERROR);
     fprintf (stderr, _("String passed to %s is NULL.\n\
 Please report this bug to the rmw development team. Exiting...\n"), __func__);
     exit (EXIT_FAILURE);
