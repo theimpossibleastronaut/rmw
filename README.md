@@ -24,9 +24,9 @@ room](https://matrix.to/#/!XeJxcdkywroPaRKKtr:matrix.org).
 
 ## Required libraries
 
-libncurses5
+libncursesw
 
-If you are building from source, you will need the libncurses(5 or 6)-dev
+If you are building from source, you will need the libncursesw(5 or 6)-dev
 package from your operating system distribution.
 
 ## Installation

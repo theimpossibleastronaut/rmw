@@ -28,8 +28,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <ncursesw/ncurses.h>
-#include <ncursesw/menu.h>
+#include <ncurses.h>
+#include <menu.h>
 
 #define CTRLD 4
 
