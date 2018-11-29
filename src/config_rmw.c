@@ -147,11 +147,15 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
        * These lines are separated to ease translation
        *
        */
-      printf ("%s ", value);
-      printf ("(");
-      printf (_("removable, "));
-      printf (_("detached"));
-      printf (")\n");
+      printf ("%s", value);
+      if (verbose)
+      {
+        printf (" (");
+        printf (_("removable, "));
+        printf (_("detached"));
+        printf (")");
+      }
+      printf ("\n");
     }
     goto DO_CONT;
   }
