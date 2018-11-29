@@ -7,7 +7,7 @@
  */
 
 #include <stdlib.h>
-#include <ncursesw/menu.h> /* from the curses library, needed for the ITEM type */
+#include <menu.h> /* from the curses library, needed for the ITEM type */
 #include "bst.h"
 #include "messages_rmw.h"
 
@@ -29,10 +29,9 @@ create_node (char *data, char *desc)
   return new_node;
 }
 
-/*!
- * Insert a new node into the binary search tree; used in
- * @ref restore_select()
- */
+/*
+    insert a new node into the BST
+*/
 node *
 insert_node (node * root, comparer strcasecmp, char *data, char *desc)
 {

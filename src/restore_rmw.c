@@ -320,12 +320,9 @@ restore_select (st_waste *waste_curr)
       struct stat st;
       lstat (full_path, &st);
       char *hr_size = human_readable_size (st.st_size);
-
-      /*
-       * The 2nd argument of new_item() (from the curses library, and used
-       * below) holds the description.
-       *
-       */
+      /* the 2nd argument of new_item() from the ncurses library is for the
+      * description.
+      */
       char *desc = (char*)calloc (strlen (hr_size) + 2 + 4 + 1, 1);
       sprintf (desc, "[%s]", human_readable_size (st.st_size));
 

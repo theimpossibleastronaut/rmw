@@ -1,16 +1,6 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
-2018-11-28
-
-* Bugfix: "In some cases, not all files are displayed when using '-s'"
-  <https://github.com/theimpossibleastronaut/rmw/issues/205>
-  Enabled "wide-character" support by linking against ncursesw and
-  menuw (instead of curses and menu). Some users may need to install
-  libcursesw5-dev (or similarly named package) for the build to work.
-  Thanks to Norm for giving me the solution.
-
-
 2018-11-16
 
 * Bugfix: On OpenBSD rmw would segfault 80% of the time.
