@@ -34,7 +34,7 @@ matrix:
 
 # allow until a solution is found for
 # https://github.com/theimpossibleastronaut/rmw/issues/207
-    allow_failures:
+  allow_failures:
     - os: osx
 
 before_install:
