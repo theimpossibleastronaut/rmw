@@ -17,9 +17,14 @@ AC_SYS_LARGEFILE
 # and https://github.com/theimpossibleastronaut/rmw/issues/21
 AM_MAINTAINER_MODE
 
-AC_CHECK_LIB([curses], [initscr], found_curses=yes, found_curses=no)
+AC_CHECK_LIB([ncursesw], [initscr], found_ncursesw=yes, found_ncursesw=no)
 if test "x$found_curses" = xno; then
-		AC_MSG_ERROR("required ncurses library not found. Please install libncurses5-dev")
+		AC_MSG_ERROR("required ncursesw library not found. Please install libncursesw5-dev")
+fi
+
+AC_CHECK_LIB([menuw], [post_menu], found_menuw=yes, found_menuw=no)
+if test "x$found_menuw" = xno; then
+		AC_MSG_ERROR("required menuw library not found. Please install libncursesw5-dev")
 fi
 
 AM_GNU_GETTEXT([external], [need-formatstring-macros])

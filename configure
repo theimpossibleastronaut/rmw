@@ -4481,13 +4481,13 @@ fi
 
 
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for initscr in -lcurses" >&5
-$as_echo_n "checking for initscr in -lcurses... " >&6; }
-if ${ac_cv_lib_curses_initscr+:} false; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for initscr in -lncursesw" >&5
+$as_echo_n "checking for initscr in -lncursesw... " >&6; }
+if ${ac_cv_lib_ncursesw_initscr+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lcurses  $LIBS"
+LIBS="-lncursesw  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -4507,24 +4507,70 @@ return initscr ();
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_curses_initscr=yes
+  ac_cv_lib_ncursesw_initscr=yes
 else
-  ac_cv_lib_curses_initscr=no
+  ac_cv_lib_ncursesw_initscr=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_curses_initscr" >&5
-$as_echo "$ac_cv_lib_curses_initscr" >&6; }
-if test "x$ac_cv_lib_curses_initscr" = xyes; then :
-  found_curses=yes
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ncursesw_initscr" >&5
+$as_echo "$ac_cv_lib_ncursesw_initscr" >&6; }
+if test "x$ac_cv_lib_ncursesw_initscr" = xyes; then :
+  found_ncursesw=yes
 else
-  found_curses=no
+  found_ncursesw=no
 fi
 
 if test "x$found_curses" = xno; then
-		as_fn_error $? "\"required ncurses library not found. Please install libncurses5-dev\"" "$LINENO" 5
+		as_fn_error $? "\"required ncursesw library not found. Please install libncursesw5-dev\"" "$LINENO" 5
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for post_menu in -lmenuw" >&5
+$as_echo_n "checking for post_menu in -lmenuw... " >&6; }
+if ${ac_cv_lib_menuw_post_menu+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lmenuw  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char post_menu ();
+int
+main ()
+{
+return post_menu ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_menuw_post_menu=yes
+else
+  ac_cv_lib_menuw_post_menu=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_menuw_post_menu" >&5
+$as_echo "$ac_cv_lib_menuw_post_menu" >&6; }
+if test "x$ac_cv_lib_menuw_post_menu" = xyes; then :
+  found_menuw=yes
+else
+  found_menuw=no
+fi
+
+if test "x$found_menuw" = xno; then
+		as_fn_error $? "\"required menuw library not found. Please install libncursesw5-dev\"" "$LINENO" 5
 fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for a sed that does not truncate output" >&5

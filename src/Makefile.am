@@ -33,7 +33,7 @@ DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 # undefined reference errors when building. That doesn't happen when
 # building on Debian
 #
-rmw_LDADD = @LIBINTL@ -lcurses -lmenu
+rmw_LDADD = @LIBINTL@ -lmenuw -lncursesw
 
 all-local:
 	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;
