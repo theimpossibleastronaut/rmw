@@ -1,5 +1,7 @@
+/*!
+ * @file config_rmw.h
+ */
 /*
- * config_rmw.h
  *
  * This file is part of rmw <https://remove-to-waste.info/>
  *
@@ -36,7 +38,10 @@
  */
 #define CFG_LINE_LEN_MAX MP * 2
 
-enum
-{ CONTINUE = 1 };
+/* Not currently used
+ * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+ */
+
+void translate_config (void);
 
 st_waste *get_config_data (void);

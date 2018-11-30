@@ -1,5 +1,7 @@
+/*!
+ * @file trivial_rmw.h
+ */
 /*
- * trivial_rmw.h
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
@@ -31,6 +33,3 @@ warranty (void);
 
 void
 version (void);
-
-void
-translate_config (void);

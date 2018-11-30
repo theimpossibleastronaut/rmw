@@ -1,4 +1,4 @@
-/** \file config_rmw.c
+/*! @file config_rmw.c
  * Contains functions used to read and parse the configuration file
  */
 /*
@@ -39,7 +39,80 @@
 
 static const int DEFAULT_PURGE_AFTER = 90;
 
-/**
+/*!
+ * Prints a copy of the default config file to the specified stream. If
+ * a translation is available, the output will be translated.
+ * @param[in] stream stdout or a file pointer can be used
+ * @return void
+ */
+static void
+print_config (FILE *stream)
+{
+/* TRANSLATORS:  Do not translate the last line in this section  */
+if (fprintf (stream, _("\
+# NOTE: If two WASTE folders are on the same file system, rmw will move files\n\
+# to the first WASTE folder listed, ignoring the second one.\n\
+#\n\
+WASTE = $HOME/.trash.rmw\n")) < 0)
+  msg_err_fatal_fprintf (__func__);
+
+/* TRANSLATORS:  Do not translate the last line in this section  */
+if (fprintf (stream, _("\n\
+# If you would like this to be your primary trash folder (which usually means\n\
+# that it will be the same as your Desktop Trash folder) be sure it precedes\n\
+# any other WASTE folders listed in the config file\n\
+#\n\
+# If you want it checked for files that need purging, simply uncomment\n\
+# The line below. Files you move with rmw will go to the folder above by\n\
+# default.\n\
+#\n\
+#WASTE=$HOME/.local/share/Trash\n")) < 0)
+  msg_err_fatal_fprintf (__func__);
+
+/* TRANSLATORS:  Do not translate the last line in this section  */
+if (fprintf (stream, _("\n\
+# Removable media: If a folder has ',removable' appended to it, rmw\n\
+# will not try to create it; it must be initially created manually. If\n\
+# the folder exists when rmw is run, it will be used; if not, it will be\n\
+# skipped Once you create \"example_waste\", rmw will automatically create\n\
+# example_waste/info and example_waste/files\n\
+#\n\
+#WASTE=/mnt/sda10000/example_waste, removable")) < 0)
+  msg_err_fatal_fprintf (__func__);
+
+/* TRANSLATORS:  Do not translate the last line in this section  */
+if (fprintf (stream, _("\n\
+# How many days should files be allowed to stay in the waste folders before\n\
+# they are permanently deleted\n\
+#\n\
+# use '0' to disable purging\n\
+#\n\
+purge_after = %d\n"), DEFAULT_PURGE_AFTER) < 0)
+  msg_err_fatal_fprintf (__func__);
+
+/* TRANSLATORS:  Do not translate the last line in this section  */
+if (fprintf (stream, _("\n\
+# purge will not run unless `--force` is used at the command line. Uncomment\n\
+# the line below if you would like purge to check daily for files that\n\
+# that exceed the days specified in purge_after\n\
+#\n\
+#force_not_required\n")) < 0)
+  msg_err_fatal_fprintf (__func__);
+}
+
+/*!
+ * Print a translation (if available) of the comments in the config file
+ * to stdout
+ * @param[in] void
+ * @return void
+ */
+void
+translate_config (void)
+{
+  print_config (stdout);
+}
+
+/*!
  * Erases characters from the beginning of a string (i.e. shifts the
  * remaining string to the left.
  *
@@ -48,9 +121,9 @@ static const int DEFAULT_PURGE_AFTER = 90;
  * within the string itself), the address to str_addr (pointer to a pointer)
  * is passed.
  *
- * Example: \code del_char_shift_left ('=', &src_string); \endcode
+ * Example: @code del_char_shift_left ('=', &src_string); @endcode
  * @param[in] c the character to erase
- * @param[in,out] str_addr The address of str_addr
+ * @param[out] str_addr a pointer to the address of str_addr
  * @return void
  */
 static void
@@ -299,51 +372,7 @@ realize_config_file (char *config_file)
      */
     printf ("\n  %s\n\n", config_file);
 
-    fprintf (fp, "\n\
-# rmw default configuration file\n\
-# https://github.com/andy5995/rmw/wiki/\n\
-#\n\
-# NOTE: If two WASTE folders are on the same file system, rmw will move files\n\
-# to the first WASTE folder listed, ignoring the second one.\n\
-#\n\
-WASTE = $HOME/.trash.rmw\n\
-#\n\
-\n\
-# If you would like this to be your primary trash folder (which usually means\n\
-# that it will be the same as your Desktop Trash folder) be sure it precedes\n\
-# any other WASTE folders listed in the config file\n\
-#\n\
-# If you want it checked for files that need purging, simply uncomment\n\
-# The line below. Files you move with rmw will go to the folder above by\n\
-# default.\n\
-#\n\
-#WASTE=$HOME/.local/share/Trash\n\
-#\n\
-\n\
-# Removable media: If a folder has ',removable' appended to it, rmw\n\
-# will not try to create it; it must be initially created manually. If\n\
-# the folder exists when rmw is run, it will be used; if not, it will be\n\
-# skipped. Once you create \"example_waste\", rmw will automatically create\n\
-# example_waste/info and example_waste/files\n\
-#\n\
-#WASTE=/mnt/sda10000/example_waste, removable\n\
-#\n\
-\n\
-# How many days should files be allowed to stay in the waste folders before\n\
-# they are permanently deleted\n\
-#\n\
-# use '0' to disable purging\n\
-#\n\
-purge_after = %d\n\
-#\n\
-\n\
-# purge will not run unless `--force` is used at the command line. Uncomment\n\
-# the line below if you would like purge to check daily for files that\n\
-# that exceed the days specified in purge_after\n\
-#\n\
-#force_not_required\n\
-#\n\
-\n", DEFAULT_PURGE_AFTER);
+    print_config (fp);
 
     close_file (fp, config_file, __func__);
     fp = fopen (config_file, "r");

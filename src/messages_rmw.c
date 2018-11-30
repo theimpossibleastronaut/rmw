@@ -180,3 +180,16 @@ msg_err_rename (const char *src_file, const char *dest_file, const char *func, c
   perror ("rename()");
   exit (errno);
 }
+
+/*!
+ * Used for error-checking calls to fprintf.
+ * @param[in] func The function in which the error ocurred
+ * @return exit failure
+ */
+void
+msg_err_fatal_fprintf (const char *func)
+{
+  PRINT_MSG_ERROR;
+  fprintf (stderr, "fprintf returned an error in %s.\n", func);
+  exit (EXIT_FAILURE);
+}

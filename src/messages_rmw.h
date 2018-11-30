@@ -56,3 +56,5 @@ msg_err_open_dir (const char *dir, const char *func, const int line);
 
 void
 msg_err_rename (const char *src_file, const char *dest_file, const char *func, const int line);
+
+void msg_err_fatal_fprintf (const char *func);
