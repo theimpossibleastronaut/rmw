@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/theimpossibleastronaut/rmw)
-[![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
-
 # rmw v0.4.06 (development)
 
 rmw (ReMove to Waste) is a cross-platform command-line "trash can"
@@ -14,6 +11,12 @@ This is the README for the development version of rmw. It may mention
 features that aren't included in the last release, or differ in other
 ways. The README from the last release is at
 https://github.com/theimpossibleastronaut/rmw/blob/v0.4.05/README.md
+
+Build Status
+
+* [Travis Build](https://travis-ci.org/theimpossibleastronaut/rmw) ![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)
+* [Semaphore Build](https://semaphoreci.com/andy5995/rmw-3) ![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)
+
 
 ![rmw usage output](https://remove-to-waste.info/images/Screenshot_2018-11-01_21-45-05_911x795.png)
 
