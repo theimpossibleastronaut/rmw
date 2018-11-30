@@ -12,18 +12,20 @@ features that aren't included in the last release, or differ in other
 ways. The README from the last release is at
 https://github.com/theimpossibleastronaut/rmw/blob/v0.4.05/README.md
 
-Build Status
+## Build Status
 
 * [Travis Build](https://travis-ci.org/theimpossibleastronaut/rmw) ![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)
 * [Semaphore Build](https://semaphoreci.com/andy5995/rmw-3) ![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)
 
+## Screenshots
 
 ![rmw usage output](https://remove-to-waste.info/images/Screenshot_2018-11-01_21-45-05_911x795.png)
 
 [More Screenshots](https://remove-to-waste.info/screenshots.html)
 
-Anyone interested in this project is welcome to join the [Matrix chat
-room](https://matrix.to/#/!XeJxcdkywroPaRKKtr:matrix.org).
+## Contact / Support
+
+See website [Help and Support section](https://remove-to-waste.info/#support)
 
 ## Required libraries
 
