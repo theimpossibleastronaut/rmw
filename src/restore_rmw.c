@@ -314,7 +314,7 @@ restore_select (st_waste *waste_curr)
         continue;
 
       char full_path[MP];
-      bufchk (full_path, MP - strlen (entry->d_name));
+      bufchk (waste_curr->files, MP - strlen (entry->d_name));
       sprintf (full_path, "%s%s", waste_curr->files, entry->d_name);
 
       struct stat st;
