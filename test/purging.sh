@@ -77,7 +77,7 @@ set +x
 echo
 echo
 echo " using 'cp' to copy files from test/somefiles"
-cp -av ${TESTS_DIR}/somefiles $HOME
+cp -pPRv ${TESTS_DIR}/somefiles $HOME
 
 echo
 echo
@@ -104,7 +104,7 @@ set +x
 echo
 echo
 echo " using 'cp' to copy files from test/somefiles for RMWTRASH=empty test"
-cp -av ${TESTS_DIR}/somefiles $HOME
+cp -pPRv ${TESTS_DIR}/somefiles $HOME
 test_result $?
 
 echo

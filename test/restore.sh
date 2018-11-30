@@ -20,7 +20,7 @@ test_result $?
 
 echo $SEPARATOR
 echo "Copying pre-existing files to temporary HOME dir..."
-cp -a ${TESTS_DIR}/somefiles $HOME
+cp -pPR ${TESTS_DIR}/somefiles $HOME
 test_result $?
 
 echo $SEPARATOR
