@@ -1,6 +1,7 @@
+/*!
+ * @file utils_rmw.c
+ */
 /*
- * utils_rmw.c
- *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
  *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)

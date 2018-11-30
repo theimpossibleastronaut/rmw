@@ -1,6 +1,7 @@
 /**
- * @file messages_rmw.c functions that handle messages to the user
- * These are designed to keep messages consistent, in one place.
+ * @file messages_rmw.c
+ * @brief functions that handle messages to the user These are designed
+ * to keep messages consistent, in one place.
  */
 /*
  *

@@ -1,10 +1,9 @@
-/** \file rmw.c
- * Contains the main() function, along with a few other functions that
+/*!
+ * @file rmw.c
+ * @brief Contains the main() function, along with a few other functions that
  * are only used by main().
  */
 /*
- * rmw.c
- *
  * This file is part of rmw <https://remove-to-waste.info/>
  *
  * Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)

@@ -1,5 +1,6 @@
-/*! @file config_rmw.c
- * Contains functions used to read and parse the configuration file
+/*!
+ * @file config_rmw.c
+ * @brief Contains functions used to read and parse the configuration file
  */
 /*
  * config_rmw.c

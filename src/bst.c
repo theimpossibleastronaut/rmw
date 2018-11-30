@@ -1,4 +1,9 @@
-/* bst.c:
+/*!
+ * @file bst.c
+ * @brief functions related to managing a binary search tree, primarily
+ * used by @ref restore_select()
+ */
+/*
  *
  * Most of the code used here was adapted from the tutorials at:
  * <http://www.zentut.com/c-tutorial/c-binary-search-tree/>
