@@ -252,11 +252,12 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
   waste_curr->removable = removable ? true : false;
 
   /* make the parent... */
-  strcpy (waste_curr->parent, value);
+  bufchk (value, MP);
+  snprintf (waste_curr->parent, MP, "%s", value);
 
   /* and the files... */
-  sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
-  bufchk (waste_curr->files, MP);
+  bufchk (waste_curr->parent, MP - strlen ("/files/"));
+  snprintf (waste_curr->files, MP, "%s%s", waste_curr->parent, "/files/");
 
   if (!exists (waste_curr->files))
   {

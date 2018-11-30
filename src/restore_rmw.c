@@ -292,8 +292,8 @@ restore_select (st_waste *waste_curr)
     node *root = NULL;
     int n_choices = 0;
 
-    struct dirent *entry;
-    static DIR *waste_dir;
+    struct dirent *entry = NULL;
+    static DIR *waste_dir = NULL;
     waste_dir = opendir (waste_curr->files);
     if (waste_dir == NULL)
     {
