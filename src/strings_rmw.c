@@ -36,9 +36,34 @@
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
+/*!
+ * Called by other functions to make sure a string has a value. Any function
+ * that calls this should have received a string with a value. If the
+ * string is NULL or has a length of 0, the code needs to be reviewed to
+ * determine why the calling function received an incorrect string.
+ *
+ * @param[in] str The string to check
+ * @param[in] func The name of the calling function
+ * @return void
+ */
+static void
+entry_NULL_check (const char *str, const char *func)
+{
+  if (str == NULL || strlen (str) == 0)
+  {
+    PRINT_MSG_ERROR;
+    fprintf (stderr,
+"A NULL string was passed to %s. That should not happen.\n\
+Please report this bug to the rmw developers.", func);
+    exit (EXIT_FAILURE);
+  }
+}
+
 void
 bufchk (const char *str, ushort boundary)
 {
+  entry_NULL_check (str, __func__);
+
   /* STR_PART defines the first n characters of the string to display.
    * This assumes 10 will never exceed a buffer size. In this program,
    * there are no buffers that are <= 10 (that I can think of right now)
@@ -93,22 +118,16 @@ bufchk (const char *str, ushort boundary)
   exit (EXIT_BUF_ERR);
 }
 
-/**
+/*!
  * Removes trailing white space from a string (including newlines, formfeeds,
  * tabs, etc
- * @param[in,out] str The string to be altered
+ * @param[out] str The string to be altered
  * @return void
  */
 void
 trim_white_space (char *str)
 {
-  if (str == NULL)
-  {
-    fprintf (stderr, MSG_ERROR);
-    fprintf (stderr, _("String passed to %s is NULL.\n\
-Please report this bug to the rmw development team. Exiting...\n"), __func__);
-    exit (EXIT_FAILURE);
-  }
+  entry_NULL_check (str, __func__);
   char *pos_0 = str;
   /* Advance pointer until NULL terminator is found */
   while (*str != '\0')
@@ -135,7 +154,7 @@ Please report this bug to the rmw development team. Exiting...\n"), __func__);
 /*!
  * Trim a trailing character of a string
  * @param[in] c The character to erase
- * @param[in,out] str The string to alter
+ * @param[out] str The string to alter
  * @return void
  */
 void
@@ -157,7 +176,7 @@ trim_char (const char c, char *str)
  * Add a null terminator to chop off part of a string
  * at a given position
  * @param[in] pos The position at which to add the \0 character
- * @param[in,out] str The string to change
+ * @param[out] str The string to change
  * @return void
  */
 void
@@ -166,10 +185,11 @@ truncate_str (char *str, ushort pos)
   str[strlen (str) - pos] = '\0';
 }
 
-/**
- * resolve_path()
- *
+/*!
  * use realpath() to find the absolute path to a file
+ * @param[in] src The file or dir that needs resolving
+ * @param[out] abs_path The absolute path of src
+ * @return 0 if real
  *
  * returns 0 if successful
  */
@@ -202,5 +222,5 @@ printf ("abs_path = %s in %s\n", abs_path, __func__);
   }
 
   printf (_("Error: realpath() returned an error.\n"));
-  return 1;
+  return errno;
 }

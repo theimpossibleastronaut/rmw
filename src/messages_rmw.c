@@ -57,7 +57,7 @@ static const char *ERR_STRING[] = {
 void
 open_err (const char *filename, const char *function_name)
 {
-    printf (MSG_ERROR);
+    PRINT_MSG_ERROR;
     /* TRANSLATORS:  "opening" refers to a file  */
     printf (_("while opening %s\n"), filename);
 
@@ -85,7 +85,7 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
   else
   {
     /* TRANSLATORS:  "closing" refers to a file  */
-    printf (MSG_ERROR);
+    PRINT_MSG_ERROR;
     printf (_("while closing %s\n"), filename);
 
     static char combined_msg[MAX_MSG_SIZE];
@@ -99,7 +99,7 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
 
 void display_dot_trashinfo_error (const char *dti)
 {
-  printf (MSG_ERROR);
+  PRINT_MSG_ERROR;
   /* TRANSLATORS:  ".trashinfo" should remain untranslated
    *
    *               "format" refers to the layout of the file
@@ -134,7 +134,7 @@ void chk_malloc (void *state, const char *func, const int line)
 {
   if (state == NULL)
   {
-    printf (MSG_ERROR);
+    PRINT_MSG_ERROR;
     printf (_("while attempting to allocate memory -- %s:%d\n"), func, line);
     msg_return_code (EXIT_MALLOC_ERR);
     exit (EXIT_MALLOC_ERR);
@@ -156,7 +156,7 @@ msg_return_code (int code)
 void
 msg_err_close_dir (const char *dir, const char *func, const int line)
 {
-  fprintf (stderr, MSG_ERROR);
+  PRINT_MSG_ERROR;
   fprintf (stderr, "while closing %s -- %s:%d\n", dir, func, line);
   perror ("closedir()");
   exit (errno);
@@ -165,7 +165,7 @@ msg_err_close_dir (const char *dir, const char *func, const int line)
 void
 msg_err_open_dir (const char *dir, const char *func, const int line)
 {
-  fprintf (stderr, MSG_ERROR);
+  PRINT_MSG_ERROR;
   fprintf (stderr, _("while opening %s -- %s:%d\n"), dir, func, line);
   perror ("opendir()");
   exit (errno);
@@ -174,7 +174,7 @@ msg_err_open_dir (const char *dir, const char *func, const int line)
 void
 msg_err_rename (const char *src_file, const char *dest_file, const char *func, const int line)
 {
-  printf (MSG_ERROR);
+  PRINT_MSG_ERROR;
   printf (_("while trying to move (rename)\n\
   %s -> %s -- %s:%d\n"), src_file, dest_file, func, line);
   perror ("rename()");
