@@ -61,9 +61,15 @@ else
 	AC_DEFINE([HAVE_NCURSES_H], [1], [Define if ncurses.h is present])
 fi
 
-PKG_CHECK_MODULES(MENUW, menuw)
-CFLAGS="$MENUW_CFLAGS $CFLAGS"
-LIBS="$MENUW_LIBS $LIBS"
+PKG_CHECK_MODULES(MENUW, menuw, found_menuw=yes, found_menuw=no)
+if "x$found_menuw" = no; then
+	PKG_CHECK_MODULES(MENU, menu, found_menu=yes)
+	CFLAGS="$MENU_CFLAGS $CFLAGS"
+	LIBS="$MENU_LIBS $LIBS"
+else
+	CFLAGS="$MENUW_CFLAGS $CFLAGS"
+	LIBS="$MENUW_LIBS $LIBS"
+fi
 
 AC_SUBST([CFLAGS])
 AC_SUBST([LIBS])
