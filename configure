@@ -5104,7 +5104,7 @@ else
 fi
 
 
-	if test "x$found_curses" = no; then
+	if test "x$found_curses" = xno; then
 		as_fn_error $? "Could not find required header" "$LINENO" 5
 	fi
 
@@ -5187,7 +5187,7 @@ else
 $as_echo "yes" >&6; }
 	found_menuw=yes
 fi
-if "x$found_menuw" = no; then
+if "x$found_menuw" = xno; then
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for MENU" >&5

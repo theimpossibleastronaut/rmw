@@ -53,7 +53,7 @@ AC_CHECK_HEADER(ncurses.h, [found_ncurses=yes], [found_ncurses=no])
 if test "x$found_ncurses" = xno; then
 	AC_MSG_WARN([ncurses.h not found])
 	AC_CHECK_HEADER(curses.h, [found_curses=yes], [found_curses=no])
-	if test "x$found_curses" = no; then
+	if test "x$found_curses" = xno; then
 		AC_MSG_ERROR([Could not find required header])
 	fi
 	AC_DEFINE([HAVE_CURSES_H], [1], [Define if curses.h is present])
@@ -62,7 +62,7 @@ else
 fi
 
 PKG_CHECK_MODULES(MENUW, menuw, found_menuw=yes, found_menuw=no)
-if "x$found_menuw" = no; then
+if "x$found_menuw" = xno; then
 	PKG_CHECK_MODULES(MENU, menu, found_menu=yes)
 	CFLAGS="$MENU_CFLAGS $CFLAGS"
 	LIBS="$MENU_LIBS $LIBS"
