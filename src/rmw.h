@@ -32,7 +32,9 @@
 
 /** Allows for the use of some GNU extensions, such as itoa() and strptime()
  */
-#define _XOPEN_SOURCE 600
+#ifndef _XOPEN_SOURCE
+  #define _XOPEN_SOURCE 600
+#endif
 
 #include "config.h"
 #include <errno.h>

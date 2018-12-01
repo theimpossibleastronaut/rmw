@@ -12,6 +12,12 @@
    the CoreFoundation framework. */
 #undef HAVE_CFPREFERENCESCOPYAPPVALUE
 
+/* Define if cursesw was found */
+#undef HAVE_CURSESW
+
+/* Define if curses.h is present */
+#undef HAVE_CURSES_H
+
 /* Define if the GNU dcgettext() function is already present or preinstalled.
    */
 #undef HAVE_DCGETTEXT
@@ -27,6 +33,12 @@
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
+
+/* Define if ncursesw was found */
+#undef HAVE_NCURSESW
+
+/* Define if ncurses.h is present */
+#undef HAVE_NCURSES_H
 
 /* Define to 1 if stdbool.h conforms to C99. */
 #undef HAVE_STDBOOL_H
