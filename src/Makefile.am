@@ -1,6 +1,6 @@
 bin_PROGRAMS=rmw
 AM_CFLAGS = -std=c99 -Wall -g -O0
-AM_CFLAGS +=  @MENUW_CFLAGS@ @NCURSESW_CFLAGS@
+AM_CFLAGS +=  @CFLAGS@
 
 rmw_SOURCES=	\
 	rmw.c	\
@@ -34,7 +34,7 @@ DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 # undefined reference errors when building. That doesn't happen when
 # building on Debian
 #
-rmw_LDADD = @LIBINTL@ @MENUW_LIBS@ @NCURSESW_LIBS@
+rmw_LDADD = @LIBINTL@ @LIBS@
 
 all-local:
 	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;

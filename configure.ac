@@ -17,19 +17,38 @@ AC_SYS_LARGEFILE
 # and https://github.com/theimpossibleastronaut/rmw/issues/21
 AM_MAINTAINER_MODE
 
-
 PKG_CHECK_MODULES(NCURSESW, ncursesw, found_ncursesw=yes)
 if test "x$found_ncursesw" = xyes; then
 	AC_DEFINE([HAVE_NCURSESW], [1], [Define if ncursesw was found])
 	CFLAGS="$NCURSESW_CFLAGS $CFLAGS"
 	LIBS="$NCURSESW_LIBS $LIBS"
 else
-	PKG_CHECK_MODULES(CURSESW, cursesw)
-	AC_DEFINE([HAVE_CURSESW], [1], [Define if cursesw was found])
-	CFLAGS="$CURSESW_CFLAGS $CFLAGS"
-	LIBS="$CURSESW_LIBS $LIBS"
+	PKG_CHECK_MODULES(CURSESW, cursesw, found_cursesw=yes, found_cursesw=no)
+	if test "x$found_cursesw" = xyes; then
+		AC_DEFINE([HAVE_CURSESW], [1], [Define if cursesw was found])
+		CFLAGS="$CURSESW_CFLAGS $CFLAGS"
+		LIBS="$CURSESW_LIBS $LIBS"
+	else
+		# on at least some versions of osx, wide-character support
+		# is enabled by default. If wide char support isn't enabled in
+		# the libraries found here, a user may experience the bug mentioned
+		# in https://github.com/theimpossibleastronaut/rmw/issues/205
+		PKG_CHECK_MODULES(NCURSES, ncurses, found_ncurses=yes, found_ncurses=no)
+		if test "x$found_ncurses" = xno; then
+			PKG_CHECK_MODULES(CURSES, curses)
+			# if curses isn't found, configure will quit
+			CFLAGS="$CURSES_CFLAGS $CFLAGS"
+			LIBS="$CURSES_LIBS $LIBS"
+		fi
+		AC_DEFINE([HAVE_NCURSES], [1], [Define if ncurses was found])
+		CFLAGS="$NCURSES_CFLAGS $CFLAGS"
+		LIBS="$NCURSES_LIBS $LIBS"
+	fi
 fi
 
+# I haven't noticed that ncursesw.h or cursesw.h is needed for wide-character
+# support, as long as it's built into the library, everything's fine, as
+# far as I know.
 AC_CHECK_HEADER(ncurses.h, [found_ncurses=yes], [found_ncurses=no])
 if test "x$found_ncurses" = xno; then
 	AC_MSG_WARN([ncurses.h not found])

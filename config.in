@@ -34,6 +34,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define if ncurses was found */
+#undef HAVE_NCURSES
+
 /* Define if ncursesw was found */
 #undef HAVE_NCURSESW
 

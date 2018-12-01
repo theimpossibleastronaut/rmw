@@ -28,8 +28,13 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <ncurses.h>
 #include <menu.h>
+
+#ifdef HAVE_CURSES_H
+  #include <curses.h>
+#else
+  #include <ncurses.h>
+#endif
 
 #define CTRLD 4
 

@@ -655,6 +655,10 @@ USE_NLS
 SED
 MENUW_LIBS
 MENUW_CFLAGS
+CURSES_LIBS
+CURSES_CFLAGS
+NCURSES_LIBS
+NCURSES_CFLAGS
 CURSESW_LIBS
 CURSESW_CFLAGS
 NCURSESW_LIBS
@@ -780,6 +784,10 @@ NCURSESW_CFLAGS
 NCURSESW_LIBS
 CURSESW_CFLAGS
 CURSESW_LIBS
+NCURSES_CFLAGS
+NCURSES_LIBS
+CURSES_CFLAGS
+CURSES_LIBS
 MENUW_CFLAGS
 MENUW_LIBS'
 
@@ -1455,6 +1463,13 @@ Some influential environment variables:
               C compiler flags for CURSESW, overriding pkg-config
   CURSESW_LIBS
               linker flags for CURSESW, overriding pkg-config
+  NCURSES_CFLAGS
+              C compiler flags for NCURSES, overriding pkg-config
+  NCURSES_LIBS
+              linker flags for NCURSES, overriding pkg-config
+  CURSES_CFLAGS
+              C compiler flags for CURSES, overriding pkg-config
+  CURSES_LIBS linker flags for CURSES, overriding pkg-config
   MENUW_CFLAGS
               C compiler flags for MENUW, overriding pkg-config
   MENUW_LIBS  linker flags for MENUW, overriding pkg-config
@@ -4613,7 +4628,6 @@ fi
 
 
 
-
 if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
 	if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
@@ -4884,15 +4898,169 @@ fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$CURSESW_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (cursesw) were not met:
+	found_cursesw=no
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	found_cursesw=no
+else
+	CURSESW_CFLAGS=$pkg_cv_CURSESW_CFLAGS
+	CURSESW_LIBS=$pkg_cv_CURSESW_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	found_cursesw=yes
+fi
+	if test "x$found_cursesw" = xyes; then
 
-$CURSESW_PKG_ERRORS
+$as_echo "#define HAVE_CURSESW 1" >>confdefs.h
+
+		CFLAGS="$CURSESW_CFLAGS $CFLAGS"
+		LIBS="$CURSESW_LIBS $LIBS"
+	else
+		# on at least some versions of osx, wide-character support
+		# is enabled by default. If wide char support isn't enabled in
+		# the libraries found here, a user may experience the bug mentioned
+		# in https://github.com/theimpossibleastronaut/rmw/issues/205
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for NCURSES" >&5
+$as_echo_n "checking for NCURSES... " >&6; }
+
+if test -n "$NCURSES_CFLAGS"; then
+    pkg_cv_NCURSES_CFLAGS="$NCURSES_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ncurses\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ncurses") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_NCURSES_CFLAGS=`$PKG_CONFIG --cflags "ncurses" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$NCURSES_LIBS"; then
+    pkg_cv_NCURSES_LIBS="$NCURSES_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"ncurses\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "ncurses") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_NCURSES_LIBS=`$PKG_CONFIG --libs "ncurses" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        NCURSES_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "ncurses" 2>&1`
+        else
+	        NCURSES_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "ncurses" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$NCURSES_PKG_ERRORS" >&5
+
+	found_ncurses=no
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	found_ncurses=no
+else
+	NCURSES_CFLAGS=$pkg_cv_NCURSES_CFLAGS
+	NCURSES_LIBS=$pkg_cv_NCURSES_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	found_ncurses=yes
+fi
+		if test "x$found_ncurses" = xno; then
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for CURSES" >&5
+$as_echo_n "checking for CURSES... " >&6; }
+
+if test -n "$CURSES_CFLAGS"; then
+    pkg_cv_CURSES_CFLAGS="$CURSES_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"curses\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "curses") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_CURSES_CFLAGS=`$PKG_CONFIG --cflags "curses" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$CURSES_LIBS"; then
+    pkg_cv_CURSES_LIBS="$CURSES_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"curses\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "curses") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_CURSES_LIBS=`$PKG_CONFIG --libs "curses" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        CURSES_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "curses" 2>&1`
+        else
+	        CURSES_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "curses" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$CURSES_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (curses) were not met:
+
+$CURSES_PKG_ERRORS
 
 Consider adjusting the PKG_CONFIG_PATH environment variable if you
 installed software in a non-standard prefix.
 
-Alternatively, you may set the environment variables CURSESW_CFLAGS
-and CURSESW_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables CURSES_CFLAGS
+and CURSES_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
@@ -4903,26 +5071,34 @@ as_fn_error $? "The pkg-config script could not be found or is too old.  Make su
 is in your PATH or set the PKG_CONFIG environment variable to the full
 path to pkg-config.
 
-Alternatively, you may set the environment variables CURSESW_CFLAGS
-and CURSESW_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables CURSES_CFLAGS
+and CURSES_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See \`config.log' for more details" "$LINENO" 5; }
 else
-	CURSESW_CFLAGS=$pkg_cv_CURSESW_CFLAGS
-	CURSESW_LIBS=$pkg_cv_CURSESW_LIBS
+	CURSES_CFLAGS=$pkg_cv_CURSES_CFLAGS
+	CURSES_LIBS=$pkg_cv_CURSES_LIBS
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
 fi
+			# if curses isn't found, configure will quit
+			CFLAGS="$CURSES_CFLAGS $CFLAGS"
+			LIBS="$CURSES_LIBS $LIBS"
+		fi
 
-$as_echo "#define HAVE_CURSESW 1" >>confdefs.h
+$as_echo "#define HAVE_NCURSES 1" >>confdefs.h
 
-	CFLAGS="$CURSESW_CFLAGS $CFLAGS"
-	LIBS="$CURSESW_LIBS $LIBS"
+		CFLAGS="$NCURSES_CFLAGS $CFLAGS"
+		LIBS="$NCURSES_LIBS $LIBS"
+	fi
 fi
 
+# I haven't noticed that ncursesw.h or cursesw.h is needed for wide-character
+# support, as long as it's built into the library, everything's fine, as
+# far as I know.
 ac_fn_c_check_header_mongrel "$LINENO" "ncurses.h" "ac_cv_header_ncurses_h" "$ac_includes_default"
 if test "x$ac_cv_header_ncurses_h" = xyes; then :
   found_ncurses=yes

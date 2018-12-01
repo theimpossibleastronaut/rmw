@@ -185,6 +185,10 @@ CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
+CURSESW_CFLAGS = @CURSESW_CFLAGS@
+CURSESW_LIBS = @CURSESW_LIBS@
+CURSES_CFLAGS = @CURSES_CFLAGS@
+CURSES_LIBS = @CURSES_LIBS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 DEPDIR = @DEPDIR@
@@ -222,6 +226,8 @@ MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
 NCURSESW_CFLAGS = @NCURSESW_CFLAGS@
 NCURSESW_LIBS = @NCURSESW_LIBS@
+NCURSES_CFLAGS = @NCURSES_CFLAGS@
+NCURSES_LIBS = @NCURSES_LIBS@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -295,7 +301,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -std=c99 -Wall -g -O0 @MENUW_CFLAGS@ @NCURSESW_CFLAGS@
+AM_CFLAGS = -std=c99 -Wall -g -O0 @CFLAGS@
 rmw_SOURCES = \
 	rmw.c	\
 	restore_rmw.c	\
@@ -327,7 +333,7 @@ noinst_HEADERS = \
 # undefined reference errors when building. That doesn't happen when
 # building on Debian
 #
-rmw_LDADD = @LIBINTL@ @MENUW_LIBS@ @NCURSESW_LIBS@
+rmw_LDADD = @LIBINTL@ @LIBS@
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
