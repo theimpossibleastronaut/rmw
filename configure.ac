@@ -29,16 +29,25 @@ else
 		CFLAGS="$CURSESW_CFLAGS $CFLAGS"
 		LIBS="$CURSESW_LIBS $LIBS"
 	else
-		# on at least some versions of osx, wide-character support
-		# is enabled by default. If wide char support isn't enabled in
+		# If wide char support isn't enabled in
 		# the libraries found here, a user may experience the bug mentioned
 		# in https://github.com/theimpossibleastronaut/rmw/issues/205
 		PKG_CHECK_MODULES(NCURSES, ncurses, found_ncurses=yes, found_ncurses=no)
 		if test "x$found_ncurses" = xno; then
-			PKG_CHECK_MODULES(CURSES, curses)
-			# if curses isn't found, configure will quit
-			CFLAGS="$CURSES_CFLAGS $CFLAGS"
-			LIBS="$CURSES_LIBS $LIBS"
+			PKG_CHECK_MODULES(CURSES, curses, found_curses=yes, found_curses=no)
+			if test "x$found_curses" = no; then
+				# pkg-config can't find the libraries on some Mac/osx systems.
+				# Now let's try to do things manually...
+				AC_CHECK_LIB([ncurses], [initscr], found_ncurses=yes, found_ncurses=no)
+				if test "x$found_ncurses" = xno; then
+					AC_MSG_ERROR("required ncurses library not found. Please install libncursesw5-dev")
+				else
+					LIBS="-lncurses $LIBS"
+				fi
+			else
+				CFLAGS="$CURSES_CFLAGS $CFLAGS"
+				LIBS="$CURSES_LIBS $LIBS"
+			fi
 		fi
 		AC_DEFINE([HAVE_NCURSES], [1], [Define if ncurses was found])
 		CFLAGS="$NCURSES_CFLAGS $CFLAGS"
@@ -63,9 +72,18 @@ fi
 
 PKG_CHECK_MODULES(MENUW, menuw, found_menuw=yes, found_menuw=no)
 if test "x$found_menuw" = xno; then
-	PKG_CHECK_MODULES(MENU, menu, found_menu=yes)
-	CFLAGS="$MENU_CFLAGS $CFLAGS"
-	LIBS="$MENU_LIBS $LIBS"
+	PKG_CHECK_MODULES(MENU, menu, found_menu=yes, found_menu=no)
+	if test "x$found_menu" = xno; then
+		AC_CHECK_LIB([menu], [post_menu], found_menu=yes, found_menu=no)
+		if test "x$found_menu" = xno; then
+			AC_MSG_ERROR("required menu library not found. Please install libncursesw5-dev")
+		else
+			LIBS="-lmenu $LIBS"
+		fi
+	else
+		CFLAGS="$MENU_CFLAGS $CFLAGS"
+		LIBS="$MENU_LIBS $LIBS"
+	fi
 else
 	CFLAGS="$MENUW_CFLAGS $CFLAGS"
 	LIBS="$MENUW_LIBS $LIBS"
