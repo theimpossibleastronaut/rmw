@@ -17,7 +17,7 @@ AC_SYS_LARGEFILE
 # and https://github.com/theimpossibleastronaut/rmw/issues/21
 AM_MAINTAINER_MODE
 
-PKG_CHECK_MODULES(NCURSESW, ncursesw, found_ncursesw=yes)
+PKG_CHECK_MODULES(NCURSESW, ncursesw, found_ncursesw=yes, found_ncursesw=no)
 if test "x$found_ncursesw" = xyes; then
 	AC_DEFINE([HAVE_NCURSESW], [1], [Define if ncursesw was found])
 	CFLAGS="$NCURSESW_CFLAGS $CFLAGS"
