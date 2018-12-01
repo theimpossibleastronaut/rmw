@@ -72,7 +72,6 @@ build
 ABOUT-NLS
 
 # Doxygen
-docs/doxygen
 doxy-warn.log
 
 

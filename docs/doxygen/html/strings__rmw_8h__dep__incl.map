@@ -1,0 +1,10 @@
+<map id="src/strings_rmw.h" name="src/strings_rmw.h">
+<area shape="rect" id="node2" href="$messages__rmw_8h.html" title="src/messages_rmw.h" alt="" coords="412,80,559,107"/>
+<area shape="rect" id="node4" href="$config__rmw_8c.html" title="Contains functions used to read and parse the configuration file. " alt="" coords="5,155,128,181"/>
+<area shape="rect" id="node7" href="$rmw_8c.html" title="Contains the main() function, along with a few other functions that are only used by main()..." alt="" coords="573,155,653,181"/>
+<area shape="rect" id="node8" href="$strings__rmw_8c.html" title="Contains functions primarily related to strings. " alt="" coords="678,155,805,181"/>
+<area shape="rect" id="node9" href="$utils__rmw_8c.html" title="src/utils_rmw.c" alt="" coords="693,80,803,107"/>
+<area shape="rect" id="node3" href="$bst_8c.html" title="functions related to managing a binary search tree, primarily used by restore_select() ..." alt="" coords="153,155,226,181"/>
+<area shape="rect" id="node5" href="$messages__rmw_8c.html" title="functions that handle messages to the user These are designed to keep messages consistent, in one place. " alt="" coords="251,155,397,181"/>
+<area shape="rect" id="node6" href="$restore__rmw_8c.html" title="src/restore_rmw.c" alt="" coords="422,155,549,181"/>
+</map>
