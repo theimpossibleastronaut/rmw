@@ -5187,7 +5187,7 @@ else
 $as_echo "yes" >&6; }
 	found_menuw=yes
 fi
-if "x$found_menuw" = xno; then
+if test "x$found_menuw" = xno; then
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for MENU" >&5

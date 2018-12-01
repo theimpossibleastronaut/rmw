@@ -62,7 +62,7 @@ else
 fi
 
 PKG_CHECK_MODULES(MENUW, menuw, found_menuw=yes, found_menuw=no)
-if "x$found_menuw" = xno; then
+if test "x$found_menuw" = xno; then
 	PKG_CHECK_MODULES(MENU, menu, found_menu=yes)
 	CFLAGS="$MENU_CFLAGS $CFLAGS"
 	LIBS="$MENU_LIBS $LIBS"
