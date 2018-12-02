@@ -36,4 +36,4 @@ GitHub has instructions for doing this
 ## Contact ##
 
 Up-to-date contact information can be found on the [Home
-Page](https://github.com/theimpossibleastronaut.com/rmw/wiki)
+Page](https://remove-to-waste.info/)
