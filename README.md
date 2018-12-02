@@ -87,16 +87,8 @@ Add a tap and install rmw:
 If you installed rmw as a normal user, this next step can be skipped.
 
 After rmw is installed, create the user configuration directory by
-typing 'rmw' and hitting enter. Afterward, copy rmwrc to
-$HOME/.config/rmw and rename it to 'config':
-
-    cd ~/.config/rmw
-    ~/.config/rmw$ cp rmwrc config
-
-Then edit the file to suit your needs.
-
-rmw will automatically create a 'lastpurge' and 'lastrmw' in that same
-directory.
+typing 'rmw' and hitting enter. A configuration file will be
+automatically created in $HOME/.config/rmw. Edit the file as desired.
 
 == Configuration File ==
 
@@ -175,15 +167,24 @@ directory.
 
 == -t, --translate ==
 
-If a translation of the configuration file is available in your native
-language is available, it will be displayed.
+A translation of the configuration file in your native
+language (if available) will be displayed.
 
 (If you would be interested in adding a translation, please visit
 https://github.com/theimpossibleastronaut/rmw/wiki/Translating)
 
 == -f, --force ==
+
 rmw will normally refuse to purge directories if they contain non-writable
 subdirectories. You can use -f 2 times if you ever see a message that tells
 you "permission denied; directory still contains files" (e.g. rwm -gff).
+
+## Notes
+
+After you use rmw, it will create a 'lastpurge' and 'lastrmw' file in
+$HOME/config/rmw. `lastpurge` contains the the day of the last time rmw
+did a purge check (it only checks once per day). `lastrmw` contains the
+filenames of the last rmw operation; the file is read when `rmw -u` is
+used.
 
 ```
