@@ -1,9 +1,9 @@
 <map id="src/restore_rmw.c" name="src/restore_rmw.c">
-<area shape="rect" id="node2" href="$rmw_8h.html" title="rmw.h" alt="" coords="600,155,659,181"/>
-<area shape="rect" id="node12" href="$restore__rmw_8h.html" title="restore_rmw.h" alt="" coords="297,80,402,107"/>
-<area shape="rect" id="node19" href="$utils__rmw_8h.html" title="utils_rmw.h" alt="" coords="93,80,182,107"/>
-<area shape="rect" id="node20" href="$messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="616,80,741,107"/>
-<area shape="rect" id="node24" href="$bst_8h_source.html" title="bst.h" alt="" coords="817,80,868,107"/>
-<area shape="rect" id="node11" href="$gettext_8h_source.html" title="gettext.h" alt="" coords="498,229,571,256"/>
-<area shape="rect" id="node21" href="$strings__rmw_8h.html" title="strings_rmw.h" alt="" coords="788,155,892,181"/>
+<area shape="rect" id="node2" href="$rmw_8h.html" title="rmw.h" alt="" coords="460,155,518,181"/>
+<area shape="rect" id="node12" href="$restore__rmw_8h.html" title="restore_rmw.h" alt="" coords="790,80,895,107"/>
+<area shape="rect" id="node17" href="$utils__rmw_8h.html" title="utils_rmw.h" alt="" coords="676,80,766,107"/>
+<area shape="rect" id="node18" href="$messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="526,80,652,107"/>
+<area shape="rect" id="node22" href="$bst_8h_source.html" title="bst.h" alt="" coords="82,155,133,181"/>
+<area shape="rect" id="node11" href="$gettext_8h_source.html" title="gettext.h" alt="" coords="264,229,338,256"/>
+<area shape="rect" id="node19" href="$strings__rmw_8h.html" title="strings_rmw.h" alt="" coords="558,155,662,181"/>
 </map>

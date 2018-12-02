@@ -87,19 +87,17 @@ $(function() {
 <h2>Required libraries</h2>
 <p>libncursesw</p>
 <p>If you are building from source, you will need the libncursesw(5 or 6)-dev package from your operating system distribution.</p>
-<h2>Installation</h2>
-<h3>With superuser privileges:</h3>
+<p>Note: On OpenBSD, you must precede <code>./configure</code> with <code>MENU_LIBS=-lmenuw</code>. Example: </p><pre class="fragment">MENU_LIBS=-lmenuw ./configure
+</pre><h2>Compiling</h2>
+<h3>As a normal user:</h3>
 <p>Use <code>../configure --help</code> to view available compile-time options. </p><pre class="fragment">mkdir build
 cd build
 ../configure
 make
-make install-strip
-</pre><h3>As a normal user:</h3>
-<pre class="fragment">mkdir build
-cd build
-../configure --prefix=$HOME/usr
+</pre><h3>Installing without superuser privileges</h3>
+<p>If you would like to install rmw without superuser privileges, use a prefix that you have write access to. Example: </p><pre class="fragment">../configure --prefix=$HOME/usr
 make
-make install-strip
+make install
 </pre><p>rmw will be installed to $HOME/usr/bin and the configuration file will be copied to $HOME/usr/etc</p>
 <h3>Pre-built binary packages</h3>
 <p>Packages for some operating systems are available on the <a href="https://github.com/theimpossibleastronaut/rmw/releases">Downloads</a> page</p>
