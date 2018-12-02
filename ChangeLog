@@ -1,6 +1,10 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-12-02
+
+* Added --enable-debug option to `configure`.
+
 2018-11-28
 
 * Bugfix: "In some cases, not all files are displayed when using '-s'"

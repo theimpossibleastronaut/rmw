@@ -92,7 +92,9 @@ host_triplet = @host@
 bin_PROGRAMS = rmw$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/ax_require_defined.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_enable_debug.m4 \
+	$(top_srcdir)/m4/ax_is_release.m4 \
+	$(top_srcdir)/m4/ax_require_defined.m4 \
 	$(top_srcdir)/m4/ax_with_curses.m4 \
 	$(top_srcdir)/m4/ax_with_curses_extra.m4 \
 	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/iconv.m4 \
@@ -297,7 +299,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -std=c99 -Wall -g -O0 @CURSES_CFLAGS@
+AM_CFLAGS = -std=c99 -Wall @CURSES_CFLAGS@
 rmw_SOURCES = \
 	rmw.c	\
 	restore_rmw.c	\

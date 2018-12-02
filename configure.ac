@@ -6,6 +6,14 @@ AC_CONFIG_HEADERS([src/config.h:config.in])
 # Don't add -g and -O2 by default
 : ${CFLAGS=""}
 
+# IS-RELEASE can be used to change the 'enable-debug' default to ’no’
+# when making a release. Set IS-RELEASE to ’yes’ or ’no’ as
+# appropriate. By default, it uses the value of $ax_is_release, so if
+# you are using the AX_IS_RELEASE macro, there is no need to pass this
+# parameter.
+AX_IS_RELEASE([git-directory])
+AX_CHECK_ENABLE_DEBUG([no])
+
 AC_PROG_CC
 AC_CONFIG_MACRO_DIRS([m4])
 AC_PROG_INSTALL
