@@ -1,2 +1,3 @@
 Makefile* linguist-language=C
 *.sh linguist-language=C
+*.m4 linguist-language=C
