@@ -9,6 +9,7 @@ var searchData=
   ['restore_5frmw_2ec',['restore_rmw.c',['../restore__rmw_8c.html',1,'']]],
   ['restore_5frmw_2eh',['restore_rmw.h',['../restore__rmw_8h.html',1,'']]],
   ['restore_5fselect',['restore_select',['../restore__rmw_8c.html#a03c348b05998a89318246f00275fce89',1,'restore_select(st_waste *waste_curr):&#160;restore_rmw.c'],['../restore__rmw_8h.html#a03c348b05998a89318246f00275fce89',1,'restore_select(st_waste *waste_curr):&#160;restore_rmw.c']]],
+  ['rmdir_5frecursive',['rmdir_recursive',['../purging__rmw_8c.html#ab05c1c11815657112508fddcd8a5ed3d',1,'purging_rmw.c']]],
   ['rmw_2ec',['rmw.c',['../rmw_8c.html',1,'']]],
   ['rmw_2eh',['rmw.h',['../rmw_8h.html',1,'']]],
   ['rmw_5ftarget',['rmw_target',['../structrmw__target.html',1,'rmw_target'],['../rmw_8h.html#acd98c9f3697cee4dfa082bca045c3c7b',1,'rmw_target():&#160;rmw.h']]]
