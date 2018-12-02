@@ -74,4 +74,7 @@ ABOUT-NLS
 # Doxygen
 doxy-warn.log
 
+# Used for external libraries that andy5995 is experimenting with
+external/
+
 
