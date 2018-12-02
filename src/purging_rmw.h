@@ -1,5 +1,7 @@
+/*!
+ * @file purging_rmw.h
+ */
 /*
- * purging_rmw.h
  *
  * This file is part of rmw <https://remove-to-waste.info/>
  *

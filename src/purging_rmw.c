@@ -1,5 +1,8 @@
+/*!
+ * @file purging_rmw.c
+ * @brief functions related to the purge features of rmw
+ */
 /*
- * purging_rmw.c
  *
  * This file is part of rmw <https://remove-to-waste.info/>
  *
@@ -34,6 +37,12 @@ static unsigned int deleted_files_ctr = 0;
 static unsigned int deleted_dirs_ctr = 0;
 static off_t bytes_freed = 0;
 
+/*!
+ * remove dirs recursively, primarily used by @ref purge()
+ * @param[in] path the directory to be removed
+ * @param[out] level keeps track of the number of times recursion has happened
+ * @return error number
+ */
 static int
 rmdir_recursive (char *path, short unsigned level)
 {
@@ -155,6 +164,13 @@ rmdir_recursive (char *path, short unsigned level)
   return status;
 }
 
+/*!
+ * Purges files older than x number of days, unless purge_after is set to
+ * 0 in the config file.
+ * @param[in] waste_curr the linked list of waste folders
+ * @return error number
+ * @see is_time_to_purge
+ */
 int
 purge (const st_waste * waste_curr)
 {

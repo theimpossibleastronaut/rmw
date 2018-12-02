@@ -60,13 +60,12 @@ char *time_str_appended;
 int purge_after = 0;
 ushort force = 0;
 
-/*
- *
- * name: set_time_now_format()
- *
- * returns a formatted string based on whether or not
- * a fake year is requested at runtime.
- *
+/*!
+ * Returns a formatted string based on whether or not
+ * a fake year is requested at runtime. If a fake-year is not requested,
+ * the returned string will be based on the local-time of the user's system.
+ * @param void
+ * @return char*
  */
 static char*
 set_time_now_format (void)
@@ -86,15 +85,15 @@ set_time_now_format (void)
   return t_fmt;
 }
 
-/*
- *
- * name: get_time_string()
- *
- * assigns a time string to *tm_str based on the format requested.
- *
+/*!
+ * Assigns a time string to *tm_str based on the format requested
+ * @param[out] tm_str assigned a new value based on format
+ * @param[in] len the max length of string to be allocated
+ * @param[in] format the format of the string
+ * @return void
  */
 static void
-get_time_string (char *tm_str, ushort len, const char *format)
+get_time_string (char *tm_str, const ushort len, const char *format)
 {
   struct tm *time_ptr;
   time_t now = time (NULL);
@@ -104,13 +103,12 @@ get_time_string (char *tm_str, ushort len, const char *format)
   bufchk (tm_str, len);
 }
 
-/*
- * is_time_to_purge()
- *
- * Creates lastpurge file
- * checks to see if purge() was run today
- * if not, returns 1 and writes the day
- * to the lastpurge file.
+/*!
+ * Checks to see if purge() was run today, reads and writes to the 'lastpurge`
+ * file. If it hasn't been run today, the current day will be written.
+ * @param void
+ * @return an error number
+ * @see purge
  */
 static ushort
 is_time_to_purge (void)
