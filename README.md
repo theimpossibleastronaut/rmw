@@ -39,6 +39,13 @@ Example:
 
     MENU_LIBS=-lmenuw ./configure
 
+Note: rmw has been built on Windows 2 years ago using Cygwin but it
+didn't use the proper directories. We have no Windows developers
+working on this project and are hoping that some will join soon!. As
+stated in the description, the goal of this project is a
+"cross-platform" utility; so getting rmw to work reliably on Windows is
+still on the TODO list.
+
 ## Compiling
 
 ### As a normal user:
