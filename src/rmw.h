@@ -1,4 +1,5 @@
-/** \file rmw.h
+/*!
+ * @file rmw.h
  * contains most of the global variables used by rmw
  */
 /*
@@ -30,9 +31,13 @@
 #ifndef _INC_RMW_H
 #define _INC_RMW_H
 
-/** Allows for the use of some GNU extensions, such as itoa() and strptime()
+#ifndef _XOPEN_SOURCE
+/*! Allows for the use of some GNU extensions, such as itoa() and strptime()
+ * On some systems, this will be defined when configure is run as PKG_CHECK_MODULES
+ * adds items to CFLAGS.
  */
-#define _XOPEN_SOURCE 600
+  #define _XOPEN_SOURCE 600
+#endif
 
 #include "config.h"
 #include <errno.h>

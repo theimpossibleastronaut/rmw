@@ -3,6 +3,18 @@
  */
 
 #include <strings.h>
+#include <stdlib.h>
+#include "config.h"
+
+#if defined HAVE_NCURSESW_MENU_H
+#  include <ncursesw/menu.h>
+#elif defined HAVE_NCURSES_MENU_H
+#  include <ncurses/menu.h>
+#elif defined HAVE_MENU_H
+#  include <menu.h>
+#else
+#  error "SysV-compatible Curses Menu header file required"
+#endif
 
 typedef int (*comparer) (const char *, const char *);
 

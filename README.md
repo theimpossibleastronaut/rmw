@@ -34,9 +34,14 @@ libncursesw
 If you are building from source, you will need the libncursesw(5 or 6)-dev
 package from your operating system distribution.
 
-## Installation
+Note: On OpenBSD, you must precede `./configure` with `MENU_LIBS=-lmenuw`.
+Example:
 
-### With superuser privileges:
+    MENU_LIBS=-lmenuw ./configure
+
+## Compiling
+
+### As a normal user:
 
 Use `../configure --help` to view available compile-time options.
 
@@ -44,15 +49,15 @@ Use `../configure --help` to view available compile-time options.
     cd build
     ../configure
     make
-    make install-strip
 
-### As a normal user:
+### Installing without superuser privileges
 
-    mkdir build
-    cd build
+If you would like to install rmw without superuser privileges, use a prefix
+that you have write access to. Example:
+
     ../configure --prefix=$HOME/usr
     make
-    make install-strip
+    make install
 
 rmw will be installed to $HOME/usr/bin and the configuration file will be
 copied to $HOME/usr/etc

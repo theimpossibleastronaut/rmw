@@ -11,8 +11,6 @@
  *
  */
 
-#include <stdlib.h>
-#include <menu.h> /* from the curses library, needed for the ITEM type */
 #include "bst.h"
 #include "messages_rmw.h"
 

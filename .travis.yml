@@ -32,10 +32,8 @@ matrix:
     - os: osx
       osx_image: xcode9.3beta
 
-# allow until a solution is found for
-# https://github.com/theimpossibleastronaut/rmw/issues/207
-  allow_failures:
-    - os: osx
+#  allow_failures:
+#    - os: osx
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./.travis-before_install.sh "$CC" "$Tr_Compiler_Version"; fi
