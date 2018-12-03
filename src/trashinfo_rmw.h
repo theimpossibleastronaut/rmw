@@ -1,5 +1,7 @@
+/*!
+ * @file trashinfo_rmw.h
+ */
 /*
- * trashinfo_rmw.h
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
