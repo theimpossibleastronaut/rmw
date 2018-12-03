@@ -118,7 +118,7 @@ struct st_waste{
    * They must reside on the same filesystem as a WASTE folder specified in
    * the configuration file.
    */
-  int dev_num;
+  unsigned int dev_num;
 
   /** set to <tt>true</tt> if the parent directory is on a removable device,
    * <tt>false</tt> otherwise.

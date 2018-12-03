@@ -43,8 +43,8 @@
 static bool
 unescape_url (const char *str, char *dest, ushort len)
 {
-  static ushort pos_str;
-  static ushort pos_dest;
+  static unsigned short int pos_str;
+  static unsigned short int pos_dest;
   pos_str = 0;
   pos_dest = 0;
 
@@ -151,7 +151,7 @@ Restore (const char *argv, st_waste *waste_curr)
 
     truncate_str (file.relative_path, strlen (file.base_name));
 
-    sprintf (file.info, "%s%s%s%s", file.relative_path, "../info/",
+    snprintf (file.info, MP, "%s%s%s%s", file.relative_path, "../info/",
              file.base_name, DOT_TRASHINFO);
 
 #ifdef DEBUG
@@ -322,7 +322,7 @@ restore_select (st_waste *waste_curr)
 
       char full_path[MP];
       bufchk (waste_curr->files, MP - strlen (entry->d_name));
-      sprintf (full_path, "%s%s", waste_curr->files, entry->d_name);
+      snprintf (full_path, MP, "%s%s", waste_curr->files, entry->d_name);
 
       struct stat st;
       lstat (full_path, &st);

@@ -68,8 +68,8 @@ static bool is_unreserved (char c)
  */
 static bool escape_url (const char *str, char *dest, ushort len)
 {
-  static ushort pos_str;
-  static ushort pos_dest;
+  static unsigned short int pos_str;
+  static unsigned short int pos_dest;
   pos_str = 0;
   pos_dest = 0;
 
