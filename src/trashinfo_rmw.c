@@ -1,7 +1,5 @@
-/*!
- * @file trashinfo_rmw.c
- */
 /*
+ * trashinfo_rmw.c
  *
  * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
  *
@@ -29,23 +27,23 @@
 #include "utils_rmw.h"
 #include "messages_rmw.h"
 
-/*!
- * According to RFC2396, we must escape any character that's
- * reserved or not available in US-ASCII, for simplification, here's
- * the character that we must accept:
- *
- * - Alphabethics (A-Z and a-z)
- * - Numerics (0-9)
- * - The following charcters: ~ _ - .
- *
- * For purposes of this application we will not convert "/"s, as in
- * this case they correspond to their semantic meaning.
- *
- * @param[in] c
- * @return 1 if the character c is unreserved,  else returns 0
+/**
+ * is_unreserved()
+ * returns 1 if the character c is unreserved,  else returns 0
  */
 static bool is_unreserved (char c)
 {
+  /* According to RFC2396, we must escape any character that's
+   * reserved or not available in US-ASCII, for simplification, here's
+   * the character that we must accept:
+   *
+   * - Alphabethics (A-Z and a-z)
+   * - Numerics (0-9)
+   * - The following charcters: ~ _ - .
+   *
+   * For purposes of this application we will not convert "/"s, as in
+   * this case they correspond to their semantic meaning.
+   */
   if ( ('A' <= c && c <= 'Z') ||
        ('a' <= c && c <= 'z') ||
        ('0' <= c && c <= '9') )
@@ -62,12 +60,11 @@ static bool is_unreserved (char c)
 
 }
 
-/*!
+/**
+ * escape_url()
+ *
  * Convert str into a URL valid string, escaping when necesary
- * @param[in] str
- * @param[out] dest
- * @param[in] len
- * @return 0 on success, 1 on failure
+ * returns 0 on success, 1 on failure
  */
 static bool escape_url (const char *str, char *dest, ushort len)
 {
@@ -75,6 +72,11 @@ static bool escape_url (const char *str, char *dest, ushort len)
   static unsigned short int pos_dest;
   pos_str = 0;
   pos_dest = 0;
+
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("str = %s in %s\n", str, __func__);
+#endif
 
   while (str[pos_str])
   {
@@ -114,6 +116,11 @@ static bool escape_url (const char *str, char *dest, ushort len)
 
   dest[pos_dest] = '\0';
 
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("dest = %s in %s\n", dest, __func__);
+#endif
+
   return 0;
 }
 
@@ -122,7 +129,14 @@ create_trashinfo (rmw_target *file, st_waste *waste_curr)
 {
   static char finalInfoDest[MP];
 
-  snprintf (finalInfoDest, MP, "%s%s", waste_curr->info, file->base_name);
+  sprintf (finalInfoDest, "%s%s", waste_curr->info, file->base_name);
+
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("file->real_path = %s in %s line %d\n", file->real_path, __func__, __LINE__);
+DEBUG_PREFIX
+printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LINE__);
+#endif
 
   if (file->is_duplicate)
   {
@@ -151,6 +165,15 @@ create_trashinfo (rmw_target *file, st_waste *waste_curr)
     }
 
     extern const char *time_now;
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("[Trash Info]\n");
+DEBUG_PREFIX
+printf ("Path=%s\n", escaped_path);
+DEBUG_PREFIX
+printf ("DeletionDate=%s\n", time_now);
+#endif
+
 
     fprintf (fp, "[Trash Info]\n");
     fprintf (fp, "Path=%s\n", escaped_path);

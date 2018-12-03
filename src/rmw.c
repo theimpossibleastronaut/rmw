@@ -678,8 +678,8 @@ Enter '%s -h' for more information\n"), argv[0]);
 
   waste_curr = waste_head;
   dispose_waste (waste_curr);
-  free (waste_head);
   waste_head = NULL;
+  free (waste_head);
   free (time_now);
   free (time_str_appended);
   free (HOMEDIR);
