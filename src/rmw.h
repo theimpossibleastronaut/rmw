@@ -134,9 +134,10 @@ struct st_waste{
   st_waste *next_node;
 };
 
+typedef struct rmw_target rmw_target;
+
 /** Holds information about a file that was specified for rmw'ing
  */
-typedef struct rmw_target rmw_target;
 struct rmw_target
 {
   /** Replaced by the filename to be rmw'ed, usually specified on the command line */
@@ -161,6 +162,10 @@ struct rmw_target
 };
 
 typedef struct st_removed st_removed;
+
+/*!
+ * Holds a list of files that rmw will be ReMoving.
+ */
 struct st_removed{
   char file[MP];
   st_removed *next_node;

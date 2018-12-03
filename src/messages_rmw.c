@@ -52,7 +52,7 @@ static const char *ERR_STRING[] = {
  * Called if fopen() returns NULL. prints an error message and some
  * extra info about the cause.
  * @param[in] filename the name of the file
- * @parm [in] function_name the name of the function where the error originated
+ * @param[in] function_name the name of the function where the error originated
  * @return void
  */
 void

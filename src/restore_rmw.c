@@ -91,10 +91,17 @@ unescape_url (const char *str, char *dest, ushort len)
 }
 
 /**
- * restores a file that was previously moved via rmw.
+ * Restores a file that was previously moved via rmw.
  *
+ * FIXME: The name of the first paramater needs changing. It's not really
+ * argv but the name of a file selected for restoration. Only in some cases
+ * will it really be argv.
  *
- *
+ * @param[in] argv The file to be restored
+ * @param[in] waste_curr The linked list of waste folders
+ * @return an error code
+ * @see restore_select
+ * @see undo_last_rmw
  */
 int
 Restore (const char *argv, st_waste *waste_curr)
@@ -441,6 +448,15 @@ restore_select (st_waste *waste_curr)
   return 0;
 }
 
+/*!
+ * Reads the `lastrmw` file and restores the files listed inside
+ *
+ * @param[in] waste_curr the linked list of waste folders
+ * @return void
+ * @see st_removed
+ * @see add_removal
+ * @see Restore
+ */
 void
 undo_last_rmw (st_waste *waste_curr)
 {

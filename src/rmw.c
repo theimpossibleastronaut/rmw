@@ -147,7 +147,8 @@ is_time_to_purge (void)
 
     close_file (fp, file_lastpurge, __func__);
 
-    /** if these are the same, purge has already been run today
+    /*
+     * if these are the same, purge has already been run today
      */
 
     if (!strcmp (today_dd, last_purge_dd))
@@ -171,7 +172,7 @@ is_time_to_purge (void)
 
   else
   {
-    /**
+    /*
      * Create file if it doesn't exist
      */
     fp = fopen (file_lastpurge, "w");
@@ -186,7 +187,7 @@ is_time_to_purge (void)
     }
     else
     {
-      /**
+      /*
        * if we can't even write this file to the config directory, something
        * is not right. Make it fatal.
        *
@@ -200,13 +201,14 @@ is_time_to_purge (void)
   }
 }
 
-/*
- *
- * name: add_removal()
- *
+/*!
  * When a file has been successfully rmw'ed, add the filename to
  * a linked list.
  *
+ * @param[out] removals linked lists of files that have been succesfully rmw'ed
+ * @param[in] file file that has been successfully rmw'ed
+ * @see undo_last_rmw
+ * @return pointer to node in @ref st_removed type struct
  */
 static st_removed*
 add_removal (st_removed *removals, const char *file)
@@ -229,12 +231,11 @@ add_removal (st_removed *removals, const char *file)
   return removals;
 }
 
-/*
- *
- * name: dispose_removed()
- *
- * free the list of removals created by add_removals()
- *
+/*!
+ * recursively remove all nodes of an object of type @ref st_removed
+ * @param[out] node the node to be removed
+ * @return void
+ * @see add_removal
  */
 static void
 dispose_removed (st_removed *node)
@@ -249,13 +250,13 @@ dispose_removed (st_removed *node)
   return;
 }
 
-/*
- *
- * name: create_undo_file()
- *
- * create the undo file by writing out the filenames from a linked list
- * created by add_removal()
- *
+/*!
+ * Create a new undo_file (lastrmw)
+ * @param[in] removals the linked list of files that were rmw'ed
+ * @param[in] removals_head the first node in removals
+ * @return void
+ * @see undo_last_rmw
+ * @see add_removal
  */
 static void
 create_undo_file (st_removed *removals, st_removed *removals_head)
@@ -280,12 +281,12 @@ create_undo_file (st_removed *removals, st_removed *removals_head)
     open_err (undo_path, __func__);
 }
 
-/*
- *
- * name: main()
- *
+/*!
+ * The "main" part of rmw
+ * @param[in] argc The number of paramaters given to rmw at run-time
+ * @param[in] argv An array of arguments given to rmw at run-time
+ * @return an error code of type int, usually 0 because this main function hardly ever segfaults
  */
-
 int
 main (const int argc, char* const argv[])
 {
