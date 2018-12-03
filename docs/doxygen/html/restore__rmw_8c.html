@@ -98,8 +98,7 @@ Functions</h2></td></tr>
 <tr class="separator:a1ae279a7200b8c93717bcfd6e45cbe57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03c348b05998a89318246f00275fce89"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8c.html#a03c348b05998a89318246f00275fce89">restore_select</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
 <tr class="separator:a03c348b05998a89318246f00275fce89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30eaef2a8f85619df65aaf7728121eeb"><td class="memItemLeft" align="right" valign="top"><a id="a30eaef2a8f85619df65aaf7728121eeb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>undo_last_rmw</b> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
+<tr class="memitem:a30eaef2a8f85619df65aaf7728121eeb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8c.html#a30eaef2a8f85619df65aaf7728121eeb">undo_last_rmw</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
 <tr class="separator:a30eaef2a8f85619df65aaf7728121eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -128,7 +127,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>undo_last_rmw</b> (<a
         </tr>
       </table>
 </div><div class="memdoc">
-<p>restores a file that was previously moved via rmw. </p>
+<p>Restores a file that was previously moved via rmw.</p>
+<p>FIXME: The name of the first paramater needs changing. It's not really argv but the name of a file selected for restoration. Only in some cases will it really be argv.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">argv</td><td>The file to be restored </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">waste_curr</td><td>The linked list of waste folders </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an error code </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8c.html#a03c348b05998a89318246f00275fce89">restore_select</a> </dd>
+<dd>
+<a class="el" href="restore__rmw_8c.html#a30eaef2a8f85619df65aaf7728121eeb">undo_last_rmw</a> </dd></dl>
 <p>The 2 code blocks below address restoring files with only the basename #14</p>
 <p>Not using the "[Trash Info]" line, but reading the file sequentially</p>
 <p>adding 5 for the 'Path=' preceding the path.</p>
@@ -160,6 +171,37 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>undo_last_rmw</b> (<a
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>an error number </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8c.html#a1ae279a7200b8c93717bcfd6e45cbe57">Restore()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a30eaef2a8f85619df65aaf7728121eeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30eaef2a8f85619df65aaf7728121eeb">&#9670;&nbsp;</a></span>undo_last_rmw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void undo_last_rmw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__waste.html">st_waste</a> *&#160;</td>
+          <td class="paramname"><em>waste_curr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reads the <code>lastrmw</code> file and restores the files listed inside</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">waste_curr</td><td>the linked list of waste folders </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structst__removed.html">st_removed</a> </dd>
+<dd>
+<a class="el" href="rmw_8c.html#a6d23a1d924e3031b5c3775cdb47b358d">add_removal</a> </dd>
+<dd>
+<a class="el" href="restore__rmw_8c.html#a1ae279a7200b8c93717bcfd6e45cbe57">Restore</a> </dd></dl>
 
 </div>
 </div>

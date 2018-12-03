@@ -121,14 +121,11 @@ Functions</h2></td></tr>
 <tr class="separator:a09c314cd2ed48f9465681bbd70c0bd98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae03bbf586cd5b09cd686642b20072d22"><td class="memItemLeft" align="right" valign="top">static ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#ae03bbf586cd5b09cd686642b20072d22">is_time_to_purge</a> (void)</td></tr>
 <tr class="separator:ae03bbf586cd5b09cd686642b20072d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d23a1d924e3031b5c3775cdb47b358d"><td class="memItemLeft" align="right" valign="top"><a id="a6d23a1d924e3031b5c3775cdb47b358d"></a>
-static <a class="el" href="structst__removed.html">st_removed</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>add_removal</b> (<a class="el" href="structst__removed.html">st_removed</a> *removals, const char *file)</td></tr>
+<tr class="memitem:a6d23a1d924e3031b5c3775cdb47b358d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structst__removed.html">st_removed</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a6d23a1d924e3031b5c3775cdb47b358d">add_removal</a> (<a class="el" href="structst__removed.html">st_removed</a> *removals, const char *file)</td></tr>
 <tr class="separator:a6d23a1d924e3031b5c3775cdb47b358d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae90daee417c0dbd9f5e6be3044dedfe4"><td class="memItemLeft" align="right" valign="top"><a id="ae90daee417c0dbd9f5e6be3044dedfe4"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>dispose_removed</b> (<a class="el" href="structst__removed.html">st_removed</a> *<a class="el" href="structnode.html">node</a>)</td></tr>
+<tr class="memitem:ae90daee417c0dbd9f5e6be3044dedfe4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#ae90daee417c0dbd9f5e6be3044dedfe4">dispose_removed</a> (<a class="el" href="structst__removed.html">st_removed</a> *<a class="el" href="structnode.html">node</a>)</td></tr>
 <tr class="separator:ae90daee417c0dbd9f5e6be3044dedfe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99a33f474c701f421d433d45dbc614fe"><td class="memItemLeft" align="right" valign="top"><a id="a99a33f474c701f421d433d45dbc614fe"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>create_undo_file</b> (<a class="el" href="structst__removed.html">st_removed</a> *removals, <a class="el" href="structst__removed.html">st_removed</a> *removals_head)</td></tr>
+<tr class="memitem:a99a33f474c701f421d433d45dbc614fe"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a99a33f474c701f421d433d45dbc614fe">create_undo_file</a> (<a class="el" href="structst__removed.html">st_removed</a> *removals, <a class="el" href="structst__removed.html">st_removed</a> *removals_head)</td></tr>
 <tr class="separator:a99a33f474c701f421d433d45dbc614fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ca41f4d2839df843f704b5c26b7606b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a4ca41f4d2839df843f704b5c26b7606b">main</a> (const int argc, char *const argv[])</td></tr>
 <tr class="separator:a4ca41f4d2839df843f704b5c26b7606b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,6 +157,133 @@ ushort&#160;</td><td class="memItemRight" valign="bottom"><b>force</b> = 0</td><
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains the <a class="el" href="rmw_8c.html#a4ca41f4d2839df843f704b5c26b7606b">main()</a> function, along with a few other functions that are only used by <a class="el" href="rmw_8c.html#a4ca41f4d2839df843f704b5c26b7606b">main()</a>. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a6d23a1d924e3031b5c3775cdb47b358d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d23a1d924e3031b5c3775cdb47b358d">&#9670;&nbsp;</a></span>add_removal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structst__removed.html">st_removed</a>* add_removal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td>
+          <td class="paramname"><em>removals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>When a file has been successfully rmw'ed, add the filename to a linked list.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">removals</td><td>linked lists of files that have been succesfully rmw'ed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>file that has been successfully rmw'ed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8h.html#a30eaef2a8f85619df65aaf7728121eeb">undo_last_rmw</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to node in <a class="el" href="structst__removed.html">st_removed</a> type struct </dd></dl>
+
+</div>
+</div>
+<a id="a99a33f474c701f421d433d45dbc614fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99a33f474c701f421d433d45dbc614fe">&#9670;&nbsp;</a></span>create_undo_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void create_undo_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td>
+          <td class="paramname"><em>removals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td>
+          <td class="paramname"><em>removals_head</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Create a new undo_file (lastrmw) </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">removals</td><td>the linked list of files that were rmw'ed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">removals_head</td><td>the first node in removals </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8h.html#a30eaef2a8f85619df65aaf7728121eeb">undo_last_rmw</a> </dd>
+<dd>
+<a class="el" href="rmw_8c.html#a6d23a1d924e3031b5c3775cdb47b358d">add_removal</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae90daee417c0dbd9f5e6be3044dedfe4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae90daee417c0dbd9f5e6be3044dedfe4">&#9670;&nbsp;</a></span>dispose_removed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void dispose_removed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>recursively remove all nodes of an object of type <a class="el" href="structst__removed.html">st_removed</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">node</td><td>the node to be removed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="rmw_8c.html#a6d23a1d924e3031b5c3775cdb47b358d">add_removal</a> </dd></dl>
+
+</div>
+</div>
 <a id="a09c314cd2ed48f9465681bbd70c0bd98"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a09c314cd2ed48f9465681bbd70c0bd98">&#9670;&nbsp;</a></span>get_time_string()</h2>
 
@@ -242,10 +366,6 @@ ushort&#160;</td><td class="memItemRight" valign="bottom"><b>force</b> = 0</td><
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>an error number </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="purging__rmw_8h.html#a1efdd17f161dacde62eb441e6a1d114e">purge</a> </dd></dl>
-<p>if these are the same, purge has already been run today</p>
-<p>Create file if it doesn't exist</p>
-<p>if we can't even write this file to the config directory, something is not right. Make it fatal.</p>
-<p>If the user gets this far though, chances are this error will never be a problem.</p>
 
 </div>
 </div>
@@ -274,6 +394,14 @@ ushort&#160;</td><td class="memItemRight" valign="bottom"><b>force</b> = 0</td><
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The "main" part of rmw </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">argc</td><td>The number of paramaters given to rmw at run-time </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">argv</td><td>An array of arguments given to rmw at run-time </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an error code of type int, usually 0 because this main function hardly ever segfaults </dd></dl>
 <p>This if statement spits out a message if someone tries to use -g on the command line but has purge_after set to 0 in the config</p>
 <p>Make some variables get ready for the ReMoval</p>
 <p>cycle through wasteDirs to see which one matches device number of file.main_argv. Once found, the ReMoval happens (provided all the tests are passed.</p>

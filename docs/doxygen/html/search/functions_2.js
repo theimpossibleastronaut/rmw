@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['entry_5fnull_5fcheck',['entry_NULL_check',['../strings__rmw_8c.html#a900971b8ed50ac70af56a43010808b72',1,'strings_rmw.c']]],
-  ['exists',['exists',['../utils__rmw_8c.html#a832187570e36a515753dd52417eb3993',1,'exists(const char *filename):&#160;utils_rmw.c'],['../utils__rmw_8h.html#a832187570e36a515753dd52417eb3993',1,'exists(const char *filename):&#160;utils_rmw.c']]]
+  ['del_5fchar_5fshift_5fleft',['del_char_shift_left',['../config__rmw_8c.html#a37d289762b7e2672c96a9b0b3d6a4fdd',1,'config_rmw.c']]],
+  ['dispose_5fremoved',['dispose_removed',['../rmw_8c.html#ae90daee417c0dbd9f5e6be3044dedfe4',1,'rmw.c']]]
 ];

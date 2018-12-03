@@ -12,5 +12,5 @@ var searchData=
   ['rmdir_5frecursive',['rmdir_recursive',['../purging__rmw_8c.html#ab05c1c11815657112508fddcd8a5ed3d',1,'purging_rmw.c']]],
   ['rmw_2ec',['rmw.c',['../rmw_8c.html',1,'']]],
   ['rmw_2eh',['rmw.h',['../rmw_8h.html',1,'']]],
-  ['rmw_5ftarget',['rmw_target',['../structrmw__target.html',1,'rmw_target'],['../rmw_8h.html#acd98c9f3697cee4dfa082bca045c3c7b',1,'rmw_target():&#160;rmw.h']]]
+  ['rmw_5ftarget',['rmw_target',['../structrmw__target.html',1,'']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['insert_5fnode',['insert_node',['../bst_8c.html#a2862429e9542e6bdd6e2a463e1617299',1,'bst.c']]],
-  ['is_5ftime_5fto_5fpurge',['is_time_to_purge',['../rmw_8c.html#ae03bbf586cd5b09cd686642b20072d22',1,'rmw.c']]]
+  ['get_5fconfig_5fdata',['get_config_data',['../config__rmw_8c.html#ae95290d81968748dee591de2939c79b7',1,'get_config_data(void):&#160;config_rmw.c'],['../config__rmw_8h.html#ae95290d81968748dee591de2939c79b7',1,'get_config_data(void):&#160;config_rmw.c']]],
+  ['get_5ftime_5fstring',['get_time_string',['../rmw_8c.html#a09c314cd2ed48f9465681bbd70c0bd98',1,'rmw.c']]]
 ];
