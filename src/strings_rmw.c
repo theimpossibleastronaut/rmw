@@ -51,7 +51,7 @@ entry_NULL_check (const char *str, const char *func)
 {
   if (str == NULL || strlen (str) == 0)
   {
-    PRINT_MSG_ERROR;
+    print_msg_error ();
     fprintf (stderr,
 "A NULL string was passed to %s. That should not happen.\n\
 Please report this bug to the rmw developers.", func);
@@ -86,9 +86,10 @@ bufchk (const char *str, ushort boundary)
   if (len < boundary)
     return;
 
+  print_msg_error ();
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */
-  printf (_("  :Error: buffer overrun (segmentation fault) prevented.\n"));
+  printf (_("buffer overrun (segmentation fault) prevented.\n"));
   printf (_("If you think this may be a bug, please report it to the rmw developers.\n"));
 
   /*
@@ -221,6 +222,7 @@ printf ("abs_path = %s in %s\n", abs_path, __func__);
     return 0;
   }
 
-  printf (_("Error: realpath() returned an error.\n"));
+  print_msg_error ();
+  printf (_("realpath() returned an error.\n"));
   return errno;
 }

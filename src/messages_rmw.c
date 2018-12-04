@@ -48,6 +48,16 @@ static const char *ERR_STRING[] = {
   "FILE_NOT_FOUND"
 };
 
+void print_msg_error (void)
+{
+  fprintf (stderr, _("  :error: "));
+}
+
+void print_msg_warn (void)
+{
+  printf (_(" :warning: "));
+}
+
 /**
  * Called if fopen() returns NULL. prints an error message and some
  * extra info about the cause.
@@ -58,7 +68,7 @@ static const char *ERR_STRING[] = {
 void
 open_err (const char *filename, const char *function_name)
 {
-    PRINT_MSG_ERROR;
+    print_msg_error ();
     /* TRANSLATORS:  "opening" refers to a file  */
     printf (_("while opening %s\n"), filename);
 
@@ -86,7 +96,7 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
   else
   {
     /* TRANSLATORS:  "closing" refers to a file  */
-    PRINT_MSG_ERROR;
+    print_msg_error ();
     printf (_("while closing %s\n"), filename);
 
     static char combined_msg[MAX_MSG_SIZE];
@@ -100,7 +110,7 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
 
 void display_dot_trashinfo_error (const char *dti)
 {
-  PRINT_MSG_ERROR;
+  print_msg_error ();
   /* TRANSLATORS:  ".trashinfo" should remain untranslated
    *
    *               "format" refers to the layout of the file
@@ -118,7 +128,7 @@ void msg_warn_restore (int result)
 
   if (result != FILE_NOT_FOUND)
   {
-    printf (MSG_WARNING);
+    print_msg_warn ();
     if (result != FILE_NOT_FOUND)
     {
       /* TRANSLATORS: ignore "Restore()"
@@ -135,7 +145,7 @@ void chk_malloc (void *state, const char *func, const int line)
 {
   if (state == NULL)
   {
-    PRINT_MSG_ERROR;
+    print_msg_error ();
     printf (_("while attempting to allocate memory -- %s:%d\n"), func, line);
     msg_return_code (EXIT_MALLOC_ERR);
     exit (EXIT_MALLOC_ERR);
@@ -157,7 +167,7 @@ msg_return_code (int code)
 void
 msg_err_close_dir (const char *dir, const char *func, const int line)
 {
-  PRINT_MSG_ERROR;
+  print_msg_error ();
   fprintf (stderr, "while closing %s -- %s:%d\n", dir, func, line);
   perror ("closedir()");
   exit (errno);
@@ -166,7 +176,7 @@ msg_err_close_dir (const char *dir, const char *func, const int line)
 void
 msg_err_open_dir (const char *dir, const char *func, const int line)
 {
-  PRINT_MSG_ERROR;
+  print_msg_error ();
   fprintf (stderr, _("while opening %s -- %s:%d\n"), dir, func, line);
   perror ("opendir()");
   exit (errno);
@@ -175,7 +185,7 @@ msg_err_open_dir (const char *dir, const char *func, const int line)
 void
 msg_err_rename (const char *src_file, const char *dest_file, const char *func, const int line)
 {
-  PRINT_MSG_ERROR;
+  print_msg_error ();
   printf (_("while trying to move (rename)\n\
   %s -> %s -- %s:%d\n"), src_file, dest_file, func, line);
   perror ("rename()");
@@ -190,7 +200,7 @@ msg_err_rename (const char *src_file, const char *dest_file, const char *func, c
 void
 msg_err_fatal_fprintf (const char *func)
 {
-  PRINT_MSG_ERROR;
+  print_msg_error ();
   fprintf (stderr, "fprintf returned an error in %s.\n", func);
   exit (EXIT_FAILURE);
 }

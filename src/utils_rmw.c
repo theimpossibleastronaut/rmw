@@ -31,6 +31,7 @@
 
 #include "utils_rmw.h"
 #include "strings_rmw.h"
+#include "messages_rmw.h"
 
 /**
  * make_dir()
@@ -84,7 +85,8 @@ make_dir (const char *dir)
     return MAKE_DIR_SUCCESS;
   }
 
-  printf (_("  :Error: while creating %s\n"), add_to_path);
+  print_msg_error ();
+  printf (_("while creating %s\n"), add_to_path);
   perror ("make_dir()");
   return MAKE_DIR_FAILURE;
 }

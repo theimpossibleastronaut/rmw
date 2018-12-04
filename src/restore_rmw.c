@@ -241,8 +241,11 @@ Duplicate filename at destination - appending time string...\n"));
           printf ("+'%s' -> '%s'\n", file_arg, file.dest);
 
           if (remove (file.info) != 0)
-            printf (_("  :Error: while removing .trashinfo file: '%s'\n"),
+          {
+            print_msg_error ();
+            printf (_("while removing .trashinfo file: '%s'\n"),
                     file.info);
+          }
           else if (verbose)
             printf ("-%s\n", file.info);
         }
@@ -254,7 +257,8 @@ Duplicate filename at destination - appending time string...\n"));
       }
       else
       {
-         printf ("  :Error: (fgets) Able to open '%s' but encountered an unknown error\n",
+        print_msg_error ();
+        printf ("(fgets) Able to open '%s' but encountered an unknown error\n",
                 file.info);
         close_file (fp, file.info, __func__);
         return ERR_FGETS;
@@ -496,7 +500,8 @@ undo_last_rmw (st_waste *waste_curr)
   {
     if (remove (undo_path))
     {
-      printf (_(" :warning: failed to remove %s\n"), undo_path);
+      print_msg_error ();
+      printf (_("failed to remove %s\n"), undo_path);
       perror (__func__);
     }
 

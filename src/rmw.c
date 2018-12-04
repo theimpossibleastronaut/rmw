@@ -136,7 +136,8 @@ is_time_to_purge (void)
 
     if (fgets (last_purge_dd, sizeof (last_purge_dd), fp) == NULL)
     {
-      printf ("Error: while getting line from %s\n", file_lastpurge);
+      print_msg_error ();
+      printf ("while getting line from %s\n", file_lastpurge);
       perror (__func__);
       close_file (fp, file_lastpurge, __func__);
       return 0;
@@ -293,7 +294,8 @@ main (const int argc, char* const argv[])
   /* If MP was defined as something other than a number when building */
   if (MP < 1)
   {
-    fprintf (stderr, "  :Error: MP must be defined as a number\n");
+    print_msg_error ();
+    fprintf (stderr, "MP must be defined as a number\n");
     exit (1);
   }
 
@@ -413,10 +415,11 @@ verbose = 1;
 
   if (HOMEDIR == NULL)
   {
+    print_msg_error ();
     /* FIXME: Perhaps there should be an option in the config file so a
      * user can specify a home directory, and pass the $HOME variable
      */
-    printf (_("Error: while getting the path to your home directory\n"));
+    printf (_("while getting the path to your home directory\n"));
     return 1;
   }
 
@@ -432,8 +435,8 @@ verbose = 1;
   {}
   else
   {
-    printf (_("\
-  :Error: unable to create config and data directory\n\
+    print_msg_error ();
+    printf (_("unable to create config and data directory\n\
 Please check your configuration file and permissions\n\n"));
     printf (_("Unable to continue. Exiting...\n"));
     return 1;
@@ -634,8 +637,11 @@ Please check your configuration file and permissions\n\n"));
                 removals_head = removals;
             }
             else
+            {
+              print_msg_error ();
               /* TRANSLATORS: Do not translate ".trashinfo"  */
-              printf (_("  :Error: number %d trying to create a .trashinfo file\n"), create_ti_res);
+              printf (_("number %d trying to create a .trashinfo file\n"), create_ti_res);
+            }
           }
           else
             msg_err_rename (file->main_argv, file->dest_name, __func__, __LINE__);
@@ -654,7 +660,7 @@ Please check your configuration file and permissions\n\n"));
 
       if (!match)
       {
-        printf (MSG_WARNING);
+        print_msg_warn ();
         printf (_("No suitable filesystem found for \"%s\"\n"), file->main_argv);
       }
     }

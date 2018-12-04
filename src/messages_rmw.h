@@ -30,8 +30,9 @@
 
 #define MAX_MSG_SIZE 512
 
-#define MSG_WARNING gettext (" :warning: ")
-#define PRINT_MSG_ERROR   fprintf (stderr, gettext ("  :error: "))
+void print_msg_error (void);
+
+void print_msg_warn (void);
 
 void
 open_err (const char *filename, const char *function_name);

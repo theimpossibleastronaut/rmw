@@ -89,7 +89,8 @@ rmdir_recursive (char *path, short unsigned level)
       }
       else
       {
-        printf (_("  :Error: while changing permissions of %s\n"), path);
+        print_msg_error ();
+        printf (_("while changing permissions of %s\n"), path);
         perror ("chmod: ");
         printf ("\n");
         /* if permissions aren't changed, the directory is still
@@ -182,11 +183,11 @@ purge (const st_waste * waste_curr)
     cmd_empty = strcmp (getenv ("RMWTRASH"), "empty") ? 0 : 1;
 
   extern const int purge_after;
+  printf ("\n");
   if (cmd_empty)
-    printf (_("\nPurging all files in waste folders ...\n"));
+    printf (_("Purging all files in waste folders ...\n"));
   else
-    printf (_
-            ("\nPurging files based on number of days in the waste folders (%u) ...\n"),
+    printf (_("Purging files based on number of days in the waste folders (%u) ...\n"),
             purge_after);
 
   struct stat st;
@@ -305,17 +306,18 @@ purge (const st_waste * waste_curr)
           switch (status)
           {
           case NOT_WRITEABLE:
-            printf (_
-                    (" :warning: Directory not purged - still contains files\n"));
+            print_msg_warn ();
+            printf (_("Directory not purged - still contains files\n"));
             printf ("%s\n", purgeFile);
             printf (_("(check owner/write permissions)\n"));
             dirs_containing_files_ctr++;
             break;
 
           case MAX_DEPTH_REACHED:
+            print_msg_warn ();
             /* TRANSLATORS:  "depth" refers to the recursion depth in a
              * directory   */
-            printf (_(" :warning: Maximum depth of %u reached, skipping\n"),
+            printf (_("Maximum depth of %u reached, skipping\n"),
                     RMDIR_MAX_DEPTH);
             printf ("%s\n", purgeFile);
             max_depth_reached_ctr++;
@@ -331,14 +333,16 @@ purge (const st_waste * waste_curr)
             }
             else
             {
+              print_msg_error ();
               /* TRANSLATORS:  "removing" refers to a file or folder  */
-              printf (_("  :Error: while removing %s\n"), purgeFile);
+              printf (_("while removing %s\n"), purgeFile);
               perror (__func__);
             }
             break;
 
           default:
-            printf (_("  :Error: while removing %s\n"), purgeFile);
+            print_msg_error ();
+            printf (_("while removing %s\n"), purgeFile);
             perror (__func__);
             break;
           }
@@ -357,7 +361,8 @@ purge (const st_waste * waste_curr)
           }
           else
           {
-            printf (_("  :Error: while removing %s\n"), purgeFile);
+            print_msg_error ();
+            printf (_("while removing %s\n"), purgeFile);
             perror (__func__);
             success = 0;
           }
@@ -377,7 +382,8 @@ purge (const st_waste * waste_curr)
           }
           else
           {
-            printf (_("  :Error: while removing %s\n"), entry_path);
+            print_msg_error ();
+            printf (_("while removing %s\n"), entry_path);
             perror (__func__);
           }
         }
@@ -465,7 +471,10 @@ orphan_maint (st_waste * waste_curr)
         /* TRANSLATORS:  "created" refers to a file  */
         printf (_("Created %s\n"), path_to_trashinfo);
       else
-        printf (_("  :Error: while creating %s\n"), path_to_trashinfo);
+      {
+        print_msg_error ();
+        printf (_("while creating %s\n"), path_to_trashinfo);
+      }
 
     }
     if (closedir (files))

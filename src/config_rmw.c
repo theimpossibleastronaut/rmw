@@ -204,7 +204,8 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
       removable = 1;
     else
     {
-      printf (_("  :Error: invalid option in config\n"));
+      print_msg_error ();
+      printf (_("invalid option in config\n"));
       goto DO_CONT;
     }
   }
@@ -289,7 +290,7 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
     waste_curr->dev_num = st.st_dev;
   else
   {
-    printf (MSG_WARNING);
+    print_msg_warn ();
     perror ("lstat()");
   }
 
@@ -474,7 +475,7 @@ get_config_data (void)
     }
     else
     {
-      fprintf (stderr, MSG_WARNING);
+      print_msg_warn ();
       fprintf (stderr, _("Unknown or invalid option: '%s'\n"),
                line_from_config);
     }
@@ -496,7 +497,8 @@ get_config_data (void)
 
   if (waste_curr == NULL)
   {
-    printf (_("  :Error: no usable WASTE folder could be found\n\
+    print_msg_error ();
+    printf (_("no usable WASTE folder could be found\n\
 Please check your configuration file and permissions\n\
 If you need further help, or to report a possible bug,\n\
 visit the rmw web site at\n"));
