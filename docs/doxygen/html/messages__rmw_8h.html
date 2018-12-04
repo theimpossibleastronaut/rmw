@@ -94,6 +94,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <area shape="rect" id="node6" href="restore__rmw_8c.html" title="src/restore_rmw.c" alt="" coords="575,80,701,107"/>
 <area shape="rect" id="node7" href="rmw_8c.html" title="Contains the main() function, along with a few other functions that are only used by main()..." alt="" coords="726,80,806,107"/>
 <area shape="rect" id="node8" href="strings__rmw_8c.html" title="Contains functions primarily related to strings. " alt="" coords="831,80,957,107"/>
+<area shape="rect" id="node9" href="utils__rmw_8c.html" title="src/utils_rmw.c" alt="" coords="981,80,1092,107"/>
 </map>
 </div>
 </div>
@@ -104,15 +105,15 @@ Macros</h2></td></tr>
 <tr class="memitem:a17e333794ae761cd55ec6fd6fc0f1bac"><td class="memItemLeft" align="right" valign="top"><a id="a17e333794ae761cd55ec6fd6fc0f1bac"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_MSG_SIZE</b>&#160;&#160;&#160;512</td></tr>
 <tr class="separator:a17e333794ae761cd55ec6fd6fc0f1bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4d022c97af3182d67cd28832603569b"><td class="memItemLeft" align="right" valign="top"><a id="aa4d022c97af3182d67cd28832603569b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MSG_WARNING</b>&#160;&#160;&#160;gettext (&quot; :warning: &quot;)</td></tr>
-<tr class="separator:aa4d022c97af3182d67cd28832603569b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5737b4d22cc8fd3b8339c55e4ff2506f"><td class="memItemLeft" align="right" valign="top"><a id="a5737b4d22cc8fd3b8339c55e4ff2506f"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PRINT_MSG_ERROR</b>&#160;&#160;&#160;fprintf (stderr, gettext (&quot;  :error: &quot;))</td></tr>
-<tr class="separator:a5737b4d22cc8fd3b8339c55e4ff2506f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:abbfbb613b5f97c1c366c7bd020e3bc09"><td class="memItemLeft" align="right" valign="top"><a id="abbfbb613b5f97c1c366c7bd020e3bc09"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>print_msg_error</b> (void)</td></tr>
+<tr class="separator:abbfbb613b5f97c1c366c7bd020e3bc09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad24854d3e3827bbe24a67bad2dfdd96e"><td class="memItemLeft" align="right" valign="top"><a id="ad24854d3e3827bbe24a67bad2dfdd96e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>print_msg_warn</b> (void)</td></tr>
+<tr class="separator:ad24854d3e3827bbe24a67bad2dfdd96e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc6e49b216fb9c38ddb389ad3c97fbad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="messages__rmw_8h.html#afc6e49b216fb9c38ddb389ad3c97fbad">open_err</a> (const char *filename, const char *function_name)</td></tr>
 <tr class="separator:afc6e49b216fb9c38ddb389ad3c97fbad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba5627f07c8ecab8e02441acde10c699"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="messages__rmw_8h.html#aba5627f07c8ecab8e02441acde10c699">close_file</a> (FILE *file_ptr, const char *filename, const char *function_name)</td></tr>

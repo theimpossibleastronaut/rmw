@@ -11,6 +11,11 @@ If you submit a patch, please add yourself (along with your personal
 link) to
 [AUTHORS.md](https://github.com/theimpossibleastronaut.com/rmw/blob/master/AUTHORS.md)
 
+## Website
+
+See [Website Design](https://remove-to-waste.info/website-design.html)
+for information specific to the rmw website.
+
 ## Pull Requests ##
 1. Join the [chat room](https://matrix.to/#/!XeJxcdkywroPaRKKtr:matrix.org) so if any problems arise, you can get support.
 1. [Fork the rmw repo](https://github.com/theimpossibleastronaut.com/rmw/fork)
