@@ -189,8 +189,8 @@ you "permission denied; directory still contains files" (e.g. rwm -gff).
 ## Notes
 
 After you use rmw, it will create a 'lastpurge' and 'lastrmw' file in
-$HOME/config/rmw. `lastpurge` contains the the day of the last time rmw
-did a purge check (it only checks once per day). `lastrmw` contains the
+$HOME/config/rmw. `lastpurge` contains the day of the last time rmw did
+a purge check (it only checks once per day). `lastrmw` contains the
 filenames of the last rmw operation; the file is read when `rmw -u` is
 used.
 
