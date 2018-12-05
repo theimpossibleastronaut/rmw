@@ -1,6 +1,10 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-12-05
+
+  * release version 0.7.01
+
 2018-12-02
 
 * Added --enable-debug option to `configure`.

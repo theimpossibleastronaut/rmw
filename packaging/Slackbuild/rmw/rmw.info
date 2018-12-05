@@ -1,5 +1,5 @@
 PRGNAM="rmw"
-VERSION="0.4.05"
+VERSION="0.7.01"
 HOMEPAGE="https://remove-to-waste.info/"
 DOWNLOAD="https://github.com/theimpossibleastronaut/rmw/releases/download/v0.4.05/rmw-0.4.05.tar.gz"
 MD5SUM="6de074da3fcf206c7791d73ff81a70b0"
