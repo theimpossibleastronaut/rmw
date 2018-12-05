@@ -2816,11 +2816,6 @@ ac_config_headers="$ac_config_headers src/config.h:config.in"
 # Don't add -g and -O2 by default
 : ${CFLAGS=""}
 
-# IS-RELEASE can be used to change the 'enable-debug' default to ’no’
-# when making a release. Set IS-RELEASE to ’yes’ or ’no’ as
-# appropriate. By default, it uses the value of $ax_is_release, so if
-# you are using the AX_IS_RELEASE macro, there is no need to pass this
-# parameter.
 
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable debugging" >&5
@@ -2913,7 +2908,6 @@ $as_echo "#define NDEBUG /**/" >>confdefs.h
 
 fi
     ax_enable_debug=$enable_debug
-
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
