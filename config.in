@@ -73,6 +73,9 @@
 /* Define to 1 if <ncurses/menu.h> is present */
 #undef HAVE_NCURSES_MENU_H
 
+/* Define to 1 if you have the `snprintf' function. */
+#undef HAVE_SNPRINTF
+
 /* Define to 1 if stdbool.h conforms to C99. */
 #undef HAVE_STDBOOL_H
 
@@ -96,6 +99,9 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `vsnprintf' function. */
+#undef HAVE_VSNPRINTF
 
 /* Define to 1 if the system has the type `_Bool'. */
 #undef HAVE__BOOL
@@ -123,6 +129,9 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
+
+/* "enable replacement (v)snprintf if system (v)snprintf is broken" */
+#undef PREFER_PORTABLE_SNPRINTF
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS

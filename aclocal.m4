@@ -1187,7 +1187,7 @@ AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
 m4_include([m4/ax_check_enable_debug.m4])
-m4_include([m4/ax_is_release.m4])
+m4_include([m4/ax_func_snprintf.m4])
 m4_include([m4/ax_require_defined.m4])
 m4_include([m4/ax_with_curses.m4])
 m4_include([m4/ax_with_curses_extra.m4])
