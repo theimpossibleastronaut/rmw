@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['undo_5flast_5frmw',['undo_last_rmw',['../restore__rmw_8c.html#a30eaef2a8f85619df65aaf7728121eeb',1,'undo_last_rmw(st_waste *waste_curr):&#160;restore_rmw.c'],['../restore__rmw_8h.html#a30eaef2a8f85619df65aaf7728121eeb',1,'undo_last_rmw(st_waste *waste_curr):&#160;restore_rmw.c']]],
-  ['unescape_5furl',['unescape_url',['../restore__rmw_8c.html#a3866c2c05a9140dcf43bc85f9d599753',1,'restore_rmw.c']]],
-  ['utils_5frmw_2ec',['utils_rmw.c',['../utils__rmw_8c.html',1,'']]],
-  ['utils_5frmw_2eh',['utils_rmw.h',['../utils__rmw_8h.html',1,'']]]
+  ['set_5ftime_5fnow_5fformat',['set_time_now_format',['../rmw_8c.html#acb046950f60ac78ea73bd718ef11f9bb',1,'rmw.c']]],
+  ['size_5fstr',['size_str',['../structst__node.html#a5ee0a1009cbe510bc27884fa7b3eeb53',1,'st_node']]],
+  ['st_5fnode',['st_node',['../structst__node.html',1,'st_node'],['../bst_8h.html#a03e93fd3ade69dea2ca8d10ccc008e63',1,'st_node():&#160;bst.h']]],
+  ['st_5fremoved',['st_removed',['../structst__removed.html',1,'']]],
+  ['st_5fwaste',['st_waste',['../structst__waste.html',1,'']]],
+  ['strings_5frmw_2ec',['strings_rmw.c',['../strings__rmw_8c.html',1,'']]]
 ];

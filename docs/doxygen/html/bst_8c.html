@@ -72,48 +72,116 @@ $(function() {
 
 <p>functions related to managing a binary search tree, primarily used by <a class="el" href="restore__rmw_8c.html#a03c348b05998a89318246f00275fce89">restore_select()</a>  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;bst.h&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="bst_8h_source.html">bst.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="messages__rmw_8h_source.html">messages_rmw.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for bst.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="bst_8c__incl.png" border="0" usemap="#src_2bst_8c" alt=""/></div>
 <map name="src_2bst_8c" id="src_2bst_8c">
-<area shape="rect" id="node2" href="bst_8h_source.html" title="bst.h" alt="" coords="125,155,176,181"/>
+<area shape="rect" id="node2" href="bst_8h.html" title="bst.h" alt="" coords="125,155,176,181"/>
 <area shape="rect" id="node6" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="451,80,576,107"/>
 <area shape="rect" id="node7" href="rmw_8h.html" title="rmw.h" alt="" coords="484,155,543,181"/>
-<area shape="rect" id="node15" href="strings__rmw_8h.html" title="strings_rmw.h" alt="" coords="876,155,980,181"/>
+<area shape="rect" id="node15" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="876,155,980,181"/>
 <area shape="rect" id="node14" href="gettext_8h_source.html" title="gettext.h" alt="" coords="297,229,370,256"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa8c6e26d66642e1b670bcbd1da53c663"><td class="memItemLeft" align="right" valign="top"><a id="aa8c6e26d66642e1b670bcbd1da53c663"></a>
-static <a class="el" href="structnode.html">node</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>create_node</b> (char *data, char *desc)</td></tr>
-<tr class="separator:aa8c6e26d66642e1b670bcbd1da53c663"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2862429e9542e6bdd6e2a463e1617299"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structnode.html">node</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bst_8c.html#a2862429e9542e6bdd6e2a463e1617299">insert_node</a> (<a class="el" href="structnode.html">node</a> *root, comparer strcasecmp, char *data, char *desc)</td></tr>
-<tr class="separator:a2862429e9542e6bdd6e2a463e1617299"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04248e3c55d4b5ac56cc39b7d59c14d4"><td class="memItemLeft" align="right" valign="top"><a id="a04248e3c55d4b5ac56cc39b7d59c14d4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>populate_menu</b> (<a class="el" href="structnode.html">node</a> *<a class="el" href="structnode.html">node</a>, ITEM **my_items, bool level_one)</td></tr>
-<tr class="separator:a04248e3c55d4b5ac56cc39b7d59c14d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4b3f1f1f13b2275a1c5cc74fe2082ce"><td class="memItemLeft" align="right" valign="top"><a id="ad4b3f1f1f13b2275a1c5cc74fe2082ce"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dispose</b> (<a class="el" href="structnode.html">node</a> *root)</td></tr>
-<tr class="separator:ad4b3f1f1f13b2275a1c5cc74fe2082ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c2b9a66df3a0c07fc3ea01833426734"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structst__node.html">st_node</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bst_8c.html#a5c2b9a66df3a0c07fc3ea01833426734">create_node</a> (char *data, char *size_str)</td></tr>
+<tr class="separator:a5c2b9a66df3a0c07fc3ea01833426734"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aba4a6b0f7a2b20a087100cb3d8e25f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structst__node.html">st_node</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bst_8c.html#a5aba4a6b0f7a2b20a087100cb3d8e25f">insert_node</a> (<a class="el" href="structst__node.html">st_node</a> *root, comparer strcasecmp, char *data, char *size_str)</td></tr>
+<tr class="separator:a5aba4a6b0f7a2b20a087100cb3d8e25f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a952a01c105a741b7d940e68f76af90dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bst_8c.html#a952a01c105a741b7d940e68f76af90dd">populate_menu</a> (<a class="el" href="structst__node.html">st_node</a> *node, ITEM **my_items, bool level_one)</td></tr>
+<tr class="separator:a952a01c105a741b7d940e68f76af90dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d0760f7544e428f7aec84acc018ce2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bst_8c.html#a4d0760f7544e428f7aec84acc018ce2e">dispose</a> (<a class="el" href="structst__node.html">st_node</a> *root)</td></tr>
+<tr class="separator:a4d0760f7544e428f7aec84acc018ce2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>functions related to managing a binary search tree, primarily used by <a class="el" href="restore__rmw_8c.html#a03c348b05998a89318246f00275fce89">restore_select()</a> </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a2862429e9542e6bdd6e2a463e1617299"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2862429e9542e6bdd6e2a463e1617299">&#9670;&nbsp;</a></span>insert_node()</h2>
+<a id="a5c2b9a66df3a0c07fc3ea01833426734"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c2b9a66df3a0c07fc3ea01833426734">&#9670;&nbsp;</a></span>create_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structst__node.html">st_node</a>* create_node </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>size_str</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>create a new node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size_str</td><td>The formatted string that shows the file size when <a class="el" href="restore__rmw_8c.html#a03c348b05998a89318246f00275fce89">restore_select()</a> is used </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>node </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="bst_8c.html#a4d0760f7544e428f7aec84acc018ce2e">dispose()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a4d0760f7544e428f7aec84acc018ce2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d0760f7544e428f7aec84acc018ce2e">&#9670;&nbsp;</a></span>dispose()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structnode.html">node</a>* insert_node </td>
+          <td class="memname">void dispose </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structnode.html">node</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structst__node.html">st_node</a> *&#160;</td>
+          <td class="paramname"><em>root</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>recursively remove all nodes of the tree </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">root</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="bst_8c.html#a5c2b9a66df3a0c07fc3ea01833426734">create_node()</a> </dd></dl>
+
+</div>
+</div>
+<a id="a5aba4a6b0f7a2b20a087100cb3d8e25f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aba4a6b0f7a2b20a087100cb3d8e25f">&#9670;&nbsp;</a></span>insert_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structst__node.html">st_node</a>* insert_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__node.html">st_node</a> *&#160;</td>
           <td class="paramname"><em>root</em>, </td>
         </tr>
         <tr>
@@ -132,7 +200,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>dispose</b> (<a class
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>desc</em>&#160;</td>
+          <td class="paramname"><em>size_str</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -141,7 +209,56 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>dispose</b> (<a class
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Insert a new node into the binary search tree; used in <a class="el" href="restore__rmw_8c.html#a03c348b05998a89318246f00275fce89">restore_select()</a> </p>
+<p>Insert a new node into the binary search tree; used in <a class="el" href="restore__rmw_8c.html#a03c348b05998a89318246f00275fce89">restore_select()</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">root</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="bst_8c.html#a5c2b9a66df3a0c07fc3ea01833426734">create_node</a> </dd></dl>
+
+</div>
+</div>
+<a id="a952a01c105a741b7d940e68f76af90dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a952a01c105a741b7d940e68f76af90dd">&#9670;&nbsp;</a></span>populate_menu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void populate_menu </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__node.html">st_node</a> *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ITEM **&#160;</td>
+          <td class="paramname"><em>my_items</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>level_one</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Add a binary search tree to an array to populate the list of menu items </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">node</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">my_items</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">level_one</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8c.html#a03c348b05998a89318246f00275fce89">restore_select()</a> </dd></dl>
 
 </div>
 </div>

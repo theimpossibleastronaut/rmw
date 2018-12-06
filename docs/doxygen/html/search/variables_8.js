@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['verbose',['verbose',['../rmw_8h.html#ab3f078684998b83967d507d0f453f454',1,'rmw.h']]]
+  ['next_5fnode',['next_node',['../structst__waste.html#aaecf64a2a63207e3ed3e8fa6545c4649',1,'st_waste']]]
 ];

@@ -84,7 +84,7 @@ $(function() {
 <code>#include &quot;<a class="el" href="config__rmw_8h_source.html">config_rmw.h</a>&quot;</code><br />
 <code>#include &quot;trashinfo_rmw.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="purging__rmw_8h_source.html">purging_rmw.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="strings__rmw_8h_source.html">strings_rmw.h</a>&quot;</code><br />
+<code>#include &quot;strings_rmw.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="messages__rmw_8h_source.html">messages_rmw.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for rmw.c:</div>
@@ -98,7 +98,7 @@ Include dependency graph for rmw.c:</div>
 <area shape="rect" id="node20" href="config__rmw_8h.html" title="config_rmw.h" alt="" coords="887,80,987,107"/>
 <area shape="rect" id="node21" href="trashinfo__rmw_8h_source.html" title="trashinfo_rmw.h" alt="" coords="533,80,647,107"/>
 <area shape="rect" id="node22" href="purging__rmw_8h.html" title="purging_rmw.h" alt="" coords="1193,80,1299,107"/>
-<area shape="rect" id="node24" href="strings__rmw_8h.html" title="strings_rmw.h" alt="" coords="641,155,745,181"/>
+<area shape="rect" id="node24" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="641,155,745,181"/>
 <area shape="rect" id="node26" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="383,80,509,107"/>
 <area shape="rect" id="node11" href="gettext_8h_source.html" title="gettext.h" alt="" coords="39,229,112,256"/>
 </map>
@@ -123,7 +123,7 @@ Functions</h2></td></tr>
 <tr class="separator:ae03bbf586cd5b09cd686642b20072d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d23a1d924e3031b5c3775cdb47b358d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structst__removed.html">st_removed</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a6d23a1d924e3031b5c3775cdb47b358d">add_removal</a> (<a class="el" href="structst__removed.html">st_removed</a> *removals, const char *file)</td></tr>
 <tr class="separator:a6d23a1d924e3031b5c3775cdb47b358d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae90daee417c0dbd9f5e6be3044dedfe4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#ae90daee417c0dbd9f5e6be3044dedfe4">dispose_removed</a> (<a class="el" href="structst__removed.html">st_removed</a> *<a class="el" href="structnode.html">node</a>)</td></tr>
+<tr class="memitem:ae90daee417c0dbd9f5e6be3044dedfe4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#ae90daee417c0dbd9f5e6be3044dedfe4">dispose_removed</a> (<a class="el" href="structst__removed.html">st_removed</a> *node)</td></tr>
 <tr class="separator:ae90daee417c0dbd9f5e6be3044dedfe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99a33f474c701f421d433d45dbc614fe"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a99a33f474c701f421d433d45dbc614fe">create_undo_file</a> (<a class="el" href="structst__removed.html">st_removed</a> *removals, <a class="el" href="structst__removed.html">st_removed</a> *removals_head)</td></tr>
 <tr class="separator:a99a33f474c701f421d433d45dbc614fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,26 +132,20 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a190133585f4985fd73f716b57fc04474"><td class="memItemLeft" align="right" valign="top"><a id="a190133585f4985fd73f716b57fc04474"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>list</b></td></tr>
+<tr class="memitem:a190133585f4985fd73f716b57fc04474"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a190133585f4985fd73f716b57fc04474">list</a></td></tr>
 <tr class="separator:a190133585f4985fd73f716b57fc04474"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac73a23bead26fdd7cbd1374bc9f0224c"><td class="memItemLeft" align="right" valign="top"><a id="ac73a23bead26fdd7cbd1374bc9f0224c"></a>
-char *&#160;</td><td class="memItemRight" valign="bottom"><b>HOMEDIR</b></td></tr>
+<tr class="memitem:ac73a23bead26fdd7cbd1374bc9f0224c"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#ac73a23bead26fdd7cbd1374bc9f0224c">HOMEDIR</a></td></tr>
 <tr class="separator:ac73a23bead26fdd7cbd1374bc9f0224c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dcf849c082a7fad8fce9c80bd4d65a3"><td class="memItemLeft" align="right" valign="top"><a id="a7dcf849c082a7fad8fce9c80bd4d65a3"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>alt_config</b> = NULL</td></tr>
+<tr class="memitem:a7dcf849c082a7fad8fce9c80bd4d65a3"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a7dcf849c082a7fad8fce9c80bd4d65a3">alt_config</a> = NULL</td></tr>
 <tr class="separator:a7dcf849c082a7fad8fce9c80bd4d65a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa8cbc915324c0c660a01e0e234eeac2"><td class="memItemLeft" align="right" valign="top"><a id="afa8cbc915324c0c660a01e0e234eeac2"></a>
-char *&#160;</td><td class="memItemRight" valign="bottom"><b>time_now</b></td></tr>
+<tr class="memitem:afa8cbc915324c0c660a01e0e234eeac2"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#afa8cbc915324c0c660a01e0e234eeac2">time_now</a></td></tr>
 <tr class="separator:afa8cbc915324c0c660a01e0e234eeac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3f281c180496b9f7bf1d29bf7a46843"><td class="memItemLeft" align="right" valign="top"><a id="ab3f281c180496b9f7bf1d29bf7a46843"></a>
 char *&#160;</td><td class="memItemRight" valign="bottom"><b>time_str_appended</b></td></tr>
 <tr class="separator:ab3f281c180496b9f7bf1d29bf7a46843"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad43758b7f784fd96badaff6128fd923e"><td class="memItemLeft" align="right" valign="top"><a id="ad43758b7f784fd96badaff6128fd923e"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>purge_after</b> = 0</td></tr>
+<tr class="memitem:ad43758b7f784fd96badaff6128fd923e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#ad43758b7f784fd96badaff6128fd923e">purge_after</a> = 0</td></tr>
 <tr class="separator:ad43758b7f784fd96badaff6128fd923e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3cd9b52cb14d8434d33ba4137c8b43a"><td class="memItemLeft" align="right" valign="top"><a id="aa3cd9b52cb14d8434d33ba4137c8b43a"></a>
-ushort&#160;</td><td class="memItemRight" valign="bottom"><b>force</b> = 0</td></tr>
+<tr class="memitem:aa3cd9b52cb14d8434d33ba4137c8b43a"><td class="memItemLeft" align="right" valign="top">ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#aa3cd9b52cb14d8434d33ba4137c8b43a">force</a> = 0</td></tr>
 <tr class="separator:aa3cd9b52cb14d8434d33ba4137c8b43a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -439,6 +433,97 @@ ushort&#160;</td><td class="memItemRight" valign="bottom"><b>force</b> = 0</td><
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>char* </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a7dcf849c082a7fad8fce9c80bd4d65a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dcf849c082a7fad8fce9c80bd4d65a3">&#9670;&nbsp;</a></span>alt_config</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* alt_config = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Alternate configuration file given at the command line with -c </p>
+
+</div>
+</div>
+<a id="aa3cd9b52cb14d8434d33ba4137c8b43a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3cd9b52cb14d8434d33ba4137c8b43a">&#9670;&nbsp;</a></span>force</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ushort force = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set from the command line and optionally from the user's config file </p>
+
+</div>
+</div>
+<a id="ac73a23bead26fdd7cbd1374bc9f0224c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac73a23bead26fdd7cbd1374bc9f0224c">&#9670;&nbsp;</a></span>HOMEDIR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* HOMEDIR</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The users HOME directory </p>
+
+</div>
+</div>
+<a id="a190133585f4985fd73f716b57fc04474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a190133585f4985fd73f716b57fc04474">&#9670;&nbsp;</a></span>list</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool list</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>list waste folder option </p>
+
+</div>
+</div>
+<a id="ad43758b7f784fd96badaff6128fd923e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad43758b7f784fd96badaff6128fd923e">&#9670;&nbsp;</a></span>purge_after</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int purge_after = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Read from the user's config file </p>
+
+</div>
+</div>
+<a id="afa8cbc915324c0c660a01e0e234eeac2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa8cbc915324c0c660a01e0e234eeac2">&#9670;&nbsp;</a></span>time_now</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* time_now</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Formatted time string indicating the current time; used for DeletionDate in <b>trashinfo</b> files and for comparison in <a class="el" href="purging__rmw_8c.html#a1efdd17f161dacde62eb441e6a1d114e">purge()</a> e.g. "2018-12-03T22:09:39" </p>
 
 </div>
 </div>
