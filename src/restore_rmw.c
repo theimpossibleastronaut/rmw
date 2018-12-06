@@ -289,6 +289,10 @@ Duplicate filename at destination - appending time string...\n"));
  * Displays a list of files that can be restored, user can select multiple
  * files using a curses-bases interface.
  *
+ * If rmw isn't built with ncurses wide-character support enabled, a user
+ * may experience this minor
+ * @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/205">In some cases, not all files are displayed when using '-s'</a>
+ *
  * @param[in] waste_curr The linked list of waste folders
  * @return an error number
  * @see Restore()

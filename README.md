@@ -5,12 +5,12 @@ utility. It can send files to your "Desktop" trash, or a completely
 separate folder; restore files and append a unique string to the
 filenames so they won't be overwritten (duplication protection).
 
-Web site: https://remove-to-waste.info/
+Web site: <https://remove-to-waste.info/>
 
 This is the README for the development version of rmw. It may mention
 features that aren't included in the last release, or differ in other
 ways. The README from the last release is at
-https://github.com/theimpossibleastronaut/rmw/blob/v0.7.01/README.md
+<https://github.com/theimpossibleastronaut/rmw/blob/v0.7.01/README.md>
 
 ## Build Status
 
@@ -34,12 +34,12 @@ libncursesw
 If you are building from source, you will need the libncursesw(5 or 6)-dev
 package from your operating system distribution.
 
-Note: On *OpenBSD*, you must precede `./configure` with `MENU_LIBS=-lmenuw`.
+Note: On **OpenBSD**, you must precede `./configure` with `MENU_LIBS=-lmenuw`.
 Example:
 
     MENU_LIBS=-lmenuw ./configure
 
-Note: On *OSX*, ncursesw isn't provided by default but can be installed
+Note: On **OSX**, ncursesw isn't provided by default but can be installed
 using `brew install ncurses`. Then precede `./configure` with
 `PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"` Example:
 
@@ -50,7 +50,7 @@ libmenuw some other way, rmw will use `ncurses` but you may experience
 [this minor
 bug](https://github.com/theimpossibleastronaut/rmw/issues/205).
 
-Note: rmw has been built on *Windows* 2 years ago using Cygwin but it
+Note: rmw has been built on **Windows** 2 years ago using Cygwin but it
 didn't use the proper directories. We have no Windows developers
 working on this project and are hoping that some will join soon!. As
 stated in the description, the goal of this project is a
