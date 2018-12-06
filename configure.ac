@@ -1,4 +1,5 @@
 AC_INIT([rmw], [0.7.02-dev], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
+AC_CONFIG_SRCDIR ([src/rmw.h])
 AM_INIT_AUTOMAKE([subdir-objects foreign])
 AC_PREREQ(2.69)
 AC_CONFIG_HEADERS([src/config.h:config.in])
