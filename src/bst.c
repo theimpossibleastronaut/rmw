@@ -14,19 +14,23 @@
 #include "bst.h"
 #include "messages_rmw.h"
 
-/*
-    create a new node
-*/
-static node *
-create_node (char *data, char *desc)
+/*!
+ * create a new node
+ * @param[in] data
+ * @param[in] hr_size
+ * @return node
+ * @see dispose()
+ */
+static st_node *
+create_node (char *data, char *size_str)
 {
-  node *new_node = (node *) malloc (sizeof (node));
+  st_node *new_node = (st_node *) malloc (sizeof (st_node));
   chk_malloc (new_node, __func__, __LINE__);
   new_node->data = (char *) calloc (strlen (data) + 1, 1);
   chk_malloc (new_node->data, __func__, __LINE__);
 
   strcpy (new_node->data, data);
-  new_node->desc = desc;
+  new_node->size_str = size_str;
   new_node->left = NULL;
   new_node->right = NULL;
   return new_node;
@@ -35,21 +39,23 @@ create_node (char *data, char *desc)
 /*!
  * Insert a new node into the binary search tree; used in
  * @ref restore_select()
+ * @param[out] root
+ * @see create_node
  */
-node *
-insert_node (node * root, comparer strcasecmp, char *data, char *desc)
+st_node *
+insert_node (st_node * root, comparer strcasecmp, char *data, char *size_str)
 {
 
   if (root == NULL)
   {
-    root = create_node (data, desc);
+    root = create_node (data, size_str);
   }
   else
   {
     int is_left = 0;
     int r = 0;
-    node *cursor = root;
-    node *prev = NULL;
+    st_node *cursor = root;
+    st_node *prev = NULL;
 
     while (cursor != NULL)
     {
@@ -65,24 +71,30 @@ insert_node (node * root, comparer strcasecmp, char *data, char *desc)
         is_left = 1;
         cursor = cursor->left;
       }
-      else if (r > 0)
+      else
       {
         is_left = 0;
         cursor = cursor->right;
       }
     }
     if (is_left)
-      prev->left = create_node (data, desc);
+      prev->left = create_node (data, size_str);
     else
-      prev->right = create_node (data, desc);
+      prev->right = create_node (data, size_str);
 
   }
   return root;
 }
 
-/* Given a binary tree, print its nodes in inorder*/
+/*!
+ * Add a binary search tree to an array to populate the list of menu items
+ * @param[in] node
+ * @param[out] my_items
+ * @param[out] level_one
+ * @see restore_select()
+ */
 void
-populate_menu (node * node, ITEM ** my_items, bool level_one)
+populate_menu (st_node * node, ITEM ** my_items, bool level_one)
 {
   static int i;
   if (level_one)
@@ -94,18 +106,21 @@ populate_menu (node * node, ITEM ** my_items, bool level_one)
   /* first recur on left child */
   populate_menu (node->left, my_items, false);
 
-  my_items[i] = new_item (node->data, node->desc);
+  my_items[i] = new_item (node->data, node->size_str);
   i++;
 
   /* now recur on right child */
   populate_menu (node->right, my_items, false);
 }
 
-/*
-    recursively remove all nodes of the tree
-*/
+/*!
+ * recursively remove all nodes of the tree
+ * @param[out] root
+ * @return void
+ * @see create_node()
+ */
 void
-dispose (node * root)
+dispose (st_node * root)
 {
   if (root != NULL)
   {
@@ -113,9 +128,9 @@ dispose (node * root)
     dispose (root->right);
 
     free (root->data);
-    free (root->desc);
+    free (root->size_str);
     root->data = NULL;
-    root->desc = NULL;
+    root->size_str = NULL;
 
     free (root);
     root = NULL;

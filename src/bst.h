@@ -1,5 +1,5 @@
-/* bst.h
- *
+/*!
+ * @file bst.h
  */
 
 #include <strings.h>
@@ -18,16 +18,26 @@
 
 typedef int (*comparer) (const char *, const char *);
 
-typedef struct node
+/*! Used for @ref restore_select() and contains info about each file
+ * in the waste folder
+ */
+typedef struct st_node
 {
+  /*! Holds the filename */
   char *data;
-  char *desc;
-  struct node *left;
-  struct node *right;
-} node;
 
-node *insert_node (node * root, comparer compare, char *data, char *desc);
+  /*! Holds the human readable size of the file */
+  char *size_str;
 
-void populate_menu (node * node, ITEM ** my_items, bool level_one);
+  /*! Left node of the binary search tree */
+  struct st_node *left;
 
-void dispose (node *root);
+  /*! Right node of the binary search tree */
+  struct st_node *right;
+} st_node;
+
+st_node *insert_node (st_node * root, comparer compare, char *data, char *size_str);
+
+void populate_menu (st_node * node, ITEM ** my_items, bool level_one);
+
+void dispose (st_node *root);

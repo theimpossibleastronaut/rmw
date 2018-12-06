@@ -300,7 +300,7 @@ restore_select (st_waste *waste_curr)
 
   do
   {
-    node *root = NULL;
+    st_node *root = NULL;
     int n_choices = 0;
 
     struct dirent *entry = NULL;
@@ -337,16 +337,16 @@ restore_select (st_waste *waste_curr)
        * below) holds the description.
        *
        */
-      char *desc = (char*)calloc (strlen (hr_size) + 2 + 4 + 1, 1);
-      sprintf (desc, "[%s]", human_readable_size (st.st_size));
+      char *size_str = (char*)calloc (strlen (hr_size) + 2 + 4 + 1, 1);
+      sprintf (size_str, "[%s]", human_readable_size (st.st_size));
 
       if (S_ISDIR (st.st_mode))
-        strcat (desc, " (D)");
+        strcat (size_str, " (D)");
       else if (S_ISLNK (st.st_mode))
-        strcat (desc, " (L)");
+        strcat (size_str, " (L)");
 
       comparer int_cmp = strcasecmp;
-      root = insert_node(root, int_cmp, entry->d_name, desc);
+      root = insert_node(root, int_cmp, entry->d_name, size_str);
 
       n_choices++;
     }
