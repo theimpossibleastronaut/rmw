@@ -1,4 +1,4 @@
-/**
+/*
  * @file strings_rmw.h
  */
 /*

@@ -86,7 +86,7 @@ open_err (const char *filename, const char *function_name)
  *
  * @param[in] file_ptr a file pointer that already exists
  * @param[in] filename
- * @parm[in] function_name the name of the calling function
+ * @param[in] function_name the name of the calling function
  * @return an error number, 0 if no error
  */
 short close_file (FILE *file_ptr, const char *filename, const char *function_name)

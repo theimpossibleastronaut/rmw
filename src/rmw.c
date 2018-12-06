@@ -52,12 +52,27 @@
  *
  */
 
+/*! list waste folder option */
 bool list;
+
+/*! The users HOME directory */
 char *HOMEDIR;
+
+/*! Alternate configuration file given at the command line with -c */
 const char *alt_config = NULL;
+
+/*!
+ * Formatted time string indicating the current time;
+ * used for DeletionDate in \b trashinfo files and for comparison in purge()
+ * e.g. "2018-12-03T22:09:39"
+ */
 char *time_now;
 char *time_str_appended;
+
+/*! Read from the user's config file */
 int purge_after = 0;
+
+/*! Set from the command line and optionally from the user's config file */
 ushort force = 0;
 
 /*!
@@ -480,9 +495,6 @@ Please check your configuration file and permissions\n\n"));
   char *t_fmt = set_time_now_format();
 
   /*
-   * time_now is used for DeletionDate in trashinfo file
-   * and for comparison in purge()
-   *
    * The length of the format above never exceeds 20 (including the NULL
    * terminator) and is defined by LEN_TIME_NOW
    *

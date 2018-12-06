@@ -17,7 +17,7 @@
 /*!
  * create a new node
  * @param[in] data
- * @param[in] hr_size
+ * @param[in] size_str The formatted string that shows the file size when @ref restore_select() is used
  * @return node
  * @see dispose()
  */
