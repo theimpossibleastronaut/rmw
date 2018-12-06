@@ -1,4 +1,4 @@
-AC_INIT([rmw], [0.7.01], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
+AC_INIT([rmw], [0.7.02-dev], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
 AM_INIT_AUTOMAKE([subdir-objects foreign])
 AC_PREREQ(2.69)
 AC_CONFIG_HEADERS([src/config.h:config.in])
@@ -6,7 +6,9 @@ AC_CONFIG_HEADERS([src/config.h:config.in])
 # Don't add -g and -O2 by default
 : ${CFLAGS=""}
 
-AX_CHECK_ENABLE_DEBUG([no])
+# RELEASE TODO: set this to "no"
+AX_CHECK_ENABLE_DEBUG([yes])
+
 AC_PROG_CC
 AC_CONFIG_MACRO_DIRS([m4])
 AC_PROG_INSTALL
