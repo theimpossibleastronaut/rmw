@@ -2,6 +2,8 @@ bin_PROGRAMS=rmw
 AM_CFLAGS = -std=c99 -Wall
 AM_CFLAGS +=  @CURSES_CFLAGS@
 
+rmw_CFLAGS = $(AM_CFLAGS)
+
 rmw_SOURCES=	\
 	rmw.c	\
 	restore_rmw.c	\
@@ -28,6 +30,10 @@ noinst_HEADERS = \
 	gettext.h
 
 DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
+
+check_LIBRARIES = librmw.a
+librmw_a_SOURCES = $(rmw_SOURCES)
+librmw_a_CFLAGS = $(AM_CFLAGS) -DBUILD_AS_LIBRARY
 
 #
 # On OpenBSD, without @LIBINTL@ present here, the result is a lot of

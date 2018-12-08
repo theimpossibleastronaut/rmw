@@ -1,3 +1,12 @@
+CFLAGS = -I$(top_srcdir)/src
+
+check_PROGRAMS = trim_white_space
+trim_white_space_SOURCES = trim_white_space.c
+
+TESTS=$(check_PROGRAMS)
+
+LDADD = $(top_build_prefix)/src/librmw.a
+
 test_scripts =	\
 	basic.sh	\
 	purging.sh	\

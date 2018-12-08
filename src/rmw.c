@@ -297,6 +297,12 @@ create_undo_file (st_removed *removals, st_removed *removals_head)
     open_err (undo_path, __func__);
 }
 
+/*
+ * Defined when `make check` is used to build rmw as a library for unit testing.
+ * main() will not be built into the library.
+ */
+#ifndef BUILD_AS_LIBRARY
+
 /*!
  * The "main" part of rmw
  * @param[in] argc The number of paramaters given to rmw at run-time
@@ -704,3 +710,5 @@ Enter '%s -h' for more information\n"), argv[0]);
 
   return 0;
 }
+
+#endif

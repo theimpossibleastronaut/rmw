@@ -111,15 +111,33 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+AR = ar
+ARFLAGS = cru
+AM_V_AR = $(am__v_AR_@AM_V@)
+am__v_AR_ = $(am__v_AR_@AM_DEFAULT_V@)
+am__v_AR_0 = @echo "  AR      " $@;
+am__v_AR_1 = 
+librmw_a_AR = $(AR) $(ARFLAGS)
+librmw_a_LIBADD =
+am__objects_1 = librmw_a-rmw.$(OBJEXT) librmw_a-restore_rmw.$(OBJEXT) \
+	librmw_a-config_rmw.$(OBJEXT) librmw_a-trivial_rmw.$(OBJEXT) \
+	librmw_a-strings_rmw.$(OBJEXT) librmw_a-purging_rmw.$(OBJEXT) \
+	librmw_a-messages_rmw.$(OBJEXT) \
+	librmw_a-trashinfo_rmw.$(OBJEXT) librmw_a-utils_rmw.$(OBJEXT) \
+	librmw_a-bst.$(OBJEXT)
+am_librmw_a_OBJECTS = $(am__objects_1)
+librmw_a_OBJECTS = $(am_librmw_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_rmw_OBJECTS = rmw.$(OBJEXT) restore_rmw.$(OBJEXT) \
-	config_rmw.$(OBJEXT) trivial_rmw.$(OBJEXT) \
-	strings_rmw.$(OBJEXT) purging_rmw.$(OBJEXT) \
-	messages_rmw.$(OBJEXT) trashinfo_rmw.$(OBJEXT) \
-	utils_rmw.$(OBJEXT) bst.$(OBJEXT)
+am_rmw_OBJECTS = rmw-rmw.$(OBJEXT) rmw-restore_rmw.$(OBJEXT) \
+	rmw-config_rmw.$(OBJEXT) rmw-trivial_rmw.$(OBJEXT) \
+	rmw-strings_rmw.$(OBJEXT) rmw-purging_rmw.$(OBJEXT) \
+	rmw-messages_rmw.$(OBJEXT) rmw-trashinfo_rmw.$(OBJEXT) \
+	rmw-utils_rmw.$(OBJEXT) rmw-bst.$(OBJEXT)
 rmw_OBJECTS = $(am_rmw_OBJECTS)
 rmw_DEPENDENCIES =
+rmw_LINK = $(CCLD) $(rmw_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
+	$@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -136,6 +154,10 @@ DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 AM_V_CC = $(am__v_CC_@AM_V@)
@@ -148,8 +170,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(rmw_SOURCES)
-DIST_SOURCES = $(rmw_SOURCES)
+SOURCES = $(librmw_a_SOURCES) $(rmw_SOURCES)
+DIST_SOURCES = $(librmw_a_SOURCES) $(rmw_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -239,6 +261,7 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POSUB = @POSUB@
+RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -300,6 +323,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -std=c99 -Wall @CURSES_CFLAGS@
+rmw_CFLAGS = $(AM_CFLAGS)
 rmw_SOURCES = \
 	rmw.c	\
 	restore_rmw.c	\
@@ -325,6 +349,9 @@ noinst_HEADERS = \
 	bst.h	\
 	gettext.h
 
+check_LIBRARIES = librmw.a
+librmw_a_SOURCES = $(rmw_SOURCES)
+librmw_a_CFLAGS = $(AM_CFLAGS) -DBUILD_AS_LIBRARY
 
 #
 # On OpenBSD, without @LIBINTL@ present here, the result is a lot of
@@ -381,6 +408,14 @@ $(top_srcdir)/config.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+
+clean-checkLIBRARIES:
+	-test -z "$(check_LIBRARIES)" || rm -f $(check_LIBRARIES)
+
+librmw.a: $(librmw_a_OBJECTS) $(librmw_a_DEPENDENCIES) $(EXTRA_librmw_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f librmw.a
+	$(AM_V_AR)$(librmw_a_AR) librmw.a $(librmw_a_OBJECTS) $(librmw_a_LIBADD)
+	$(AM_V_at)$(RANLIB) librmw.a
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -426,7 +461,7 @@ clean-binPROGRAMS:
 
 rmw$(EXEEXT): $(rmw_OBJECTS) $(rmw_DEPENDENCIES) $(EXTRA_rmw_DEPENDENCIES) 
 	@rm -f rmw$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(rmw_OBJECTS) $(rmw_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(rmw_LINK) $(rmw_OBJECTS) $(rmw_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -434,16 +469,26 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bst.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/config_rmw.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/messages_rmw.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/purging_rmw.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/restore_rmw.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strings_rmw.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trashinfo_rmw.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trivial_rmw.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utils_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-bst.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-config_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-messages_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-purging_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-restore_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-strings_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-trashinfo_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-trivial_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librmw_a-utils_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-bst.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-config_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-messages_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-purging_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-restore_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-strings_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-trashinfo_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-trivial_rmw.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rmw-utils_rmw.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -460,6 +505,286 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+librmw_a-rmw.o: rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-rmw.o -MD -MP -MF $(DEPDIR)/librmw_a-rmw.Tpo -c -o librmw_a-rmw.o `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-rmw.Tpo $(DEPDIR)/librmw_a-rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rmw.c' object='librmw_a-rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-rmw.o `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
+
+librmw_a-rmw.obj: rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-rmw.obj -MD -MP -MF $(DEPDIR)/librmw_a-rmw.Tpo -c -o librmw_a-rmw.obj `if test -f 'rmw.c'; then $(CYGPATH_W) 'rmw.c'; else $(CYGPATH_W) '$(srcdir)/rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-rmw.Tpo $(DEPDIR)/librmw_a-rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rmw.c' object='librmw_a-rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-rmw.obj `if test -f 'rmw.c'; then $(CYGPATH_W) 'rmw.c'; else $(CYGPATH_W) '$(srcdir)/rmw.c'; fi`
+
+librmw_a-restore_rmw.o: restore_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-restore_rmw.o -MD -MP -MF $(DEPDIR)/librmw_a-restore_rmw.Tpo -c -o librmw_a-restore_rmw.o `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-restore_rmw.Tpo $(DEPDIR)/librmw_a-restore_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='restore_rmw.c' object='librmw_a-restore_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-restore_rmw.o `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c
+
+librmw_a-restore_rmw.obj: restore_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-restore_rmw.obj -MD -MP -MF $(DEPDIR)/librmw_a-restore_rmw.Tpo -c -o librmw_a-restore_rmw.obj `if test -f 'restore_rmw.c'; then $(CYGPATH_W) 'restore_rmw.c'; else $(CYGPATH_W) '$(srcdir)/restore_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-restore_rmw.Tpo $(DEPDIR)/librmw_a-restore_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='restore_rmw.c' object='librmw_a-restore_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-restore_rmw.obj `if test -f 'restore_rmw.c'; then $(CYGPATH_W) 'restore_rmw.c'; else $(CYGPATH_W) '$(srcdir)/restore_rmw.c'; fi`
+
+librmw_a-config_rmw.o: config_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-config_rmw.o -MD -MP -MF $(DEPDIR)/librmw_a-config_rmw.Tpo -c -o librmw_a-config_rmw.o `test -f 'config_rmw.c' || echo '$(srcdir)/'`config_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-config_rmw.Tpo $(DEPDIR)/librmw_a-config_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='config_rmw.c' object='librmw_a-config_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-config_rmw.o `test -f 'config_rmw.c' || echo '$(srcdir)/'`config_rmw.c
+
+librmw_a-config_rmw.obj: config_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-config_rmw.obj -MD -MP -MF $(DEPDIR)/librmw_a-config_rmw.Tpo -c -o librmw_a-config_rmw.obj `if test -f 'config_rmw.c'; then $(CYGPATH_W) 'config_rmw.c'; else $(CYGPATH_W) '$(srcdir)/config_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-config_rmw.Tpo $(DEPDIR)/librmw_a-config_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='config_rmw.c' object='librmw_a-config_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-config_rmw.obj `if test -f 'config_rmw.c'; then $(CYGPATH_W) 'config_rmw.c'; else $(CYGPATH_W) '$(srcdir)/config_rmw.c'; fi`
+
+librmw_a-trivial_rmw.o: trivial_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-trivial_rmw.o -MD -MP -MF $(DEPDIR)/librmw_a-trivial_rmw.Tpo -c -o librmw_a-trivial_rmw.o `test -f 'trivial_rmw.c' || echo '$(srcdir)/'`trivial_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-trivial_rmw.Tpo $(DEPDIR)/librmw_a-trivial_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trivial_rmw.c' object='librmw_a-trivial_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trivial_rmw.o `test -f 'trivial_rmw.c' || echo '$(srcdir)/'`trivial_rmw.c
+
+librmw_a-trivial_rmw.obj: trivial_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-trivial_rmw.obj -MD -MP -MF $(DEPDIR)/librmw_a-trivial_rmw.Tpo -c -o librmw_a-trivial_rmw.obj `if test -f 'trivial_rmw.c'; then $(CYGPATH_W) 'trivial_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trivial_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-trivial_rmw.Tpo $(DEPDIR)/librmw_a-trivial_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trivial_rmw.c' object='librmw_a-trivial_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trivial_rmw.obj `if test -f 'trivial_rmw.c'; then $(CYGPATH_W) 'trivial_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trivial_rmw.c'; fi`
+
+librmw_a-strings_rmw.o: strings_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-strings_rmw.o -MD -MP -MF $(DEPDIR)/librmw_a-strings_rmw.Tpo -c -o librmw_a-strings_rmw.o `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-strings_rmw.Tpo $(DEPDIR)/librmw_a-strings_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='strings_rmw.c' object='librmw_a-strings_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-strings_rmw.o `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c
+
+librmw_a-strings_rmw.obj: strings_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-strings_rmw.obj -MD -MP -MF $(DEPDIR)/librmw_a-strings_rmw.Tpo -c -o librmw_a-strings_rmw.obj `if test -f 'strings_rmw.c'; then $(CYGPATH_W) 'strings_rmw.c'; else $(CYGPATH_W) '$(srcdir)/strings_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-strings_rmw.Tpo $(DEPDIR)/librmw_a-strings_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='strings_rmw.c' object='librmw_a-strings_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-strings_rmw.obj `if test -f 'strings_rmw.c'; then $(CYGPATH_W) 'strings_rmw.c'; else $(CYGPATH_W) '$(srcdir)/strings_rmw.c'; fi`
+
+librmw_a-purging_rmw.o: purging_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-purging_rmw.o -MD -MP -MF $(DEPDIR)/librmw_a-purging_rmw.Tpo -c -o librmw_a-purging_rmw.o `test -f 'purging_rmw.c' || echo '$(srcdir)/'`purging_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-purging_rmw.Tpo $(DEPDIR)/librmw_a-purging_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='purging_rmw.c' object='librmw_a-purging_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-purging_rmw.o `test -f 'purging_rmw.c' || echo '$(srcdir)/'`purging_rmw.c
+
+librmw_a-purging_rmw.obj: purging_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-purging_rmw.obj -MD -MP -MF $(DEPDIR)/librmw_a-purging_rmw.Tpo -c -o librmw_a-purging_rmw.obj `if test -f 'purging_rmw.c'; then $(CYGPATH_W) 'purging_rmw.c'; else $(CYGPATH_W) '$(srcdir)/purging_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-purging_rmw.Tpo $(DEPDIR)/librmw_a-purging_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='purging_rmw.c' object='librmw_a-purging_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-purging_rmw.obj `if test -f 'purging_rmw.c'; then $(CYGPATH_W) 'purging_rmw.c'; else $(CYGPATH_W) '$(srcdir)/purging_rmw.c'; fi`
+
+librmw_a-messages_rmw.o: messages_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-messages_rmw.o -MD -MP -MF $(DEPDIR)/librmw_a-messages_rmw.Tpo -c -o librmw_a-messages_rmw.o `test -f 'messages_rmw.c' || echo '$(srcdir)/'`messages_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-messages_rmw.Tpo $(DEPDIR)/librmw_a-messages_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='messages_rmw.c' object='librmw_a-messages_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-messages_rmw.o `test -f 'messages_rmw.c' || echo '$(srcdir)/'`messages_rmw.c
+
+librmw_a-messages_rmw.obj: messages_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-messages_rmw.obj -MD -MP -MF $(DEPDIR)/librmw_a-messages_rmw.Tpo -c -o librmw_a-messages_rmw.obj `if test -f 'messages_rmw.c'; then $(CYGPATH_W) 'messages_rmw.c'; else $(CYGPATH_W) '$(srcdir)/messages_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-messages_rmw.Tpo $(DEPDIR)/librmw_a-messages_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='messages_rmw.c' object='librmw_a-messages_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-messages_rmw.obj `if test -f 'messages_rmw.c'; then $(CYGPATH_W) 'messages_rmw.c'; else $(CYGPATH_W) '$(srcdir)/messages_rmw.c'; fi`
+
+librmw_a-trashinfo_rmw.o: trashinfo_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-trashinfo_rmw.o -MD -MP -MF $(DEPDIR)/librmw_a-trashinfo_rmw.Tpo -c -o librmw_a-trashinfo_rmw.o `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-trashinfo_rmw.Tpo $(DEPDIR)/librmw_a-trashinfo_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trashinfo_rmw.c' object='librmw_a-trashinfo_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trashinfo_rmw.o `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c
+
+librmw_a-trashinfo_rmw.obj: trashinfo_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-trashinfo_rmw.obj -MD -MP -MF $(DEPDIR)/librmw_a-trashinfo_rmw.Tpo -c -o librmw_a-trashinfo_rmw.obj `if test -f 'trashinfo_rmw.c'; then $(CYGPATH_W) 'trashinfo_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trashinfo_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-trashinfo_rmw.Tpo $(DEPDIR)/librmw_a-trashinfo_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trashinfo_rmw.c' object='librmw_a-trashinfo_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trashinfo_rmw.obj `if test -f 'trashinfo_rmw.c'; then $(CYGPATH_W) 'trashinfo_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trashinfo_rmw.c'; fi`
+
+librmw_a-utils_rmw.o: utils_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-utils_rmw.o -MD -MP -MF $(DEPDIR)/librmw_a-utils_rmw.Tpo -c -o librmw_a-utils_rmw.o `test -f 'utils_rmw.c' || echo '$(srcdir)/'`utils_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-utils_rmw.Tpo $(DEPDIR)/librmw_a-utils_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='utils_rmw.c' object='librmw_a-utils_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-utils_rmw.o `test -f 'utils_rmw.c' || echo '$(srcdir)/'`utils_rmw.c
+
+librmw_a-utils_rmw.obj: utils_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-utils_rmw.obj -MD -MP -MF $(DEPDIR)/librmw_a-utils_rmw.Tpo -c -o librmw_a-utils_rmw.obj `if test -f 'utils_rmw.c'; then $(CYGPATH_W) 'utils_rmw.c'; else $(CYGPATH_W) '$(srcdir)/utils_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-utils_rmw.Tpo $(DEPDIR)/librmw_a-utils_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='utils_rmw.c' object='librmw_a-utils_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-utils_rmw.obj `if test -f 'utils_rmw.c'; then $(CYGPATH_W) 'utils_rmw.c'; else $(CYGPATH_W) '$(srcdir)/utils_rmw.c'; fi`
+
+librmw_a-bst.o: bst.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-bst.o -MD -MP -MF $(DEPDIR)/librmw_a-bst.Tpo -c -o librmw_a-bst.o `test -f 'bst.c' || echo '$(srcdir)/'`bst.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-bst.Tpo $(DEPDIR)/librmw_a-bst.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bst.c' object='librmw_a-bst.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-bst.o `test -f 'bst.c' || echo '$(srcdir)/'`bst.c
+
+librmw_a-bst.obj: bst.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -MT librmw_a-bst.obj -MD -MP -MF $(DEPDIR)/librmw_a-bst.Tpo -c -o librmw_a-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librmw_a-bst.Tpo $(DEPDIR)/librmw_a-bst.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bst.c' object='librmw_a-bst.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
+
+rmw-rmw.o: rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-rmw.o -MD -MP -MF $(DEPDIR)/rmw-rmw.Tpo -c -o rmw-rmw.o `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-rmw.Tpo $(DEPDIR)/rmw-rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rmw.c' object='rmw-rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-rmw.o `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
+
+rmw-rmw.obj: rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-rmw.obj -MD -MP -MF $(DEPDIR)/rmw-rmw.Tpo -c -o rmw-rmw.obj `if test -f 'rmw.c'; then $(CYGPATH_W) 'rmw.c'; else $(CYGPATH_W) '$(srcdir)/rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-rmw.Tpo $(DEPDIR)/rmw-rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='rmw.c' object='rmw-rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-rmw.obj `if test -f 'rmw.c'; then $(CYGPATH_W) 'rmw.c'; else $(CYGPATH_W) '$(srcdir)/rmw.c'; fi`
+
+rmw-restore_rmw.o: restore_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-restore_rmw.o -MD -MP -MF $(DEPDIR)/rmw-restore_rmw.Tpo -c -o rmw-restore_rmw.o `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-restore_rmw.Tpo $(DEPDIR)/rmw-restore_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='restore_rmw.c' object='rmw-restore_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-restore_rmw.o `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c
+
+rmw-restore_rmw.obj: restore_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-restore_rmw.obj -MD -MP -MF $(DEPDIR)/rmw-restore_rmw.Tpo -c -o rmw-restore_rmw.obj `if test -f 'restore_rmw.c'; then $(CYGPATH_W) 'restore_rmw.c'; else $(CYGPATH_W) '$(srcdir)/restore_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-restore_rmw.Tpo $(DEPDIR)/rmw-restore_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='restore_rmw.c' object='rmw-restore_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-restore_rmw.obj `if test -f 'restore_rmw.c'; then $(CYGPATH_W) 'restore_rmw.c'; else $(CYGPATH_W) '$(srcdir)/restore_rmw.c'; fi`
+
+rmw-config_rmw.o: config_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-config_rmw.o -MD -MP -MF $(DEPDIR)/rmw-config_rmw.Tpo -c -o rmw-config_rmw.o `test -f 'config_rmw.c' || echo '$(srcdir)/'`config_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-config_rmw.Tpo $(DEPDIR)/rmw-config_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='config_rmw.c' object='rmw-config_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-config_rmw.o `test -f 'config_rmw.c' || echo '$(srcdir)/'`config_rmw.c
+
+rmw-config_rmw.obj: config_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-config_rmw.obj -MD -MP -MF $(DEPDIR)/rmw-config_rmw.Tpo -c -o rmw-config_rmw.obj `if test -f 'config_rmw.c'; then $(CYGPATH_W) 'config_rmw.c'; else $(CYGPATH_W) '$(srcdir)/config_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-config_rmw.Tpo $(DEPDIR)/rmw-config_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='config_rmw.c' object='rmw-config_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-config_rmw.obj `if test -f 'config_rmw.c'; then $(CYGPATH_W) 'config_rmw.c'; else $(CYGPATH_W) '$(srcdir)/config_rmw.c'; fi`
+
+rmw-trivial_rmw.o: trivial_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-trivial_rmw.o -MD -MP -MF $(DEPDIR)/rmw-trivial_rmw.Tpo -c -o rmw-trivial_rmw.o `test -f 'trivial_rmw.c' || echo '$(srcdir)/'`trivial_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-trivial_rmw.Tpo $(DEPDIR)/rmw-trivial_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trivial_rmw.c' object='rmw-trivial_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-trivial_rmw.o `test -f 'trivial_rmw.c' || echo '$(srcdir)/'`trivial_rmw.c
+
+rmw-trivial_rmw.obj: trivial_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-trivial_rmw.obj -MD -MP -MF $(DEPDIR)/rmw-trivial_rmw.Tpo -c -o rmw-trivial_rmw.obj `if test -f 'trivial_rmw.c'; then $(CYGPATH_W) 'trivial_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trivial_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-trivial_rmw.Tpo $(DEPDIR)/rmw-trivial_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trivial_rmw.c' object='rmw-trivial_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-trivial_rmw.obj `if test -f 'trivial_rmw.c'; then $(CYGPATH_W) 'trivial_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trivial_rmw.c'; fi`
+
+rmw-strings_rmw.o: strings_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-strings_rmw.o -MD -MP -MF $(DEPDIR)/rmw-strings_rmw.Tpo -c -o rmw-strings_rmw.o `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-strings_rmw.Tpo $(DEPDIR)/rmw-strings_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='strings_rmw.c' object='rmw-strings_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-strings_rmw.o `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c
+
+rmw-strings_rmw.obj: strings_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-strings_rmw.obj -MD -MP -MF $(DEPDIR)/rmw-strings_rmw.Tpo -c -o rmw-strings_rmw.obj `if test -f 'strings_rmw.c'; then $(CYGPATH_W) 'strings_rmw.c'; else $(CYGPATH_W) '$(srcdir)/strings_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-strings_rmw.Tpo $(DEPDIR)/rmw-strings_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='strings_rmw.c' object='rmw-strings_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-strings_rmw.obj `if test -f 'strings_rmw.c'; then $(CYGPATH_W) 'strings_rmw.c'; else $(CYGPATH_W) '$(srcdir)/strings_rmw.c'; fi`
+
+rmw-purging_rmw.o: purging_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-purging_rmw.o -MD -MP -MF $(DEPDIR)/rmw-purging_rmw.Tpo -c -o rmw-purging_rmw.o `test -f 'purging_rmw.c' || echo '$(srcdir)/'`purging_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-purging_rmw.Tpo $(DEPDIR)/rmw-purging_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='purging_rmw.c' object='rmw-purging_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-purging_rmw.o `test -f 'purging_rmw.c' || echo '$(srcdir)/'`purging_rmw.c
+
+rmw-purging_rmw.obj: purging_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-purging_rmw.obj -MD -MP -MF $(DEPDIR)/rmw-purging_rmw.Tpo -c -o rmw-purging_rmw.obj `if test -f 'purging_rmw.c'; then $(CYGPATH_W) 'purging_rmw.c'; else $(CYGPATH_W) '$(srcdir)/purging_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-purging_rmw.Tpo $(DEPDIR)/rmw-purging_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='purging_rmw.c' object='rmw-purging_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-purging_rmw.obj `if test -f 'purging_rmw.c'; then $(CYGPATH_W) 'purging_rmw.c'; else $(CYGPATH_W) '$(srcdir)/purging_rmw.c'; fi`
+
+rmw-messages_rmw.o: messages_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-messages_rmw.o -MD -MP -MF $(DEPDIR)/rmw-messages_rmw.Tpo -c -o rmw-messages_rmw.o `test -f 'messages_rmw.c' || echo '$(srcdir)/'`messages_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-messages_rmw.Tpo $(DEPDIR)/rmw-messages_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='messages_rmw.c' object='rmw-messages_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-messages_rmw.o `test -f 'messages_rmw.c' || echo '$(srcdir)/'`messages_rmw.c
+
+rmw-messages_rmw.obj: messages_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-messages_rmw.obj -MD -MP -MF $(DEPDIR)/rmw-messages_rmw.Tpo -c -o rmw-messages_rmw.obj `if test -f 'messages_rmw.c'; then $(CYGPATH_W) 'messages_rmw.c'; else $(CYGPATH_W) '$(srcdir)/messages_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-messages_rmw.Tpo $(DEPDIR)/rmw-messages_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='messages_rmw.c' object='rmw-messages_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-messages_rmw.obj `if test -f 'messages_rmw.c'; then $(CYGPATH_W) 'messages_rmw.c'; else $(CYGPATH_W) '$(srcdir)/messages_rmw.c'; fi`
+
+rmw-trashinfo_rmw.o: trashinfo_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-trashinfo_rmw.o -MD -MP -MF $(DEPDIR)/rmw-trashinfo_rmw.Tpo -c -o rmw-trashinfo_rmw.o `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-trashinfo_rmw.Tpo $(DEPDIR)/rmw-trashinfo_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trashinfo_rmw.c' object='rmw-trashinfo_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-trashinfo_rmw.o `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c
+
+rmw-trashinfo_rmw.obj: trashinfo_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-trashinfo_rmw.obj -MD -MP -MF $(DEPDIR)/rmw-trashinfo_rmw.Tpo -c -o rmw-trashinfo_rmw.obj `if test -f 'trashinfo_rmw.c'; then $(CYGPATH_W) 'trashinfo_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trashinfo_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-trashinfo_rmw.Tpo $(DEPDIR)/rmw-trashinfo_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='trashinfo_rmw.c' object='rmw-trashinfo_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-trashinfo_rmw.obj `if test -f 'trashinfo_rmw.c'; then $(CYGPATH_W) 'trashinfo_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trashinfo_rmw.c'; fi`
+
+rmw-utils_rmw.o: utils_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-utils_rmw.o -MD -MP -MF $(DEPDIR)/rmw-utils_rmw.Tpo -c -o rmw-utils_rmw.o `test -f 'utils_rmw.c' || echo '$(srcdir)/'`utils_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-utils_rmw.Tpo $(DEPDIR)/rmw-utils_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='utils_rmw.c' object='rmw-utils_rmw.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-utils_rmw.o `test -f 'utils_rmw.c' || echo '$(srcdir)/'`utils_rmw.c
+
+rmw-utils_rmw.obj: utils_rmw.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-utils_rmw.obj -MD -MP -MF $(DEPDIR)/rmw-utils_rmw.Tpo -c -o rmw-utils_rmw.obj `if test -f 'utils_rmw.c'; then $(CYGPATH_W) 'utils_rmw.c'; else $(CYGPATH_W) '$(srcdir)/utils_rmw.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-utils_rmw.Tpo $(DEPDIR)/rmw-utils_rmw.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='utils_rmw.c' object='rmw-utils_rmw.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-utils_rmw.obj `if test -f 'utils_rmw.c'; then $(CYGPATH_W) 'utils_rmw.c'; else $(CYGPATH_W) '$(srcdir)/utils_rmw.c'; fi`
+
+rmw-bst.o: bst.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-bst.o -MD -MP -MF $(DEPDIR)/rmw-bst.Tpo -c -o rmw-bst.o `test -f 'bst.c' || echo '$(srcdir)/'`bst.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-bst.Tpo $(DEPDIR)/rmw-bst.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bst.c' object='rmw-bst.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-bst.o `test -f 'bst.c' || echo '$(srcdir)/'`bst.c
+
+rmw-bst.obj: bst.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -MT rmw-bst.obj -MD -MP -MF $(DEPDIR)/rmw-bst.Tpo -c -o rmw-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/rmw-bst.Tpo $(DEPDIR)/rmw-bst.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bst.c' object='rmw-bst.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -544,6 +869,7 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) $(check_LIBRARIES)
 check: check-am
 all-am: Makefile $(PROGRAMS) $(HEADERS) config.h all-local
 installdirs:
@@ -582,7 +908,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic clean-local mostlyclean-am
+clean-am: clean-binPROGRAMS clean-checkLIBRARIES clean-generic \
+	clean-local mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -649,18 +976,19 @@ ps-am:
 
 uninstall-am: uninstall-binPROGRAMS
 
-.MAKE: all install-am install-strip
+.MAKE: all check-am install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am all-local check check-am clean \
-	clean-binPROGRAMS clean-generic clean-local cscopelist-am \
-	ctags ctags-am distclean distclean-compile distclean-generic \
-	distclean-hdr distclean-tags distdir dvi dvi-am html html-am \
-	info info-am install install-am install-binPROGRAMS \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	clean-binPROGRAMS clean-checkLIBRARIES clean-generic \
+	clean-local cscopelist-am ctags ctags-am distclean \
+	distclean-compile distclean-generic distclean-hdr \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
 	uninstall-am uninstall-binPROGRAMS

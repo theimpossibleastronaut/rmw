@@ -1,6 +1,11 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-12-08
+
+  * Implemented unit testing (though I've only created one unit test and
+  no docs for unit testing yet)
+
 2018-12-05
 
   * release version 0.7.01

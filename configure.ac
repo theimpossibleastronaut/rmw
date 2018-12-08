@@ -17,6 +17,8 @@ AC_HEADER_STDBOOL
 AC_SYS_LARGEFILE
 AX_FUNC_SNPRINTF
 
+AC_PROG_RANLIB
+
 # This prevents problems such as those shown in
 # https://github.com/theimpossibleastronaut/rmw/commit/90200c2df06b16f16b5d21d25c51966c0ee65b23#commitcomment-30291627
 # and https://github.com/theimpossibleastronaut/rmw/issues/21
