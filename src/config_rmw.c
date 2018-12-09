@@ -144,9 +144,11 @@ del_char_shift_left (const char c, char **str_addr)
  * change to the value of "HOMEDIR"
  *
  */
-static void
+void
 realize_home (char **str)
 {
+  trim_char ('/', *str);
+
   /*
    *
    * FIXME: This will need some work in order to be implemented
@@ -210,7 +212,6 @@ parse_line_waste (st_waste * waste_curr, char *line_from_config,
     }
   }
 
-  trim_char ('/', value);
   realize_home (&value);
 
   if (removable && !exists (value))

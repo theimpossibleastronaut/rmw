@@ -33,7 +33,7 @@ DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 
 check_LIBRARIES = librmw.a
 librmw_a_SOURCES = $(rmw_SOURCES)
-librmw_a_CFLAGS = $(AM_CFLAGS) -DBUILD_AS_LIBRARY
+librmw_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB
 
 #
 # On OpenBSD, without @LIBINTL@ present here, the result is a lot of

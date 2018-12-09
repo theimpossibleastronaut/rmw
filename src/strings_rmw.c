@@ -51,7 +51,7 @@ entry_NULL_check (const char *str, const char *func)
 {
   if (str == NULL || strlen (str) == 0)
   {
-#ifndef BUILD_AS_LIBRARY
+#ifndef TEST_LIB
     print_msg_error ();
     fprintf (stderr,
              "A NULL string was passed to %s. That should not happen.\n\
@@ -137,7 +137,7 @@ trim_white_space (char *str)
 {
   entry_NULL_check (str, __func__);
 
-#ifdef BUILD_AS_LIBRARY
+#ifdef TEST_LIB
   if (errno)
     return;
 #endif

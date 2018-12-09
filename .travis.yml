@@ -48,6 +48,7 @@ script:
   - cd build
   - ../configure --prefix=$PWD/install-test
   - make
+  - make check
   - make install
   - make uninstall
   - cd test

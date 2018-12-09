@@ -1,7 +1,11 @@
 CFLAGS = -I$(top_srcdir)/src
 
-check_PROGRAMS = trim_white_space
+check_PROGRAMS = \
+	trim_white_space \
+	realize_home
+
 trim_white_space_SOURCES = trim_white_space.c
+realize_home_SOURCES = realize_home.c
 
 TESTS=$(check_PROGRAMS)
 

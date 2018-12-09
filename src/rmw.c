@@ -301,7 +301,7 @@ create_undo_file (st_removed *removals, st_removed *removals_head)
  * Defined when `make check` is used to build rmw as a library for unit testing.
  * main() will not be built into the library.
  */
-#ifndef BUILD_AS_LIBRARY
+#ifndef TEST_LIB
 
 /*!
  * The "main" part of rmw

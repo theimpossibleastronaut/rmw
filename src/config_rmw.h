@@ -44,4 +44,6 @@
 
 void translate_config (void);
 
+void realize_home (char **str);
+
 st_waste *get_config_data (void);
