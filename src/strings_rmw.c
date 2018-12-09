@@ -29,7 +29,7 @@
 
 #ifndef INC_RMW_H
 #define INC_RMW_H
-  #include "rmw.h"
+#include "rmw.h"
 #endif
 
 #include <ctype.h>
@@ -51,11 +51,15 @@ entry_NULL_check (const char *str, const char *func)
 {
   if (str == NULL || strlen (str) == 0)
   {
+#ifndef BUILD_AS_LIBRARY
     print_msg_error ();
     fprintf (stderr,
-"A NULL string was passed to %s. That should not happen.\n\
+             "A NULL string was passed to %s. That should not happen.\n\
 Please report this bug to the rmw developers.", func);
     exit (EXIT_FAILURE);
+#else
+    errno = 1;
+#endif
   }
 }
 
@@ -68,7 +72,7 @@ bufchk (const char *str, ushort boundary)
    * This assumes 10 will never exceed a buffer size. In this program,
    * there are no buffers that are <= 10 (that I can think of right now)
    */
-  #define STR_PART 10
+#define STR_PART 10
 
   int rmw_testbuf = 0;
   if (getenv ("RMW_TESTBUF") != NULL)
@@ -90,7 +94,8 @@ bufchk (const char *str, ushort boundary)
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */
   printf (_("buffer overrun (segmentation fault) prevented.\n"));
-  printf (_("If you think this may be a bug, please report it to the rmw developers.\n"));
+  printf (_
+          ("If you think this may be a bug, please report it to the rmw developers.\n"));
 
   /*
    * This will add a null terminator within the boundary specified by
@@ -111,7 +116,9 @@ bufchk (const char *str, ushort boundary)
    */
   if (verbose)
   {
-    fprintf (stderr, _(" <--> Displaying part of the string that caused the error <-->\n\n"));
+    fprintf (stderr,
+             _
+             (" <--> Displaying part of the string that caused the error <-->\n\n"));
     fprintf (stderr, "%s\n\n", temp);
   }
 
@@ -129,6 +136,12 @@ void
 trim_white_space (char *str)
 {
   entry_NULL_check (str, __func__);
+
+#ifdef BUILD_AS_LIBRARY
+  if (errno)
+    return;
+#endif
+
   char *pos_0 = str;
   /* Advance pointer until NULL terminator is found */
   while (*str != '\0')
@@ -213,8 +226,7 @@ resolve_path (const char *src, char *abs_path)
     strcat (abs_path, basename (src_temp_basename));
 
 #ifdef DEBUG
-DEBUG_PREFIX
-printf ("abs_path = %s in %s\n", abs_path, __func__);
+    DEBUG_PREFIX printf ("abs_path = %s in %s\n", abs_path, __func__);
 #endif
 
     bufchk (abs_path, MP);
