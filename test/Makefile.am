@@ -1,15 +1,15 @@
 CFLAGS = -I$(top_srcdir)/src
 
 check_PROGRAMS = \
-	trim_white_space \
+	strings \
 	realize_home
 
-trim_white_space_SOURCES = trim_white_space.c
+strings_SOURCES = strings.c
 realize_home_SOURCES = realize_home.c
 
 TESTS=$(check_PROGRAMS)
 
-LDADD = $(top_build_prefix)/src/librmw.a
+LDADD = $(top_builddir)/src/librmw.a
 
 test_scripts =	\
 	basic.sh	\

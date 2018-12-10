@@ -87,7 +87,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = trim_white_space$(EXEEXT) realize_home$(EXEEXT)
+check_PROGRAMS = strings$(EXEEXT) realize_home$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_enable_debug.m4 \
@@ -111,11 +111,11 @@ CONFIG_CLEAN_VPATH_FILES =
 am_realize_home_OBJECTS = realize_home.$(OBJEXT)
 realize_home_OBJECTS = $(am_realize_home_OBJECTS)
 realize_home_LDADD = $(LDADD)
-realize_home_DEPENDENCIES = $(top_build_prefix)/src/librmw.a
-am_trim_white_space_OBJECTS = trim_white_space.$(OBJEXT)
-trim_white_space_OBJECTS = $(am_trim_white_space_OBJECTS)
-trim_white_space_LDADD = $(LDADD)
-trim_white_space_DEPENDENCIES = $(top_build_prefix)/src/librmw.a
+realize_home_DEPENDENCIES = $(top_builddir)/src/librmw.a
+am_strings_OBJECTS = strings.$(OBJEXT)
+strings_OBJECTS = $(am_strings_OBJECTS)
+strings_LDADD = $(LDADD)
+strings_DEPENDENCIES = $(top_builddir)/src/librmw.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -144,8 +144,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(realize_home_SOURCES) $(trim_white_space_SOURCES)
-DIST_SOURCES = $(realize_home_SOURCES) $(trim_white_space_SOURCES)
+SOURCES = $(realize_home_SOURCES) $(strings_SOURCES)
+DIST_SOURCES = $(realize_home_SOURCES) $(strings_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -499,10 +499,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-trim_white_space_SOURCES = trim_white_space.c
+strings_SOURCES = strings.c
 realize_home_SOURCES = realize_home.c
 TESTS = $(check_PROGRAMS)
-LDADD = $(top_build_prefix)/src/librmw.a
+LDADD = $(top_builddir)/src/librmw.a
 test_scripts = \
 	basic.sh	\
 	purging.sh	\
@@ -554,9 +554,9 @@ realize_home$(EXEEXT): $(realize_home_OBJECTS) $(realize_home_DEPENDENCIES) $(EX
 	@rm -f realize_home$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(realize_home_OBJECTS) $(realize_home_LDADD) $(LIBS)
 
-trim_white_space$(EXEEXT): $(trim_white_space_OBJECTS) $(trim_white_space_DEPENDENCIES) $(EXTRA_trim_white_space_DEPENDENCIES) 
-	@rm -f trim_white_space$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(trim_white_space_OBJECTS) $(trim_white_space_LDADD) $(LIBS)
+strings$(EXEEXT): $(strings_OBJECTS) $(strings_DEPENDENCIES) $(EXTRA_strings_DEPENDENCIES) 
+	@rm -f strings$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(strings_OBJECTS) $(strings_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -565,7 +565,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/realize_home.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trim_white_space.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strings.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -776,9 +776,9 @@ recheck: all $(check_PROGRAMS)
 	        am__force_recheck=am--force-recheck \
 	        TEST_LOGS="$$log_list"; \
 	exit $$?
-trim_white_space.log: trim_white_space$(EXEEXT)
-	@p='trim_white_space$(EXEEXT)'; \
-	b='trim_white_space'; \
+strings.log: strings$(EXEEXT)
+	@p='strings$(EXEEXT)'; \
+	b='strings'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
