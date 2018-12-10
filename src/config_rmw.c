@@ -104,7 +104,7 @@ if (fprintf (stream, _("\n\
 /*!
  * Print a translation (if available) of the comments in the config file
  * to stdout
- * @param[in] void
+ * @param void
  * @return void
  */
 void
@@ -140,7 +140,7 @@ del_char_shift_left (const char c, char **str)
 /*!
  * If "$HOME" or "~" is used in the configuration file, convert it
  * to the literal value.
- * @param[in] &str reference to the string containing \b $HOME or \b ~
+ * @param[out] &str reference to the string containing \b $HOME or \b ~
  * @return void
  *
  * Example:
