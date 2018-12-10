@@ -37,5 +37,15 @@ main ()
   printf ("'%s'\n", test);
   assert (!strcmp (test, "Hello World\n\t\v stop"));
 
+  /*
+   * bufchk
+   *
+   */
+  bufchk (test, MP);
+
+  bufchk (test, 5);
+  assert (errno);
+  errno = 0;
+
   free (test);
 }
