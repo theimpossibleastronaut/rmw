@@ -110,10 +110,9 @@ Functions</h2></td></tr>
 <tr class="separator:a28edc57cd93e043802d633392643677b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1ad9cfc7a2943e9fe0c7ceed914e84f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#ad1ad9cfc7a2943e9fe0c7ceed914e84f">translate_config</a> (void)</td></tr>
 <tr class="separator:ad1ad9cfc7a2943e9fe0c7ceed914e84f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37d289762b7e2672c96a9b0b3d6a4fdd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#a37d289762b7e2672c96a9b0b3d6a4fdd">del_char_shift_left</a> (const char c, char **str_addr)</td></tr>
-<tr class="separator:a37d289762b7e2672c96a9b0b3d6a4fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ceb78280f52a39ab3c19c385a80170d"><td class="memItemLeft" align="right" valign="top"><a id="a6ceb78280f52a39ab3c19c385a80170d"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>realize_home</b> (char **str)</td></tr>
+<tr class="memitem:af891bccae7a812aab97443355c89fd03"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#af891bccae7a812aab97443355c89fd03">del_char_shift_left</a> (const char c, char **str)</td></tr>
+<tr class="separator:af891bccae7a812aab97443355c89fd03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ceb78280f52a39ab3c19c385a80170d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#a6ceb78280f52a39ab3c19c385a80170d">realize_home</a> (char **str)</td></tr>
 <tr class="separator:a6ceb78280f52a39ab3c19c385a80170d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae792326af202b42b44038ec69658e41c"><td class="memItemLeft" align="right" valign="top"><a id="ae792326af202b42b44038ec69658e41c"></a>
 static <a class="el" href="structst__waste.html">st_waste</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parse_line_waste</b> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr, char *line_from_config, bool *do_continue)</td></tr>
@@ -132,8 +131,8 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains functions used to read and parse the configuration file. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a37d289762b7e2672c96a9b0b3d6a4fdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37d289762b7e2672c96a9b0b3d6a4fdd">&#9670;&nbsp;</a></span>del_char_shift_left()</h2>
+<a id="af891bccae7a812aab97443355c89fd03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af891bccae7a812aab97443355c89fd03">&#9670;&nbsp;</a></span>del_char_shift_left()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -151,7 +150,7 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>str_addr</em>&#160;</td>
+          <td class="paramname"><em>str</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -167,15 +166,15 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
 </div><div class="memdoc">
 <p>Erases characters from the beginning of a string (i.e. shifts the remaining string to the left.</p>
 <p>What really happens is that the address of str_addr is moved to the right. Because this function alters the address of str_address (rather than characters within the string itself), the address to str_addr (pointer to a pointer) is passed.</p>
-<p>Example:</p><div class="fragment"><div class="line"><a class="code" href="config__rmw_8c.html#a37d289762b7e2672c96a9b0b3d6a4fdd">del_char_shift_left</a> (<span class="charliteral">&#39;=&#39;</span>, &amp;src_string); </div></div><!-- fragment --> <dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">c</td><td>the character to erase </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">str_addr</td><td>a pointer to the address of str_addr </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">&amp;str</td><td>reference to the string you want to change </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<p>Example:</p><div class="fragment"><div class="line"><a class="code" href="config__rmw_8c.html#af891bccae7a812aab97443355c89fd03">del_char_shift_left</a> (<span class="charliteral">&#39;=&#39;</span>, &amp;src_string); </div></div><!-- fragment --> 
 </div>
 </div>
 <a id="ae95290d81968748dee591de2939c79b7"></a>
@@ -256,6 +255,39 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
 <p>CFG_FILE is the file name of the rmw config file relative to the $HOME directory, defined at the top of <a class="el" href="rmw_8h.html">rmw.h</a></p>
 <p>Create full path to config_file</p>
 
+</div>
+</div>
+<a id="a6ceb78280f52a39ab3c19c385a80170d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ceb78280f52a39ab3c19c385a80170d">&#9670;&nbsp;</a></span>realize_home()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void realize_home </td>
+          <td>(</td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>If "$HOME" or "~" is used in the configuration file, convert it to the literal value. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">&amp;str</td><td>reference to the string containing <b>$HOME</b> or <b>~</b> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
+<p>Example: </p><div class="fragment"><div class="line"><a class="code" href="config__rmw_8c.html#a6ceb78280f52a39ab3c19c385a80170d">realize_home</a> (&amp;config_line); </div></div><!-- fragment --> 
 </div>
 </div>
 <a id="ad1ad9cfc7a2943e9fe0c7ceed914e84f"></a>

@@ -3,6 +3,7 @@ var searchData=
   ['rmw_20v0_2e7_2e02_2ddev',['rmw v0.7.02-dev',['../index.html',1,'']]],
   ['real_5fpath',['real_path',['../structrmw__target.html#ab7332193fa01252203d0164d65d87e41',1,'rmw_target']]],
   ['realize_5fconfig_5ffile',['realize_config_file',['../config__rmw_8c.html#addb6655aa46d019bcd6ed540fa76d296',1,'config_rmw.c']]],
+  ['realize_5fhome',['realize_home',['../config__rmw_8c.html#a6ceb78280f52a39ab3c19c385a80170d',1,'config_rmw.c']]],
   ['removable',['removable',['../structst__waste.html#a748344c8dca5b1806b81c447db29583e',1,'st_waste']]],
   ['resolve_5fpath',['resolve_path',['../strings__rmw_8c.html#abfc074cd05842e03a23eda83348f46b1',1,'strings_rmw.c']]],
   ['restore',['Restore',['../restore__rmw_8c.html#a1ae279a7200b8c93717bcfd6e45cbe57',1,'Restore(const char *argv, st_waste *waste_curr):&#160;restore_rmw.c'],['../restore__rmw_8h.html#a1ae279a7200b8c93717bcfd6e45cbe57',1,'Restore(const char *argv, st_waste *waste_curr):&#160;restore_rmw.c']]],
