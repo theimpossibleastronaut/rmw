@@ -11,6 +11,10 @@ const char *HOMEDIR = "/home/andy";
 
 int main (int argc, char *argv[])
 {
+  /*
+   * realize_home()
+   *
+   */
   char *config_line = malloc (MP);
   chk_malloc (config_line, __func__, __LINE__);
 
@@ -23,6 +27,20 @@ int main (int argc, char *argv[])
   printf ("%s\n", config_line);
   realize_home (&config_line);
   assert (!strcmp (config_line, "/home/andy/.trash.rmw"));
+
+  /*
+   * del_char_shift_left()
+   *
+   */
+  strcpy (config_line, "    Hello, World");
+  del_char_shift_left (' ', &config_line);
+  assert (!strcmp (config_line, "Hello, World"));
+
+  del_char_shift_left (' ', &config_line);
+  assert (!strcmp (config_line, "Hello, World"));
+
+  del_char_shift_left ('H', &config_line);
+  assert (!strcmp (config_line, "ello, World"));
 
   return 0;
 }

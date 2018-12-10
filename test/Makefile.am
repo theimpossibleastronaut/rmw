@@ -2,10 +2,10 @@ CFLAGS = -I$(top_srcdir)/src
 
 check_PROGRAMS = \
 	strings \
-	realize_home
+	config_test
 
 strings_SOURCES = strings.c
-realize_home_SOURCES = realize_home.c
+config_test_SOURCES = config_test.c
 
 TESTS=$(check_PROGRAMS)
 

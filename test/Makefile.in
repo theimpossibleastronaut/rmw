@@ -87,7 +87,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = strings$(EXEEXT) realize_home$(EXEEXT)
+check_PROGRAMS = strings$(EXEEXT) config_test$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_enable_debug.m4 \
@@ -108,10 +108,10 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_realize_home_OBJECTS = realize_home.$(OBJEXT)
-realize_home_OBJECTS = $(am_realize_home_OBJECTS)
-realize_home_LDADD = $(LDADD)
-realize_home_DEPENDENCIES = $(top_builddir)/src/librmw.a
+am_config_test_OBJECTS = config_test.$(OBJEXT)
+config_test_OBJECTS = $(am_config_test_OBJECTS)
+config_test_LDADD = $(LDADD)
+config_test_DEPENDENCIES = $(top_builddir)/src/librmw.a
 am_strings_OBJECTS = strings.$(OBJEXT)
 strings_OBJECTS = $(am_strings_OBJECTS)
 strings_LDADD = $(LDADD)
@@ -144,8 +144,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(realize_home_SOURCES) $(strings_SOURCES)
-DIST_SOURCES = $(realize_home_SOURCES) $(strings_SOURCES)
+SOURCES = $(config_test_SOURCES) $(strings_SOURCES)
+DIST_SOURCES = $(config_test_SOURCES) $(strings_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -500,7 +500,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 strings_SOURCES = strings.c
-realize_home_SOURCES = realize_home.c
+config_test_SOURCES = config_test.c
 TESTS = $(check_PROGRAMS)
 LDADD = $(top_builddir)/src/librmw.a
 test_scripts = \
@@ -550,9 +550,9 @@ $(am__aclocal_m4_deps):
 clean-checkPROGRAMS:
 	-test -z "$(check_PROGRAMS)" || rm -f $(check_PROGRAMS)
 
-realize_home$(EXEEXT): $(realize_home_OBJECTS) $(realize_home_DEPENDENCIES) $(EXTRA_realize_home_DEPENDENCIES) 
-	@rm -f realize_home$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(realize_home_OBJECTS) $(realize_home_LDADD) $(LIBS)
+config_test$(EXEEXT): $(config_test_OBJECTS) $(config_test_DEPENDENCIES) $(EXTRA_config_test_DEPENDENCIES) 
+	@rm -f config_test$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(config_test_OBJECTS) $(config_test_LDADD) $(LIBS)
 
 strings$(EXEEXT): $(strings_OBJECTS) $(strings_DEPENDENCIES) $(EXTRA_strings_DEPENDENCIES) 
 	@rm -f strings$(EXEEXT)
@@ -564,7 +564,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/realize_home.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/config_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strings.Po@am__quote@
 
 .c.o:
@@ -783,9 +783,9 @@ strings.log: strings$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-realize_home.log: realize_home$(EXEEXT)
-	@p='realize_home$(EXEEXT)'; \
-	b='realize_home'; \
+config_test.log: config_test$(EXEEXT)
+	@p='config_test$(EXEEXT)'; \
+	b='config_test'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
