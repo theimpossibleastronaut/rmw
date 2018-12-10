@@ -1,17 +1,16 @@
-#include <stdio.h>
-#include "rmw.h"
-#include "messages_rmw.h"
-#include "config_rmw.h"
+
+const char *HOMEDIR = "/home/andy";
+
+/*
+ * We include the C file here because realize_home() is declared there statically.
+ * Because of that, it can't be used from the library.
+ *
+ */
+#include <config_rmw.c>
 #include <assert.h>
 
 int main (int argc, char *argv[])
 {
-  extern char *HOMEDIR;
-  HOMEDIR = malloc (MP);
-  chk_malloc (HOMEDIR, __func__, __LINE__);
-
-  strcpy (HOMEDIR, "/home/andy");
-
   char *config_line = malloc (MP);
   chk_malloc (config_line, __func__, __LINE__);
 

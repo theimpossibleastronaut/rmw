@@ -122,29 +122,31 @@ translate_config (void)
  * within the string itself), the address to str_addr (pointer to a pointer)
  * is passed.
  *
- * Example: @code del_char_shift_left ('=', &src_string); @endcode
  * @param[in] c the character to erase
- * @param[out] str_addr a pointer to the address of str_addr
+ * @param[out] &str reference to the string you want to change
  * @return void
+ *
+ * Example: @code del_char_shift_left ('=', &src_string); @endcode
  */
 static void
-del_char_shift_left (const char c, char **str_addr)
+del_char_shift_left (const char c, char **str)
 {
-  while (**str_addr == c)
-    (*str_addr)++;
+  while (**str == c)
+    (*str)++;
 
   return;
 }
 
-/*
+/*!
+ * If "$HOME" or "~" is used in the configuration file, convert it
+ * to the literal value.
+ * @param[in] &str reference to the string containing \b $HOME or \b ~
+ * @return void
  *
- * name: realize_home
- *
- * if "$HOME" or "~" is used on configuration file
- * change to the value of "HOMEDIR"
- *
+ * Example:
+ * @code realize_home (&config_line); @endcode
  */
-void
+static void
 realize_home (char **str)
 {
   trim_char ('/', *str);

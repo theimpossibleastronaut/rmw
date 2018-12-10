@@ -586,7 +586,6 @@ PACKAGE_STRING='rmw 0.7.02-dev'
 PACKAGE_BUGREPORT='https://github.com/theimpossibleastronaut/rmw/issues'
 PACKAGE_URL='https://remove-to-waste.info/'
 
-ac_unique_file=""
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -2203,7 +2202,6 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
- (src/rmw.h)
 am__api_version='1.15'
 
 ac_aux_dir=

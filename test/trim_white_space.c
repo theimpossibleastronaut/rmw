@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include "rmw.h"
-#include "strings_rmw.h"
-#include "messages_rmw.h"
+#include "strings_rmw.c"
 #include <assert.h>
 
 #define BUF_SIZE 80
