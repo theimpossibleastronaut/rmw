@@ -1,4 +1,5 @@
 AC_INIT([rmw], [0.7.02-dev], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([subdir-objects foreign])
 AC_PREREQ(2.69)
 AC_CONFIG_HEADERS([src/config.h:config.in])
@@ -10,7 +11,7 @@ AC_CONFIG_HEADERS([src/config.h:config.in])
 AX_CHECK_ENABLE_DEBUG([yes])
 
 AC_PROG_CC
-AC_CONFIG_MACRO_DIRS([m4])
+AC_CONFIG_MACRO_DIRS([build-aux/m4])
 AC_PROG_INSTALL
 AC_HEADER_STDBOOL
 AC_SYS_LARGEFILE

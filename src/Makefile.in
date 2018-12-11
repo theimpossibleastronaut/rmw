@@ -92,16 +92,22 @@ host_triplet = @host@
 bin_PROGRAMS = rmw$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/ax_check_enable_debug.m4 \
-	$(top_srcdir)/m4/ax_func_snprintf.m4 \
-	$(top_srcdir)/m4/ax_require_defined.m4 \
-	$(top_srcdir)/m4/ax_with_curses.m4 \
-	$(top_srcdir)/m4/ax_with_curses_extra.m4 \
-	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/iconv.m4 \
-	$(top_srcdir)/m4/intlmacosx.m4 $(top_srcdir)/m4/lib-ld.m4 \
-	$(top_srcdir)/m4/lib-link.m4 $(top_srcdir)/m4/lib-prefix.m4 \
-	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/pkg.m4 \
-	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
+am__aclocal_m4_deps =  \
+	$(top_srcdir)/build-aux/m4/ax_check_enable_debug.m4 \
+	$(top_srcdir)/build-aux/m4/ax_func_snprintf.m4 \
+	$(top_srcdir)/build-aux/m4/ax_require_defined.m4 \
+	$(top_srcdir)/build-aux/m4/ax_with_curses.m4 \
+	$(top_srcdir)/build-aux/m4/ax_with_curses_extra.m4 \
+	$(top_srcdir)/build-aux/m4/gettext.m4 \
+	$(top_srcdir)/build-aux/m4/iconv.m4 \
+	$(top_srcdir)/build-aux/m4/intlmacosx.m4 \
+	$(top_srcdir)/build-aux/m4/lib-ld.m4 \
+	$(top_srcdir)/build-aux/m4/lib-link.m4 \
+	$(top_srcdir)/build-aux/m4/lib-prefix.m4 \
+	$(top_srcdir)/build-aux/m4/nls.m4 \
+	$(top_srcdir)/build-aux/m4/pkg.m4 \
+	$(top_srcdir)/build-aux/m4/po.m4 \
+	$(top_srcdir)/build-aux/m4/progtest.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -151,7 +157,7 @@ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
 DEFAULT_INCLUDES = -I.@am__isrc@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -197,8 +203,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/config.in \
-	$(top_srcdir)/depcomp
+am__DIST_COMMON = $(srcdir)/Makefile.in \
+	$(top_srcdir)/build-aux/depcomp $(top_srcdir)/config.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@

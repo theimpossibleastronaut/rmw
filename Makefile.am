@@ -4,4 +4,4 @@ EXTRA_DIST = README.md ChangeLog AUTHORS.md THANKS COPYING NEWS rmwrc
 
 packextras_DATA=$(EXTRA_DIST)
 
-ACLOCAL_AMFLAGS = --install -I m4
+ACLOCAL_AMFLAGS = --install -I build-aux/m4
