@@ -1,4 +1,4 @@
-language: cpp
+language: c
 
 sudo: required
 
@@ -41,7 +41,6 @@ before_install:
   - if [ "$Tr_Compiler_Version" != "" ] && [ "$Tr_Compiler_Version" != "default" ] && [ "$CC" == "clang" ]; then export CXX="clang++-${Tr_Compiler_Version}" CC="clang-${Tr_Compiler_Version}"; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install ncurses; export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig";fi
   - $CC --version
-  - $CXX --version
 
 script:
   - mkdir build
