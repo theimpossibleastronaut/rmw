@@ -558,16 +558,17 @@ Please check your configuration file and permissions\n\n"));
 
   if (restoreYes)
   {
+    int restore_errors = 0;
     /* subtract 1 from optind otherwise the first file in the list isn't
      * restored
      */
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
     {
       waste_curr = waste_head;
-      msg_warn_restore(Restore (argv[file_arg], waste_curr));
+      msg_warn_restore(restore_errors += Restore (argv[file_arg], waste_curr));
     }
 
-    return 0;
+    return restore_errors;
   }
 
   if (optind < argc)

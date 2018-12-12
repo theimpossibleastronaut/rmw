@@ -1,6 +1,11 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-12-12
+
+  * When Restore() is called from main(), rmw will leave a return
+  code equal to the number of errors returned by Restore() (if any).
+
 2018-12-08
 
   * Implemented unit testing (though I've only created one unit test and

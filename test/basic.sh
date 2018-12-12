@@ -67,20 +67,32 @@ echo "\n\ntest undo/restore feature\n\n"
 
 set -x
 $BIN_DIR/rmw --verbose -c $CONFIG -u
+$BIN_DIR/rmw --verbose -c $CONFIG -z $HOME/.trash.rmw/files/1
+$BIN_DIR/rmw --verbose -c $CONFIG -z $HOME/.trash.rmw/files/2
+$BIN_DIR/rmw --verbose -c $CONFIG -z $HOME/.trash.rmw/files/3
 test_result $?
 
-echo "\n\n == show that the temp files are restored to their previous locations"
+echo "\n\n == test that the files are restored to their previous locations"
 
 set -x
-
-ls -al $HOME/tmp-files
+test -f $HOME/tmp-files/1
+test_result $?
+test -f $HOME/tmp-files/2
+test_result $?
+test -f $HOME/tmp-files/3
 test_result $?
 
-echo "\n\n == show that the .trashinfo files have been removed"
+echo "\n\n == test that the .trashinfo files have been removed"
 
 set -x
-ls -al $HOME/.trash.rmw/info
-test_result $?
+test -f $HOME/.trash.rmw/info/1.trashinfo
+test_result_want_fail $?
+
+test -f $HOME/.trash.rmw/info/2.trashinfo
+test_result_want_fail $?
+
+test -f $HOME/.trash.rmw/info/3.trashinfo
+test_result_want_fail $?
 
 echo "Basic tests passed"
 exit 0

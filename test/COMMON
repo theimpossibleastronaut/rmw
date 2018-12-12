@@ -14,6 +14,19 @@ test_result() {
     echo "\n  --:Test failure:--"
     exit $1
   fi
+
+  set -x
+}
+
+test_result_want_fail() {
+  set +x
+
+  if [ $1 = 0 ]; then
+    echo "\n  --:Test failure:--"
+    exit $1
+  fi
+
+  set -x
 }
 
 #
