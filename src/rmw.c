@@ -313,10 +313,10 @@ int
 main (const int argc, char* const argv[])
 {
   /* If MP was defined as something other than a number when building */
-  if (MP < 1)
+  if (PATH_MAX < 1 || PATH_MAX < 256)
   {
     print_msg_error ();
-    fprintf (stderr, "MP must be defined as a number\n");
+    fprintf (stderr, "Invalid value for PATH_MAX\n");
     exit (1);
   }
 
