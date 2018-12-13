@@ -66,17 +66,12 @@ static bool is_unreserved (char c)
  * Convert str into a URL valid string, escaping when necesary
  * returns 0 on success, 1 on failure
  */
-static bool escape_url (const char *str, char *dest, ushort len)
+static bool escape_url (const char *str, char *dest, const int len)
 {
-  static unsigned short int pos_str;
-  static unsigned short int pos_dest;
+  int pos_str;
+  int pos_dest;
   pos_str = 0;
   pos_dest = 0;
-
-#ifdef DEBUG
-DEBUG_PREFIX
-printf ("str = %s in %s\n", str, __func__);
-#endif
 
   while (str[pos_str])
   {
@@ -86,7 +81,7 @@ printf ("str = %s in %s\n", str, __func__);
        * character + '\0') */
       if (pos_dest + 2 > len)
       {
-        printf (_("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"), __func__, len, pos_dest+2);
+        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, len, pos_dest+2);
         return 1;
       }
 
@@ -97,7 +92,7 @@ printf ("str = %s in %s\n", str, __func__);
       /* Again, check for overflow (3 chars + '\0') */
       if (pos_dest + 4 > len)
       {
-        printf (_("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"), __func__, len, pos_dest+4);
+        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, len, pos_dest+4);
         return 1;
       }
 

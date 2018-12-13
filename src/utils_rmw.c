@@ -136,7 +136,7 @@ human_readable_size (off_t size)
   }
 
   if (power >= 0)
-    snprintf (buffer, sizeof (buffer), "%ld.%hd %ciB", (long) size,
+    snprintf (buffer, sizeof (buffer), "%ld.%d %ciB", (long) size,
               (remainder * 10) / 1024, prefix[power]);
   else
     snprintf (buffer, sizeof (buffer), "%ld B", (long) size);

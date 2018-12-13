@@ -41,10 +41,10 @@
  * returns 0 on succes, 1 on failure
  */
 static bool
-unescape_url (const char *str, char *dest, ushort len)
+unescape_url (const char *str, char *dest, const int len)
 {
-  static unsigned short int pos_str;
-  static unsigned short int pos_dest;
+  int pos_str;
+  int pos_dest;
   pos_str = 0;
   pos_dest = 0;
 
@@ -59,7 +59,7 @@ unescape_url (const char *str, char *dest, ushort len)
       if (pos_dest + 2 > len)
       {
         printf (_
-                ("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"),
+                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
                 __func__, len, pos_dest + 2);
         return 1;
       }
@@ -74,7 +74,7 @@ unescape_url (const char *str, char *dest, ushort len)
       if (pos_dest + 2 > len)
       {
         printf (_
-                ("rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"),
+                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
                 __func__, len, pos_dest + 2);
         return 1;
       }
