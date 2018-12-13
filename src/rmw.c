@@ -312,12 +312,12 @@ create_undo_file (st_removed *removals, st_removed *removals_head)
 int
 main (const int argc, char* const argv[])
 {
-  /* If MP was defined as something other than a number when building */
-  if (PATH_MAX < 1 || PATH_MAX < 256)
+  /* Make sure MP has a sane value */
+  if (MP < 256)
   {
     print_msg_error ();
-    fprintf (stderr, "Invalid value for PATH_MAX\n");
-    exit (1);
+    fprintf (stderr, "Invalid value for MP\n");
+    return 1;
   }
 
   setlocale (LC_ALL, "");

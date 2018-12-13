@@ -81,7 +81,7 @@
  * and if it's not defined in a system header file, define it here
  */
 #ifndef PATH_MAX /* for portability */
-#define PATH_MAX 256
+#  define PATH_MAX 256
 #endif
 
 #ifndef MP
@@ -90,7 +90,7 @@
  *
  * ex. \code '$ CFLAGS=-DMP=n ./configure` \endcode
  */
-#   define MP PATH_MAX + 1
+#   define MP (PATH_MAX + 1)
 #endif
 
 #ifndef ushort
