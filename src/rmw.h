@@ -84,14 +84,7 @@
 #  define PATH_MAX 256
 #endif
 
-#ifndef MP
-/**
- * MP can be defined before building when running running ./configure
- *
- * ex. \code '$ CFLAGS=-DMP=n ./configure` \endcode
- */
-#   define MP (PATH_MAX + 1)
-#endif
+#define MP (PATH_MAX + 1)
 
 #ifndef ushort
   #define ushort unsigned short int
