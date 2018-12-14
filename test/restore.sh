@@ -64,10 +64,8 @@ set -x
 mkdir $HOME/no_write_perms
 touch $HOME/no_write_perms/test.tmp
 chmod -R -w $HOME/no_write_perms
-$RMW_TEST_CMD_STRING --verbose $HOME/no_write_perms
-# can't test_result here because it should return 1, and we want this script
-# to continue. Instead, just show what's returned using the '--verbose' option.
-set +x
+$RMW_TEST_CMD_STRING $HOME/no_write_perms
+test_result_want_fail $?
 
 # change permissions back to writable so the dir gets removed before the
 # next test (done in COMMON)
