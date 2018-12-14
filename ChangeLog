@@ -1,6 +1,11 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2018-12-14
+
+  * Using "make check" from the build directory will execute the test
+  scripts now. "make test-all, test-basic, etc" have been deprecated.
+
 2018-12-12
 
   * When Restore() is called from main(), rmw will leave a return

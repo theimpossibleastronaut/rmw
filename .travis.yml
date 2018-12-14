@@ -50,8 +50,7 @@ script:
   - make check
   - make install
   - make uninstall
-  - cd test
-  - make test-all
+  - make distclean
 
 notifications:
   webhooks:

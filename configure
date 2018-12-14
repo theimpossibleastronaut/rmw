@@ -8638,7 +8638,15 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile man/Makefile test/Makefile po/Makefile.in"
+ac_config_files="$ac_config_files Makefile src/Makefile man/Makefile test/Makefile po/Makefile.in test/VARS"
+
+
+ac_config_files="$ac_config_files test/basic.sh"
+
+ac_config_files="$ac_config_files test/purging.sh"
+
+ac_config_files="$ac_config_files test/restore.sh"
+
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -9385,6 +9393,10 @@ do
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
     "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
     "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
+    "test/VARS") CONFIG_FILES="$CONFIG_FILES test/VARS" ;;
+    "test/basic.sh") CONFIG_FILES="$CONFIG_FILES test/basic.sh" ;;
+    "test/purging.sh") CONFIG_FILES="$CONFIG_FILES test/purging.sh" ;;
+    "test/restore.sh") CONFIG_FILES="$CONFIG_FILES test/restore.sh" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -10187,6 +10199,9 @@ $as_echo X"$file" |
         ;;
       esac
     done ;;
+    "test/basic.sh":F) chmod +x test/basic.sh ;;
+    "test/purging.sh":F) chmod +x test/purging.sh ;;
+    "test/restore.sh":F) chmod +x test/restore.sh ;;
 
   esac
 done # for ac_tag

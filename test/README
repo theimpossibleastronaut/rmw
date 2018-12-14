@@ -1,16 +1,3 @@
-Don't run these scripts directly - use 'make test` instead.
+Use `make check` from the build directory to run the tests.
 
-After running `configure` and `make`, you can run tests by changing to
-the test/ directory (of your build directory) and run make followed by
-any of these:
-
-  test-basic
-  test-purging
-  test-restore
-
-Use `make test-all` to run all the tests listed above.
-
-*Hint: typing `make test` and pressing the TAB key will show you
-available options.
-
-When you're done, enter `make testclean` to remove temporary files.
+Detailed logs for each test will be created in `test/`

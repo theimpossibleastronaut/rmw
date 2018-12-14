@@ -1,11 +1,11 @@
 #!/bin/sh
 
-. ${1}
+. @abs_builddir@/VARS
 
 if [ -e COMMON ]; then
   . ./COMMON
 else
-  . ${TESTS_DIR}/COMMON
+  . @abs_top_srcdir@/test/COMMON
 fi
 
 echo "== On first run, directories should get created"
@@ -29,6 +29,8 @@ for file in 1 2 3; do
   touch $file
 done
 cd $HOME/..
+test_result $?
+
 echo "\n\n == rmw should be able to operate on multiple files\n"
 $BIN_DIR/rmw --verbose -c $CONFIG $HOME/tmp-files/*
 

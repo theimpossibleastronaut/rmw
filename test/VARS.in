@@ -1,0 +1,5 @@
+# This file was automatically generated. DO NOT EDIT
+HOME=@abs_top_builddir@/test/tmp-home
+TESTS_DIR=@abs_top_srcdir@/test
+CONFIG=@abs_top_srcdir@/test/rmw.testrc
+BIN_DIR=@abs_top_builddir@/src

@@ -1,75 +1,29 @@
 CFLAGS = -I$(top_srcdir)/src
 
 check_PROGRAMS = \
-	strings \
+	strings	\
 	config_test
 
 strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
-
-TESTS=$(check_PROGRAMS)
-
-LDADD = $(top_builddir)/src/librmw.a
 
 test_scripts =	\
 	basic.sh	\
 	purging.sh	\
 	restore.sh
 
+TESTS=$(check_PROGRAMS) $(test_scripts)
+
+LDADD = $(top_builddir)/src/librmw.a
+
 EXTRA_DIST=	\
 	README	\
 	COMMON \
-	$(test_scripts)
+	$(test_scripts).in	\
+	VARS.in
 
-# If anything needs to change for the target tests, just edit the first
-# one and then copy the info to the others. Change just the script name
-# on the last line of each target.
-
-test-all:
-	vars=$(builddir)/VARS;	\
-	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
-	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
-	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
-	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
-	for script in $(test_scripts); do \
-		$(srcdir)/$$script $$vars;	\
-		if [ $$? -ne 0 ]; then	\
-			break;	\
-		fi	\
-	done;
-
-test-basic:
-	vars=$(builddir)/VARS;	\
-	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
-	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
-	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
-	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
-	$(srcdir)/basic.sh $$vars;
-
-test-purging:
-	vars=$(builddir)/VARS;	\
-	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
-	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
-	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
-	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
-	$(srcdir)/purging.sh $$vars;
-
-test-restore:
-	vars=$(builddir)/VARS;	\
-	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
-	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
-	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
-	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
-	$(srcdir)/restore.sh $$vars;
-
-testclean:
-	for file in "VARS" "tmp-home"; do	\
-		if test -e $$file; then	\
-			rm -rf $$file;	\
-		fi	\
-	done;
-
+clean-local:
+	dir=$(top_builddir)/test/tmp-home; \
+	if test -d $$dir;	then	\
+		rm -rf $$dir;	\
+	fi

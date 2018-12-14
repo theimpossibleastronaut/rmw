@@ -5,12 +5,12 @@
 # new users, and to test for bugs when making code changes
 #
 
-. ${1}
+. @abs_builddir@/VARS
 
 if [ -e COMMON ]; then
   . ./COMMON
 else
-  . ${TESTS_DIR}/COMMON
+  . @abs_top_srcdir@/test/COMMON
 fi
 
 echo $SEPARATOR

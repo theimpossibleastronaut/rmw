@@ -112,7 +112,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = VARS basic.sh purging.sh restore.sh
 CONFIG_CLEAN_VPATH_FILES =
 am_config_test_OBJECTS = config_test.$(OBJEXT)
 config_test_OBJECTS = $(am_config_test_OBJECTS)
@@ -380,8 +380,9 @@ TEST_LOGS = $(am__test_logs2:.test.log=.log)
 TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
 TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
-am__DIST_COMMON = $(srcdir)/Makefile.in \
-	$(top_srcdir)/build-aux/depcomp \
+am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/VARS.in \
+	$(srcdir)/basic.sh.in $(srcdir)/purging.sh.in \
+	$(srcdir)/restore.sh.in $(top_srcdir)/build-aux/depcomp \
 	$(top_srcdir)/build-aux/test-driver README
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
@@ -508,17 +509,18 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
-TESTS = $(check_PROGRAMS)
-LDADD = $(top_builddir)/src/librmw.a
 test_scripts = \
 	basic.sh	\
 	purging.sh	\
 	restore.sh
 
+TESTS = $(check_PROGRAMS) $(test_scripts)
+LDADD = $(top_builddir)/src/librmw.a
 EXTRA_DIST = \
 	README	\
 	COMMON \
-	$(test_scripts)
+	$(test_scripts).in	\
+	VARS.in
 
 all: all-am
 
@@ -553,6 +555,14 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+VARS: $(top_builddir)/config.status $(srcdir)/VARS.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+basic.sh: $(top_builddir)/config.status $(srcdir)/basic.sh.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+purging.sh: $(top_builddir)/config.status $(srcdir)/purging.sh.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+restore.sh: $(top_builddir)/config.status $(srcdir)/restore.sh.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 clean-checkPROGRAMS:
 	-test -z "$(check_PROGRAMS)" || rm -f $(check_PROGRAMS)
@@ -797,6 +807,27 @@ config_test.log: config_test$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+basic.sh.log: basic.sh
+	@p='basic.sh'; \
+	b='basic.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+purging.sh.log: purging.sh
+	@p='purging.sh'; \
+	b='purging.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+restore.sh.log: restore.sh
+	@p='restore.sh'; \
+	b='restore.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -883,7 +914,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-checkPROGRAMS clean-generic mostlyclean-am
+clean-am: clean-checkPROGRAMS clean-generic clean-local mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -953,10 +984,10 @@ uninstall-am:
 .MAKE: check-am install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-TESTS check-am clean \
-	clean-checkPROGRAMS clean-generic cscopelist-am ctags ctags-am \
-	distclean distclean-compile distclean-generic distclean-tags \
-	distdir dvi dvi-am html html-am info info-am install \
-	install-am install-data install-data-am install-dvi \
+	clean-checkPROGRAMS clean-generic clean-local cscopelist-am \
+	ctags ctags-am distclean distclean-compile distclean-generic \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am install-man \
 	install-pdf install-pdf-am install-ps install-ps-am \
@@ -968,57 +999,11 @@ uninstall-am:
 .PRECIOUS: Makefile
 
 
-# If anything needs to change for the target tests, just edit the first
-# one and then copy the info to the others. Change just the script name
-# on the last line of each target.
-
-test-all:
-	vars=$(builddir)/VARS;	\
-	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
-	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
-	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
-	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
-	for script in $(test_scripts); do \
-		$(srcdir)/$$script $$vars;	\
-		if [ $$? -ne 0 ]; then	\
-			break;	\
-		fi	\
-	done;
-
-test-basic:
-	vars=$(builddir)/VARS;	\
-	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
-	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
-	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
-	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
-	$(srcdir)/basic.sh $$vars;
-
-test-purging:
-	vars=$(builddir)/VARS;	\
-	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
-	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
-	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
-	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
-	$(srcdir)/purging.sh $$vars;
-
-test-restore:
-	vars=$(builddir)/VARS;	\
-	echo "# This file was automatically generated. DO NOT EDIT" > $$vars;	\
-	echo "HOME=${PWD}"/$(builddir)/tmp-home >> $$vars;	\
-	echo "TESTS_DIR=${PWD}"/$(srcdir) >> $$vars;	\
-	echo "CONFIG=${PWD}"/$(srcdir)/rmw.testrc >> $$vars;	\
-	echo "BIN_DIR=${PWD}"/$(top_builddir)/src >> $$vars;	\
-	$(srcdir)/restore.sh $$vars;
-
-testclean:
-	for file in "VARS" "tmp-home"; do	\
-		if test -e $$file; then	\
-			rm -rf $$file;	\
-		fi	\
-	done;
+clean-local:
+	dir=$(top_builddir)/test/tmp-home; \
+	if test -d $$dir;	then	\
+		rm -rf $$dir;	\
+	fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
