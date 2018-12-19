@@ -223,7 +223,7 @@ is_time_to_purge (void)
  *
  * @param[out] removals linked lists of files that have been succesfully rmw'ed
  * @param[in] file file that has been successfully rmw'ed
- * @see undo_last_rmw
+ * @see want_undo_rmw
  * @return pointer to node in @ref st_removed type struct
  */
 static st_removed*
@@ -271,7 +271,7 @@ dispose_removed (st_removed *node)
  * @param[in] removals the linked list of files that were rmw'ed
  * @param[in] removals_head the first node in removals
  * @return void
- * @see undo_last_rmw
+ * @see want_undo_rmw
  * @see add_removal
  */
 static void
@@ -349,11 +349,11 @@ main (const int argc, char* const argv[])
 
   verbose = 0; /* already declared, a global */
 
-  bool cmd_opt_purge = 0;
-  bool orphan_chk = 0;
-  bool restoreYes = 0;
-  bool select = 0;
-  bool undo_last = 0;
+  bool want_purge = 0;
+  bool want_orphan_chk = 0;
+  bool want_restore = 0;
+  bool want_selection_menu = 0;
+  bool want_undo = 0;
 
   do
   {
@@ -377,19 +377,19 @@ main (const int argc, char* const argv[])
       list = 1;
       break;
     case 'g':
-      cmd_opt_purge = 1;
+      want_purge = 1;
       break;
     case 'o':
-      orphan_chk = 1;
+      want_orphan_chk = 1;
       break;
     case 'z':
-      restoreYes = 1;
+      want_restore = 1;
       break;
     case 's':
-      select = 1;
+      want_selection_menu = 1;
       break;
     case 'u':
-      undo_last = 1;
+      want_undo = 1;
       break;
     case 'w':
       warranty ();
@@ -512,13 +512,13 @@ Please check your configuration file and permissions\n\n"));
   /** This if statement spits out a message if someone tries to use -g on
    * the command line but has purge_after set to 0 in the config
    */
-  if (cmd_opt_purge && !purge_after)
+  if (want_purge && !purge_after)
   /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
    * directory  */
     printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
   else if (purge_after)
   {
-    if (is_time_to_purge () == IS_NEW_DAY || cmd_opt_purge)
+    if (is_time_to_purge () == IS_NEW_DAY || want_purge)
     {
       if (force)
         purge (waste_curr);
@@ -531,23 +531,23 @@ Please check your configuration file and permissions\n\n"));
   time_str_appended = calloc (LEN_TIME_STR_APPENDED, 1);
   get_time_string (time_str_appended, LEN_TIME_STR_APPENDED, "_%H%M%S-%y%m%d");
 
-  if (orphan_chk)
+  if (want_orphan_chk)
   {
     waste_curr = waste_head;
     orphan_maint(waste_curr);
     return 0;
   }
 
-  if (select)
+  if (want_selection_menu)
   {
     waste_curr = waste_head;
     return restore_select (waste_curr);
   }
 
   /* FIXME:
-   * undo_last_rmw() should return a value
+   * want_undo_rmw() should return a value
    */
-  if (undo_last)
+  if (want_undo)
   {
     waste_curr = waste_head;
     undo_last_rmw (waste_curr);
@@ -556,7 +556,7 @@ Please check your configuration file and permissions\n\n"));
 
   int file_arg = 0;
 
-  if (restoreYes)
+  if (want_restore)
   {
     int restore_errors = 0;
     /* subtract 1 from optind otherwise the first file in the list isn't
@@ -697,7 +697,7 @@ Please check your configuration file and permissions\n\n"));
     if (main_error > 1)
       return main_error;
   }
-  else if (!cmd_opt_purge && created_data_dir == MAKE_DIR_SUCCESS)
+  else if (!want_purge && created_data_dir == MAKE_DIR_SUCCESS)
       printf (_("No filenames or command line options were given\n\
 Enter '%s -h' for more information\n"), argv[0]);
 
