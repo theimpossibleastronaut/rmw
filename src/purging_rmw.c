@@ -242,9 +242,10 @@ purge (const st_waste * waste_curr)
   short status = 0;
 
   bool cmd_empty = 0;
+  char *rmwtrash_env = getenv("RMWTRASH");
 
-  if (getenv ("RMWTRASH") != NULL)
-    cmd_empty = strcmp (getenv ("RMWTRASH"), "empty") ? 0 : 1;
+  if (rmwtrash_env != NULL)
+    cmd_empty = strcmp (rmwtrash_env, "empty") ? 0 : 1;
 
   extern const int purge_after;
   printf ("\n");
