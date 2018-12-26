@@ -165,6 +165,70 @@ rmdir_recursive (char *path, short unsigned level)
   return status;
 }
 
+static time_t
+get_then_time(struct dirent *entry, const char *entry_path)
+{
+  bufchk (entry->d_name, MP);
+
+  FILE *info_file_ptr;
+  char trashinfo_line[MP + 5];
+  char *tokenPtr;
+  struct tm tm_then;
+  time_t then = 0;
+
+  info_file_ptr = fopen (entry_path, "r");
+
+  if (info_file_ptr != NULL)
+  {
+    bool passed = 0;
+    /**
+    * unused  and unneeded Trash Info line.
+    * retrieved but not used.
+    * Check to see if it's really a .trashinfo file
+    */
+    if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr)
+        != NULL)
+    {
+      if (strncmp (trashinfo_line, "[Trash Info]", 12) == 0)
+        if (fgets
+            (trashinfo_line, sizeof (trashinfo_line),
+             info_file_ptr) != NULL)
+          if (strncmp (trashinfo_line, "Path=", 5) == 0)
+            if (fgets
+                (trashinfo_line, sizeof (trashinfo_line),
+                 info_file_ptr) != NULL)
+            {
+              bufchk (trashinfo_line, 40);
+              trim_white_space (trashinfo_line);
+              if (strncmp (trashinfo_line, "DeletionDate=", 13) == 0
+                  && strlen (trashinfo_line) == 32)
+                passed = 1;
+            }
+    }
+
+    close_file (info_file_ptr, entry_path, __func__);
+
+    if (!passed)
+    {
+      display_dot_trashinfo_error (entry_path);
+      goto out;
+    }
+  }
+  else
+  {
+    open_err (entry_path, __func__);
+    goto out;
+  }
+
+  tokenPtr = strtok (trashinfo_line, "=");
+  tokenPtr = strtok (NULL, "=");
+
+  strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
+  then = mktime (&tm_then);
+out:
+  return then;
+}
+
 /*!
  * Purges files older than x number of days, unless purge_after is set to
  * 0 in the config file.
@@ -196,7 +260,7 @@ purge (const st_waste * waste_curr)
   unsigned int dirs_containing_files_ctr = 0;
   unsigned int max_depth_reached_ctr = 0;
 
-  struct tm tmPtr, tm_then;
+  struct tm tmPtr;
   time_t now;
   time_t then = 0;
 
@@ -223,67 +287,9 @@ purge (const st_waste * waste_curr)
       sprintf (entry_path, "%s%s", waste_curr->info, entry->d_name);
 
       // printf ("%s\n", entry_path);
-
-      if (!cmd_empty)           /* skip this block if RMWTRASH=empty */
-      {
-        bufchk (entry->d_name, MP);
-
-        FILE *info_file_ptr;
-
-        char trashinfo_line[MP + 5];
-
-        char *tokenPtr;
-
-        info_file_ptr = fopen (entry_path, "r");
-
-        if (info_file_ptr != NULL)
-        {
-          bool passed = 0;
-        /**
-         * unused  and unneeded Trash Info line.
-         * retrieved but not used.
-         * Check to see if it's really a .trashinfo file
-         */
-          if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr)
-              != NULL)
-          {
-            if (strncmp (trashinfo_line, "[Trash Info]", 12) == 0)
-              if (fgets
-                  (trashinfo_line, sizeof (trashinfo_line),
-                   info_file_ptr) != NULL)
-                if (strncmp (trashinfo_line, "Path=", 5) == 0)
-                  if (fgets
-                      (trashinfo_line, sizeof (trashinfo_line),
-                       info_file_ptr) != NULL)
-                  {
-                    bufchk (trashinfo_line, 40);
-                    trim_white_space (trashinfo_line);
-                    if (strncmp (trashinfo_line, "DeletionDate=", 13) == 0
-                        && strlen (trashinfo_line) == 32)
-                      passed = 1;
-                  }
-          }
-
-          close_file (info_file_ptr, entry_path, __func__);
-
-          if (!passed)
-          {
-            display_dot_trashinfo_error (entry_path);
-            continue;
-          }
-        }
-        else
-        {
-          open_err (entry_path, __func__);
+      /* skip this block if RMWTRASH=empty */
+      if (!cmd_empty && !(then = get_then_time(entry, entry_path)))
           continue;
-        }
-
-        tokenPtr = strtok (trashinfo_line, "=");
-        tokenPtr = strtok (NULL, "=");
-
-        strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
-        then = mktime (&tm_then);
-      }
 
       if (then + (86400 * purge_after) <= now || cmd_empty)
       {
