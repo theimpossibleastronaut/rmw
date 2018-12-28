@@ -98,6 +98,8 @@ Include dependency graph for purging_rmw.c:</div>
 Functions</h2></td></tr>
 <tr class="memitem:ab05c1c11815657112508fddcd8a5ed3d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#ab05c1c11815657112508fddcd8a5ed3d">rmdir_recursive</a> (char *path, short unsigned level)</td></tr>
 <tr class="separator:ab05c1c11815657112508fddcd8a5ed3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b77956b6dd10e0bb4e7d3432c0ab5bc"><td class="memItemLeft" align="right" valign="top">static time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#a0b77956b6dd10e0bb4e7d3432c0ab5bc">get_then_time</a> (struct dirent *entry, const char *entry_path)</td></tr>
+<tr class="separator:a0b77956b6dd10e0bb4e7d3432c0ab5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1efdd17f161dacde62eb441e6a1d114e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#a1efdd17f161dacde62eb441e6a1d114e">purge</a> (const <a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
 <tr class="separator:a1efdd17f161dacde62eb441e6a1d114e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4f76b5e2cc8aa99c69d77965dd6cd72"><td class="memItemLeft" align="right" valign="top"><a id="af4f76b5e2cc8aa99c69d77965dd6cd72"></a>
@@ -119,6 +121,43 @@ static off_t&#160;</td><td class="memItemRight" valign="bottom"><b>bytes_freed</
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>functions related to the purge features of rmw </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a0b77956b6dd10e0bb4e7d3432c0ab5bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b77956b6dd10e0bb4e7d3432c0ab5bc">&#9670;&nbsp;</a></span>get_then_time()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static time_t get_then_time </td>
+          <td>(</td>
+          <td class="paramtype">struct dirent *&#160;</td>
+          <td class="paramname"><em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>entry_path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>unused and unneeded Trash Info line. retrieved but not used. Check to see if it's really a .trashinfo file</p>
+
+</div>
+</div>
 <a id="a1efdd17f161dacde62eb441e6a1d114e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1efdd17f161dacde62eb441e6a1d114e">&#9670;&nbsp;</a></span>purge()</h2>
 
@@ -143,7 +182,6 @@ static off_t&#160;</td><td class="memItemRight" valign="bottom"><b>bytes_freed</
 <dl class="section return"><dt>Returns</dt><dd>error number </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="rmw_8c.html#ae03bbf586cd5b09cd686642b20072d22">is_time_to_purge</a> </dd></dl>
 <p>Read each file in &lt;WASTE&gt;/info</p>
-<p>unused and unneeded Trash Info line. retrieved but not used. Check to see if it's really a .trashinfo file</p>
 
 </div>
 </div>
