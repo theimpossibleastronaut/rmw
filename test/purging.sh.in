@@ -17,7 +17,7 @@ echo "== On first run, directories should get created"
 # show commands that are run
 set -x
 
-$BIN_DIR/rmw -c $CONFIG
+$RMW_TEST_CMD_STRING
 
 test_result $?
 
@@ -67,11 +67,12 @@ test_result $?
 set +x
 echo
 echo
-echo " == Show that the files are really gone"
-
+echo " == Test that the files are really gone"
 set -x
-ls -l $HOME/.trash.rmw/files
-ls -l $HOME/.trash.rmw/info
+test -z "$(ls -A $HOME/.trash.rmw/files)"
+test_result $?
+test -z "$(ls -A $HOME/.trash.rmw/info)"
+test_result $?
 
 set +x
 echo
@@ -107,26 +108,52 @@ echo " using 'cp' to copy files from test/somefiles for RMWTRASH=empty test"
 cp -pPRv ${TESTS_DIR}/somefiles $HOME
 test_result $?
 
+
+set +x
 echo
 echo
 echo " == preceding RMWTRASH=empty with the rmw command should completely"
 echo " == purge the waste folders, no matter when they were deleted"
 
 set -x
-$BIN_DIR/rmw --verbose -c $CONFIG $HOME/somefiles
+$RMW_TEST_CMD_STRING --verbose $HOME/somefiles
 test_result $?
 
-RMWTRASH=empty $BIN_DIR/rmw --verbose -ff --purge -c $CONFIG
+echo " == Should not work if 'f' isn't used"
+RMWTRASH=empty $RMW_TEST_CMD_STRING --purge
+test_result $?
+
+echo " == Should not work if '--purge' isn't used"
+RMWTRASH=empty $RMW_TEST_CMD_STRING -f
+test_result $?
+
+echo " == Should not work if '--purge' and '-f' isn't used"
+RMWTRASH=empty $RMW_TEST_CMD_STRING
 test_result $?
 
 set +x
 echo
 echo
-echo " == Show that the files are really gone"
-
+echo " == Test that the files are really gone"
 set -x
-ls -l $HOME/.trash.rmw/files
-ls -l $HOME/.trash.rmw/info
+test -z "$(ls -A $HOME/.trash.rmw/files)"
+test_result_want_fail $?
+test -z "$(ls -A $HOME/.trash.rmw/info)"
+test_result_want_fail $?
+
+echo " == Try now with required options"
+RMWTRASH=empty $RMW_TEST_CMD_STRING --verbose -ff --purge
+test_result $?
+
+set +x
+echo
+echo
+echo " == Test that the files are really gone"
+set -x
+test -z "$(ls -A $HOME/.trash.rmw/files)"
+test_result $?
+test -z "$(ls -A $HOME/.trash.rmw/info)"
+test_result $?
 
 set +x
 echo "Purging tests passed"

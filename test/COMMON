@@ -8,6 +8,7 @@ test_result() {
     exit $1
   fi
 
+  echo "  -:Test passed:-"
   set -x
 }
 
@@ -19,6 +20,7 @@ test_result_want_fail() {
     exit $1
   fi
 
+  echo "  -:Test passed:-"
   set -x
 }
 
