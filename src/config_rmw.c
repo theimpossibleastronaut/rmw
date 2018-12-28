@@ -172,16 +172,20 @@ realize_home (char **str)
   return;
 }
 
-/*
- *
- * name: parse_line_waste
- *
+/*!
  * This function is called when the "WASTE" option is encountered in the
- * config file.
+ * config file. The line is parsed and added to the linked list of WASTE
+ * folders.
  *
+ * @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/213">rmw is unable to use the system trash folder on a Mac</a>
+ *
+ * @param[out] waste_curr linked list of waste folders
+ * @param[in] line_from_config
+ * @param[out] do_continue boolean value used by the calling function
+ * @return node containing information about the new WASTE folder, or \b waste_curr if no new folder was added.
  */
 static st_waste *
-parse_line_waste (st_waste * waste_curr, char *line_from_config,
+parse_line_waste (st_waste * waste_curr, const char *line_from_config,
                   bool * do_continue)
 {
   bool removable = 0;

@@ -114,9 +114,8 @@ Functions</h2></td></tr>
 <tr class="separator:af891bccae7a812aab97443355c89fd03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ceb78280f52a39ab3c19c385a80170d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#a6ceb78280f52a39ab3c19c385a80170d">realize_home</a> (char **str)</td></tr>
 <tr class="separator:a6ceb78280f52a39ab3c19c385a80170d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae792326af202b42b44038ec69658e41c"><td class="memItemLeft" align="right" valign="top"><a id="ae792326af202b42b44038ec69658e41c"></a>
-static <a class="el" href="structst__waste.html">st_waste</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parse_line_waste</b> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr, char *line_from_config, bool *do_continue)</td></tr>
-<tr class="separator:ae792326af202b42b44038ec69658e41c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55baecc242417151feacc43c666242d4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structst__waste.html">st_waste</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#a55baecc242417151feacc43c666242d4">parse_line_waste</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const char *line_from_config, bool *do_continue)</td></tr>
+<tr class="separator:a55baecc242417151feacc43c666242d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addb6655aa46d019bcd6ed540fa76d296"><td class="memItemLeft" align="right" valign="top">static FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#addb6655aa46d019bcd6ed540fa76d296">realize_config_file</a> (char *config_file)</td></tr>
 <tr class="separator:addb6655aa46d019bcd6ed540fa76d296"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae95290d81968748dee591de2939c79b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structst__waste.html">st_waste</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#ae95290d81968748dee591de2939c79b7">get_config_data</a> (void)</td></tr>
@@ -193,6 +192,59 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
       </table>
 </div><div class="memdoc">
 <p>assign purge_after the value from config file</p>
+
+</div>
+</div>
+<a id="a55baecc242417151feacc43c666242d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55baecc242417151feacc43c666242d4">&#9670;&nbsp;</a></span>parse_line_waste()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structst__waste.html">st_waste</a>* parse_line_waste </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__waste.html">st_waste</a> *&#160;</td>
+          <td class="paramname"><em>waste_curr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>line_from_config</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool *&#160;</td>
+          <td class="paramname"><em>do_continue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This function is called when the "WASTE" option is encountered in the config file. The line is parsed and added to the linked list of WASTE folders.</p>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd><a href="https://github.com/theimpossibleastronaut/rmw/issues/213">rmw is unable to use the system trash folder on a Mac</a></dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">waste_curr</td><td>linked list of waste folders </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line_from_config</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">do_continue</td><td>boolean value used by the calling function </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>node containing information about the new WASTE folder, or <b>waste_curr</b> if no new folder was added. </dd></dl>
 
 </div>
 </div>
