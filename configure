@@ -2836,52 +2836,52 @@ fi
     case $enable_debug in #(
   yes) :
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
-	CFLAGS="${CFLAGS} -g -O0"
-	CXXFLAGS="${CXXFLAGS} -g -O0"
-	FFLAGS="${FFLAGS} -g -O0"
-	FCFLAGS="${FCFLAGS} -g -O0"
-	OBJCFLAGS="${OBJCFLAGS} -g -O0"
+        CFLAGS="${CFLAGS} -g -O0"
+        CXXFLAGS="${CXXFLAGS} -g -O0"
+        FFLAGS="${FFLAGS} -g -O0"
+        FCFLAGS="${FCFLAGS} -g -O0"
+        OBJCFLAGS="${OBJCFLAGS} -g -O0"
        ;; #(
   info) :
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: info" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: info" >&5
 $as_echo "info" >&6; }
-	CFLAGS="${CFLAGS} -g"
-	CXXFLAGS="${CXXFLAGS} -g"
-	FFLAGS="${FFLAGS} -g"
-	FCFLAGS="${FCFLAGS} -g"
-	OBJCFLAGS="${OBJCFLAGS} -g"
+        CFLAGS="${CFLAGS} -g"
+        CXXFLAGS="${CXXFLAGS} -g"
+        FFLAGS="${FFLAGS} -g"
+        FCFLAGS="${FCFLAGS} -g"
+        OBJCFLAGS="${OBJCFLAGS} -g"
        ;; #(
   profile) :
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: profile" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: profile" >&5
 $as_echo "profile" >&6; }
-	CFLAGS="${CFLAGS} -g -pg"
-	CXXFLAGS="${CXXFLAGS} -g -pg"
-	FFLAGS="${FFLAGS} -g -pg"
-	FCFLAGS="${FCFLAGS} -g -pg"
-	OBJCFLAGS="${OBJCFLAGS} -g -pg"
-	LDFLAGS="${LDFLAGS} -pg"
+        CFLAGS="${CFLAGS} -g -pg"
+        CXXFLAGS="${CXXFLAGS} -g -pg"
+        FFLAGS="${FFLAGS} -g -pg"
+        FCFLAGS="${FCFLAGS} -g -pg"
+        OBJCFLAGS="${OBJCFLAGS} -g -pg"
+        LDFLAGS="${LDFLAGS} -pg"
        ;; #(
   *) :
 
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-			if test "x${CFLAGS+set}" != "xset"; then :
+                        if test "x${CFLAGS+set}" != "xset"; then :
   CFLAGS=""
 fi
-	if test "x${CXXFLAGS+set}" != "xset"; then :
+        if test "x${CXXFLAGS+set}" != "xset"; then :
   CXXFLAGS=""
 fi
-	if test "x${FFLAGS+set}" != "xset"; then :
+        if test "x${FFLAGS+set}" != "xset"; then :
   FFLAGS=""
 fi
-	if test "x${FCFLAGS+set}" != "xset"; then :
+        if test "x${FCFLAGS+set}" != "xset"; then :
   FCFLAGS=""
 fi
-	if test "x${OBJCFLAGS+set}" != "xset"; then :
+        if test "x${OBJCFLAGS+set}" != "xset"; then :
   OBJCFLAGS=""
 fi
        ;;
