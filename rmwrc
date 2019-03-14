@@ -1,5 +1,5 @@
 # rmw default configuration file
-# https://github.com/andy5995/rmw/wiki/
+# https://remove-to-waste.info/
 #
 # NOTE: If two WASTE folders are on the same file system, rmw will move files
 # to the first WASTE folder listed, ignoring the second one.

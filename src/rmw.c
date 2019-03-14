@@ -4,7 +4,7 @@
  * are only used by main().
  */
 /*
- * This file is part of rmw <https://remove-to-waste.info/>
+ * This file is part of rmw<https://remove-to-waste.info/>
  *
  * Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
  * Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md

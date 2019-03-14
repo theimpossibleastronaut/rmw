@@ -3,7 +3,7 @@
  */
 /*
  *
- * This file is part of rmw (https://github.com/andy5995/rmw/wiki)
+ * This file is part of rmw<https://remove-to-waste.info/>
  *
  *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
  *
