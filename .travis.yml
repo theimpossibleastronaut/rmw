@@ -4,7 +4,7 @@ matrix:
 # gcc
   include:
     - os: linux
-      dist: trusty
+      dist: xenial
       compiler: gcc
       env: DISTCHECK_ONLY="true" COMPILER="default"
     - os: linux
