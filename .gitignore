@@ -64,12 +64,8 @@ cov-int
 # temp install directory when ./configure --prefix=$PWD/temp_install
 # is used
 temp_install
-
 build
-
-# generic file that refers to the Translation Project, which is not used
-# by the rmw project. We use transifex for translations.
-ABOUT-NLS
+_build
 
 # Doxygen
 doxy-warn.log
