@@ -112,7 +112,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES = VARS basic.sh purging.sh restore.sh
+CONFIG_CLEAN_FILES = VARS basic.sh purging.sh restore.sh \
+	create-some-files.sh
 CONFIG_CLEAN_VPATH_FILES =
 am_config_test_OBJECTS = config_test.$(OBJEXT)
 config_test_OBJECTS = $(am_config_test_OBJECTS)
@@ -380,9 +381,9 @@ TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
 TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/VARS.in \
-	$(srcdir)/basic.sh.in $(srcdir)/purging.sh.in \
-	$(srcdir)/restore.sh.in $(top_srcdir)/build-aux/test-driver \
-	README
+	$(srcdir)/basic.sh.in $(srcdir)/create-some-files.sh.in \
+	$(srcdir)/purging.sh.in $(srcdir)/restore.sh.in \
+	$(top_srcdir)/build-aux/test-driver README
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -512,12 +513,9 @@ test_scripts = \
 TESTS = $(check_PROGRAMS) $(test_scripts)
 LDADD = $(top_builddir)/src/librmw.a
 EXTRA_DIST = \
-	somefiles	\
 	README	\
 	COMMON \
-	rmw.testrc	\
-	$(test_scripts).in	\
-	VARS.in
+	rmw.testrc
 
 all: all-am
 
@@ -559,6 +557,8 @@ basic.sh: $(top_builddir)/config.status $(srcdir)/basic.sh.in
 purging.sh: $(top_builddir)/config.status $(srcdir)/purging.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 restore.sh: $(top_builddir)/config.status $(srcdir)/restore.sh.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+create-some-files.sh: $(top_builddir)/config.status $(srcdir)/create-some-files.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 clean-checkPROGRAMS:

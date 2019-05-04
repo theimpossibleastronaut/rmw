@@ -40,5 +40,6 @@ AC_CONFIG_FILES([	Makefile
 AC_CONFIG_FILES([test/basic.sh], [chmod +x test/basic.sh])
 AC_CONFIG_FILES([test/purging.sh], [chmod +x test/purging.sh])
 AC_CONFIG_FILES([test/restore.sh], [chmod +x test/restore.sh])
+AC_CONFIG_FILES([test/create-some-files.sh], [chmod +x test/create-some-files.sh])
 
 AC_OUTPUT

@@ -17,12 +17,9 @@ TESTS=$(check_PROGRAMS) $(test_scripts)
 LDADD = $(top_builddir)/src/librmw.a
 
 EXTRA_DIST=	\
-	somefiles	\
 	README	\
 	COMMON \
-	rmw.testrc	\
-	$(test_scripts).in	\
-	VARS.in
+	rmw.testrc
 
 clean-local:
 	dir=$(top_builddir)/test/tmp-home; \

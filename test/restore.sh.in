@@ -19,8 +19,9 @@ $RMW_TEST_CMD_STRING
 test_result $?
 
 echo $SEPARATOR
-echo "Copying pre-existing files to temporary HOME dir..."
-cp -pPR ${TESTS_DIR}/somefiles $HOME
+echo " Creating some files for testing..."
+cd $HOME
+../create-some-files.sh
 test_result $?
 
 echo $SEPARATOR

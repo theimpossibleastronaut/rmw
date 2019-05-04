@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if [ ! -e ../VARS ]; then
+  echo "This script shouldn't be run by itself. It's used by make check."
+  exit 1
+fi
+
+mkdir -p somefiles/topdir/dir1/dir2/dir3 &&
+
+c=1
+while [ $c -lt 25 ]
+do
+   touch somefiles/topdir/dir1/dir2/dir3/$c
+   c=`expr $c + 1`
+done
+
+touch somefiles/read_only_file &&
+chmod ugo-w somefiles/read_only_file

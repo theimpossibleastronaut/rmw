@@ -8441,6 +8441,8 @@ ac_config_files="$ac_config_files test/purging.sh"
 
 ac_config_files="$ac_config_files test/restore.sh"
 
+ac_config_files="$ac_config_files test/create-some-files.sh"
+
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -9181,6 +9183,7 @@ do
     "test/basic.sh") CONFIG_FILES="$CONFIG_FILES test/basic.sh" ;;
     "test/purging.sh") CONFIG_FILES="$CONFIG_FILES test/purging.sh" ;;
     "test/restore.sh") CONFIG_FILES="$CONFIG_FILES test/restore.sh" ;;
+    "test/create-some-files.sh") CONFIG_FILES="$CONFIG_FILES test/create-some-files.sh" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -9893,6 +9896,7 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
     "test/basic.sh":F) chmod +x test/basic.sh ;;
     "test/purging.sh":F) chmod +x test/purging.sh ;;
     "test/restore.sh":F) chmod +x test/restore.sh ;;
+    "test/create-some-files.sh":F) chmod +x test/create-some-files.sh ;;
 
   esac
 done # for ac_tag

@@ -1,6 +1,13 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2019-05-04
+
+  * 'Make distcheck' fixed.
+
+  * Dummy test files (test/somefiles) are now created when 'make check'
+  is run, and not included with the distribution.
+
 2018-12-14
 
   * Using "make check" from the build directory will execute the test

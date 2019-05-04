@@ -77,8 +77,10 @@ test_result $?
 set +x
 echo
 echo
-echo " using 'cp' to copy files from test/somefiles"
-cp -pPRv ${TESTS_DIR}/somefiles $HOME
+echo " Creating some files for testing..."
+cd $HOME
+../create-some-files.sh
+test_result $?
 
 echo
 echo
@@ -104,8 +106,9 @@ ls -l $HOME/.trash.rmw/info
 set +x
 echo
 echo
-echo " using 'cp' to copy files from test/somefiles for RMWTRASH=empty test"
-cp -pPRv ${TESTS_DIR}/somefiles $HOME
+echo " Creating some files for testing..."
+cd $HOME
+../create-some-files.sh
 test_result $?
 
 
