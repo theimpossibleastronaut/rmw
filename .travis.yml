@@ -1,59 +1,101 @@
 language: c
 cache: ccache
-
-sudo: required
-
 matrix:
+# gcc
   include:
     - os: linux
+      dist: trusty
       compiler: gcc
-      env: Tr_Compiler_Version="default"
+      env: DISTCHECK_ONLY="true" COMPILER="default"
     - os: linux
+      dist: trusty
       compiler: gcc
-      env: Tr_Compiler_Version="5"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env: MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
     - os: linux
+      dist: trusty
       compiler: gcc
-      env: Tr_Compiler_Version="6"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
     - os: linux
+      dist: trusty
       compiler: gcc
-      env: Tr_Compiler_Version="7"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env: MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+# Using xenial for more recent versions of gcc
     - os: linux
+      dist: xenial
       compiler: gcc
-      env: Tr_Compiler_Version="8"
-    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+      env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+
 # clang
-      compiler: clang
-      env: Tr_Compiler_Version="default"
     - os: linux
+      dist: trusty
       compiler: clang
-      env: Tr_Compiler_Version="6.0"
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+      env: MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
 # osx
     - os: osx
       osx_image: xcode9.2
+      env: XCODE="true"
     - os: osx
       osx_image: xcode9.4
+      env: XCODE="true"
     - os: osx
       osx_image: xcode10.1
+      env: XCODE="true"
 
 #  allow_failures:
 #    - os: osx
 
 before_install:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./.travis-before_install.sh "$CC" "$Tr_Compiler_Version"; fi
-  - if [ "$Tr_Compiler_Version" != "" ] && [ "$Tr_Compiler_Version" != "default" ] && [ "$CC" = "gcc" ]; then export CXX="g++-${Tr_Compiler_Version}" CC="gcc-${Tr_Compiler_Version}"; fi
-  - if [ "$Tr_Compiler_Version" != "" ] && [ "$Tr_Compiler_Version" != "default" ] && [ "$CC" == "clang" ]; then export CXX="clang++-${Tr_Compiler_Version}" CC="clang-${Tr_Compiler_Version}"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install ncurses; export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig";fi
-  - $CC --version
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      eval "${MATRIX_EVAL}";
+      sudo apt-get update -qq;
+    else
+      brew install ncurses &&
+      export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig";
+    fi
 
 script:
-  - mkdir build
-  - cd build
+  - mkdir build && cd build
   - ../configure --prefix=$PWD/install-test
-  - make
-  - make check
-  - make install
-  - make uninstall
-  - make distclean
+  - if [ -z "$DISTCHECK_ONLY" ]; then
+      make        &&
+      make check;
+    else
+      make install &&
+      make uninstall &&
+      make distcheck &&
+      make distclean;
+    fi
 
 notifications:
   webhooks:
