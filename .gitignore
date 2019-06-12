@@ -1,3 +1,6 @@
+# gmo files (remove this when issuing a new release)
+*.gmo
+
 # Object files
 *.o
 *.ko

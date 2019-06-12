@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2018-12-05 10:18-0600\n"
+"POT-Creation-Date: 2019-05-03 21:54-0500\n"
 "PO-Revision-Date: 2017-12-08 16:16+0200\n"
 "Last-Translator: samwise <codinghobo@gmail.com>\n"
 "Language-Team: Finnish\n"
@@ -183,7 +183,7 @@ msgstr ""
 msgid " :warning: "
 msgstr ""
 
-#: src/strings_rmw.c:114
+#: src/strings_rmw.c:116
 #, c-format
 msgid ""
 " <--> Displaying part of the string that caused the error <-->\n"
@@ -216,17 +216,17 @@ msgstr ""
 "#\n"
 "WASTE = $HOME/.trash.rmw\n"
 
-#: src/purging_rmw.c:401
+#: src/purging_rmw.c:408
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d hakemistoa ohitettu (RMDIR_MAX_DEPTH saavutettu)\n"
 
-#: src/purging_rmw.c:405
+#: src/purging_rmw.c:412
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d hakemistoa ohitettu (sisältää vain-luku tiedostoja)\n"
 
-#: src/purging_rmw.c:408
+#: src/purging_rmw.c:415
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "%d file purged"
@@ -234,7 +234,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d tiedosto puhdistettu"
 msgstr[1] "%d tiedostoa puhdistettu"
 
-#: src/rmw.c:671
+#: src/rmw.c:690
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -242,7 +242,7 @@ msgid_plural "%d files were removed to the waste folder"
 msgstr[0] "%d tiedosto poistettiin roska hakemistoon"
 msgstr[1] "%d tiedostoa poistettiin roska hakemistoon"
 
-#: src/purging_rmw.c:419
+#: src/purging_rmw.c:426
 #, c-format
 msgid "%s byte freed"
 msgid_plural "%s bytes freed"
@@ -252,18 +252,18 @@ msgstr[1] ""
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:388
+#: src/restore_rmw.c:392
 msgid "'q' - quit"
 msgstr "'q' - lopeta"
 
-#: src/purging_rmw.c:416
+#: src/purging_rmw.c:423
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:412
+#: src/purging_rmw.c:419
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "(%d file deleted)"
@@ -271,35 +271,35 @@ msgid_plural "(%d files deleted)"
 msgstr[0] "%d tiedosto puhdistettu"
 msgstr[1] "%d tiedostoa puhdistettu"
 
-#: src/purging_rmw.c:312
+#: src/purging_rmw.c:319
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(tarkista omistaja/kirjoitus oikeudet)\n"
 
-#: src/rmw.c:380
+#: src/rmw.c:401
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: ei toteutettu\n"
 
-#: src/rmw.c:383
+#: src/rmw.c:404
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: ei toteutettu\n"
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:381
+#: src/restore_rmw.c:385
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<OIKEA-KURSORI / VASEN-KURSORI> - vaihda roska hakemistoja"
 
-#: src/restore_rmw.c:382
+#: src/restore_rmw.c:386
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<VÄLI> - lisää tai poista kohteen valinta. / <ENTER> - palauta valitut "
 "kohteet"
 
-#: src/restore_rmw.c:377
+#: src/restore_rmw.c:381
 #, fuzzy, c-format
 #| msgid "== contains %d file =="
 msgid "== contains %d file =="
@@ -308,7 +308,7 @@ msgstr[0] "== sisältää %d tiedoston =="
 msgstr[1] "== sisältää %d tiedostoa =="
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:472
+#: src/purging_rmw.c:479
 #, c-format
 msgid "Created %s\n"
 msgstr "Luotiin %s\n"
@@ -318,12 +318,12 @@ msgstr "Luotiin %s\n"
 msgid "Created directory %s\n"
 msgstr "Luotiin hakemisto %s\n"
 
-#: src/config_rmw.c:369
+#: src/config_rmw.c:376
 #, c-format
 msgid "Creating default configuration file:"
 msgstr ""
 
-#: src/purging_rmw.c:310
+#: src/purging_rmw.c:317
 #, fuzzy, c-format
 #| msgid " :warning: Directory not purged - still contains files\n"
 msgid "Directory not purged - still contains files\n"
@@ -335,7 +335,7 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Duplikaatti tiedostonnimi kohteessa - lisätään aika tekstiin...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:580 src/restore_rmw.c:280
+#: src/rmw.c:599 src/restore_rmw.c:280
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Tiedostoa ei löytynyt: '%s'\n"
@@ -350,13 +350,13 @@ msgstr ""
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:320
+#: src/purging_rmw.c:327
 #, fuzzy, c-format
 #| msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :varoitus: Maksimi syvyys %u saavutettu, ohitetaan\n"
 
-#: src/rmw.c:682
+#: src/rmw.c:701
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -365,13 +365,13 @@ msgstr ""
 "Ei tiedostonnimiä tai komentorivi valintoja annettu\n"
 "Syötä '%s -h' saadaksesi lisää tietoa\n"
 
-#: src/rmw.c:664
+#: src/rmw.c:683
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "  Ei sopivaa tiedostojärjestelmää löydetty kohteelle \"%s\"\n"
 
-#: src/purging_rmw.c:188
+#: src/purging_rmw.c:253
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -381,7 +381,7 @@ msgstr ""
 "\n"
 "Puhdistetaan tiedostoja (purge_after = %u) ...\n"
 
-#: src/purging_rmw.c:190
+#: src/purging_rmw.c:255
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -391,7 +391,7 @@ msgstr ""
 "\n"
 "Puhdistetaan tiedostoja (purge_after = %u) ...\n"
 
-#: src/restore_rmw.c:320
+#: src/restore_rmw.c:324
 #, c-format
 msgid "Reading %s...\n"
 msgstr ""
@@ -437,17 +437,17 @@ msgstr ""
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 
-#: src/rmw.c:441
+#: src/rmw.c:462
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
 
-#: src/config_rmw.c:401
+#: src/config_rmw.c:408
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr ""
 
-#: src/config_rmw.c:479
+#: src/config_rmw.c:486
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
@@ -516,30 +516,30 @@ msgstr ""
 "  -w, --warranty            näytä takuutiedot\n"
 "  -V, --version             näytä versio ja lisenssi tiedot\n"
 
-#: src/rmw.c:464
+#: src/rmw.c:485
 #, c-format
 msgid "attached"
 msgstr ""
 
 #. TRANSLATORS:  "buffer" in the following instances refers to the amount
 #. * of memory allocated for a string
-#: src/strings_rmw.c:92
+#: src/strings_rmw.c:91
 #, fuzzy, c-format
 #| msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
 msgid "buffer overrun (segmentation fault) prevented.\n"
 msgstr "  :Virhe: puskurin ylivuoto (segmentaatio vika) estetty.\n"
 
-#: src/config_rmw.c:337
+#: src/config_rmw.c:344
 #, c-format
 msgid "config file: %s\n"
 msgstr ""
 
-#: src/config_rmw.c:230
+#: src/config_rmw.c:237
 #, c-format
 msgid "detached"
 msgstr ""
 
-#: src/restore_rmw.c:504
+#: src/restore_rmw.c:508
 #, fuzzy, c-format
 #| msgid " :warning: failed to remove %s\n"
 msgid "failed to remove %s\n"
@@ -562,13 +562,13 @@ msgstr "  :Virhe: .trashinfo tiedoston `file %s` formaatti on väärä (Rivi %d)
 msgid "function: <%s>"
 msgstr "funktio: <%s>"
 
-#: src/config_rmw.c:208
+#: src/config_rmw.c:216
 #, fuzzy, c-format
 #| msgid "  :Error: invalid option in config\n"
 msgid "invalid option in config\n"
 msgstr "  :Virhe: epäkelpo asetus asetustiedostossa\n"
 
-#: src/config_rmw.c:501
+#: src/config_rmw.c:508
 #, fuzzy, c-format
 #| msgid ""
 #| "  :error: no usable waste folder could be found\n"
@@ -593,20 +593,20 @@ msgstr ""
 "Jatkaminen mahdonta. Lopetetaan...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:643
+#: src/rmw.c:662
 #, fuzzy, c-format
 #| msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgid "number %d trying to create a .trashinfo file\n"
 msgstr "  :Virhe: numero %d yritettäessä luoda .trashinfo tiedostoa\n"
 
-#: src/rmw.c:508
+#: src/rmw.c:526
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "puhdistus on ohitettu: käytä -f tai --force\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:500
+#: src/rmw.c:518
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -615,13 +615,13 @@ msgstr ""
 "Puhdistaminen on poistettu käytöstä ('purge_after' on asetettu arvoon '0')\n"
 "\n"
 
-#: src/strings_rmw.c:226
+#: src/strings_rmw.c:233
 #, fuzzy, c-format
 #| msgid "Error: realpath() returned an error.\n"
 msgid "realpath() returned an error.\n"
 msgstr "Virhe: realpath() palautti virheen.\n"
 
-#: src/rmw.c:463 src/config_rmw.c:229
+#: src/rmw.c:484 src/config_rmw.c:236
 #, c-format
 msgid "removable, "
 msgstr ""
@@ -646,10 +646,11 @@ msgstr ""
 "tiettyjen ehtojen all; katso <http://www.gnu.org/licenses/gpl.html>\n"
 "yksityiskohtia varten.\n"
 
-#: src/restore_rmw.c:62 src/restore_rmw.c:77 src/trashinfo_rmw.c:89
-#: src/trashinfo_rmw.c:100
-#, c-format
-msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
+#: src/restore_rmw.c:62 src/restore_rmw.c:77 src/trashinfo_rmw.c:84
+#: src/trashinfo_rmw.c:95
+#, fuzzy, c-format
+#| msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
+msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr ""
 "rmw: %s(): puskuri on liian pieni (saatiin %hu, tarvittiin minimissään %hu)\n"
 
@@ -658,7 +659,7 @@ msgstr ""
 msgid "search complete\n"
 msgstr "haku valmis\n"
 
-#: src/rmw.c:439
+#: src/rmw.c:460
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -683,13 +684,13 @@ msgstr "  :Virhe: muutettaessa oikeuksia kohteelle %s\n"
 msgid "while closing %s\n"
 msgstr "  :Virhe: suljettaessa tiedostoa %s\n"
 
-#: src/purging_rmw.c:476 src/utils_rmw.c:89
+#: src/purging_rmw.c:483 src/utils_rmw.c:89
 #, fuzzy, c-format
 #| msgid "  :Error: while creating %s\n"
 msgid "while creating %s\n"
 msgstr "  :Virhe: luotaessa %s\n"
 
-#: src/rmw.c:422
+#: src/rmw.c:443
 #, fuzzy, c-format
 #| msgid "Error: while getting the path to your home directory\n"
 msgid "while getting the path to your home directory\n"
@@ -709,8 +710,8 @@ msgid "while opening %s -- %s:%d\n"
 msgstr "  :Virhe: avattaessa tiedostoa %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:338 src/purging_rmw.c:345 src/purging_rmw.c:365
-#: src/purging_rmw.c:386
+#: src/purging_rmw.c:345 src/purging_rmw.c:352 src/purging_rmw.c:372
+#: src/purging_rmw.c:393
 #, fuzzy, c-format
 #| msgid "  :Error: while removing %s\n"
 msgid "while removing %s\n"
