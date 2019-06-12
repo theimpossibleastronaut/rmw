@@ -31,31 +31,9 @@ See website [Help and Support section](https://remove-to-waste.info/#support)
 
 libncursesw
 
-If you are building from source, you will need the libncursesw(5 or 6)-dev
-package from your operating system distribution.
-
-Note: On **OpenBSD**, you must precede `./configure` with `MENU_LIBS=-lmenuw`.
-Example:
-
-    MENU_LIBS=-lmenuw ./configure
-
-Note: On **OSX**, ncursesw isn't provided by default but can be installed
-using `brew install ncurses`. Then precede `./configure` with
-`PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"` Example:
-
-    PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig" ../configure
-
-If you can't use [brew](https://brew.sh/), or install libncursesw or
-libmenuw some other way, rmw will use `ncurses` but you may experience
-[this minor
-bug](https://github.com/theimpossibleastronaut/rmw/issues/205).
-
-Note: rmw has been built on **Windows** 2 years ago using Cygwin but it
-didn't use the proper directories. We have no Windows developers
-working on this project and are hoping that some will join soon!. As
-stated in the description, the goal of this project is a
-"cross-platform" utility; so getting rmw to work reliably on Windows is
-still on the TODO list.
+If you are building from source, you will need the libncursesw(5 or
+6)-dev package from your operating system distribution. On some systems
+just the ncurses packages is needed, and it's often already installed.
 
 ## Compiling
 
@@ -79,6 +57,32 @@ that you have write access to. Example:
 
 rmw will be installed to $HOME/usr/bin and the configuration file will be
 copied to $HOME/usr/etc
+
+### If configure fails
+
+If you get an error about *menu.h* (which has been reported on **OpenBSD** and
+**Manjaro**) you must precede `../configure` with `MENU_LIBS=-lmenuw`.
+Example:
+
+    MENU_LIBS=-lmenuw ../configure
+
+On **OSX**, ncursesw isn't provided by default but can be installed
+using `brew install ncurses`. Then precede `./configure` with
+`PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"` Example:
+
+    PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig" ../configure
+
+If you can't use [brew](https://brew.sh/), or install libncursesw or
+libmenuw some other way, rmw will use `ncurses` but you may experience
+[this minor
+bug](https://github.com/theimpossibleastronaut/rmw/issues/205).
+
+Note: rmw has been built on **Windows** 2 years ago using Cygwin but it
+didn't use the proper directories. We have no Windows developers
+working on this project and are hoping that some will join soon!. As
+stated in the description, the goal of this project is a
+"cross-platform" utility; so getting rmw to work reliably on Windows is
+still on the TODO list.
 
 ### Pre-built binary packages
 
