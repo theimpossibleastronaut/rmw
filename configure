@@ -5833,6 +5833,10 @@ fi
     unset ax_saved_LIBS
     unset ax_saved_CPPFLAGS
 
+if test "x$ax_cv_curses" != xyes; then
+	as_fn_error $? "requires an X/Open-compatible Curses library" "$LINENO" 5
+fi
+
 
 
 
@@ -6202,6 +6206,11 @@ fi
 fi
 
 
+if test "x$ax_cv_menu" != xyes; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: requires the Curses menu library." >&5
+$as_echo "$as_me: WARNING: requires the Curses menu library." >&2;}
+	as_fn_error $? "You might avoid this error by using 'MENU_LIBS=-lmenuw ../configure'" "$LINENO" 5
+fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for a sed that does not truncate output" >&5
 $as_echo_n "checking for a sed that does not truncate output... " >&6; }

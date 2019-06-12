@@ -25,7 +25,15 @@ AC_PROG_RANLIB
 AM_MAINTAINER_MODE
 
 AX_WITH_CURSES
+if test "x$ax_cv_curses" != xyes; then
+	AC_MSG_ERROR([requires an X/Open-compatible Curses library])
+fi
+
 AX_WITH_CURSES_MENU
+if test "x$ax_cv_menu" != xyes; then
+	AC_MSG_WARN([requires the Curses menu library.])
+	AC_MSG_ERROR([You might avoid this error by using 'MENU_LIBS=-lmenuw ../configure'])
+fi
 
 AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.8])
