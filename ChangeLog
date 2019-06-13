@@ -1,6 +1,13 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2019-06-13
+
+  * On OpenBSD, setting MENU_LIBS when running configure is no longer
+  required. Thanks to
+  [@Jammyjamjamman](https://github.com/Jammyjamjamman) for encouraging
+  me to do this and for helping to test.
+
 2019-05-04
 
   * 'Make distcheck' fixed.
