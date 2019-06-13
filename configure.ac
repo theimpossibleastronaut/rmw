@@ -33,17 +33,15 @@ AX_WITH_CURSES_MENU
 if test "x$ax_cv_menu" != xyes; then
 # sometimes the AX_WITH_CURSES_MENU doesn't find the menu libary (reported on 
 # Manjaro and OpenBSD), so we'll do some more checking
-	AC_CHECK_LIB(menu, free_menu, found_MENU=yes, found_MENU=no, [-lcurses])
+	AC_CHECK_LIB(menu, free_menu, found_MENU=yes, found_MENU=no, [$CURSES_LIBS])
 	if test "x$found_MENU" = xyes; then
-		AC_MSG_RESULT(menu library found)
 		MENU_LIBS="-lmenu"
 		AC_DEFINE(HAVE_MENU, 1, [define to 1 if the curses menu library is present])
 		AC_CHECK_HEADER(menu.h, [found_MENU_H=yes], [found_MENU_H=no])
 		if test "x$found_MENU_H" = xyes; then
-			AC_MSG_RESULT(menu header found)
 			AC_DEFINE(HAVE_MENU_H, 1, [define to 1 if the menu header file is present])
 		else
-			AC_MSG_ERROR(menu header not found)
+			AC_MSG_ERROR(Curses menu header not found)
 		fi
 	else
 

@@ -6294,7 +6294,7 @@ if ${ac_cv_lib_menu_free_menu+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lmenu -lcurses $LIBS"
+LIBS="-lmenu $CURSES_LIBS $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -6331,8 +6331,6 @@ else
 fi
 
 	if test "x$found_MENU" = xyes; then
-		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: menu library found" >&5
-$as_echo "menu library found" >&6; }
 		MENU_LIBS="-lmenu"
 
 $as_echo "#define HAVE_MENU 1" >>confdefs.h
@@ -6346,13 +6344,11 @@ fi
 
 
 		if test "x$found_MENU_H" = xyes; then
-			{ $as_echo "$as_me:${as_lineno-$LINENO}: result: menu header found" >&5
-$as_echo "menu header found" >&6; }
 
 $as_echo "#define HAVE_MENU_H 1" >>confdefs.h
 
 		else
-			as_fn_error $? "menu header not found" "$LINENO" 5
+			as_fn_error $? "Curses menu header not found" "$LINENO" 5
 		fi
 	else
 
