@@ -60,12 +60,6 @@ copied to $HOME/usr/etc
 
 ### If configure fails
 
-If you get an error about *menu.h* (which has been reported on **OpenBSD** and
-**Manjaro**) you must precede `../configure` with `MENU_LIBS=-lmenuw`.
-Example:
-
-    MENU_LIBS=-lmenuw ../configure
-
 On **OSX**, ncursesw isn't provided by default but can be installed
 using `brew install ncurses`. Then precede `./configure` with
 `PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"` Example:
