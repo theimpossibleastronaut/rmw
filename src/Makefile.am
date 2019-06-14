@@ -29,13 +29,20 @@ rmw_SOURCES=	\
 
 DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 
+# shared library
 lib_LTLIBRARIES = librmw.la
 librmw_la_SOURCES = $(rmw_SOURCES)
 librmw_la_CFLAGS = $(AM_CFLAGS) -DBUILD_LIBRARY
 
-check_LIBRARIES = librmw.a
+# static library
+lib_LIBRARIES = librmw.a
 librmw_a_SOURCES = $(rmw_SOURCES)
-librmw_a_CFLAGS = $(librmw_la_CFLAGS) -DTEST_LIB
+librmw_a_CFLAGS = $(librmw_la_CFLAGS)
+
+# static library used by 'make check'
+check_LIBRARIES = librmw_test.a
+librmw_test_a_SOURCES = $(rmw_SOURCES)
+librmw_test_a_CFLAGS = $(librmw_la_CFLAGS) -DTEST_LIB
 
 #
 # On OpenBSD, without @LIBINTL@ present here, the result is a lot of

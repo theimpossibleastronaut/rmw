@@ -123,7 +123,7 @@ CONFIG_CLEAN_VPATH_FILES =
 am_config_test_OBJECTS = config_test.$(OBJEXT)
 config_test_OBJECTS = $(am_config_test_OBJECTS)
 config_test_LDADD = $(LDADD)
-config_test_DEPENDENCIES = $(top_builddir)/src/librmw.a
+config_test_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -131,7 +131,7 @@ am__v_lt_1 =
 am_strings_OBJECTS = strings.$(OBJEXT)
 strings_OBJECTS = $(am_strings_OBJECTS)
 strings_LDADD = $(LDADD)
-strings_DEPENDENCIES = $(top_builddir)/src/librmw.a
+strings_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -544,7 +544,7 @@ test_scripts = \
 	restore.sh
 
 TESTS = $(check_PROGRAMS) $(test_scripts)
-LDADD = $(top_builddir)/src/librmw.a
+LDADD = $(top_builddir)/src/librmw_test.a
 EXTRA_DIST = \
 	README	\
 	COMMON \

@@ -14,7 +14,7 @@ test_scripts =	\
 
 TESTS=$(check_PROGRAMS) $(test_scripts)
 
-LDADD = $(top_builddir)/src/librmw.a
+LDADD = $(top_builddir)/src/librmw_test.a
 
 EXTRA_DIST=	\
 	README	\
