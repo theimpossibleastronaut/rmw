@@ -165,6 +165,13 @@ rmdir_recursive (char *path, short unsigned level)
   return status;
 }
 
+/*!
+ * Get the time a file was rmw'ed by reading the corresponding trashinfo
+ * file. Called from @ref purge()
+ * @param[in] entry directory entry
+ * @param[in] entry_path path to directory entry
+ * @return time_t value
+ */
 static time_t
 get_then_time(struct dirent *entry, const char *entry_path)
 {
@@ -181,7 +188,7 @@ get_then_time(struct dirent *entry, const char *entry_path)
   if (info_file_ptr != NULL)
   {
     bool passed = 0;
-    /**
+    /*
     * unused  and unneeded Trash Info line.
     * retrieved but not used.
     * Check to see if it's really a .trashinfo file
@@ -235,6 +242,7 @@ out:
  * @param[in] waste_curr the linked list of waste folders
  * @return error number
  * @see is_time_to_purge
+ * @see get_then_time
  */
 int
 purge (const st_waste * waste_curr)
@@ -276,7 +284,7 @@ purge (const st_waste * waste_curr)
     if (dir == NULL)
       msg_err_open_dir (waste_curr->info, __func__, __LINE__);
 
-    /**
+    /*
      *  Read each file in <WASTE>/info
      */
     while ((entry = readdir (dir)) != NULL)
