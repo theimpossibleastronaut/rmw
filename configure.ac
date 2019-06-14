@@ -17,12 +17,13 @@ AC_HEADER_STDBOOL
 AC_SYS_LARGEFILE
 AX_FUNC_SNPRINTF
 
-AC_PROG_RANLIB
-
 # This prevents problems such as those shown in
 # https://github.com/theimpossibleastronaut/rmw/commit/90200c2df06b16f16b5d21d25c51966c0ee65b23#commitcomment-30291627
 # and https://github.com/theimpossibleastronaut/rmw/issues/21
 AM_MAINTAINER_MODE
+
+# Use libtool to create shared library
+LT_INIT
 
 AX_WITH_CURSES
 if test "x$ax_cv_curses" != xyes; then
@@ -31,7 +32,7 @@ fi
 
 AX_WITH_CURSES_MENU
 if test "x$ax_cv_menu" != xyes; then
-# sometimes the AX_WITH_CURSES_MENU doesn't find the menu libary (reported on 
+# sometimes the AX_WITH_CURSES_MENU doesn't find the menu libary (reported on
 # Manjaro and OpenBSD), so we'll do some more checking
 	AC_CHECK_LIB(menu, free_menu, found_MENU=yes, found_MENU=no, [$CURSES_LIBS])
 	if test "x$found_MENU" = xyes; then

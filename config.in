@@ -31,6 +31,9 @@
    */
 #undef HAVE_DCGETTEXT
 
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
 
@@ -43,10 +46,10 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
-/* Define to 1 if the Curses Menu library is present */
+/* define to 1 if the curses menu library is present */
 #undef HAVE_MENU
 
-/* Define to 1 if <menu.h> is present */
+/* define to 1 if the menu header file is present */
 #undef HAVE_MENU_H
 
 /* Define to 1 if the Ncurses library is present */
@@ -105,6 +108,9 @@
 
 /* Define to 1 if the system has the type `_Bool'. */
 #undef HAVE__BOOL
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#undef LT_OBJDIR
 
 /* Define if debugging is disabled */
 #undef NDEBUG

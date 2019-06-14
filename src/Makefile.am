@@ -35,6 +35,10 @@ check_LIBRARIES = librmw.a
 librmw_a_SOURCES = $(rmw_SOURCES)
 librmw_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB
 
+lib_LTLIBRARIES = librmw.la
+librmw_la_SOURCES = $(rmw_SOURCES)
+librmw_la_CFLAGS = $(librmw_a_CFLAGS)
+
 #
 # On OpenBSD, without @LIBINTL@ present here, the result is a lot of
 # undefined reference errors when building. That doesn't happen when
