@@ -22,6 +22,9 @@ AX_FUNC_SNPRINTF
 # and https://github.com/theimpossibleastronaut/rmw/issues/21
 AM_MAINTAINER_MODE
 
+AC_DISABLE_SHARED
+AC_DISABLE_STATIC
+
 # Use libtool to create shared library
 LT_INIT
 
