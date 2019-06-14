@@ -15,7 +15,6 @@
 @SET_MAKE@
 
 
-
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -117,8 +116,7 @@ am__aclocal_m4_deps =  \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(noinst_HEADERS) \
-	$(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
@@ -233,7 +231,6 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-HEADERS = $(noinst_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -403,9 +400,7 @@ rmw_SOURCES = \
 	messages_rmw.c	\
 	trashinfo_rmw.c	\
 	utils_rmw.c	\
-	bst.c
-
-noinst_HEADERS = \
+	bst.c	\
 	rmw.h	\
 	restore_rmw.h 	\
 	config_rmw.h	\
@@ -839,8 +834,7 @@ distdir-am: $(DISTFILES)
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_LIBRARIES)
 check: check-am
-all-am: Makefile $(PROGRAMS) $(LTLIBRARIES) $(HEADERS) config.h \
-		all-local
+all-am: Makefile $(PROGRAMS) $(LTLIBRARIES) config.h all-local
 install-binPROGRAMS: install-libLTLIBRARIES
 
 installdirs:

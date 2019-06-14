@@ -14,9 +14,7 @@ rmw_SOURCES=	\
 	messages_rmw.c	\
 	trashinfo_rmw.c	\
 	utils_rmw.c	\
-	bst.c
-
-noinst_HEADERS = \
+	bst.c	\
 	rmw.h	\
 	restore_rmw.h 	\
 	config_rmw.h	\
