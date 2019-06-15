@@ -2,7 +2,13 @@
 title: Code Testing
 layout: default
 ---
-<h2>General Testing</h2>
+<ul>
+  <li><a href="#general_testing">General Testing</a></li>
+  <li><a href="#testing_purge">Testing the purge feature</a></li>
+  <li><a href="#profiling">Profiling</a></li>
+</ul>
+
+<h2 id="general_testing">General Testing</h2>
 
 <p>These instructions should help you gain a broader understanding of
 how rmw works, or how to test new code changes if you're writing a
@@ -118,7 +124,7 @@ reading this page.</p>
   directories into ~/testing to try it out.
 </p>
 
-<h2>Testing the purge feature</h2>
+<h2 id="testing_purge">Testing the purge feature</h2>
 
 <p>Setting the RMWTRASH environmental variable at run-time to "fake-year"
   will write the year 1999 to the DeletionDate string in the .trashinfo
@@ -135,7 +141,7 @@ reading this page.</p>
 </p>
 
 <!-- This section probably would be better on a separate "Debugging" page (not yet created) -->
-<h2>Profiling</h2>
+<h2 id="profiling">Profiling</h2>
 
 <p>To get <a href="/profile.example.txt">a profile of rmw</a> using <a
   href="https://sourceware.org/binutils/docs/gprof/">GNU gprof</a>,
