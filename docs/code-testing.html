@@ -2,6 +2,12 @@
 title: Code Testing
 layout: default
 ---
+<h2>General Testing</h2>
+
+<p>These instructions should help you gain a broader understanding of
+how rmw works, or how to test new code changes if you're writing a
+patch.</p>
+
 <p>The easiest way is to use the tests built into 'make'. See
 <a href="https://github.com/theimpossibleastronaut/rmw/tree/master/test">test/README</a>
 for instructions. To learn the "inner-workings" of rmw, continue
@@ -11,7 +17,7 @@ reading this page.</p>
 <p>By default (specified in the config file) rmw will not perform
   operations on your regular Trash folder; the configuration option for
   that is</p>
-<p class="w3-panel">$HOME/.trash.rmw</p>
+<p class="w3-code">$HOME/.trash.rmw</p>
 
 <p>rmw will create that folder and your personal configuration file
   ($HOME/.config/rmw/config) the first time it's run.</p>
@@ -19,7 +25,7 @@ reading this page.</p>
 <p>One method of testing is to change the HOME environmental variable
   at run time. At the command line, use:</p>
 
-<p class="w3-panel">
+<p class="w3-code">
   HOME=$PWD rmw
 </p>
 
@@ -29,13 +35,13 @@ reading this page.</p>
   and would create the necessary directories. Now create a blank file:
 </p>
 
-<p class="w3-panel">
+<p class="w3-code">
   touch tempfile
 </p>
 
 <p>And then remove it to your temporary rmw trash folder:</p>
 
-<p class="w3-panel">
+<p class="w3-code">
   HOME=$PWD rmw tempfile
 </p>
 
@@ -45,14 +51,14 @@ reading this page.</p>
   .trashinfo file is the same that your Desktop trash uses:
 </p>
 
-<p class="w3-panel">
-  [Trash Info]
-  Path=/home/andy/src/rmw/tempfile
+<p class="w3-code">
+  [Trash Info]<br />
+  Path=/home/andy/src/rmw/tempfile<br />
   DeletionDate=2017-11-17T13:44:04a
 </p>
 
 <p>Now try</p>
-<p class="w3-panel">
+<p class="w3-code">
   HOME=$PWD rmw -u
 </p>
 
@@ -64,7 +70,7 @@ reading this page.</p>
 <p>The following method is a little more complex</p>
 
 <p>In rmw.h, change DATA_DIR</p>
-<p class="w3-panel">
+<p class="w3-code">
   `#define DATA_DIR "/testing/.config/testrmw"`
 </p>
 
@@ -79,15 +85,15 @@ reading this page.</p>
 
 <p>Comment out any other WASTE folders.</p>
 
-<p class="w3-panel">
+<p class="w3-code">
   `~: mkdir $HOME/testing/.local/share/Trash.test`
 </p>
 
-<p class="w3-panel w3-yellow">
+<p class="w3-code w3-yellow">
   Copy all the files from your regular Trash into the test folder:
 </p>
 
-<p class="w3-panel">
+<p class="w3-code">
   cd $HOME/testing/.local/share/Trash.test<br />
   cp -a $HOME/.local/share/Trash/* .
 </p>
@@ -97,12 +103,12 @@ reading this page.</p>
 <p>Now 'cd' back to $HOME/testing</p>
 
 <p>Create some unnecessary files.</p>
-<p class="w3-panel">
+<p class="w3-code">
   touch {a..z}
 </p>
 <p>will create 26 empty files, a-z.</p>
 
-<p class="w3-panel">
+<p class="w3-code">
   `touch {1..10}`
 </p>
 <p>will create 10 empty files, 1-10</p>
@@ -112,14 +118,45 @@ reading this page.</p>
   directories into ~/testing to try it out.
 </p>
 
-<h3>Testing the purge feature</h3>
+<h2>Testing the purge feature</h2>
+
 <p>Setting the RMWTRASH environmental variable at run-time to "fake-year"
   will write the year 1999 to the DeletionDate string in the .trashinfo
   file.</p>
-<p class="w3-panel">
+
+<p class="w3-code">
   RMWTRASH=fake-year rmw some.txt temp.asc files.doc
 </p>
+
 <p>Then run rmw with the purge option</p>
-<p class="w3-panel">
+
+<p class="w3-code">
   rmw -fg
 </p>
+
+<!-- This section probably would be better on a separate "Debugging" page (not yet created) -->
+<h2>Profiling</h2>
+
+<p>To get <a href="/profile.example.txt">a profile of rmw</a> using <a
+  href="https://sourceware.org/binutils/docs/gprof/">GNU gprof</a>,
+  first you'll need to rebuild rmw with different <a
+  href="https://sourceware.org/binutils/docs/gprof/Compiling.html#Compiling">compiler
+  flags</a>. The easiest way to do that is
+</p>
+
+<p class="w3-code">
+  make clean<br />
+  ../configure --enable-debug=profile<br />
+  make
+</p>
+
+<p>Then run rmw with any parameters you like.</p>
+
+<p class="w3-code">
+  ex: ./rmw -l
+</p>
+
+<p>That will produce a file called <code
+class="w3-codespan">gmon.out</code>. Now run <code
+class="w3-codespan">gprof ./rmw gmon.out</code> to view the
+results.</p>
