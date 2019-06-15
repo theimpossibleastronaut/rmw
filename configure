@@ -12411,6 +12411,7 @@ CC=$lt_save_CC
 
 
 
+# fixes https://github.com/theimpossibleastronaut/rmw/issues/226
 # Check whether --enable-libs was given.
 if test "${enable_libs+set}" = set; then :
   enableval=$enable_libs; case "${enableval}" in
