@@ -659,6 +659,10 @@ PKG_CONFIG_PATH
 PKG_CONFIG
 CURSES_CFLAGS
 CURSES_LIBS
+WANT_SHARED_FALSE
+WANT_SHARED_TRUE
+WANT_STATIC_FALSE
+WANT_STATIC_TRUE
 LT_SYS_LIBRARY_PATH
 OTOOL64
 OTOOL
@@ -1443,7 +1447,7 @@ Optional Features:
                           enable make rules and dependencies not useful (and
                           sometimes confusing) to the casual installer
   --enable-shared[=PKGS]  build shared libraries [default=no]
-  --enable-static[=PKGS]  build static libraries [default=no]
+  --enable-static[=PKGS]  build static libraries [default=yes]
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
@@ -4722,70 +4726,7 @@ fi
 
 
 
-# Check whether --enable-shared was given.
-if test "${enable_shared+set}" = set; then :
-  enableval=$enable_shared; p=${PACKAGE-default}
-    case $enableval in
-    yes) enable_shared=yes ;;
-    no) enable_shared=no ;;
-    *)
-      enable_shared=no
-      # Look at the argument we got.  We use all the common list separators.
-      lt_save_ifs=$IFS; IFS=$IFS$PATH_SEPARATOR,
-      for pkg in $enableval; do
-	IFS=$lt_save_ifs
-	if test "X$pkg" = "X$p"; then
-	  enable_shared=yes
-	fi
-      done
-      IFS=$lt_save_ifs
-      ;;
-    esac
-else
-  enable_shared=no
-fi
-
-
-
-
-
-
-
-
-
-# Check whether --enable-static was given.
-if test "${enable_static+set}" = set; then :
-  enableval=$enable_static; p=${PACKAGE-default}
-    case $enableval in
-    yes) enable_static=yes ;;
-    no) enable_static=no ;;
-    *)
-     enable_static=no
-      # Look at the argument we got.  We use all the common list separators.
-      lt_save_ifs=$IFS; IFS=$IFS$PATH_SEPARATOR,
-      for pkg in $enableval; do
-	IFS=$lt_save_ifs
-	if test "X$pkg" = "X$p"; then
-	  enable_static=yes
-	fi
-      done
-      IFS=$lt_save_ifs
-      ;;
-    esac
-else
-  enable_static=no
-fi
-
-
-
-
-
-
-
-
-
-
-# Use libtool to create shared library
+# Use libtool to create libraries
 case `pwd` in
   *\ * | *\	*)
     { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Libtool does not cope well with whitespace in \`pwd\`" >&5
@@ -8159,6 +8100,35 @@ done
 
 
 # Set options
+# Check whether --enable-shared was given.
+if test "${enable_shared+set}" = set; then :
+  enableval=$enable_shared; p=${PACKAGE-default}
+    case $enableval in
+    yes) enable_shared=yes ;;
+    no) enable_shared=no ;;
+    *)
+      enable_shared=no
+      # Look at the argument we got.  We use all the common list separators.
+      lt_save_ifs=$IFS; IFS=$IFS$PATH_SEPARATOR,
+      for pkg in $enableval; do
+	IFS=$lt_save_ifs
+	if test "X$pkg" = "X$p"; then
+	  enable_shared=yes
+	fi
+      done
+      IFS=$lt_save_ifs
+      ;;
+    esac
+else
+  enable_shared=no
+fi
+
+
+
+
+
+
+
 
 
 
@@ -8166,6 +8136,36 @@ done
 
 
   enable_win32_dll=no
+
+
+
+  # Check whether --enable-static was given.
+if test "${enable_static+set}" = set; then :
+  enableval=$enable_static; p=${PACKAGE-default}
+    case $enableval in
+    yes) enable_static=yes ;;
+    no) enable_static=no ;;
+    *)
+     enable_static=no
+      # Look at the argument we got.  We use all the common list separators.
+      lt_save_ifs=$IFS; IFS=$IFS$PATH_SEPARATOR,
+      for pkg in $enableval; do
+	IFS=$lt_save_ifs
+	if test "X$pkg" = "X$p"; then
+	  enable_static=yes
+	fi
+      done
+      IFS=$lt_save_ifs
+      ;;
+    esac
+else
+  enable_static=yes
+fi
+
+
+
+
+
 
 
 
@@ -12411,6 +12411,24 @@ CC=$lt_save_CC
 
 
 
+# these 2 variables aren't used yet
+ if test x$enable_static = xyes; then
+  WANT_STATIC_TRUE=
+  WANT_STATIC_FALSE='#'
+else
+  WANT_STATIC_TRUE='#'
+  WANT_STATIC_FALSE=
+fi
+
+ if test x$enable_shared = xyes; then
+  WANT_SHARED_TRUE=
+  WANT_SHARED_FALSE='#'
+else
+  WANT_SHARED_TRUE='#'
+  WANT_SHARED_FALSE=
+fi
+
+
 
 
 
@@ -16245,6 +16263,14 @@ if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
+if test -z "${WANT_STATIC_TRUE}" && test -z "${WANT_STATIC_FALSE}"; then
+  as_fn_error $? "conditional \"WANT_STATIC\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${WANT_SHARED_TRUE}" && test -z "${WANT_SHARED_FALSE}"; then
+  as_fn_error $? "conditional \"WANT_SHARED\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 
 : "${CONFIG_STATUS=./config.status}"
 ac_write_fail=0
@@ -16837,10 +16863,10 @@ cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
 sed_quote_subst='$sed_quote_subst'
 double_quote_subst='$double_quote_subst'
 delay_variable_subst='$delay_variable_subst'
-enable_shared='`$ECHO "$enable_shared" | $SED "$delay_single_quote_subst"`'
-enable_static='`$ECHO "$enable_static" | $SED "$delay_single_quote_subst"`'
 macro_version='`$ECHO "$macro_version" | $SED "$delay_single_quote_subst"`'
 macro_revision='`$ECHO "$macro_revision" | $SED "$delay_single_quote_subst"`'
+enable_shared='`$ECHO "$enable_shared" | $SED "$delay_single_quote_subst"`'
+enable_static='`$ECHO "$enable_static" | $SED "$delay_single_quote_subst"`'
 pic_mode='`$ECHO "$pic_mode" | $SED "$delay_single_quote_subst"`'
 enable_fast_install='`$ECHO "$enable_fast_install" | $SED "$delay_single_quote_subst"`'
 shared_archive_member_spec='`$ECHO "$shared_archive_member_spec" | $SED "$delay_single_quote_subst"`'
@@ -17787,15 +17813,15 @@ available_tags=''
 
 # ### BEGIN LIBTOOL CONFIG
 
+# Which release of libtool.m4 was used?
+macro_version=$macro_version
+macro_revision=$macro_revision
+
 # Whether or not to build shared libraries.
 build_libtool_libs=$enable_shared
 
 # Whether or not to build static libraries.
 build_old_libs=$enable_static
-
-# Which release of libtool.m4 was used?
-macro_version=$macro_version
-macro_revision=$macro_revision
 
 # What type of objects to build.
 pic_mode=$pic_mode
@@ -18434,3 +18460,15 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
+
+echo ""
+
+if test "x$enable_static" = xyes; then
+	echo "build static library = yes"
+fi
+
+if test "x$enable_shared" = xyes; then
+	echo "Shared library will be output to src/$objdir)"
+fi
+
+echo ""
