@@ -25,9 +25,15 @@ AM_MAINTAINER_MODE
 # Use libtool to create libraries
 LT_INIT([disable-shared])
 
-# these 2 variables aren't used yet
-AM_CONDITIONAL(WANT_STATIC, test x$enable_static = xyes)
-AM_CONDITIONAL(WANT_SHARED, test x$enable_shared = xyes)
+# fixes https://github.com/theimpossibleastronaut/rmw/issues/226
+AC_ARG_ENABLE([libs],
+[AS_HELP_STRING([--enable-libs], [build the library [default=no]])],
+[case "${enableval}" in
+  yes) enable_libs=yes ;;
+  no)  enable_libs=no ;;
+  *) AC_MSG_ERROR([bad value ${enableval} for --enable-libs]) ;;
+esac],[enable_libs=no])
+AM_CONDITIONAL([BUILD_LIBS], [test x$enable_libs = xyes])
 
 AX_WITH_CURSES
 if test "x$ax_cv_curses" != xyes; then
@@ -74,12 +80,17 @@ AC_OUTPUT
 
 echo ""
 
-if test "x$enable_static" = xyes; then
-	echo "build static library = yes"
-fi
+if test "x$enable_libs" = xno; then
+	echo "Library will not be built"
+else
 
-if test "x$enable_shared" = xyes; then
-	echo "Shared library will be output to src/$objdir)"
+	if test "x$enable_static" = xyes; then
+		echo "build static library = yes"
+	fi
+
+	if test "x$enable_shared" = xyes; then
+		echo "Shared library will be output to src/$objdir)"
+	fi
 fi
 
 echo ""

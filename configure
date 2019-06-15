@@ -659,10 +659,8 @@ PKG_CONFIG_PATH
 PKG_CONFIG
 CURSES_CFLAGS
 CURSES_LIBS
-WANT_SHARED_FALSE
-WANT_SHARED_TRUE
-WANT_STATIC_FALSE
-WANT_STATIC_TRUE
+BUILD_LIBS_FALSE
+BUILD_LIBS_TRUE
 LT_SYS_LIBRARY_PATH
 OTOOL64
 OTOOL
@@ -786,6 +784,7 @@ with_aix_soname
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
+enable_libs
 with_ncurses
 with_ncursesw
 enable_nls
@@ -1451,6 +1450,7 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --enable-libs           build the library [default=no]
   --disable-nls           do not use Native Language Support
   --disable-rpath         do not hardcode runtime library paths
 
@@ -12411,21 +12411,23 @@ CC=$lt_save_CC
 
 
 
-# these 2 variables aren't used yet
- if test x$enable_static = xyes; then
-  WANT_STATIC_TRUE=
-  WANT_STATIC_FALSE='#'
+# Check whether --enable-libs was given.
+if test "${enable_libs+set}" = set; then :
+  enableval=$enable_libs; case "${enableval}" in
+  yes) enable_libs=yes ;;
+  no)  enable_libs=no ;;
+  *) as_fn_error $? "bad value ${enableval} for --enable-libs" "$LINENO" 5 ;;
+esac
 else
-  WANT_STATIC_TRUE='#'
-  WANT_STATIC_FALSE=
+  enable_libs=no
 fi
 
- if test x$enable_shared = xyes; then
-  WANT_SHARED_TRUE=
-  WANT_SHARED_FALSE='#'
+ if test x$enable_libs = xyes; then
+  BUILD_LIBS_TRUE=
+  BUILD_LIBS_FALSE='#'
 else
-  WANT_SHARED_TRUE='#'
-  WANT_SHARED_FALSE=
+  BUILD_LIBS_TRUE='#'
+  BUILD_LIBS_FALSE=
 fi
 
 
@@ -16263,12 +16265,8 @@ if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${WANT_STATIC_TRUE}" && test -z "${WANT_STATIC_FALSE}"; then
-  as_fn_error $? "conditional \"WANT_STATIC\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${WANT_SHARED_TRUE}" && test -z "${WANT_SHARED_FALSE}"; then
-  as_fn_error $? "conditional \"WANT_SHARED\" was never defined.
+if test -z "${BUILD_LIBS_TRUE}" && test -z "${BUILD_LIBS_FALSE}"; then
+  as_fn_error $? "conditional \"BUILD_LIBS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 
@@ -18463,12 +18461,17 @@ fi
 
 echo ""
 
-if test "x$enable_static" = xyes; then
-	echo "build static library = yes"
-fi
+if test "x$enable_libs" = xno; then
+	echo "Library will not be built"
+else
 
-if test "x$enable_shared" = xyes; then
-	echo "Shared library will be output to src/$objdir)"
+	if test "x$enable_static" = xyes; then
+		echo "build static library = yes"
+	fi
+
+	if test "x$enable_shared" = xyes; then
+		echo "Shared library will be output to src/$objdir)"
+	fi
 fi
 
 echo ""

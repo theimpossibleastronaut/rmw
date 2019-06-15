@@ -29,6 +29,7 @@ rmw_SOURCES=	\
 
 DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 
+if BUILD_LIBS
 # shared library
 lib_LTLIBRARIES = librmw.la
 librmw_la_SOURCES = $(rmw_SOURCES)
@@ -39,6 +40,7 @@ librmw_la_CFLAGS = $(AM_CFLAGS) -DBUILD_LIBRARY
 noinst_LIBRARIES = librmw.a
 librmw_a_SOURCES = $(rmw_SOURCES)
 librmw_a_CFLAGS = $(librmw_la_CFLAGS)
+endif
 
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a

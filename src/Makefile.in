@@ -160,13 +160,18 @@ am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
 librmw_a_AR = $(AR) $(ARFLAGS)
 librmw_a_LIBADD =
+am__librmw_a_SOURCES_DIST = rmw.c restore_rmw.c config_rmw.c \
+	trivial_rmw.c strings_rmw.c purging_rmw.c messages_rmw.c \
+	trashinfo_rmw.c utils_rmw.c bst.c rmw.h restore_rmw.h \
+	config_rmw.h trivial_rmw.h strings_rmw.h purging_rmw.h \
+	messages_rmw.h trashinfo_rmw.h utils_rmw.h bst.h gettext.h
 am__objects_1 = librmw_a-rmw.$(OBJEXT) librmw_a-restore_rmw.$(OBJEXT) \
 	librmw_a-config_rmw.$(OBJEXT) librmw_a-trivial_rmw.$(OBJEXT) \
 	librmw_a-strings_rmw.$(OBJEXT) librmw_a-purging_rmw.$(OBJEXT) \
 	librmw_a-messages_rmw.$(OBJEXT) \
 	librmw_a-trashinfo_rmw.$(OBJEXT) librmw_a-utils_rmw.$(OBJEXT) \
 	librmw_a-bst.$(OBJEXT)
-am_librmw_a_OBJECTS = $(am__objects_1)
+@BUILD_LIBS_TRUE@am_librmw_a_OBJECTS = $(am__objects_1)
 librmw_a_OBJECTS = $(am_librmw_a_OBJECTS)
 librmw_test_a_AR = $(AR) $(ARFLAGS)
 librmw_test_a_LIBADD =
@@ -182,12 +187,17 @@ am__objects_2 = librmw_test_a-rmw.$(OBJEXT) \
 am_librmw_test_a_OBJECTS = $(am__objects_2)
 librmw_test_a_OBJECTS = $(am_librmw_test_a_OBJECTS)
 librmw_la_LIBADD =
+am__librmw_la_SOURCES_DIST = rmw.c restore_rmw.c config_rmw.c \
+	trivial_rmw.c strings_rmw.c purging_rmw.c messages_rmw.c \
+	trashinfo_rmw.c utils_rmw.c bst.c rmw.h restore_rmw.h \
+	config_rmw.h trivial_rmw.h strings_rmw.h purging_rmw.h \
+	messages_rmw.h trashinfo_rmw.h utils_rmw.h bst.h gettext.h
 am__objects_3 = librmw_la-rmw.lo librmw_la-restore_rmw.lo \
 	librmw_la-config_rmw.lo librmw_la-trivial_rmw.lo \
 	librmw_la-strings_rmw.lo librmw_la-purging_rmw.lo \
 	librmw_la-messages_rmw.lo librmw_la-trashinfo_rmw.lo \
 	librmw_la-utils_rmw.lo librmw_la-bst.lo
-am_librmw_la_OBJECTS = $(am__objects_3)
+@BUILD_LIBS_TRUE@am_librmw_la_OBJECTS = $(am__objects_3)
 librmw_la_OBJECTS = $(am_librmw_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -196,6 +206,7 @@ am__v_lt_1 =
 librmw_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(librmw_la_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+@BUILD_LIBS_TRUE@am_librmw_la_rpath = -rpath $(libdir)
 am_rmw_OBJECTS = rmw-rmw.$(OBJEXT) rmw-restore_rmw.$(OBJEXT) \
 	rmw-config_rmw.$(OBJEXT) rmw-trivial_rmw.$(OBJEXT) \
 	rmw-strings_rmw.$(OBJEXT) rmw-purging_rmw.$(OBJEXT) \
@@ -241,8 +252,8 @@ am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(librmw_a_SOURCES) $(librmw_test_a_SOURCES) \
 	$(librmw_la_SOURCES) $(rmw_SOURCES)
-DIST_SOURCES = $(librmw_a_SOURCES) $(librmw_test_a_SOURCES) \
-	$(librmw_la_SOURCES) $(rmw_SOURCES)
+DIST_SOURCES = $(am__librmw_a_SOURCES_DIST) $(librmw_test_a_SOURCES) \
+	$(am__librmw_la_SOURCES_DIST) $(rmw_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -432,14 +443,15 @@ rmw_SOURCES = \
 
 
 # shared library
-lib_LTLIBRARIES = librmw.la
-librmw_la_SOURCES = $(rmw_SOURCES)
-librmw_la_CFLAGS = $(AM_CFLAGS) -DBUILD_LIBRARY
+@BUILD_LIBS_TRUE@lib_LTLIBRARIES = librmw.la
+@BUILD_LIBS_TRUE@librmw_la_SOURCES = $(rmw_SOURCES)
+@BUILD_LIBS_TRUE@librmw_la_CFLAGS = $(AM_CFLAGS) -DBUILD_LIBRARY
 
-# static library, don't install
-noinst_LIBRARIES = librmw.a
-librmw_a_SOURCES = $(rmw_SOURCES)
-librmw_a_CFLAGS = $(librmw_la_CFLAGS)
+# static library, don't install (actually it installs anyway,
+# see issue https://github.com/theimpossibleastronaut/rmw/issues/227
+@BUILD_LIBS_TRUE@noinst_LIBRARIES = librmw.a
+@BUILD_LIBS_TRUE@librmw_a_SOURCES = $(rmw_SOURCES)
+@BUILD_LIBS_TRUE@librmw_a_CFLAGS = $(librmw_la_CFLAGS)
 
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a
@@ -603,7 +615,7 @@ librmw_test.a: $(librmw_test_a_OBJECTS) $(librmw_test_a_DEPENDENCIES) $(EXTRA_li
 	$(AM_V_at)$(RANLIB) librmw_test.a
 
 librmw.la: $(librmw_la_OBJECTS) $(librmw_la_DEPENDENCIES) $(EXTRA_librmw_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(librmw_la_LINK) -rpath $(libdir) $(librmw_la_OBJECTS) $(librmw_la_LIBADD) $(LIBS)
+	$(AM_V_CCLD)$(librmw_la_LINK) $(am_librmw_la_rpath) $(librmw_la_OBJECTS) $(librmw_la_LIBADD) $(LIBS)
 
 rmw$(EXEEXT): $(rmw_OBJECTS) $(rmw_DEPENDENCIES) $(EXTRA_rmw_DEPENDENCIES) 
 	@rm -f rmw$(EXEEXT)
