@@ -34,8 +34,9 @@ lib_LTLIBRARIES = librmw.la
 librmw_la_SOURCES = $(rmw_SOURCES)
 librmw_la_CFLAGS = $(AM_CFLAGS) -DBUILD_LIBRARY
 
-# static library
-lib_LIBRARIES = librmw.a
+# static library, don't install (actually it installs anyway,
+# see issue https://github.com/theimpossibleastronaut/rmw/issues/227
+noinst_LIBRARIES = librmw.a
 librmw_a_SOURCES = $(rmw_SOURCES)
 librmw_a_CFLAGS = $(librmw_la_CFLAGS)
 
