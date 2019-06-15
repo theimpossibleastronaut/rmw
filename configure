@@ -16104,7 +16104,7 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile man/Makefile test/Makefile po/Makefile.in test/VARS"
+ac_config_files="$ac_config_files Makefile rmw.pc src/Makefile man/Makefile test/Makefile po/Makefile.in test/VARS"
 
 
 ac_config_files="$ac_config_files test/basic.sh"
@@ -17131,6 +17131,7 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "po-directories") CONFIG_COMMANDS="$CONFIG_COMMANDS po-directories" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "rmw.pc") CONFIG_FILES="$CONFIG_FILES rmw.pc" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
     "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
