@@ -22,12 +22,11 @@ AX_FUNC_SNPRINTF
 # and https://github.com/theimpossibleastronaut/rmw/issues/21
 AM_MAINTAINER_MODE
 
-# Use libtool to create libraries
-LT_INIT([disable-shared])
+AC_DISABLE_SHARED
+AC_DISABLE_STATIC
 
-# these 2 variables aren't used yet
-AM_CONDITIONAL(WANT_STATIC, test x$enable_static = xyes)
-AM_CONDITIONAL(WANT_SHARED, test x$enable_shared = xyes)
+# Use libtool to create shared library
+LT_INIT
 
 AX_WITH_CURSES
 if test "x$ax_cv_curses" != xyes; then
@@ -71,15 +70,3 @@ AC_CONFIG_FILES([test/restore.sh], [chmod +x test/restore.sh])
 AC_CONFIG_FILES([test/create-some-files.sh], [chmod +x test/create-some-files.sh])
 
 AC_OUTPUT
-
-echo ""
-
-if test "x$enable_static" = xyes; then
-	echo "build static library = yes"
-fi
-
-if test "x$enable_shared" = xyes; then
-	echo "Shared library will be output to src/$objdir)"
-fi
-
-echo ""

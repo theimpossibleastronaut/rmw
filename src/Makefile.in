@@ -161,7 +161,12 @@ am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
 librmw_a_AR = $(AR) $(ARFLAGS)
 librmw_a_LIBADD =
-am__objects_1 =
+am__objects_1 = librmw_a-rmw.$(OBJEXT) librmw_a-restore_rmw.$(OBJEXT) \
+	librmw_a-config_rmw.$(OBJEXT) librmw_a-trivial_rmw.$(OBJEXT) \
+	librmw_a-strings_rmw.$(OBJEXT) librmw_a-purging_rmw.$(OBJEXT) \
+	librmw_a-messages_rmw.$(OBJEXT) \
+	librmw_a-trashinfo_rmw.$(OBJEXT) librmw_a-utils_rmw.$(OBJEXT) \
+	librmw_a-bst.$(OBJEXT)
 am_librmw_a_OBJECTS = $(am__objects_1)
 librmw_a_OBJECTS = $(am_librmw_a_OBJECTS)
 librmw_test_a_AR = $(AR) $(ARFLAGS)
@@ -178,7 +183,12 @@ am__objects_2 = librmw_test_a-rmw.$(OBJEXT) \
 am_librmw_test_a_OBJECTS = $(am__objects_2)
 librmw_test_a_OBJECTS = $(am_librmw_test_a_OBJECTS)
 librmw_la_LIBADD =
-am_librmw_la_OBJECTS = $(am__objects_1)
+am__objects_3 = librmw_la-rmw.lo librmw_la-restore_rmw.lo \
+	librmw_la-config_rmw.lo librmw_la-trivial_rmw.lo \
+	librmw_la-strings_rmw.lo librmw_la-purging_rmw.lo \
+	librmw_la-messages_rmw.lo librmw_la-trashinfo_rmw.lo \
+	librmw_la-utils_rmw.lo librmw_la-bst.lo
+am_librmw_la_OBJECTS = $(am__objects_3)
 librmw_la_OBJECTS = $(am_librmw_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -421,36 +431,21 @@ rmw_SOURCES = \
 	bst.h	\
 	gettext.h
 
-lib_CFLAGS = $(AM_CFLAGS) -DBUILD_LIBRARY
-lib_OBJECTS = \
-	rmw.o	\
-	restore_rmw.o	\
-	config_rmw.o	\
-	trivial_rmw.o	\
-	strings_rmw.o	\
-	purging_rmw.o	\
-	messages_rmw.o	\
-	trashinfo_rmw.o	\
-	utils_rmw.o	\
-	bst.o
-
 
 # shared library
 lib_LTLIBRARIES = librmw.la
-librmw_la_SOURCES = $(lib_OBJECTS)
-librmw_la_CFLAGS = $(lib_CFLAGS)
+librmw_la_SOURCES = $(rmw_SOURCES)
+librmw_la_CFLAGS = $(AM_CFLAGS) -DBUILD_LIBRARY
 
 # static library
 lib_LIBRARIES = librmw.a
-librmw_a_SOURCES = $(lib_OBJECTS)
-librmw_a_CFLAGS = $(lib_CFLAGS)
+librmw_a_SOURCES = $(rmw_SOURCES)
+librmw_a_CFLAGS = $(librmw_la_CFLAGS)
 
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a
-# some conditions in the source are changed when TEST_LIB is defined, therefore
-# we won't use pre-compiled objects for this lib.
 librmw_test_a_SOURCES = $(rmw_SOURCES)
-librmw_test_a_CFLAGS = $(lib_CFLAGS) -DTEST_LIB
+librmw_test_a_CFLAGS = $(librmw_la_CFLAGS) -DTEST_LIB
 
 #
 # On OpenBSD, without @LIBINTL@ present here, the result is a lot of
@@ -658,6 +653,66 @@ distclean-compile:
 .c.lo:
 	$(AM_V_CC)$(LTCOMPILE) -c -o $@ $<
 
+librmw_a-rmw.o: rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-rmw.o `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
+
+librmw_a-rmw.obj: rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-rmw.obj `if test -f 'rmw.c'; then $(CYGPATH_W) 'rmw.c'; else $(CYGPATH_W) '$(srcdir)/rmw.c'; fi`
+
+librmw_a-restore_rmw.o: restore_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-restore_rmw.o `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c
+
+librmw_a-restore_rmw.obj: restore_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-restore_rmw.obj `if test -f 'restore_rmw.c'; then $(CYGPATH_W) 'restore_rmw.c'; else $(CYGPATH_W) '$(srcdir)/restore_rmw.c'; fi`
+
+librmw_a-config_rmw.o: config_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-config_rmw.o `test -f 'config_rmw.c' || echo '$(srcdir)/'`config_rmw.c
+
+librmw_a-config_rmw.obj: config_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-config_rmw.obj `if test -f 'config_rmw.c'; then $(CYGPATH_W) 'config_rmw.c'; else $(CYGPATH_W) '$(srcdir)/config_rmw.c'; fi`
+
+librmw_a-trivial_rmw.o: trivial_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trivial_rmw.o `test -f 'trivial_rmw.c' || echo '$(srcdir)/'`trivial_rmw.c
+
+librmw_a-trivial_rmw.obj: trivial_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trivial_rmw.obj `if test -f 'trivial_rmw.c'; then $(CYGPATH_W) 'trivial_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trivial_rmw.c'; fi`
+
+librmw_a-strings_rmw.o: strings_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-strings_rmw.o `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c
+
+librmw_a-strings_rmw.obj: strings_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-strings_rmw.obj `if test -f 'strings_rmw.c'; then $(CYGPATH_W) 'strings_rmw.c'; else $(CYGPATH_W) '$(srcdir)/strings_rmw.c'; fi`
+
+librmw_a-purging_rmw.o: purging_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-purging_rmw.o `test -f 'purging_rmw.c' || echo '$(srcdir)/'`purging_rmw.c
+
+librmw_a-purging_rmw.obj: purging_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-purging_rmw.obj `if test -f 'purging_rmw.c'; then $(CYGPATH_W) 'purging_rmw.c'; else $(CYGPATH_W) '$(srcdir)/purging_rmw.c'; fi`
+
+librmw_a-messages_rmw.o: messages_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-messages_rmw.o `test -f 'messages_rmw.c' || echo '$(srcdir)/'`messages_rmw.c
+
+librmw_a-messages_rmw.obj: messages_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-messages_rmw.obj `if test -f 'messages_rmw.c'; then $(CYGPATH_W) 'messages_rmw.c'; else $(CYGPATH_W) '$(srcdir)/messages_rmw.c'; fi`
+
+librmw_a-trashinfo_rmw.o: trashinfo_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trashinfo_rmw.o `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c
+
+librmw_a-trashinfo_rmw.obj: trashinfo_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trashinfo_rmw.obj `if test -f 'trashinfo_rmw.c'; then $(CYGPATH_W) 'trashinfo_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trashinfo_rmw.c'; fi`
+
+librmw_a-utils_rmw.o: utils_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-utils_rmw.o `test -f 'utils_rmw.c' || echo '$(srcdir)/'`utils_rmw.c
+
+librmw_a-utils_rmw.obj: utils_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-utils_rmw.obj `if test -f 'utils_rmw.c'; then $(CYGPATH_W) 'utils_rmw.c'; else $(CYGPATH_W) '$(srcdir)/utils_rmw.c'; fi`
+
+librmw_a-bst.o: bst.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-bst.o `test -f 'bst.c' || echo '$(srcdir)/'`bst.c
+
+librmw_a-bst.obj: bst.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
+
 librmw_test_a-rmw.o: rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-rmw.o `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
 
@@ -717,6 +772,36 @@ librmw_test_a-bst.o: bst.c
 
 librmw_test_a-bst.obj: bst.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
+
+librmw_la-rmw.lo: rmw.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-rmw.lo `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
+
+librmw_la-restore_rmw.lo: restore_rmw.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-restore_rmw.lo `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c
+
+librmw_la-config_rmw.lo: config_rmw.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-config_rmw.lo `test -f 'config_rmw.c' || echo '$(srcdir)/'`config_rmw.c
+
+librmw_la-trivial_rmw.lo: trivial_rmw.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-trivial_rmw.lo `test -f 'trivial_rmw.c' || echo '$(srcdir)/'`trivial_rmw.c
+
+librmw_la-strings_rmw.lo: strings_rmw.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-strings_rmw.lo `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c
+
+librmw_la-purging_rmw.lo: purging_rmw.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-purging_rmw.lo `test -f 'purging_rmw.c' || echo '$(srcdir)/'`purging_rmw.c
+
+librmw_la-messages_rmw.lo: messages_rmw.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-messages_rmw.lo `test -f 'messages_rmw.c' || echo '$(srcdir)/'`messages_rmw.c
+
+librmw_la-trashinfo_rmw.lo: trashinfo_rmw.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-trashinfo_rmw.lo `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c
+
+librmw_la-utils_rmw.lo: utils_rmw.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-utils_rmw.lo `test -f 'utils_rmw.c' || echo '$(srcdir)/'`utils_rmw.c
+
+librmw_la-bst.lo: bst.c
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_la_CFLAGS) $(CFLAGS) -c -o librmw_la-bst.lo `test -f 'bst.c' || echo '$(srcdir)/'`bst.c
 
 rmw-rmw.o: rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-rmw.o `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
