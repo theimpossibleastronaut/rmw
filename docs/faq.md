@@ -19,3 +19,12 @@ that.
 
 A friend of mine wanted to experiment with a library for it, and I
 thought maybe one day other people might want to as well.
+
+**Can I use regex patterns with rmw?**
+
+Some. For example:
+
+    rmw test[0-9].txt.
+
+If you'd like support for a particular patten that doesn't already
+work, please open a ticket.
