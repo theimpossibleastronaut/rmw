@@ -431,7 +431,7 @@ purge (const st_waste * waste_curr)
           ("(%d directory deleted)", "(%d directories deleted)",
            deleted_dirs_ctr), deleted_dirs_ctr);
   printf ("\n");
-  printf (ngettext ("%s byte freed", "%s bytes freed", bytes_freed),
+  printf (ngettext ("%s freed", "%s freed", bytes_freed),
           human_readable_size (bytes_freed));
   printf ("\n");
 
