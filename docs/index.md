@@ -2,32 +2,27 @@
 title: Home
 layout: default
 ---
-<p>rmw (ReMove to Waste) is a cross-platform command-line "trash can"
+rmw (ReMove to Waste) is a cross-platform command-line "trash can"
 utility. It can send files to your "Desktop" trash, or a completely
 separate folder; restore files and append a unique string to the
-filenames so they won't be overwritten (duplication protection).</p>
+filenames so they won't be overwritten (duplication protection).
 
-<p>rmw is written in C, open source, and has a <a
-href="https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING">GNU
-GPLv3 License</a>.</p>
+rmw is written in C, open source, and has a [GNU
+GPLv3 License](https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING).
 
-<p>
-  <span class="fas fa-clipboard-list fa-fw"></span>&nbsp;<a href="https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md">Authors/Credits</a>
-</p>
+<span class="fas fa-clipboard-list
+fa-fw"></span>&nbsp;[Authors/Credits](https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md)
 
-<p>
-  Build instructions and a detailed list of features and usage are
-  documented in the <a
-  href="https://github.com/theimpossibleastronaut/rmw/blob/master/README.md">README</a>.
-</p>
 
-<p>
+Build instructions and a detailed list of features and usage are
+documented in the [README](https://github.com/theimpossibleastronaut/rmw/blob/master/README.md).
+
   <a href="/images/Screenshot_2018-11-01_21-45-05_911x795.png">
     <img src="/images/Screenshot_2018-11-01_21-45-05_911x795.png" alt="Remove to Waste usage output" width="227" height="198">
   </a>
-</p>
 
-<h2>Compatibility</h2>
+## Compatibility
+
 rmw has been tested successfully on the following systems:
 <ul class="w3-ul">
   <li>Centos 7.5</li>
@@ -39,7 +34,7 @@ rmw has been tested successfully on the following systems:
   <li>Ubuntu 14.04</li>
 </ul>
 
-<h2>How To:</h2>
+## How To:
 <ul class="w3-ul">
   <li><span class="fas fa-hands-helping fa-fw"></span>&nbsp;<a href="https://github.com/theimpossibleastronaut/rmw/blob/master/CONTRIBUTING.md">contribute</a></li>
   <li><span class="fas fa-code fa-fw"></span>&nbsp;<a href="/code-testing.html">test code</a></li>
