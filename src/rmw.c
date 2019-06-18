@@ -713,31 +713,4 @@ Enter '%s -h' for more information\n"), argv[0]);
   return 0;
 }
 
-#else /* If building as a library for unit testing */
-      /* This gets rid of compiler warnings about "unused functions" */
-
-st_removed*
-test_add_removal (st_removed *removals, const char *file)
-{
-  return add_removal (removals, file);
-}
-
-ushort
-test_is_time_to_purge (void)
-{
-  return is_time_to_purge ();
-}
-
-char*
-test_set_time_now_format (void)
-{
-  return set_time_now_format ();
-}
-
-void
-test_create_undo_file (st_removed *removals, st_removed *removals_head)
-{
-  create_undo_file (removals, removals_head);
-}
-
 #endif
