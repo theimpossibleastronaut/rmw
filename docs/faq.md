@@ -20,11 +20,15 @@ that.
 A friend of mine wanted to experiment with a library for it, and I
 thought maybe one day other people might want to as well.
 
-**Can I use regex patterns with rmw?**
+**Can I use wildcard and regex patterns with rmw?**
 
-Some. For example:
+Yes. For example:
 
-    rmw test[0-9].txt.
+<p class="w3-code">
+  rmw *.txt<br />
+  rmw test[0-9].txt
+</p>
 
-If you'd like support for a particular patten that doesn't already
-work, please open a ticket.
+Some complex regex expressions won't work. If you'd like support
+for a particular pattern that doesn't already work, please open a
+ticket.
