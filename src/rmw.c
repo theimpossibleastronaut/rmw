@@ -75,228 +75,6 @@ int purge_after = 0;
 /*! Set from the command line and optionally from the user's config file */
 ushort force = 0;
 
-/*!
- * Returns a formatted string based on whether or not
- * a fake year is requested at runtime. If a fake-year is not requested,
- * the returned string will be based on the local-time of the user's system.
- * @param void
- * @return char*
- */
-static char*
-set_time_now_format (void)
-{
-  char *t_fmt = calloc (LEN_TIME_NOW, 1);
-  chk_malloc (t_fmt, __func__, __LINE__);
-
-  if  (getenv ("RMWTRASH") == NULL ||
-      (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
-    t_fmt = "%FT%T";
-  else
-  {
-    printf ("  :test mode: Using fake year\n");
-    t_fmt = "1999-%m-%dT%T";
-  }
-
-  return t_fmt;
-}
-
-/*!
- * Assigns a time string to *tm_str based on the format requested
- * @param[out] tm_str assigned a new value based on format
- * @param[in] len the max length of string to be allocated
- * @param[in] format the format of the string
- * @return void
- */
-static void
-get_time_string (char *tm_str, const ushort len, const char *format)
-{
-  struct tm *time_ptr;
-  time_t now = time (NULL);
-  time_ptr = localtime (&now);
-  strftime (tm_str, len, format, time_ptr);
-  trim_white_space (tm_str);
-  bufchk (tm_str, len);
-}
-
-/*!
- * Checks to see if purge() was run today, reads and writes to the 'lastpurge`
- * file. If it hasn't been run today, the current day will be written.
- * @param void
- * @return an error number
- * @see purge
- */
-static ushort
-is_time_to_purge (void)
-{
-  char file_lastpurge[MP];
-  sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
-
-  bufchk (file_lastpurge, MP);
-
-  char today_dd[3];
-  get_time_string (today_dd, 3, "%d");
-
-  FILE *fp;
-
-  if (exists (file_lastpurge))
-  {
-    fp = fopen (file_lastpurge, "r");
-    if (fp == NULL)
-    {
-      open_err (file_lastpurge, __func__);
-      return ERR_OPEN;
-    }
-
-    char last_purge_dd[3];
-
-    if (fgets (last_purge_dd, sizeof (last_purge_dd), fp) == NULL)
-    {
-      print_msg_error ();
-      printf ("while getting line from %s\n", file_lastpurge);
-      perror (__func__);
-      close_file (fp, file_lastpurge, __func__);
-      return 0;
-    }
-
-    bufchk (last_purge_dd, 3);
-    trim_white_space (last_purge_dd);
-
-    close_file (fp, file_lastpurge, __func__);
-
-    /*
-     * if these are the same, purge has already been run today
-     */
-
-    if (!strcmp (today_dd, last_purge_dd))
-      return IS_SAME_DAY;
-
-    fp = fopen (file_lastpurge, "w");
-
-    if (fp != NULL)
-    {
-      fprintf (fp, "%s\n", today_dd);
-      close_file (fp, file_lastpurge, __func__);
-      return IS_NEW_DAY;
-    }
-
-    else
-    {
-      open_err (file_lastpurge, __func__);
-      return ERR_OPEN;
-    }
-  }
-
-  else
-  {
-    /*
-     * Create file if it doesn't exist
-     */
-    fp = fopen (file_lastpurge, "w");
-
-    if (fp != NULL)
-    {
-      fprintf (fp, "%s\n", today_dd);
-
-      close_file (fp, file_lastpurge, __func__);
-
-      return IS_NEW_DAY;
-    }
-    else
-    {
-      /*
-       * if we can't even write this file to the config directory, something
-       * is not right. Make it fatal.
-       *
-       * If the user gets this far though,
-       * chances are this error will never be a problem.
-       */
-      open_err (file_lastpurge, __func__);
-      msg_return_code (ERR_OPEN);
-      exit (ERR_OPEN);
-    }
-  }
-}
-
-/*!
- * When a file has been successfully rmw'ed, add the filename to
- * a linked list.
- *
- * @param[out] removals linked lists of files that have been succesfully rmw'ed
- * @param[in] file file that has been successfully rmw'ed
- * @see want_undo_rmw
- * @return pointer to node in @ref st_removed type struct
- */
-static st_removed*
-add_removal (st_removed *removals, const char *file)
-{
-  if (removals == NULL)
-  {
-    st_removed *temp_node = (st_removed*)malloc (sizeof (st_removed));
-    chk_malloc (temp_node, __func__, __LINE__);
-    removals = temp_node;
-  }
-  else
-  {
-    removals->next_node = (st_removed*)malloc (sizeof (st_removed));
-    chk_malloc (removals->next_node, __func__, __LINE__);
-    removals = removals->next_node;
-  }
-  removals->next_node = NULL;
-  bufchk (file, MP);
-  strcpy (removals->file, file);
-  return removals;
-}
-
-/*!
- * recursively remove all nodes of an object of type @ref st_removed
- * @param[out] node the node to be removed
- * @return void
- * @see add_removal
- */
-static void
-dispose_removed (st_removed *node)
-{
-  if (node != NULL)
-  {
-    dispose_removed (node->next_node);
-    free (node);
-    node = NULL;
-  }
-
-  return;
-}
-
-/*!
- * Create a new undo_file (lastrmw)
- * @param[in] removals the linked list of files that were rmw'ed
- * @param[in] removals_head the first node in removals
- * @return void
- * @see want_undo_rmw
- * @see add_removal
- */
-static void
-create_undo_file (st_removed *removals, st_removed *removals_head)
-{
-  char undo_path[MP];
-  bufchk (UNDO_FILE, MP - strlen (HOMEDIR));
-  sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
-
-  FILE *undo_file_ptr = fopen (undo_path, "w");
-  if (undo_file_ptr != NULL)
-  {
-    removals = removals_head;
-    while (removals != NULL)
-    {
-      fprintf (undo_file_ptr, "%s\n", removals->file);
-      removals = removals->next_node;
-    }
-    dispose_removed (removals);
-    close_file (undo_file_ptr, undo_path, __func__);
-  }
-  else
-    open_err (undo_path, __func__);
-}
-
 /*
  * Defined when `make check` is used to build rmw as a library for unit testing,
  * or if built as a library
@@ -712,5 +490,227 @@ Enter '%s -h' for more information\n"), argv[0]);
 
   return 0;
 }
-
 #endif
+
+/*!
+ * Returns a formatted string based on whether or not
+ * a fake year is requested at runtime. If a fake-year is not requested,
+ * the returned string will be based on the local-time of the user's system.
+ * @param void
+ * @return char*
+ */
+char*
+set_time_now_format (void)
+{
+  char *t_fmt = calloc (LEN_TIME_NOW, 1);
+  chk_malloc (t_fmt, __func__, __LINE__);
+
+  if  (getenv ("RMWTRASH") == NULL ||
+      (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
+    t_fmt = "%FT%T";
+  else
+  {
+    printf ("  :test mode: Using fake year\n");
+    t_fmt = "1999-%m-%dT%T";
+  }
+
+  return t_fmt;
+}
+
+/*!
+ * Assigns a time string to *tm_str based on the format requested
+ * @param[out] tm_str assigned a new value based on format
+ * @param[in] len the max length of string to be allocated
+ * @param[in] format the format of the string
+ * @return void
+ */
+void
+get_time_string (char *tm_str, const ushort len, const char *format)
+{
+  struct tm *time_ptr;
+  time_t now = time (NULL);
+  time_ptr = localtime (&now);
+  strftime (tm_str, len, format, time_ptr);
+  trim_white_space (tm_str);
+  bufchk (tm_str, len);
+}
+
+/*!
+ * Checks to see if purge() was run today, reads and writes to the 'lastpurge`
+ * file. If it hasn't been run today, the current day will be written.
+ * @param void
+ * @return an error number
+ * @see purge
+ */
+ushort
+is_time_to_purge (void)
+{
+  char file_lastpurge[MP];
+  sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
+
+  bufchk (file_lastpurge, MP);
+
+  char today_dd[3];
+  get_time_string (today_dd, 3, "%d");
+
+  FILE *fp;
+
+  if (exists (file_lastpurge))
+  {
+    fp = fopen (file_lastpurge, "r");
+    if (fp == NULL)
+    {
+      open_err (file_lastpurge, __func__);
+      return ERR_OPEN;
+    }
+
+    char last_purge_dd[3];
+
+    if (fgets (last_purge_dd, sizeof (last_purge_dd), fp) == NULL)
+    {
+      print_msg_error ();
+      printf ("while getting line from %s\n", file_lastpurge);
+      perror (__func__);
+      close_file (fp, file_lastpurge, __func__);
+      return 0;
+    }
+
+    bufchk (last_purge_dd, 3);
+    trim_white_space (last_purge_dd);
+
+    close_file (fp, file_lastpurge, __func__);
+
+    /*
+     * if these are the same, purge has already been run today
+     */
+
+    if (!strcmp (today_dd, last_purge_dd))
+      return IS_SAME_DAY;
+
+    fp = fopen (file_lastpurge, "w");
+
+    if (fp != NULL)
+    {
+      fprintf (fp, "%s\n", today_dd);
+      close_file (fp, file_lastpurge, __func__);
+      return IS_NEW_DAY;
+    }
+
+    else
+    {
+      open_err (file_lastpurge, __func__);
+      return ERR_OPEN;
+    }
+  }
+
+  else
+  {
+    /*
+     * Create file if it doesn't exist
+     */
+    fp = fopen (file_lastpurge, "w");
+
+    if (fp != NULL)
+    {
+      fprintf (fp, "%s\n", today_dd);
+
+      close_file (fp, file_lastpurge, __func__);
+
+      return IS_NEW_DAY;
+    }
+    else
+    {
+      /*
+       * if we can't even write this file to the config directory, something
+       * is not right. Make it fatal.
+       *
+       * If the user gets this far though,
+       * chances are this error will never be a problem.
+       */
+      open_err (file_lastpurge, __func__);
+      msg_return_code (ERR_OPEN);
+      exit (ERR_OPEN);
+    }
+  }
+}
+
+/*!
+ * When a file has been successfully rmw'ed, add the filename to
+ * a linked list.
+ *
+ * @param[out] removals linked lists of files that have been succesfully rmw'ed
+ * @param[in] file file that has been successfully rmw'ed
+ * @see want_undo_rmw
+ * @return pointer to node in @ref st_removed type struct
+ */
+st_removed*
+add_removal (st_removed *removals, const char *file)
+{
+  if (removals == NULL)
+  {
+    st_removed *temp_node = (st_removed*)malloc (sizeof (st_removed));
+    chk_malloc (temp_node, __func__, __LINE__);
+    removals = temp_node;
+  }
+  else
+  {
+    removals->next_node = (st_removed*)malloc (sizeof (st_removed));
+    chk_malloc (removals->next_node, __func__, __LINE__);
+    removals = removals->next_node;
+  }
+  removals->next_node = NULL;
+  bufchk (file, MP);
+  strcpy (removals->file, file);
+  return removals;
+}
+
+/*!
+ * recursively remove all nodes of an object of type @ref st_removed
+ * @param[out] node the node to be removed
+ * @return void
+ * @see add_removal
+ */
+void
+dispose_removed (st_removed *node)
+{
+  if (node != NULL)
+  {
+    dispose_removed (node->next_node);
+    free (node);
+    node = NULL;
+  }
+
+  return;
+}
+
+/*!
+ * Create a new undo_file (lastrmw)
+ * @param[in] removals the linked list of files that were rmw'ed
+ * @param[in] removals_head the first node in removals
+ * @return void
+ * @see want_undo_rmw
+ * @see add_removal
+ */
+void
+create_undo_file (st_removed *removals, st_removed *removals_head)
+{
+  char undo_path[MP];
+  bufchk (UNDO_FILE, MP - strlen (HOMEDIR));
+  sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
+
+  FILE *undo_file_ptr = fopen (undo_path, "w");
+  if (undo_file_ptr != NULL)
+  {
+    removals = removals_head;
+    while (removals != NULL)
+    {
+      fprintf (undo_file_ptr, "%s\n", removals->file);
+      removals = removals->next_node;
+    }
+    dispose_removed (removals);
+    close_file (undo_file_ptr, undo_path, __func__);
+  }
+  else
+    open_err (undo_path, __func__);
+}
+

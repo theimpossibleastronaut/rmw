@@ -186,4 +186,27 @@ enum {
   FILE_NOT_FOUND
 };
 
+/* function prototypes for rmw.c
+ * These are only used in rmw.c but prototyping them here to enable
+ * using rmw as a library (which is optional but just for people who
+ * want to experiment. */
+
+st_removed*
+add_removal (st_removed *removals, const char *file);
+
+void
+create_undo_file (st_removed *removals, st_removed *removals_head);
+
+void
+dispose_removed (st_removed *node);
+
+void
+get_time_string (char *tm_str, const ushort len, const char *format);
+
+ushort
+is_time_to_purge (void);
+
+char*
+set_time_now_format (void);
+
 #endif
