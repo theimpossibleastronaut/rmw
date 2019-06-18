@@ -250,10 +250,18 @@ purge (const st_waste * waste_curr)
   short status = 0;
 
   bool cmd_empty = 0;
+  bool cmd_dry_run = 0;
   char *rmwtrash_env = getenv("RMWTRASH");
 
   if (rmwtrash_env != NULL)
+  {
     cmd_empty = strcmp (rmwtrash_env, "empty") ? 0 : 1;
+    cmd_dry_run = strcmp (rmwtrash_env, "dry-run") ? 0 : 1;
+  }
+
+  /* if dry-run was enabled, assume verbosity as well */
+  if (cmd_dry_run)
+    verbose = 1;
 
   extern const int purge_after;
   printf ("\n");
@@ -317,7 +325,15 @@ purge (const st_waste * waste_curr)
 
         if (S_ISDIR (st.st_mode))
         {
-          status = rmdir_recursive (purgeFile, 1);
+          if (!cmd_dry_run)
+            status = rmdir_recursive (purgeFile, 1);
+          else
+          {
+            /* Not much choice but to
+             * assume there would not be an error if the attempt were actually made */
+            status = 0;
+          }
+
           switch (status)
           {
           case NOT_WRITEABLE:
@@ -339,7 +355,11 @@ purge (const st_waste * waste_curr)
             break;
 
           case 0:
-            status = rmdir (purgeFile);
+            if (!cmd_dry_run)
+              status = rmdir (purgeFile);
+            else
+              status = 0;
+
             if (status == 0)
             {
               success = 1;
@@ -366,7 +386,10 @@ purge (const st_waste * waste_curr)
 
         else
         {
-          status = remove (purgeFile);
+          if (!cmd_dry_run)
+            status = remove (purgeFile);
+          else
+            status = 0;
 
           if (status == 0)
           {
@@ -385,9 +408,12 @@ purge (const st_waste * waste_curr)
 
         if (success)
         {
-          status = remove (entry_path); /* the info file. (This var name needs
-                                         *changing) We won't count this in
-                                         * deleted_files_ctr */
+          /* the info file. (This var name needs
+           *changing) */
+          if (!cmd_dry_run)
+            status = remove (entry_path);
+          else
+            status = 0;
 
           if (!status)
           {
