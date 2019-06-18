@@ -7,7 +7,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,11 +93,10 @@ purge_after = %d\n"), DEFAULT_PURGE_AFTER) < 0)
 
 /* TRANSLATORS:  Do not translate the last line in this section  */
 if (fprintf (stream, _("\n\
-# purge will not run unless `--force` is used at the command line. Uncomment\n\
-# the line below if you would like purge to check daily for files that\n\
-# that exceed the days specified in purge_after\n\
+# If you'd like an extra saftey precaution, comment out the line below.\n\
+# Once disabled, purge will not run unless -f is used.\n\
 #\n\
-#force_not_required\n")) < 0)
+force_not_required\n")) < 0)
   msg_err_fatal_fprintf (__func__);
 }
 

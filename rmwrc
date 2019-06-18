@@ -35,9 +35,7 @@ WASTE = $HOME/.trash.rmw
 purge_after = 90
 #
 
-# purge will not run unless `--force` is used at the command line. Uncomment
-# the line below if you would like purge to check daily for files that
-# that exceed the days specified in purge_after
-#
-#force_not_required
+# If you'd like an extra saftey precaution, comment out the line below.
+# Once disabled, purge will not run unless -f is used.
+force_not_required
 #
