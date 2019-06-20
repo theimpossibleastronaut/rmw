@@ -67,7 +67,7 @@ if (fprintf (stream, _("\n\
 # The line below. Files you move with rmw will go to the folder above by\n\
 # default.\n\
 #\n\
-#WASTE=$HOME/.local/share/Trash\n")) < 0)
+# WASTE=$HOME/.local/share/Trash\n")) < 0)
   msg_err_fatal_fprintf (__func__);
 
 /* TRANSLATORS:  Do not translate the last line in this section  */
@@ -78,7 +78,7 @@ if (fprintf (stream, _("\n\
 # skipped Once you create \"example_waste\", rmw will automatically create\n\
 # example_waste/info and example_waste/files\n\
 #\n\
-#WASTE=/mnt/sda10000/example_waste, removable")) < 0)
+# WASTE=/mnt/sda10000/example_waste, removable")) < 0)
   msg_err_fatal_fprintf (__func__);
 
 /* TRANSLATORS:  Do not translate the last line in this section  */
@@ -93,10 +93,12 @@ purge_after = %d\n"), DEFAULT_PURGE_AFTER) < 0)
 
 /* TRANSLATORS:  Do not translate the last line in this section  */
 if (fprintf (stream, _("\n\
-# If you'd like an extra saftey precaution, comment out the line below.\n\
-# Once disabled, purge will not run unless -f is used.\n\
+# By default, purge runs daily.\n\
+# If you'd like an extra saftey precaution, uncomment the line below;\n\
+# Using the '-f' option will be required to enable purge.\n\
 #\n\
-force_not_required\n")) < 0)
+# force_required\n\
+#\n")) < 0)
   msg_err_fatal_fprintf (__func__);
 }
 
@@ -425,8 +427,8 @@ get_config_data (void)
    * if for some reason purge_after isn't specified in the config file.
    */
   extern int purge_after;
-  extern ushort force;
   purge_after = DEFAULT_PURGE_AFTER;
+  extern bool force_required;
 
   char config_file[MP];
   extern const char *alt_config;
@@ -460,11 +462,8 @@ get_config_data (void)
       del_char_shift_left (' ', &value);
       purge_after = atoi (value);
     }
-    else if (strncmp (line_from_config, "force_not_required", 18) == 0)
-      if (!force)
-        force = 1;
-      else
-        continue;
+    else if (strcmp (line_from_config, "force_required") == 0)
+      force_required = 1;
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
       waste_curr =

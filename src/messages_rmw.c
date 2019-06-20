@@ -38,7 +38,6 @@ static const char *ERR_STRING[] = {
   "EXIT_MALLOC_ERR",
   "MAKE_DIR_SUCCESS",
   "MAKE_DIR_FAILURE",
-  "FORCE_NOT_USED",
   "IS_NEW_DAY",
   "IS_SAME_DAY",
   "ERR_OPEN",

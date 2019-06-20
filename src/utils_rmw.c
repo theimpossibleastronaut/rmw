@@ -43,7 +43,7 @@ int
 make_dir (const char *dir)
 {
   if (exists (dir))
-    return MAKE_DIR_SUCCESS;
+    return 0;
 
   char temp_dir[MP];
   strcpy (temp_dir, dir);

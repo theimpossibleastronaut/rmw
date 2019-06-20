@@ -74,6 +74,7 @@ int purge_after = 0;
 
 /*! Set from the command line and optionally from the user's config file */
 ushort force = 0;
+bool force_required = 0;
 
 /*
  * Defined when `make check` is used to build rmw as a library for unit testing,
@@ -231,15 +232,13 @@ verbose = 1;
   free (data_dir);
   data_dir = NULL;
 
-  if (created_data_dir == MAKE_DIR_SUCCESS)
-  {}
-  else
+  if (created_data_dir == MAKE_DIR_FAILURE)
   {
     print_msg_error ();
     printf (_("unable to create config and data directory\n\
 Please check your configuration file and permissions\n\n"));
     printf (_("Unable to continue. Exiting...\n"));
-    return 1;
+    return MAKE_DIR_FAILURE;
   }
 
   st_waste *waste_head;
@@ -299,8 +298,11 @@ Please check your configuration file and permissions\n\n"));
   {
     if (is_time_to_purge () == IS_NEW_DAY || want_purge)
     {
-      if (force)
+      if (!force_required || force)
+      {
         purge (waste_curr);
+        printf ("DEBUG created_data_dir = %d\n", created_data_dir);
+      }
       else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }

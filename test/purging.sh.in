@@ -13,68 +13,69 @@ else
   . @abs_top_srcdir@/test/COMMON
 fi
 
-echo "== On first run, directories should get created"
-# show commands that are run
 set -x
 
-$RMW_TEST_CMD_STRING
+echo "== On first run, directories should get created"
+# show commands that are run
 
+
+$RMW_TEST_CMD_STRING
 test_result $?
 
 # Make some temporary files using a fake-year
 mkdir $HOME/tmp-files
 cd $HOME/tmp-files
 
-set +x
+
 
 echo "\n\n == creating temporary files to be rmw'ed"
-set +x
+
 for file in abc 123 xyz; do
   for _null in {1..4096}; do
     echo 0 >> $file
   done
 done
 
-set +x
+
 cd $HOME/..
 echo "\n\n == use a built-in environmental variable to write a"
 echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
-set -x
+
 RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose -c $CONFIG $HOME/tmp-files/*
 test_result $?
-set +x
+
 
 echo
 echo
 echo " == displaying a trashinfo; it shows a DeletionDate of 1999"
 
-set -x
+
 cat $HOME/.trash.rmw/info/abc.trashinfo
 test_result $?
 
-set +x
+
 echo
 echo
 echo " == The trashinfo records that these files were rmw'ed in 1999"
 echo " == So they will be purged now."
 
-set -x
-$BIN_DIR/rmw --verbose --force --purge -c $CONFIG
+
+$BIN_DIR/rmw --verbose --purge -c $CONFIG
 test_result $?
 
-set +x
+
 echo
 echo
 echo " == Test that the files are really gone"
-set -x
+
 test -z "$(ls -A $HOME/.trash.rmw/files)"
 test_result $?
 test -z "$(ls -A $HOME/.trash.rmw/info)"
 test_result $?
 
-set +x
+
 echo
 echo
 echo " Creating some files for testing..."
@@ -87,23 +88,23 @@ echo
 echo " == rmw should be able to purge directories and subdirectories"
 echo " == even if some of the dirs are read-only"
 
-set -x
+
 RMWTRASH=fake-year $BIN_DIR/rmw --verbose -c $CONFIG $HOME/somefiles
 test_result $?
 
 $BIN_DIR/rmw --verbose -ff --purge -c $CONFIG
 test_result $?
 
-set +x
+
 echo
 echo
 echo " == Show that the files are really gone"
 
-set -x
-ls -l $HOME/.trash.rmw/files
-ls -l $HOME/.trash.rmw/info
+test -z $(ls -A $HOME/.trash.rmw/files)
+test_result $?
+test -z $(ls -A $HOME/.trash.rmw/info)
+test_result $?
 
-set +x
 echo
 echo
 echo " Creating some files for testing..."
@@ -111,54 +112,48 @@ cd $HOME
 ../create-some-files.sh
 test_result $?
 
-
-set +x
 echo
 echo
 echo " == preceding RMWTRASH=empty with the rmw command should completely"
 echo " == purge the waste folders, no matter when they were deleted"
 
-set -x
 $RMW_TEST_CMD_STRING --verbose $HOME/somefiles
 test_result $?
 
 echo " == Should not work if 'f' isn't used"
-RMWTRASH=empty $RMW_TEST_CMD_STRING --purge
+output=`RMWTRASH=empty $RMW_ALT_TEST_CMD_STRING --purge`
+test "$output" = "purge has been skipped: use -f or --force"
 test_result $?
 
 echo " == Should not work if '--purge' isn't used"
-RMWTRASH=empty $RMW_TEST_CMD_STRING -f
+output=`RMWTRASH=empty $RMW_TEST_CMD_STRING -f`
+test -z "$output"
 test_result $?
 
 echo " == Should not work if '--purge' and '-f' isn't used"
 RMWTRASH=empty $RMW_TEST_CMD_STRING
 test_result $?
 
-set +x
 echo
 echo
-echo " == Test that the files are really gone"
-set -x
+echo " == Test that trash is not empty"
+
 test -z "$(ls -A $HOME/.trash.rmw/files)"
 test_result_want_fail $?
 test -z "$(ls -A $HOME/.trash.rmw/info)"
 test_result_want_fail $?
 
-echo " == Try now with required options"
+echo " == Try to empty now with required options"
 RMWTRASH=empty $RMW_TEST_CMD_STRING --verbose -ff --purge
 test_result $?
 
-set +x
 echo
 echo
 echo " == Test that the files are really gone"
-set -x
+
 test -z "$(ls -A $HOME/.trash.rmw/files)"
 test_result $?
 test -z "$(ls -A $HOME/.trash.rmw/info)"
 test_result $?
-
-set +x
-echo "Purging tests passed"
 
 exit 0

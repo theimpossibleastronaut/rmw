@@ -41,7 +41,7 @@ purge_after = 90
 # If you'd like an extra saftey precaution, uncomment the line below;
 # Using the '-f' option will be required to enable purge.
 #
-# force_required
+force_required
 #
 
 # test_for_invalid_or_unknown_option

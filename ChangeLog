@@ -1,6 +1,15 @@
 === rmw ChangeLog ===
 rmw ChangeLog
 
+2019-06-21
+
+  * BUGFIX:
+  [#233](https://github.com/theimpossibleastronaut/rmw/issues/233)missing
+  output when purge is attempted without force
+
+  * purge can run without -f/--force by default. The option "force_required"
+  has been added as a configuration option to reverse that behavior.
+
 2019-06-13
 
   * On OpenBSD, setting MENU_LIBS when running configure is no longer
