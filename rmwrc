@@ -15,6 +15,9 @@ WASTE = $HOME/.trash.rmw
 # The line below. Files you move with rmw will go to the folder above by
 # default.
 #
+# Note to OSX and Windows users: sending files to 'Desktop' trash
+# doesn't work yet
+#
 # WASTE=$HOME/.local/share/Trash
 #
 
@@ -35,9 +38,8 @@ WASTE = $HOME/.trash.rmw
 purge_after = 90
 #
 
-# By default, purge runs daily.
-# If you'd like an extra saftey precaution, uncomment the line below;
-# Using the '-f' option will be required to enable purge.
+# purge is allowed to run without the '-f' option. If you'd rather
+# require the use of '-f', you may uncomment the line below.
 #
 # force_required
 #

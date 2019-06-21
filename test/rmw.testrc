@@ -37,9 +37,8 @@ WASTE=/mnt/sda10000/example_waste, removable
 purge_after = 90
 #
 
-# By default, purge runs daily.
-# If you'd like an extra saftey precaution, uncomment the line below;
-# Using the '-f' option will be required to enable purge.
+# purge is allowed to run without the '-f' option. If you'd rather
+# require the use of '-f', you may uncomment the line below.
 #
 # force_required
 #

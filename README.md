@@ -183,8 +183,12 @@ https://github.com/theimpossibleastronaut/rmw/wiki/Translating)
 
 == -f, --force ==
 
-If you would like an extra safety precaution, you can coment out the
-"force_not_required" line in your config file. If you do, the -f option
+A change from previous versions, purge is allowed to run without the '-f'
+option. If you'd rather require the use of '-f', you can add the line
+'force_required' in your configuration file.
+
+coment out the
+ line in your config file. If you do, the -f option
 will be required for purge to run.
 
 rmw will normally refuse to purge directories if they contain non-writable

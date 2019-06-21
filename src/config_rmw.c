@@ -67,6 +67,9 @@ if (fprintf (stream, _("\n\
 # The line below. Files you move with rmw will go to the folder above by\n\
 # default.\n\
 #\n\
+# Note to OSX and Windows users: sending files to 'Desktop' trash\n\
+# doesn't work yet\n\
+#\n\
 # WASTE=$HOME/.local/share/Trash\n")) < 0)
   msg_err_fatal_fprintf (__func__);
 
@@ -93,9 +96,8 @@ purge_after = %d\n"), DEFAULT_PURGE_AFTER) < 0)
 
 /* TRANSLATORS:  Do not translate the last line in this section  */
 if (fprintf (stream, _("\n\
-# By default, purge runs daily.\n\
-# If you'd like an extra saftey precaution, uncomment the line below;\n\
-# Using the '-f' option will be required to enable purge.\n\
+# purge is allowed to run without the '-f' option. If you'd rather\n\
+# require the use of '-f', you may uncomment the line below.\n\
 #\n\
 # force_required\n\
 #\n")) < 0)
@@ -462,7 +464,7 @@ get_config_data (void)
       del_char_shift_left (' ', &value);
       purge_after = atoi (value);
     }
-    else if (strcmp (line_from_config, "force_required") == 0)
+    else if (!strcmp (line_from_config, "force_required"))
       force_required = 1;
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
@@ -473,11 +475,15 @@ get_config_data (void)
     }
     else if (!strncmp ("PROTECT", line_from_config, 7))
     {
+      /* pctr just prevents this message from being repeated each time
+       * "PROTECT" is encountered" */
       static bool pctr = 0;
       if (!pctr)
         printf ("The PROTECT feature has been removed.\n");
       pctr = 1;
     }
+    else if (!strcmp ("force_not_required", line_from_config))
+      printf ("The 'force_not_required' option has been replaced with 'force_required'.\n");
     else
     {
       print_msg_warn ();
@@ -485,12 +491,6 @@ get_config_data (void)
                line_from_config);
     }
 
-    /*
-     * FIXME: Why is this here?? I know it's needed, but I don't remember
-     * why it's located in this block. Needs review to see if there's a
-     * better location for it.
-     *
-     */
     if (waste_curr != NULL && waste_head == NULL)
       waste_head = waste_curr;
   }

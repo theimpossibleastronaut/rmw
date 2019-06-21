@@ -6,7 +6,7 @@
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- * Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ * Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  * Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
  *
  * This program is free software; you can redistribute it and/or modify
@@ -299,10 +299,7 @@ Please check your configuration file and permissions\n\n"));
     if (is_time_to_purge () == IS_NEW_DAY || want_purge)
     {
       if (!force_required || force)
-      {
         purge (waste_curr);
-        printf ("DEBUG created_data_dir = %d\n", created_data_dir);
-      }
       else if (!created_data_dir)
         printf (_("purge has been skipped: use -f or --force\n"));
     }

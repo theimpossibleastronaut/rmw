@@ -1,4 +1,4 @@
-.TH RMW 1 2018-10-24
+.TH RMW 1 2019-06-21
 .SH NAME
 rmw - remove files, safely
 .SH SYNOPSIS
@@ -22,8 +22,10 @@ If purging is 'on', \fBrmw\fR will permanently delete files from the folders
 specified in the configuration file after 'x' number of days.
 Purging can be disabled by using '\fBpurge_after = 0\fR' in configuration file.
 \fBrmw\fR will only check once per day if it's time to purge (use \fB\-g\fR to check more often).
-Purge requires \fB\-f\fR (\fB\-\-force\fR) to run (in your \fBrmw\fR configuration file, add
-the line '\fBforce_not_required\fR' if you'd rather not use \fB\-\-force\fR when purging).
+As an extra safety precaution, add the line '\fBforce_required\fR' in
+your \fBrmw\fR configuration file to require \fB\-f\fR
+(\fB\-\-force\fR) to enable purge.
+
 .SH OPTIONS
 .TP
 \fB\-c \-\-config\fR \fIfilename\fR
