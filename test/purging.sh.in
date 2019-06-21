@@ -83,18 +83,29 @@ cd $HOME
 ../create-some-files.sh
 test_result $?
 
-echo
-echo
+echo $SEPARATOR
 echo " == rmw should be able to purge directories and subdirectories"
 echo " == even if some of the dirs are read-only"
 
-
+echo $SEPARATOR
 RMWTRASH=fake-year $BIN_DIR/rmw --verbose -c $CONFIG $HOME/somefiles
 test_result $?
 
-$BIN_DIR/rmw --verbose -ff --purge -c $CONFIG
+echo $SEPARATOR
+echo " == only one f, should fail"
+$BIN_DIR/rmw -f --purge -c $CONFIG
 test_result $?
+echo $SEPARATOR
+echo " == (files should still be present)"
+test -z $(ls -A $HOME/.trash.rmw/files)
+test_result_want_fail $?
+test -z $(ls -A $HOME/.trash.rmw/info)
+test_result_want_fail $?
 
+echo $SEPARATOR
+echo " == 2 f's, this should pass"
+$BIN_DIR/rmw -ff --purge -c $CONFIG
+test_result $?
 
 echo
 echo
