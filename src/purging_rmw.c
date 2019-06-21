@@ -303,7 +303,6 @@ purge (const st_waste * waste_curr)
       char entry_path[MP];
       sprintf (entry_path, "%s%s", waste_curr->info, entry->d_name);
 
-      // printf ("%s\n", entry_path);
       /* skip this block if RMWTRASH=empty */
       if (!cmd_empty && !(then = get_then_time(entry, entry_path)))
           continue;

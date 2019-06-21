@@ -154,14 +154,6 @@ specified in the configuration file after 'x' number of days. Purging can be
 disabled by using 'purge_after = 0' in configuration file. rmw will only check
 once per day if it's time to purge (use -g to check more often).
 
-Purge requires -f (--force) to run.
-
-To skip that requirement, add the line
-
-force_not_required
-
-to your configuration file.
-
 The day of the last purge is stored in $HOME/config/rmw/lastpurge
 
 == Empty the Trash ==
@@ -190,6 +182,14 @@ language (if available) will be displayed.
 https://github.com/theimpossibleastronaut/rmw/wiki/Translating)
 
 == -f, --force ==
+
+A change from previous versions, purge is allowed to run without the '-f'
+option. If you'd rather require the use of '-f', you can add the line
+'force_required' in your configuration file.
+
+coment out the
+ line in your config file. If you do, the -f option
+will be required for purge to run.
 
 rmw will normally refuse to purge directories if they contain non-writable
 subdirectories. You can use -f 2 times if you ever see a message that tells

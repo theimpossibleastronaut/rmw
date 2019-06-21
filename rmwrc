@@ -15,7 +15,10 @@ WASTE = $HOME/.trash.rmw
 # The line below. Files you move with rmw will go to the folder above by
 # default.
 #
-#WASTE=$HOME/.local/share/Trash
+# Note to OSX and Windows users: sending files to 'Desktop' trash
+# doesn't work yet
+#
+# WASTE=$HOME/.local/share/Trash
 #
 
 # Removable media: If a folder has ',removable' appended to it, rmw
@@ -24,7 +27,7 @@ WASTE = $HOME/.trash.rmw
 # skipped. Once you create "example_waste", rmw will automatically create
 # example_waste/info and example_waste/files
 #
-#WASTE=/mnt/sda10000/example_waste, removable
+# WASTE=/mnt/sda10000/example_waste, removable
 #
 
 # How many days should files be allowed to stay in the waste folders before
@@ -35,9 +38,8 @@ WASTE = $HOME/.trash.rmw
 purge_after = 90
 #
 
-# purge will not run unless `--force` is used at the command line. Uncomment
-# the line below if you would like purge to check daily for files that
-# that exceed the days specified in purge_after
+# purge is allowed to run without the '-f' option. If you'd rather
+# require the use of '-f', you may uncomment the line below.
 #
-#force_not_required
+# force_required
 #

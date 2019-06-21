@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre3\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-06-17 17:15-0500\n"
+"POT-Creation-Date: 2019-06-21 13:39-0500\n"
 "PO-Revision-Date: 2017-12-08 14:04-0700\n"
 "Last-Translator: ram <ram.dahal@gmail.com>\n"
 "Language-Team: Nepali\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/config_rmw.c:85
+#: src/config_rmw.c:88
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -46,7 +46,20 @@ msgstr ""
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/config_rmw.c:61
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "# If you would like this to be your primary trash folder (which usually "
+#| "means\n"
+#| "# that it will be the same as your Desktop Trash folder) be sure it "
+#| "precedes\n"
+#| "# any other WASTE folders listed in the config file\n"
+#| "#\n"
+#| "# If you want it checked for files that need purging, simply uncomment\n"
+#| "# The line below. Files you move with rmw will go to the folder above by\n"
+#| "# default.\n"
+#| "#\n"
+#| "#WASTE=$HOME/.local/share/Trash\n"
 msgid ""
 "\n"
 "# If you would like this to be your primary trash folder (which usually "
@@ -59,7 +72,10 @@ msgid ""
 "# The line below. Files you move with rmw will go to the folder above by\n"
 "# default.\n"
 "#\n"
-"#WASTE=$HOME/.local/share/Trash\n"
+"# Note to OSX and Windows users: sending files to 'Desktop' trash\n"
+"# doesn't work yet\n"
+"#\n"
+"# WASTE=$HOME/.local/share/Trash\n"
 msgstr ""
 "\n"
 "# यदि तपाईं यो तपाइँको प्राथमिक Trash फोल्डर बनाउन चाहनुहुन्छ(जसलाई सामान्यतया   "
@@ -74,7 +90,7 @@ msgstr ""
 "#WASTE=$HOME/.local/share/Trash\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/config_rmw.c:74
+#: src/config_rmw.c:77
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -94,7 +110,7 @@ msgid ""
 "# skipped Once you create \"example_waste\", rmw will automatically create\n"
 "# example_waste/info and example_waste/files\n"
 "#\n"
-"#WASTE=/mnt/sda10000/example_waste, removable"
+"# WASTE=/mnt/sda10000/example_waste, removable"
 msgstr ""
 "\n"
 "# हटाउन योग्य मिडिया: यदि फोल्डरसँग 'हटाउन योग्य'संलग्न छ भने, rmw\n"
@@ -107,23 +123,16 @@ msgstr ""
 "#WASTE=/mnt/sda10000/example_waste, removable"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/config_rmw.c:95
+#: src/config_rmw.c:98
 #, c-format
 msgid ""
 "\n"
-"# purge will not run unless `--force` is used at the command line. "
-"Uncomment\n"
-"# the line below if you would like purge to check daily for files that\n"
-"# that exceed the days specified in purge_after\n"
+"# purge is allowed to run without the '-f' option. If you'd rather\n"
+"# require the use of '-f', you may uncomment the line below.\n"
 "#\n"
-"#force_not_required\n"
+"# force_required\n"
+"#\n"
 msgstr ""
-"\n"
-"# `--force` कमाण्ड लाइन मा प्रयोग नभएसम्म पर्ज चल्दैन। तलको लाइन टिप्पणीनगर्नुहोस् \n"
-"# यदि तपाईं दैनिक पर्जले  जाँच गर्नचाहानुहुन्छ  \n"
-"# जुन फाइलहरु जो purge_after मा निर्दिष्ट दिन भन्दा बढी  छन |\n"
-"#\n"
-"#force_not_required\n"
 
 #: src/trivial_rmw.c:56
 #, c-format
@@ -153,19 +162,19 @@ msgid ""
 "how to obtain support - "
 msgstr ""
 
-#: src/messages_rmw.c:53
+#: src/messages_rmw.c:52
 #, c-format
 msgid "  :error: "
 msgstr ""
 
 #. TRANSLATORS: "return" code refers to a number returned by an operation
 #. * or function
-#: src/messages_rmw.c:163
+#: src/messages_rmw.c:162
 #, c-format
 msgid "  :return code: %d -- %s\n"
 msgstr ""
 
-#: src/messages_rmw.c:58
+#: src/messages_rmw.c:57
 #, c-format
 msgid " :warning: "
 msgstr ""
@@ -202,17 +211,17 @@ msgstr ""
 "#\n"
 "WASTE = $HOME/.trash.rmw\n"
 
-#: src/purging_rmw.c:416
+#: src/purging_rmw.c:442
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d डाइरेक्टरीहरू छोडियो (RMDIR_MAX_DEPTH पुग्यो)\n"
 
-#: src/purging_rmw.c:420
+#: src/purging_rmw.c:446
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d डाइरेक्टरीहरू छोडियो (पढ्ने-मात्र फाइलहरू समावेश छ)\n"
 
-#: src/purging_rmw.c:423
+#: src/purging_rmw.c:449
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "%d file purged"
@@ -220,7 +229,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d फाईलहरू बन्द गरियो"
 msgstr[1] "%d फाईलहरू बन्द गरियो"
 
-#: src/rmw.c:691
+#: src/rmw.c:468
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -228,7 +237,7 @@ msgid_plural "%d files were removed to the waste folder"
 msgstr[0] "%d फाइललाई waste फोल्डरमा हटाइएको थियो"
 msgstr[1] "waste फोल्डरमा %d फाइलहरू हटाइयो"
 
-#: src/purging_rmw.c:434
+#: src/purging_rmw.c:460
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
@@ -242,14 +251,14 @@ msgstr[1] ""
 msgid "'q' - quit"
 msgstr ""
 
-#: src/purging_rmw.c:431
+#: src/purging_rmw.c:457
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:427
+#: src/purging_rmw.c:453
 #, fuzzy, c-format
 #| msgid "%d file purged"
 msgid "(%d file deleted)"
@@ -257,17 +266,17 @@ msgid_plural "(%d files deleted)"
 msgstr[0] "%d फाईलहरू बन्द गरियो"
 msgstr[1] "%d फाईलहरू बन्द गरियो"
 
-#: src/purging_rmw.c:327
+#: src/purging_rmw.c:343
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(मालिक जाँच / लेख्ने अनुमतिहरू हेर्नुहोस्)\n"
 
-#: src/rmw.c:402
+#: src/rmw.c:181
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: कार्यान्वयन गरिएको छैन \n"
 
-#: src/rmw.c:405
+#: src/rmw.c:184
 #, c-format
 msgid "-r / --recurse: not implemented\n"
 msgstr "-r / --recurse: कार्यान्वयन गरिएको छैन \n"
@@ -291,7 +300,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:487
+#: src/purging_rmw.c:513
 #, c-format
 msgid "Created %s\n"
 msgstr "सिर्जना गरिएको %s\n"
@@ -301,12 +310,12 @@ msgstr "सिर्जना गरिएको %s\n"
 msgid "Created directory %s\n"
 msgstr "डाइरेक्टरी सिर्जना गरियो %s\n"
 
-#: src/config_rmw.c:376
+#: src/config_rmw.c:379
 #, c-format
 msgid "Creating default configuration file:"
 msgstr ""
 
-#: src/purging_rmw.c:325
+#: src/purging_rmw.c:341
 #, fuzzy, c-format
 #| msgid " :warning: Directory not purged - still contains files\n"
 msgid "Directory not purged - still contains files\n"
@@ -318,7 +327,7 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "गन्तव्यमा डुप्लिकेट फाइलनाम - जोड्दै  time स्ट्रिङ...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:600 src/restore_rmw.c:280
+#: src/rmw.c:377 src/restore_rmw.c:280
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "फाइल फेला परेन: '%s'\n"
@@ -333,13 +342,13 @@ msgstr ""
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:335
+#: src/purging_rmw.c:351
 #, fuzzy, c-format
 #| msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :चेतावनी: %u को अधिकतम गहिराई पुग्यो, छोडिदैछ\n"
 
-#: src/rmw.c:702
+#: src/rmw.c:479
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -348,13 +357,13 @@ msgstr ""
 "कुनै फाइलनाम वा कमाण्ड लाइन विकल्पहरू नदिएमा\n"
 "थप जानकारीको लागि '%s -h' दाखिल गर्नुहोस्\n"
 
-#: src/rmw.c:684
+#: src/rmw.c:461
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "  \"%s\" को लागि उपयुक्त फाइल प्रणाली भेटिएन \n"
 
-#: src/purging_rmw.c:261
+#: src/purging_rmw.c:269
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -364,7 +373,7 @@ msgstr ""
 "\n"
 "फाइलहरू बन्द गर्दै (purge_after = %u) ...\n"
 
-#: src/purging_rmw.c:263
+#: src/purging_rmw.c:271
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -387,7 +396,7 @@ msgstr ""
 #. TRANSLATORS: ignore "Restore()"
 #. * "returned" refers to an error code (number) that was returned by
 #. * an operation
-#: src/messages_rmw.c:137
+#: src/messages_rmw.c:136
 #, fuzzy, c-format
 #| msgid " :warning: Restore() returned errors\n"
 msgid "Restore() returned %d\n"
@@ -420,17 +429,17 @@ msgstr ""
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 
-#: src/rmw.c:463
+#: src/rmw.c:240
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
 
-#: src/config_rmw.c:408
+#: src/config_rmw.c:411
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr ""
 
-#: src/config_rmw.c:486
+#: src/config_rmw.c:490
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
@@ -473,7 +482,7 @@ msgid ""
 "  -l, --list                list waste directories\n"
 "  -g, --purge               run purge even if it's been run today\n"
 "  -o, --orphaned            check for orphaned files (maintenance)\n"
-"  -f, --force               allow purge to run\n"
+"  -f, --force               allow rmw to purge files in the background\n"
 "  -v, --verbose             increase output messages\n"
 "  -w, --warranty            display warranty\n"
 "  -V, --version             display version and license information\n"
@@ -498,7 +507,7 @@ msgstr ""
 "  -w, --warranty            वारंटी प्रदर्शन गर्नुहोस्\n"
 "  -V, --version             प्रदर्शन संस्करण र इजाजतपत्र जानकारी\n"
 
-#: src/rmw.c:486
+#: src/rmw.c:263
 #, c-format
 msgid "attached"
 msgstr ""
@@ -511,12 +520,12 @@ msgstr ""
 msgid "buffer overrun (segmentation fault) prevented.\n"
 msgstr "  :त्रुटि: बफर ओभरराइन (विभाजन त्रुटि) रोकियो\n"
 
-#: src/config_rmw.c:344
+#: src/config_rmw.c:347
 #, c-format
 msgid "config file: %s\n"
 msgstr ""
 
-#: src/config_rmw.c:237
+#: src/config_rmw.c:240
 #, c-format
 msgid "detached"
 msgstr ""
@@ -532,25 +541,25 @@ msgstr " :चेतावनी: %s हटाउन असफल भयो  \n"
 #. *               "format" refers to the layout of the file
 #. *                contents
 #.
-#: src/messages_rmw.c:119
+#: src/messages_rmw.c:118
 #, fuzzy, c-format
 #| msgid "  :Error: format of .trashinfo `file %s` is incorrect (Line %d)"
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "  :त्रुटि: .trashinfo `फाइल %s` को ढाँचा गलत छ (लाइन %d)"
 
 #. TRANSLATORS:  "function" refers to a C function
-#: src/messages_rmw.c:77 src/messages_rmw.c:103
+#: src/messages_rmw.c:76 src/messages_rmw.c:102
 #, c-format
 msgid "function: <%s>"
 msgstr "प्रकार्य: <%s>"
 
-#: src/config_rmw.c:216
+#: src/config_rmw.c:219
 #, fuzzy, c-format
 #| msgid "  :Error: invalid option in config\n"
 msgid "invalid option in config\n"
 msgstr "  :त्रुटि: config मा अवैध विकल्प\n"
 
-#: src/config_rmw.c:508
+#: src/config_rmw.c:506
 #, fuzzy, c-format
 #| msgid ""
 #| "  :Error: no usable WASTE folder could be found\n"
@@ -573,20 +582,20 @@ msgstr ""
 "जारी गर्न सकिएन।विद्यमान ...\n"
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:663
+#: src/rmw.c:440
 #, fuzzy, c-format
 #| msgid "  :Error: number %d trying to create a .trashinfo file\n"
 msgid "number %d trying to create a .trashinfo file\n"
 msgstr "  :त्रुटि: संख्या% d .trashinfo फाइल सिर्जना गर्न प्रयास गर्दै \n"
 
-#: src/rmw.c:527
+#: src/rmw.c:304
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:519
+#: src/rmw.c:296
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -601,7 +610,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "त्रुटि: realpath() ले एउटा त्रुटि फर्कायो  ।\n"
 
-#: src/rmw.c:485 src/config_rmw.c:236
+#: src/rmw.c:262 src/config_rmw.c:239
 #, c-format
 msgid "removable, "
 msgstr ""
@@ -630,7 +639,7 @@ msgstr "rmw: %s(): बफर धेरै सानो (%hu मिल्यो, 
 msgid "search complete\n"
 msgstr "खोजी पूरा \n"
 
-#: src/rmw.c:461
+#: src/rmw.c:238
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -638,7 +647,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/messages_rmw.c:149
+#: src/messages_rmw.c:148
 #, c-format
 msgid "while attempting to allocate memory -- %s:%d\n"
 msgstr ""
@@ -649,40 +658,40 @@ msgstr ""
 msgid "while changing permissions of %s\n"
 msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
 
-#: src/messages_rmw.c:100
+#: src/messages_rmw.c:99
 #, fuzzy, c-format
 #| msgid "  :Error: while closing %s\n"
 msgid "while closing %s\n"
 msgstr "  :त्रुटि: बन्द हुँदा %s\n"
 
-#: src/purging_rmw.c:491 src/utils_rmw.c:89
+#: src/purging_rmw.c:517 src/utils_rmw.c:89
 #, fuzzy, c-format
 #| msgid "  :Error: while creating %s\n"
 msgid "while creating %s\n"
 msgstr ":त्रुटि: सिर्जना गर्दा %s\n"
 
-#: src/rmw.c:444
+#: src/rmw.c:223
 #, fuzzy, c-format
 #| msgid "Error: while getting the path to your home directory\n"
 msgid "while getting the path to your home directory\n"
 msgstr "त्रुटि: तपाईंको गृह डाइरेक्टरीको बाटो प्राप्त गर्दा \n"
 
 #. TRANSLATORS:  "opening" refers to a file
-#: src/messages_rmw.c:73
+#: src/messages_rmw.c:72
 #, fuzzy, c-format
 #| msgid "  :Error: while opening %s\n"
 msgid "while opening %s\n"
 msgstr "  :त्रुटि: खोल्दा  %s\n"
 
-#: src/messages_rmw.c:180
+#: src/messages_rmw.c:179
 #, fuzzy, c-format
 #| msgid "  :Error: while opening %s\n"
 msgid "while opening %s -- %s:%d\n"
 msgstr "  :त्रुटि: खोल्दा  %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:353 src/purging_rmw.c:360 src/purging_rmw.c:380
-#: src/purging_rmw.c:401
+#: src/purging_rmw.c:373 src/purging_rmw.c:380 src/purging_rmw.c:403
+#: src/purging_rmw.c:427
 #, fuzzy, c-format
 #| msgid "  :Error: while removing %s\n"
 msgid "while removing %s\n"
@@ -694,7 +703,7 @@ msgstr "  :त्रुटि: हटाउँदै %s\n"
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "  :त्रुटि: .trashinfo हटाउने क्रममा: '%s'\n"
 
-#: src/messages_rmw.c:189
+#: src/messages_rmw.c:188
 #, c-format
 msgid ""
 "while trying to move (rename)\n"
@@ -717,6 +726,23 @@ msgstr ""
 #~ "#\n"
 #~ "# PROTECT = /usr/local/bin\n"
 #~ "# PROTECT = $HOME/src\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "# purge will not run unless `--force` is used at the command line. "
+#~ "Uncomment\n"
+#~ "# the line below if you would like purge to check daily for files that\n"
+#~ "# that exceed the days specified in purge_after\n"
+#~ "#\n"
+#~ "#force_not_required\n"
+#~ msgstr ""
+#~ "\n"
+#~ "# `--force` कमाण्ड लाइन मा प्रयोग नभएसम्म पर्ज चल्दैन। तलको लाइन "
+#~ "टिप्पणीनगर्नुहोस् \n"
+#~ "# यदि तपाईं दैनिक पर्जले  जाँच गर्नचाहानुहुन्छ  \n"
+#~ "# जुन फाइलहरु जो purge_after मा निर्दिष्ट दिन भन्दा बढी  छन |\n"
+#~ "#\n"
+#~ "#force_not_required\n"
 
 #~ msgid ""
 #~ "  \n"

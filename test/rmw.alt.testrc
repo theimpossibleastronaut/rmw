@@ -40,7 +40,7 @@ purge_after = 90
 # purge is allowed to run without the '-f' option. If you'd rather
 # require the use of '-f', you may uncomment the line below.
 #
-# force_required
+force_required
 #
 
 # test_for_invalid_or_unknown_option

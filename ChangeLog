@@ -1,5 +1,16 @@
 === rmw ChangeLog ===
-rmw ChangeLog
+
+2019-06-21
+
+  * BUGFIX:
+  [#233](https://github.com/theimpossibleastronaut/rmw/issues/233)missing
+  output when purge is attempted without force
+
+  * The configuration option 'force_not_required' has been replaced
+  with 'force_required'
+
+  * purge can run without -f/--force by default; however, you can still use
+  "force_required" if you'd rather require '-f' to allow purge.
 
 2019-06-13
 

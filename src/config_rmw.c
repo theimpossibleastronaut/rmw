@@ -7,7 +7,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,7 +67,10 @@ if (fprintf (stream, _("\n\
 # The line below. Files you move with rmw will go to the folder above by\n\
 # default.\n\
 #\n\
-#WASTE=$HOME/.local/share/Trash\n")) < 0)
+# Note to OSX and Windows users: sending files to 'Desktop' trash\n\
+# doesn't work yet\n\
+#\n\
+# WASTE=$HOME/.local/share/Trash\n")) < 0)
   msg_err_fatal_fprintf (__func__);
 
 /* TRANSLATORS:  Do not translate the last line in this section  */
@@ -78,7 +81,7 @@ if (fprintf (stream, _("\n\
 # skipped Once you create \"example_waste\", rmw will automatically create\n\
 # example_waste/info and example_waste/files\n\
 #\n\
-#WASTE=/mnt/sda10000/example_waste, removable")) < 0)
+# WASTE=/mnt/sda10000/example_waste, removable")) < 0)
   msg_err_fatal_fprintf (__func__);
 
 /* TRANSLATORS:  Do not translate the last line in this section  */
@@ -93,11 +96,11 @@ purge_after = %d\n"), DEFAULT_PURGE_AFTER) < 0)
 
 /* TRANSLATORS:  Do not translate the last line in this section  */
 if (fprintf (stream, _("\n\
-# purge will not run unless `--force` is used at the command line. Uncomment\n\
-# the line below if you would like purge to check daily for files that\n\
-# that exceed the days specified in purge_after\n\
+# purge is allowed to run without the '-f' option. If you'd rather\n\
+# require the use of '-f', you may uncomment the line below.\n\
 #\n\
-#force_not_required\n")) < 0)
+# force_required\n\
+#\n")) < 0)
   msg_err_fatal_fprintf (__func__);
 }
 
@@ -426,8 +429,8 @@ get_config_data (void)
    * if for some reason purge_after isn't specified in the config file.
    */
   extern int purge_after;
-  extern ushort force;
   purge_after = DEFAULT_PURGE_AFTER;
+  extern bool force_required;
 
   char config_file[MP];
   extern const char *alt_config;
@@ -461,11 +464,8 @@ get_config_data (void)
       del_char_shift_left (' ', &value);
       purge_after = atoi (value);
     }
-    else if (strncmp (line_from_config, "force_not_required", 18) == 0)
-      if (!force)
-        force = 1;
-      else
-        continue;
+    else if (!strcmp (line_from_config, "force_required"))
+      force_required = 1;
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
       waste_curr =
@@ -475,11 +475,15 @@ get_config_data (void)
     }
     else if (!strncmp ("PROTECT", line_from_config, 7))
     {
+      /* pctr just prevents this message from being repeated each time
+       * "PROTECT" is encountered" */
       static bool pctr = 0;
       if (!pctr)
         printf ("The PROTECT feature has been removed.\n");
       pctr = 1;
     }
+    else if (!strcmp ("force_not_required", line_from_config))
+      printf ("The 'force_not_required' option has been replaced with 'force_required'.\n");
     else
     {
       print_msg_warn ();
@@ -487,12 +491,6 @@ get_config_data (void)
                line_from_config);
     }
 
-    /*
-     * FIXME: Why is this here?? I know it's needed, but I don't remember
-     * why it's located in this block. Needs review to see if there's a
-     * better location for it.
-     *
-     */
     if (waste_curr != NULL && waste_head == NULL)
       waste_head = waste_curr;
   }

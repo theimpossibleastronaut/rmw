@@ -4,7 +4,7 @@
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ int
 make_dir (const char *dir)
 {
   if (exists (dir))
-    return MAKE_DIR_SUCCESS;
+    return 0;
 
   char temp_dir[MP];
   strcpy (temp_dir, dir);

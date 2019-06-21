@@ -19,7 +19,8 @@ LDADD = $(top_builddir)/src/librmw_test.a
 EXTRA_DIST=	\
 	README	\
 	COMMON \
-	rmw.testrc
+	rmw.testrc	\
+	rmw.alt.testrc
 
 clean-local:
 	dir=$(top_builddir)/test/tmp-home; \

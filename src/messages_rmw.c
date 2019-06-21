@@ -7,7 +7,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,6 @@ static const char *ERR_STRING[] = {
   "EXIT_MALLOC_ERR",
   "MAKE_DIR_SUCCESS",
   "MAKE_DIR_FAILURE",
-  "FORCE_NOT_USED",
   "IS_NEW_DAY",
   "IS_SAME_DAY",
   "ERR_OPEN",

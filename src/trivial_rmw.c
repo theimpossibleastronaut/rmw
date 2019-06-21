@@ -5,7 +5,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ Restore FILE(s) from a WASTE directory\n\
   -l, --list                list waste directories\n\
   -g, --purge               run purge even if it's been run today\n\
   -o, --orphaned            check for orphaned files (maintenance)\n\
-  -f, --force               allow purge to run\n\
+  -f, --force               allow rmw to purge files in the background\n\
   -v, --verbose             increase output messages\n\
   -w, --warranty            display warranty\n\
   -V, --version             display version and license information\n"));
