@@ -68,6 +68,7 @@ $(function() {
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">rmw.h File Reference</div>  </div>
@@ -185,19 +186,33 @@ Enumerations</h2></td></tr>
 <br />
 &#160;&#160;<b>MAKE_DIR_SUCCESS</b>, 
 <b>MAKE_DIR_FAILURE</b>, 
-<b>FORCE_NOT_USED</b>, 
 <b>IS_NEW_DAY</b>, 
+<b>IS_SAME_DAY</b>, 
 <br />
-&#160;&#160;<b>IS_SAME_DAY</b>, 
-<b>ERR_OPEN</b>, 
+&#160;&#160;<b>ERR_OPEN</b>, 
 <b>ERR_CLOSE</b>, 
 <b>ERR_FGETS</b>, 
+<b>ERR_TRASHINFO_FORMAT</b>, 
 <br />
-&#160;&#160;<b>ERR_TRASHINFO_FORMAT</b>, 
-<b>FILE_NOT_FOUND</b>
+&#160;&#160;<b>FILE_NOT_FOUND</b>
 <br />
  }</td></tr>
 <tr class="separator:a06fc87d81c62e9abb8790b6e5713c55b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a824639431a0e94ac76721f576adb9b83"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a824639431a0e94ac76721f576adb9b83">add_removal</a> (<a class="el" href="structst__removed.html">st_removed</a> *removals, const char *file)</td></tr>
+<tr class="separator:a824639431a0e94ac76721f576adb9b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ac2fc1abe5715969bc53095f10c78bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a7ac2fc1abe5715969bc53095f10c78bd">create_undo_file</a> (<a class="el" href="structst__removed.html">st_removed</a> *removals, <a class="el" href="structst__removed.html">st_removed</a> *removals_head)</td></tr>
+<tr class="separator:a7ac2fc1abe5715969bc53095f10c78bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55fc2b89e4ff1a89b4dd9de8e71282eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a55fc2b89e4ff1a89b4dd9de8e71282eb">dispose_removed</a> (<a class="el" href="structst__removed.html">st_removed</a> *node)</td></tr>
+<tr class="separator:a55fc2b89e4ff1a89b4dd9de8e71282eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c663ed520af3eb7a9515a131bd98207"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a1c663ed520af3eb7a9515a131bd98207">get_time_string</a> (char *tm_str, const ushort len, const char *format)</td></tr>
+<tr class="separator:a1c663ed520af3eb7a9515a131bd98207"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1751c503d647fc996b4d9ece0cb0c904"><td class="memItemLeft" align="right" valign="top">ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a1751c503d647fc996b4d9ece0cb0c904">is_time_to_purge</a> (void)</td></tr>
+<tr class="separator:a1751c503d647fc996b4d9ece0cb0c904"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb4aecc54e90350b86f9fbe1e077d87c"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#afb4aecc54e90350b86f9fbe1e077d87c">set_time_now_format</a> (void)</td></tr>
+<tr class="separator:afb4aecc54e90350b86f9fbe1e077d87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -234,6 +249,204 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Some system don't define PATH_MAX. A limit needs to be set however, and if it's not defined in a system header file, define it here </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a824639431a0e94ac76721f576adb9b83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a824639431a0e94ac76721f576adb9b83">&#9670;&nbsp;</a></span>add_removal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structst__removed.html">st_removed</a>* add_removal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td>
+          <td class="paramname"><em>removals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>When a file has been successfully rmw'ed, add the filename to a linked list.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">removals</td><td>linked lists of files that have been succesfully rmw'ed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">file</td><td>file that has been successfully rmw'ed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>want_undo_rmw </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to node in <a class="el" href="structst__removed.html">st_removed</a> type struct </dd></dl>
+
+</div>
+</div>
+<a id="a7ac2fc1abe5715969bc53095f10c78bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ac2fc1abe5715969bc53095f10c78bd">&#9670;&nbsp;</a></span>create_undo_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void create_undo_file </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td>
+          <td class="paramname"><em>removals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td>
+          <td class="paramname"><em>removals_head</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Create a new undo_file (lastrmw) </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">removals</td><td>the linked list of files that were rmw'ed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">removals_head</td><td>the first node in removals </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>want_undo_rmw </dd>
+<dd>
+<a class="el" href="rmw_8c.html#a824639431a0e94ac76721f576adb9b83">add_removal</a> </dd></dl>
+
+</div>
+</div>
+<a id="a55fc2b89e4ff1a89b4dd9de8e71282eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55fc2b89e4ff1a89b4dd9de8e71282eb">&#9670;&nbsp;</a></span>dispose_removed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dispose_removed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>recursively remove all nodes of an object of type <a class="el" href="structst__removed.html">st_removed</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">node</td><td>the node to be removed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="rmw_8c.html#a824639431a0e94ac76721f576adb9b83">add_removal</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1c663ed520af3eb7a9515a131bd98207"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c663ed520af3eb7a9515a131bd98207">&#9670;&nbsp;</a></span>get_time_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void get_time_string </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>tm_str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ushort&#160;</td>
+          <td class="paramname"><em>len</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Assigns a time string to *tm_str based on the format requested </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">tm_str</td><td>assigned a new value based on format </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">len</td><td>the max length of string to be allocated </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">format</td><td>the format of the string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="a1751c503d647fc996b4d9ece0cb0c904"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1751c503d647fc996b4d9ece0cb0c904">&#9670;&nbsp;</a></span>is_time_to_purge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ushort is_time_to_purge </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks to see if <a class="el" href="purging__rmw_8c.html#a1efdd17f161dacde62eb441e6a1d114e">purge()</a> was run today, reads and writes to the 'lastpurge` file. If it hasn't been run today, the current day will be written. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an error number </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="purging__rmw_8h.html#a1efdd17f161dacde62eb441e6a1d114e">purge</a> </dd></dl>
+
+</div>
+</div>
+<a id="afb4aecc54e90350b86f9fbe1e077d87c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb4aecc54e90350b86f9fbe1e077d87c">&#9670;&nbsp;</a></span>set_time_now_format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* set_time_now_format </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns a formatted string based on whether or not a fake year is requested at runtime. If a fake-year is not requested, the returned string will be based on the local-time of the user's system. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">void</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>char* </dd></dl>
 
 </div>
 </div>
