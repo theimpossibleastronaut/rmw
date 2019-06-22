@@ -29,7 +29,7 @@ See website [Help and Support section](https://remove-to-waste.info/#support)
 
 ## Required libraries
 
-libncursesw
+* libncursesw (ncurses-devel on some systems, such as CentOS)
 
 If you are building from source, you will need the libncursesw(5 or
 6)-dev package from your operating system distribution. On some systems
