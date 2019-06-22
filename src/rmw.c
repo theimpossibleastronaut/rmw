@@ -241,6 +241,14 @@ Please check your configuration file and permissions\n\n"));
     return MAKE_DIR_FAILURE;
   }
 
+  /*
+   * Using FIRST_RUN makes the code a little more clear when it's used
+   * later. make_dir() will always return MAKE_DIR_SUCCESS if successful,
+   * but if make_dir() is used in other areas of the program, it's not
+   * necessarily the FIRST_RUN.
+   */
+  created_data_dir = (created_data_dir == MAKE_DIR_SUCCESS) ? FIRST_RUN : 0;
+
   st_waste *waste_head;
   waste_head = get_config_data ();
 
@@ -291,16 +299,18 @@ Please check your configuration file and permissions\n\n"));
    * the command line but has purge_after set to 0 in the config
    */
   if (want_purge && !purge_after)
+  {
   /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
    * directory  */
     printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
+  }
   else if (purge_after)
   {
-    if (is_time_to_purge () == IS_NEW_DAY || want_purge)
+    if (want_purge || is_time_to_purge())
     {
       if (!force_required || force)
         purge (waste_curr);
-      else if (!created_data_dir)
+      else
         printf (_("purge has been skipped: use -f or --force\n"));
     }
   }
@@ -475,9 +485,14 @@ Please check your configuration file and permissions\n\n"));
     if (main_error > 1)
       return main_error;
   }
-  else if (!want_purge && created_data_dir == MAKE_DIR_SUCCESS)
+  else if (!want_purge && created_data_dir != FIRST_RUN)
+  {
+    if (force)
+      printf (_("'-f/--force' does nothing without '-g/--purge'\n"));
+    else
       printf (_("No filenames or command line options were given\n\
 Enter '%s -h' for more information\n"), argv[0]);
+  }
 
   waste_curr = waste_head;
   dispose_waste (waste_curr);
@@ -537,11 +552,12 @@ get_time_string (char *tm_str, const ushort len, const char *format)
 /*!
  * Checks to see if purge() was run today, reads and writes to the 'lastpurge`
  * file. If it hasn't been run today, the current day will be written.
+ * If 'lastpurge' doesn't exist, it gets created.
  * @param void
- * @return an error number
+ * @return a bool value
  * @see purge
  */
-ushort
+bool
 is_time_to_purge (void)
 {
   char file_lastpurge[MP];
@@ -560,7 +576,7 @@ is_time_to_purge (void)
     if (fp == NULL)
     {
       open_err (file_lastpurge, __func__);
-      return ERR_OPEN;
+      exit (ERR_OPEN);
     }
 
     char last_purge_dd[3];
@@ -571,7 +587,7 @@ is_time_to_purge (void)
       printf ("while getting line from %s\n", file_lastpurge);
       perror (__func__);
       close_file (fp, file_lastpurge, __func__);
-      return 0;
+      exit (ERR_FGETS);
     }
 
     bufchk (last_purge_dd, 3);
@@ -584,7 +600,7 @@ is_time_to_purge (void)
      */
 
     if (!strcmp (today_dd, last_purge_dd))
-      return IS_SAME_DAY;
+      return FALSE;
 
     fp = fopen (file_lastpurge, "w");
 
@@ -592,13 +608,13 @@ is_time_to_purge (void)
     {
       fprintf (fp, "%s\n", today_dd);
       close_file (fp, file_lastpurge, __func__);
-      return IS_NEW_DAY;
+      return TRUE;
     }
 
     else
     {
       open_err (file_lastpurge, __func__);
-      return ERR_OPEN;
+      exit (ERR_OPEN);
     }
   }
 
@@ -615,7 +631,11 @@ is_time_to_purge (void)
 
       close_file (fp, file_lastpurge, __func__);
 
-      return IS_NEW_DAY;
+      /*
+       * if this is the first time the file got created, it's very likely
+       * indeed that purge does not need to run.
+       */
+      return FALSE;
     }
     else
     {

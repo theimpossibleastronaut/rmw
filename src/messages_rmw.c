@@ -38,13 +38,12 @@ static const char *ERR_STRING[] = {
   "EXIT_MALLOC_ERR",
   "MAKE_DIR_SUCCESS",
   "MAKE_DIR_FAILURE",
-  "IS_NEW_DAY",
-  "IS_SAME_DAY",
   "ERR_OPEN",
   "ERR_CLOSE",
   "ERR_FGETS",
   "ERR_TRASHINFO_FORMAT",
-  "FILE_NOT_FOUND"
+  "FILE_NOT_FOUND",
+  "FIRST_RUN"
 };
 
 void print_msg_error (void)

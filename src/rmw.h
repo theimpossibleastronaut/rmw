@@ -176,13 +176,12 @@ enum {
   EXIT_MALLOC_ERR,
   MAKE_DIR_SUCCESS,
   MAKE_DIR_FAILURE,
-  IS_NEW_DAY,
-  IS_SAME_DAY,
   ERR_OPEN,
   ERR_CLOSE,
   ERR_FGETS,
   ERR_TRASHINFO_FORMAT,
-  FILE_NOT_FOUND
+  FILE_NOT_FOUND,
+  FIRST_RUN
 };
 
 /* function prototypes for rmw.c
@@ -202,7 +201,7 @@ dispose_removed (st_removed *node);
 void
 get_time_string (char *tm_str, const ushort len, const char *format);
 
-ushort
+bool
 is_time_to_purge (void);
 
 char*

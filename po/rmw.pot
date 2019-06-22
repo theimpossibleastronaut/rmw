@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.02-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-06-21 13:39-0500\n"
+"POT-Creation-Date: 2019-06-22 16:13-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,19 +99,19 @@ msgid ""
 "how to obtain support - "
 msgstr ""
 
-#: src/messages_rmw.c:52
+#: src/messages_rmw.c:51
 #, c-format
 msgid "  :error: "
 msgstr ""
 
 #. TRANSLATORS: "return" code refers to a number returned by an operation
 #. * or function
-#: src/messages_rmw.c:162
+#: src/messages_rmw.c:161
 #, c-format
 msgid "  :return code: %d -- %s\n"
 msgstr ""
 
-#: src/messages_rmw.c:57
+#: src/messages_rmw.c:56
 #, c-format
 msgid " :warning: "
 msgstr ""
@@ -134,36 +134,41 @@ msgid ""
 "WASTE = $HOME/.trash.rmw\n"
 msgstr ""
 
-#: src/purging_rmw.c:442
+#: src/purging_rmw.c:441
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr ""
 
-#: src/purging_rmw.c:446
+#: src/purging_rmw.c:445
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr ""
 
-#: src/purging_rmw.c:449
+#: src/purging_rmw.c:448
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/rmw.c:468
+#: src/rmw.c:478
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:460
+#: src/purging_rmw.c:459
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
 msgstr[0] ""
 msgstr[1] ""
+
+#: src/rmw.c:491
+#, c-format
+msgid "'-f/--force' does nothing without '-g/--purge'\n"
+msgstr ""
 
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
@@ -172,21 +177,21 @@ msgstr[1] ""
 msgid "'q' - quit"
 msgstr ""
 
-#: src/purging_rmw.c:457
+#: src/purging_rmw.c:456
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:453
+#: src/purging_rmw.c:452
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:343
+#: src/purging_rmw.c:342
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr ""
@@ -220,7 +225,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:513
+#: src/purging_rmw.c:512
 #, c-format
 msgid "Created %s\n"
 msgstr ""
@@ -235,7 +240,7 @@ msgstr ""
 msgid "Creating default configuration file:"
 msgstr ""
 
-#: src/purging_rmw.c:341
+#: src/purging_rmw.c:340
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr ""
@@ -246,7 +251,7 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:377 src/restore_rmw.c:280
+#: src/rmw.c:387 src/restore_rmw.c:280
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
@@ -259,19 +264,19 @@ msgstr ""
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:351
+#: src/purging_rmw.c:350
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr ""
 
-#: src/rmw.c:479
+#: src/rmw.c:493
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
 "Enter '%s -h' for more information\n"
 msgstr ""
 
-#: src/rmw.c:461
+#: src/rmw.c:471
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr ""
@@ -299,7 +304,7 @@ msgstr ""
 #. TRANSLATORS: ignore "Restore()"
 #. * "returned" refers to an error code (number) that was returned by
 #. * an operation
-#: src/messages_rmw.c:136
+#: src/messages_rmw.c:135
 #, c-format
 msgid "Restore() returned %d\n"
 msgstr ""
@@ -361,7 +366,7 @@ msgid ""
 "  -V, --version             display version and license information\n"
 msgstr ""
 
-#: src/rmw.c:263
+#: src/rmw.c:271
 #, c-format
 msgid "attached"
 msgstr ""
@@ -393,13 +398,13 @@ msgstr ""
 #. *               "format" refers to the layout of the file
 #. *                contents
 #.
-#: src/messages_rmw.c:118
+#: src/messages_rmw.c:117
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr ""
 
 #. TRANSLATORS:  "function" refers to a C function
-#: src/messages_rmw.c:76 src/messages_rmw.c:102
+#: src/messages_rmw.c:75 src/messages_rmw.c:101
 #, c-format
 msgid "function: <%s>"
 msgstr ""
@@ -419,19 +424,19 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:440
+#: src/rmw.c:450
 #, c-format
 msgid "number %d trying to create a .trashinfo file\n"
 msgstr ""
 
-#: src/rmw.c:304
+#: src/rmw.c:314
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:296
+#: src/rmw.c:305
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -443,7 +448,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr ""
 
-#: src/rmw.c:262 src/config_rmw.c:239
+#: src/rmw.c:270 src/config_rmw.c:239
 #, c-format
 msgid "removable, "
 msgstr ""
@@ -479,7 +484,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/messages_rmw.c:148
+#: src/messages_rmw.c:147
 #, c-format
 msgid "while attempting to allocate memory -- %s:%d\n"
 msgstr ""
@@ -489,12 +494,12 @@ msgstr ""
 msgid "while changing permissions of %s\n"
 msgstr ""
 
-#: src/messages_rmw.c:99
+#: src/messages_rmw.c:98
 #, c-format
 msgid "while closing %s\n"
 msgstr ""
 
-#: src/purging_rmw.c:517 src/utils_rmw.c:89
+#: src/purging_rmw.c:516 src/utils_rmw.c:89
 #, c-format
 msgid "while creating %s\n"
 msgstr ""
@@ -505,19 +510,19 @@ msgid "while getting the path to your home directory\n"
 msgstr ""
 
 #. TRANSLATORS:  "opening" refers to a file
-#: src/messages_rmw.c:72
+#: src/messages_rmw.c:71
 #, c-format
 msgid "while opening %s\n"
 msgstr ""
 
-#: src/messages_rmw.c:179
+#: src/messages_rmw.c:178
 #, c-format
 msgid "while opening %s -- %s:%d\n"
 msgstr ""
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:373 src/purging_rmw.c:380 src/purging_rmw.c:403
-#: src/purging_rmw.c:427
+#: src/purging_rmw.c:372 src/purging_rmw.c:379 src/purging_rmw.c:402
+#: src/purging_rmw.c:426
 #, c-format
 msgid "while removing %s\n"
 msgstr ""
@@ -527,7 +532,7 @@ msgstr ""
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr ""
 
-#: src/messages_rmw.c:188
+#: src/messages_rmw.c:187
 #, c-format
 msgid ""
 "while trying to move (rename)\n"
