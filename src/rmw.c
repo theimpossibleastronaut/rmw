@@ -554,7 +554,7 @@ get_time_string (char *tm_str, const ushort len, const char *format)
  * file. If it hasn't been run today, the current day will be written.
  * If 'lastpurge' doesn't exist, it gets created.
  * @param void
- * @return a bool value
+ * @return FALSE if the day is the same; otherwise TRUE and writes the current day to 'lastpurge'
  * @see purge
  */
 bool
@@ -568,17 +568,10 @@ is_time_to_purge (void)
   char today_dd[3];
   get_time_string (today_dd, 3, "%d");
 
-  FILE *fp;
+  FILE *fp = fopen (file_lastpurge, "r");
 
-  if (exists (file_lastpurge))
+  if (fp)
   {
-    fp = fopen (file_lastpurge, "r");
-    if (fp == NULL)
-    {
-      open_err (file_lastpurge, __func__);
-      exit (ERR_OPEN);
-    }
-
     char last_purge_dd[3];
 
     if (fgets (last_purge_dd, sizeof (last_purge_dd), fp) == NULL)
@@ -601,56 +594,44 @@ is_time_to_purge (void)
 
     if (!strcmp (today_dd, last_purge_dd))
       return FALSE;
-
-    fp = fopen (file_lastpurge, "w");
-
-    if (fp != NULL)
-    {
-      fprintf (fp, "%s\n", today_dd);
-      close_file (fp, file_lastpurge, __func__);
-      return TRUE;
-    }
-
-    else
-    {
-      open_err (file_lastpurge, __func__);
-      exit (ERR_OPEN);
-    }
   }
-
   else
   {
-    /*
-     * Create file if it doesn't exist
-     */
+    bool init = exists(file_lastpurge);
     fp = fopen (file_lastpurge, "w");
-
-    if (fp != NULL)
+    if (fp)
     {
       fprintf (fp, "%s\n", today_dd);
-
       close_file (fp, file_lastpurge, __func__);
 
       /*
        * if this is the first time the file got created, it's very likely
        * indeed that purge does not need to run.
        */
-      return FALSE;
+      return init ? TRUE : FALSE;
     }
     else
     {
       /*
+       * pretty sure the stream should be closed (free the pointer)
+       * even if it's returned NULL
+       */
+      close_file (fp, file_lastpurge, __func__);
+
+      /*
        * if we can't even write this file to the config directory, something
        * is not right. Make it fatal.
-       *
-       * If the user gets this far though,
-       * chances are this error will never be a problem.
        */
       open_err (file_lastpurge, __func__);
       msg_return_code (ERR_OPEN);
       exit (ERR_OPEN);
     }
   }
+  /*
+   *  Should have returned returned or existed by now, but adding this prevents the warning:
+   * "control reaches end of non-void function"
+   */
+   return 0;
 }
 
 /*!
