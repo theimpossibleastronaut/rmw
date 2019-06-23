@@ -606,9 +606,10 @@ is_time_to_purge (void)
 
       /*
        * if this is the first time the file got created, it's very likely
-       * indeed that purge does not need to run.
+       * indeed that purge does not need to run. Only return FALSE if the
+       * file didn't previously exist.
        */
-      return init ? TRUE : FALSE;
+      return init;
     }
     else
     {
