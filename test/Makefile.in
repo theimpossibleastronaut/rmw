@@ -87,7 +87,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = strings$(EXEEXT) config_test$(EXEEXT)
+check_PROGRAMS = strings$(EXEEXT) config_test$(EXEEXT) \
+	multi_strlen$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps =  \
@@ -128,6 +129,10 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_multi_strlen_OBJECTS = multi_strlen.$(OBJEXT)
+multi_strlen_OBJECTS = $(am_multi_strlen_OBJECTS)
+multi_strlen_LDADD = $(LDADD)
+multi_strlen_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 am_strings_OBJECTS = strings.$(OBJEXT)
 strings_OBJECTS = $(am_strings_OBJECTS)
 strings_LDADD = $(LDADD)
@@ -165,8 +170,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(config_test_SOURCES) $(strings_SOURCES)
-DIST_SOURCES = $(config_test_SOURCES) $(strings_SOURCES)
+SOURCES = $(config_test_SOURCES) $(multi_strlen_SOURCES) \
+	$(strings_SOURCES)
+DIST_SOURCES = $(config_test_SOURCES) $(multi_strlen_SOURCES) \
+	$(strings_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -538,6 +545,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
+multi_strlen_SOURCES = multi_strlen.c
 test_scripts = \
 	basic.sh	\
 	purging.sh	\
@@ -607,6 +615,10 @@ clean-checkPROGRAMS:
 config_test$(EXEEXT): $(config_test_OBJECTS) $(config_test_DEPENDENCIES) $(EXTRA_config_test_DEPENDENCIES) 
 	@rm -f config_test$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(config_test_OBJECTS) $(config_test_LDADD) $(LIBS)
+
+multi_strlen$(EXEEXT): $(multi_strlen_OBJECTS) $(multi_strlen_DEPENDENCIES) $(EXTRA_multi_strlen_DEPENDENCIES) 
+	@rm -f multi_strlen$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(multi_strlen_OBJECTS) $(multi_strlen_LDADD) $(LIBS)
 
 strings$(EXEEXT): $(strings_OBJECTS) $(strings_DEPENDENCIES) $(EXTRA_strings_DEPENDENCIES) 
 	@rm -f strings$(EXEEXT)
@@ -836,6 +848,13 @@ strings.log: strings$(EXEEXT)
 config_test.log: config_test$(EXEEXT)
 	@p='config_test$(EXEEXT)'; \
 	b='config_test'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+multi_strlen.log: multi_strlen$(EXEEXT)
+	@p='multi_strlen$(EXEEXT)'; \
+	b='multi_strlen'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

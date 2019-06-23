@@ -2,10 +2,12 @@ CFLAGS = -I$(top_srcdir)/src
 
 check_PROGRAMS = \
 	strings	\
-	config_test
+	config_test \
+	multi_strlen
 
 strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
+multi_strlen_SOURCES = multi_strlen.c
 
 test_scripts =	\
 	basic.sh	\
