@@ -154,6 +154,7 @@ Restore (const char *argv, st_waste *waste_curr)
     int req_len = multi_strlen (4, file.relative_path, "../info/", file.base_name, DOT_TRASHINFO) + 1;
     snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, "../info/",
              file.base_name, DOT_TRASHINFO);
+    bufchk  (file.info, MP);
 
 #ifdef DEBUG
     printf ("Restore()/debug: %s\n", file.info);
@@ -329,10 +330,10 @@ restore_select (st_waste *waste_curr)
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
         continue;
 
-      bufchk (waste_curr->files, MP - strlen (entry->d_name));
       int req_len = multi_strlen (2, waste_curr->files, entry->d_name) + 1;
       char full_path[req_len];
       snprintf (full_path, req_len, "%s%s", waste_curr->files, entry->d_name);
+      bufchk (full_path, MP);
 
       struct stat st;
       lstat (full_path, &st);
