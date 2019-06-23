@@ -85,7 +85,10 @@ $(function() {
 <h2>Contact / Support</h2>
 <p>See website <a href="https://remove-to-waste.info/#support">Help and Support section</a></p>
 <h2>Required libraries</h2>
-<p>libncursesw</p>
+<ul>
+<li>libncursesw (ncurses-devel on some systems, such as CentOS)</li>
+<li>gettext (or use &ndash;disable-nls if you only need English language support)</li>
+</ul>
 <p>If you are building from source, you will need the libncursesw(5 or 6)-dev package from your operating system distribution. On some systems just the ncurses packages is needed, and it's often already installed.</p>
 <h2>Compiling</h2>
 <h3>As a normal user:</h3>

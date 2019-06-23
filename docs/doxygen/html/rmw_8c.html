@@ -121,8 +121,8 @@ Functions</h2></td></tr>
 <tr class="separator:afb4aecc54e90350b86f9fbe1e077d87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c663ed520af3eb7a9515a131bd98207"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a1c663ed520af3eb7a9515a131bd98207">get_time_string</a> (char *tm_str, const ushort len, const char *format)</td></tr>
 <tr class="separator:a1c663ed520af3eb7a9515a131bd98207"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1751c503d647fc996b4d9ece0cb0c904"><td class="memItemLeft" align="right" valign="top">ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a1751c503d647fc996b4d9ece0cb0c904">is_time_to_purge</a> (void)</td></tr>
-<tr class="separator:a1751c503d647fc996b4d9ece0cb0c904"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cde99d90ef9fc51ae93e1fee557fe2e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a8cde99d90ef9fc51ae93e1fee557fe2e">is_time_to_purge</a> (void)</td></tr>
+<tr class="separator:a8cde99d90ef9fc51ae93e1fee557fe2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a824639431a0e94ac76721f576adb9b83"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a824639431a0e94ac76721f576adb9b83">add_removal</a> (<a class="el" href="structst__removed.html">st_removed</a> *removals, const char *file)</td></tr>
 <tr class="separator:a824639431a0e94ac76721f576adb9b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55fc2b89e4ff1a89b4dd9de8e71282eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8c.html#a55fc2b89e4ff1a89b4dd9de8e71282eb">dispose_removed</a> (<a class="el" href="structst__removed.html">st_removed</a> *node)</td></tr>
@@ -300,14 +300,14 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>force_required</b> = 
 
 </div>
 </div>
-<a id="a1751c503d647fc996b4d9ece0cb0c904"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1751c503d647fc996b4d9ece0cb0c904">&#9670;&nbsp;</a></span>is_time_to_purge()</h2>
+<a id="a8cde99d90ef9fc51ae93e1fee557fe2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cde99d90ef9fc51ae93e1fee557fe2e">&#9670;&nbsp;</a></span>is_time_to_purge()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">ushort is_time_to_purge </td>
+          <td class="memname">bool is_time_to_purge </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -315,14 +315,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>force_required</b> = 
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Checks to see if <a class="el" href="purging__rmw_8c.html#a1efdd17f161dacde62eb441e6a1d114e">purge()</a> was run today, reads and writes to the 'lastpurge` file. If it hasn't been run today, the current day will be written. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">void</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>an error number </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="purging__rmw_8h.html#a1efdd17f161dacde62eb441e6a1d114e">purge</a> </dd></dl>
+<p>Called in <a class="el" href="rmw_8c.html#a4ca41f4d2839df843f704b5c26b7606b">main()</a> to determine whether or not <a class="el" href="purging__rmw_8c.html#a1efdd17f161dacde62eb441e6a1d114e">purge()</a> was run today, reads and writes to the 'lastpurge` file. If it hasn't been run today, the current day will be written. If 'lastpurge' doesn't exist, it gets created. </p><dl class="section return"><dt>Returns</dt><dd>FALSE if the day is the same (don't purge); otherwise TRUE and writes the current day to 'lastpurge' </dd></dl>
 
 </div>
 </div>
