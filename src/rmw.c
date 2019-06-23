@@ -560,10 +560,9 @@ get_time_string (char *tm_str, const ushort len, const char *format)
 bool
 is_time_to_purge (void)
 {
-  char file_lastpurge[MP];
-  sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
-
-  bufchk (file_lastpurge, MP);
+  int req_len = strlen (HOMEDIR) + strlen (PURGE_DAY_FILE) + 1;
+  char file_lastpurge[req_len];
+  snprintf (file_lastpurge, req_len, "%s%s", HOMEDIR, PURGE_DAY_FILE);
 
   char today_dd[3];
   get_time_string (today_dd, 3, "%d");
@@ -595,44 +594,35 @@ is_time_to_purge (void)
     if (!strcmp (today_dd, last_purge_dd))
       return FALSE;
   }
-  else
+
+  bool init = exists(file_lastpurge);
+  fp = fopen (file_lastpurge, "w");
+  if (fp)
   {
-    bool init = exists(file_lastpurge);
-    fp = fopen (file_lastpurge, "w");
-    if (fp)
-    {
-      fprintf (fp, "%s\n", today_dd);
-      close_file (fp, file_lastpurge, __func__);
+    fprintf (fp, "%s\n", today_dd);
+    close_file (fp, file_lastpurge, __func__);
 
-      /*
-       * if this is the first time the file got created, it's very likely
-       * indeed that purge does not need to run. Only return FALSE if the
-       * file didn't previously exist.
-       */
-      return init;
-    }
-    else
-    {
-      /*
-       * pretty sure the stream should be closed (free the pointer)
-       * even if it's returned NULL
-       */
-      close_file (fp, file_lastpurge, __func__);
-
-      /*
-       * if we can't even write this file to the config directory, something
-       * is not right. Make it fatal.
-       */
-      open_err (file_lastpurge, __func__);
-      msg_return_code (ERR_OPEN);
-      exit (ERR_OPEN);
-    }
+    /*
+     * if this is the first time the file got created, it's very likely
+     * indeed that purge does not need to run. Only return FALSE if the
+     * file didn't previously exist.
+     */
+    return init;
   }
+
   /*
-   *  Should have returned returned or existed by now, but adding this prevents the warning:
-   * "control reaches end of non-void function"
+   * pretty sure the stream should be closed (free the pointer)
+   * even if it's returned NULL
    */
-   return 0;
+  close_file (fp, file_lastpurge, __func__);
+
+  /*
+   * if we can't even write this file to the config directory, something
+   * is not right. Make it fatal.
+   */
+  open_err (file_lastpurge, __func__);
+  msg_return_code (ERR_OPEN);
+  exit (ERR_OPEN);
 }
 
 /*!
