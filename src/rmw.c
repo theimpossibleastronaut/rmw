@@ -550,12 +550,12 @@ get_time_string (char *tm_str, const ushort len, const char *format)
 }
 
 /*!
- * Checks to see if purge() was run today, reads and writes to the 'lastpurge`
- * file. If it hasn't been run today, the current day will be written.
- * If 'lastpurge' doesn't exist, it gets created.
- * @param void
- * @return FALSE if the day is the same; otherwise TRUE and writes the current day to 'lastpurge'
- * @see purge
+ * Called in @ref main() to determine whether or not @ref purge() was run today, reads
+ * and writes to the 'lastpurge` file. If it hasn't been run today, the
+ * current day will be written. If 'lastpurge' doesn't exist, it gets
+ * created.
+ * @return FALSE if the day is the same (don't purge); otherwise TRUE and
+ * writes the current day to 'lastpurge'
  */
 bool
 is_time_to_purge (void)
