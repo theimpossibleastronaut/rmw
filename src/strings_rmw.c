@@ -122,6 +122,25 @@ bufchk (const char *str, ushort boundary)
 }
 
 /*!
+ * Get the combined length of multiple strings.
+ *
+ * @param[in] argc The number of arguments
+ * @param[in] ... variable argument list, each argument should be a string
+ * @return the combined length of each string
+ */
+int
+multi_strlen (int argc, ...)
+{
+  va_list vlist;
+  int len = 0;
+  int i;
+  va_start (vlist, argc);
+  for (i = 0; i < argc; i++)
+    len += strlen (va_arg (vlist, char*));
+  return len;
+}
+
+/*!
  * Removes trailing white space from a string (including newlines, formfeeds,
  * tabs, etc
  * @param[out] str The string to be altered

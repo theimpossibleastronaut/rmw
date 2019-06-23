@@ -224,7 +224,7 @@ verbose = 1;
     return 1;
   }
 
-  char *data_dir = calloc(strlen (HOMEDIR) + strlen (DATA_DIR) + 1, 1);
+  char *data_dir = calloc(multi_strlen (2, HOMEDIR, DATA_DIR) + 1, 1);
   chk_malloc (data_dir, __func__, __LINE__);
   bufchk (HOMEDIR, MP - strlen (DATA_DIR));
   snprintf (data_dir, MP, "%s%s", HOMEDIR, DATA_DIR);
@@ -560,7 +560,7 @@ get_time_string (char *tm_str, const ushort len, const char *format)
 bool
 is_time_to_purge (void)
 {
-  int req_len = strlen (HOMEDIR) + strlen (PURGE_DAY_FILE) + 1;
+  int req_len = multi_strlen (2, HOMEDIR, PURGE_DAY_FILE) + 1;
   char file_lastpurge[req_len];
   snprintf (file_lastpurge, req_len, "%s%s", HOMEDIR, PURGE_DAY_FILE);
 

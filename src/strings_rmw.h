@@ -26,9 +26,13 @@
 
 #include <libgen.h>
 #include <time.h>
+#include <stdarg.h>
 
 void
 bufchk (const char *str, unsigned short boundary);
+
+int
+multi_strlen (int argc, ...);
 
 void
 trim_white_space (char *str);
