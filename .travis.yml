@@ -103,8 +103,8 @@ notifications:
       - "%{repository_slug}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
       - "Change view : %{compare_url}"
       - "Build details : %{build_url}"
-    - "chat.freenode.net#rmw"
-
+    channels:
+      - "chat.freenode.net#rmw"
     on_success: change  # always|never|change
     on_failure: always
     on_start: never
