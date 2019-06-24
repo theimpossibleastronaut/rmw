@@ -98,14 +98,12 @@ script:
     fi
 
 notifications:
-  webhooks:
-    irc:
-      channels:
-        - "chat.freenode.net#rmw"
-      template:
-        - "%{repository_slug}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
-        - "Change view : %{compare_url}"
-        - "Build details : %{build_url}"
-    on_success: change  # always|never|change
-    on_failure: always
-    on_start: never
+  irc:
+    - "chat.freenode.net#rmw"
+    template:
+      - "%{repository_slug}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+      - "Change view : %{compare_url}"
+      - "Build details : %{build_url}"
+  on_success: change  # always|never|change
+  on_failure: always
+  on_start: never
