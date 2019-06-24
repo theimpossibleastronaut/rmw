@@ -31,8 +31,11 @@ cd $HOME/tmp-files
 echo "\n\n == creating temporary files to be rmw'ed"
 
 for file in abc 123 xyz; do
-  for _null in {1..4096}; do
-    echo 0 >> $file
+  i=0
+  while [ "$i" -lt 8 ]
+  do
+    echo "0000" >> $file
+    i=`expr $i + 1`
   done
 done
 
