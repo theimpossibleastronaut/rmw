@@ -68,7 +68,7 @@ Please report this bug to the rmw developers.", func);
  * @param[in] str The string to check
  * @param[in] boundary boundary
  * @return void
- * @see msg_error_buffer_overrun
+ * @see msg_err_buffer_overrun
  * @see bufchk_len
  */
 void
@@ -129,7 +129,7 @@ bufchk (const char *str, ushort boundary)
 }
 
 /*!
- * Verify that len doesn't exceed boundary, otherwise exit with an error code
+ * Verify that len doesn't exceed boundary, otherwise exit with an error code.
  * Usually used before concatenating 2 or more strings. Program will exit
  * with an error code if len exceeds boundary. len should already have space
  * for the null terminator when this function is called.
@@ -138,7 +138,7 @@ bufchk (const char *str, ushort boundary)
  * @param[in] func The calling function
  * @param[in] line The line number from where the function was called
  * @return void
- * @see msg_error_buffer_overrun
+ * @see msg_err_buffer_overrun
  * @see bufchk
  */
 void
