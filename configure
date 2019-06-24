@@ -16173,6 +16173,8 @@ ac_config_files="$ac_config_files test/purging.sh"
 
 ac_config_files="$ac_config_files test/restore.sh"
 
+ac_config_files="$ac_config_files test/buffer_overrun.sh"
+
 ac_config_files="$ac_config_files test/create-some-files.sh"
 
 
@@ -17204,6 +17206,7 @@ do
     "test/basic.sh") CONFIG_FILES="$CONFIG_FILES test/basic.sh" ;;
     "test/purging.sh") CONFIG_FILES="$CONFIG_FILES test/purging.sh" ;;
     "test/restore.sh") CONFIG_FILES="$CONFIG_FILES test/restore.sh" ;;
+    "test/buffer_overrun.sh") CONFIG_FILES="$CONFIG_FILES test/buffer_overrun.sh" ;;
     "test/create-some-files.sh") CONFIG_FILES="$CONFIG_FILES test/create-some-files.sh" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
@@ -18459,6 +18462,7 @@ ltmain=$ac_aux_dir/ltmain.sh
     "test/basic.sh":F) chmod +x test/basic.sh ;;
     "test/purging.sh":F) chmod +x test/purging.sh ;;
     "test/restore.sh":F) chmod +x test/restore.sh ;;
+    "test/buffer_overrun.sh":F) chmod +x test/buffer_overrun.sh ;;
     "test/create-some-files.sh":F) chmod +x test/create-some-files.sh ;;
 
   esac

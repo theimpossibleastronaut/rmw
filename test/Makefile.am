@@ -12,7 +12,8 @@ multi_strlen_SOURCES = multi_strlen.c
 test_scripts =	\
 	basic.sh	\
 	purging.sh	\
-	restore.sh
+	restore.sh	\
+	buffer_overrun.sh
 
 TESTS=$(check_PROGRAMS) $(test_scripts)
 

@@ -119,7 +119,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES = VARS basic.sh purging.sh restore.sh \
-	create-some-files.sh
+	buffer_overrun.sh create-some-files.sh
 CONFIG_CLEAN_VPATH_FILES =
 am_config_test_OBJECTS = config_test.$(OBJEXT)
 config_test_OBJECTS = $(am_config_test_OBJECTS)
@@ -403,9 +403,10 @@ TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
 TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/VARS.in \
-	$(srcdir)/basic.sh.in $(srcdir)/create-some-files.sh.in \
-	$(srcdir)/purging.sh.in $(srcdir)/restore.sh.in \
-	$(top_srcdir)/build-aux/test-driver README
+	$(srcdir)/basic.sh.in $(srcdir)/buffer_overrun.sh.in \
+	$(srcdir)/create-some-files.sh.in $(srcdir)/purging.sh.in \
+	$(srcdir)/restore.sh.in $(top_srcdir)/build-aux/test-driver \
+	README
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -549,7 +550,8 @@ multi_strlen_SOURCES = multi_strlen.c
 test_scripts = \
 	basic.sh	\
 	purging.sh	\
-	restore.sh
+	restore.sh	\
+	buffer_overrun.sh
 
 TESTS = $(check_PROGRAMS) $(test_scripts)
 LDADD = $(top_builddir)/src/librmw_test.a
@@ -599,6 +601,8 @@ basic.sh: $(top_builddir)/config.status $(srcdir)/basic.sh.in
 purging.sh: $(top_builddir)/config.status $(srcdir)/purging.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 restore.sh: $(top_builddir)/config.status $(srcdir)/restore.sh.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+buffer_overrun.sh: $(top_builddir)/config.status $(srcdir)/buffer_overrun.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 create-some-files.sh: $(top_builddir)/config.status $(srcdir)/create-some-files.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
@@ -876,6 +880,13 @@ purging.sh.log: purging.sh
 restore.sh.log: restore.sh
 	@p='restore.sh'; \
 	b='restore.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+buffer_overrun.sh.log: buffer_overrun.sh
+	@p='buffer_overrun.sh'; \
+	b='buffer_overrun.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

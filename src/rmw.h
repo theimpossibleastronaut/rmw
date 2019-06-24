@@ -166,7 +166,7 @@ struct st_removed{
 
 /** Set when rmw is run with the --verbose option. Enables increased output
  * to stdout */
-bool verbose;
+int verbose;
 
 #define RETURN_CODE_OFFSET 10
 enum {

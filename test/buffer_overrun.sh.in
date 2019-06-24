@@ -1,0 +1,69 @@
+#!/bin/sh
+
+. @abs_builddir@/VARS
+
+if [ -e COMMON ]; then
+  . ./COMMON
+else
+  . @abs_top_srcdir@/test/COMMON
+fi
+
+set +x
+$SEPARATOR
+echo " == test for buffer overrun prevention"
+i=0
+str="a"
+# This value depends on how PATH_MAX is defined (4096 assumed), and therefore this test
+# isn't very portable yet.
+while [ $i -lt 250 ]
+do
+  str=$str"aaaa|aaaa|aaaa|aaaa|"
+  i=`expr $i + 1`
+done
+
+$SEPARATOR
+set -x
+$RMW_TEST_CMD_STRING $str
+# This assumes and exit code of 12 which may change depending on how
+# the error code is enum'med in rmw.h.
+test "x$?" = "x12"
+test_result $?
+
+set +x
+$SEPARATOR
+echo " == test2"
+i=0
+str="a"
+# This value depends on how PATH_MAX is defined (4096 assumed), and therefore this test
+# isn't very portable yet.
+while [ $i -lt 4 ]
+do
+  str=$str"aaaa|aaaa|aaaa|aaaa|"
+  i=`expr $i + 1`
+done
+
+touch $HOME/$str
+$RMW_TEST_CMD_STRING $HOME/$str
+test_result $?
+
+set +x
+$SEPARATOR
+echo " == test3"
+i=0
+str="a"
+# This value depends on how PATH_MAX is defined (4096 assumed), and therefore this test
+# isn't very portable yet.
+while [ $i -lt 220 ]
+do
+  str=$str"aaaa|aaaa|aaaa|aaaa|"
+  i=`expr $i + 1`
+done
+
+touch $HOME/$str
+$RMW_TEST_CMD_STRING $HOME/$str
+# This assumes and exit code of 12 which may change depending on how
+# the error code is enum'med in rmw.h.
+test "x$?" = "x12"
+test_result $?
+
+exit 0

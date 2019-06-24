@@ -145,7 +145,7 @@ main (const int argc, char* const argv[])
       print_usage ();
       exit (0);
     case 'v':
-      verbose = 1;
+      verbose++;
       break;
     case 't':
       translate_config ();
@@ -197,6 +197,9 @@ main (const int argc, char* const argv[])
 
   }
   while (next_option != -1);
+
+  if (verbose > 1)
+    printf ("PATH_MAX = %d\n", MP - 1);
 
 #ifdef DEBUG
 verbose = 1;
