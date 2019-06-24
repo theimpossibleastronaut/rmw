@@ -3,11 +3,13 @@ CFLAGS = -I$(top_srcdir)/src
 check_PROGRAMS = \
 	strings	\
 	config_test \
-	multi_strlen
+	multi_strlen	\
+	buffer_overrun
 
 strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
 multi_strlen_SOURCES = multi_strlen.c
+buffer_overrun_SOURCES = buffer_overrun.c
 
 test_scripts =	\
 	basic.sh	\

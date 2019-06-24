@@ -202,3 +202,14 @@ msg_err_fatal_fprintf (const char *func)
   fprintf (stderr, "fprintf returned an error in %s.\n", func);
   exit (EXIT_FAILURE);
 }
+
+void
+msg_err_buffer_overrun (const char *func, const int line)
+{
+  fprintf (stderr, "func = %s, line = %d\n", func, line);
+  /* TRANSLATORS:  "buffer" in the following instances refers to the amount
+   * of memory allocated for a string  */
+  fputs (_("buffer overrun (segmentation fault) prevented.\n"), stderr);
+  fputs (_("If you think this may be a bug, please report it to the rmw developers.\n"), stderr);
+}
+

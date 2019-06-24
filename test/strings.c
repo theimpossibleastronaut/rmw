@@ -19,7 +19,7 @@ main ()
   chk_malloc (test, __func__, __LINE__);
   test[0] = '\0';
   trim_white_space (test);
-  assert (errno == 1);
+  assert (errno);
   errno = 0;
 
   strcpy (test, " \n\t\v\f\r ");

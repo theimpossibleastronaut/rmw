@@ -31,6 +31,9 @@
 void
 bufchk (const char *str, unsigned short boundary);
 
+void
+bufchk_len (const int len, const int boundary, const char *func, const int line);
+
 int
 multi_strlen (int argc, ...);
 

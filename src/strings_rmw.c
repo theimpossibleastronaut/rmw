@@ -86,11 +86,10 @@ bufchk (const char *str, ushort boundary)
 #endif
 
   print_msg_error ();
-  /* TRANSLATORS:  "buffer" in the following instances refers to the amount
-   * of memory allocated for a string  */
-  printf (_("buffer overrun (segmentation fault) prevented.\n"));
-  printf (_
-          ("If you think this may be a bug, please report it to the rmw developers.\n"));
+  /*
+   * For now, using arbitrary arguments instead of changing every call to bufchk
+   */
+  msg_err_buffer_overrun ("unknown", 0);
 
   /*
    * This will add a null terminator within the boundary specified by
@@ -118,6 +117,22 @@ bufchk (const char *str, ushort boundary)
   }
 
   msg_return_code (EXIT_BUF_ERR);
+  exit (EXIT_BUF_ERR);
+}
+
+void
+bufchk_len (const int len, const int boundary, const char *func, const int line)
+{
+  if (len <= boundary)
+    return;
+
+#ifdef TEST_LIB
+  errno = 1;
+  return;
+#endif
+
+  print_msg_error ();
+  msg_err_buffer_overrun (func, line);
   exit (EXIT_BUF_ERR);
 }
 

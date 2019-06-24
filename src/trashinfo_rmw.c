@@ -122,10 +122,18 @@ printf ("dest = %s in %s\n", dest, __func__);
 int
 create_trashinfo (rmw_target *file, st_waste *waste_curr)
 {
+  /*
+   * there already should have been buffer checking on these 2 when they were
+   * initialized
+   */
   int req_len = multi_strlen (2, waste_curr->info, file->base_name) + 1;
+
+  /*
+   * Make sure there's enough room in file_info_dest
+   */
+  bufchk_len (req_len, MP, __func__, __LINE__);
   char final_info_dest[MP];
   snprintf (final_info_dest, req_len, "%s%s", waste_curr->info, file->base_name);
-  bufchk (final_info_dest, MP);
 
 #ifdef DEBUG
 DEBUG_PREFIX
