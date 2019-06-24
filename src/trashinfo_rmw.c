@@ -3,7 +3,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,9 +122,10 @@ printf ("dest = %s in %s\n", dest, __func__);
 int
 create_trashinfo (rmw_target *file, st_waste *waste_curr)
 {
-  static char finalInfoDest[MP];
-
-  sprintf (finalInfoDest, "%s%s", waste_curr->info, file->base_name);
+  int req_len = multi_strlen (2, waste_curr->info, file->base_name) + 1;
+  char final_info_dest[MP];
+  snprintf (final_info_dest, req_len, "%s%s", waste_curr->info, file->base_name);
+  bufchk (final_info_dest, MP);
 
 #ifdef DEBUG
 DEBUG_PREFIX
@@ -136,15 +137,15 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
   if (file->is_duplicate)
   {
     extern const char *time_str_appended;
-    bufchk (time_str_appended, MP - strlen (finalInfoDest));
-    strcat (finalInfoDest, time_str_appended);
+    bufchk (time_str_appended, MP - strlen (final_info_dest));
+    strcat (final_info_dest, time_str_appended);
   }
 
-  strcat (finalInfoDest, DOT_TRASHINFO);
+  strcat (final_info_dest, DOT_TRASHINFO);
 
-  bufchk (finalInfoDest, MP);
+  bufchk (final_info_dest, MP);
 
-  FILE *fp = fopen (finalInfoDest, "w");
+  FILE *fp = fopen (final_info_dest, "w");
 
   if (fp != NULL)
   {
@@ -155,7 +156,7 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
 
     if (escape_url (file->real_path, escaped_path, MP * 3) )
     {
-      close_file (fp, finalInfoDest, __func__);
+      close_file (fp, final_info_dest, __func__);
       return 1;
     }
 
@@ -175,13 +176,13 @@ printf ("DeletionDate=%s\n", time_now);
     fprintf (fp, "DeletionDate=%s", time_now);
 
     static short close_err;
-    close_err = close_file (fp, finalInfoDest, __func__);
+    close_err = close_file (fp, final_info_dest, __func__);
     if (close_err)
       return 1;
   }
   else
   {
-    open_err (finalInfoDest, __func__);
+    open_err (final_info_dest, __func__);
     return 1;
   }
 

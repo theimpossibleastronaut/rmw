@@ -301,7 +301,9 @@ purge (const st_waste * waste_curr)
         continue;
 
       char entry_path[MP];
-      sprintf (entry_path, "%s%s", waste_curr->info, entry->d_name);
+      int req_len = multi_strlen (2, waste_curr->info, entry->d_name) + 1;
+      snprintf (entry_path, req_len, "%s%s", waste_curr->info, entry->d_name);
+      bufchk (entry_path, MP);
 
       /* skip this block if RMWTRASH=empty */
       if (!cmd_empty && !(then = get_then_time(entry, entry_path)))
@@ -495,15 +497,19 @@ orphan_maint (st_waste * waste_curr)
       bufchk (basename (entry->d_name), MP);
       strcpy (file->base_name, basename (entry->d_name));
 
-      sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info, file->base_name,
+      int req_len = multi_strlen (3, waste_curr->info, file->base_name,
+               DOT_TRASHINFO) + 1;
+      snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info, file->base_name,
                DOT_TRASHINFO);
 
       if (exists (path_to_trashinfo))
         continue;
 
       /* destination if restored */
-      sprintf (file->real_path, "%s%s%s", waste_curr->parent, "/orphans/",
+      req_len = multi_strlen(3, waste_curr->parent, "/orphans/", file->base_name) + 1;
+      snprintf (file->real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
                file->base_name);
+      bufchk (file->real_path, MP);
 
       short ok = 0;
       ok = create_trashinfo (file, waste_curr);

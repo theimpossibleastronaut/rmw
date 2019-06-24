@@ -263,12 +263,14 @@ parse_line_waste (st_waste * waste_curr, const char *line_from_config,
   waste_curr->removable = removable ? true : false;
 
   /* make the parent... */
-  bufchk (value, MP);
-  snprintf (waste_curr->parent, MP, "%s", value);
+  int req_len = strlen (value) + 1;
+  snprintf (waste_curr->parent, req_len, "%s", value);
+  bufchk (waste_curr->parent, MP);
 
   /* and the files... */
-  bufchk (waste_curr->parent, MP - strlen ("/files/"));
-  snprintf (waste_curr->files, MP, "%s%s", waste_curr->parent, "/files/");
+  req_len = multi_strlen (2, waste_curr->parent, "/files/") + 1;
+  snprintf (waste_curr->files, req_len, "%s%s", waste_curr->parent, "/files/");
+  bufchk (waste_curr->files, MP);
 
   if (!exists (waste_curr->files))
   {
@@ -322,7 +324,7 @@ static FILE *
 realize_config_file (char *config_file)
 {
   if (verbose)
-    printf ("sysconfdir = " SYSCONFDIR "\n");
+    printf ("sysconfdir = %s\n", SYSCONFDIR);
 
   extern const char *HOMEDIR;
   extern const char *alt_config;
