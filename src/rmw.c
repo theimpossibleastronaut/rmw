@@ -513,7 +513,6 @@ Enter '%s -h' for more information\n"), argv[0]);
  * Returns a formatted string based on whether or not
  * a fake year is requested at runtime. If a fake-year is not requested,
  * the returned string will be based on the local-time of the user's system.
- * @param void
  * @return char*
  */
 char*

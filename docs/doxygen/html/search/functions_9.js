@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['realize_5fconfig_5ffile',['realize_config_file',['../config__rmw_8c.html#addb6655aa46d019bcd6ed540fa76d296',1,'config_rmw.c']]],
-  ['realize_5fhome',['realize_home',['../config__rmw_8c.html#a6ceb78280f52a39ab3c19c385a80170d',1,'config_rmw.c']]],
-  ['resolve_5fpath',['resolve_path',['../strings__rmw_8c.html#abfc074cd05842e03a23eda83348f46b1',1,'strings_rmw.c']]],
-  ['restore',['Restore',['../restore__rmw_8c.html#a1ae279a7200b8c93717bcfd6e45cbe57',1,'Restore(const char *argv, st_waste *waste_curr):&#160;restore_rmw.c'],['../restore__rmw_8h.html#a1ae279a7200b8c93717bcfd6e45cbe57',1,'Restore(const char *argv, st_waste *waste_curr):&#160;restore_rmw.c']]],
-  ['restore_5fselect',['restore_select',['../restore__rmw_8c.html#a03c348b05998a89318246f00275fce89',1,'restore_select(st_waste *waste_curr):&#160;restore_rmw.c'],['../restore__rmw_8h.html#a03c348b05998a89318246f00275fce89',1,'restore_select(st_waste *waste_curr):&#160;restore_rmw.c']]],
-  ['rmdir_5frecursive',['rmdir_recursive',['../purging__rmw_8c.html#ab05c1c11815657112508fddcd8a5ed3d',1,'purging_rmw.c']]]
+  ['parse_5fline_5fwaste',['parse_line_waste',['../config__rmw_8c.html#a55baecc242417151feacc43c666242d4',1,'config_rmw.c']]],
+  ['populate_5fmenu',['populate_menu',['../bst_8c.html#a952a01c105a741b7d940e68f76af90dd',1,'populate_menu(st_node *node, ITEM **my_items, bool level_one):&#160;bst.c'],['../bst_8h.html#a952a01c105a741b7d940e68f76af90dd',1,'populate_menu(st_node *node, ITEM **my_items, bool level_one):&#160;bst.c']]],
+  ['print_5fconfig',['print_config',['../config__rmw_8c.html#a28edc57cd93e043802d633392643677b',1,'config_rmw.c']]],
+  ['purge',['purge',['../purging__rmw_8c.html#a1efdd17f161dacde62eb441e6a1d114e',1,'purge(const st_waste *waste_curr):&#160;purging_rmw.c'],['../purging__rmw_8h.html#a1efdd17f161dacde62eb441e6a1d114e',1,'purge(const st_waste *waste_curr):&#160;purging_rmw.c']]]
 ];

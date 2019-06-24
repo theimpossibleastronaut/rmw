@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['insert_5fnode',['insert_node',['../bst_8c.html#a5aba4a6b0f7a2b20a087100cb3d8e25f',1,'insert_node(st_node *root, comparer strcasecmp, char *data, char *size_str):&#160;bst.c'],['../bst_8h.html#a84987c3468c41ae37f2f4640269ba991',1,'insert_node(st_node *root, comparer compare, char *data, char *size_str):&#160;bst.c']]],
-  ['is_5ftime_5fto_5fpurge',['is_time_to_purge',['../rmw_8c.html#a8cde99d90ef9fc51ae93e1fee557fe2e',1,'is_time_to_purge(void):&#160;rmw.c'],['../rmw_8h.html#a8cde99d90ef9fc51ae93e1fee557fe2e',1,'is_time_to_purge(void):&#160;rmw.c']]]
+  ['get_5fconfig_5fdata',['get_config_data',['../config__rmw_8c.html#ae95290d81968748dee591de2939c79b7',1,'get_config_data(void):&#160;config_rmw.c'],['../config__rmw_8h.html#ae95290d81968748dee591de2939c79b7',1,'get_config_data(void):&#160;config_rmw.c']]],
+  ['get_5fthen_5ftime',['get_then_time',['../purging__rmw_8c.html#a0b77956b6dd10e0bb4e7d3432c0ab5bc',1,'purging_rmw.c']]],
+  ['get_5ftime_5fstring',['get_time_string',['../rmw_8c.html#a1c663ed520af3eb7a9515a131bd98207',1,'get_time_string(char *tm_str, const ushort len, const char *format):&#160;rmw.c'],['../rmw_8h.html#a1c663ed520af3eb7a9515a131bd98207',1,'get_time_string(char *tm_str, const ushort len, const char *format):&#160;rmw.c']]]
 ];

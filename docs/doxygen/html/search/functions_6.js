@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['main',['main',['../rmw_8c.html#a4ca41f4d2839df843f704b5c26b7606b',1,'rmw.c']]],
-  ['make_5fdir',['make_dir',['../utils__rmw_8c.html#a0260c34fc5cbcb4b23164887da9e8321',1,'make_dir(const char *dir):&#160;utils_rmw.c'],['../utils__rmw_8h.html#a0260c34fc5cbcb4b23164887da9e8321',1,'make_dir(const char *dir):&#160;utils_rmw.c']]],
-  ['msg_5ferr_5ffatal_5ffprintf',['msg_err_fatal_fprintf',['../messages__rmw_8c.html#a6e2c15beff1bcf29d5fa589e574d025d',1,'msg_err_fatal_fprintf(const char *func):&#160;messages_rmw.c'],['../messages__rmw_8h.html#a6e2c15beff1bcf29d5fa589e574d025d',1,'msg_err_fatal_fprintf(const char *func):&#160;messages_rmw.c']]]
+  ['insert_5fnode',['insert_node',['../bst_8c.html#a5aba4a6b0f7a2b20a087100cb3d8e25f',1,'insert_node(st_node *root, comparer strcasecmp, char *data, char *size_str):&#160;bst.c'],['../bst_8h.html#a84987c3468c41ae37f2f4640269ba991',1,'insert_node(st_node *root, comparer compare, char *data, char *size_str):&#160;bst.c']]],
+  ['is_5ftime_5fto_5fpurge',['is_time_to_purge',['../rmw_8c.html#a8cde99d90ef9fc51ae93e1fee557fe2e',1,'is_time_to_purge(void):&#160;rmw.c'],['../rmw_8h.html#a8cde99d90ef9fc51ae93e1fee557fe2e',1,'is_time_to_purge(void):&#160;rmw.c']]]
 ];

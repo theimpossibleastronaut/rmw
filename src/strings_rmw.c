@@ -63,6 +63,14 @@ Please report this bug to the rmw developers.", func);
   }
 }
 
+/*!
+ * Verify that *str doesn't exceed boundary, otherwise exit with an error code
+ * @param[in] str The string to check
+ * @param[in] boundary boundary
+ * @return void
+ * @see msg_error_buffer_overrun
+ * @see bufchk_len
+ */
 void
 bufchk (const char *str, ushort boundary)
 {
@@ -120,6 +128,19 @@ bufchk (const char *str, ushort boundary)
   exit (EXIT_BUF_ERR);
 }
 
+/*!
+ * Verify that len doesn't exceed boundary, otherwise exit with an error code
+ * Usually used before concatenating 2 or more strings. Program will exit
+ * with an error code if len exceeds boundary. len should already have space
+ * for the null terminator when this function is called.
+ * @param[in] len The string to check
+ * @param[in] boundary boundary
+ * @param[in] func The calling function
+ * @param[in] line The line number from where the function was called
+ * @return void
+ * @see msg_error_buffer_overrun
+ * @see bufchk
+ */
 void
 bufchk_len (const int len, const int boundary, const char *func, const int line)
 {

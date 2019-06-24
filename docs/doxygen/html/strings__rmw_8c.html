@@ -82,10 +82,10 @@ Include dependency graph for strings_rmw.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="strings__rmw_8c__incl.png" border="0" usemap="#src_2strings__rmw_8c" alt=""/></div>
 <map name="src_2strings__rmw_8c" id="src_2strings__rmw_8c">
-<area shape="rect" id="node2" href="rmw_8h.html" title="rmw.h" alt="" coords="431,155,489,181"/>
-<area shape="rect" id="node13" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="723,155,827,181"/>
-<area shape="rect" id="node16" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="597,80,723,107"/>
-<area shape="rect" id="node11" href="gettext_8h_source.html" title="gettext.h" alt="" coords="329,229,402,256"/>
+<area shape="rect" id="node2" href="rmw_8h.html" title="rmw.h" alt="" coords="413,155,472,181"/>
+<area shape="rect" id="node13" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="729,155,833,181"/>
+<area shape="rect" id="node17" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="601,80,727,107"/>
+<area shape="rect" id="node11" href="gettext_8h_source.html" title="gettext.h" alt="" coords="241,229,314,256"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -102,9 +102,12 @@ Macros</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a900971b8ed50ac70af56a43010808b72"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#a900971b8ed50ac70af56a43010808b72">entry_NULL_check</a> (const char *str, const char *func)</td></tr>
 <tr class="separator:a900971b8ed50ac70af56a43010808b72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb719cd3b1173ecfcb22c07632885b3a"><td class="memItemLeft" align="right" valign="top"><a id="adb719cd3b1173ecfcb22c07632885b3a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>bufchk</b> (const char *str, ushort boundary)</td></tr>
+<tr class="memitem:adb719cd3b1173ecfcb22c07632885b3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#adb719cd3b1173ecfcb22c07632885b3a">bufchk</a> (const char *str, ushort boundary)</td></tr>
 <tr class="separator:adb719cd3b1173ecfcb22c07632885b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67260291813f45111a33c796f745c455"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#a67260291813f45111a33c796f745c455">bufchk_len</a> (const int len, const int boundary, const char *func, const int line)</td></tr>
+<tr class="separator:a67260291813f45111a33c796f745c455"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab770d8aa0d66d830a092ca4ede7b388b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#ab770d8aa0d66d830a092ca4ede7b388b">multi_strlen</a> (int argc,...)</td></tr>
+<tr class="separator:ab770d8aa0d66d830a092ca4ede7b388b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1736cdaa245ee93bf06301101c143f7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#a1736cdaa245ee93bf06301101c143f7f">trim_white_space</a> (char *str)</td></tr>
 <tr class="separator:a1736cdaa245ee93bf06301101c143f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcb68bf296f2b7568e7c1012e10ce8cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#abcb68bf296f2b7568e7c1012e10ce8cf">trim_char</a> (const char c, char *str)</td></tr>
@@ -117,6 +120,98 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>bufchk</b> (const cha
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains functions primarily related to strings. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="adb719cd3b1173ecfcb22c07632885b3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb719cd3b1173ecfcb22c07632885b3a">&#9670;&nbsp;</a></span>bufchk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bufchk </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ushort&#160;</td>
+          <td class="paramname"><em>boundary</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Verify that *str doesn't exceed boundary, otherwise exit with an error code </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">str</td><td>The string to check </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">boundary</td><td>boundary </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>msg_error_buffer_overrun </dd>
+<dd>
+<a class="el" href="strings__rmw_8c.html#a67260291813f45111a33c796f745c455">bufchk_len</a> </dd></dl>
+
+</div>
+</div>
+<a id="a67260291813f45111a33c796f745c455"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67260291813f45111a33c796f745c455">&#9670;&nbsp;</a></span>bufchk_len()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bufchk_len </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>len</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>boundary</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Verify that len doesn't exceed boundary, otherwise exit with an error code Usually used before concatenating 2 or more strings. Program will exit with an error code if len exceeds boundary. len should already have space for the null terminator when this function is called. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">len</td><td>The string to check </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">boundary</td><td>boundary </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">func</td><td>The calling function </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>The line number from where the function was called </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>msg_error_buffer_overrun </dd>
+<dd>
+<a class="el" href="strings__rmw_8c.html#adb719cd3b1173ecfcb22c07632885b3a">bufchk</a> </dd></dl>
+
+</div>
+</div>
 <a id="a900971b8ed50ac70af56a43010808b72"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a900971b8ed50ac70af56a43010808b72">&#9670;&nbsp;</a></span>entry_NULL_check()</h2>
 
@@ -159,6 +254,43 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>bufchk</b> (const cha
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="ab770d8aa0d66d830a092ca4ede7b388b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab770d8aa0d66d830a092ca4ede7b388b">&#9670;&nbsp;</a></span>multi_strlen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int multi_strlen </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the combined length of multiple strings.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">argc</td><td>The number of arguments </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">...</td><td>variable argument list, each argument should be a string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the combined length of each string </dd></dl>
 
 </div>
 </div>

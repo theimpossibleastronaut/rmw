@@ -203,6 +203,14 @@ msg_err_fatal_fprintf (const char *func)
   exit (EXIT_FAILURE);
 }
 
+/*!
+ * Used by functions that prevent buffer overflows
+ * @param[in] func the function from which it was originally called
+ * @param[in] line the line number of the original calling function
+ * @return void
+ * @see bufchk
+ * @see bufchk_len
+ */
 void
 msg_err_buffer_overrun (const char *func, const int line)
 {

@@ -107,7 +107,6 @@ if (fprintf (stream, _("\n\
 /*!
  * Print a translation (if available) of the comments in the config file
  * to stdout
- * @param void
  * @return void
  */
 void
