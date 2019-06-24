@@ -99,8 +99,8 @@ script:
 
 notifications:
   webhooks:
-    urls:
-        - "https://n.tkte.ch/h/6119/okVEorgpYGGCQ1REeYr8d2Sb"
+    irc:
+      - "chat.freenode.net#rmw"
     on_success: change  # always|never|change
     on_failure: always
     on_start: never
