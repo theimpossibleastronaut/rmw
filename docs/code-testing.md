@@ -6,6 +6,7 @@ layout: default
   <li><a href="#general_testing">General Testing</a></li>
   <li><a href="#testing_purge">Testing the purge feature</a></li>
   <li><a href="#profiling">Profiling</a></li>
+  <li><a href="#create_test">How to Create a Unit Test</a></li>
 </ul>
 
 <h2 id="general_testing">General Testing</h2>
@@ -54,3 +55,17 @@ Then run rmw with any parameters you like.
 That will produce a file called <code
 class="w3-codespan">gmon.out</code>. Now run <code
 class="w3-codespan">gprof ./rmw gmon.out</code> to view the results.
+
+<h2 id="create_test">How to Create a Unit Test</h2>
+
+[This
+example](https://github.com/theimpossibleastronaut/rmw/commit/edaf560929e8589bac8874b93ae3520962ffab39)
+shows how to create a unit test after adding a new function. In
+strings_rmw.c I've added the function
+[bufchk_len()](https://github.com/theimpossibleastronaut/rmw/commit/edaf560929e8589bac8874b93ae3520962ffab39#diff-20cfff9d32e70348c58a461184f4070eR123).
+The test I created for it is
+[buffer_overrun.c](https://github.com/theimpossibleastronaut/rmw/commit/edaf560929e8589bac8874b93ae3520962ffab39#diff-14a4f62c9e948bbebcfc09c12e01f3ae);
+then I've added the test to
+[test/Makefile.am](https://github.com/theimpossibleastronaut/rmw/commit/edaf560929e8589bac8874b93ae3520962ffab39#diff-7d1a3afeff4f7c00c95d6be6f2847e6e)
+and re-ran 'automake'.
+
