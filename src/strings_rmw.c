@@ -137,6 +137,7 @@ multi_strlen (int argc, ...)
   va_start (vlist, argc);
   for (i = 0; i < argc; i++)
     len += strlen (va_arg (vlist, char*));
+  va_end(vlist);
   return len;
 }
 
