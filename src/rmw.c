@@ -564,6 +564,7 @@ bool
 is_time_to_purge (void)
 {
   int req_len = multi_strlen (2, HOMEDIR, PURGE_DAY_FILE) + 1;
+  bufchk_len (req_len, MP, __func__, __LINE__);
   char file_lastpurge[req_len];
   snprintf (file_lastpurge, req_len, "%s%s", HOMEDIR, PURGE_DAY_FILE);
 

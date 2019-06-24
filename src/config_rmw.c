@@ -264,13 +264,13 @@ parse_line_waste (st_waste * waste_curr, const char *line_from_config,
 
   /* make the parent... */
   int req_len = strlen (value) + 1;
+  bufchk_len (req_len, MP, __func__, __LINE__);
   snprintf (waste_curr->parent, req_len, "%s", value);
-  bufchk (waste_curr->parent, MP);
 
   /* and the files... */
   req_len = multi_strlen (2, waste_curr->parent, "/files/") + 1;
+  bufchk_len (req_len, MP, __func__, __LINE__);
   snprintf (waste_curr->files, req_len, "%s%s", waste_curr->parent, "/files/");
-  bufchk (waste_curr->files, MP);
 
   if (!exists (waste_curr->files))
   {
@@ -280,7 +280,12 @@ parse_line_waste (st_waste * waste_curr, const char *line_from_config,
     }
   }
 
-  /* and the info. */
+  /*
+   * and the info.
+   * No buffer checking needed here if creating the "/files/" dir
+   * was ok
+   *
+   */
   sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
 
   if (!exists (waste_curr->info))
