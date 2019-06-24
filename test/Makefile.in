@@ -88,7 +88,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 check_PROGRAMS = strings$(EXEEXT) config_test$(EXEEXT) \
-	multi_strlen$(EXEEXT)
+	multi_strlen$(EXEEXT) buffer_overrun$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps =  \
@@ -121,14 +121,18 @@ CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES = VARS basic.sh purging.sh restore.sh \
 	buffer_overrun.sh create-some-files.sh
 CONFIG_CLEAN_VPATH_FILES =
-am_config_test_OBJECTS = config_test.$(OBJEXT)
-config_test_OBJECTS = $(am_config_test_OBJECTS)
-config_test_LDADD = $(LDADD)
-config_test_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+am_buffer_overrun_OBJECTS = buffer_overrun.$(OBJEXT)
+buffer_overrun_OBJECTS = $(am_buffer_overrun_OBJECTS)
+buffer_overrun_LDADD = $(LDADD)
+buffer_overrun_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_config_test_OBJECTS = config_test.$(OBJEXT)
+config_test_OBJECTS = $(am_config_test_OBJECTS)
+config_test_LDADD = $(LDADD)
+config_test_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 am_multi_strlen_OBJECTS = multi_strlen.$(OBJEXT)
 multi_strlen_OBJECTS = $(am_multi_strlen_OBJECTS)
 multi_strlen_LDADD = $(LDADD)
@@ -170,10 +174,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(config_test_SOURCES) $(multi_strlen_SOURCES) \
-	$(strings_SOURCES)
-DIST_SOURCES = $(config_test_SOURCES) $(multi_strlen_SOURCES) \
-	$(strings_SOURCES)
+SOURCES = $(buffer_overrun_SOURCES) $(config_test_SOURCES) \
+	$(multi_strlen_SOURCES) $(strings_SOURCES)
+DIST_SOURCES = $(buffer_overrun_SOURCES) $(config_test_SOURCES) \
+	$(multi_strlen_SOURCES) $(strings_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -547,6 +551,7 @@ top_srcdir = @top_srcdir@
 strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
 multi_strlen_SOURCES = multi_strlen.c
+buffer_overrun_SOURCES = buffer_overrun.c
 test_scripts = \
 	basic.sh	\
 	purging.sh	\
@@ -615,6 +620,10 @@ clean-checkPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
+
+buffer_overrun$(EXEEXT): $(buffer_overrun_OBJECTS) $(buffer_overrun_DEPENDENCIES) $(EXTRA_buffer_overrun_DEPENDENCIES) 
+	@rm -f buffer_overrun$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(buffer_overrun_OBJECTS) $(buffer_overrun_LDADD) $(LIBS)
 
 config_test$(EXEEXT): $(config_test_OBJECTS) $(config_test_DEPENDENCIES) $(EXTRA_config_test_DEPENDENCIES) 
 	@rm -f config_test$(EXEEXT)
@@ -859,6 +868,13 @@ config_test.log: config_test$(EXEEXT)
 multi_strlen.log: multi_strlen$(EXEEXT)
 	@p='multi_strlen$(EXEEXT)'; \
 	b='multi_strlen'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+buffer_overrun.log: buffer_overrun$(EXEEXT)
+	@p='buffer_overrun$(EXEEXT)'; \
+	b='buffer_overrun'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
