@@ -571,7 +571,7 @@ is_time_to_purge (void)
   get_time_string (today_dd, 3, "%d");
 
   FILE *fp = fopen (file_lastpurge, "r");
-
+  bool init = (fp != NULL);
   if (fp)
   {
     char last_purge_dd[3];
@@ -598,7 +598,6 @@ is_time_to_purge (void)
       return FALSE;
   }
 
-  bool init = exists(file_lastpurge);
   fp = fopen (file_lastpurge, "w");
   if (fp)
   {
@@ -612,12 +611,6 @@ is_time_to_purge (void)
      */
     return init;
   }
-
-  /*
-   * pretty sure the stream should be closed (free the pointer)
-   * even if it's returned NULL
-   */
-  close_file (fp, file_lastpurge, __func__);
 
   /*
    * if we can't even write this file to the config directory, something
