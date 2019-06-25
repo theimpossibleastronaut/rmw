@@ -217,7 +217,7 @@ msg_err_buffer_overrun (const char *func, const int line)
   fprintf (stderr, "func = %s, line = %d\n", func, line);
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */
-  fputs (_("buffer overrun (segmentation fault) prevented.\n"), stderr);
-  fputs (_("If you think this may be a bug, please report it to the rmw developers.\n"), stderr);
+  fputs ("buffer overrun (segmentation fault) prevented.\n", stderr);
+  fputs ("If you think this may be a bug, please report it to the rmw developers.\n", stderr);
 }
 
