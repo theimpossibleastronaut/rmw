@@ -533,6 +533,7 @@ orphan_maint (st_waste * waste_curr)
   printf ("%d %s found\n", orphan_ctr, orphan_ctr == 1 ? "orphan" : "orphans");
 
   free (file);
+  /* FIXME: here and other places, no need to assign null after it's freed */
   file = NULL;
 
   return 0;
