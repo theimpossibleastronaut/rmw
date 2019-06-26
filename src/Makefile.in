@@ -295,7 +295,7 @@ CPPFLAGS = @CPPFLAGS@
 CURSES_CFLAGS = @CURSES_CFLAGS@
 CURSES_LIBS = @CURSES_LIBS@
 CYGPATH_W = @CYGPATH_W@
-DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
+DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" -DGIT_REV=\".$(git_rev)\"
 DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -417,6 +417,13 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -std=c99 -Wall @CURSES_CFLAGS@
+git_rev := $(shell \
+if test -f @top_srcdir@/.git/refs/heads/master; then	\
+	expr substr `cat @top_srcdir@/.git/refs/heads/master` 1 7;	\
+else	\
+	echo "unknown";	\
+fi)
+
 rmw_CFLAGS = $(AM_CFLAGS)
 rmw_SOURCES = \
 	rmw.c	\

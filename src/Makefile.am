@@ -2,6 +2,13 @@ bin_PROGRAMS=rmw
 AM_CFLAGS = -std=c99 -Wall
 AM_CFLAGS +=  @CURSES_CFLAGS@
 
+git_rev := $(shell \
+if test -f @top_srcdir@/.git/refs/heads/master; then	\
+	expr substr `cat @top_srcdir@/.git/refs/heads/master` 1 7;	\
+else	\
+	echo "unknown";	\
+fi)
+
 rmw_CFLAGS = $(AM_CFLAGS)
 
 rmw_SOURCES=	\
@@ -27,7 +34,9 @@ rmw_SOURCES=	\
 	bst.h	\
 	gettext.h
 
-DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
+
+
+DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" -DGIT_REV=\".$(git_rev)\"
 
 lib_CFLAGS = $(AM_CFLAGS) -DBUILD_LIBRARY
 

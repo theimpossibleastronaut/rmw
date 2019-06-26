@@ -85,12 +85,12 @@ ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"));
 void version (void)
 {
   printf (_("\
-rmw %s\n\
+rmw %s%s\n\
 Author: Andy Alt (andy400-dev@yahoo.com)\n\
 The RMW team: see AUTHORS file\n\
 This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n\
 This is free software, and you are welcome to redistribute it\n\
 under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n\
-for details.\n"), VERSION);
+for details.\n"), VERSION, GIT_REV);
   exit (0);
 }
