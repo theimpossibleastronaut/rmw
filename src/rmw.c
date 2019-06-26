@@ -439,19 +439,21 @@ Please check your configuration file and permissions\n\n"));
 
             rmwed_files++;
 
-            int create_ti_res = create_trashinfo (file, waste_curr);
-            if (create_ti_res == 0)
+            if (!create_trashinfo (file, waste_curr))
             {
               removals = add_removal (removals, file->dest_name);
               if (removals_head == NULL)
                 removals_head = removals;
             }
+            /* else.. The error should already be output from create_trashinfo() or one
+             * of it's calling functions
+             *
             else
             {
               print_msg_error ();
-              /* TRANSLATORS: Do not translate ".trashinfo"  */
-              printf (_("number %d trying to create a .trashinfo file\n"), create_ti_res);
+              printf ("number %d trying to create a .trashinfo file\n", create_ti_res);
             }
+            */
           }
           else
             msg_err_rename (file->main_argv, file->dest_name, __func__, __LINE__);

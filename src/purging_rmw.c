@@ -212,7 +212,6 @@ get_then_time(struct dirent *entry, const char *entry_path)
                 passed = 1;
             }
     }
-
     close_file (info_file_ptr, entry_path, __func__);
 
     if (!passed)
@@ -479,7 +478,7 @@ orphan_maint (st_waste * waste_curr)
   file->is_duplicate = 0;
 
   char path_to_trashinfo[MP];
-
+  int orphan_ctr = 0;
   while (waste_curr != NULL)
   {
     struct dirent *entry;
@@ -512,11 +511,12 @@ orphan_maint (st_waste * waste_curr)
       snprintf (file->real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
                file->base_name);
 
-      short ok = 0;
-      ok = create_trashinfo (file, waste_curr);
-      if (ok == 0)
+      if (!create_trashinfo (file, waste_curr))
+      {
         /* TRANSLATORS:  "created" refers to a file  */
         printf (_("Created %s\n"), path_to_trashinfo);
+        orphan_ctr++;
+      }
       else
       {
         print_msg_error ();
@@ -529,6 +529,8 @@ orphan_maint (st_waste * waste_curr)
 
     waste_curr = waste_curr->next_node;
   }
+
+  printf ("%d orphans found\n", orphan_ctr);
 
   free (file);
   file = NULL;

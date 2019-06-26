@@ -154,7 +154,6 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
   bufchk (final_info_dest, MP);
 
   FILE *fp = fopen (final_info_dest, "w");
-
   if (fp != NULL)
   {
     /* Worst case scenario: whole path is escaped, so 3 chars per
@@ -163,10 +162,7 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
     static char escaped_path[MP * 3];
 
     if (escape_url (file->real_path, escaped_path, MP * 3) )
-    {
-      close_file (fp, final_info_dest, __func__);
-      return 1;
-    }
+      return close_file (fp, final_info_dest, __func__);
 
     extern const char *time_now;
 #ifdef DEBUG
@@ -178,21 +174,15 @@ DEBUG_PREFIX
 printf ("DeletionDate=%s\n", time_now);
 #endif
 
-
     fprintf (fp, "[Trash Info]\n");
     fprintf (fp, "Path=%s\n", escaped_path);
     fprintf (fp, "DeletionDate=%s", time_now);
 
-    static short close_err;
-    close_err = close_file (fp, final_info_dest, __func__);
-    if (close_err)
-      return 1;
+    return close_file (fp, final_info_dest, __func__);
   }
   else
   {
     open_err (final_info_dest, __func__);
-    return 1;
+    return ERR_OPEN;
   }
-
-  return 0;
 }

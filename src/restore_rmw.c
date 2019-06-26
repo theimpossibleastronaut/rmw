@@ -204,7 +204,6 @@ Restore (const char *argv, st_waste *waste_curr)
           trim_white_space (file.dest);
 
           close_file (fp, file.info, __func__);
-
         }
         else
         {
