@@ -102,11 +102,6 @@ am__aclocal_m4_deps =  \
 	$(top_srcdir)/build-aux/m4/lib-ld.m4 \
 	$(top_srcdir)/build-aux/m4/lib-link.m4 \
 	$(top_srcdir)/build-aux/m4/lib-prefix.m4 \
-	$(top_srcdir)/build-aux/m4/libtool.m4 \
-	$(top_srcdir)/build-aux/m4/ltoptions.m4 \
-	$(top_srcdir)/build-aux/m4/ltsugar.m4 \
-	$(top_srcdir)/build-aux/m4/ltversion.m4 \
-	$(top_srcdir)/build-aux/m4/lt~obsolete.m4 \
 	$(top_srcdir)/build-aux/m4/nls.m4 \
 	$(top_srcdir)/build-aux/m4/pkg.m4 \
 	$(top_srcdir)/build-aux/m4/po.m4 \
@@ -217,11 +212,10 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/rmw.pc.in \
 	$(top_srcdir)/build-aux/config.rpath \
 	$(top_srcdir)/build-aux/config.sub \
 	$(top_srcdir)/build-aux/install-sh \
-	$(top_srcdir)/build-aux/ltmain.sh \
 	$(top_srcdir)/build-aux/missing ABOUT-NLS COPYING ChangeLog \
 	NEWS THANKS build-aux/compile build-aux/config.guess \
 	build-aux/config.rpath build-aux/config.sub \
-	build-aux/install-sh build-aux/ltmain.sh build-aux/missing
+	build-aux/install-sh build-aux/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -267,7 +261,6 @@ distcleancheck_listfiles = find . -type f -print
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
-AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -280,15 +273,11 @@ CURSES_CFLAGS = @CURSES_CFLAGS@
 CURSES_LIBS = @CURSES_LIBS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
-DLLTOOL = @DLLTOOL@
-DSYMUTIL = @DSYMUTIL@
-DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
-FGREP = @FGREP@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
@@ -300,33 +289,22 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
-LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
-LIBTOOL = @LIBTOOL@
-LIPO = @LIPO@
-LN_S = @LN_S@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
-LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
-MANIFEST_TOOL = @MANIFEST_TOOL@
 MENU_LIBS = @MENU_LIBS@
 MKDIR_P = @MKDIR_P@
 MSGFMT = @MSGFMT@
 MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
-NM = @NM@
-NMEDIT = @NMEDIT@
-OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
-OTOOL = @OTOOL@
-OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
@@ -353,9 +331,7 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
-ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
-ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 am__leading_dot = @am__leading_dot@
 am__tar = @am__tar@
 am__untar = @am__untar@
@@ -445,15 +421,6 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 $(am__aclocal_m4_deps):
 rmw.pc: $(top_builddir)/config.status $(srcdir)/rmw.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-
-mostlyclean-libtool:
-	-rm -f *.lo
-
-clean-libtool:
-	-rm -rf .libs _libs
-
-distclean-libtool:
-	-rm -f libtool config.lt
 install-packextrasDATA: $(packextras_DATA)
 	@$(NORMAL_INSTALL)
 	@list='$(packextras_DATA)'; test -n "$(packextrasdir)" || list=; \
@@ -834,13 +801,12 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic clean-libtool mostlyclean-am
+clean-am: clean-generic mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic distclean-libtool \
-	distclean-tags
+distclean-am: clean-am distclean-generic distclean-tags
 
 dvi: dvi-recursive
 
@@ -890,7 +856,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-generic mostlyclean-libtool
+mostlyclean-am: mostlyclean-generic
 
 pdf: pdf-recursive
 
@@ -906,20 +872,19 @@ uninstall-am: uninstall-packextrasDATA uninstall-pkgconfigDATA
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--refresh check check-am clean clean-cscope clean-generic \
-	clean-libtool cscope cscopelist-am ctags ctags-am dist \
-	dist-all dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ \
-	dist-xz dist-zip distcheck distclean distclean-generic \
-	distclean-libtool distclean-tags distcleancheck distdir \
-	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-packextrasDATA install-pdf install-pdf-am \
-	install-pkgconfigDATA install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs installdirs-am \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-packextrasDATA \
+	cscope cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
+	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
+	distcheck distclean distclean-generic distclean-tags \
+	distcleancheck distdir distuninstallcheck dvi dvi-am html \
+	html-am info info-am install install-am install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-packextrasDATA install-pdf \
+	install-pdf-am install-pkgconfigDATA install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am tags \
+	tags-am uninstall uninstall-am uninstall-packextrasDATA \
 	uninstall-pkgconfigDATA
 
 .PRECIOUS: Makefile

@@ -15,11 +15,6 @@ Not yet. There's [an open
 ticket](https://github.com/theimpossibleastronaut/rmw/issues/71) for
 that.
 
-**Why is there an option to build rmw as a library?**
-
-A friend of mine wanted to experiment with a library for it, and I
-thought maybe one day other people might want to as well.
-
 **Can I use wildcard and regex patterns with rmw?**
 
 Yes. For example:

@@ -23,18 +23,8 @@ AX_FUNC_SNPRINTF
 # and https://github.com/theimpossibleastronaut/rmw/issues/21
 AM_MAINTAINER_MODE
 
-# Use libtool to create libraries
-LT_INIT([disable-shared])
-
-# fixes https://github.com/theimpossibleastronaut/rmw/issues/226
-AC_ARG_ENABLE([libs],
-[AS_HELP_STRING([--enable-libs], [build the library [default=no]])],
-[case "${enableval}" in
-  yes) enable_libs=yes ;;
-  no)  enable_libs=no ;;
-  *) AC_MSG_ERROR([bad value ${enableval} for --enable-libs]) ;;
-esac],[enable_libs=no])
-AM_CONDITIONAL([BUILD_LIBS], [test x$enable_libs = xyes])
+# For creating the static test library
+AC_PROG_RANLIB
 
 AX_WITH_CURSES
 if test "x$ax_cv_curses" != xyes; then
@@ -79,20 +69,4 @@ AC_CONFIG_FILES([test/buffer_overrun.sh], [chmod +x test/buffer_overrun.sh])
 AC_CONFIG_FILES([test/create-some-files.sh], [chmod +x test/create-some-files.sh])
 
 AC_OUTPUT
-
-echo ""
-
-if test "x$enable_libs" = xno; then
-	echo "Library will not be built"
-else
-
-	if test "x$enable_static" = xyes; then
-		echo "build static library = yes"
-	fi
-
-	if test "x$enable_shared" = xyes; then
-		echo "Shared library will be output to src/$objdir)"
-	fi
-fi
-
 echo ""
