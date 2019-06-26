@@ -530,7 +530,7 @@ orphan_maint (st_waste * waste_curr)
     waste_curr = waste_curr->next_node;
   }
 
-  printf ("%d orphans found\n", orphan_ctr);
+  printf ("%d %s found\n", orphan_ctr, orphan_ctr == 1 ? "orphan" : "orphans");
 
   free (file);
   file = NULL;
