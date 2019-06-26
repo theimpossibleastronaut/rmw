@@ -8,7 +8,7 @@ if test -f @top_srcdir@/.git/refs/heads/master; then	\
 else	\
 	echo "unknown";	\
 fi)
-$(shell echo '#define GIT_REV  "$(git_rev)"' > git_rev.h)
+$(shell echo '#define GIT_REV  ".$(git_rev)"' > git_rev.h)
 
 rmw_CFLAGS = $(AM_CFLAGS)
 

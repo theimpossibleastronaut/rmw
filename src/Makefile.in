@@ -1077,8 +1077,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES
 
 .PRECIOUS: Makefile
 
-
-$(shell echo '#define GIT_REV  "$(git_rev)"' > git_rev.h)
+$(shell echo '#define GIT_REV  ".$(git_rev)"' > git_rev.h)
 
 all-local:
 	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;

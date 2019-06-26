@@ -1,4 +1,6 @@
-# rmw v0.7.02-dev
+# rmw
+
+## Description
 
 rmw (ReMove to Waste) is a cross-platform command-line "trash can"
 utility. It can send files to your "Desktop" trash, or a completely
