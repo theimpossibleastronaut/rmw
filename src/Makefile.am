@@ -9,6 +9,8 @@ else	\
 	echo "unknown";	\
 fi)
 
+$(shell touch @top_srcdir@/src/trivial_rmw.c)
+
 rmw_CFLAGS = $(AM_CFLAGS)
 
 rmw_SOURCES=	\
