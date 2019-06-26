@@ -295,7 +295,7 @@ CPPFLAGS = @CPPFLAGS@
 CURSES_CFLAGS = @CURSES_CFLAGS@
 CURSES_LIBS = @CURSES_LIBS@
 CYGPATH_W = @CYGPATH_W@
-DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" -DGIT_REV=\".$(git_rev)\"
+DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
@@ -1077,6 +1077,8 @@ uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES
 
 .PRECIOUS: Makefile
 
+
+$(shell echo '#define GIT_REV  "$(git_rev)"' > git_rev.h)
 
 all-local:
 	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;
