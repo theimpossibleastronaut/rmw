@@ -31,7 +31,6 @@
 #endif
 
 #include "trivial_rmw.h"
-#include "git_rev.h"
 
 void print_usage (void)
 {

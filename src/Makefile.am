@@ -8,7 +8,6 @@ if test -f @top_srcdir@/.git/refs/heads/master; then	\
 else	\
 	echo "unknown";	\
 fi)
-$(shell echo '#define GIT_REV  ".$(git_rev)"' > git_rev.h)
 
 rmw_CFLAGS = $(AM_CFLAGS)
 
@@ -37,7 +36,7 @@ rmw_SOURCES=	\
 
 
 
-DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
+DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" -DGIT_REV=\".$(git_rev)\"
 
 lib_CFLAGS = $(AM_CFLAGS) -DBUILD_LIBRARY
 
