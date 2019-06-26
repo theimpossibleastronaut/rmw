@@ -55,7 +55,6 @@ AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
 AC_CONFIG_FILES([	Makefile
-			rmw.pc
 			src/Makefile
 			man/Makefile
 			test/Makefile
