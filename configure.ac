@@ -12,10 +12,10 @@ AC_CONFIG_HEADERS([src/config.h:config.in])
 is_release=false
 AM_CONDITIONAL([IS_RELEASE], [test "x$is_release" = xtrue])
 case "${is_release}" in
-  true) is_release=yes ;;
-  no)  is_release=no ;;
+  true) _debug=no ;;
+  false)  _debug=yes ;;
 esac
-AX_CHECK_ENABLE_DEBUG([${is_release}])
+AX_CHECK_ENABLE_DEBUG([${_debug}])
 
 AC_PROG_CC
 AC_CONFIG_MACRO_DIRS([build-aux/m4])

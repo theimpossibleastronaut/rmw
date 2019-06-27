@@ -2945,15 +2945,15 @@ else
 fi
 
 case "${is_release}" in
-  true) is_release=yes ;;
-  no)  is_release=no ;;
+  true) _debug=no ;;
+  false)  _debug=yes ;;
 esac
 
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable debugging" >&5
 $as_echo_n "checking whether to enable debugging... " >&6; }
 
-    ax_enable_debug_default=${is_release}
+    ax_enable_debug_default=${_debug}
     ax_enable_debug_is_release=$ax_is_release
 
     # If this is a release, override the default.
