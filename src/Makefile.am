@@ -47,7 +47,7 @@ DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" $(GIT_REV_DEF
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a
 librmw_test_a_SOURCES = $(rmw_SOURCES)
-librmw_test_a_CFLAGS = -DTEST_LIB -DBUILD_LIBRARY
+librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB -DBUILD_LIBRARY
 
 #
 # On OpenBSD, without @LIBINTL@ present here, the result is a lot of
