@@ -176,7 +176,7 @@ printf ("DeletionDate=%s\n", time_now);
 
     fprintf (fp, "[Trash Info]\n");
     fprintf (fp, "Path=%s\n", escaped_path);
-    fprintf (fp, "DeletionDate=%s", time_now);
+    fprintf (fp, "DeletionDate=%s\n", time_now);
 
     return close_file (fp, final_info_dest, __func__);
   }
