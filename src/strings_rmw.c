@@ -134,7 +134,7 @@ bufchk (const char *str, ushort boundary)
  * with an error code if len exceeds boundary. len should already have space
  * for the null terminator when this function is called.
  * @param[in] len The string to check
- * @param[in] boundary boundary
+ * @param[in] dest_boundary length needed for destination string
  * @param[in] func The calling function
  * @param[in] line The line number from where the function was called
  * @return void
@@ -142,9 +142,9 @@ bufchk (const char *str, ushort boundary)
  * @see bufchk
  */
 void
-bufchk_len (const int len, const int boundary, const char *func, const int line)
+bufchk_len (const int len, const int dest_boundary, const char *func, const int line)
 {
-  if (len <= boundary)
+  if (len <= dest_boundary)
     return;
 
 #ifdef TEST_LIB
