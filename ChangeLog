@@ -1,5 +1,12 @@
 === rmw ChangeLog ===
 
+2019-06-27
+
+  * BUGFIX:
+  [#235](https://github.com/theimpossibleastronaut/rmw/issues/235)on
+  some systems, purge would fail to run when requested, 'make check'
+  failed. This was reported to happen on Manjaro and Arch.
+
 2019-06-21
 
   * BUGFIX:
