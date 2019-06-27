@@ -8,8 +8,14 @@ AC_CONFIG_HEADERS([src/config.h:config.in])
 # Don't add -g and -O2 by default
 : ${CFLAGS=""}
 
-# RELEASE TODO: set this to "no"
-AX_CHECK_ENABLE_DEBUG([yes])
+# RELEASE TODO:
+is_release=false
+AM_CONDITIONAL([IS_RELEASE], [test "x$is_release" = xtrue])
+case "${is_release}" in
+  true) is_release=yes ;;
+  no)  is_release=no ;;
+esac
+AX_CHECK_ENABLE_DEBUG([${is_release}])
 
 AC_PROG_CC
 AC_CONFIG_MACRO_DIRS([build-aux/m4])

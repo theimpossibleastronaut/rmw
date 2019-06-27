@@ -218,7 +218,7 @@ CPPFLAGS = @CPPFLAGS@
 CURSES_CFLAGS = @CURSES_CFLAGS@
 CURSES_LIBS = @CURSES_LIBS@
 CYGPATH_W = @CYGPATH_W@
-DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" -DGIT_REV=\".$(git_rev)\"
+DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" $(GIT_REV_DEF)
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -323,13 +323,16 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -std=c99 -Wall @CURSES_CFLAGS@
-git_rev := $(shell \
-if test -f @top_srcdir@/.git/refs/heads/master; then	\
-	expr substr `cat @top_srcdir@/.git/refs/heads/master` 1 7;	\
-else	\
-	echo "unknown";	\
-fi)
+@IS_RELEASE_FALSE@git_rev := $(shell \
+@IS_RELEASE_FALSE@	if test -f @top_srcdir@/.git/refs/heads/master; then	\
+@IS_RELEASE_FALSE@		expr substr `cat @top_srcdir@/.git/refs/heads/master` 1 7;	\
+@IS_RELEASE_FALSE@	else	\
+@IS_RELEASE_FALSE@		echo "unknown";	\
+@IS_RELEASE_FALSE@	fi)
 
+@IS_RELEASE_TRUE@git_rev = ""
+@IS_RELEASE_FALSE@GIT_REV_DEF = -DGIT_REV=\"$(git_rev)\"
+@IS_RELEASE_TRUE@GIT_REV_DEF = 
 rmw_CFLAGS = $(AM_CFLAGS)
 rmw_SOURCES = \
 	rmw.c	\

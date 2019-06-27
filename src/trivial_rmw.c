@@ -32,6 +32,13 @@
 
 #include "trivial_rmw.h"
 
+/* GIT_VER is defined during build-time with -D, see src/Makefile.am */
+#ifdef GIT_REV
+  #define RMW_VERSION_STRING VERSION "." GIT_REV
+#else
+  #define RMW_VERSION_STRING VERSION
+#endif
+
 void print_usage (void)
 {
   printf (_("\
@@ -85,12 +92,12 @@ ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"));
 void version (void)
 {
   printf (_("\
-rmw %s%s\n\
+rmw %s\n\
 Author: Andy Alt (andy400-dev@yahoo.com)\n\
 The RMW team: see AUTHORS file\n\
 This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n\
 This is free software, and you are welcome to redistribute it\n\
 under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n\
-for details.\n"), VERSION, GIT_REV);
+for details.\n"), RMW_VERSION_STRING);
   exit (0);
 }

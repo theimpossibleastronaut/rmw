@@ -673,6 +673,8 @@ CPPFLAGS
 LDFLAGS
 CFLAGS
 CC
+IS_RELEASE_FALSE
+IS_RELEASE_TRUE
 AM_BACKSLASH
 AM_DEFAULT_VERBOSITY
 AM_DEFAULT_V
@@ -2932,13 +2934,26 @@ ac_config_headers="$ac_config_headers src/config.h:config.in"
 # Don't add -g and -O2 by default
 : ${CFLAGS=""}
 
-# RELEASE TODO: set this to "no"
+# RELEASE TODO:
+is_release=false
+ if test "x$is_release" = xtrue; then
+  IS_RELEASE_TRUE=
+  IS_RELEASE_FALSE='#'
+else
+  IS_RELEASE_TRUE='#'
+  IS_RELEASE_FALSE=
+fi
+
+case "${is_release}" in
+  true) is_release=yes ;;
+  no)  is_release=no ;;
+esac
 
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable debugging" >&5
 $as_echo_n "checking whether to enable debugging... " >&6; }
 
-    ax_enable_debug_default=yes
+    ax_enable_debug_default=${is_release}
     ax_enable_debug_is_release=$ax_is_release
 
     # If this is a release, override the default.
@@ -8776,6 +8791,10 @@ else
   am__EXEEXT_FALSE=
 fi
 
+if test -z "${IS_RELEASE_TRUE}" && test -z "${IS_RELEASE_FALSE}"; then
+  as_fn_error $? "conditional \"IS_RELEASE\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
 if test -z "${MAINTAINER_MODE_TRUE}" && test -z "${MAINTAINER_MODE_FALSE}"; then
   as_fn_error $? "conditional \"MAINTAINER_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5

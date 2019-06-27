@@ -2,12 +2,18 @@ bin_PROGRAMS=rmw
 AM_CFLAGS = -std=c99 -Wall
 AM_CFLAGS +=  @CURSES_CFLAGS@
 
+if IS_RELEASE_FALSE
 git_rev := $(shell \
-if test -f @top_srcdir@/.git/refs/heads/master; then	\
-	expr substr `cat @top_srcdir@/.git/refs/heads/master` 1 7;	\
-else	\
-	echo "unknown";	\
-fi)
+	if test -f @top_srcdir@/.git/refs/heads/master; then	\
+		expr substr `cat @top_srcdir@/.git/refs/heads/master` 1 7;	\
+	else	\
+		echo "unknown";	\
+	fi)
+GIT_REV_DEF = -DGIT_REV=\"$(git_rev)\"
+else
+git_rev = ""
+GIT_REV_DEF =
+endif
 
 $(shell touch @top_srcdir@/src/trivial_rmw.c)
 
@@ -36,9 +42,7 @@ rmw_SOURCES=	\
 	bst.h	\
 	gettext.h
 
-
-
-DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" -DGIT_REV=\".$(git_rev)\"
+DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" $(GIT_REV_DEF)
 
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a
