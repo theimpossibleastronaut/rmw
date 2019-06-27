@@ -104,8 +104,8 @@ Functions</h2></td></tr>
 <tr class="separator:a900971b8ed50ac70af56a43010808b72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb719cd3b1173ecfcb22c07632885b3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#adb719cd3b1173ecfcb22c07632885b3a">bufchk</a> (const char *str, ushort boundary)</td></tr>
 <tr class="separator:adb719cd3b1173ecfcb22c07632885b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67260291813f45111a33c796f745c455"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#a67260291813f45111a33c796f745c455">bufchk_len</a> (const int len, const int boundary, const char *func, const int line)</td></tr>
-<tr class="separator:a67260291813f45111a33c796f745c455"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09f92e5db745fbc606806ac28b35ce0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#a09f92e5db745fbc606806ac28b35ce0e">bufchk_len</a> (const int len, const int dest_boundary, const char *func, const int line)</td></tr>
+<tr class="separator:a09f92e5db745fbc606806ac28b35ce0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab770d8aa0d66d830a092ca4ede7b388b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#ab770d8aa0d66d830a092ca4ede7b388b">multi_strlen</a> (int argc,...)</td></tr>
 <tr class="separator:ab770d8aa0d66d830a092ca4ede7b388b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1736cdaa245ee93bf06301101c143f7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#a1736cdaa245ee93bf06301101c143f7f">trim_white_space</a> (char *str)</td></tr>
@@ -153,14 +153,14 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>msg_error_buffer_overrun </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="messages__rmw_8h.html#aff71a220d8a5148aa388e648386d12d1">msg_err_buffer_overrun</a> </dd>
 <dd>
-<a class="el" href="strings__rmw_8c.html#a67260291813f45111a33c796f745c455">bufchk_len</a> </dd></dl>
+<a class="el" href="strings__rmw_8c.html#a09f92e5db745fbc606806ac28b35ce0e">bufchk_len</a> </dd></dl>
 
 </div>
 </div>
-<a id="a67260291813f45111a33c796f745c455"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67260291813f45111a33c796f745c455">&#9670;&nbsp;</a></span>bufchk_len()</h2>
+<a id="a09f92e5db745fbc606806ac28b35ce0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09f92e5db745fbc606806ac28b35ce0e">&#9670;&nbsp;</a></span>bufchk_len()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,7 +175,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>boundary</em>, </td>
+          <td class="paramname"><em>dest_boundary</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -196,17 +196,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Verify that len doesn't exceed boundary, otherwise exit with an error code Usually used before concatenating 2 or more strings. Program will exit with an error code if len exceeds boundary. len should already have space for the null terminator when this function is called. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Verify that len doesn't exceed boundary, otherwise exit with an error code. Usually used before concatenating 2 or more strings. Program will exit with an error code if len exceeds boundary. len should already have space for the null terminator when this function is called. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">len</td><td>The string to check </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">boundary</td><td>boundary </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dest_boundary</td><td>length needed for destination string </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">func</td><td>The calling function </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>The line number from where the function was called </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>msg_error_buffer_overrun </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="messages__rmw_8h.html#aff71a220d8a5148aa388e648386d12d1">msg_err_buffer_overrun</a> </dd>
 <dd>
 <a class="el" href="strings__rmw_8c.html#adb719cd3b1173ecfcb22c07632885b3a">bufchk</a> </dd></dl>
 
