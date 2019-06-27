@@ -231,6 +231,7 @@ get_then_time(struct dirent *entry, const char *entry_path)
 
   strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
   then = mktime (&tm_then);
+
 out:
   return then;
 }
@@ -277,9 +278,10 @@ purge (const st_waste * waste_curr)
   unsigned int max_depth_reached_ctr = 0;
 
   struct tm tmPtr;
+  memset(&tmPtr, 0, sizeof(struct tm));
+
   time_t now;
   time_t then = 0;
-
   extern const char *time_now;
   strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
   now = mktime (&tmPtr);
