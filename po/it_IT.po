@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-06-24 17:09-0500\n"
+"POT-Creation-Date: 2019-06-27 22:25+0000\n"
 "PO-Revision-Date: 2018-10-14 19:02+0200\n"
 "Last-Translator: Umberto <umbeebmu@gmail.com>\n"
 "Language-Team: Italian\n"
@@ -140,7 +140,7 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/trivial_rmw.c:56
+#: src/trivial_rmw.c:63
 #, c-format
 msgid ""
 "  \n"
@@ -152,7 +152,7 @@ msgid ""
 "  -u, --undo-last           undo last ReMove\n"
 msgstr ""
 
-#: src/trivial_rmw.c:62
+#: src/trivial_rmw.c:69
 #, c-format
 msgid ""
 "  \n"
@@ -168,7 +168,7 @@ msgstr ""
 
 #. TRANSLATORS: "return" code refers to a number returned by an operation
 #. * or function
-#: src/messages_rmw.c:161
+#: src/messages_rmw.c:167
 #, c-format
 msgid "  :return code: %d -- %s\n"
 msgstr ""
@@ -209,38 +209,38 @@ msgstr ""
 "#\n"
 "WASTE = $HOME/.trash.rmw\n"
 
-#: src/purging_rmw.c:443
+#: src/purging_rmw.c:444
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr ""
 
-#: src/purging_rmw.c:447
+#: src/purging_rmw.c:448
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr ""
 
-#: src/purging_rmw.c:450
+#: src/purging_rmw.c:451
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/rmw.c:481
+#: src/rmw.c:483
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:461
+#: src/purging_rmw.c:462
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/rmw.c:494
+#: src/rmw.c:496
 #, c-format
 msgid "'-f/--force' does nothing without '-g/--purge'\n"
 msgstr ""
@@ -248,25 +248,25 @@ msgstr ""
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:395
+#: src/restore_rmw.c:394
 msgid "'q' - quit"
 msgstr ""
 
-#: src/purging_rmw.c:458
+#: src/purging_rmw.c:459
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:454
+#: src/purging_rmw.c:455
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:344
+#: src/purging_rmw.c:345
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr ""
@@ -283,16 +283,16 @@ msgstr ""
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:388
+#: src/restore_rmw.c:387
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr ""
 
-#: src/restore_rmw.c:389
+#: src/restore_rmw.c:388
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 
-#: src/restore_rmw.c:384
+#: src/restore_rmw.c:383
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -315,42 +315,37 @@ msgstr ""
 msgid "Creating default configuration file:"
 msgstr ""
 
-#: src/purging_rmw.c:342
+#: src/purging_rmw.c:343
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr ""
 
-#: src/restore_rmw.c:226
+#: src/restore_rmw.c:225
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:390 src/restore_rmw.c:282
+#: src/rmw.c:390 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
 
-#: src/messages_rmw.c:221
-msgid ""
-"If you think this may be a bug, please report it to the rmw developers.\n"
-msgstr ""
-
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:352
+#: src/purging_rmw.c:353
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr ""
 
-#: src/rmw.c:496
+#: src/rmw.c:498
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
 "Enter '%s -h' for more information\n"
 msgstr ""
 
-#: src/rmw.c:474
+#: src/rmw.c:476
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr ""
@@ -375,12 +370,12 @@ msgstr ""
 "\n"
 "Cancellando tutti i files in nei cestini ...\n"
 
-#: src/restore_rmw.c:326
+#: src/restore_rmw.c:325
 #, c-format
 msgid "Reading %s...\n"
 msgstr ""
 
-#: src/trivial_rmw.c:67
+#: src/trivial_rmw.c:74
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
@@ -388,7 +383,7 @@ msgstr ""
 #. TRANSLATORS: ignore "Restore()"
 #. * "returned" refers to an error code (number) that was returned by
 #. * an operation
-#: src/messages_rmw.c:135
+#: src/messages_rmw.c:141
 #, c-format
 msgid "Restore() returned %d\n"
 msgstr ""
@@ -399,7 +394,7 @@ msgstr ""
 msgid "Searching using only the basename...\n"
 msgstr ""
 
-#: src/trivial_rmw.c:72
+#: src/trivial_rmw.c:79
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -427,7 +422,7 @@ msgstr ""
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
 
-#: src/trivial_rmw.c:37
+#: src/trivial_rmw.c:44
 #, c-format
 msgid ""
 "Usage: rmw [OPTION]... FILE...\n"
@@ -455,12 +450,6 @@ msgstr ""
 msgid "attached"
 msgstr ""
 
-#. TRANSLATORS:  "buffer" in the following instances refers to the amount
-#. * of memory allocated for a string
-#: src/messages_rmw.c:220
-msgid "buffer overrun (segmentation fault) prevented.\n"
-msgstr ""
-
 #: src/config_rmw.c:353
 #, c-format
 msgid "config file: %s\n"
@@ -471,7 +460,7 @@ msgstr ""
 msgid "detached"
 msgstr ""
 
-#: src/restore_rmw.c:511
+#: src/restore_rmw.c:510
 #, c-format
 msgid "failed to remove %s\n"
 msgstr ""
@@ -481,13 +470,13 @@ msgstr ""
 #. *               "format" refers to the layout of the file
 #. *                contents
 #.
-#: src/messages_rmw.c:117
+#: src/messages_rmw.c:123
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr ""
 
 #. TRANSLATORS:  "function" refers to a C function
-#: src/messages_rmw.c:75 src/messages_rmw.c:101
+#: src/messages_rmw.c:75 src/messages_rmw.c:107
 #, c-format
 msgid "function: <%s>"
 msgstr ""
@@ -504,12 +493,6 @@ msgid ""
 "Please check your configuration file and permissions\n"
 "If you need further help, or to report a possible bug,\n"
 "visit the rmw web site at\n"
-msgstr ""
-
-#. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:453
-#, c-format
-msgid "number %d trying to create a .trashinfo file\n"
 msgstr ""
 
 #: src/rmw.c:317
@@ -538,7 +521,7 @@ msgstr ""
 msgid "removable, "
 msgstr ""
 
-#: src/trivial_rmw.c:87
+#: src/trivial_rmw.c:94
 #, fuzzy, c-format
 msgid ""
 "rmw %s\n"
@@ -578,7 +561,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/messages_rmw.c:147
+#: src/messages_rmw.c:153
 #, c-format
 msgid "while attempting to allocate memory -- %s:%d\n"
 msgstr ""
@@ -588,12 +571,12 @@ msgstr ""
 msgid "while changing permissions of %s\n"
 msgstr ""
 
-#: src/messages_rmw.c:98
+#: src/messages_rmw.c:104
 #, c-format
 msgid "while closing %s\n"
 msgstr ""
 
-#: src/purging_rmw.c:523 src/utils_rmw.c:89
+#: src/purging_rmw.c:525 src/utils_rmw.c:89
 #, c-format
 msgid "while creating %s\n"
 msgstr ""
@@ -609,24 +592,24 @@ msgstr ""
 msgid "while opening %s\n"
 msgstr ""
 
-#: src/messages_rmw.c:178
+#: src/messages_rmw.c:184
 #, c-format
 msgid "while opening %s -- %s:%d\n"
 msgstr ""
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:374 src/purging_rmw.c:381 src/purging_rmw.c:404
-#: src/purging_rmw.c:428
+#: src/purging_rmw.c:375 src/purging_rmw.c:382 src/purging_rmw.c:405
+#: src/purging_rmw.c:429
 #, c-format
 msgid "while removing %s\n"
 msgstr ""
 
-#: src/restore_rmw.c:248
+#: src/restore_rmw.c:247
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr ""
 
-#: src/messages_rmw.c:187
+#: src/messages_rmw.c:193
 #, c-format
 msgid ""
 "while trying to move (rename)\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-06-24 17:09-0500\n"
+"POT-Creation-Date: 2019-06-27 22:25+0000\n"
 "PO-Revision-Date: 2018-10-02 20:02+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -142,7 +142,7 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/trivial_rmw.c:56
+#: src/trivial_rmw.c:63
 #, c-format
 msgid ""
 "  \n"
@@ -162,7 +162,7 @@ msgstr ""
 "Wiederherstellung\n"
 "  -u, --undo-last           letzten Entfernvorgang rückgängig machen\n"
 
-#: src/trivial_rmw.c:62
+#: src/trivial_rmw.c:69
 #, c-format
 msgid ""
 "  \n"
@@ -178,7 +178,7 @@ msgstr ""
 
 #. TRANSLATORS: "return" code refers to a number returned by an operation
 #. * or function
-#: src/messages_rmw.c:161
+#: src/messages_rmw.c:167
 #, c-format
 msgid "  :return code: %d -- %s\n"
 msgstr ""
@@ -221,38 +221,38 @@ msgstr ""
 "#\n"
 "WASTE = $HOME/.trash.rmw\n"
 
-#: src/purging_rmw.c:443
+#: src/purging_rmw.c:444
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d Verzeichnisse übersprungen (RMDIR_MAX_DEPTH erreicht)\n"
 
-#: src/purging_rmw.c:447
+#: src/purging_rmw.c:448
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d Verzeichnisse +bersprungen (enthält schreibgeschützte Dateien)\n"
 
-#: src/purging_rmw.c:450
+#: src/purging_rmw.c:451
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/rmw.c:481
+#: src/rmw.c:483
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
 msgstr[0] "%d Datei wurde in den Papierkorb verschoben"
 msgstr[1] "%d Dateien wurden in den Papierkorb verschoben"
 
-#: src/purging_rmw.c:461
+#: src/purging_rmw.c:462
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/rmw.c:494
+#: src/rmw.c:496
 #, c-format
 msgid "'-f/--force' does nothing without '-g/--purge'\n"
 msgstr ""
@@ -260,18 +260,18 @@ msgstr ""
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:395
+#: src/restore_rmw.c:394
 msgid "'q' - quit"
 msgstr "'q' - beenden"
 
-#: src/purging_rmw.c:458
+#: src/purging_rmw.c:459
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:454
+#: src/purging_rmw.c:455
 #, fuzzy, c-format
 #| msgid "%d file purged"
 #| msgid_plural "%d files purged"
@@ -280,7 +280,7 @@ msgid_plural "(%d files deleted)"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/purging_rmw.c:344
+#: src/purging_rmw.c:345
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(überprüfe Eigentümer/Schreibberechtigung)\n"
@@ -297,18 +297,18 @@ msgstr "-r / --recurse: nicht implementiert\n"
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:388
+#: src/restore_rmw.c:387
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<PFEIL-RECHTS / PFEIL-LINKS> - zwischen Papierkörben wechseln"
 
-#: src/restore_rmw.c:389
+#: src/restore_rmw.c:388
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<LEERTASTE> - Eintrag auswählen oder Auswahl aufheben. / <ENTER> - "
 "ausgewählte Einträge wiederherstellen"
 
-#: src/restore_rmw.c:384
+#: src/restore_rmw.c:383
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -331,39 +331,32 @@ msgstr "Verzeichnis %s wurde angelegt\n"
 msgid "Creating default configuration file:"
 msgstr ""
 
-#: src/purging_rmw.c:342
+#: src/purging_rmw.c:343
 #, fuzzy, c-format
 #| msgid " :warning: Directory not purged - still contains files\n"
 msgid "Directory not purged - still contains files\n"
 msgstr " :Warnung: Verzeichnis wurde nicht geleert - es enthält noch Dateien\n"
 
-#: src/restore_rmw.c:226
+#: src/restore_rmw.c:225
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelter Dateiname im Ziel - füge Zeitstempel an...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:390 src/restore_rmw.c:282
+#: src/rmw.c:390 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Datei nicht gefunden: '%s'\n"
 
-#: src/messages_rmw.c:221
-msgid ""
-"If you think this may be a bug, please report it to the rmw developers.\n"
-msgstr ""
-"Wenn du denkst, dass es sich dabei um einen Fehler handeln könnte, melde ihn "
-"bitte an die rmw-Entwickler.\n"
-
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:352
+#: src/purging_rmw.c:353
 #, fuzzy, c-format
 #| msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :Warnung: Maximale Tiefe von %u erreicht, überspringe\n"
 
-#: src/rmw.c:496
+#: src/rmw.c:498
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -372,7 +365,7 @@ msgstr ""
 "Keine Dateinamen oder Kommandozeilenoptionen wurden übergeben\n"
 "Gib '%s -h' ein, um mehr Informationen zu erhalten\n"
 
-#: src/rmw.c:474
+#: src/rmw.c:476
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
@@ -398,12 +391,12 @@ msgstr ""
 "\n"
 "Lösche Dateien auf Grundlage der Verweildauer in den Papierkörben (%u) ...\n"
 
-#: src/restore_rmw.c:326
+#: src/restore_rmw.c:325
 #, c-format
 msgid "Reading %s...\n"
 msgstr ""
 
-#: src/trivial_rmw.c:67
+#: src/trivial_rmw.c:74
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Melde Fehler an <%s>.\n"
@@ -411,7 +404,7 @@ msgstr "Melde Fehler an <%s>.\n"
 #. TRANSLATORS: ignore "Restore()"
 #. * "returned" refers to an error code (number) that was returned by
 #. * an operation
-#: src/messages_rmw.c:135
+#: src/messages_rmw.c:141
 #, fuzzy, c-format
 #| msgid " :warning: Restore() returned errors\n"
 msgid "Restore() returned %d\n"
@@ -423,7 +416,7 @@ msgstr " :Warnung: Restore() hat Fehler gemeldet\n"
 msgid "Searching using only the basename...\n"
 msgstr "Suche nur nach dem Basisnamen...\n"
 
-#: src/trivial_rmw.c:72
+#: src/trivial_rmw.c:79
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -460,7 +453,7 @@ msgstr ""
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
 
-#: src/trivial_rmw.c:37
+#: src/trivial_rmw.c:44
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: rmw [OPTION]... FILE...\n"
@@ -531,14 +524,6 @@ msgstr ""
 msgid "attached"
 msgstr ""
 
-#. TRANSLATORS:  "buffer" in the following instances refers to the amount
-#. * of memory allocated for a string
-#: src/messages_rmw.c:220
-#, fuzzy
-#| msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
-msgid "buffer overrun (segmentation fault) prevented.\n"
-msgstr "  :Fehler: Pufferüberlauf (Speicherzugriffsverletzung) verhindert.\n"
-
 #: src/config_rmw.c:353
 #, c-format
 msgid "config file: %s\n"
@@ -549,7 +534,7 @@ msgstr ""
 msgid "detached"
 msgstr ""
 
-#: src/restore_rmw.c:511
+#: src/restore_rmw.c:510
 #, fuzzy, c-format
 #| msgid " :warning: failed to remove %s\n"
 msgid "failed to remove %s\n"
@@ -560,14 +545,14 @@ msgstr " :Warnung: Konnte %s nicht entfernen\n"
 #. *               "format" refers to the layout of the file
 #. *                contents
 #.
-#: src/messages_rmw.c:117
+#: src/messages_rmw.c:123
 #, fuzzy, c-format
 #| msgid "  :Error: format of .trashinfo `file %s` is incorrect)"
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "  :Fehler: Format von .trashinfo `Datei %s` ist fehlerhaft)"
 
 #. TRANSLATORS:  "function" refers to a C function
-#: src/messages_rmw.c:75 src/messages_rmw.c:101
+#: src/messages_rmw.c:75 src/messages_rmw.c:107
 #, c-format
 msgid "function: <%s>"
 msgstr "Funktion: <%s>"
@@ -600,13 +585,6 @@ msgstr ""
 "  https://github.com/andy5995/rmw/wiki\n"
 "Kann nicht fortfahren. Beende...\n"
 
-#. TRANSLATORS: Do not translate ".trashinfo"
-#: src/rmw.c:453
-#, fuzzy, c-format
-#| msgid "  :Error: number %d trying to create a .trashinfo file\n"
-msgid "number %d trying to create a .trashinfo file\n"
-msgstr "  :Fehler: Nr. %d beim Versuch, eine .trashinfo-Datei anzulegen\n"
-
 #: src/rmw.c:317
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
@@ -634,8 +612,17 @@ msgstr "Fehler: realpath() hat einen Fehler zurückgeliefert.\n"
 msgid "removable, "
 msgstr ""
 
-#: src/trivial_rmw.c:87
-#, c-format
+#: src/trivial_rmw.c:94
+#, fuzzy, c-format
+#| msgid ""
+#| "rmw %s\n"
+#| "Author: Andy Alt (andy400-dev@yahoo.com)\n"
+#| "The RMW team: see AUTHORS file\n"
+#| "This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -"
+#| "w.'\n"
+#| "This is free software, and you are welcome to redistribute it\n"
+#| "under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n"
+#| "for details.\n"
 msgid ""
 "rmw %s\n"
 "Author: Andy Alt (andy400-dev@yahoo.com)\n"
@@ -676,7 +663,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/messages_rmw.c:147
+#: src/messages_rmw.c:153
 #, c-format
 msgid "while attempting to allocate memory -- %s:%d\n"
 msgstr ""
@@ -687,13 +674,13 @@ msgstr ""
 msgid "while changing permissions of %s\n"
 msgstr "  :Fehler: Berechtigungen von %s konnten nicht geändert werden\n"
 
-#: src/messages_rmw.c:98
+#: src/messages_rmw.c:104
 #, fuzzy, c-format
 #| msgid "  :Error: while closing %s\n"
 msgid "while closing %s\n"
 msgstr "  :Fehler: %s konnte nicht geschlossen werden\n"
 
-#: src/purging_rmw.c:523 src/utils_rmw.c:89
+#: src/purging_rmw.c:525 src/utils_rmw.c:89
 #, fuzzy, c-format
 #| msgid "  :Error: while creating %s\n"
 msgid "while creating %s\n"
@@ -713,27 +700,27 @@ msgstr ""
 msgid "while opening %s\n"
 msgstr "  :Fehler: %s konnte nicht geöffnet werden\n"
 
-#: src/messages_rmw.c:178
+#: src/messages_rmw.c:184
 #, fuzzy, c-format
 #| msgid "  :Error: while opening %s\n"
 msgid "while opening %s -- %s:%d\n"
 msgstr "  :Fehler: %s konnte nicht geöffnet werden\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:374 src/purging_rmw.c:381 src/purging_rmw.c:404
-#: src/purging_rmw.c:428
+#: src/purging_rmw.c:375 src/purging_rmw.c:382 src/purging_rmw.c:405
+#: src/purging_rmw.c:429
 #, fuzzy, c-format
 #| msgid "  :Error: while removing %s\n"
 msgid "while removing %s\n"
 msgstr "  :Fehler: %s konnte nicht entfernt werden\n"
 
-#: src/restore_rmw.c:248
+#: src/restore_rmw.c:247
 #, fuzzy, c-format
 #| msgid "  :Error: while removing .trashinfo file: '%s'\n"
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "  :Fehler: .trashinfo-Datei '%s' konnte nicht entfernt werden\n"
 
-#: src/messages_rmw.c:187
+#: src/messages_rmw.c:193
 #, c-format
 msgid ""
 "while trying to move (rename)\n"
@@ -901,5 +888,22 @@ msgstr ""
 #~ msgid "'%s' not found\n"
 #~ msgstr "'%s' nicht gefunden\n"
 
+#~ msgid ""
+#~ "If you think this may be a bug, please report it to the rmw developers.\n"
+#~ msgstr ""
+#~ "Wenn du denkst, dass es sich dabei um einen Fehler handeln könnte, melde "
+#~ "ihn bitte an die rmw-Entwickler.\n"
+
 #~ msgid "Skipped: %s is in a protected directory\n"
 #~ msgstr "Übersprungen: %s befindet sich in einem geschützten Verzeichnis\n"
+
+#, fuzzy
+#~| msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
+#~ msgid "buffer overrun (segmentation fault) prevented.\n"
+#~ msgstr ""
+#~ "  :Fehler: Pufferüberlauf (Speicherzugriffsverletzung) verhindert.\n"
+
+#, fuzzy
+#~| msgid "  :Error: number %d trying to create a .trashinfo file\n"
+#~ msgid "number %d trying to create a .trashinfo file\n"
+#~ msgstr "  :Fehler: Nr. %d beim Versuch, eine .trashinfo-Datei anzulegen\n"
