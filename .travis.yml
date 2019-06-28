@@ -105,7 +105,7 @@ before_install:
     fi
 
 script:
-  - if [ -n "$COVERITY_SCAN_TOKEN" ]; then \
+  - if [ -n "$COVERITY_SCAN_TOKEN" ]; then
       exit 0;
     fi
   - mkdir build && cd build
