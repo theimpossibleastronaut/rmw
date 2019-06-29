@@ -104,7 +104,7 @@ main (const int argc, char* const argv[])
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  const char *const short_options = "hvc:goz:lstuwVfir";
+  const char *const short_options = "hvc:goz:lstuwVfeir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -122,6 +122,7 @@ main (const int argc, char* const argv[])
     {"interactive", 0, NULL, 'i'},
     {"recurse", 0, NULL, 'r'},
     {"force", 0, NULL, 'f'},
+    {"empty", 0, NULL, 'e'},
     {NULL, 0, NULL, 0}
   };
 
@@ -134,6 +135,7 @@ main (const int argc, char* const argv[])
   bool want_orphan_chk = 0;
   bool want_selection_menu = 0;
   bool want_undo = 0;
+  bool empty_trash = 0;
 
   do
   {
@@ -185,6 +187,10 @@ main (const int argc, char* const argv[])
       break;
     case 'f':
       force++;
+      break;
+    case 'e':
+      printf("option -e selected!\n");
+      empty_trash = 1;
       break;
     case '?':
       print_usage ();
@@ -317,7 +323,19 @@ Please check your configuration file and permissions\n\n"));
         printf (_("purge has been skipped: use -f or --force\n"));
     }
   }
-
+  
+  if (empty_trash) {
+    printf("All the files in trash will be unrecoverable after empty.\n");
+    if (user_verify())
+    {
+      empty_option_purge (waste_curr, 1);
+    }
+    else
+    {
+      printf("Abort.\n");
+    }
+  }
+  
   /* String appended to duplicate filenames */
   time_str_appended = calloc (LEN_TIME_STR_APPENDED, 1);
   get_time_string (time_str_appended, LEN_TIME_STR_APPENDED, "_%H%M%S-%y%m%d");
@@ -490,7 +508,7 @@ Please check your configuration file and permissions\n\n"));
     if (main_error > 1)
       return main_error;
   }
-  else if (!want_purge && created_data_dir != FIRST_RUN)
+  else if (!want_purge && !empty_trash && created_data_dir != FIRST_RUN)
   {
     if (force)
       printf (_("'-f/--force' does nothing without '-g/--purge'\n"));
@@ -707,5 +725,30 @@ create_undo_file (st_removed *removals, st_removed *removals_head)
   }
   else
     open_err (undo_path, __func__);
+}
+
+/*!
+ * Verify with the user about an action. The prompt produced will be
+ * "Do you want to continue? (y/n): ". If the user provides "y",
+ * then 1 is returned, else 0 is returned.
+ * @return bool
+ */
+bool
+user_verify (void)
+{
+  printf("Do you want to continue? (y/n): ");
+  char answer;
+  bool yes = 0;
+  int char_count = 0;
+  // Go through every char to empty the buffer.
+  
+  while ((answer = getchar()) != '\n' && answer != EOF)
+  {
+    yes = (strcmp(&answer, "y")==0);
+    char_count++;
+  }
+  yes = yes && (char_count <= 1);
+
+  return yes;
 }
 

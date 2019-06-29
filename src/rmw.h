@@ -215,4 +215,6 @@ is_time_to_purge (void);
 char*
 set_time_now_format (void);
 
+bool
+user_verify (void);
 #endif

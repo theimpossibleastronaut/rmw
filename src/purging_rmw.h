@@ -37,4 +37,6 @@
 
 int purge (const st_waste * waste_curr);
 
+int empty_option_purge (const st_waste * waste_curr, const bool empty_trash);
+
 short orphan_maint (st_waste * waste_curr);

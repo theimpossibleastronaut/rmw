@@ -244,18 +244,32 @@ out:
  * @see is_time_to_purge
  * @see get_then_time
  */
-int
+int 
 purge (const st_waste * waste_curr)
+{
+  return empty_option_purge(waste_curr, 0);
+}
+
+/*!
+ * Purges files older than x number of days, unless purge_after is set to
+ * 0 in the config file.
+ * @param[in] waste_curr the linked list of waste folders
+ * @param[in] empty_trash forces the trash to be completely emptied
+ * @return error number
+ * @see is_time_to_purge
+ * @see get_then_time
+ */
+int
+empty_option_purge (const st_waste * waste_curr, bool cmd_empty)
 {
   short status = 0;
 
-  bool cmd_empty = 0;
   bool cmd_dry_run = 0;
   char *rmwtrash_env = getenv("RMWTRASH");
 
   if (rmwtrash_env != NULL)
   {
-    cmd_empty = strcmp (rmwtrash_env, "empty") ? 0 : 1;
+    cmd_empty = (strcmp (rmwtrash_env, "empty")==0);
     cmd_dry_run = strcmp (rmwtrash_env, "dry-run") ? 0 : 1;
   }
 
