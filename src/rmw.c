@@ -189,7 +189,6 @@ main (const int argc, char* const argv[])
       force++;
       break;
     case 'e':
-      printf("option -e selected!\n");
       empty_trash = 1;
       break;
     case '?':

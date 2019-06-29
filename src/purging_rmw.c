@@ -244,7 +244,7 @@ out:
  * @see is_time_to_purge
  * @see get_then_time
  */
-int 
+int
 purge (const st_waste * waste_curr)
 {
   return empty_option_purge(waste_curr, 0);
@@ -269,7 +269,7 @@ empty_option_purge (const st_waste * waste_curr, bool cmd_empty)
 
   if (rmwtrash_env != NULL)
   {
-    cmd_empty = (strcmp (rmwtrash_env, "empty")==0);
+    cmd_empty = (strcmp (rmwtrash_env, "empty") == 0);
     cmd_dry_run = strcmp (rmwtrash_env, "dry-run") ? 0 : 1;
   }
 
