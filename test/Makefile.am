@@ -1,4 +1,4 @@
-CFLAGS = -I$(top_srcdir)/src
+AM_CFLAGS = -I$(top_srcdir)/src
 
 check_PROGRAMS = \
 	strings	\

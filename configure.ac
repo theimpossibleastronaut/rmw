@@ -1,6 +1,6 @@
 AC_INIT([rmw], [0.7.02], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
 AC_CONFIG_AUX_DIR([build-aux])
-AM_INIT_AUTOMAKE([subdir-objects foreign no-dependencies])
+AM_INIT_AUTOMAKE([-Wall subdir-objects foreign no-dependencies])
 AM_SILENT_RULES([yes])
 AC_PREREQ(2.69)
 AC_CONFIG_HEADERS([src/config.h:config.in])
@@ -31,6 +31,7 @@ AM_MAINTAINER_MODE
 
 # For creating the static test library
 AC_PROG_RANLIB
+AM_PROG_AR
 
 AX_WITH_CURSES
 if test "x$ax_cv_curses" != xyes; then
