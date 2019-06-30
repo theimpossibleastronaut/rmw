@@ -1,6 +1,6 @@
 bin_PROGRAMS=rmw
-AM_CFLAGS = -std=c99 -Wall
-AM_CFLAGS +=  @CURSES_CFLAGS@
+AM_CFLAGS = @GLOBAL_CFLAGS@
+AM_CFLAGS += @CURSES_CFLAGS@
 
 if IS_RELEASE_FALSE
 git_rev := $(shell \
