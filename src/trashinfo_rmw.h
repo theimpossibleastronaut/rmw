@@ -26,5 +26,8 @@
 #include "rmw.h"
 #include <sys/stat.h>
 
+bool
+escape_url (const char *str, char *dest, const int len);
+
 int
 create_trashinfo (rmw_target *file, st_waste *waste_curr);

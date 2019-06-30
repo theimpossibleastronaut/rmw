@@ -27,23 +27,25 @@
 #include "utils_rmw.h"
 #include "messages_rmw.h"
 
-/**
- * is_unreserved()
- * returns 1 if the character c is unreserved,  else returns 0
+/*!
+  *
+  * According to RFC2396, we must escape any character that's
+  * reserved or not available in US-ASCII, for simplification, here's
+  * the character that we must accept:
+  *
+  * - Alphabethics (A-Z and a-z)
+  * - Numerics (0-9)
+  * - The following charcters: ~ _ - .
+  *
+  * For purposes of this application we will not convert "/"s, as in
+  * this case they correspond to their semantic meaning.
+  * @param[in] c the character to check
+  * returns true if the character c is unreserved
+  * @see escape_url
+  * @see unescape_url
  */
 static bool is_unreserved (char c)
 {
-  /* According to RFC2396, we must escape any character that's
-   * reserved or not available in US-ASCII, for simplification, here's
-   * the character that we must accept:
-   *
-   * - Alphabethics (A-Z and a-z)
-   * - Numerics (0-9)
-   * - The following charcters: ~ _ - .
-   *
-   * For purposes of this application we will not convert "/"s, as in
-   * this case they correspond to their semantic meaning.
-   */
   if ( ('A' <= c && c <= 'Z') ||
        ('a' <= c && c <= 'z') ||
        ('0' <= c && c <= '9') )
@@ -57,7 +59,6 @@ static bool is_unreserved (char c)
     default:
       return 0;
   }
-
 }
 
 /**
@@ -66,7 +67,7 @@ static bool is_unreserved (char c)
  * Convert str into a URL valid string, escaping when necesary
  * returns 0 on success, 1 on failure
  */
-static bool escape_url (const char *str, char *dest, const int len)
+bool escape_url (const char *str, char *dest, const int len)
 {
   int pos_str;
   int pos_dest;

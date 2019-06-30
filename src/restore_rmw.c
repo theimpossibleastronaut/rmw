@@ -40,7 +40,7 @@
  * that appear.
  * returns 0 on succes, 1 on failure
  */
-static bool
+bool
 unescape_url (const char *str, char *dest, const int len)
 {
   int pos_str;
