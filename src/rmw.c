@@ -76,6 +76,9 @@ int purge_after = 0;
 ushort force = 0;
 bool force_required = 0;
 
+/*! Set from the command line and used to empty the entire contents of trash. */
+bool want_empty_trash = 0;
+
 /*
  * Defined when `make check` is used to build rmw as a library for unit testing,
  * or if built as a library
@@ -135,7 +138,6 @@ main (const int argc, char* const argv[])
   bool want_orphan_chk = 0;
   bool want_selection_menu = 0;
   bool want_undo = 0;
-  bool empty_trash = 0;
 
   do
   {
@@ -189,7 +191,8 @@ main (const int argc, char* const argv[])
       force++;
       break;
     case 'e':
-      empty_trash = 1;
+      want_empty_trash = 1;
+      want_purge = 1;
       break;
     case '?':
       print_usage ();
@@ -320,18 +323,6 @@ Please check your configuration file and permissions\n\n"));
         purge (waste_curr);
       else
         printf (_("purge has been skipped: use -f or --force\n"));
-    }
-  }
-  
-  if (empty_trash) {
-    printf("All the files in trash will be unrecoverable after empty.\n");
-    if (user_verify())
-    {
-      empty_option_purge (waste_curr, 1);
-    }
-    else
-    {
-      printf("Abort.\n");
     }
   }
   
@@ -507,7 +498,7 @@ Please check your configuration file and permissions\n\n"));
     if (main_error > 1)
       return main_error;
   }
-  else if (!want_purge && !empty_trash && created_data_dir != FIRST_RUN)
+  else if (!want_purge && !want_empty_trash && created_data_dir != FIRST_RUN)
   {
     if (force)
       printf (_("'-f/--force' does nothing without '-g/--purge'\n"));

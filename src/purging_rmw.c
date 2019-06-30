@@ -247,39 +247,31 @@ out:
 int
 purge (const st_waste * waste_curr)
 {
-  return empty_option_purge(waste_curr, 0);
-}
-
-/*!
- * Purges files older than x number of days, unless purge_after is set to
- * 0 in the config file.
- * @param[in] waste_curr the linked list of waste folders
- * @param[in] empty_trash forces the trash to be completely emptied
- * @return error number
- * @see is_time_to_purge
- * @see get_then_time
- */
-int
-empty_option_purge (const st_waste * waste_curr, bool cmd_empty)
-{
   short status = 0;
 
   bool cmd_dry_run = 0;
   char *rmwtrash_env = getenv("RMWTRASH");
 
   if (rmwtrash_env != NULL)
-  {
-    cmd_empty = (strcmp (rmwtrash_env, "empty") == 0);
     cmd_dry_run = strcmp (rmwtrash_env, "dry-run") ? 0 : 1;
+  
+  const extern bool want_empty_trash;
+  if (want_empty_trash) {
+    printf("All the files in trash will be unrecoverable after empty.\n");
+    if (!user_verify())
+    {
+      printf("Abort.\n");
+      return 0;
+    }
   }
-
+  
   /* if dry-run was enabled, assume verbosity as well */
   if (cmd_dry_run)
     verbose = 1;
 
   extern const int purge_after;
   printf ("\n");
-  if (cmd_empty)
+  if (want_empty_trash)
     printf (_("Purging all files in waste folders ...\n"));
   else
     printf (_("Purging files based on number of days in the waste folders (%u) ...\n"),
@@ -321,10 +313,10 @@ empty_option_purge (const st_waste * waste_curr, bool cmd_empty)
       snprintf (entry_path, req_len, "%s%s", waste_curr->info, entry->d_name);
 
       /* skip this block if RMWTRASH=empty */
-      if (!cmd_empty && !(then = get_then_time(entry, entry_path)))
+      if (!want_empty_trash && !(then = get_then_time(entry, entry_path)))
           continue;
 
-      if (then + (86400 * purge_after) <= now || cmd_empty)
+      if (then + (86400 * purge_after) <= now || want_empty_trash)
       {
         bool success = 0;
 
