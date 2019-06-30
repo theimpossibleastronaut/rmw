@@ -90,6 +90,11 @@
   #define ushort unsigned short int
 #endif
 
+struct rmw_options
+{
+  bool want_restore;
+};
+
 typedef struct st_waste st_waste;
 
 /** Each waste directory is added to a linked list and has the data
@@ -191,6 +196,9 @@ enum {
 
 st_removed*
 add_removal (st_removed *removals, const char *file);
+
+void
+rmw_option_init (struct rmw_options *x);
 
 void
 create_undo_file (st_removed *removals, st_removed *removals_head);

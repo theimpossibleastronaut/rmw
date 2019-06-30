@@ -128,10 +128,10 @@ main (const int argc, char* const argv[])
   short int next_option = 0;
 
   verbose = 0; /* already declared, a global */
-
+  struct rmw_options cli_user_options;
+  rmw_option_init (&cli_user_options);
   bool want_purge = 0;
   bool want_orphan_chk = 0;
-  bool want_restore = 0;
   bool want_selection_menu = 0;
   bool want_undo = 0;
 
@@ -163,7 +163,7 @@ main (const int argc, char* const argv[])
       want_orphan_chk = 1;
       break;
     case 'z':
-      want_restore = 1;
+      cli_user_options.want_restore = true;
       break;
     case 's':
       want_selection_menu = 1;
@@ -347,7 +347,7 @@ Please check your configuration file and permissions\n\n"));
 
   int file_arg = 0;
 
-  if (want_restore)
+  if (cli_user_options.want_restore)
   {
     int restore_errors = 0;
     /* subtract 1 from optind otherwise the first file in the list isn't
@@ -510,6 +510,12 @@ Enter '%s -h' for more information\n"), argv[0]);
   return 0;
 }
 #endif
+
+void
+rmw_option_init (struct rmw_options *x)
+{
+  x->want_restore = false;
+}
 
 /*!
  * Returns a formatted string based on whether or not
