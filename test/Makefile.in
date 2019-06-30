@@ -135,7 +135,8 @@ strings_LDADD = $(LDADD)
 strings_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 am_url_encoding_OBJECTS = url_encoding.$(OBJEXT)
 url_encoding_OBJECTS = $(am_url_encoding_OBJECTS)
-url_encoding_DEPENDENCIES = $(LDADD)
+url_encoding_LDADD = $(LDADD)
+url_encoding_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -537,8 +538,7 @@ test_scripts = \
 	buffer_overrun.sh
 
 TESTS = $(check_PROGRAMS) $(test_scripts)
-LDADD = $(top_builddir)/src/librmw_test.a
-url_encoding_LDADD = $(LDADD) @MENU_LIBS@ @CURSES_LIBS@
+LDADD = $(top_builddir)/src/librmw_test.a @MENU_LIBS@ @CURSES_LIBS@
 EXTRA_DIST = \
 	README	\
 	COMMON \
