@@ -128,24 +128,24 @@ test_result $?
 
 echo
 echo
-echo " == preceding RMWTRASH=empty with the rmw command should completely"
-echo " == purge the waste folders, no matter when they were deleted"
+echo " == rmw -e command should completely purge the waste folders,"
+echo " == no matter when they were deleted"
 
-$RMW_TEST_CMD_STRING --verbose $HOME/somefiles
-test_result $?
+# $RMW_TEST_CMD_STRING --verbose $HOME/somefiles
+# test_result $?
 
-echo " == Should not work if '-f' isn't used"
-output=`RMWTRASH=empty $RMW_ALT_TEST_CMD_STRING --purge`
-test "$output" = "purge has been skipped: use -f or --force"
-test_result $?
-
-echo " == Should not work if '--purge' isn't used"
-output=`RMWTRASH=empty $RMW_TEST_CMD_STRING -f`
-test "$output" = "'-f/--force' does nothing without '-g/--purge'"
-test_result $?
-
+# echo " == Should not work if '-f' isn't used"
+# output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
+# test "$output" = "purge has been skipped: use -f or --force"
+# test_result $?
+# 
+# echo " == Should not work if '--purge' isn't used"
+# output=`echo "y" | $RMW_TEST_CMD_STRING -ffe`
+# test "$output" = "'-f/--force' does nothing without '-g/--purge'"
+# test_result $?
+# 
 echo " == Should not work if '--purge' and '-f' isn't used"
-RMWTRASH=empty $RMW_TEST_CMD_STRING
+echo "y" | $RMW_TEST_CMD_STRING -e
 test_result $?
 
 echo

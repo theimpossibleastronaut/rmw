@@ -139,6 +139,7 @@ Restore FILE(s) from a WASTE directory
 -g, --purge               run purge even if it's been run today
 -o, --orphaned            check for orphaned files (maintenance)
 -f, --force               allow purge to run
+-e, --empty               empty all the contents of all trash folders
 -v, --verbose             increase output messages
 -w, --warranty            display warranty
 -V, --version             display version and license information
