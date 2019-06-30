@@ -88,7 +88,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 check_PROGRAMS = strings$(EXEEXT) config_test$(EXEEXT) \
-	multi_strlen$(EXEEXT) buffer_overrun$(EXEEXT)
+	multi_strlen$(EXEEXT) buffer_overrun$(EXEEXT) \
+	url_encoding$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps =  \
@@ -132,6 +133,9 @@ am_strings_OBJECTS = strings.$(OBJEXT)
 strings_OBJECTS = $(am_strings_OBJECTS)
 strings_LDADD = $(LDADD)
 strings_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+am_url_encoding_OBJECTS = url_encoding.$(OBJEXT)
+url_encoding_OBJECTS = $(am_url_encoding_OBJECTS)
+url_encoding_DEPENDENCIES = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -160,9 +164,11 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(buffer_overrun_SOURCES) $(config_test_SOURCES) \
-	$(multi_strlen_SOURCES) $(strings_SOURCES)
+	$(multi_strlen_SOURCES) $(strings_SOURCES) \
+	$(url_encoding_SOURCES)
 DIST_SOURCES = $(buffer_overrun_SOURCES) $(config_test_SOURCES) \
-	$(multi_strlen_SOURCES) $(strings_SOURCES)
+	$(multi_strlen_SOURCES) $(strings_SOURCES) \
+	$(url_encoding_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -523,6 +529,7 @@ strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
 multi_strlen_SOURCES = multi_strlen.c
 buffer_overrun_SOURCES = buffer_overrun.c
+url_encoding_SOURCES = url_encoding.c
 test_scripts = \
 	basic.sh	\
 	purging.sh	\
@@ -531,6 +538,7 @@ test_scripts = \
 
 TESTS = $(check_PROGRAMS) $(test_scripts)
 LDADD = $(top_builddir)/src/librmw_test.a
+url_encoding_LDADD = $(LDADD) @MENU_LIBS@ @CURSES_LIBS@
 EXTRA_DIST = \
 	README	\
 	COMMON \
@@ -601,6 +609,10 @@ multi_strlen$(EXEEXT): $(multi_strlen_OBJECTS) $(multi_strlen_DEPENDENCIES) $(EX
 strings$(EXEEXT): $(strings_OBJECTS) $(strings_DEPENDENCIES) $(EXTRA_strings_DEPENDENCIES) 
 	@rm -f strings$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(strings_OBJECTS) $(strings_LDADD) $(LIBS)
+
+url_encoding$(EXEEXT): $(url_encoding_OBJECTS) $(url_encoding_DEPENDENCIES) $(EXTRA_url_encoding_DEPENDENCIES) 
+	@rm -f url_encoding$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(url_encoding_OBJECTS) $(url_encoding_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -831,6 +843,13 @@ multi_strlen.log: multi_strlen$(EXEEXT)
 buffer_overrun.log: buffer_overrun$(EXEEXT)
 	@p='buffer_overrun$(EXEEXT)'; \
 	b='buffer_overrun'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+url_encoding.log: url_encoding$(EXEEXT)
+	@p='url_encoding$(EXEEXT)'; \
+	b='url_encoding'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

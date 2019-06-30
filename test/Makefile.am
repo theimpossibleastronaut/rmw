@@ -4,12 +4,14 @@ check_PROGRAMS = \
 	strings	\
 	config_test \
 	multi_strlen	\
-	buffer_overrun
+	buffer_overrun	\
+	url_encoding
 
 strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
 multi_strlen_SOURCES = multi_strlen.c
 buffer_overrun_SOURCES = buffer_overrun.c
+url_encoding_SOURCES = url_encoding.c
 
 test_scripts =	\
 	basic.sh	\
@@ -20,6 +22,8 @@ test_scripts =	\
 TESTS=$(check_PROGRAMS) $(test_scripts)
 
 LDADD = $(top_builddir)/src/librmw_test.a
+
+url_encoding_LDADD =  $(LDADD) @MENU_LIBS@ @CURSES_LIBS@
 
 EXTRA_DIST=	\
 	README	\
