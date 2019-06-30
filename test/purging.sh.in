@@ -131,8 +131,8 @@ echo
 echo " == rmw -e command should completely purge the waste folders,"
 echo " == no matter when they were deleted"
 
-# $RMW_TEST_CMD_STRING --verbose $HOME/somefiles
-# test_result $?
+$RMW_TEST_CMD_STRING --verbose $HOME/somefiles
+test_result $?
 
 # echo " == Should not work if '-f' isn't used"
 # output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
@@ -143,7 +143,11 @@ echo " == no matter when they were deleted"
 # output=`echo "y" | $RMW_TEST_CMD_STRING -ffe`
 # test "$output" = "'-f/--force' does nothing without '-g/--purge'"
 # test_result $?
-# 
+#
+echo " == empty works with force empty (-ffe)"
+echo "y" | $RMW_TEST_CMD_STRING -ffe
+test_result $?
+
 echo " == Should not work if '--purge' and '-f' isn't used"
 echo "y" | $RMW_TEST_CMD_STRING -e
 test_result $?
