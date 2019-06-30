@@ -76,9 +76,6 @@ int purge_after = 0;
 ushort force = 0;
 bool force_required = 0;
 
-/*! Set from the command line and used to empty the entire contents of trash. */
-bool want_empty_trash = 0;
-
 /*
  * Defined when `make check` is used to build rmw as a library for unit testing,
  * or if built as a library
@@ -132,9 +129,8 @@ main (const int argc, char* const argv[])
   short int next_option = 0;
 
   verbose = 0; /* already declared, a global */
-  struct rmw_options cli_user_options;
+  rmw_options cli_user_options;
   rmw_option_init (&cli_user_options);
-  bool want_purge = 0;
   bool want_orphan_chk = 0;
   bool want_selection_menu = 0;
   bool want_undo = 0;
@@ -161,7 +157,7 @@ main (const int argc, char* const argv[])
       list = 1;
       break;
     case 'g':
-      want_purge = 1;
+      cli_user_options.want_purge = true;
       break;
     case 'o':
       want_orphan_chk = 1;
@@ -191,8 +187,8 @@ main (const int argc, char* const argv[])
       force++;
       break;
     case 'e':
-      want_empty_trash = 1;
-      want_purge = 1;
+      cli_user_options.want_empty_trash = true;
+      cli_user_options.want_purge = true;
       break;
     case '?':
       print_usage ();
@@ -309,7 +305,7 @@ Please check your configuration file and permissions\n\n"));
   /** This if statement spits out a message if someone tries to use -g on
    * the command line but has purge_after set to 0 in the config
    */
-  if (want_purge && !purge_after)
+  if (cli_user_options.want_purge && !purge_after)
   {
   /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
    * directory  */
@@ -317,10 +313,10 @@ Please check your configuration file and permissions\n\n"));
   }
   else if (purge_after)
   {
-    if (want_purge || is_time_to_purge())
+    if (cli_user_options.want_purge || is_time_to_purge())
     {
       if (!force_required || force)
-        purge (waste_curr);
+        purge (waste_curr, &cli_user_options);
       else
         printf (_("purge has been skipped: use -f or --force\n"));
     }
@@ -498,7 +494,7 @@ Please check your configuration file and permissions\n\n"));
     if (main_error > 1)
       return main_error;
   }
-  else if (!want_purge && !want_empty_trash && created_data_dir != FIRST_RUN)
+  else if (!cli_user_options.want_purge && !cli_user_options.want_empty_trash && created_data_dir != FIRST_RUN)
   {
     if (force)
       printf (_("'-f/--force' does nothing without '-g/--purge'\n"));
@@ -520,9 +516,11 @@ Enter '%s -h' for more information\n"), argv[0]);
 #endif
 
 void
-rmw_option_init (struct rmw_options *x)
+rmw_option_init (rmw_options *options)
 {
-  x->want_restore = false;
+  options->want_restore = false;
+  options->want_purge = false;
+  options->want_empty_trash = false;
 }
 
 /*!
@@ -715,30 +713,5 @@ create_undo_file (st_removed *removals, st_removed *removals_head)
   }
   else
     open_err (undo_path, __func__);
-}
-
-/*!
- * Verify with the user about an action. The prompt produced will be
- * "Do you want to continue? (y/n): ". If the user provides "y",
- * then 1 is returned, else 0 is returned.
- * @return bool
- */
-bool
-user_verify (void)
-{
-  printf("Do you want to continue? (y/n): ");
-  char answer;
-  bool yes = 0;
-  int char_count = 0;
-  // Go through every char to empty the buffer.
-  
-  while ((answer = getchar()) != '\n' && answer != EOF)
-  {
-    yes = (strcmp(&answer, "y")==0);
-    char_count++;
-  }
-  yes = yes && (char_count <= 1);
-
-  return yes;
 }
 

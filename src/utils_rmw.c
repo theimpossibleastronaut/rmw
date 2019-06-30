@@ -143,3 +143,28 @@ human_readable_size (off_t size)
 
   return buffer;
 }
+
+/*!
+ * Verify with the user about an action. The prompt produced will be
+ * "Do you want to continue? (y/n): ". If the user provides "y",
+ * then 1 is returned, else 0 is returned.
+ * @return bool
+ */
+bool
+user_verify (void)
+{
+  printf("Do you want to continue? (y/n): ");
+  char answer;
+  bool yes = 0;
+  int char_count = 0;
+  // Go through every char to empty the buffer.
+  
+  while ((answer = getchar()) != '\n' && answer != EOF)
+  {
+    yes = (strcmp(&answer, "y")==0);
+    char_count++;
+  }
+  yes = yes && (char_count <= 1);
+
+  return yes;
+}

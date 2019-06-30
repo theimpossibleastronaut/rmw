@@ -90,9 +90,14 @@
   #define ushort unsigned short int
 #endif
 
+typedef struct rmw_options rmw_options;
+
+/** CLI option switches for rmw. */
 struct rmw_options
 {
   bool want_restore;
+  bool want_purge;
+  bool want_empty_trash;
 };
 
 typedef struct st_waste st_waste;
@@ -100,7 +105,8 @@ typedef struct st_waste st_waste;
 /** Each waste directory is added to a linked list and has the data
  * from this structure associated with it.
  */
-struct st_waste{
+struct st_waste
+{
   /** The parent directory, e.g. $HOME/.local/share/Trash */
   char parent[PATH_MAX + 1];
 
@@ -215,6 +221,4 @@ is_time_to_purge (void);
 char*
 set_time_now_format (void);
 
-bool
-user_verify (void);
 #endif
