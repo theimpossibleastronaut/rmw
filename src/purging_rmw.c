@@ -256,10 +256,10 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
     cmd_dry_run = strcmp (rmwtrash_env, "dry-run") ? 0 : 1;
   
   if (cli_user_options->want_empty_trash) {
-    printf("All the files in trash will be unrecoverable after empty.\n");
+    puts(_("All the files in trash will be unrecoverable after empty."));
     if (!user_verify())
     {
-      printf("Abort.\n");
+      puts(_("Abort."));
       return 0;
     }
   }

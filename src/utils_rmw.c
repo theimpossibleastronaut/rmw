@@ -153,18 +153,23 @@ human_readable_size (off_t size)
 bool
 user_verify (void)
 {
-  printf("Do you want to continue? (y/n): ");
-  char answer;
-  bool yes = 0;
+  fputs(_("Do you want to continue? (Y/n): "), stdout);
+  int answer = getchar();
+  bool want_continue = (answer == (int)'Y') || (answer == (int)'y');
   int char_count = 0;
-  // Go through every char to empty the buffer.
   
-  while ((answer = getchar()) != '\n' && answer != EOF)
-  {
-    yes = (strcmp(&answer, "y")==0);
-    char_count++;
+  /* Check if there's any more chars */
+  if (answer != EOF) {
+    while ((answer = getchar()) != '\n' && answer != EOF)
+    {
+      char_count++;
+      if (char_count>1024) {
+        fputs(_("Too many chars in stdin!!\n"), stderr);
+        exit(EXIT_FAILURE);
+      }
+    }
   }
-  yes = yes && (char_count <= 1);
 
-  return yes;
+  want_continue = want_continue && (char_count < 1);
+  return want_continue;
 }
