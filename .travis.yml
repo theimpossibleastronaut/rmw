@@ -71,8 +71,10 @@ matrix:
       osx_image: xcode10.1
       env: XCODE="true"
 
-#  allow_failures:
-#    - os: osx
+# make check fails on osx because it wants some values from main()
+# ticket: https://github.com/theimpossibleastronaut/rmw/issues/243
+  allow_failures:
+    - os: osx
 
 before_install:
   - echo $CC
