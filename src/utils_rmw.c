@@ -159,17 +159,16 @@ user_verify (void)
   int char_count = 0;
   
   /* Check if there's any more chars */
-  if (answer != EOF) {
-    while ((answer = getchar()) != '\n' && answer != EOF)
-    {
-      char_count++;
-      if (char_count>1024) {
-        fputs(_("Too many chars in stdin!!\n"), stderr);
-        exit(EXIT_FAILURE);
-      }
+  while (answer != '\n' && answer != EOF)
+  {
+    char_count++;
+    if (char_count>1024) {
+      fputs(_("Too many chars in stdin!!\n"), stderr);
+      exit(EXIT_FAILURE);
     }
+    answer = getchar();
   }
 
-  want_continue = want_continue && (char_count < 1);
+  want_continue = want_continue && (char_count <= 1);
   return want_continue;
 }
