@@ -21,9 +21,7 @@ test_scripts =	\
 
 TESTS=$(check_PROGRAMS) $(test_scripts)
 
-LDADD = $(top_builddir)/src/librmw_test.a
-
-url_encoding_LDADD =  $(LDADD) @MENU_LIBS@ @CURSES_LIBS@
+LDADD = $(top_builddir)/src/librmw_test.a @MENU_LIBS@ @CURSES_LIBS@
 
 EXTRA_DIST=	\
 	README	\

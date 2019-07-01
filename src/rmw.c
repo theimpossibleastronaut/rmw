@@ -81,8 +81,10 @@ bool force_required = 0;
  * or if built as a library
  * main() will not be built into the library.
  */
-#ifndef BUILD_LIBRARY
-
+#ifdef BUILD_LIBRARY
+int
+main_test (const int argc, char* const argv[])
+#else
 /*!
  * The "main" part of rmw
  * @param[in] argc The number of paramaters given to rmw at run-time
@@ -91,6 +93,7 @@ bool force_required = 0;
  */
 int
 main (const int argc, char* const argv[])
+#endif
 {
   /* Make sure MP has a sane value */
   if (MP < 256)
@@ -509,7 +512,6 @@ Enter '%s -h' for more information\n"), argv[0]);
 
   return 0;
 }
-#endif
 
 void
 rmw_option_init (struct rmw_options *x)
