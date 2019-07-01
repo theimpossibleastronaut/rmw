@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.02\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-06-27 22:25+0000\n"
+"POT-Creation-Date: 2019-07-01 13:49-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -446,8 +446,8 @@ msgid ""
 "for details.\n"
 msgstr ""
 
-#: src/restore_rmw.c:62 src/restore_rmw.c:77 src/trashinfo_rmw.c:84
-#: src/trashinfo_rmw.c:95
+#: src/restore_rmw.c:62 src/restore_rmw.c:77 src/trashinfo_rmw.c:85
+#: src/trashinfo_rmw.c:96
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr ""

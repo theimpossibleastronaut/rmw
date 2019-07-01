@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-06-27 22:25+0000\n"
+"POT-Creation-Date: 2019-07-01 13:49-0500\n"
 "PO-Revision-Date: 2017-12-07 18:35+0100\n"
 "Last-Translator: suve <veg@svgames.pl>\n"
 "Language-Team: Polish\n"
@@ -649,8 +649,8 @@ msgstr ""
 "przy zachowaniu pewnych warunków; aby uzyskać szczegółówe informacje,\n"
 "odwiedź <http://www.gnu.org/licenses/gpl.html>.\n"
 
-#: src/restore_rmw.c:62 src/restore_rmw.c:77 src/trashinfo_rmw.c:84
-#: src/trashinfo_rmw.c:95
+#: src/restore_rmw.c:62 src/restore_rmw.c:77 src/trashinfo_rmw.c:85
+#: src/trashinfo_rmw.c:96
 #, fuzzy, c-format
 #| msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"

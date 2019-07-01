@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-06-27 22:25+0000\n"
+"POT-Creation-Date: 2019-07-01 13:49-0500\n"
 "PO-Revision-Date: 2018-01-01 10:09-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Ukrainian\n"
@@ -651,8 +651,8 @@ msgstr ""
 "при певних умовах; перевірте <http://www.gnu.org/licenses/gpl.html>\n"
 "для детальної інформації.\n"
 
-#: src/restore_rmw.c:62 src/restore_rmw.c:77 src/trashinfo_rmw.c:84
-#: src/trashinfo_rmw.c:95
+#: src/restore_rmw.c:62 src/restore_rmw.c:77 src/trashinfo_rmw.c:85
+#: src/trashinfo_rmw.c:96
 #, fuzzy, c-format
 #| msgid "rmw: %s(): buffer too small (got %hu, needed a minimum of %hu)\n"
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
