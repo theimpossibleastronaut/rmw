@@ -27,18 +27,19 @@ mkdir $HOME/tmp-files
 cd $HOME/tmp-files
 
 
+create_temp_files() {
+  echo "\n\n == creating temporary files to be rmw'ed"
 
-echo "\n\n == creating temporary files to be rmw'ed"
-
-for file in abc 123 xyz; do
-  i=0
-  while [ "$i" -lt 8 ]
-  do
-    echo "0000" >> $file
-    i=`expr $i + 1`
+  for file in abc 123 xyz; do
+    i=0
+    while [ "$i" -lt 8 ]
+    do
+      echo "0000" >> $file
+      i=`expr $i + 1`
+    done
   done
-done
-
+}
+create_temp_files
 
 cd $HOME/..
 echo "\n\n == use a built-in environmental variable to write a"
@@ -145,30 +146,34 @@ test_result $?
 # test_result $?
 
 echo " == Should not work 'Y' or 'y' is not supplied."
-output=$(echo `echo "yfw" | $RMW_TEST_CMD_STRING --purge -e`)
-test "$output" = "All the files in trash will be unrecoverable after empty. Continue? (y/n): Action cancelled."
+echo "yfw" | $RMW_TEST_CMD_STRING --purge -e
 test_result $?
 
-output=$(echo `echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e`)
-test "$output" = "All the files in trash will be unrecoverable after empty. Continue? (y/n): Action cancelled."
+echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e
 test_result $?
 
-output=$(echo `echo "n" | $RMW_TEST_CMD_STRING --purge -e`)
-test "$output" = "All the files in trash will be unrecoverable after empty. Continue? (y/n): Action cancelled."
+echo "n" | $RMW_TEST_CMD_STRING --purge -e
 test_result $?
 
-output=$(echo `echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e`)
-test "$output" = "All the files in trash will be unrecoverable after empty. Continue? (y/n): Action cancelled."
+echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e
 test_result $?
+
+echo " == (files should still be present)"
+test -z $(ls -A $HOME/.trash.rmw/files)
+test_result_want_fail $?
+test -z $(ls -A $HOME/.trash.rmw/info)
+test_result_want_fail $?
 
 echo " == Empty works with force empty (-ffe)"
 echo "y" | $RMW_TEST_CMD_STRING -ffe
 test_result $?
 
 echo " == Should work with 'Y' or 'y'"
+create_temp_files
 echo "y" | $RMW_TEST_CMD_STRING -e
 test_result $?
 
+create_temp_files
 echo "Y" | $RMW_TEST_CMD_STRING -e
 test_result $?
 
