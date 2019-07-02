@@ -259,7 +259,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
     puts(_("All the files in trash will be unrecoverable after empty."));
     if (!user_verify())
     {
-      puts(_("Abort."));
+      puts(_("Action cancelled."));
       return 0;
     }
   }

@@ -134,23 +134,44 @@ echo " == no matter when they were deleted"
 $RMW_TEST_CMD_STRING --verbose $HOME/somefiles
 test_result $?
 
-# echo " == Should not work if '-f' isn't used"
-# output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
-# test "$output" = "purge has been skipped: use -f or --force"
-# test_result $?
-# 
+echo " == Should not work if '-f' isn't used"
+output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
+test "$output" = "purge has been skipped: use -f or --force"
+test_result $?
+
 # echo " == Should not work if '--purge' isn't used"
-# output=`echo "y" | $RMW_TEST_CMD_STRING -ffe`
+# output=`echo "y" | $RMW_ALT_TEST_CMD_STRING -ffe`
 # test "$output" = "'-f/--force' does nothing without '-g/--purge'"
 # test_result $?
-#
-echo " == empty works with force empty (-ffe)"
+
+echo " == Should not work 'Y' or 'y' is not supplied."
+output=$(echo `echo "yfw" | $RMW_TEST_CMD_STRING --purge -e`)
+test "$output" = "All the files in trash will be unrecoverable after empty. Continue? (y/n): Action cancelled."
+test_result $?
+
+output=$(echo `echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e`)
+test "$output" = "All the files in trash will be unrecoverable after empty. Continue? (y/n): Action cancelled."
+test_result $?
+
+output=$(echo `echo "n" | $RMW_TEST_CMD_STRING --purge -e`)
+test "$output" = "All the files in trash will be unrecoverable after empty. Continue? (y/n): Action cancelled."
+test_result $?
+
+output=$(echo `echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e`)
+test "$output" = "All the files in trash will be unrecoverable after empty. Continue? (y/n): Action cancelled."
+test_result $?
+
+echo " == Empty works with force empty (-ffe)"
 echo "y" | $RMW_TEST_CMD_STRING -ffe
 test_result $?
 
-echo " == Should not work if '--purge' and '-f' isn't used"
+echo " == Should work with 'Y' or 'y'"
 echo "y" | $RMW_TEST_CMD_STRING -e
 test_result $?
+
+echo "Y" | $RMW_TEST_CMD_STRING -e
+test_result $?
+
 
 echo
 echo
