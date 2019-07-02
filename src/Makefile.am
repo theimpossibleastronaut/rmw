@@ -5,7 +5,7 @@ AM_CFLAGS += @CURSES_CFLAGS@
 if IS_RELEASE_FALSE
 git_rev := $(shell \
 	if test -f @top_srcdir@/.git/refs/heads/master; then	\
-		expr substr `cat @top_srcdir@/.git/refs/heads/master` 1 7;	\
+		`cat @top_srcdir@/.git/refs/heads/master` | cut -b1-7;	\
 	else	\
 		echo "unknown";	\
 	fi)

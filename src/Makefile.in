@@ -327,7 +327,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @GLOBAL_CFLAGS@ @CURSES_CFLAGS@
 @IS_RELEASE_FALSE@git_rev := $(shell \
 @IS_RELEASE_FALSE@	if test -f @top_srcdir@/.git/refs/heads/master; then	\
-@IS_RELEASE_FALSE@		expr substr `cat @top_srcdir@/.git/refs/heads/master` 1 7;	\
+@IS_RELEASE_FALSE@		`cat @top_srcdir@/.git/refs/heads/master` | cut -b1-7;	\
 @IS_RELEASE_FALSE@	else	\
 @IS_RELEASE_FALSE@		echo "unknown";	\
 @IS_RELEASE_FALSE@	fi)
