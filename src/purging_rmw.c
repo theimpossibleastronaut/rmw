@@ -254,7 +254,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
 
   if (rmwtrash_env != NULL)
     cmd_dry_run = strcmp (rmwtrash_env, "dry-run") ? 0 : 1;
-  
+
   if (cli_user_options->want_empty_trash) {
     puts(_("All the files in trash will be unrecoverable after empty."));
     if (!user_verify())
@@ -263,7 +263,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
       return 0;
     }
   }
-  
+
   /* if dry-run was enabled, assume verbosity as well */
   if (cmd_dry_run)
     verbose = 1;

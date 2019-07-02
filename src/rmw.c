@@ -321,7 +321,7 @@ Please check your configuration file and permissions\n\n"));
         printf (_("purge has been skipped: use -f or --force\n"));
     }
   }
-  
+
   /* String appended to duplicate filenames */
   time_str_appended = calloc (LEN_TIME_STR_APPENDED, 1);
   get_time_string (time_str_appended, LEN_TIME_STR_APPENDED, "_%H%M%S-%y%m%d");
