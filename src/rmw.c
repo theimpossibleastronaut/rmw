@@ -131,9 +131,6 @@ main (const int argc, char* const argv[])
   verbose = 0; /* already declared, a global */
   rmw_options cli_user_options;
   rmw_option_init (&cli_user_options);
-  bool want_orphan_chk = 0;
-  bool want_selection_menu = 0;
-  bool want_undo = 0;
 
   do
   {
@@ -160,16 +157,16 @@ main (const int argc, char* const argv[])
       cli_user_options.want_purge = true;
       break;
     case 'o':
-      want_orphan_chk = 1;
+      cli_user_options.want_orphan_chk = 1;
       break;
     case 'z':
       cli_user_options.want_restore = true;
       break;
     case 's':
-      want_selection_menu = 1;
+      cli_user_options.want_selection_menu = 1;
       break;
     case 'u':
-      want_undo = 1;
+      cli_user_options.want_undo = 1;
       break;
     case 'w':
       warranty ();
@@ -314,23 +311,23 @@ Please check your configuration file and permissions\n\n"));
   time_str_appended = calloc (LEN_TIME_STR_APPENDED, 1);
   get_time_string (time_str_appended, LEN_TIME_STR_APPENDED, "_%H%M%S-%y%m%d");
 
-  if (want_orphan_chk)
+  if (cli_user_options.want_orphan_chk)
   {
     waste_curr = waste_head;
     orphan_maint(waste_curr);
     return 0;
   }
 
-  if (want_selection_menu)
+  if (cli_user_options.want_selection_menu)
   {
     waste_curr = waste_head;
     return restore_select (waste_curr);
   }
 
   /* FIXME:
-   * want_undo_rmw() should return a value
+   * cli_user_options.want_undo_rmw() should return a value
    */
-  if (want_undo)
+  if (cli_user_options.want_undo)
   {
     waste_curr = waste_head;
     undo_last_rmw (waste_curr);
@@ -503,6 +500,9 @@ rmw_option_init (rmw_options *options)
   options->want_restore = false;
   options->want_purge = false;
   options->want_empty_trash = false;
+  options->want_orphan_chk = false;
+  options->want_selection_menu = false;
+  options->want_undo = false;
 }
 
 /*!
@@ -623,7 +623,7 @@ is_time_to_purge (void)
  *
  * @param[out] removals linked lists of files that have been succesfully rmw'ed
  * @param[in] file file that has been successfully rmw'ed
- * @see want_undo_rmw
+ * @see cli_user_options.want_undo_rmw
  * @return pointer to node in @ref st_removed type struct
  */
 st_removed*
@@ -670,7 +670,7 @@ dispose_removed (st_removed *node)
  * @param[in] removals the linked list of files that were rmw'ed
  * @param[in] removals_head the first node in removals
  * @return void
- * @see want_undo_rmw
+ * @see cli_user_options.want_undo_rmw
  * @see add_removal
  */
 void
