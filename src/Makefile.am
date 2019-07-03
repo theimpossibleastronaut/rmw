@@ -4,18 +4,22 @@ AM_CFLAGS += @CURSES_CFLAGS@
 
 if IS_RELEASE_FALSE
 git_rev := $(shell \
-	if test -f @top_srcdir@/.git/refs/heads/master; then	\
-		`cat @top_srcdir@/.git/refs/heads/master` | cut -b1-7;	\
+	if test -f $(top_srcdir)/.git/refs/heads/master; then	\
+		cat $(top_srcdir)/.git/refs/heads/master | cut -b1-7;	\
 	else	\
-		echo "unknown";	\
+		echo 'unknown';	\
 	fi)
-GIT_REV_DEF = -DGIT_REV=\"$(git_rev)\"
 else
 git_rev = ""
-GIT_REV_DEF =
 endif
 
-$(shell touch @top_srcdir@/src/trivial_rmw.c)
+$(shell	\
+if test -n $(git_rev); then	\
+	echo '#define GIT_REV "'$(git_rev)'"' > $(builddir)/git_rev.h; \
+else	\
+	echo '/* #undef GIT_REV */' > $(builddir)/git_rev.h;	\
+fi)
+$(shell touch $(srcdir)/trivial_rmw.c)
 
 rmw_CFLAGS = $(AM_CFLAGS)
 
@@ -42,7 +46,7 @@ rmw_SOURCES=	\
 	bst.h	\
 	gettext.h
 
-DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" $(GIT_REV_DEF)
+DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a
@@ -60,6 +64,8 @@ all-local:
 	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;
 
 clean-local:
-	if test -f $(top_builddir)/rmw; then	\
-		rm $(top_builddir)/rmw;	\
-	fi
+	for file in $(top_builddir)/rmw $(builddir)/git_rev.h; do	\
+		if test -f $$file; then	\
+			rm $$file;	\
+		fi	\
+	done;
