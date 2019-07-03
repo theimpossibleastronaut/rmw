@@ -247,6 +247,21 @@ out:
 int
 purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
 {
+  extern const int purge_after;
+  if (!purge_after)
+  {
+  /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
+   * directory  */
+    printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
+
+    /* purge_after is kind of a "fail-safe". If someone sets it to "0", don't
+     * allow any exceptions */
+
+    /* return codes from purge() aren't actually used by main() yet. (Maybe they
+     * never will be and the function will become of type (void)) */
+    return 0;
+  }
+
   short status = 0;
 
   bool cmd_dry_run = 0;

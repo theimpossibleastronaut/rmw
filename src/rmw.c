@@ -302,16 +302,7 @@ Please check your configuration file and permissions\n\n"));
   chk_malloc (time_now, __func__, __LINE__);
   get_time_string (time_now, LEN_TIME_NOW, t_fmt);
 
-  /** This if statement spits out a message if someone tries to use -g on
-   * the command line but has purge_after set to 0 in the config
-   */
-  if (cli_user_options.want_purge && !purge_after)
-  {
-  /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
-   * directory  */
-    printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
-  }
-  else if (purge_after)
+  if (purge_after)
   {
     if (cli_user_options.want_purge || is_time_to_purge())
     {
