@@ -121,7 +121,7 @@ ARFLAGS = cru
 AM_V_AR = $(am__v_AR_@AM_V@)
 am__v_AR_ = $(am__v_AR_@AM_DEFAULT_V@)
 am__v_AR_0 = @echo "  AR      " $@;
-am__v_AR_1 = 
+am__v_AR_1 =
 librmw_test_a_AR = $(AR) $(ARFLAGS)
 librmw_test_a_LIBADD =
 am__objects_1 = librmw_test_a-rmw.$(OBJEXT) \
@@ -151,30 +151,30 @@ am__v_P_1 = :
 AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN     " $@;
-am__v_GEN_1 = 
+am__v_GEN_1 =
 AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
-am__v_at_1 = 
+am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp =
 am__maybe_remake_depfiles =
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
-am__v_lt_1 = 
+am__v_lt_1 =
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 AM_V_CC = $(am__v_CC_@AM_V@)
 am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
 am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 = 
+am__v_CC_1 =
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 = 
+am__v_CCLD_1 =
 SOURCES = $(librmw_test_a_SOURCES) $(rmw_SOURCES)
 DIST_SOURCES = $(librmw_test_a_SOURCES) $(rmw_SOURCES)
 am__can_run_installinfo = \
@@ -334,7 +334,7 @@ AM_CFLAGS = @GLOBAL_CFLAGS@ @CURSES_CFLAGS@
 
 @IS_RELEASE_TRUE@git_rev = ""
 @IS_RELEASE_FALSE@GIT_REV_DEF = -DGIT_REV=\"$(git_rev)\"
-@IS_RELEASE_TRUE@GIT_REV_DEF = 
+@IS_RELEASE_TRUE@GIT_REV_DEF =
 rmw_CFLAGS = $(AM_CFLAGS)
 rmw_SOURCES = \
 	rmw.c	\
@@ -413,7 +413,7 @@ config.h: stamp-h1
 stamp-h1: $(top_srcdir)/config.in $(top_builddir)/config.status
 	@rm -f stamp-h1
 	cd $(top_builddir) && $(SHELL) ./config.status src/config.h
-$(top_srcdir)/config.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
+$(top_srcdir)/config.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
 	rm -f stamp-h1
 	touch $@
@@ -466,12 +466,12 @@ clean-binPROGRAMS:
 clean-checkLIBRARIES:
 	-test -z "$(check_LIBRARIES)" || rm -f $(check_LIBRARIES)
 
-librmw_test.a: $(librmw_test_a_OBJECTS) $(librmw_test_a_DEPENDENCIES) $(EXTRA_librmw_test_a_DEPENDENCIES) 
+librmw_test.a: $(librmw_test_a_OBJECTS) $(librmw_test_a_DEPENDENCIES) $(EXTRA_librmw_test_a_DEPENDENCIES)
 	$(AM_V_at)-rm -f librmw_test.a
 	$(AM_V_AR)$(librmw_test_a_AR) librmw_test.a $(librmw_test_a_OBJECTS) $(librmw_test_a_LIBADD)
 	$(AM_V_at)$(RANLIB) librmw_test.a
 
-rmw$(EXEEXT): $(rmw_OBJECTS) $(rmw_DEPENDENCIES) $(EXTRA_rmw_DEPENDENCIES) 
+rmw$(EXEEXT): $(rmw_OBJECTS) $(rmw_DEPENDENCIES) $(EXTRA_rmw_DEPENDENCIES)
 	@rm -f rmw$(EXEEXT)
 	$(AM_V_CCLD)$(rmw_LINK) $(rmw_OBJECTS) $(rmw_LDADD) $(LIBS)
 

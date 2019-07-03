@@ -104,7 +104,7 @@ main (const int argc, char* const argv[])
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  const char *const short_options = "hvc:goz:lstuwVfir";
+  const char *const short_options = "hvc:goz:lstuwVfeir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -122,15 +122,15 @@ main (const int argc, char* const argv[])
     {"interactive", 0, NULL, 'i'},
     {"recurse", 0, NULL, 'r'},
     {"force", 0, NULL, 'f'},
+    {"empty", 0, NULL, 'e'},
     {NULL, 0, NULL, 0}
   };
 
   short int next_option = 0;
 
   verbose = 0; /* already declared, a global */
-  struct rmw_options cli_user_options;
+  rmw_options cli_user_options;
   rmw_option_init (&cli_user_options);
-  bool want_purge = 0;
   bool want_orphan_chk = 0;
   bool want_selection_menu = 0;
   bool want_undo = 0;
@@ -157,7 +157,7 @@ main (const int argc, char* const argv[])
       list = 1;
       break;
     case 'g':
-      want_purge = 1;
+      cli_user_options.want_purge = true;
       break;
     case 'o':
       want_orphan_chk = 1;
@@ -185,6 +185,10 @@ main (const int argc, char* const argv[])
       break;
     case 'f':
       force++;
+      break;
+    case 'e':
+      cli_user_options.want_empty_trash = true;
+      cli_user_options.want_purge = true;
       break;
     case '?':
       print_usage ();
@@ -301,7 +305,7 @@ Please check your configuration file and permissions\n\n"));
   /** This if statement spits out a message if someone tries to use -g on
    * the command line but has purge_after set to 0 in the config
    */
-  if (want_purge && !purge_after)
+  if (cli_user_options.want_purge && !purge_after)
   {
   /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
    * directory  */
@@ -309,10 +313,10 @@ Please check your configuration file and permissions\n\n"));
   }
   else if (purge_after)
   {
-    if (want_purge || is_time_to_purge())
+    if (cli_user_options.want_purge || is_time_to_purge())
     {
       if (!force_required || force)
-        purge (waste_curr);
+        purge (waste_curr, &cli_user_options);
       else
         printf (_("purge has been skipped: use -f or --force\n"));
     }
@@ -490,7 +494,7 @@ Please check your configuration file and permissions\n\n"));
     if (main_error > 1)
       return main_error;
   }
-  else if (!want_purge && created_data_dir != FIRST_RUN)
+  else if (!cli_user_options.want_purge && !cli_user_options.want_empty_trash && created_data_dir != FIRST_RUN)
   {
     if (force)
       printf (_("'-f/--force' does nothing without '-g/--purge'\n"));
@@ -512,9 +516,11 @@ Enter '%s -h' for more information\n"), argv[0]);
 #endif
 
 void
-rmw_option_init (struct rmw_options *x)
+rmw_option_init (rmw_options *options)
 {
-  x->want_restore = false;
+  options->want_restore = false;
+  options->want_purge = false;
+  options->want_empty_trash = false;
 }
 
 /*!

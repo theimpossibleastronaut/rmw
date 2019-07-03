@@ -245,18 +245,23 @@ out:
  * @see get_then_time
  */
 int
-purge (const st_waste * waste_curr)
+purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
 {
   short status = 0;
 
-  bool cmd_empty = 0;
   bool cmd_dry_run = 0;
   char *rmwtrash_env = getenv("RMWTRASH");
 
   if (rmwtrash_env != NULL)
-  {
-    cmd_empty = strcmp (rmwtrash_env, "empty") ? 0 : 1;
     cmd_dry_run = strcmp (rmwtrash_env, "dry-run") ? 0 : 1;
+
+  if (cli_user_options->want_empty_trash) {
+    puts(_("All the files in trash will be unrecoverable after empty."));
+    if (!user_verify())
+    {
+      puts(_("Action cancelled."));
+      return 0;
+    }
   }
 
   /* if dry-run was enabled, assume verbosity as well */
@@ -265,7 +270,7 @@ purge (const st_waste * waste_curr)
 
   extern const int purge_after;
   printf ("\n");
-  if (cmd_empty)
+  if (cli_user_options->want_empty_trash)
     printf (_("Purging all files in waste folders ...\n"));
   else
     printf (_("Purging files based on number of days in the waste folders (%u) ...\n"),
@@ -307,10 +312,10 @@ purge (const st_waste * waste_curr)
       snprintf (entry_path, req_len, "%s%s", waste_curr->info, entry->d_name);
 
       /* skip this block if RMWTRASH=empty */
-      if (!cmd_empty && !(then = get_then_time(entry, entry_path)))
+      if (!cli_user_options->want_empty_trash && !(then = get_then_time(entry, entry_path)))
           continue;
 
-      if (then + (86400 * purge_after) <= now || cmd_empty)
+      if (then + (86400 * purge_after) <= now || cli_user_options->want_empty_trash)
       {
         bool success = 0;
 

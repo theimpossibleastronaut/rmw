@@ -143,3 +143,29 @@ human_readable_size (off_t size)
 
   return buffer;
 }
+
+/*!
+ * Prompt user for confirmation.
+ * @return true if 'y' or 'Y' was entered, false otherwise"
+ */
+bool
+user_verify (void)
+{
+  fputs(_("Continue? (y/n): "), stdout);
+  int answer = getchar();
+  bool want_continue = (answer == (int)'Y') || (answer == (int)'y');
+  int char_count = 0;
+
+  /* Check if there's any more chars */
+  while (answer != '\n' && answer != EOF)
+  {
+    char_count++;
+    if (char_count>1024) {
+      fputs("Too many chars in stdin!!\n", stderr);
+      exit(EXIT_FAILURE);
+    }
+    answer = getchar();
+  }
+
+  return (want_continue && (char_count <= 1));
+}

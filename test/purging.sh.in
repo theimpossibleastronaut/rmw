@@ -27,18 +27,21 @@ mkdir $HOME/tmp-files
 cd $HOME/tmp-files
 
 
+create_temp_files() {
+  set +x
+  echo "\n\n == creating temporary files to be rmw'ed"
 
-echo "\n\n == creating temporary files to be rmw'ed"
-
-for file in abc 123 xyz; do
-  i=0
-  while [ "$i" -lt 8 ]
-  do
-    echo "0000" >> $file
-    i=`expr $i + 1`
+  for file in abc 123 xyz; do
+    i=0
+    while [ "$i" -lt 8 ]
+    do
+      echo "0000" >> $file
+      i=`expr $i + 1`
+    done
   done
-done
-
+  set -x
+}
+create_temp_files
 
 cd $HOME/..
 echo "\n\n == use a built-in environmental variable to write a"
@@ -128,25 +131,54 @@ test_result $?
 
 echo
 echo
-echo " == preceding RMWTRASH=empty with the rmw command should completely"
-echo " == purge the waste folders, no matter when they were deleted"
+echo " == rmw -e command should completely purge the waste folders,"
+echo " == no matter when they were deleted"
 
 $RMW_TEST_CMD_STRING --verbose $HOME/somefiles
 test_result $?
 
 echo " == Should not work if '-f' isn't used"
-output=`RMWTRASH=empty $RMW_ALT_TEST_CMD_STRING --purge`
+output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
 test "$output" = "purge has been skipped: use -f or --force"
 test_result $?
 
-echo " == Should not work if '--purge' isn't used"
-output=`RMWTRASH=empty $RMW_TEST_CMD_STRING -f`
-test "$output" = "'-f/--force' does nothing without '-g/--purge'"
+# echo " == Should not work if '--purge' isn't used"
+# output=`echo "y" | $RMW_ALT_TEST_CMD_STRING -ffe`
+# test "$output" = "'-f/--force' does nothing without '-g/--purge'"
+# test_result $?
+
+echo " == Should not work 'Y' or 'y' is not supplied."
+echo "yfw" | $RMW_TEST_CMD_STRING --purge -e
 test_result $?
 
-echo " == Should not work if '--purge' and '-f' isn't used"
-RMWTRASH=empty $RMW_TEST_CMD_STRING
+echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e
 test_result $?
+
+echo "n" | $RMW_TEST_CMD_STRING --purge -e
+test_result $?
+
+echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e
+test_result $?
+
+echo " == (files should still be present)"
+test -z $(ls -A $HOME/.trash.rmw/files)
+test_result_want_fail $?
+test -z $(ls -A $HOME/.trash.rmw/info)
+test_result_want_fail $?
+
+echo " == Empty works with force empty (-ffe)"
+echo "y" | $RMW_TEST_CMD_STRING -ffe
+test_result $?
+
+echo " == Should work with 'Y' or 'y'"
+create_temp_files
+$RMW_TEST_CMD_STRING --verbose $HOME/somefiles && echo "y" | $RMW_TEST_CMD_STRING -e
+test_result $?
+
+create_temp_files
+$RMW_TEST_CMD_STRING --verbose $HOME/somefiles && echo "Y" | $RMW_TEST_CMD_STRING -e
+test_result $?
+
 
 echo
 echo

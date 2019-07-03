@@ -57,6 +57,7 @@ Restore FILE(s) from a WASTE directory\n\
   -g, --purge               run purge even if it's been run today\n\
   -o, --orphaned            check for orphaned files (maintenance)\n\
   -f, --force               allow rmw to purge files in the background\n\
+  -e, --empty               completely empty (purge) all waste folders\n\
   -v, --verbose             increase output messages\n\
   -w, --warranty            display warranty\n\
   -V, --version             display version and license information\n"));

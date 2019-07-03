@@ -38,3 +38,6 @@ dispose_waste (st_waste *node);
 
 char *
 human_readable_size (off_t size);
+
+bool
+user_verify (void);
