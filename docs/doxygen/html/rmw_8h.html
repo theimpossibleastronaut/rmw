@@ -88,6 +88,7 @@ Include dependency graph for rmw.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="rmw_8h__incl.png" border="0" usemap="#src_2rmw_8h" alt=""/></div>
 <map name="src_2rmw_8h" id="src_2rmw_8h">
+<area shape="rect" id="node2" href="config_8h_source.html" title="config.h" alt="" coords="5,80,73,107"/>
 <area shape="rect" id="node10" href="gettext_8h_source.html" title="gettext.h" alt="" coords="508,80,581,107"/>
 </map>
 </div>
@@ -114,6 +115,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrmw__options.html">rmw_options</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structst__waste.html">st_waste</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrmw__target.html">rmw_target</a></td></tr>
@@ -134,9 +137,6 @@ Macros</h2></td></tr>
 <tr class="memitem:a75278405e7f034d2b1af80bfd94675fe"><td class="memItemLeft" align="right" valign="top"><a id="a75278405e7f034d2b1af80bfd94675fe"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>N_</b>(String)&#160;&#160;&#160;gettext_noop (String)</td></tr>
 <tr class="separator:a75278405e7f034d2b1af80bfd94675fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c6d5de492ac61ad29aec7aa9a436bbf"><td class="memItemLeft" align="right" valign="top"><a id="a1c6d5de492ac61ad29aec7aa9a436bbf"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>VERSION</b>&#160;&#160;&#160;&quot;unversioned&quot;</td></tr>
-<tr class="separator:a1c6d5de492ac61ad29aec7aa9a436bbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48cc0a91e8f54c62f3341c21c8cc74e8"><td class="memItemLeft" align="right" valign="top"><a id="a48cc0a91e8f54c62f3341c21c8cc74e8"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DATA_DIR</b>&#160;&#160;&#160;&quot;/.config/rmw&quot;</td></tr>
 <tr class="separator:a48cc0a91e8f54c62f3341c21c8cc74e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,6 +166,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:ab8fd015913c28722fb3981200d4e8d33"><td class="memItemLeft" align="right" valign="top"><a id="ab8fd015913c28722fb3981200d4e8d33"></a>
+typedef struct <a class="el" href="structrmw__options.html">rmw_options</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rmw_options</b></td></tr>
+<tr class="separator:ab8fd015913c28722fb3981200d4e8d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5c87838f44b956f13d0fee1750cd912"><td class="memItemLeft" align="right" valign="top"><a id="ab5c87838f44b956f13d0fee1750cd912"></a>
 typedef struct <a class="el" href="structst__waste.html">st_waste</a>&#160;</td><td class="memItemRight" valign="bottom"><b>st_waste</b></td></tr>
 <tr class="separator:ab5c87838f44b956f13d0fee1750cd912"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,6 +204,9 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a824639431a0e94ac76721f576adb9b83"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structst__removed.html">st_removed</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a824639431a0e94ac76721f576adb9b83">add_removal</a> (<a class="el" href="structst__removed.html">st_removed</a> *removals, const char *file)</td></tr>
 <tr class="separator:a824639431a0e94ac76721f576adb9b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2b736dc4645c2b398a4dc5941a1a3b9"><td class="memItemLeft" align="right" valign="top"><a id="aa2b736dc4645c2b398a4dc5941a1a3b9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>rmw_option_init</b> (struct <a class="el" href="structrmw__options.html">rmw_options</a> *x)</td></tr>
+<tr class="separator:aa2b736dc4645c2b398a4dc5941a1a3b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ac2fc1abe5715969bc53095f10c78bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a7ac2fc1abe5715969bc53095f10c78bd">create_undo_file</a> (<a class="el" href="structst__removed.html">st_removed</a> *removals, <a class="el" href="structst__removed.html">st_removed</a> *removals_head)</td></tr>
 <tr class="separator:a7ac2fc1abe5715969bc53095f10c78bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55fc2b89e4ff1a89b4dd9de8e71282eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a55fc2b89e4ff1a89b4dd9de8e71282eb">dispose_removed</a> (<a class="el" href="structst__removed.html">st_removed</a> *node)</td></tr>
@@ -412,7 +418,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Called in <a class="el" href="rmw_8c.html#a4ca41f4d2839df843f704b5c26b7606b">main()</a> to determine whether or not <a class="el" href="purging__rmw_8c.html#a1efdd17f161dacde62eb441e6a1d114e">purge()</a> was run today, reads and writes to the 'lastpurge` file. If it hasn't been run today, the current day will be written. If 'lastpurge' doesn't exist, it gets created. </p><dl class="section return"><dt>Returns</dt><dd>FALSE if the day is the same (don't purge); otherwise TRUE and writes the current day to 'lastpurge' </dd></dl>
+<p>Called in <a class="el" href="rmw_8c.html#a4ca41f4d2839df843f704b5c26b7606b">main()</a> to determine whether or not <a class="el" href="purging__rmw_8c.html#abbc7d6c1e1dad9e73c6f9c27ee715868">purge()</a> was run today, reads and writes to the 'lastpurge` file. If it hasn't been run today, the current day will be written. If 'lastpurge' doesn't exist, it gets created. </p><dl class="section return"><dt>Returns</dt><dd>FALSE if the day is the same (don't purge); otherwise TRUE and writes the current day to 'lastpurge' </dd></dl>
 
 </div>
 </div>

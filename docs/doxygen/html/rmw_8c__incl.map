@@ -1,12 +1,13 @@
 <map id="src/rmw.c" name="src/rmw.c">
-<area shape="rect" id="node2" href="$rmw_8h.html" title="rmw.h" alt="" coords="391,155,450,181"/>
-<area shape="rect" id="node15" href="$utils__rmw_8h.html" title="utils_rmw.h" alt="" coords="823,80,912,107"/>
-<area shape="rect" id="node16" href="$restore__rmw_8h.html" title="restore_rmw.h" alt="" coords="1112,80,1217,107"/>
-<area shape="rect" id="node19" href="$trivial__rmw_8h.html" title="trivial_rmw.h" alt="" coords="1466,80,1562,107"/>
-<area shape="rect" id="node20" href="$config__rmw_8h.html" title="config_rmw.h" alt="" coords="936,80,1036,107"/>
-<area shape="rect" id="node21" href="$trashinfo__rmw_8h_source.html" title="trashinfo_rmw.h" alt="" coords="582,80,697,107"/>
-<area shape="rect" id="node22" href="$purging__rmw_8h.html" title="purging_rmw.h" alt="" coords="1242,80,1349,107"/>
-<area shape="rect" id="node24" href="$strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="730,155,834,181"/>
-<area shape="rect" id="node27" href="$messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="433,80,558,107"/>
+<area shape="rect" id="node2" href="$rmw_8h.html" title="rmw.h" alt="" coords="427,155,486,181"/>
+<area shape="rect" id="node16" href="$utils__rmw_8h.html" title="utils_rmw.h" alt="" coords="859,80,948,107"/>
+<area shape="rect" id="node17" href="$restore__rmw_8h.html" title="restore_rmw.h" alt="" coords="1228,80,1333,107"/>
+<area shape="rect" id="node22" href="$trivial__rmw_8h.html" title="trivial_rmw.h" alt="" coords="1502,80,1598,107"/>
+<area shape="rect" id="node23" href="$config__rmw_8h.html" title="config_rmw.h" alt="" coords="972,80,1072,107"/>
+<area shape="rect" id="node24" href="$trashinfo__rmw_8h_source.html" title="trashinfo_rmw.h" alt="" coords="618,80,733,107"/>
+<area shape="rect" id="node25" href="$purging__rmw_8h.html" title="purging_rmw.h" alt="" coords="1097,80,1203,107"/>
+<area shape="rect" id="node27" href="$strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="730,155,834,181"/>
+<area shape="rect" id="node30" href="$messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="469,80,594,107"/>
+<area shape="rect" id="node3" href="$config_8h_source.html" title="config.h" alt="" coords="5,229,73,256"/>
 <area shape="rect" id="node11" href="$gettext_8h_source.html" title="gettext.h" alt="" coords="508,229,581,256"/>
 </map>

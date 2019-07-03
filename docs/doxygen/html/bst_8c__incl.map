@@ -1,7 +1,8 @@
 <map id="src/bst.c" name="src/bst.c">
-<area shape="rect" id="node2" href="$bst_8h.html" title="bst.h" alt="" coords="125,155,176,181"/>
-<area shape="rect" id="node6" href="$messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="451,80,576,107"/>
-<area shape="rect" id="node7" href="$rmw_8h.html" title="rmw.h" alt="" coords="484,155,543,181"/>
-<area shape="rect" id="node15" href="$strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="919,155,1023,181"/>
-<area shape="rect" id="node14" href="$gettext_8h_source.html" title="gettext.h" alt="" coords="297,229,370,256"/>
+<area shape="rect" id="node2" href="$bst_8h.html" title="bst.h" alt="" coords="189,155,240,181"/>
+<area shape="rect" id="node7" href="$messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="600,80,725,107"/>
+<area shape="rect" id="node5" href="$config_8h_source.html" title="config.h" alt="" coords="302,229,370,256"/>
+<area shape="rect" id="node8" href="$rmw_8h.html" title="rmw.h" alt="" coords="633,155,692,181"/>
+<area shape="rect" id="node17" href="$strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="1068,155,1172,181"/>
+<area shape="rect" id="node15" href="$gettext_8h_source.html" title="gettext.h" alt="" coords="446,229,519,256"/>
 </map>
