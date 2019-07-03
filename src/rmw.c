@@ -487,7 +487,7 @@ Please check your configuration file and permissions\n\n"));
   }
   else if (!cli_user_options.want_purge && !cli_user_options.want_empty_trash && created_data_dir != FIRST_RUN)
   {
-    printf (_("Insufficient command line options or no filenames were given\n\
+    printf (_("Insufficient command line arguments given;\n\
 Enter '%s -h' for more information\n"), argv[0]);
   }
 
