@@ -31,7 +31,7 @@
 #endif
 
 #include "trivial_rmw.h"
-
+#include "git_rev.h"
 /* GIT_VER is defined during build-time with -D, see src/Makefile.am */
 #ifdef GIT_REV
   #define RMW_VERSION_STRING VERSION "." GIT_REV

@@ -610,7 +610,7 @@ strings$(EXEEXT): $(strings_OBJECTS) $(strings_DEPENDENCIES) $(EXTRA_strings_DEP
 	@rm -f strings$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(strings_OBJECTS) $(strings_LDADD) $(LIBS)
 
-url_encoding$(EXEEXT): $(url_encoding_OBJECTS) $(url_encoding_DEPENDENCIES) $(EXTRA_url_encoding_DEPENDENCIES) 
+url_encoding$(EXEEXT): $(url_encoding_OBJECTS) $(url_encoding_DEPENDENCIES) $(EXTRA_url_encoding_DEPENDENCIES)
 	@rm -f url_encoding$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(url_encoding_OBJECTS) $(url_encoding_LDADD) $(LIBS)
 

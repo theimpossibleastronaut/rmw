@@ -218,7 +218,7 @@ CPPFLAGS = @CPPFLAGS@
 CURSES_CFLAGS = @CURSES_CFLAGS@
 CURSES_LIBS = @CURSES_LIBS@
 CYGPATH_W = @CYGPATH_W@
-DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\" $(GIT_REV_DEF)
+DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -326,15 +326,14 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = @GLOBAL_CFLAGS@ @CURSES_CFLAGS@
 @IS_RELEASE_FALSE@git_rev := $(shell \
-@IS_RELEASE_FALSE@	if test -f @top_srcdir@/.git/refs/heads/master; then	\
-@IS_RELEASE_FALSE@		`cat @top_srcdir@/.git/refs/heads/master` | cut -b1-7;	\
+@IS_RELEASE_FALSE@	if test -f $(top_srcdir)/.git/refs/heads/master; then	\
+@IS_RELEASE_FALSE@		cat $(top_srcdir)/.git/refs/heads/master | cut -b1-7;	\
 @IS_RELEASE_FALSE@	else	\
-@IS_RELEASE_FALSE@		echo "unknown";	\
+@IS_RELEASE_FALSE@		echo 'unknown';	\
 @IS_RELEASE_FALSE@	fi)
 
 @IS_RELEASE_TRUE@git_rev = ""
-@IS_RELEASE_FALSE@GIT_REV_DEF = -DGIT_REV=\"$(git_rev)\"
-@IS_RELEASE_TRUE@GIT_REV_DEF =
+
 rmw_CFLAGS = $(AM_CFLAGS)
 rmw_SOURCES = \
 	rmw.c	\
@@ -818,15 +817,23 @@ uninstall-am: uninstall-binPROGRAMS
 .PRECIOUS: Makefile
 
 
-$(shell touch @top_srcdir@/src/trivial_rmw.c)
+$(shell	\
+if test -n $(git_rev); then	\
+	echo '#define GIT_REV "'$(git_rev)'"' > $(builddir)/git_rev.h; \
+else	\
+	echo '/* #undef GIT_REV */' > $(builddir)/git_rev.h;	\
+fi)
+$(shell touch $(srcdir)/trivial_rmw.c)
 
 all-local:
 	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;
 
 clean-local:
-	if test -f $(top_builddir)/rmw; then	\
-		rm $(top_builddir)/rmw;	\
-	fi
+	for file in $(top_builddir)/rmw $(builddir)/git_rev.h; do	\
+		if test -f $$file; then	\
+			rm $$file;	\
+		fi	\
+	done;
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
