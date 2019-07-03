@@ -2,6 +2,9 @@
 
 2019-07-03
 
+  * Feature change: Emptying the waste folders is now done with the
+  -e,--empty option
+
   * [#241](https://github.com/theimpossibleastronaut/rmw/issues/241)The
   translated man pages have been removed.
 

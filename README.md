@@ -160,11 +160,9 @@ once per day if it's time to purge (use -g to check more often).
 
 The day of the last purge is stored in $HOME/config/rmw/lastpurge
 
-== Empty the Trash ==
+== -e, --empty ==
 
-To empty the trash completely, rmw can use the environmental variable
-RMWTRASH. Usage:
-RMWTRASH=empty rmw -fg
+completely empty (purge) all waste folders
 
 == -z option ==
 
@@ -190,10 +188,6 @@ https://github.com/theimpossibleastronaut/rmw/wiki/Translating)
 A change from previous versions, purge is allowed to run without the '-f'
 option. If you'd rather require the use of '-f', you can add the line
 'force_required' in your configuration file.
-
-coment out the
- line in your config file. If you do, the -f option
-will be required for purge to run.
 
 rmw will normally refuse to purge directories if they contain non-writable
 subdirectories. You can use -f 2 times if you ever see a message that tells
