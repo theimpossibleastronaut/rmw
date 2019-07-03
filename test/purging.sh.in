@@ -28,6 +28,7 @@ cd $HOME/tmp-files
 
 
 create_temp_files() {
+  set +x
   echo "\n\n == creating temporary files to be rmw'ed"
 
   for file in abc 123 xyz; do
@@ -38,6 +39,7 @@ create_temp_files() {
       i=`expr $i + 1`
     done
   done
+  set -x
 }
 create_temp_files
 
@@ -170,11 +172,11 @@ test_result $?
 
 echo " == Should work with 'Y' or 'y'"
 create_temp_files
-echo "y" | $RMW_TEST_CMD_STRING -e
+$RMW_TEST_CMD_STRING --verbose $HOME/somefiles && echo "y" | $RMW_TEST_CMD_STRING -e
 test_result $?
 
 create_temp_files
-echo "Y" | $RMW_TEST_CMD_STRING -e
+$RMW_TEST_CMD_STRING --verbose $HOME/somefiles && echo "Y" | $RMW_TEST_CMD_STRING -e
 test_result $?
 
 
