@@ -3,6 +3,15 @@ title: FAQ
 layout: default
 ---
 
+**What your release cycle?**
+
+It varies, averaging once or twice a year. If bugs are found and
+reported, a release will happen sooner depending on the severity.
+Upcoming releases can be tracked using the [Milestones
+page](https://github.com/theimpossibleastronaut/rmw/milestones). The
+dates may change but Andy tries to keep them as up-to-date as
+possible.
+
 **Can rmw replace rm? Can I alias rmw to rm?**
 
 I don't recommend it. Many other utilities use rm in the background and
