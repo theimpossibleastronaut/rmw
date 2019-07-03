@@ -292,8 +292,6 @@ top_srcdir = @top_srcdir@
 
 # Install the English man file and include it when `make dist` is used
 dist_man_MANS = rmw.1
-LINGUAS = de es fi ne nl pl pt_BR
-EXTRA_DIST = $(LINGUAS)
 all: all-am
 
 .SUFFIXES:
@@ -466,7 +464,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-data-local install-man
+install-data-am: install-man
 
 install-dvi: install-dvi-am
 
@@ -510,7 +508,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-local uninstall-man
+uninstall-am: uninstall-man
 
 uninstall-man: uninstall-man1
 
@@ -519,28 +517,35 @@ uninstall-man: uninstall-man1
 .PHONY: all all-am check check-am clean clean-generic cscopelist-am \
 	ctags-am distclean distclean-generic distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
-	install-data-am install-data-local install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-man1 \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic pdf pdf-am ps ps-am tags-am uninstall \
-	uninstall-am uninstall-local uninstall-man uninstall-man1
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-man1 install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
+	pdf-am ps ps-am tags-am uninstall uninstall-am uninstall-man \
+	uninstall-man1
 
 .PRECIOUS: Makefile
 
 
-install-data-local:
-		for lang in $(LINGUAS); do \
-			file=$(srcdir)/$$lang/$(PACKAGE_NAME).1; \
-			dest=$(DESTDIR)$(mandir)/$$lang/man1; \
-			dest=`echo $$dest | sed '$(program_transform_name)'`; \
-			$(mkinstalldirs) $$dest; \
-			$(INSTALL_DATA) $$file $$dest; \
-		done;
+# the translated man pages have been removed for now
+# see ticket https://github.com/theimpossibleastronaut/rmw/issues/241
 
-uninstall-local:
+# LINGUAS = de es fi ne nl pl pt_BR
+
+# EXTRA_DIST = $(LINGUAS)
+
+#install-data-local:
+	for lang in $(LINGUAS); do \
+		file=$(srcdir)/$$lang/$(PACKAGE_NAME).1; \
+		dest=$(DESTDIR)$(mandir)/$$lang/man1; \
+		dest=`echo $$dest | sed '$(program_transform_name)'`; \
+		$(mkinstalldirs) $$dest; \
+		$(INSTALL_DATA) $$file $$dest; \
+	done;
+
+#uninstall-local:
 	for lang in $(LINGUAS); do \
 		dest=$(DESTDIR)$(mandir)/$$lang/man1/$(PACKAGE).1; \
 		dest=`echo $$dest | sed '$(program_transform_name)'`; \

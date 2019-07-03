@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2019-07-03
+
+  * [#241](https://github.com/theimpossibleastronaut/rmw/issues/241)The
+  translated man pages have been removed.
+
 2019-06-27
 
   * BUGFIX:

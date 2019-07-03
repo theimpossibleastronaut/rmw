@@ -144,11 +144,11 @@ am__v_P_1 = :
 AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN     " $@;
-am__v_GEN_1 =
+am__v_GEN_1 = 
 AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
-am__v_at_1 =
+am__v_at_1 = 
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src
 depcomp =
 am__maybe_remake_depfiles =
@@ -157,13 +157,13 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 AM_V_CC = $(am__v_CC_@AM_V@)
 am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
 am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 =
+am__v_CC_1 = 
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 =
+am__v_CCLD_1 = 
 SOURCES = $(buffer_overrun_SOURCES) $(config_test_SOURCES) \
 	$(multi_strlen_SOURCES) $(strings_SOURCES) \
 	$(url_encoding_SOURCES)
@@ -594,23 +594,23 @@ create-some-files.sh: $(top_builddir)/config.status $(srcdir)/create-some-files.
 clean-checkPROGRAMS:
 	-test -z "$(check_PROGRAMS)" || rm -f $(check_PROGRAMS)
 
-buffer_overrun$(EXEEXT): $(buffer_overrun_OBJECTS) $(buffer_overrun_DEPENDENCIES) $(EXTRA_buffer_overrun_DEPENDENCIES)
+buffer_overrun$(EXEEXT): $(buffer_overrun_OBJECTS) $(buffer_overrun_DEPENDENCIES) $(EXTRA_buffer_overrun_DEPENDENCIES) 
 	@rm -f buffer_overrun$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(buffer_overrun_OBJECTS) $(buffer_overrun_LDADD) $(LIBS)
 
-config_test$(EXEEXT): $(config_test_OBJECTS) $(config_test_DEPENDENCIES) $(EXTRA_config_test_DEPENDENCIES)
+config_test$(EXEEXT): $(config_test_OBJECTS) $(config_test_DEPENDENCIES) $(EXTRA_config_test_DEPENDENCIES) 
 	@rm -f config_test$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(config_test_OBJECTS) $(config_test_LDADD) $(LIBS)
 
-multi_strlen$(EXEEXT): $(multi_strlen_OBJECTS) $(multi_strlen_DEPENDENCIES) $(EXTRA_multi_strlen_DEPENDENCIES)
+multi_strlen$(EXEEXT): $(multi_strlen_OBJECTS) $(multi_strlen_DEPENDENCIES) $(EXTRA_multi_strlen_DEPENDENCIES) 
 	@rm -f multi_strlen$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(multi_strlen_OBJECTS) $(multi_strlen_LDADD) $(LIBS)
 
-strings$(EXEEXT): $(strings_OBJECTS) $(strings_DEPENDENCIES) $(EXTRA_strings_DEPENDENCIES)
+strings$(EXEEXT): $(strings_OBJECTS) $(strings_DEPENDENCIES) $(EXTRA_strings_DEPENDENCIES) 
 	@rm -f strings$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(strings_OBJECTS) $(strings_LDADD) $(LIBS)
 
-url_encoding$(EXEEXT): $(url_encoding_OBJECTS) $(url_encoding_DEPENDENCIES) $(EXTRA_url_encoding_DEPENDENCIES)
+url_encoding$(EXEEXT): $(url_encoding_OBJECTS) $(url_encoding_DEPENDENCIES) $(EXTRA_url_encoding_DEPENDENCIES) 
 	@rm -f url_encoding$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(url_encoding_OBJECTS) $(url_encoding_LDADD) $(LIBS)
 

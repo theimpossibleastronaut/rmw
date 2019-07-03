@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-01 13:49-0500\n"
+"POT-Creation-Date: 2019-07-03 16:48-0500\n"
 "PO-Revision-Date: 2018-10-10 18:08+0400\n"
 "Last-Translator: Vanessa V.Chellen <vvchellen@gmail.com>\n"
 "Language-Team: French\n"
@@ -140,7 +140,7 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/trivial_rmw.c:63
+#: src/trivial_rmw.c:64
 #, c-format
 msgid ""
 "  \n"
@@ -159,7 +159,7 @@ msgstr ""
 "  -s, --select              selectioner la liste des fichiers à restaurer\n"
 "  -u, --undo-last           annuler le dernier ReMove\n"
 
-#: src/trivial_rmw.c:69
+#: src/trivial_rmw.c:70
 #, c-format
 msgid ""
 "  \n"
@@ -218,38 +218,38 @@ msgstr ""
 "#\n"
 "WASTE = $HOME/.trash.rmw\n"
 
-#: src/purging_rmw.c:444
+#: src/purging_rmw.c:464
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d repertoires ignoré (RMDIR_MAX_DEPTH atteinte)\n"
 
-#: src/purging_rmw.c:448
+#: src/purging_rmw.c:468
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d répertoires ignorés (contient des fichiers en lecture seule)\n"
 
-#: src/purging_rmw.c:451
+#: src/purging_rmw.c:471
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d fichier supprimé"
 msgstr[1] "%d fichiers supprimés"
 
-#: src/rmw.c:483
+#: src/rmw.c:478
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
 msgstr[0] "%d fichier a été déplacé dans la corbeille"
 msgstr[1] "%d fichiers ont été déplacé dans la corbeille"
 
-#: src/purging_rmw.c:462
+#: src/purging_rmw.c:482
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/rmw.c:496
+#: src/rmw.c:491
 #, c-format
 msgid "'-f/--force' does nothing without '-g/--purge'\n"
 msgstr ""
@@ -261,14 +261,14 @@ msgstr ""
 msgid "'q' - quit"
 msgstr "'q' - quitter"
 
-#: src/purging_rmw.c:459
+#: src/purging_rmw.c:479
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:455
+#: src/purging_rmw.c:475
 #, fuzzy, c-format
 #| msgid "%d file purged"
 #| msgid_plural "%d files purged"
@@ -277,7 +277,7 @@ msgid_plural "(%d files deleted)"
 msgstr[0] "%d fichier supprimé"
 msgstr[1] "%d fichiers supprimés"
 
-#: src/purging_rmw.c:345
+#: src/purging_rmw.c:365
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(vérifier le propriétaire/permissions de lecture)\n"
@@ -312,8 +312,20 @@ msgid_plural "== contains %d files =="
 msgstr[0] "== contient %d fichier =="
 msgstr[1] "== contient %d fichiers =="
 
+#: src/purging_rmw.c:277
+msgid "Action cancelled."
+msgstr ""
+
+#: src/purging_rmw.c:274
+msgid "All the files in trash will be unrecoverable after empty."
+msgstr ""
+
+#: src/utils_rmw.c:154
+msgid "Continue? (y/n): "
+msgstr ""
+
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:519
+#: src/purging_rmw.c:539
 #, c-format
 msgid "Created %s\n"
 msgstr "Création %s\n"
@@ -328,7 +340,7 @@ msgstr "Répertoire  %s  créé\n"
 msgid "Creating default configuration file:"
 msgstr ""
 
-#: src/purging_rmw.c:343
+#: src/purging_rmw.c:363
 #, fuzzy, c-format
 #| msgid " :warning: Directory not purged - still contains files\n"
 msgid "Directory not purged - still contains files\n"
@@ -342,20 +354,20 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Nom de fichier doublon à la destination - ajout d'un horodatage...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:390 src/restore_rmw.c:281
+#: src/rmw.c:385 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Fichier introuvable: '%s'\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:353
+#: src/purging_rmw.c:373
 #, fuzzy, c-format
 #| msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :Alerte: Nombre maximum de %u atteint, ignorer la récursion\n"
 
-#: src/rmw.c:498
+#: src/rmw.c:493
 #, c-format
 msgid ""
 "No filenames or command line options were given\n"
@@ -364,13 +376,13 @@ msgstr ""
 "Aucun nom de fichier ou options de commande n'a été donné\n"
 "Taper '%s -h' pour plus d'info\n"
 
-#: src/rmw.c:476
+#: src/rmw.c:471
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "  Il n'y a aucun filesystem trouvé pour \"%s\"\n"
 
-#: src/purging_rmw.c:269
+#: src/purging_rmw.c:289
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -380,7 +392,7 @@ msgstr ""
 "\n"
 "Supprimer tous les fichiers de vos Corbeilles(purge_after = %u) ...\n"
 
-#: src/purging_rmw.c:271
+#: src/purging_rmw.c:291
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -396,7 +408,7 @@ msgstr ""
 msgid "Reading %s...\n"
 msgstr ""
 
-#: src/trivial_rmw.c:74
+#: src/trivial_rmw.c:75
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
@@ -418,7 +430,7 @@ msgstr " :Alerte: Restore() a retourné des erreurs \n"
 msgid "Searching using only the basename...\n"
 msgstr "Recherche en cours avec uniquement le nom de base du fichier...\n"
 
-#: src/trivial_rmw.c:79
+#: src/trivial_rmw.c:80
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -442,7 +454,7 @@ msgstr ""
 "SI LE PROGRAMME S'AVERAIT DEFECTUEUX, VOUS ASSUMEZ LE COUT DE TOUT\n"
 "ENTRETIEN, RÉPARATION OU CORRECTION NÉCESSAIRE.\n"
 
-#: src/rmw.c:243
+#: src/rmw.c:247
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
@@ -496,6 +508,7 @@ msgid ""
 "  -g, --purge               run purge even if it's been run today\n"
 "  -o, --orphaned            check for orphaned files (maintenance)\n"
 "  -f, --force               allow rmw to purge files in the background\n"
+"  -e, --empty               completely empty (purge) all waste folders\n"
 "  -v, --verbose             increase output messages\n"
 "  -w, --warranty            display warranty\n"
 "  -V, --version             display version and license information\n"
@@ -523,7 +536,7 @@ msgstr ""
 "  -w, --warranty            afficher la garantie\n"
 "  -V, --version             afficher la version et la licence\n"
 
-#: src/rmw.c:274
+#: src/rmw.c:278
 #, c-format
 msgid "attached"
 msgstr ""
@@ -589,14 +602,14 @@ msgstr ""
 "  https://github.com/andy5995/rmw/wiki\n"
 "Impossible de continuer. Fin...\n"
 
-#: src/rmw.c:317
+#: src/rmw.c:312
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "la commande Purge a été ignoré: utilisez -f o --force\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/rmw.c:308
+#: src/purging_rmw.c:255
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -611,12 +624,12 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "Erreur: realpath() a retourné une erreur.\n"
 
-#: src/rmw.c:273 src/config_rmw.c:238
+#: src/rmw.c:277 src/config_rmw.c:238
 #, c-format
 msgid "removable, "
 msgstr ""
 
-#: src/trivial_rmw.c:94
+#: src/trivial_rmw.c:95
 #, fuzzy, c-format
 #| msgid ""
 #| "rmw %s\n"
@@ -659,7 +672,7 @@ msgstr ""
 msgid "search complete\n"
 msgstr "recherche terminée\n"
 
-#: src/rmw.c:241
+#: src/rmw.c:245
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -684,13 +697,13 @@ msgstr "  :Error: Pendant le changement de permissions de %s\n"
 msgid "while closing %s\n"
 msgstr "  :Error: Pendant la fermeture %s\n"
 
-#: src/purging_rmw.c:525 src/utils_rmw.c:89
+#: src/purging_rmw.c:545 src/utils_rmw.c:89
 #, fuzzy, c-format
 #| msgid "  :Error: while creating %s\n"
 msgid "while creating %s\n"
 msgstr "  :Error: Pendant la création %s\n"
 
-#: src/rmw.c:226
+#: src/rmw.c:230
 #, fuzzy, c-format
 #| msgid "Error: while getting the path to your home directory\n"
 msgid "while getting the path to your home directory\n"
@@ -710,8 +723,8 @@ msgid "while opening %s -- %s:%d\n"
 msgstr "  :Error: Pendant l'ouverture %s\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/purging_rmw.c:375 src/purging_rmw.c:382 src/purging_rmw.c:405
-#: src/purging_rmw.c:429
+#: src/purging_rmw.c:395 src/purging_rmw.c:402 src/purging_rmw.c:425
+#: src/purging_rmw.c:449
 #, fuzzy, c-format
 #| msgid "  :Error: while removing %s\n"
 msgid "while removing %s\n"
