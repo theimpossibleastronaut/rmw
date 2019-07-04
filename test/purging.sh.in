@@ -142,11 +142,6 @@ output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
 test "$output" = "purge has been skipped: use -f or --force"
 test_result $?
 
-# echo " == Should not work if '--purge' isn't used"
-# output=`echo "y" | $RMW_ALT_TEST_CMD_STRING -ffe`
-# test "$output" = "'-f/--force' does nothing without '-g/--purge'"
-# test_result $?
-
 echo " == Should not work 'Y' or 'y' is not supplied."
 echo "yfw" | $RMW_TEST_CMD_STRING --purge -e
 test_result $?
