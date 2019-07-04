@@ -77,13 +77,16 @@
 
 #define DOT_TRASHINFO ".trashinfo"
 
-/** Some system don't define PATH_MAX. A limit needs to be set however,
- * and if it's not defined in a system header file, define it here
+/*!
+ * PATH_MAX is used to set limits on how long a pathname can be.
+ * Some systems may not define PATH_MAX so it's defined here if it's
+ * not found in limits.h
  */
 #ifndef PATH_MAX /* for portability */
 #  define PATH_MAX 256
 #endif
 
+/*! The MP macro is used as a shortcut throughout the program. */
 #define MP (PATH_MAX + 1)
 
 #ifndef ushort

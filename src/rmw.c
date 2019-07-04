@@ -92,11 +92,11 @@ bool force_required = 0;
 int
 main (const int argc, char* const argv[])
 {
-  /* Make sure MP has a sane value */
-  if (MP < 256)
+  /* Make sure PATH_MAX has a sane value */
+  if (PATH_MAX < 256)
   {
     print_msg_error ();
-    fprintf (stderr, "Invalid value for MP\n");
+    fputs ("Invalid value for PATH_MAX\n", stderr);
     return 1;
   }
 
