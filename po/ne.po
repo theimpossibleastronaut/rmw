@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre3\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-03 22:43-0500\n"
+"POT-Creation-Date: 2019-07-03 23:32-0500\n"
 "PO-Revision-Date: 2017-12-08 14:04-0700\n"
 "Last-Translator: ram <ram.dahal@gmail.com>\n"
 "Language-Team: Nepali\n"
@@ -229,7 +229,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d फाईलहरू बन्द गरियो"
 msgstr[1] "%d फाईलहरू बन्द गरियो"
 
-#: src/rmw.c:478
+#: src/rmw.c:475
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -303,10 +303,6 @@ msgstr[1] ""
 msgid "Action cancelled."
 msgstr ""
 
-#: src/purging_rmw.c:274
-msgid "All the files in trash will be unrecoverable after empty."
-msgstr ""
-
 #: src/utils_rmw.c:154
 msgid "Continue? (y/n): "
 msgstr ""
@@ -339,12 +335,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "गन्तव्यमा डुप्लिकेट फाइलनाम - जोड्दै  time स्ट्रिङ...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:385 src/restore_rmw.c:281
+#: src/rmw.c:382 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "फाइल फेला परेन: '%s'\n"
 
-#: src/rmw.c:490
+#: src/rmw.c:487
 #, fuzzy, c-format
 #| msgid ""
 #| "No filenames or command line options were given\n"
@@ -364,7 +360,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :चेतावनी: %u को अधिकतम गहिराई पुग्यो, छोडिदैछ\n"
 
-#: src/rmw.c:471
+#: src/rmw.c:468
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
@@ -435,6 +431,10 @@ msgstr ""
 "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
+
+#: src/purging_rmw.c:274
+msgid "The contents of all waste folders will be deleted -"
+msgstr ""
 
 #: src/rmw.c:247
 #, c-format
@@ -581,7 +581,7 @@ msgstr ""
 "  https://github.com/andy5995/rmw/wiki\n"
 "जारी गर्न सकिएन।विद्यमान ...\n"
 
-#: src/rmw.c:312
+#: src/rmw.c:310
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""

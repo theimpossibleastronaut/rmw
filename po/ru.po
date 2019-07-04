@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-03 22:43-0500\n"
+"POT-Creation-Date: 2019-07-03 23:32-0500\n"
 "PO-Revision-Date: 2017-12-30 17:22-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Russian\n"
@@ -239,7 +239,7 @@ msgstr[1] "%d файлы удалены"
 msgstr[2] "%d файлы удалены"
 msgstr[3] "%d файлы удалены"
 
-#: src/rmw.c:478
+#: src/rmw.c:475
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -324,10 +324,6 @@ msgstr[3] "== содержит %d файлы =="
 msgid "Action cancelled."
 msgstr ""
 
-#: src/purging_rmw.c:274
-msgid "All the files in trash will be unrecoverable after empty."
-msgstr ""
-
 #: src/utils_rmw.c:154
 msgid "Continue? (y/n): "
 msgstr ""
@@ -360,12 +356,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Файл с таким именем уже существует - добавляем стринг со временем...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:385 src/restore_rmw.c:281
+#: src/rmw.c:382 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Файл не найден: '%s'\n"
 
-#: src/rmw.c:490
+#: src/rmw.c:487
 #, fuzzy, c-format
 #| msgid ""
 #| "No filenames or command line options were given\n"
@@ -385,7 +381,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :предупреждение: Максимальная глубина %u достигнута, пропускаем\n"
 
-#: src/rmw.c:471
+#: src/rmw.c:468
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
@@ -460,6 +456,10 @@ msgstr ""
 "ТАК И ПРОИЗВОДИТЕЛЬНОСТИ ПРОГРАММЫ ВЫ БЕРЕТЕ НА СЕБЯ.ЕСЛИ В ПРОГРАММЕ "
 "ОБНАРУЖЕН ДЕФЕКТ, ВЫ БЕРЕТЕ НА СЕБЯ СТОИМОСТЬНЕОБХОДИМОГО ОБСЛУЖИВАНИЯ, "
 "ПОЧИНКИ ИЛИ ИСПРАВЛЕНИЯ.\n"
+
+#: src/purging_rmw.c:274
+msgid "The contents of all waste folders will be deleted -"
+msgstr ""
 
 #: src/rmw.c:247
 #, c-format
@@ -607,7 +607,7 @@ msgstr ""
 "  https://github.com/andy5995/rmw/wiki\n"
 "Невозможно продолжить. Остановка...\n"
 
-#: src/rmw.c:312
+#: src/rmw.c:310
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge пропущен: используйте -f или --force\n"

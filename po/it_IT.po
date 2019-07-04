@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-03 22:43-0500\n"
+"POT-Creation-Date: 2019-07-03 23:32-0500\n"
 "PO-Revision-Date: 2018-10-14 19:02+0200\n"
 "Last-Translator: Umberto <umbeebmu@gmail.com>\n"
 "Language-Team: Italian\n"
@@ -226,7 +226,7 @@ msgid_plural "%d files purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/rmw.c:478
+#: src/rmw.c:475
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -298,10 +298,6 @@ msgstr[1] ""
 msgid "Action cancelled."
 msgstr ""
 
-#: src/purging_rmw.c:274
-msgid "All the files in trash will be unrecoverable after empty."
-msgstr ""
-
 #: src/utils_rmw.c:154
 msgid "Continue? (y/n): "
 msgstr ""
@@ -333,12 +329,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:385 src/restore_rmw.c:281
+#: src/rmw.c:382 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
 
-#: src/rmw.c:490
+#: src/rmw.c:487
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -352,7 +348,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr ""
 
-#: src/rmw.c:471
+#: src/rmw.c:468
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr ""
@@ -412,6 +408,10 @@ msgid ""
 "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
+msgstr ""
+
+#: src/purging_rmw.c:274
+msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
 #: src/rmw.c:247
@@ -503,7 +503,7 @@ msgid ""
 "visit the rmw web site at\n"
 msgstr ""
 
-#: src/rmw.c:312
+#: src/rmw.c:310
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "l'eliminazione definitiva non  stata fatta: usa -f o --force\n"

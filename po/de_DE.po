@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-03 22:43-0500\n"
+"POT-Creation-Date: 2019-07-03 23:32-0500\n"
 "PO-Revision-Date: 2018-10-02 20:02+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -238,7 +238,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/rmw.c:478
+#: src/rmw.c:475
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -314,10 +314,6 @@ msgstr[1] "== enthält %d Dateien =="
 msgid "Action cancelled."
 msgstr ""
 
-#: src/purging_rmw.c:274
-msgid "All the files in trash will be unrecoverable after empty."
-msgstr ""
-
 #: src/utils_rmw.c:154
 msgid "Continue? (y/n): "
 msgstr ""
@@ -350,12 +346,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelter Dateiname im Ziel - füge Zeitstempel an...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:385 src/restore_rmw.c:281
+#: src/rmw.c:382 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Datei nicht gefunden: '%s'\n"
 
-#: src/rmw.c:490
+#: src/rmw.c:487
 #, fuzzy, c-format
 #| msgid ""
 #| "No filenames or command line options were given\n"
@@ -375,7 +371,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :Warnung: Maximale Tiefe von %u erreicht, überspringe\n"
 
-#: src/rmw.c:471
+#: src/rmw.c:468
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
@@ -447,6 +443,10 @@ msgstr ""
 "DIE QUALITÄT UND LEISTUNGSFÄHIGKEIT DES PROGRAMMS LIEGT BEI IHNEN.  SOLLTE\n"
 "DAS PROGRAMM SICH ALS FEHLERHAFT HERAUSSTELLEN, ÜBERNEHMEN SIE DIE KOSTEN\n"
 "FÜR ALLE NOTWENDIGEN WARTUNGSARBEITEN, REPARATUREN ODER VERBESSERUNGEN.\n"
+
+#: src/purging_rmw.c:274
+msgid "The contents of all waste folders will be deleted -"
+msgstr ""
 
 #: src/rmw.c:247
 #, c-format
@@ -596,7 +596,7 @@ msgstr ""
 "  https://github.com/andy5995/rmw/wiki\n"
 "Kann nicht fortfahren. Beende...\n"
 
-#: src/rmw.c:312
+#: src/rmw.c:310
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "Papierkorbleerung wurde übersprungen: verwende -f oder --force\n"

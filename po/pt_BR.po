@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-03 22:43-0500\n"
+"POT-Creation-Date: 2019-07-03 23:32-0500\n"
 "PO-Revision-Date: 2017-12-10 18:35+0100\n"
 "Last-Translator: jmrodriguesgoncalves <jmrodriguesgoncalves@myseneca.ca>\n"
 "Language-Team: Portuguese\n"
@@ -234,7 +234,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d ficheiro purgado"
 msgstr[1] "%d ficheiros purgados"
 
-#: src/rmw.c:478
+#: src/rmw.c:475
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -311,10 +311,6 @@ msgstr[1] "== contem %d ficheiros=="
 msgid "Action cancelled."
 msgstr ""
 
-#: src/purging_rmw.c:274
-msgid "All the files in trash will be unrecoverable after empty."
-msgstr ""
-
 #: src/utils_rmw.c:154
 msgid "Continue? (y/n): "
 msgstr ""
@@ -348,12 +344,12 @@ msgstr ""
 "Duplica de nome do ficheiro no destino - adicionando linha com horas...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:385 src/restore_rmw.c:281
+#: src/rmw.c:382 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Ficheiro não foi encontrado: '%s'\n"
 
-#: src/rmw.c:490
+#: src/rmw.c:487
 #, fuzzy, c-format
 #| msgid ""
 #| "No filenames or command line options were given\n"
@@ -373,7 +369,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :aviso: Profundidade máxima de %u alcançada, ignorando\n"
 
-#: src/rmw.c:471
+#: src/rmw.c:468
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
@@ -448,6 +444,10 @@ msgstr ""
 "TODO O RISCO SOBRE A QUALIDADE E O DESEMPENHO DO PROGRAMA ESTÁ COM VOCÊ. SE\n"
 "O PROGRAMA ESTIVER DEFECTUOSO, VOCÊ ASSUME O CUSTO DE TODA A MANUTENÇÃO,\n"
 "REPARAÇÃO OU CORRECÇÃO NECESSÁRIAS.\n"
+
+#: src/purging_rmw.c:274
+msgid "The contents of all waste folders will be deleted -"
+msgstr ""
 
 #: src/rmw.c:247
 #, c-format
@@ -596,7 +596,7 @@ msgstr ""
 "https://github.com/andy5995/rmw/wiki\n"
 "Não é possível continuar. Saindo...\n"
 
-#: src/rmw.c:312
+#: src/rmw.c:310
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "A purga foi ignorada: use -f ou --force\n"
