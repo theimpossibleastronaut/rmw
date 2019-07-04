@@ -354,7 +354,7 @@ Please check your configuration file and permissions\n\n"));
     return restore_errors;
   }
 
-  if (optind < argc)
+  if (optind < argc) /* FIXME: shouldn't this be "else if"? */
   {
     rmw_target *file = (rmw_target*)malloc (sizeof (rmw_target));
     chk_malloc (file, __func__, __LINE__);
@@ -363,7 +363,7 @@ Please check your configuration file and permissions\n\n"));
     st_removed *removals_head = NULL;
 
     static ushort main_error;
-    int rmwed_files = 0;
+    int removed_files_ctr = 0;
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
       bufchk (argv[file_arg], MP);
@@ -388,8 +388,8 @@ Please check your configuration file and permissions\n\n"));
        * get ready for the ReMoval
        */
 
-      static bool match;
-      match = 0;
+      static bool waste_folder_on_same_filesystem;
+      waste_folder_on_same_filesystem = 0;
 
       bufchk (basename (file->main_argv), MP);
       strcpy (file->base_name, basename (file->main_argv));
@@ -429,7 +429,7 @@ Please check your configuration file and permissions\n\n"));
             if (verbose)
               printf ("'%s' -> '%s'\n", file->main_argv, file->dest_name);
 
-            rmwed_files++;
+            removed_files_ctr++;
 
             if (!create_trashinfo (file, waste_curr))
             {
@@ -455,14 +455,14 @@ Please check your configuration file and permissions\n\n"));
        * that matches the file system that file->main_argv was on.
        * Setting match to 1 and breaking from the for loop
        */
-          match = 1;
+          waste_folder_on_same_filesystem = 1;
           break;
         }
 
         waste_curr = waste_curr->next_node;
       }
 
-      if (!match)
+      if (!waste_folder_on_same_filesystem)
       {
         print_msg_warn ();
         printf (_("No suitable filesystem found for \"%s\"\n"), file->main_argv);
@@ -473,11 +473,10 @@ Please check your configuration file and permissions\n\n"));
       create_undo_file (removals, removals_head);
 
     printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
-            rmwed_files), rmwed_files);
+            removed_files_ctr), removed_files_ctr);
     printf ("\n");
 
     free (file);
-    file = NULL;
 
     if (main_error > 1)
       return main_error;
