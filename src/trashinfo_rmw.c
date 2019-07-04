@@ -120,6 +120,8 @@ printf ("dest = %s in %s\n", dest, __func__);
   return 0;
 }
 
+#ifndef TEST_LIB /* for ticket https://github.com/theimpossibleastronaut/rmw/issues/243 */
+
 int
 create_trashinfo (rmw_target *file, st_waste *waste_curr)
 {
@@ -187,3 +189,4 @@ printf ("DeletionDate=%s\n", time_now);
     return ERR_OPEN;
   }
 }
+#endif

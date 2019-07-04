@@ -29,5 +29,7 @@
 bool
 escape_url (const char *str, char *dest, const int len);
 
+#ifndef TEST_LIB
 int
 create_trashinfo (rmw_target *file, st_waste *waste_curr);
+#endif /* TEST_LIB */

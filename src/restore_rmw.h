@@ -58,6 +58,7 @@
 bool
 unescape_url (const char *str, char *dest, const int len);
 
+#ifndef TEST_LIB
 int
 Restore (const char *argv, st_waste *waste_curr);
 
@@ -66,3 +67,5 @@ restore_select (st_waste *waste_curr);
 
 void
 undo_last_rmw (st_waste *waste_curr);
+#endif /* TEST_LIB */
+

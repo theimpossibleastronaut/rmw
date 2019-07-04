@@ -37,4 +37,6 @@
 
 int purge (const st_waste * waste_curr, const rmw_options * cli_user_options);
 
+#ifndef TEST_LIB
 short orphan_maint (st_waste * waste_curr);
+#endif

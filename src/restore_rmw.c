@@ -90,6 +90,8 @@ unescape_url (const char *str, char *dest, const int len)
   return 0;
 }
 
+#ifndef TEST_LIB
+
 /**
  * Restores a file that was previously moved via rmw.
  *
@@ -516,3 +518,4 @@ undo_last_rmw (st_waste *waste_curr)
 
   return;
 }
+#endif /* TEST_LIB */
