@@ -103,15 +103,14 @@ Add a tap and install rmw:
 ```
 == First-time use ==
 
-If you installed rmw as a normal user, this next step can be skipped.
-
 After rmw is installed, create the user configuration directory by
 typing 'rmw' and hitting enter. A configuration file will be
 automatically created in $HOME/.config/rmw. Edit the file as desired.
 
 == Configuration File ==
 
-Documentation explaining the configuration can be found in rmwrc.
+Documentation explaining the configuration can be found in your config
+file.
 
 Waste folders will be created automatically. (e.g. if '$HOME/trash.rmw'
 is listed in the config file, these 3 directories will be created:
@@ -120,7 +119,15 @@ $HOME/trash.rmw/files
 $HOME/trash.rmw/info
 
 If one of the WASTE folders is on removable media, then the user has the
-option of appending ',removable' (details in etc/rmwrc).
+option of appending ',removable'.
+
+If a folder has ',removable' appended to it, rmw will not try to create
+it; it must be initially created manually. If  the folder exists when
+rmw is run, it will be used; if not, it will be skipped. Once you
+create "example_waste", rmw will automatically create
+example_waste/info and example_waste/files
+
+    e.g: WASTE=/mnt/sda10000/example_waste, removable
 
 == Features and Options ==
 
@@ -180,8 +187,8 @@ directory.
 A translation of the configuration file in your native
 language (if available) will be displayed.
 
-(If you would be interested in adding a translation, please visit
-https://github.com/theimpossibleastronaut/rmw/wiki/Translating)
+(If you would be interested in adding a translation, please see
+<https://remove-to-waste.info/translating.html>)
 
 == -f, --force ==
 
@@ -189,7 +196,7 @@ A change from previous versions, purge is allowed to run without the '-f'
 option. If you'd rather require the use of '-f', you can add the line
 'force_required' in your configuration file.
 
-rmw will normally refuse to purge directories if they contain non-writable
+rmw will refuse to purge directories if they contain non-writable
 subdirectories. You can use -f 2 times if you ever see a message that tells
 you "permission denied; directory still contains files" (e.g. rwm -gff).
 
