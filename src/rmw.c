@@ -302,15 +302,12 @@ Please check your configuration file and permissions\n\n"));
   chk_malloc (time_now, __func__, __LINE__);
   get_time_string (time_now, LEN_TIME_NOW, t_fmt);
 
-  if (purge_after)
+  if (cli_user_options.want_purge || is_time_to_purge())
   {
-    if (cli_user_options.want_purge || is_time_to_purge())
-    {
-      if (!force_required || force)
-        purge (waste_curr, &cli_user_options);
-      else
-        printf (_("purge has been skipped: use -f or --force\n"));
-    }
+    if (!force_required || force)
+      purge (waste_curr, &cli_user_options);
+    else
+      printf (_("purge has been skipped: use -f or --force\n"));
   }
 
   /* String appended to duplicate filenames */
