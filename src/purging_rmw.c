@@ -44,7 +44,7 @@ static off_t bytes_freed = 0;
  * @return error number
  */
 static int
-rmdir_recursive (char *path, short unsigned level)
+rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_options)
 {
   if (level == RMDIR_MAX_DEPTH)
     return MAX_DEPTH_REACHED;
@@ -79,8 +79,7 @@ rmdir_recursive (char *path, short unsigned level)
     strcat (dir_path, entry->d_name);
 
     lstat (dir_path, &st);
-    extern const ushort force;
-    if (force == 2 && ~st.st_mode & S_IWUSR)
+    if (cli_user_options->force == 2 && ~st.st_mode & S_IWUSR)
     {
       if (!chmod (dir_path, 00700))
       {
@@ -118,7 +117,7 @@ rmdir_recursive (char *path, short unsigned level)
       else
       {
 
-        status = rmdir_recursive (dir_path, ++level);
+        status = rmdir_recursive (dir_path, ++level, cli_user_options);
         level--;
 
         switch (status)
@@ -348,7 +347,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
         if (S_ISDIR (st.st_mode))
         {
           if (!cmd_dry_run)
-            status = rmdir_recursive (purgeFile, 1);
+            status = rmdir_recursive (purgeFile, 1, cli_user_options);
           else
           {
             /* Not much choice but to

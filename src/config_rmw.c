@@ -187,8 +187,8 @@ realize_home (char **str)
  * @return node containing information about the new WASTE folder, or \b waste_curr if no new folder was added.
  */
 static st_waste *
-parse_line_waste (st_waste * waste_curr, const char *line_from_config,
-                  bool * do_continue)
+parse_line_waste (st_waste * waste_curr, const char * line_from_config,
+                  bool * do_continue, const rmw_options * cli_user_options)
 {
   bool removable = 0;
 
@@ -224,8 +224,7 @@ parse_line_waste (st_waste * waste_curr, const char *line_from_config,
 
   if (removable && !exists (value))
   {
-    extern const bool list;
-    if (list)
+    if (cli_user_options->list)
     {
       /*
        * These lines are separated to ease translation
@@ -325,15 +324,14 @@ DO_CONT:
  *
  */
 static FILE *
-realize_config_file (char *config_file)
+realize_config_file (char *config_file, const rmw_options * cli_user_options)
 {
   if (verbose)
     printf ("sysconfdir = %s\n", SYSCONFDIR);
 
   extern const char *HOMEDIR;
-  extern const char *alt_config;
   /* If no alternate configuration was specifed (-c) */
-  if (alt_config == NULL)
+  if (cli_user_options->alt_config == NULL)
   {
     /**
      * CFG_FILE is the file name of the rmw config file relative to
@@ -346,8 +344,8 @@ realize_config_file (char *config_file)
   }
   else
   {
-    bufchk (alt_config, MP);
-    strcpy (config_file, alt_config);
+    bufchk (cli_user_options->alt_config, MP);
+    strcpy (config_file, cli_user_options->alt_config);
   }
 
 #define MSG_USING_CONFIG if (verbose) printf (_("config file: %s\n"), config_file)
@@ -428,7 +426,7 @@ realize_config_file (char *config_file)
  *
  */
 st_waste *
-get_config_data (void)
+get_config_data (const rmw_options * cli_user_options)
 {
   /*
    * The default value for purge_after is only used as a last resort,
@@ -439,8 +437,7 @@ get_config_data (void)
   extern bool force_required;
 
   char config_file[MP];
-  extern const char *alt_config;
-  FILE *config_ptr = realize_config_file (config_file);
+  FILE *config_ptr = realize_config_file (config_file, cli_user_options);
 
   st_waste *waste_head = NULL;
   st_waste *waste_curr = NULL;
@@ -475,7 +472,7 @@ get_config_data (void)
     else if (strncmp ("WASTE", line_from_config, 5) == 0)
     {
       waste_curr =
-        parse_line_waste (waste_curr, line_from_config, &do_continue);
+        parse_line_waste (waste_curr, line_from_config, &do_continue, cli_user_options);
       if (do_continue)
         continue;
     }

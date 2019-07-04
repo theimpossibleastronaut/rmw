@@ -52,14 +52,9 @@
  *
  */
 
-/*! list waste folder option */
-bool list;
-
 /*! The users HOME directory */
 char *HOMEDIR;
 
-/*! Alternate configuration file given at the command line with -c */
-const char *alt_config = NULL;
 
 /*!
  * Formatted time string indicating the current time;
@@ -73,7 +68,6 @@ char *time_str_appended;
 int purge_after = 0;
 
 /*! Set from the command line and optionally from the user's config file */
-ushort force = 0;
 bool force_required = 0;
 
 /*
@@ -148,10 +142,10 @@ main (const int argc, char* const argv[])
       translate_config ();
       exit (0);
     case 'c':
-      alt_config = optarg;
+      cli_user_options.alt_config = optarg;
       break;
     case 'l':
-      list = 1;
+      cli_user_options.list = true;
       break;
     case 'g':
       cli_user_options.want_purge = true;
@@ -181,7 +175,7 @@ main (const int argc, char* const argv[])
       printf (_("-r / --recurse: not implemented\n"));
       break;
     case 'f':
-      force++;
+      cli_user_options.force++;
       break;
     case 'e':
       cli_user_options.want_empty_trash = true;
@@ -254,11 +248,11 @@ Please check your configuration file and permissions\n\n"));
   created_data_dir = (created_data_dir == MAKE_DIR_SUCCESS) ? FIRST_RUN : 0;
 
   st_waste *waste_head;
-  waste_head = get_config_data ();
+  waste_head = get_config_data (&cli_user_options);
 
   st_waste *waste_curr = waste_head;
 
-  if (list)
+  if (cli_user_options.list)
   {
     while (waste_curr != NULL)
     {
@@ -301,7 +295,7 @@ Please check your configuration file and permissions\n\n"));
 
   if (cli_user_options.want_purge || is_time_to_purge())
   {
-    if (!force_required || force)
+    if (!force_required || cli_user_options.force)
       purge (waste_curr, &cli_user_options);
     else
       printf (_("purge has been skipped: use -f or --force\n"));
@@ -503,6 +497,10 @@ rmw_option_init (rmw_options *options)
   options->want_orphan_chk = false;
   options->want_selection_menu = false;
   options->want_undo = false;
+  options->force = 0;
+  options->list = false;
+  options->alt_config = NULL;
+
 }
 
 /*!

@@ -104,6 +104,11 @@ struct rmw_options
   bool want_orphan_chk;
   bool want_selection_menu;
   bool want_undo;
+  ushort force;
+  /*! Alternate configuration file given at the command line with -c */
+  /*! list waste folder option */
+  bool list;
+  const char *alt_config;
 };
 
 typedef struct st_waste st_waste;
