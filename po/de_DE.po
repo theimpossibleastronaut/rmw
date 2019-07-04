@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-03 16:48-0500\n"
+"POT-Creation-Date: 2019-07-03 22:43-0500\n"
 "PO-Revision-Date: 2018-10-02 20:02+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -252,11 +252,6 @@ msgid_plural "%s freed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/rmw.c:491
-#, c-format
-msgid "'-f/--force' does nothing without '-g/--purge'\n"
-msgstr ""
-
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
@@ -360,6 +355,18 @@ msgstr "Doppelter Dateiname im Ziel - füge Zeitstempel an...\n"
 msgid "File not found: '%s'\n"
 msgstr "Datei nicht gefunden: '%s'\n"
 
+#: src/rmw.c:490
+#, fuzzy, c-format
+#| msgid ""
+#| "No filenames or command line options were given\n"
+#| "Enter '%s -h' for more information\n"
+msgid ""
+"Insufficient command line arguments given;\n"
+"Enter '%s -h' for more information\n"
+msgstr ""
+"Keine Dateinamen oder Kommandozeilenoptionen wurden übergeben\n"
+"Gib '%s -h' ein, um mehr Informationen zu erhalten\n"
+
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
 #: src/purging_rmw.c:373
@@ -367,15 +374,6 @@ msgstr "Datei nicht gefunden: '%s'\n"
 #| msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :Warnung: Maximale Tiefe von %u erreicht, überspringe\n"
-
-#: src/rmw.c:493
-#, c-format
-msgid ""
-"No filenames or command line options were given\n"
-"Enter '%s -h' for more information\n"
-msgstr ""
-"Keine Dateinamen oder Kommandozeilenoptionen wurden übergeben\n"
-"Gib '%s -h' ein, um mehr Informationen zu erhalten\n"
 
 #: src/rmw.c:471
 #, fuzzy, c-format

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-03 16:48-0500\n"
+"POT-Creation-Date: 2019-07-03 22:43-0500\n"
 "PO-Revision-Date: 2018-01-01 10:09-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Ukrainian\n"
@@ -257,11 +257,6 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/rmw.c:491
-#, c-format
-msgid "'-f/--force' does nothing without '-g/--purge'\n"
-msgstr ""
-
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
@@ -370,6 +365,18 @@ msgstr "Файл с таким ім'ям вже існує - додаємо ст
 msgid "File not found: '%s'\n"
 msgstr "Файл не знайдено: '%s'\n"
 
+#: src/rmw.c:490
+#, fuzzy, c-format
+#| msgid ""
+#| "No filenames or command line options were given\n"
+#| "Enter '%s -h' for more information\n"
+msgid ""
+"Insufficient command line arguments given;\n"
+"Enter '%s -h' for more information\n"
+msgstr ""
+"Файли або опції командної строки не знайдено\n"
+"Введіть '%s -h' для додаткової інформації\n"
+
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
 #: src/purging_rmw.c:373
@@ -377,15 +384,6 @@ msgstr "Файл не знайдено: '%s'\n"
 #| msgid " :warning: Maximum depth of %u reached, skipping\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :попередження: Максимальна глибина %u досягнута, пропускаємо\n"
-
-#: src/rmw.c:493
-#, c-format
-msgid ""
-"No filenames or command line options were given\n"
-"Enter '%s -h' for more information\n"
-msgstr ""
-"Файли або опції командної строки не знайдено\n"
-"Введіть '%s -h' для додаткової інформації\n"
 
 #: src/rmw.c:471
 #, fuzzy, c-format
