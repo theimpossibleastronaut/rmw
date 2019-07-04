@@ -359,10 +359,10 @@ Please check your configuration file and permissions\n\n"));
     rmw_target *file = (rmw_target*)malloc (sizeof (rmw_target));
     chk_malloc (file, __func__, __LINE__);
 
-    st_removed *removals = NULL;
-    st_removed *removals_head = NULL;
+    st_removed *confirmed_removals_list = NULL;
+    st_removed *confirmed_removals_list_head = NULL;
 
-    static ushort main_error;
+    static int main_error_ctr;
     int removed_files_ctr = 0;
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
@@ -371,10 +371,10 @@ Please check your configuration file and permissions\n\n"));
 
       if (exists (file->main_argv))
       {
-        main_error = resolve_path (file->main_argv, file->real_path);
-        if (main_error == 1)
+        main_error_ctr = resolve_path (file->main_argv, file->real_path);
+        if (main_error_ctr == 1)
           continue;
-        else if (main_error > 1)
+        else if (main_error_ctr > 1)
           break;
       }
       else
@@ -388,8 +388,7 @@ Please check your configuration file and permissions\n\n"));
        * get ready for the ReMoval
        */
 
-      static bool waste_folder_on_same_filesystem;
-      waste_folder_on_same_filesystem = 0;
+      bool waste_folder_on_same_filesystem = 0;
 
       bufchk (basename (file->main_argv), MP);
       strcpy (file->base_name, basename (file->main_argv));
@@ -433,9 +432,9 @@ Please check your configuration file and permissions\n\n"));
 
             if (!create_trashinfo (file, waste_curr))
             {
-              removals = add_removal (removals, file->dest_name);
-              if (removals_head == NULL)
-                removals_head = removals;
+              confirmed_removals_list = add_removal (confirmed_removals_list, file->dest_name);
+              if (confirmed_removals_list_head == NULL)
+                confirmed_removals_list_head = confirmed_removals_list;
             }
             /* else.. The error should already be output from create_trashinfo() or one
              * of it's calling functions
@@ -469,8 +468,8 @@ Please check your configuration file and permissions\n\n"));
       }
     }
 
-    if (removals != NULL)
-      create_undo_file (removals, removals_head);
+    if (confirmed_removals_list != NULL)
+      create_undo_file (confirmed_removals_list, confirmed_removals_list_head);
 
     printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
             removed_files_ctr), removed_files_ctr);
@@ -478,8 +477,8 @@ Please check your configuration file and permissions\n\n"));
 
     free (file);
 
-    if (main_error > 1)
-      return main_error;
+    if (main_error_ctr > 1)
+      return main_error_ctr;
   }
   else if (!cli_user_options.want_purge && !cli_user_options.want_empty_trash && created_data_dir != FIRST_RUN)
   {
@@ -662,7 +661,6 @@ dispose_removed (st_removed *node)
   {
     dispose_removed (node->next_node);
     free (node);
-    node = NULL;
   }
 
   return;
