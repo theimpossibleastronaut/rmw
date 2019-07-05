@@ -1,0 +1,16 @@
+Source: rmw
+Section: Utilities (contrib)
+Priority: optional
+Maintainer: Andy Alt <andy400-dev@yahoo.com>
+Build-Depends: libncurses5w
+Standards-Version: 4.1.3
+Homepage: https://remove-to-waste.info/
+
+Package: rmw
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A "safe-remove" utility for the command line
+ rmw (ReMove to Waste) is a cross-platform command-line "trash can"
+ utility. It can send files to your "Desktop" trash, or a completely
+ separate folder; restore files and append a unique string to the
+ filenames so they won't be overwritten (duplication protection).
