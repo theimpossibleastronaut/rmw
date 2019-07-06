@@ -42,6 +42,13 @@
  * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
  */
 
+typedef struct config_file_option config_file_option;
+struct config_file_option {
+        char *option;
+        int len;
+        int position;
+};
+
 void translate_config (void);
 
 st_waste *get_config_data (void);

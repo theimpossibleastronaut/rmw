@@ -40,6 +40,14 @@
 
 static const int DEFAULT_PURGE_AFTER = 90;
 
+
+config_file_option config_file_read[] = {
+  {"WASTE", 5, 0},
+  {"purge_after", 11, 1},
+  {"force_required", 14, 2},
+  {NULL, 0, 3}
+};
+
 /*!
  * Prints a copy of the default config file to the specified stream. If
  * a translation is available, the output will be translated.
@@ -445,6 +453,7 @@ get_config_data (void)
   st_waste *waste_head = NULL;
   st_waste *waste_curr = NULL;
   char *line_from_config = calloc (CFG_LINE_LEN_MAX + 1, 1);
+
   while (fgets (line_from_config, CFG_LINE_LEN_MAX, config_ptr) != NULL)
   {
     bool do_continue = 0;
@@ -459,42 +468,37 @@ get_config_data (void)
     case '\0':
       continue;
     }
-    /**
-     * assign purge_after the value from config file
-     */
-    if (strncmp (line_from_config, "purge_after", 11) == 0 ||
-        strncmp (line_from_config, "purgeDays", 9) == 0)
+
+    int option_ctr = 0;
+    while (config_file_read[option_ctr].option != NULL)
     {
-      char *value = strchr (line_from_config, '=');
-      del_char_shift_left ('=', &value);
-      del_char_shift_left (' ', &value);
-      purge_after = atoi (value);
+      if (strncmp (config_file_read[option_ctr].option, line_from_config, config_file_read[option_ctr].len) == 0)
+        break;
     }
-    else if (!strcmp (line_from_config, "force_required"))
-      force_required = 1;
-    else if (strncmp ("WASTE", line_from_config, 5) == 0)
-    {
-      waste_curr =
-        parse_line_waste (waste_curr, line_from_config, &do_continue);
-      if (do_continue)
-        continue;
-    }
-    else if (!strncmp ("PROTECT", line_from_config, 7))
-    {
-      /* pctr just prevents this message from being repeated each time
-       * "PROTECT" is encountered" */
-      static bool pctr = 0;
-      if (!pctr)
-        printf ("The PROTECT feature has been removed.\n");
-      pctr = 1;
-    }
-    else if (!strcmp ("force_not_required", line_from_config))
+
+    if (!strcmp ("force_not_required", line_from_config))
       printf ("The 'force_not_required' option has been replaced with 'force_required'.\n");
-    else
+    else if (config_file_read[option_ctr].option == NULL)
     {
       print_msg_warn ();
       fprintf (stderr, _("Unknown or invalid option: '%s'\n"),
                line_from_config);
+    }
+
+    switch (config_file_read[option_ctr].position)
+    {
+      case 0:
+        waste_curr = parse_line_waste (waste_curr, line_from_config, &do_continue);
+        if (do_continue)
+          continue;
+        break;
+      case 1:
+        char *value = strchr (line_from_config, '=');
+        del_char_shift_left ('=', &value);
+        del_char_shift_left (' ', &value);
+        purge_after = atoi (value);
+      case 2:
+        force_required = 1;
     }
 
     if (waste_curr != NULL && waste_head == NULL)
