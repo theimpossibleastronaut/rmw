@@ -337,7 +337,8 @@ restore_select (st_waste *waste_curr)
       bufchk (full_path, MP);
 
       struct stat st;
-      lstat (full_path, &st);
+      if (lstat (full_path, &st))
+        msg_err_lstat (__func__, __LINE__);
       char *hr_size = human_readable_size (st.st_size);
 
       /*

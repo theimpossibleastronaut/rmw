@@ -375,7 +375,7 @@ Please check your configuration file and permissions\n\n"));
       }
 
       /**
-       * Make some variables
+       * Make some variables -
        * get ready for the ReMoval
        */
 
@@ -392,10 +392,11 @@ Please check your configuration file and permissions\n\n"));
       waste_curr = waste_head;
       while (waste_curr != NULL)
       {
-        static struct stat st;
-        lstat (file->main_argv, &st);
+        static struct stat main_argv_statistics;
+        if (lstat (file->main_argv, &main_argv_statistics)) /* FIXME: Should this be moved above, out of the while loop? */
+          continue;
 
-        if (waste_curr->dev_num == st.st_dev)
+        if (waste_curr->dev_num == main_argv_statistics.st_dev)
         {
           sprintf (file->dest_name, "%s%s", waste_curr->files, file->base_name);
 
@@ -404,7 +405,9 @@ Please check your configuration file and permissions\n\n"));
           if (exists (file->dest_name))
           {
             // append a time string
-            strcat (file->dest_name, time_str_appended);
+            int req_len = multi_strlen (2, file->dest_name, time_str_appended) + 1;
+            bufchk_len (req_len, MP, __func__, __LINE__);
+            strncat (file->dest_name, time_str_appended, strlen (file->dest_name));
 
             // passed to create_trashinfo()
             file->is_duplicate = 1;
@@ -412,7 +415,6 @@ Please check your configuration file and permissions\n\n"));
           else
             file->is_duplicate = 0;
 
-          bufchk (file->dest_name, MP);
           int rename_res = rename (file->main_argv, file->dest_name);
           if (rename_res == 0)
           {
@@ -517,11 +519,11 @@ set_time_now_format (void)
 
   if  (getenv ("RMWTRASH") == NULL ||
       (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
-    t_fmt = "%FT%T";
+    snprintf (t_fmt, LEN_TIME_NOW, "%s", "%FT%T");
   else
   {
     printf ("  :test mode: Using fake year\n");
-    t_fmt = "1999-%m-%dT%T";
+    snprintf (t_fmt, LEN_TIME_NOW, "%s", "1999-%m-%dT%T");
   }
 
   return t_fmt;

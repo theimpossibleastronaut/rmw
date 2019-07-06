@@ -301,13 +301,10 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
    * checking return values is good practice so we'll do it.
    */
   struct stat st;
-  if (lstat (waste_curr->parent, &st) == 0)
+  if (!lstat (waste_curr->parent, &st))
     waste_curr->dev_num = st.st_dev;
   else
-  {
-    print_msg_warn ();
-    perror ("lstat()");
-  }
+    msg_err_lstat(__func__, __LINE__);
 
   return waste_curr;
 
@@ -359,6 +356,7 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
   }
 
   char tmp_config_file[MP];
+  bufchk (config_file, MP);
   strcpy (tmp_config_file, config_file);
 
   bufchk ("/rmwrc", MP - strlen (SYSCONFDIR));

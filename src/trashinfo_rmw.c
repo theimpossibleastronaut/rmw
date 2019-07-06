@@ -147,13 +147,14 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
   if (file->is_duplicate)
   {
     extern const char *time_str_appended;
-    bufchk (time_str_appended, MP - strlen (final_info_dest));
-    strcat (final_info_dest, time_str_appended);
+    int req_len = multi_strlen (2, final_info_dest, time_str_appended);
+    bufchk_len (req_len, MP, __func__, __LINE__);
+    strncat (final_info_dest, time_str_appended, strlen (final_info_dest));
   }
 
-  strcat (final_info_dest, DOT_TRASHINFO);
-
-  bufchk (final_info_dest, MP);
+  req_len = multi_strlen (2, final_info_dest, DOT_TRASHINFO);
+  bufchk_len (req_len, MP, __func__, __LINE__);
+  strncat (final_info_dest, DOT_TRASHINFO, strlen (final_info_dest));
 
   FILE *fp = fopen (final_info_dest, "w");
   if (fp != NULL)

@@ -62,3 +62,6 @@ void msg_err_fatal_fprintf (const char *func);
 
 void
 msg_err_buffer_overrun (const char *func, const int line);
+
+void
+msg_err_lstat (const char *func, const int LINE);

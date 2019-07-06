@@ -46,6 +46,7 @@ make_dir (const char *dir)
     return 0;
 
   char temp_dir[MP];
+  bufchk (dir, MP);
   strcpy (temp_dir, dir);
 
   char *tokenPtr;

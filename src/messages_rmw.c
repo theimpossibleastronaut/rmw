@@ -43,7 +43,8 @@ static const char *ERR_STRING[] = {
   "ERR_FGETS",
   "ERR_TRASHINFO_FORMAT",
   "FILE_NOT_FOUND",
-  "FIRST_RUN"
+  "FIRST_RUN",
+  "ERR_LSTAT"
 };
 
 void print_msg_error (void)
@@ -226,4 +227,15 @@ msg_err_buffer_overrun (const char *func, const int line)
   fputs ("buffer overrun (segmentation fault) prevented.\n", stderr);
   fputs ("If you think this may be a bug, please report it to the rmw developers.\n", stderr);
 }
+
+void
+msg_err_lstat (const char *func, const int LINE)
+{
+  print_msg_error();
+  perror ("lstat()");
+  fprintf (stderr, "%s - %d\n", func, LINE);
+  exit (ERR_LSTAT);
+}
+
+
 

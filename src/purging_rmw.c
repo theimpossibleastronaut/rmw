@@ -78,13 +78,15 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
 
     strcat (dir_path, entry->d_name);
 
-    lstat (dir_path, &st);
+    if (lstat (dir_path, &st))
+      msg_err_lstat (__func__, __LINE__);
     if (cli_user_options->force == 2 && ~st.st_mode & S_IWUSR)
     {
       if (!chmod (dir_path, 00700))
       {
         /* Now that the mode has changed, lstat must be run again */
-        lstat (dir_path, &st);
+        if (lstat (dir_path, &st))
+          msg_err_lstat (__func__, __LINE__);
       }
       else
       {
@@ -342,7 +344,8 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
         truncate_str (temp, strlen (DOT_TRASHINFO));    /* acquire the basename */
 
         strcat (purgeFile, temp);       /* path to file in <WASTE>/files */
-        lstat (purgeFile, &st);
+        if (lstat (purgeFile, &st))
+          msg_err_lstat (__func__, __LINE__);
 
         if (S_ISDIR (st.st_mode))
         {

@@ -203,7 +203,8 @@ enum {
   ERR_FGETS,
   ERR_TRASHINFO_FORMAT,
   FILE_NOT_FOUND,
-  FIRST_RUN
+  FIRST_RUN,
+  ERR_LSTAT
 };
 
 /* function prototypes for rmw.c
