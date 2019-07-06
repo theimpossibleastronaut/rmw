@@ -105,9 +105,9 @@ struct rmw_options
   bool want_selection_menu;
   bool want_undo;
   ushort force;
-  /*! Alternate configuration file given at the command line with -c */
   /*! list waste folder option */
   bool list;
+  /*! Alternate configuration file given at the command line with -c */
   const char *alt_config;
 };
 
