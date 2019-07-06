@@ -44,4 +44,4 @@
 
 void translate_config (void);
 
-st_waste *get_config_data (void);
+st_waste *get_config_data (const rmw_options * cli_user_options);
