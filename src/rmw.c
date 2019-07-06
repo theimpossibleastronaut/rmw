@@ -266,6 +266,7 @@ Please check your configuration file and permissions\n\n"));
 
         printf (" (");
         printf (_("removable, "));
+        /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
         printf (_("attached"));
         printf (")");
       }

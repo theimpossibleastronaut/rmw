@@ -481,6 +481,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
           ("(%d directory deleted)", "(%d directories deleted)",
            deleted_dirs_ctr), deleted_dirs_ctr);
   printf ("\n");
+  /* TRANSLATORS: context: "Number of bytes freed" */
   printf (ngettext ("%s freed", "%s freed", bytes_freed),
           human_readable_size (bytes_freed));
   printf ("\n");

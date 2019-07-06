@@ -235,6 +235,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
       {
         printf (" (");
         printf (_("removable, "));
+        /* TRANSLATORS: context - "an unmounted device or filesystem is not presently attached or mounted" */
         printf (_("detached"));
         printf (")");
       }
