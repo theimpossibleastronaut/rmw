@@ -1,6 +1,4 @@
-/**
- * @file restore_rmw.c
- */
+/*! @file restore_rmw.c */
 /*
  *
  * This file is part of rmw<https://remove-to-waste.info/>
@@ -288,7 +286,7 @@ Duplicate filename at destination - appending time string...\n"));
   return 0;
 }
 
-/**
+/*!
  * Displays a list of files that can be restored, user can select multiple
  * files using a curses-bases interface.
  *
@@ -299,6 +297,8 @@ Duplicate filename at destination - appending time string...\n"));
  * @param[in] waste_curr The linked list of waste folders
  * @return an error number
  * @see Restore()
+ * @see is_unreserved
+ * @see escape_url
  */
 int
 restore_select (st_waste *waste_curr)

@@ -1,6 +1,5 @@
+/*! @file trashinfo_rmw.c */
 /*
- * trashinfo_rmw.c
- *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
  *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
@@ -61,11 +60,11 @@ static bool is_unreserved (char c)
   }
 }
 
-/**
- * escape_url()
- *
- * Convert str into a URL valid string, escaping when necesary
- * returns 0 on success, 1 on failure
+/*!
+ * Convert str into a URL valid string, escaping when necessary
+ * @returns 0 on success, 1 on failure
+ * @see is_unreserved
+ * @see unescape_url
  */
 bool escape_url (const char *str, char *dest, const int len)
 {

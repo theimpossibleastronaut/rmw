@@ -1,6 +1,5 @@
+/*! @file trashinfo_rmw.h */
 /*
- * trashinfo_rmw.h
- *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
  *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
