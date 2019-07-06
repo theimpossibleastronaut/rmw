@@ -543,7 +543,8 @@ EXTRA_DIST = \
 	README	\
 	COMMON \
 	rmw.testrc	\
-	rmw.alt.testrc
+	rmw.alt.testrc	\
+	rmw.purge_disabled.testrc
 
 all: all-am
 

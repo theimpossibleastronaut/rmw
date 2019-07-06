@@ -27,7 +27,8 @@ EXTRA_DIST=	\
 	README	\
 	COMMON \
 	rmw.testrc	\
-	rmw.alt.testrc
+	rmw.alt.testrc	\
+	rmw.purge_disabled.testrc
 
 clean-local:
 	dir=$(top_builddir)/test/tmp-home; \

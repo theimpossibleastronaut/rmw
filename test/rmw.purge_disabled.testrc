@@ -1,0 +1,46 @@
+# rmw test configuration file
+# https://github.com/andy5995/rmw/wiki/
+#
+# NOTE: If two WASTE folders are on the same file system, rmw will move files
+# to the first WASTE folder listed, ignoring the second one.
+#
+WASTE = $HOME/.trash.rmw
+WASTE = $HOME/.trash.rmw2
+WASTE = $HOME/.trash.rmw3
+#
+
+# If you would like this to be your primary trash folder (which usually means
+# that it will be the same as your Desktop Trash folder) be sure it precedes
+# any other WASTE folders listed in the config file
+#
+# If you want it checked for files that need purging, simply uncomment
+# The line below. Files you move with rmw will go to the folder above by
+# default.
+#
+#WASTE=$HOME/.local/share/Trash
+#
+
+# Removable media: If a folder has ',removable' appended to it, rmw
+# will not try to create it; it must be initially created manually. If
+# the folder exists when rmw is run, it will be used; if not, it will be
+# skipped. Once you create "example_waste", rmw will automatically create
+# example_waste/info and example_waste/files
+#
+WASTE=/mnt/sda10000/example_waste, removable
+#
+
+# How many days should files be allowed to stay in the waste folders before
+# they are permanently deleted
+#
+# use '0' to disable purging
+#
+purge_after = 0
+#
+
+# purge is allowed to run without the '-f' option. If you'd rather
+# require the use of '-f', you may uncomment the line below.
+#
+# force_required
+#
+
+# test_for_invalid_or_unknown_option
