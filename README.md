@@ -21,7 +21,7 @@ ways. The README from the last release is at
 
 ## Screenshots
 
-![rmw usage output](https://remove-to-waste.info/images/Screenshot_2018-11-01_21-45-05_911x795.png)
+![rmw usage output](https://remove-to-waste.info/images/Screenshot_2019-07-05_22-47-51.png)
 
 [More Screenshots](https://remove-to-waste.info/screenshots.html)
 
