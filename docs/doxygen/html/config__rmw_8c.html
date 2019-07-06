@@ -115,12 +115,12 @@ Functions</h2></td></tr>
 <tr class="separator:af891bccae7a812aab97443355c89fd03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ceb78280f52a39ab3c19c385a80170d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#a6ceb78280f52a39ab3c19c385a80170d">realize_home</a> (char **str)</td></tr>
 <tr class="separator:a6ceb78280f52a39ab3c19c385a80170d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55baecc242417151feacc43c666242d4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structst__waste.html">st_waste</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#a55baecc242417151feacc43c666242d4">parse_line_waste</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const char *line_from_config, bool *do_continue)</td></tr>
-<tr class="separator:a55baecc242417151feacc43c666242d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addb6655aa46d019bcd6ed540fa76d296"><td class="memItemLeft" align="right" valign="top">static FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#addb6655aa46d019bcd6ed540fa76d296">realize_config_file</a> (char *config_file)</td></tr>
-<tr class="separator:addb6655aa46d019bcd6ed540fa76d296"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae95290d81968748dee591de2939c79b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structst__waste.html">st_waste</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#ae95290d81968748dee591de2939c79b7">get_config_data</a> (void)</td></tr>
-<tr class="separator:ae95290d81968748dee591de2939c79b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81d1e0f4830b6d70551daefb80c591a0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structst__waste.html">st_waste</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#a81d1e0f4830b6d70551daefb80c591a0">parse_line_waste</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const char *line_from_config, bool *do_continue, const <a class="el" href="structrmw__options.html">rmw_options</a> *cli_user_options)</td></tr>
+<tr class="separator:a81d1e0f4830b6d70551daefb80c591a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57731837ad0b0747ee4769f10ad63d80"><td class="memItemLeft" align="right" valign="top">static FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#a57731837ad0b0747ee4769f10ad63d80">realize_config_file</a> (char *config_file, const <a class="el" href="structrmw__options.html">rmw_options</a> *cli_user_options)</td></tr>
+<tr class="separator:a57731837ad0b0747ee4769f10ad63d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ac9010d6cd9cf5dc0658d461dc683fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structst__waste.html">st_waste</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="config__rmw_8c.html#a0ac9010d6cd9cf5dc0658d461dc683fa">get_config_data</a> (const <a class="el" href="structrmw__options.html">rmw_options</a> *cli_user_options)</td></tr>
+<tr class="separator:a0ac9010d6cd9cf5dc0658d461dc683fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -177,8 +177,8 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
 <p>Example:</p><div class="fragment"><div class="line"><a class="code" href="config__rmw_8c.html#af891bccae7a812aab97443355c89fd03">del_char_shift_left</a> (<span class="charliteral">&#39;=&#39;</span>, &amp;src_string); </div></div><!-- fragment --> 
 </div>
 </div>
-<a id="ae95290d81968748dee591de2939c79b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae95290d81968748dee591de2939c79b7">&#9670;&nbsp;</a></span>get_config_data()</h2>
+<a id="a0ac9010d6cd9cf5dc0658d461dc683fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ac9010d6cd9cf5dc0658d461dc683fa">&#9670;&nbsp;</a></span>get_config_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,8 +186,8 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
         <tr>
           <td class="memname"><a class="el" href="structst__waste.html">st_waste</a>* get_config_data </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structrmw__options.html">rmw_options</a> *&#160;</td>
+          <td class="paramname"><em>cli_user_options</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -196,8 +196,8 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
 
 </div>
 </div>
-<a id="a55baecc242417151feacc43c666242d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55baecc242417151feacc43c666242d4">&#9670;&nbsp;</a></span>parse_line_waste()</h2>
+<a id="a81d1e0f4830b6d70551daefb80c591a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81d1e0f4830b6d70551daefb80c591a0">&#9670;&nbsp;</a></span>parse_line_waste()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,7 +221,13 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool *&#160;</td>
-          <td class="paramname"><em>do_continue</em>&#160;</td>
+          <td class="paramname"><em>do_continue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structrmw__options.html">rmw_options</a> *&#160;</td>
+          <td class="paramname"><em>cli_user_options</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -282,8 +288,8 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
 
 </div>
 </div>
-<a id="addb6655aa46d019bcd6ed540fa76d296"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addb6655aa46d019bcd6ed540fa76d296">&#9670;&nbsp;</a></span>realize_config_file()</h2>
+<a id="a57731837ad0b0747ee4769f10ad63d80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57731837ad0b0747ee4769f10ad63d80">&#9670;&nbsp;</a></span>realize_config_file()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -295,8 +301,18 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_P
           <td class="memname">static FILE* realize_config_file </td>
           <td>(</td>
           <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>config_file</em></td><td>)</td>
+          <td class="paramname"><em>config_file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="structrmw__options.html">rmw_options</a> *&#160;</td>
+          <td class="paramname"><em>cli_user_options</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

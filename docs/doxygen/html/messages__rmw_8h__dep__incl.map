@@ -6,5 +6,6 @@
 <area shape="rect" id="node6" href="$restore__rmw_8c.html" title="src/restore_rmw.c" alt="" coords="575,80,701,107"/>
 <area shape="rect" id="node7" href="$rmw_8c.html" title="Contains the main() function, along with a few other functions that are only used by main()..." alt="" coords="726,80,806,107"/>
 <area shape="rect" id="node8" href="$strings__rmw_8c.html" title="Contains functions primarily related to strings. " alt="" coords="831,80,957,107"/>
-<area shape="rect" id="node9" href="$utils__rmw_8c.html" title="src/utils_rmw.c" alt="" coords="981,80,1092,107"/>
+<area shape="rect" id="node9" href="$trashinfo__rmw_8c.html" title="src/trashinfo_rmw.c" alt="" coords="981,80,1119,107"/>
+<area shape="rect" id="node10" href="$utils__rmw_8c.html" title="src/utils_rmw.c" alt="" coords="1143,80,1253,107"/>
 </map>

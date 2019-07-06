@@ -78,7 +78,7 @@ $(function() {
 <code>#include &quot;<a class="el" href="messages__rmw_8h_source.html">messages_rmw.h</a>&quot;</code><br />
 <code>#include &quot;strings_rmw.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="utils__rmw_8h_source.html">utils_rmw.h</a>&quot;</code><br />
-<code>#include &quot;trashinfo_rmw.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="trashinfo__rmw_8h_source.html">trashinfo_rmw.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for purging_rmw.c:</div>
 <div class="dyncontent">
@@ -89,7 +89,7 @@ Include dependency graph for purging_rmw.c:</div>
 <area shape="rect" id="node18" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="507,80,633,107"/>
 <area shape="rect" id="node19" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="726,155,830,181"/>
 <area shape="rect" id="node22" href="utils__rmw_8h.html" title="utils_rmw.h" alt="" coords="847,80,936,107"/>
-<area shape="rect" id="node23" href="trashinfo__rmw_8h_source.html" title="trashinfo_rmw.h" alt="" coords="657,80,771,107"/>
+<area shape="rect" id="node23" href="trashinfo__rmw_8h.html" title="trashinfo_rmw.h" alt="" coords="657,80,771,107"/>
 <area shape="rect" id="node3" href="config_8h_source.html" title="config.h" alt="" coords="5,229,73,256"/>
 <area shape="rect" id="node11" href="gettext_8h_source.html" title="gettext.h" alt="" coords="508,229,581,256"/>
 </map>
@@ -97,8 +97,8 @@ Include dependency graph for purging_rmw.c:</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab05c1c11815657112508fddcd8a5ed3d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#ab05c1c11815657112508fddcd8a5ed3d">rmdir_recursive</a> (char *path, short unsigned level)</td></tr>
-<tr class="separator:ab05c1c11815657112508fddcd8a5ed3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7537e66b7e4086718595e8ae3d29ed2"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#ac7537e66b7e4086718595e8ae3d29ed2">rmdir_recursive</a> (char *path, short unsigned level, const <a class="el" href="structrmw__options.html">rmw_options</a> *cli_user_options)</td></tr>
+<tr class="separator:ac7537e66b7e4086718595e8ae3d29ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b77956b6dd10e0bb4e7d3432c0ab5bc"><td class="memItemLeft" align="right" valign="top">static time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#a0b77956b6dd10e0bb4e7d3432c0ab5bc">get_then_time</a> (struct dirent *entry, const char *entry_path)</td></tr>
 <tr class="separator:a0b77956b6dd10e0bb4e7d3432c0ab5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbc7d6c1e1dad9e73c6f9c27ee715868"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#abbc7d6c1e1dad9e73c6f9c27ee715868">purge</a> (const <a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const <a class="el" href="structrmw__options.html">rmw_options</a> *cli_user_options)</td></tr>
@@ -204,8 +204,8 @@ static off_t&#160;</td><td class="memItemRight" valign="bottom"><b>bytes_freed</
 
 </div>
 </div>
-<a id="ab05c1c11815657112508fddcd8a5ed3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab05c1c11815657112508fddcd8a5ed3d">&#9670;&nbsp;</a></span>rmdir_recursive()</h2>
+<a id="ac7537e66b7e4086718595e8ae3d29ed2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7537e66b7e4086718595e8ae3d29ed2">&#9670;&nbsp;</a></span>rmdir_recursive()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -223,7 +223,13 @@ static off_t&#160;</td><td class="memItemRight" valign="bottom"><b>bytes_freed</
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">short unsigned&#160;</td>
-          <td class="paramname"><em>level</em>&#160;</td>
+          <td class="paramname"><em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structrmw__options.html">rmw_options</a> *&#160;</td>
+          <td class="paramname"><em>cli_user_options</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
