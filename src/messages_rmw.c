@@ -49,12 +49,16 @@ static const char *ERR_STRING[] = {
 
 void print_msg_error (void)
 {
-  fprintf (stderr, _("  :error: "));
+  /* TRANSLATORS: this precedes a string which informs the user of a more
+   * serious error, sometimes a fatal one */
+  fputs (_("  :error: "), stderr);
 }
 
 void print_msg_warn (void)
 {
-  printf (_(" :warning: "));
+  /* TRANSLATORS: this precedes a string which warns the user of some minor
+   * but not fatal problem */
+  fputs (_(" :warning: "), stdout);
 }
 
 /**
@@ -228,6 +232,12 @@ msg_err_buffer_overrun (const char *func, const int line)
   fputs ("If you think this may be a bug, please report it to the rmw developers.\n", stderr);
 }
 
+/*!
+ * Called if lstat() returns an error.
+ * @param[in] func the name of the calling function
+ * @param[in] LINE the line number from where the function was called
+ * @return void
+ */
 void
 msg_err_lstat (const char *func, const int LINE)
 {
