@@ -92,16 +92,21 @@ make_dir (const char *dir)
   return MAKE_DIR_FAILURE;
 }
 
-/**
- * int exists (const char *filename);
- * Checks for the existence of *filename.
+/*!
+ * Determine whether or not a file or directory exists.
+ * @param[in] filename
+ * @return true if file exists, false otherwise
  */
 int exists (const char *filename)
 {
-  static struct stat st;
-  static ushort state = 0;
-  state = (lstat (filename, &st));
-  return state == 0 ? true : false;
+  FILE *fp = fopen (filename, "r");
+  if (fp != NULL)
+  {
+    close_file (fp, filename, __func__);
+    return true;
+  }
+
+  return false;
 }
 
 void
