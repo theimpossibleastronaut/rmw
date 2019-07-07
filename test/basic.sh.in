@@ -33,8 +33,12 @@ test_result $?
 
 echo "\n\n == rmw should be able to operate on multiple files\n"
 $BIN_DIR/rmw --verbose -c $CONFIG $HOME/tmp-files/*
-
 test_result $?
+
+test -n $(ls -A $HOME/.trash.rmw/files)
+test_result_want_true $?
+test -n $(ls -A $HOME/.trash.rmw/info)
+test_result_want_true $?
 
 echo $SEPARATOR
 echo "rmw should append a time_string to duplicate files..."
@@ -52,13 +56,10 @@ test_result $?
 echo "\n\n == Show contents of the files and info directories"
 set -x
 
-ls -al $HOME/.trash.rmw/files
-test_result $?
-
-set -x
-
-ls -al $HOME/.trash.rmw/info
-test_result $?
+test -n $(ls -A $HOME/.trash.rmw/files)
+test_result_want_true $?
+test -n $(ls -A $HOME/.trash.rmw/info)
+test_result_want_true $?
 
 echo "\n\n == Display contents of 1.trashinfo "
 set -x
