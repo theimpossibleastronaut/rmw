@@ -385,6 +385,10 @@ Please check your configuration file and permissions\n\n"));
       bufchk (basename (file->main_argv), MP);
       strcpy (file->base_name, basename (file->main_argv));
 
+      static struct stat main_argv_statistics;
+      if (lstat (file->main_argv, &main_argv_statistics))
+        msg_err_lstat (__func__, __LINE__);
+
       /**
        * cycle through wasteDirs to see which one matches
        * device number of file.main_argv. Once found, the ReMoval
@@ -393,10 +397,6 @@ Please check your configuration file and permissions\n\n"));
       waste_curr = waste_head;
       while (waste_curr != NULL)
       {
-        static struct stat main_argv_statistics;
-        if (lstat (file->main_argv, &main_argv_statistics)) /* FIXME: Should this be moved above, out of the while loop? */
-          continue;
-
         if (waste_curr->dev_num == main_argv_statistics.st_dev)
         {
           sprintf (file->dest_name, "%s%s", waste_curr->files, file->base_name);
@@ -430,15 +430,6 @@ Please check your configuration file and permissions\n\n"));
               if (confirmed_removals_list_head == NULL)
                 confirmed_removals_list_head = confirmed_removals_list;
             }
-            /* else.. The error should already be output from create_trashinfo() or one
-             * of it's calling functions
-             *
-            else
-            {
-              print_msg_error ();
-              printf ("number %d trying to create a .trashinfo file\n", create_ti_res);
-            }
-            */
           }
           else
             msg_err_rename (file->main_argv, file->dest_name, __func__, __LINE__);
@@ -452,6 +443,8 @@ Please check your configuration file and permissions\n\n"));
           break;
         }
 
+        /* If the file didn't match with a waste folder on the same filesystem,
+         * try the next waste folder */
         waste_curr = waste_curr->next_node;
       }
 
