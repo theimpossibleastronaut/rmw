@@ -64,9 +64,12 @@ Please report this bug to the rmw developers.", func);
 }
 
 /*!
- * Verify that *str doesn't exceed boundary, otherwise exit with an error code
+ * Verify that *str doesn't exceed boundary, otherwise exit with an error code.
+ * Used before putting a string into a fixed length array. The main purpose is
+ * to avoid having something like "if string > boundary then..." throughout
+ * the program where checking the length of a string is required.
  * @param[in] str The string to check
- * @param[in] boundary boundary
+ * @param[in] boundary maximum length, including space for the NULL terminator
  * @return void
  * @see msg_err_buffer_overrun
  * @see bufchk_len
