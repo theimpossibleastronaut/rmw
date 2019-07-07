@@ -416,8 +416,7 @@ Please check your configuration file and permissions\n\n"));
           else
             file->is_duplicate = 0;
 
-          int rename_res = rename (file->main_argv, file->dest_name);
-          if (rename_res == 0)
+          if (rename (file->main_argv, file->dest_name) == 0)
           {
             if (verbose)
               printf ("'%s' -> '%s'\n", file->main_argv, file->dest_name);
