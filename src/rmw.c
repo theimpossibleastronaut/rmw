@@ -361,7 +361,8 @@ Please check your configuration file and permissions\n\n"));
       bufchk (argv[file_arg], MP);
       strcpy (file->main_argv, argv[file_arg]);
 
-      if (exists (file->main_argv))
+      static struct stat main_argv_statistics;
+      if (!lstat (file->main_argv, &main_argv_statistics))
       {
         main_error_ctr = resolve_path (file->main_argv, file->real_path);
         if (main_error_ctr == 1)
@@ -384,10 +385,6 @@ Please check your configuration file and permissions\n\n"));
 
       bufchk (basename (file->main_argv), MP);
       strcpy (file->base_name, basename (file->main_argv));
-
-      static struct stat main_argv_statistics;
-      if (lstat (file->main_argv, &main_argv_statistics))
-        msg_err_lstat (__func__, __LINE__);
 
       /**
        * cycle through wasteDirs to see which one matches
