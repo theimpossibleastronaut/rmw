@@ -61,7 +61,7 @@ test_result $?
 test -n "$(ls -A $HOME/.trash.rmw/info)"
 test_result $?
 
-output="$(ls -A $HOME/.trash.rmw/files | wc -l)"
+output="$(ls -A $HOME/.trash.rmw/files | wc -l | sed 's/ //g')"
 test "$output" = "6"
 test_result $?
 
