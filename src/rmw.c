@@ -348,8 +348,7 @@ Please check your configuration file and permissions\n\n"));
 
   if (optind < argc) /* FIXME: shouldn't this be "else if"? */
   {
-    rmw_target *file = (rmw_target*)malloc (sizeof (rmw_target));
-    chk_malloc (file, __func__, __LINE__);
+    rmw_target st_file_properties;
 
     st_removed *confirmed_removals_list = NULL;
     st_removed *confirmed_removals_list_head = NULL;
@@ -359,12 +358,12 @@ Please check your configuration file and permissions\n\n"));
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
       bufchk (argv[file_arg], MP);
-      strcpy (file->main_argv, argv[file_arg]);
+      st_file_properties.main_argv = argv[file_arg];
 
-      static struct stat main_argv_statistics;
-      if (!lstat (file->main_argv, &main_argv_statistics))
+      static struct stat st_main_argv_statistics;
+      if (!lstat (st_file_properties.main_argv, &st_main_argv_statistics))
       {
-        main_error_ctr = resolve_path (file->main_argv, file->real_path);
+        main_error_ctr = resolve_path (st_file_properties.main_argv, st_file_properties.real_path);
         if (main_error_ctr == 1)
           continue;
         else if (main_error_ctr > 1)
@@ -372,7 +371,7 @@ Please check your configuration file and permissions\n\n"));
       }
       else
       {
-        printf (_("File not found: '%s'\n"), file->main_argv);
+        printf (_("File not found: '%s'\n"), st_file_properties.main_argv);
         continue;
       }
 
@@ -383,8 +382,7 @@ Please check your configuration file and permissions\n\n"));
 
       bool waste_folder_on_same_filesystem = 0;
 
-      bufchk (basename (file->main_argv), MP);
-      strcpy (file->base_name, basename (file->main_argv));
+      st_file_properties.base_name = basename (st_file_properties.main_argv);
 
       /**
        * cycle through wasteDirs to see which one matches
@@ -394,41 +392,40 @@ Please check your configuration file and permissions\n\n"));
       waste_curr = waste_head;
       while (waste_curr != NULL)
       {
-        if (waste_curr->dev_num == main_argv_statistics.st_dev)
+        if (waste_curr->dev_num == st_main_argv_statistics.st_dev)
         {
-          sprintf (file->dest_name, "%s%s", waste_curr->files, file->base_name);
+          sprintf (st_file_properties.waste_dest_name, "%s%s",
+                    waste_curr->files, st_file_properties.base_name);
 
           /* If a duplicate file exists
            */
-          if (exists (file->dest_name))
+          if ((st_file_properties.is_duplicate = exists (st_file_properties.waste_dest_name)))
           {
             // append a time string
-            int req_len = multi_strlen (2, file->dest_name, time_str_appended) + 1;
+            int req_len = multi_strlen (2, st_file_properties.waste_dest_name, time_str_appended) + 1;
             bufchk_len (req_len, MP, __func__, __LINE__);
-            strncat (file->dest_name, time_str_appended, strlen (file->dest_name));
-
-            // passed to create_trashinfo()
-            file->is_duplicate = 1;
+            strncat (st_file_properties.waste_dest_name, time_str_appended,
+                      strlen (st_file_properties.waste_dest_name));
           }
-          else
-            file->is_duplicate = 0;
 
-          if (rename (file->main_argv, file->dest_name) == 0)
+          if (rename (st_file_properties.main_argv, st_file_properties.waste_dest_name) == 0)
           {
             if (verbose)
-              printf ("'%s' -> '%s'\n", file->main_argv, file->dest_name);
+              printf ("'%s' -> '%s'\n", st_file_properties.main_argv, st_file_properties.waste_dest_name);
 
             removed_files_ctr++;
 
-            if (!create_trashinfo (file, waste_curr))
+            if (!create_trashinfo (&st_file_properties, waste_curr))
             {
-              confirmed_removals_list = add_removal (confirmed_removals_list, file->dest_name);
+              confirmed_removals_list = add_removal (confirmed_removals_list, st_file_properties.waste_dest_name);
               if (confirmed_removals_list_head == NULL)
                 confirmed_removals_list_head = confirmed_removals_list;
             }
           }
           else
-            msg_err_rename (file->main_argv, file->dest_name, __func__, __LINE__);
+            msg_err_rename (st_file_properties.main_argv,
+                            st_file_properties.waste_dest_name,
+                            __func__, __LINE__);
 
       /**
        * If we get to this point, it means a WASTE folder was found
@@ -447,7 +444,7 @@ Please check your configuration file and permissions\n\n"));
       if (!waste_folder_on_same_filesystem)
       {
         print_msg_warn ();
-        printf (_("No suitable filesystem found for \"%s\"\n"), file->main_argv);
+        printf (_("No suitable filesystem found for \"%s\"\n"), st_file_properties.main_argv);
       }
     }
 
@@ -457,8 +454,6 @@ Please check your configuration file and permissions\n\n"));
     printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
             removed_files_ctr), removed_files_ctr);
     printf ("\n");
-
-    free (file);
 
     if (main_error_ctr > 1)
       return main_error_ctr;

@@ -122,29 +122,29 @@ printf ("dest = %s in %s\n", dest, __func__);
 #ifndef TEST_LIB /* for ticket https://github.com/theimpossibleastronaut/rmw/issues/243 */
 
 int
-create_trashinfo (rmw_target *file, st_waste *waste_curr)
+create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr)
 {
   /*
    * there already should have been buffer checking on these 2 when they were
    * initialized
    */
-  int req_len = multi_strlen (2, waste_curr->info, file->base_name) + 1;
+  int req_len = multi_strlen (2, waste_curr->info, st_f_props->base_name) + 1;
 
   /*
    * Make sure there's enough room in file_info_dest
    */
   bufchk_len (req_len, MP, __func__, __LINE__);
   char final_info_dest[MP];
-  snprintf (final_info_dest, req_len, "%s%s", waste_curr->info, file->base_name);
+  snprintf (final_info_dest, req_len, "%s%s", waste_curr->info, st_f_props->base_name);
 
 #ifdef DEBUG
 DEBUG_PREFIX
-printf ("file->real_path = %s in %s line %d\n", file->real_path, __func__, __LINE__);
+printf ("st_f_props->real_path = %s in %s line %d\n", st_f_props->real_path, __func__, __LINE__);
 DEBUG_PREFIX
-printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LINE__);
+printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __func__, __LINE__);
 #endif
 
-  if (file->is_duplicate)
+  if (st_f_props->is_duplicate)
   {
     extern const char *time_str_appended;
     int req_len = multi_strlen (2, final_info_dest, time_str_appended);
@@ -164,7 +164,7 @@ printf ("file->base_name = %s in %s line %d\n", file->base_name, __func__, __LIN
      **/
     static char escaped_path[MP * 3];
 
-    if (escape_url (file->real_path, escaped_path, MP * 3) )
+    if (escape_url (st_f_props->real_path, escaped_path, MP * 3) )
       return close_file (fp, final_info_dest, __func__);
 
     extern const char *time_now;

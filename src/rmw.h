@@ -156,18 +156,18 @@ typedef struct rmw_target rmw_target;
 struct rmw_target
 {
   /** Replaced by the filename to be rmw'ed, usually specified on the command line */
-  char main_argv[MP];
+  char *main_argv;
 
   /** The absolute path to the file, stored later in a .trashinfo file */
   char real_path[MP];
 
   /** The basename of the target file, and used for the basename of it's corresponding
    * .trashinfo file */
-  char base_name[MP];
+  char *base_name;
 
   /** The destination file name. This may be different if a file of the same name already
    *  exists in the WASTE folder */
-  char dest_name[MP];
+  char waste_dest_name[MP];
 
   /** Is <tt>true</tt> if the file exists in the destination WASTE/files folder,
    * false otherwise. If it's a duplicate, a string based on the current time
