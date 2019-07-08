@@ -100,8 +100,10 @@ script:
   - if [ -z "$DISTCHECK_ONLY" ]; then
       make &&
       make check;
-      if [ $? != 0 ]; then
+      result=$?
+      if [ result != 0 ]; then
         cat test/*.log;
+        exit $result;
       fi
     else
       make install &&
