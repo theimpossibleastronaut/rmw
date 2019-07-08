@@ -61,6 +61,10 @@ test_result $?
 test -n "$(ls -A $HOME/.trash.rmw/info)"
 test_result $?
 
+output="$(ls -A $HOME/.trash.rmw/files | wc -l)"
+test "$output" = "6"
+test_result $?
+
 echo "\n\n == Display contents of 1.trashinfo "
 set -x
 cat $HOME/.trash.rmw/info/1.trashinfo
