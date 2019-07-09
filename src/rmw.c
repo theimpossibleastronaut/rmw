@@ -200,6 +200,8 @@ main (const int argc, char* const argv[])
 verbose = 1;
 #endif
 
+    /* rmw doesn't work on Windows yet */
+    /*! @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/71">Running and building rmw on Windows</a> */
   #ifndef WIN32
     bufchk (getenv ("HOME"), MP);
     HOMEDIR = calloc (strlen (getenv ("HOME")) + 1, 1);
