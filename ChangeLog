@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2019-07-09
+
+  * release version 0.7.02
+
 2019-07-03
 
   * Feature change: Emptying the waste folders is now done with the
