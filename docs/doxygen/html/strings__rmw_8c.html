@@ -82,11 +82,10 @@ Include dependency graph for strings_rmw.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="strings__rmw_8c__incl.png" border="0" usemap="#src_2strings__rmw_8c" alt=""/></div>
 <map name="src_2strings__rmw_8c" id="src_2strings__rmw_8c">
-<area shape="rect" id="node2" href="rmw_8h.html" title="rmw.h" alt="" coords="441,155,499,181"/>
-<area shape="rect" id="node14" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="729,155,833,181"/>
-<area shape="rect" id="node18" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="590,80,715,107"/>
-<area shape="rect" id="node3" href="config_8h_source.html" title="config.h" alt="" coords="5,229,73,256"/>
-<area shape="rect" id="node11" href="gettext_8h_source.html" title="gettext.h" alt="" coords="508,229,581,256"/>
+<area shape="rect" id="node2" href="rmw_8h.html" title="rmw.h" alt="" coords="413,155,472,181"/>
+<area shape="rect" id="node13" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="729,155,833,181"/>
+<area shape="rect" id="node17" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="601,80,727,107"/>
+<area shape="rect" id="node11" href="gettext_8h_source.html" title="gettext.h" alt="" coords="241,229,314,256"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -146,10 +145,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Verify that *str doesn't exceed boundary, otherwise exit with an error code </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Verify that *str doesn't exceed boundary, otherwise exit with an error code. Used before putting a string into a fixed length array. The main purpose is to avoid having something like "if string &gt; boundary then..." throughout the program where checking the length of a string is required. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">str</td><td>The string to check </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">boundary</td><td>boundary </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">boundary</td><td>maximum length, including space for the NULL terminator </td></tr>
   </table>
   </dd>
 </dl>

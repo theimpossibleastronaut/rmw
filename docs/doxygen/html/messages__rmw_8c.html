@@ -79,11 +79,10 @@ Include dependency graph for messages_rmw.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="messages__rmw_8c__incl.png" border="0" usemap="#src_2messages__rmw_8c" alt=""/></div>
 <map name="src_2messages__rmw_8c" id="src_2messages__rmw_8c">
-<area shape="rect" id="node2" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="529,80,654,107"/>
-<area shape="rect" id="node3" href="rmw_8h.html" title="rmw.h" alt="" coords="407,155,466,181"/>
-<area shape="rect" id="node14" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="771,155,875,181"/>
-<area shape="rect" id="node4" href="config_8h_source.html" title="config.h" alt="" coords="5,229,73,256"/>
-<area shape="rect" id="node12" href="gettext_8h_source.html" title="gettext.h" alt="" coords="508,229,581,256"/>
+<area shape="rect" id="node2" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="515,80,640,107"/>
+<area shape="rect" id="node3" href="rmw_8h.html" title="rmw.h" alt="" coords="379,155,437,181"/>
+<area shape="rect" id="node13" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="772,155,876,181"/>
+<area shape="rect" id="node12" href="gettext_8h_source.html" title="gettext.h" alt="" coords="241,229,314,256"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -124,6 +123,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>msg_err_rename</b> (c
 <tr class="separator:a6e2c15beff1bcf29d5fa589e574d025d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff71a220d8a5148aa388e648386d12d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="messages__rmw_8c.html#aff71a220d8a5148aa388e648386d12d1">msg_err_buffer_overrun</a> (const char *func, const int line)</td></tr>
 <tr class="separator:aff71a220d8a5148aa388e648386d12d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab46a9d107981838c2b3e5a6d2d70cf9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="messages__rmw_8c.html#ab46a9d107981838c2b3e5a6d2d70cf9a">msg_err_lstat</a> (const char *func, const int LINE)</td></tr>
+<tr class="separator:ab46a9d107981838c2b3e5a6d2d70cf9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -241,6 +242,42 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ab46a9d107981838c2b3e5a6d2d70cf9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab46a9d107981838c2b3e5a6d2d70cf9a">&#9670;&nbsp;</a></span>msg_err_lstat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void msg_err_lstat </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>LINE</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Called if lstat() returns an error. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">func</td><td>the name of the calling function </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">LINE</td><td>the line number from where the function was called </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
 <a id="afc6e49b216fb9c38ddb389ad3c97fbad"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afc6e49b216fb9c38ddb389ad3c97fbad">&#9670;&nbsp;</a></span>open_err()</h2>
 
@@ -297,7 +334,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <span class="stringliteral">&quot;EXIT_FAILED_GETENV&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;NO_WASTE_FOLDER&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;EXIT_BUF_ERR&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;EXIT_MALLOC_ERR&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;MAKE_DIR_SUCCESS&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;MAKE_DIR_FAILURE&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;ERR_OPEN&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;ERR_CLOSE&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;ERR_FGETS&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;ERR_TRASHINFO_FORMAT&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;FILE_NOT_FOUND&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;FIRST_RUN&quot;</span></div><div class="line">}</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div><div class="line">  <span class="stringliteral">&quot;EXIT_FAILED_GETENV&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;NO_WASTE_FOLDER&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;EXIT_BUF_ERR&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;EXIT_MALLOC_ERR&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;MAKE_DIR_SUCCESS&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;MAKE_DIR_FAILURE&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;ERR_OPEN&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;ERR_CLOSE&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;ERR_FGETS&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;ERR_TRASHINFO_FORMAT&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;FILE_NOT_FOUND&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;FIRST_RUN&quot;</span>,</div><div class="line">  <span class="stringliteral">&quot;ERR_LSTAT&quot;</span></div><div class="line">}</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
