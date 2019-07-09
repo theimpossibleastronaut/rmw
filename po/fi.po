@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.01-pre4\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-07 15:47-0500\n"
+"POT-Creation-Date: 2019-07-09 14:00-0500\n"
 "PO-Revision-Date: 2017-12-08 16:16+0200\n"
 "Last-Translator: samwise <codinghobo@gmail.com>\n"
 "Language-Team: Finnish\n"
@@ -134,7 +134,7 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/trivial_rmw.c:64
+#: src/trivial_rmw.c:63
 #, c-format
 msgid ""
 "  \n"
@@ -153,7 +153,7 @@ msgstr ""
 "  -s, --select              valitse tiedostoja palautettavaksi listasta\n"
 "  -u, --undo-last           peruuta viimeisin poisto toimenpide\n"
 
-#: src/trivial_rmw.c:70
+#: src/trivial_rmw.c:69
 #, c-format
 msgid ""
 "  \n"
@@ -232,7 +232,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d tiedosto puhdistettu"
 msgstr[1] "%d tiedostoa puhdistettu"
 
-#: src/rmw.c:460
+#: src/rmw.c:456
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -342,12 +342,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Duplikaatti tiedostonnimi kohteessa - lisätään aika tekstiin...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:374 src/restore_rmw.c:281
+#: src/rmw.c:376 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Tiedostoa ei löytynyt: '%s'\n"
 
-#: src/rmw.c:471
+#: src/rmw.c:465
 #, fuzzy, c-format
 #| msgid ""
 #| "No filenames or command line options were given\n"
@@ -367,7 +367,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :varoitus: Maksimi syvyys %u saavutettu, ohitetaan\n"
 
-#: src/rmw.c:453
+#: src/rmw.c:449
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
@@ -398,7 +398,7 @@ msgstr ""
 msgid "Reading %s...\n"
 msgstr ""
 
-#: src/trivial_rmw.c:75
+#: src/trivial_rmw.c:74
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Raportoi bugeista <%s>.\n"
@@ -418,7 +418,7 @@ msgstr " :varoitus: Restore() palautti virheitä\n"
 msgid "Searching using only the basename...\n"
 msgstr "Etsitään vain tiedoston perusnimen perusteella...\n"
 
-#: src/trivial_rmw.c:80
+#: src/trivial_rmw.c:79
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -443,7 +443,7 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
-#: src/rmw.c:238
+#: src/rmw.c:240
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
@@ -458,7 +458,7 @@ msgstr ""
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
 
-#: src/trivial_rmw.c:44
+#: src/trivial_rmw.c:43
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: rmw [OPTION]... FILE...\n"
@@ -524,7 +524,7 @@ msgstr ""
 "  -V, --version             näytä versio ja lisenssi tiedot\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/rmw.c:270
+#: src/rmw.c:272
 #, c-format
 msgid "attached"
 msgstr ""
@@ -593,7 +593,7 @@ msgstr ""
 "\n"
 "Jatkaminen mahdonta. Lopetetaan...\n"
 
-#: src/rmw.c:302
+#: src/rmw.c:304
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "puhdistus on ohitettu: käytä -f tai --force\n"
@@ -615,12 +615,12 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "Virhe: realpath() palautti virheen.\n"
 
-#: src/rmw.c:268 src/config_rmw.c:237
+#: src/rmw.c:270 src/config_rmw.c:237
 #, c-format
 msgid "removable, "
 msgstr ""
 
-#: src/trivial_rmw.c:95
+#: src/trivial_rmw.c:94
 #, fuzzy, c-format
 #| msgid ""
 #| "rmw %s\n"
@@ -662,7 +662,7 @@ msgstr ""
 msgid "search complete\n"
 msgstr "haku valmis\n"
 
-#: src/rmw.c:236
+#: src/rmw.c:238
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -693,7 +693,7 @@ msgstr "  :Virhe: suljettaessa tiedostoa %s\n"
 msgid "while creating %s\n"
 msgstr "  :Virhe: luotaessa %s\n"
 
-#: src/rmw.c:221
+#: src/rmw.c:223
 #, fuzzy, c-format
 #| msgid "Error: while getting the path to your home directory\n"
 msgid "while getting the path to your home directory\n"

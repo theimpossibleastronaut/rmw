@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.03\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-07 15:47-0500\n"
+"POT-Creation-Date: 2019-07-09 14:00-0500\n"
 "PO-Revision-Date: 2017-12-30 17:22-0500\n"
 "Last-Translator: svitlana-galianova <sgalianova@myseneca.ca>\n"
 "Language-Team: Russian\n"
@@ -142,7 +142,7 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/trivial_rmw.c:64
+#: src/trivial_rmw.c:63
 #, c-format
 msgid ""
 "  \n"
@@ -161,7 +161,7 @@ msgstr ""
 "  -s, --select              выбрать файлы со списка для восстановления\n"
 "  -u, --undo-last           отменить последнее удаление\n"
 
-#: src/trivial_rmw.c:70
+#: src/trivial_rmw.c:69
 #, c-format
 msgid ""
 "  \n"
@@ -241,7 +241,7 @@ msgstr[1] "%d файлы удалены"
 msgstr[2] "%d файлы удалены"
 msgstr[3] "%d файлы удалены"
 
-#: src/rmw.c:460
+#: src/rmw.c:456
 #, fuzzy, c-format
 #| msgid "1 file was removed to the waste folder"
 msgid "%d file was removed to the waste folder"
@@ -359,12 +359,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Файл с таким именем уже существует - добавляем стринг со временем...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:374 src/restore_rmw.c:281
+#: src/rmw.c:376 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Файл не найден: '%s'\n"
 
-#: src/rmw.c:471
+#: src/rmw.c:465
 #, fuzzy, c-format
 #| msgid ""
 #| "No filenames or command line options were given\n"
@@ -384,7 +384,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :предупреждение: Максимальная глубина %u достигнута, пропускаем\n"
 
-#: src/rmw.c:453
+#: src/rmw.c:449
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
@@ -415,7 +415,7 @@ msgstr ""
 msgid "Reading %s...\n"
 msgstr ""
 
-#: src/trivial_rmw.c:75
+#: src/trivial_rmw.c:74
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
@@ -438,7 +438,7 @@ msgstr " :предупреждение: Restore() восстановление �
 msgid "Searching using only the basename...\n"
 msgstr "Поиск используя только базовое имя файла...\n"
 
-#: src/trivial_rmw.c:80
+#: src/trivial_rmw.c:79
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -464,7 +464,7 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
-#: src/rmw.c:238
+#: src/rmw.c:240
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
@@ -479,7 +479,7 @@ msgstr ""
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
 
-#: src/trivial_rmw.c:44
+#: src/trivial_rmw.c:43
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: rmw [OPTION]... FILE...\n"
@@ -545,7 +545,7 @@ msgstr ""
 "  -V, --version             показать версию и лицензионную информацию\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/rmw.c:270
+#: src/rmw.c:272
 #, c-format
 msgid "attached"
 msgstr ""
@@ -612,7 +612,7 @@ msgstr ""
 "  https://github.com/andy5995/rmw/wiki\n"
 "Невозможно продолжить. Остановка...\n"
 
-#: src/rmw.c:302
+#: src/rmw.c:304
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge пропущен: используйте -f или --force\n"
@@ -634,12 +634,12 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "Ошибка: realpath() ошибка возращена.\n"
 
-#: src/rmw.c:268 src/config_rmw.c:237
+#: src/rmw.c:270 src/config_rmw.c:237
 #, c-format
 msgid "removable, "
 msgstr ""
 
-#: src/trivial_rmw.c:95
+#: src/trivial_rmw.c:94
 #, fuzzy, c-format
 #| msgid ""
 #| "rmw %s\n"
@@ -680,7 +680,7 @@ msgstr "rmw: %s(): буффер очень мал (имеем %hu, необхо�
 msgid "search complete\n"
 msgstr "поиск завершен\n"
 
-#: src/rmw.c:236
+#: src/rmw.c:238
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -711,7 +711,7 @@ msgstr "  :Ошибка: при закрытии %s\n"
 msgid "while creating %s\n"
 msgstr "  :Ошибка: при создании %s\n"
 
-#: src/rmw.c:221
+#: src/rmw.c:223
 #, fuzzy, c-format
 #| msgid "Error: while getting the path to your home directory\n"
 msgid "while getting the path to your home directory\n"

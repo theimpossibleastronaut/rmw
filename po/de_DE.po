@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-07 15:47-0500\n"
+"POT-Creation-Date: 2019-07-09 14:00-0500\n"
 "PO-Revision-Date: 2019-07-07 00:18+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -122,7 +122,7 @@ msgstr ""
 "# force_required\n"
 "#\n"
 
-#: src/trivial_rmw.c:64
+#: src/trivial_rmw.c:63
 #, c-format
 msgid ""
 "  \n"
@@ -142,7 +142,7 @@ msgstr ""
 "Wiederherstellung\n"
 "  -u, --undo-last           letzten Entfernvorgang rückgängig machen\n"
 
-#: src/trivial_rmw.c:70
+#: src/trivial_rmw.c:69
 #, c-format
 msgid ""
 "  \n"
@@ -216,7 +216,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/rmw.c:460
+#: src/rmw.c:456
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -323,12 +323,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelter Dateiname im Zielverzeichnis, füge Zeitstempel an...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:374 src/restore_rmw.c:281
+#: src/rmw.c:376 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Datei nicht gefunden: '%s'\n"
 
-#: src/rmw.c:471
+#: src/rmw.c:465
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -344,7 +344,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :Warnung: Maximale Tiefe von %u erreicht, überspringe ...\n"
 
-#: src/rmw.c:453
+#: src/rmw.c:449
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr " Kein passendes Dateisystem für \"%s\" gefunden\n"
@@ -365,7 +365,7 @@ msgstr ""
 msgid "Reading %s...\n"
 msgstr "Lese %s...\n"
 
-#: src/trivial_rmw.c:75
+#: src/trivial_rmw.c:74
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Melde Fehler an <%s>.\n"
@@ -384,7 +384,7 @@ msgstr "Restore() lieferte %d\n"
 msgid "Searching using only the basename...\n"
 msgstr "Suche nur nach dem Basisnamen...\n"
 
-#: src/trivial_rmw.c:80
+#: src/trivial_rmw.c:79
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -410,7 +410,7 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Der Inhalt aller Mülleimer wird gelöscht -"
 
-#: src/rmw.c:238
+#: src/rmw.c:240
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Es kann nicht weitergemacht werden. Abbruch...\n"
@@ -425,7 +425,7 @@ msgstr "Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden\n"
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
 
-#: src/trivial_rmw.c:44
+#: src/trivial_rmw.c:43
 #, c-format
 msgid ""
 "Usage: rmw [OPTION]... FILE...\n"
@@ -472,7 +472,7 @@ msgstr ""
 "  -V, --version             Version und Lizenzinformationen anzeigen\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/rmw.c:270
+#: src/rmw.c:272
 #, c-format
 msgid "attached"
 msgstr "angeschlossen"
@@ -527,7 +527,7 @@ msgstr ""
 "Wenn du weitere Hilfe brauchst oder einen Fehler melden willst,\n"
 "besuche die rmw-Webseite unter\n"
 
-#: src/rmw.c:302
+#: src/rmw.c:304
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "Papierkorbleerung wurde übersprungen: verwende -f oder --force\n"
@@ -548,12 +548,12 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "realpath() hat einen Fehler zurückgeliefert.\n"
 
-#: src/rmw.c:268 src/config_rmw.c:237
+#: src/rmw.c:270 src/config_rmw.c:237
 #, c-format
 msgid "removable, "
 msgstr "löschbar."
 
-#: src/trivial_rmw.c:95
+#: src/trivial_rmw.c:94
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -585,7 +585,7 @@ msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
 msgid "search complete\n"
 msgstr "Suche abgeschlossen\n"
 
-#: src/rmw.c:236
+#: src/rmw.c:238
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -618,7 +618,7 @@ msgstr ""
 msgid "while creating %s\n"
 msgstr "beim Anlegen von %s\n"
 
-#: src/rmw.c:221
+#: src/rmw.c:223
 #, c-format
 msgid "while getting the path to your home directory\n"
 msgstr "beim Ermitteln des Pfades zu deinem Home-Verzeichnis.\n"

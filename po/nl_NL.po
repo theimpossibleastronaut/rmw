@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-07 15:47-0500\n"
+"POT-Creation-Date: 2019-07-09 14:00-0500\n"
 "PO-Revision-Date: 2019-07-06 21:10+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -117,7 +117,7 @@ msgstr ""
 "# force_required\n"
 "#\n"
 
-#: src/trivial_rmw.c:64
+#: src/trivial_rmw.c:63
 #, c-format
 msgid ""
 "  \n"
@@ -136,7 +136,7 @@ msgstr ""
 "  -s, --select              selecteer bestand(en) uit een lijst\n"
 "  -u, --undo-last           maak laatste verwijdering ongedaan\n"
 
-#: src/trivial_rmw.c:70
+#: src/trivial_rmw.c:69
 #, c-format
 msgid ""
 "  \n"
@@ -210,7 +210,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%dbestand gepurged"
 msgstr[1] "%dbestanden gepurged"
 
-#: src/rmw.c:460
+#: src/rmw.c:456
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -316,12 +316,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:374 src/restore_rmw.c:281
+#: src/rmw.c:376 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
 
-#: src/rmw.c:471
+#: src/rmw.c:465
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -337,7 +337,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "Maximale diepte van %u bereikt, overslaan\n"
 
-#: src/rmw.c:453
+#: src/rmw.c:449
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
@@ -358,7 +358,7 @@ msgstr ""
 msgid "Reading %s...\n"
 msgstr "Lezen %s...\n"
 
-#: src/trivial_rmw.c:75
+#: src/trivial_rmw.c:74
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Rapporteer fouten aan <%s>.\n"
@@ -377,7 +377,7 @@ msgstr "Restore() gaf %d terug\n"
 msgid "Searching using only the basename...\n"
 msgstr "Zoeken enkel op de basis naam\n"
 
-#: src/trivial_rmw.c:80
+#: src/trivial_rmw.c:79
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -402,7 +402,7 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 
-#: src/rmw.c:238
+#: src/rmw.c:240
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Kan niet doorgaan. Afsluiten...\n"
@@ -417,7 +417,7 @@ msgstr "Kan een configuratie bestand niet lezen of schrijven.\n"
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
 
-#: src/trivial_rmw.c:44
+#: src/trivial_rmw.c:43
 #, c-format
 msgid ""
 "Usage: rmw [OPTION]... FILE...\n"
@@ -463,7 +463,7 @@ msgstr ""
 "  -V, --version             toon versie en licentie informatie\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/rmw.c:270
+#: src/rmw.c:272
 #, c-format
 msgid "attached"
 msgstr "gekoppeld"
@@ -518,7 +518,7 @@ msgstr ""
 "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
 "rapporteren, bezoek de website van rmw op\n"
 
-#: src/rmw.c:302
+#: src/rmw.c:304
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of force\n"
@@ -539,12 +539,12 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "realpath() gaf een fout terug.\n"
 
-#: src/rmw.c:268 src/config_rmw.c:237
+#: src/rmw.c:270 src/config_rmw.c:237
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
 
-#: src/trivial_rmw.c:95
+#: src/trivial_rmw.c:94
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -576,7 +576,7 @@ msgstr ""
 msgid "search complete\n"
 msgstr "zoeken voltooid\n"
 
-#: src/rmw.c:236
+#: src/rmw.c:238
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -607,7 +607,7 @@ msgstr "bij sluiten van %s\n"
 msgid "while creating %s\n"
 msgstr "bij het maken van %s\n"
 
-#: src/rmw.c:221
+#: src/rmw.c:223
 #, c-format
 msgid "while getting the path to your home directory\n"
 msgstr "bij het ophalen van het pad naar je thuismap\n"

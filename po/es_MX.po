@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-07 15:47-0500\n"
+"POT-Creation-Date: 2019-07-09 14:00-0500\n"
 "PO-Revision-Date: 2018-01-12 21:46-0700\n"
 "Last-Translator: Mario Carrillo <marioecg@gmail.com>\n"
 "Language-Team: Spanish\n"
@@ -138,7 +138,7 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/trivial_rmw.c:64
+#: src/trivial_rmw.c:63
 #, c-format
 msgid ""
 "  \n"
@@ -157,7 +157,7 @@ msgstr ""
 "  -s, --select              seleccione archivos de la lista para restaurar\n"
 "  -u, --undo-last           deshacer ltima elminacin\n"
 
-#: src/trivial_rmw.c:70
+#: src/trivial_rmw.c:69
 #, c-format
 msgid ""
 "  \n"
@@ -235,7 +235,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d archivo eliminado"
 msgstr[1] "%d archivos eliminados"
 
-#: src/rmw.c:460
+#: src/rmw.c:456
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -345,12 +345,12 @@ msgstr ""
 "Nombre del archivo duplicado en el destino - anexando cadena de tiempo...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/rmw.c:374 src/restore_rmw.c:281
+#: src/rmw.c:376 src/restore_rmw.c:281
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Archivo no encontrado: '%s'\n"
 
-#: src/rmw.c:471
+#: src/rmw.c:465
 #, fuzzy, c-format
 #| msgid ""
 #| "No filenames or command line options were given\n"
@@ -370,7 +370,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :advertencia: Profundidad mxima de %u alcanzada, omitiendo\n"
 
-#: src/rmw.c:453
+#: src/rmw.c:449
 #, fuzzy, c-format
 #| msgid "  No suitable filesystem found for \"%s\"\n"
 msgid "No suitable filesystem found for \"%s\"\n"
@@ -401,7 +401,7 @@ msgstr ""
 msgid "Reading %s...\n"
 msgstr ""
 
-#: src/trivial_rmw.c:75
+#: src/trivial_rmw.c:74
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
@@ -423,7 +423,7 @@ msgstr " :advertencia: Restaurar() errores regresados\n"
 msgid "Searching using only the basename...\n"
 msgstr "Buscando usando solo el nombre base...\n"
 
-#: src/trivial_rmw.c:80
+#: src/trivial_rmw.c:79
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -451,7 +451,7 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
-#: src/rmw.c:238
+#: src/rmw.c:240
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
@@ -466,7 +466,7 @@ msgstr ""
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
 
-#: src/trivial_rmw.c:44
+#: src/trivial_rmw.c:43
 #, fuzzy, c-format
 #| msgid ""
 #| "Usage: rmw [OPTION]... FILE...\n"
@@ -534,7 +534,7 @@ msgstr ""
 "  -V, --version             mostrar versin e informacin de licencia\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/rmw.c:270
+#: src/rmw.c:272
 #, c-format
 msgid "attached"
 msgstr ""
@@ -601,7 +601,7 @@ msgstr ""
 "  https://github.com/andy5995/rmw/wiki\n"
 "No se puede continuar. Terminando...\n"
 
-#: src/rmw.c:302
+#: src/rmw.c:304
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "eliminacin ha sido omitida: use -f o --force\n"
@@ -623,12 +623,12 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "Error: realpath() regres un error.\n"
 
-#: src/rmw.c:268 src/config_rmw.c:237
+#: src/rmw.c:270 src/config_rmw.c:237
 #, c-format
 msgid "removable, "
 msgstr ""
 
-#: src/trivial_rmw.c:95
+#: src/trivial_rmw.c:94
 #, fuzzy, c-format
 #| msgid ""
 #| "rmw %s\n"
@@ -670,7 +670,7 @@ msgstr ""
 msgid "search complete\n"
 msgstr "bsqueda completa\n"
 
-#: src/rmw.c:236
+#: src/rmw.c:238
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -701,7 +701,7 @@ msgstr "  :Error: al cerrar %s\n"
 msgid "while creating %s\n"
 msgstr "  :Error: al crear %s\n"
 
-#: src/rmw.c:221
+#: src/rmw.c:223
 #, fuzzy, c-format
 #| msgid "Error: while getting the path to your home directory\n"
 msgid "while getting the path to your home directory\n"
