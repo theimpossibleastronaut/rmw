@@ -138,7 +138,7 @@ $RMW_TEST_CMD_STRING --verbose $HOME/somefiles
 test_result $?
 
 set +x
-$SEPARATOR
+echo $SEPARATOR
 echo '  == purging disabled should output a message that purging is disabled'
 set -x
 output=`$RMW_PURGE_DISABLED_CMD -eff`
