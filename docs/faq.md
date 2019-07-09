@@ -18,6 +18,36 @@ I don't recommend it. Many other utilities use rm in the background and
 you'd wind up with a very full trash can. Also, rmw doesn't have the
 same command line option as rm.
 
+**How do I know if rmw is compatible with my Desktop trash**
+
+When rmw moves a file to a waste or trash folder, it also writes a
+*.trashinfo* file to the corresponding trash directory. The default
+waste folder rmw uses is *~/.trash.rmw*, therefore <code
+class="w3-codespan">rmw foo</code> would result in
+
+<p class="w3-code">
+  ~/.trash.rmw/foo<br />
+  ~/.trash.rmw/foo.trashinfo
+</p>
+
+The contents of *foo.trashinfo* would look like this:
+
+<p class="w3-code">
+  [Trash Info]<br />
+  Path=/home/andy/src/rmw-project/rmw/foo<br />
+  DeletionDate=2019-07-03T16:48:47
+</p>
+
+On most *nix and *BSD systems, the desktop trash [has the same
+format](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html),
+and is located in **~/.local/share/Trash**. You can verify that the
+trashinfo format and directory layout is the same.
+
+If you're sure that your Desktop trash is compatible, you can add the
+appropriate line to your [rmw configuration
+file](https://github.com/theimpossibleastronaut/rmw/blob/master/rmwrc),
+if desired (a config file is created in ~/.config/rmw when rmw is first run).
+
 **Does rmw work on Windows?**
 
 Not yet. There's [an open

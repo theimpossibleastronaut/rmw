@@ -1,18 +1,15 @@
-# rmw
+# rmw-0.7.02
 
 ## Description
 
-rmw (ReMove to Waste) is a cross-platform command-line "trash can"
-utility. It can send files to your "Desktop" trash, or a completely
-separate folder; restore files and append a unique string to the
-filenames so they won't be overwritten (duplication protection).
+rmw (ReMove to Waste) is a safe-remove utility for the command line.
+Its goal is to conform to [the FreeDesktop.org Trash
+specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
+and therefore be compatible with KDE, GNOME, XFCE, and others. Desktop
+integration is optional however, and by default, rmw will only use a
+waste folder separated from your desktop trash..
 
 Web site: <https://remove-to-waste.info/>
-
-This is the README for the development version of rmw. It may mention
-features that aren't included in the last release, or differ in other
-ways. The README from the last release is at
-<https://github.com/theimpossibleastronaut/rmw/blob/v0.7.01/README.md>
 
 ## Build Status
 

@@ -2,10 +2,13 @@
 title: Home
 layout: default
 ---
-rmw (ReMove to Waste) is a cross-platform command-line "trash can"
-utility. It can send files to your "Desktop" trash, or a completely
-separate folder; restore files and append a unique string to the
-filenames so they won't be overwritten (duplication protection).
+
+rmw (ReMove to Waste) is a safe-remove utility for the command line.
+Its goal is to conform to [the FreeDesktop.org Trash
+specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
+and therefore be compatible with KDE, GNOME, XFCE, and others.
+Desktop integration is optional however, and by default, rmw will only
+use a waste folder separated from your desktop trash.
 
 rmw is written in C, open source, and has a [GNU
 GPLv3 License](https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING).
@@ -20,19 +23,6 @@ documented in the [README](https://github.com/theimpossibleastronaut/rmw/blob/ma
 <a href="/images/Screenshot_2019-07-05_22-47-51.png">
   <img src="/images/Screenshot_2019-07-05_22-47-51.png" alt="Remove to Waste usage output" width="255" height="200">
 </a>
-
-## Compatibility
-
-rmw has been tested successfully on the following systems:
-<ul class="w3-ul">
-  <li>Centos 7.5</li>
-  <li>Debian 9,10</li>
-  <li>Mac OSX High Sierra (but see notes on <a href="https://github.com/theimpossibleastronaut/rmw/issues/213">this ticket</a>)</li>
-  <li>Manjaro 19</li>
-  <li>OpenBSD 6.4</li>
-  <li>Slackware 14.2</li>
-  <li>Ubuntu 14.04</li>
-</ul>
 
 ## How To:
 <ul class="w3-ul">
