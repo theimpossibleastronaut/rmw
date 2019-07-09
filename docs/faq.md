@@ -18,7 +18,7 @@ I don't recommend it. Many other utilities use rm in the background and
 you'd wind up with a very full trash can. Also, rmw doesn't have the
 same command line option as rm.
 
-**How do I know if rmw is compatible with my Desktop trash**
+**How do I know if rmw is compatible with my Desktop trash?**
 
 When rmw moves a file to a waste or trash folder, it also writes a
 *.trashinfo* file to the corresponding trash directory. The default
