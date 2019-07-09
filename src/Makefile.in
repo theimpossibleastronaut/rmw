@@ -325,14 +325,6 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = @GLOBAL_CFLAGS@ @CURSES_CFLAGS@
-@IS_RELEASE_FALSE@git_rev := $(shell \
-@IS_RELEASE_FALSE@	if test -f $(top_srcdir)/.git/refs/heads/master; then	\
-@IS_RELEASE_FALSE@		cat $(top_srcdir)/.git/refs/heads/master | cut -b1-7;	\
-@IS_RELEASE_FALSE@	else	\
-@IS_RELEASE_FALSE@		echo 'unknown';	\
-@IS_RELEASE_FALSE@	fi)
-
-@IS_RELEASE_TRUE@git_rev = ""
 rmw_CFLAGS = $(AM_CFLAGS)
 rmw_SOURCES = \
 	rmw.c	\
@@ -362,12 +354,6 @@ rmw_SOURCES = \
 check_LIBRARIES = librmw_test.a
 librmw_test_a_SOURCES = $(rmw_SOURCES)
 librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB -DBUILD_LIBRARY
-
-#
-# On OpenBSD, without @LIBINTL@ present here, the result is a lot of
-# undefined reference errors when building. That doesn't happen when
-# building on Debian
-#
 rmw_LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -816,19 +802,11 @@ uninstall-am: uninstall-binPROGRAMS
 .PRECIOUS: Makefile
 
 
-$(shell	\
-if test -n $(git_rev); then	\
-	echo '#define GIT_REV "'$(git_rev)'"' > $(builddir)/git_rev.h; \
-else	\
-	echo '/* #undef GIT_REV */' > $(builddir)/git_rev.h;	\
-fi)
-$(shell touch $(srcdir)/trivial_rmw.c)
-
 all-local:
 	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;
 
 clean-local:
-	for file in $(top_builddir)/rmw $(builddir)/git_rev.h; do	\
+	for file in $(top_builddir)/rmw; do	\
 		if test -f $$file; then	\
 			rm $$file;	\
 		fi	\

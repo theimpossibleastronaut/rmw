@@ -538,7 +538,7 @@ test_scripts = \
 	buffer_overrun.sh
 
 TESTS = $(check_PROGRAMS) $(test_scripts)
-LDADD = $(top_builddir)/src/librmw_test.a @MENU_LIBS@ @CURSES_LIBS@
+LDADD = @LIBINTL@ $(top_builddir)/src/librmw_test.a @MENU_LIBS@ @CURSES_LIBS@
 EXTRA_DIST = \
 	README	\
 	COMMON \
