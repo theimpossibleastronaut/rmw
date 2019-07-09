@@ -1,4 +1,4 @@
-AC_INIT([rmw], [0.7.02-dev], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
+AC_INIT([rmw], [0.7.02], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([-Wall subdir-objects foreign no-dependencies])
 AM_SILENT_RULES([yes])
@@ -10,7 +10,7 @@ AC_CONFIG_HEADERS([src/config.h:config.in])
 
 # RELEASE TODO
 # set to "no"
-AX_CHECK_ENABLE_DEBUG([yes])
+AX_CHECK_ENABLE_DEBUG([no])
 
 AC_PROG_CC
 AC_PROG_CC_STDC

@@ -7,7 +7,7 @@ Its goal is to conform to [the FreeDesktop.org Trash
 specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
 and therefore be compatible with KDE, GNOME, XFCE, and others. Desktop
 integration is optional however, and by default, rmw will only use a
-waste folder separated from your desktop trash..
+waste folder separated from your desktop trash.
 
 Web site: <https://remove-to-waste.info/>
 
