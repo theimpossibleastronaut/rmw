@@ -78,18 +78,6 @@ stated in the description, the goal of this project is a
 "cross-platform" utility; so getting rmw to work reliably on Windows is
 still on the TODO list.
 
-### Pre-built binary packages
-
-Packages for some operating systems are available on the
-[Downloads](https://github.com/theimpossibleastronaut/rmw/releases) page
-
-### Using _Homebrew_ on Mac OS X
-
-Add a tap and install rmw:
-
-* brew tap [theimpossibleastronaut/homebrew-extras](https://github.com/theimpossibleastronaut/homebrew-extras)
-* brew install rmw
-
 ## Uninstall / Cleaning up
 
 * make uninstall (uninstalls the program if installed with 'make install`)
