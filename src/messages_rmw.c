@@ -155,7 +155,7 @@ void chk_malloc (void *state, const char *func, const int line)
   if (state == NULL)
   {
     print_msg_error ();
-    printf (_("while attempting to allocate memory -- %s:%d\n"), func, line);
+    printf (_("while attempting to allocate memory -- %s:L%d\n"), func, line);
     msg_return_code (EXIT_MALLOC_ERR);
     exit (EXIT_MALLOC_ERR);
   }
@@ -177,7 +177,7 @@ void
 msg_err_close_dir (const char *dir, const char *func, const int line)
 {
   print_msg_error ();
-  fprintf (stderr, "while closing %s -- %s:%d\n", dir, func, line);
+  fprintf (stderr, "while closing %s -- %s:L%d\n", dir, func, line);
   perror ("closedir()");
   exit (errno);
 }
@@ -186,7 +186,7 @@ void
 msg_err_open_dir (const char *dir, const char *func, const int line)
 {
   print_msg_error ();
-  fprintf (stderr, _("while opening %s -- %s:%d\n"), dir, func, line);
+  fprintf (stderr, _("while opening %s -- %s:L%d\n"), dir, func, line);
   perror ("opendir()");
   exit (errno);
 }
@@ -196,7 +196,7 @@ msg_err_rename (const char *src_file, const char *dest_file, const char *func, c
 {
   print_msg_error ();
   printf (_("while trying to move (rename)\n\
-  %s -> %s -- %s:%d\n"), src_file, dest_file, func, line);
+  %s -> %s -- %s:L%d\n"), src_file, dest_file, func, line);
   perror ("rename()");
   exit (errno);
 }
@@ -225,7 +225,7 @@ msg_err_fatal_fprintf (const char *func)
 void
 msg_err_buffer_overrun (const char *func, const int line)
 {
-  fprintf (stderr, "func = %s, line = %d\n", func, line);
+  fprintf (stderr, "func = %s:L%d\n", func, line);
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */
   fputs ("buffer overrun (segmentation fault) prevented.\n", stderr);
@@ -235,15 +235,15 @@ msg_err_buffer_overrun (const char *func, const int line)
 /*!
  * Called if lstat() returns an error.
  * @param[in] func the name of the calling function
- * @param[in] LINE the line number from where the function was called
+ * @param[in] line the line number from where the function was called
  * @return void
  */
 void
-msg_err_lstat (const char *func, const int LINE)
+msg_err_lstat (const char *func, const int line)
 {
   print_msg_error();
   perror ("lstat()");
-  fprintf (stderr, "%s - %d\n", func, LINE);
+  fprintf (stderr, "%s:L%d\n", func, line);
   exit (ERR_LSTAT);
 }
 
