@@ -309,48 +309,47 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
 
   while (waste_curr != NULL)
   {
-    static struct dirent *entry;
-    DIR *dir = opendir (waste_curr->info);
-    if (dir == NULL)
+    struct dirent *st_trashinfo_dir_entry;
+    DIR *trashinfo_dir = opendir (waste_curr->info);
+    if (trashinfo_dir == NULL)
       msg_err_open_dir (waste_curr->info, __func__, __LINE__);
 
     /*
      *  Read each file in <WASTE>/info
      */
-    while ((entry = readdir (dir)) != NULL)
+    while ((st_trashinfo_dir_entry = readdir (trashinfo_dir)) != NULL)
     {
-      if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
+      if (!strcmp (st_trashinfo_dir_entry->d_name, ".") || !strcmp (st_trashinfo_dir_entry->d_name, ".."))
         continue;
 
-      int req_len = multi_strlen (2, waste_curr->info, entry->d_name) + 1;
+      int req_len = multi_strlen (2, waste_curr->info, st_trashinfo_dir_entry->d_name) + 1;
       bufchk_len (req_len, MP, __func__, __LINE__);
-      char entry_path[MP];
-      snprintf (entry_path, req_len, "%s%s", waste_curr->info, entry->d_name);
+      char trashinfo_entry_realpath[req_len];
+      snprintf (trashinfo_entry_realpath, req_len, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
-      /* skip this block if RMWTRASH=empty */
-      if (!cli_user_options->want_empty_trash && !(then = get_then_time(entry, entry_path)))
+      /* FIXME: does this condition need modifying? */
+      if (!cli_user_options->want_empty_trash && !(then = get_then_time(st_trashinfo_dir_entry, trashinfo_entry_realpath)))
           continue;
 
       if (then + (86400 * purge_after) <= now || cli_user_options->want_empty_trash)
       {
         bool success = 0;
 
-        char purgeFile[MP];
-
-        strcpy (purgeFile, waste_curr->files);
+        char corresponding_file_to_purge[MP];
+        strcpy (corresponding_file_to_purge, waste_curr->files);
 
         char temp[MP];
-        strcpy (temp, entry->d_name);
-        truncate_str (temp, strlen (DOT_TRASHINFO));    /* acquire the basename */
+        strcpy (temp, st_trashinfo_dir_entry->d_name);
+        truncate_str (temp, strlen (DOT_TRASHINFO)); /* acquire the (basename - trashinfo extension) */
 
-        strcat (purgeFile, temp);       /* path to file in <WASTE>/files */
-        if (lstat (purgeFile, &st))
+        strcat (corresponding_file_to_purge, temp); /* path to file in <WASTE>/files */
+        if (lstat (corresponding_file_to_purge, &st))
           msg_err_lstat (__func__, __LINE__);
 
         if (S_ISDIR (st.st_mode))
         {
           if (!cmd_dry_run)
-            status = rmdir_recursive (purgeFile, 1, cli_user_options);
+            status = rmdir_recursive (corresponding_file_to_purge, 1, cli_user_options);
           else
           {
             /* Not much choice but to
@@ -363,7 +362,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
           case NOT_WRITEABLE:
             print_msg_warn ();
             printf (_("Directory not purged - still contains files\n"));
-            printf ("%s\n", purgeFile);
+            printf ("%s\n", corresponding_file_to_purge);
             printf (_("(check owner/write permissions)\n"));
             dirs_containing_files_ctr++;
             break;
@@ -374,13 +373,13 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
              * directory   */
             printf (_("Maximum depth of %u reached, skipping\n"),
                     RMDIR_MAX_DEPTH);
-            printf ("%s\n", purgeFile);
+            printf ("%s\n", corresponding_file_to_purge);
             max_depth_reached_ctr++;
             break;
 
           case 0:
             if (!cmd_dry_run)
-              status = rmdir (purgeFile);
+              status = rmdir (corresponding_file_to_purge);
             else
               status = 0;
 
@@ -394,14 +393,14 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
             {
               print_msg_error ();
               /* TRANSLATORS:  "removing" refers to a file or folder  */
-              printf (_("while removing %s\n"), purgeFile);
+              printf (_("while removing %s\n"), corresponding_file_to_purge);
               perror (__func__);
             }
             break;
 
           default:
             print_msg_error ();
-            printf (_("while removing %s\n"), purgeFile);
+            printf (_("while removing %s\n"), corresponding_file_to_purge);
             perror (__func__);
             break;
           }
@@ -411,7 +410,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
         else
         {
           if (!cmd_dry_run)
-            status = remove (purgeFile);
+            status = remove (corresponding_file_to_purge);
           else
             status = 0;
 
@@ -424,7 +423,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
           else
           {
             print_msg_error ();
-            printf (_("while removing %s\n"), purgeFile);
+            printf (_("while removing %s\n"), corresponding_file_to_purge);
             perror (__func__);
             success = 0;
           }
@@ -432,10 +431,8 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
 
         if (success)
         {
-          /* the info file. (This var name needs
-           *changing) */
           if (!cmd_dry_run)
-            status = remove (entry_path);
+            status = remove (trashinfo_entry_realpath);
           else
             status = 0;
 
@@ -443,12 +440,12 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
           {
             purge_ctr++;
             if (verbose)
-              printf ("-%s\n", purgeFile);
+              printf ("-%s\n", corresponding_file_to_purge);
           }
           else
           {
             print_msg_error ();
-            printf (_("while removing %s\n"), entry_path);
+            printf (_("while removing %s\n"), trashinfo_entry_realpath);
             perror (__func__);
           }
         }
@@ -456,7 +453,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
       }
     }
 
-    if (closedir (dir))
+    if (closedir (trashinfo_dir))
       msg_err_close_dir (waste_curr->info, __func__, __LINE__);
 
     waste_curr = waste_curr->next_node;
