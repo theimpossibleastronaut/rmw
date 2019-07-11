@@ -107,7 +107,15 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
     {
       if (!S_ISDIR (st.st_mode))
       {
-        status = remove (dir_path);
+        /* to prevent time-of-check, time-of-use race condition */
+        if (exists (dir_path))
+          status = remove (dir_path);
+        else
+        {
+          print_msg_error ();
+          fprintf (stderr, "%s has been removed by another program or become inaccessible since last check\n", dir_path);
+          exit (EXIT_FAILURE);
+        }
         if (status == 0)
         {
           deleted_files_ctr++;
@@ -406,14 +414,25 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
           }
 
         }
-
         else
         {
           if (!cmd_dry_run)
+          {
+            /*
+             * The last check of this file was on L354.
+             * Some function may be needed to handle and prevent time-of-check,
+             * time-of-use race conditions in other parts of the program (something
+             * that handles things consistently).
+             *
+             * https://scan4.coverity.com/reports.htm#v10064/p15638/g10064g/fileInstanceId=63023454&defectInstanceId=11218287&mergedDefectId=316910
+             *
+             * This "inline" code should be sufficient for now. */
+            if (lstat (corresponding_file_to_purge, &st))
+              msg_err_lstat (__func__, __LINE__);
             status = remove (corresponding_file_to_purge);
+          }
           else
             status = 0;
-
           if (status == 0)
           {
             success = 1;
