@@ -175,7 +175,8 @@ main (const int argc, char* const argv[])
       printf (_("-r / --recurse: not implemented\n"));
       break;
     case 'f':
-      cli_user_options.force++;
+      if (cli_user_options.force < 2) /* This doesn't need to go higher than 2 */
+        cli_user_options.force++;
       break;
     case 'e':
       cli_user_options.want_empty_trash = true;

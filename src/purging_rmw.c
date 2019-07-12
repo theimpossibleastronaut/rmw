@@ -80,7 +80,7 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
 
     if (lstat (dir_path, &st))
       msg_err_lstat (__func__, __LINE__);
-    if (cli_user_options->force == 2 && ~st.st_mode & S_IWUSR)
+    if (cli_user_options->force >= 2 && ~st.st_mode & S_IWUSR) /* use >= 2 to protect against future changes */
     {
       if (!chmod (dir_path, 00700))
       {
