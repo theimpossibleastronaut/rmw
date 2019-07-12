@@ -360,6 +360,13 @@ Please check your configuration file and permissions\n\n"));
     int removed_files_ctr = 0;
     for (file_arg = optind; file_arg < argc; file_arg++)
     {
+      /* leave "/" or "\" alone */
+      if (strcmp (argv[file_arg], "/") == 0 || strcmp (argv[file_arg], "/") == 0)
+      {
+        puts (_("The Easter Bunny says, \"Hello, world.\""));
+        continue;
+      }
+
       bufchk (argv[file_arg], MP);
       st_file_properties.main_argv = argv[file_arg];
 
