@@ -16,10 +16,7 @@
 title: rmw (Remove to Waste)
 email: andy400-dev@yahoo.com
 description: >- # this means to ignore newlines until "baseurl:"
-  rmw (ReMove to Waste) is a cross-platform command-line "trash can"
-  utility. It can send files to your "Desktop" trash, or a completely
-  separate folder; restore files and append a unique string to the
-  filenames so they won't be overwritten (duplication protection).
+  safe-remove utility for the command line
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://remove-to-waste.info" # the base hostname & protocol for your site, e.g. http://example.com
 
