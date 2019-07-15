@@ -175,3 +175,20 @@ user_verify (void)
 
   return (want_continue && (char_count <= 1));
 }
+
+/* used to prevent a TOCTOU race condtion */
+bool
+is_modified (const char* file, const int dev, const int inode)
+{
+  struct stat st;
+  if (lstat (file, &st))
+    msg_err_lstat (__func__, __LINE__);
+
+  if (dev == st.st_dev && inode == st.st_ino)
+    return false;
+
+  print_msg_warn ();
+  printf ("%s ", file);
+  puts ("has been modified since last check, not removing");
+  return true;
+}

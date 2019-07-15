@@ -41,3 +41,6 @@ human_readable_size (off_t size);
 
 bool
 user_verify (void);
+
+bool
+is_modified (const char* file, const int dev, const int inode);

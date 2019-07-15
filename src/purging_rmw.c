@@ -51,7 +51,6 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
 
   int status = 0;
 
-  struct stat st;
   struct dirent *entry;
   DIR *dir;
   char dir_path[PATH_MAX + 1];
@@ -78,8 +77,12 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
 
     strcat (dir_path, entry->d_name);
 
+    struct stat st;
     if (lstat (dir_path, &st))
       msg_err_lstat (__func__, __LINE__);
+    int orig_dev = st.st_dev;
+    int orig_inode = st.st_ino;
+
     if (cli_user_options->force >= 2 && ~st.st_mode & S_IWUSR) /* use >= 2 to protect against future changes */
     {
       if (!chmod (dir_path, 00700))
@@ -87,6 +90,8 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
         /* Now that the mode has changed, lstat must be run again */
         if (lstat (dir_path, &st))
           msg_err_lstat (__func__, __LINE__);
+        orig_dev = st.st_dev;
+        orig_inode = st.st_ino;
       }
       else
       {
@@ -107,7 +112,11 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
     {
       if (!S_ISDIR (st.st_mode))
       {
-        status = remove (dir_path);
+        if (!is_modified (dir_path, orig_dev, orig_inode))
+          status = remove (dir_path);
+        else
+          status = -1;
+
         if (status == 0)
         {
           deleted_files_ctr++;
@@ -346,6 +355,9 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
         if (lstat (corresponding_file_to_purge, &st))
           msg_err_lstat (__func__, __LINE__);
 
+        int orig_dev = st.st_dev;
+        int orig_inode = st.st_ino;
+
         if (S_ISDIR (st.st_mode))
         {
           if (!cmd_dry_run)
@@ -406,14 +418,16 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
           }
 
         }
-
         else
         {
           if (!cmd_dry_run)
-            status = remove (corresponding_file_to_purge);
+          {
+            if (!is_modified (corresponding_file_to_purge, orig_dev, orig_inode))
+              status = remove (corresponding_file_to_purge);
+            else status = -1;
+          }
           else
             status = 0;
-
           if (status == 0)
           {
             success = 1;
