@@ -35,7 +35,7 @@ void
 bufchk_len (const int len, const int boundary, const char *func, const int line);
 
 int
-multi_strlen (int argc, ...);
+multi_strlen (const char *argv, ...);
 
 void
 trim_white_space (char *str);

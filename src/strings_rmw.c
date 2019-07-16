@@ -161,21 +161,26 @@ bufchk_len (const int len, const int dest_boundary, const char *func, const int 
 }
 
 /*!
- * Get the combined length of multiple strings.
+ * Get the combined length of multiple strings. Last argument MUST be "NULL".
  *
- * @param[in] argc The number of arguments
- * @param[in] ... variable argument list, each argument should be a string
+ * @param[in] argv The first argument
+ * @param[in] ... variable argument list, each argument must be a string.
  * @return the combined length of each string
  */
 int
-multi_strlen (int argc, ...)
+multi_strlen (const char* argv, ...)
 {
   va_list vlist;
+  char *str;
   int len = 0;
-  int i;
-  va_start (vlist, argc);
-  for (i = 0; i < argc; i++)
-    len += strlen (va_arg (vlist, char*));
+
+  str = (char*)argv;
+  va_start (vlist, argv);
+  do
+  {
+    len += strlen (str);
+    str = va_arg (vlist, char*);
+  } while (str != NULL);
   va_end(vlist);
   return len;
 }

@@ -77,7 +77,7 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
       st_dirname_properties.path[pathLen] = '\0';
     }
 
-    int req_len = multi_strlen (2, st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name) + 1;
+    int req_len = multi_strlen (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name, NULL) + 1;
     bufchk_len (req_len, MP, __func__, __LINE__);
     strncat (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name, req_len);
 
@@ -333,7 +333,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
       if (!strcmp (st_trashinfo_dir_entry->d_name, ".") || !strcmp (st_trashinfo_dir_entry->d_name, ".."))
         continue;
 
-      int req_len = multi_strlen (2, waste_curr->info, st_trashinfo_dir_entry->d_name) + 1;
+      int req_len = multi_strlen (waste_curr->info, st_trashinfo_dir_entry->d_name, NULL) + 1;
       bufchk_len (req_len, MP, __func__, __LINE__);
       char trashinfo_entry_realpath[req_len];
       snprintf (trashinfo_entry_realpath, req_len, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
@@ -515,8 +515,8 @@ orphan_maint (st_waste * waste_curr)
       bufchk (basename (entry->d_name), MP);
       strcpy (file->base_name, basename (entry->d_name));
 
-      int req_len = multi_strlen (3, waste_curr->info, file->base_name,
-               DOT_TRASHINFO) + 1;
+      int req_len = multi_strlen (waste_curr->info, file->base_name,
+               DOT_TRASHINFO, NULL) + 1;
       bufchk_len (req_len, MP, __func__, __LINE__);
       snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info, file->base_name,
                DOT_TRASHINFO);
@@ -525,7 +525,7 @@ orphan_maint (st_waste * waste_curr)
         continue;
 
       /* destination if restored */
-      req_len = multi_strlen(3, waste_curr->parent, "/orphans/", file->base_name) + 1;
+      req_len = multi_strlen(waste_curr->parent, "/orphans/", file->base_name, NULL) + 1;
       bufchk_len (req_len, MP, __func__, __LINE__);
       snprintf (file->real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
                file->base_name);

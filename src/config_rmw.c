@@ -267,7 +267,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
   snprintf (waste_curr->parent, req_len, "%s", value);
 
   /* and the files... */
-  req_len = multi_strlen (2, waste_curr->parent, "/files/") + 1;
+  req_len = multi_strlen (waste_curr->parent, "/files/", NULL) + 1;
   bufchk_len (req_len, MP, __func__, __LINE__);
   snprintf (waste_curr->files, req_len, "%s%s", waste_curr->parent, "/files/");
 

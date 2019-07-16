@@ -225,7 +225,7 @@ verbose = 1;
     return 1;
   }
 
-  char *data_dir = calloc(multi_strlen (2, HOMEDIR, DATA_DIR) + 1, 1);
+  char *data_dir = calloc(multi_strlen (HOMEDIR, DATA_DIR, NULL) + 1, 1);
   chk_malloc (data_dir, __func__, __LINE__);
   bufchk (HOMEDIR, MP - strlen (DATA_DIR));
   snprintf (data_dir, MP, "%s%s", HOMEDIR, DATA_DIR);
@@ -412,7 +412,7 @@ Please check your configuration file and permissions\n\n"));
           if ((st_file_properties.is_duplicate = exists (st_file_properties.waste_dest_name)))
           {
             // append a time string
-            int req_len = multi_strlen (2, st_file_properties.waste_dest_name, time_str_appended) + 1;
+            int req_len = multi_strlen (st_file_properties.waste_dest_name, time_str_appended, NULL) + 1;
             bufchk_len (req_len, MP, __func__, __LINE__);
             strncat (st_file_properties.waste_dest_name, time_str_appended,
                       strlen (st_file_properties.waste_dest_name));
@@ -553,7 +553,7 @@ get_time_string (char *tm_str, const ushort len, const char *format)
 bool
 is_time_to_purge (void)
 {
-  int req_len = multi_strlen (2, HOMEDIR, PURGE_DAY_FILE) + 1;
+  int req_len = multi_strlen (HOMEDIR, PURGE_DAY_FILE, NULL) + 1;
   bufchk_len (req_len, MP, __func__, __LINE__);
   char file_lastpurge[req_len];
   snprintf (file_lastpurge, req_len, "%s%s", HOMEDIR, PURGE_DAY_FILE);

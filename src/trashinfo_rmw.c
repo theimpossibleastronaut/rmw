@@ -128,7 +128,7 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr)
    * there already should have been buffer checking on these 2 when they were
    * initialized
    */
-  int req_len = multi_strlen (2, waste_curr->info, st_f_props->base_name) + 1;
+  int req_len = multi_strlen (waste_curr->info, st_f_props->base_name, NULL) + 1;
 
   /*
    * Make sure there's enough room in file_info_dest
@@ -147,12 +147,12 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
   if (st_f_props->is_duplicate)
   {
     extern const char *time_str_appended;
-    int req_len = multi_strlen (2, final_info_dest, time_str_appended);
+    int req_len = multi_strlen (final_info_dest, time_str_appended, NULL);
     bufchk_len (req_len, MP, __func__, __LINE__);
     strncat (final_info_dest, time_str_appended, strlen (final_info_dest));
   }
 
-  req_len = multi_strlen (2, final_info_dest, DOT_TRASHINFO);
+  req_len = multi_strlen (final_info_dest, DOT_TRASHINFO, NULL);
   bufchk_len (req_len, MP, __func__, __LINE__);
   strncat (final_info_dest, DOT_TRASHINFO, strlen (final_info_dest));
 

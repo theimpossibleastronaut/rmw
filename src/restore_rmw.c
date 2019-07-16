@@ -151,7 +151,7 @@ Restore (const char *argv, st_waste *waste_curr)
 
     truncate_str (file.relative_path, strlen (file.base_name));
 
-    int req_len = multi_strlen (4, file.relative_path, "../info/", file.base_name, DOT_TRASHINFO) + 1;
+    int req_len = multi_strlen (file.relative_path, "../info/", file.base_name, DOT_TRASHINFO, NULL) + 1;
     snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, "../info/",
              file.base_name, DOT_TRASHINFO);
     bufchk  (file.info, MP);
@@ -331,7 +331,7 @@ restore_select (st_waste *waste_curr)
       if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
         continue;
 
-      int req_len = multi_strlen (2, waste_curr->files, entry->d_name) + 1;
+      int req_len = multi_strlen (waste_curr->files, entry->d_name, NULL) + 1;
       char full_path[req_len];
       snprintf (full_path, req_len, "%s%s", waste_curr->files, entry->d_name);
       bufchk (full_path, MP);
