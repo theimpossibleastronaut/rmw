@@ -44,51 +44,55 @@ static off_t bytes_freed = 0;
  * @return error number
  */
 static int
-rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_options)
+rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_user_options)
 {
   if (level == RMDIR_MAX_DEPTH)
     return MAX_DEPTH_REACHED;
 
-  int status = 0;
+  int remove_result = 0;
 
-  struct dirent *entry;
-  DIR *dir;
-  char dir_path[PATH_MAX + 1];
+  struct _dirname {
+    char path[MP];
+    DIR *ptr;
+    struct dirent *st_entry_ptr;
+  } st_dirname_properties;
 
-  dir = opendir (path);
-  if (dir == NULL)
-    msg_err_open_dir (path, __func__, __LINE__);
+  st_dirname_properties.ptr = opendir (dirname);
+  if (st_dirname_properties.ptr == NULL)
+    msg_err_open_dir (dirname, __func__, __LINE__);
 
-  while ((entry = readdir (dir)) != NULL)
+  while ((st_dirname_properties.st_entry_ptr = readdir (st_dirname_properties.ptr)) != NULL)
   {
-    if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
+    if (!strcmp (st_dirname_properties.st_entry_ptr->d_name, ".") || !strcmp (st_dirname_properties.st_entry_ptr->d_name, ".."))
       continue;
 
-    bufchk (path, MP);
-    snprintf (dir_path, MP, "%s", path);
+    bufchk (dirname, MP);
+    strncpy (st_dirname_properties.path, dirname, MP);
 
-    short pathLen = strlen (dir_path);
-    if (dir_path[pathLen - 1] != '/')
+    int pathLen = strlen (st_dirname_properties.path);
+    if (st_dirname_properties.path[pathLen - 1] != '/')
     {
-      dir_path[pathLen] = '/';
+      st_dirname_properties.path[pathLen] = '/';
       pathLen++;
-      dir_path[pathLen] = '\0';
+      st_dirname_properties.path[pathLen] = '\0';
     }
 
-    strcat (dir_path, entry->d_name);
+    int req_len = multi_strlen (2, st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name) + 1;
+    bufchk_len (req_len, MP, __func__, __LINE__);
+    strncat (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name, req_len);
 
     struct stat st;
-    if (lstat (dir_path, &st))
+    if (lstat (st_dirname_properties.path, &st))
       msg_err_lstat (__func__, __LINE__);
     int orig_dev = st.st_dev;
     int orig_inode = st.st_ino;
 
     if (cli_user_options->force >= 2 && ~st.st_mode & S_IWUSR) /* use >= 2 to protect against future changes */
     {
-      if (!chmod (dir_path, 00700))
+      if (!chmod (st_dirname_properties.path, 00700))
       {
         /* Now that the mode has changed, lstat must be run again */
-        if (lstat (dir_path, &st))
+        if (lstat (st_dirname_properties.path, &st))
           msg_err_lstat (__func__, __LINE__);
         orig_dev = st.st_dev;
         orig_inode = st.st_ino;
@@ -96,7 +100,7 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
       else
       {
         print_msg_error ();
-        printf (_("while changing permissions of %s\n"), path);
+        printf (_("while changing permissions of %s\n"), dirname);
         perror ("chmod: ");
         printf ("\n");
         /* if permissions aren't changed, the directory is still
@@ -112,12 +116,12 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
     {
       if (!S_ISDIR (st.st_mode))
       {
-        if (!is_modified (dir_path, orig_dev, orig_inode))
-          status = remove (dir_path);
+        if (!is_modified (st_dirname_properties.path, orig_dev, orig_inode))
+          remove_result = remove (st_dirname_properties.path);
         else
-          status = -1;
+          remove_result = -1;
 
-        if (status == 0)
+        if (remove_result == 0)
         {
           deleted_files_ctr++;
           bytes_freed += st.st_size;
@@ -127,21 +131,20 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
       }
       else
       {
-
-        status = rmdir_recursive (dir_path, ++level, cli_user_options);
+        remove_result = rmdir_recursive (st_dirname_properties.path, ++level, cli_user_options);
         level--;
 
-        switch (status)
+        switch (remove_result)
         {
 
         case NOT_WRITEABLE:
-          if (closedir (dir))
-            msg_err_close_dir (path, __func__, __LINE__);
+          if (closedir (st_dirname_properties.ptr))
+            msg_err_close_dir (dirname, __func__, __LINE__);
           return NOT_WRITEABLE;
           break;
         case MAX_DEPTH_REACHED:
-          if (closedir (dir))
-            msg_err_close_dir (path, __func__, __LINE__);
+          if (closedir (st_dirname_properties.ptr))
+            msg_err_close_dir (dirname, __func__, __LINE__);
           return MAX_DEPTH_REACHED;
           break;
         }
@@ -151,28 +154,27 @@ rmdir_recursive (char *path, short unsigned level, const rmw_options * cli_user_
     else
     {
       printf ("\nPermission denied while deleting\n");
-      printf ("%s\n", dir_path);
+      printf ("%s\n", st_dirname_properties.path);
 
-      if (closedir (dir))
-        msg_err_close_dir (path, __func__, __LINE__);
+      if (closedir (st_dirname_properties.ptr))
+        msg_err_close_dir (dirname, __func__, __LINE__);
 
       return NOT_WRITEABLE;
     }
   }
 
-  if (closedir (dir))
-    msg_err_close_dir (path, __func__, __LINE__);
+  if (closedir (st_dirname_properties.ptr))
+    msg_err_close_dir (dirname, __func__, __LINE__);
 
   if (level > 1)
   {
-    status = rmdir (path);
-    if (status == 0)
+    if ((remove_result = rmdir (dirname)) == 0)
       deleted_dirs_ctr++;
     else
       perror ("rmdir_recursive -> rmdir");
   }
 
-  return status;
+  return remove_result;
 }
 
 /*!
@@ -342,8 +344,6 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
 
       if (then + (86400 * purge_after) <= now || cli_user_options->want_empty_trash)
       {
-        bool success = 0;
-
         char corresponding_file_to_purge[MP];
         strcpy (corresponding_file_to_purge, waste_curr->files);
 
@@ -397,7 +397,6 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
 
             if (status == 0)
             {
-              success = 1;
               deleted_dirs_ctr++;
               bytes_freed += st.st_size;
             }
@@ -430,7 +429,6 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
             status = 0;
           if (status == 0)
           {
-            success = 1;
             deleted_files_ctr++;
             bytes_freed += st.st_size;
           }
@@ -439,11 +437,10 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
             print_msg_error ();
             printf (_("while removing %s\n"), corresponding_file_to_purge);
             perror (__func__);
-            success = 0;
           }
         }
 
-        if (success)
+        if (status == 0)
         {
           if (!cmd_dry_run)
             status = remove (trashinfo_entry_realpath);
