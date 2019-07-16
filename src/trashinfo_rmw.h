@@ -30,5 +30,5 @@ escape_url (const char *str, char *dest, const int len);
 
 #ifndef TEST_LIB
 int
-create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr);
+create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, const char *formatted_str_time_now);
 #endif /* TEST_LIB */

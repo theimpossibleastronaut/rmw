@@ -257,7 +257,7 @@ out:
  * @see get_then_time
  */
 int
-purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
+purge (const st_waste * waste_curr, const rmw_options * cli_user_options, time_t time_t_now)
 {
   extern const int purge_after;
   if (!purge_after)
@@ -309,15 +309,6 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
   unsigned int dirs_containing_files_ctr = 0;
   unsigned int max_depth_reached_ctr = 0;
 
-  struct tm tmPtr;
-  memset(&tmPtr, 0, sizeof(struct tm));
-
-  time_t now;
-  time_t then = 0;
-  extern const char *time_now;
-  strptime (time_now, "%Y-%m-%dT%H:%M:%S", &tmPtr);
-  now = mktime (&tmPtr);
-
   while (waste_curr != NULL)
   {
     struct dirent *st_trashinfo_dir_entry;
@@ -339,10 +330,11 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
       snprintf (trashinfo_entry_realpath, req_len, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
       /* FIXME: does this condition need modifying? */
+      time_t then;
       if (!cli_user_options->want_empty_trash && !(then = get_then_time(st_trashinfo_dir_entry, trashinfo_entry_realpath)))
           continue;
 
-      if (then + (86400 * purge_after) <= now || cli_user_options->want_empty_trash)
+      if (then + (SECONDS_IN_A_DAY * purge_after) <= time_t_now || cli_user_options->want_empty_trash)
       {
         char corresponding_file_to_purge[MP];
         strcpy (corresponding_file_to_purge, waste_curr->files);
@@ -485,7 +477,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
 #ifndef TEST_LIB
 
 short
-orphan_maint (st_waste * waste_curr)
+orphan_maint (st_waste * waste_curr, const char *formatted_str_time_now)
 {
   rmw_target *file = (rmw_target *) malloc (sizeof (rmw_target));
   chk_malloc (file, __func__, __LINE__);
@@ -530,7 +522,7 @@ orphan_maint (st_waste * waste_curr)
       snprintf (file->real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
                file->base_name);
 
-      if (!create_trashinfo (file, waste_curr))
+      if (!create_trashinfo (file, waste_curr, formatted_str_time_now))
       {
         /* TRANSLATORS:  "created" refers to a file  */
         printf (_("Created %s\n"), path_to_trashinfo);

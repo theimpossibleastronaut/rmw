@@ -122,7 +122,7 @@ printf ("dest = %s in %s\n", dest, __func__);
 #ifndef TEST_LIB /* for ticket https://github.com/theimpossibleastronaut/rmw/issues/243 */
 
 int
-create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr)
+create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, const char *formatted_str_time_now)
 {
   /*
    * there already should have been buffer checking on these 2 when they were
@@ -167,19 +167,18 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
     if (escape_url (st_f_props->real_path, escaped_path, MP * 3) )
       return close_file (fp, final_info_dest, __func__);
 
-    extern const char *time_now;
 #ifdef DEBUG
 DEBUG_PREFIX
 printf ("[Trash Info]\n");
 DEBUG_PREFIX
 printf ("Path=%s\n", escaped_path);
 DEBUG_PREFIX
-printf ("DeletionDate=%s\n", time_now);
+printf ("DeletionDate=%s\n", formatted_str_time_now);
 #endif
 
     fprintf (fp, "[Trash Info]\n");
     fprintf (fp, "Path=%s\n", escaped_path);
-    fprintf (fp, "DeletionDate=%s\n", time_now);
+    fprintf (fp, "DeletionDate=%s\n", formatted_str_time_now);
 
     return close_file (fp, final_info_dest, __func__);
   }

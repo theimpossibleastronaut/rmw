@@ -55,13 +55,6 @@
 /*! The users HOME directory */
 char *HOMEDIR;
 
-
-/*!
- * Formatted time string indicating the current time;
- * used for DeletionDate in \b trashinfo files and for comparison in purge()
- * e.g. "2018-12-03T22:09:39"
- */
-char *time_now;
 char *time_str_appended;
 
 /*! Read from the user's config file */
@@ -293,26 +286,26 @@ Please check your configuration file and permissions\n\n"));
    * terminator) and is defined by LEN_TIME_NOW
    *
    */
-  time_now = calloc (LEN_TIME_NOW, 1);
-  chk_malloc (time_now, __func__, __LINE__);
-  get_time_string (time_now, LEN_TIME_NOW, t_fmt);
+  char formatted_str_time_now[LEN_TIME_NOW];
+  time_t time_t_now = time (NULL);
+  get_time_string (formatted_str_time_now, LEN_TIME_NOW, t_fmt, &time_t_now);
 
-  if (cli_user_options.want_purge || is_time_to_purge())
+  if (cli_user_options.want_purge || is_time_to_purge(time_t_now))
   {
     if (!force_required || cli_user_options.force)
-      purge (waste_curr, &cli_user_options);
+      purge (waste_curr, &cli_user_options, time_t_now);
     else
       printf (_("purge has been skipped: use -f or --force\n"));
   }
 
   /* String appended to duplicate filenames */
   time_str_appended = calloc (LEN_TIME_STR_APPENDED, 1);
-  get_time_string (time_str_appended, LEN_TIME_STR_APPENDED, "_%H%M%S-%y%m%d");
+  get_time_string (time_str_appended, LEN_TIME_STR_APPENDED, "_%H%M%S-%y%m%d", &time_t_now);
 
   if (cli_user_options.want_orphan_chk)
   {
     waste_curr = waste_head;
-    orphan_maint(waste_curr);
+    orphan_maint(waste_curr, formatted_str_time_now);
     return 0;
   }
 
@@ -425,7 +418,7 @@ Please check your configuration file and permissions\n\n"));
 
             removed_files_ctr++;
 
-            if (!create_trashinfo (&st_file_properties, waste_curr))
+            if (!create_trashinfo (&st_file_properties, waste_curr, formatted_str_time_now))
             {
               confirmed_removals_list = add_removal (confirmed_removals_list, st_file_properties.waste_dest_name);
               if (confirmed_removals_list_head == NULL)
@@ -477,7 +470,6 @@ Enter '%s -h' for more information\n"), argv[0]);
   waste_curr = waste_head;
   dispose_waste (waste_curr);
   free (waste_head);
-  free (time_now);
   free (time_str_appended);
   free (HOMEDIR);
 
@@ -532,11 +524,10 @@ set_time_now_format (void)
  * @return void
  */
 void
-get_time_string (char *tm_str, const ushort len, const char *format)
+get_time_string (char *tm_str, const ushort len, const char *format, time_t *time_t_now)
 {
   struct tm *time_ptr;
-  time_t now = time (NULL);
-  time_ptr = localtime (&now);
+  time_ptr = localtime (time_t_now);
   strftime (tm_str, len, format, time_ptr);
   trim_white_space (tm_str);
   bufchk (tm_str, len);
@@ -551,23 +542,21 @@ get_time_string (char *tm_str, const ushort len, const char *format)
  * writes the current day to 'lastpurge'
  */
 bool
-is_time_to_purge (void)
+is_time_to_purge (time_t time_t_now)
 {
+  const int BUF_TIME = 80;
   int req_len = multi_strlen (HOMEDIR, PURGE_DAY_FILE, NULL) + 1;
   bufchk_len (req_len, MP, __func__, __LINE__);
   char file_lastpurge[req_len];
   snprintf (file_lastpurge, req_len, "%s%s", HOMEDIR, PURGE_DAY_FILE);
 
-  char today_dd[3];
-  get_time_string (today_dd, 3, "%d");
-
   FILE *fp = fopen (file_lastpurge, "r");
   bool init = (fp != NULL);
   if (fp)
   {
-    char last_purge_dd[3];
+    char time_prev[BUF_TIME];
 
-    if (fgets (last_purge_dd, sizeof (last_purge_dd), fp) == NULL)
+    if (fgets (time_prev, BUF_TIME, fp) == NULL)
     {
       print_msg_error ();
       printf ("while getting line from %s\n", file_lastpurge);
@@ -576,23 +565,17 @@ is_time_to_purge (void)
       exit (ERR_FGETS);
     }
 
-    bufchk (last_purge_dd, 3);
-    trim_white_space (last_purge_dd);
-
+    trim_white_space (time_prev);
     close_file (fp, file_lastpurge, __func__);
 
-    /*
-     * if these are the same, purge has already been run today
-     */
-
-    if (!strcmp (today_dd, last_purge_dd))
+    if ((time_t_now - atoi (time_prev)) < SECONDS_IN_A_DAY)
       return FALSE;
   }
 
   fp = fopen (file_lastpurge, "w");
   if (fp)
   {
-    fprintf (fp, "%s\n", today_dd);
+    fprintf (fp, "%ld\n", time_t_now);
     close_file (fp, file_lastpurge, __func__);
 
     /*

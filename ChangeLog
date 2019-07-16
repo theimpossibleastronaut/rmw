@@ -1,5 +1,11 @@
 === rmw ChangeLog ===
 
+2019-07-16
+
+  * The value written to the "lastpurge" file is no longer the day of
+  the month, but the time since the Epoch (00:00:00 UTC, January 1,
+  1970), measured in seconds (see ticket #238 for more info).
+
 2019-07-09
 
   * release version 0.7.02

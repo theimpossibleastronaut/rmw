@@ -31,14 +31,6 @@
 #ifndef _INC_RMW_H
 #define _INC_RMW_H
 
-#ifndef _XOPEN_SOURCE
-/*! Allows for the use of some GNU extensions, such as itoa() and strptime()
- * On some systems, this will be defined when configure is run as PKG_CHECK_MODULES
- * adds items to CFLAGS.
- */
-  #define _XOPEN_SOURCE 600
-#endif
-
 #include "config.h"
 #include <errno.h>
 #include <limits.h>
@@ -225,12 +217,14 @@ void
 dispose_removed (st_removed *node);
 
 void
-get_time_string (char *tm_str, const ushort len, const char *format);
+get_time_string (char *tm_str, const ushort len, const char *format, time_t *time_t_now);
 
 bool
-is_time_to_purge (void);
+is_time_to_purge (time_t time_t_now);
 
 char*
 set_time_now_format (void);
+
+#define SECONDS_IN_A_DAY 86400
 
 #endif
