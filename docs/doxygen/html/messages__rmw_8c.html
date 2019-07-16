@@ -123,8 +123,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>msg_err_rename</b> (c
 <tr class="separator:a6e2c15beff1bcf29d5fa589e574d025d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff71a220d8a5148aa388e648386d12d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="messages__rmw_8c.html#aff71a220d8a5148aa388e648386d12d1">msg_err_buffer_overrun</a> (const char *func, const int line)</td></tr>
 <tr class="separator:aff71a220d8a5148aa388e648386d12d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab46a9d107981838c2b3e5a6d2d70cf9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="messages__rmw_8c.html#ab46a9d107981838c2b3e5a6d2d70cf9a">msg_err_lstat</a> (const char *func, const int LINE)</td></tr>
-<tr class="separator:ab46a9d107981838c2b3e5a6d2d70cf9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1ca7b582851b57353f17583aea38f19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="messages__rmw_8c.html#ac1ca7b582851b57353f17583aea38f19">msg_err_lstat</a> (const char *func, const int line)</td></tr>
+<tr class="separator:ac1ca7b582851b57353f17583aea38f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22fbc5e75fa40e7268ad4fca52d7ceee"><td class="memItemLeft" align="right" valign="top"><a id="a22fbc5e75fa40e7268ad4fca52d7ceee"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>msg_err_remove</b> (const char *file, const char *func)</td></tr>
+<tr class="separator:a22fbc5e75fa40e7268ad4fca52d7ceee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -242,8 +245,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ab46a9d107981838c2b3e5a6d2d70cf9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab46a9d107981838c2b3e5a6d2d70cf9a">&#9670;&nbsp;</a></span>msg_err_lstat()</h2>
+<a id="ac1ca7b582851b57353f17583aea38f19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1ca7b582851b57353f17583aea38f19">&#9670;&nbsp;</a></span>msg_err_lstat()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,7 +261,7 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>LINE</em>&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -270,7 +273,7 @@ Variables</h2></td></tr>
 <p>Called if lstat() returns an error. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">func</td><td>the name of the calling function </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">LINE</td><td>the line number from where the function was called </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>the line number from where the function was called </td></tr>
   </table>
   </dd>
 </dl>

@@ -106,8 +106,8 @@ Functions</h2></td></tr>
 <tr class="separator:adb719cd3b1173ecfcb22c07632885b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09f92e5db745fbc606806ac28b35ce0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#a09f92e5db745fbc606806ac28b35ce0e">bufchk_len</a> (const int len, const int dest_boundary, const char *func, const int line)</td></tr>
 <tr class="separator:a09f92e5db745fbc606806ac28b35ce0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab770d8aa0d66d830a092ca4ede7b388b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#ab770d8aa0d66d830a092ca4ede7b388b">multi_strlen</a> (int argc,...)</td></tr>
-<tr class="separator:ab770d8aa0d66d830a092ca4ede7b388b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7764dd91960c7ea1a83d4183ccb64e4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#ad7764dd91960c7ea1a83d4183ccb64e4">multi_strlen</a> (const char *argv,...)</td></tr>
+<tr class="separator:ad7764dd91960c7ea1a83d4183ccb64e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1736cdaa245ee93bf06301101c143f7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#a1736cdaa245ee93bf06301101c143f7f">trim_white_space</a> (char *str)</td></tr>
 <tr class="separator:a1736cdaa245ee93bf06301101c143f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcb68bf296f2b7568e7c1012e10ce8cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="strings__rmw_8c.html#abcb68bf296f2b7568e7c1012e10ce8cf">trim_char</a> (const char c, char *str)</td></tr>
@@ -257,8 +257,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab770d8aa0d66d830a092ca4ede7b388b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab770d8aa0d66d830a092ca4ede7b388b">&#9670;&nbsp;</a></span>multi_strlen()</h2>
+<a id="ad7764dd91960c7ea1a83d4183ccb64e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7764dd91960c7ea1a83d4183ccb64e4">&#9670;&nbsp;</a></span>multi_strlen()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -266,8 +266,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int multi_strlen </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>argc</em>, </td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>argv</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -282,11 +282,11 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get the combined length of multiple strings.</p>
+<p>Get the combined length of multiple strings. Last argument MUST be "NULL".</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">argc</td><td>The number of arguments </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">...</td><td>variable argument list, each argument should be a string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">argv</td><td>The first argument </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">...</td><td>variable argument list, each argument must be a string. </td></tr>
   </table>
   </dd>
 </dl>

@@ -146,6 +146,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>msg_err_rename</b> (c
 <tr class="separator:aff71a220d8a5148aa388e648386d12d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab46a9d107981838c2b3e5a6d2d70cf9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="messages__rmw_8h.html#ab46a9d107981838c2b3e5a6d2d70cf9a">msg_err_lstat</a> (const char *func, const int LINE)</td></tr>
 <tr class="separator:ab46a9d107981838c2b3e5a6d2d70cf9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22fbc5e75fa40e7268ad4fca52d7ceee"><td class="memItemLeft" align="right" valign="top"><a id="a22fbc5e75fa40e7268ad4fca52d7ceee"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>msg_err_remove</b> (const char *file, const char *func)</td></tr>
+<tr class="separator:a22fbc5e75fa40e7268ad4fca52d7ceee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="aba5627f07c8ecab8e02441acde10c699"></a>
@@ -272,7 +275,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>msg_err_rename</b> (c
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>LINE</em>&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -284,7 +287,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>msg_err_rename</b> (c
 <p>Called if lstat() returns an error. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">func</td><td>the name of the calling function </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">LINE</td><td>the line number from where the function was called </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>the line number from where the function was called </td></tr>
   </table>
   </dd>
 </dl>
