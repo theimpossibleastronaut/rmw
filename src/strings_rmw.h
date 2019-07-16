@@ -25,7 +25,6 @@
  */
 
 #include <libgen.h>
-#include <time.h>
 #include <stdarg.h>
 
 void

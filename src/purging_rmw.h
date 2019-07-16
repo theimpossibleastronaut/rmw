@@ -26,8 +26,6 @@
  */
 
 #include <sys/stat.h>
-#include <time.h>
-
 #include <dirent.h>
 #include <unistd.h>             /* for rmdir() */
 
