@@ -247,5 +247,14 @@ msg_err_lstat (const char *func, const int line)
   exit (ERR_LSTAT);
 }
 
+void
+msg_err_remove (const char *file, const char *func)
+{
+  print_msg_error ();
+  /* TRANSLATORS:  "removing" refers to a file or folder  */
+  fprintf (stderr, _("while removing %s\n"), file);
+  perror (__func__);
+}
+
 
 

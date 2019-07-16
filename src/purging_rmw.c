@@ -401,18 +401,11 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
               bytes_freed += st.st_size;
             }
             else
-            {
-              print_msg_error ();
-              /* TRANSLATORS:  "removing" refers to a file or folder  */
-              printf (_("while removing %s\n"), corresponding_file_to_purge);
-              perror (__func__);
-            }
+              msg_err_remove (corresponding_file_to_purge, __func__);
             break;
 
           default:
-            print_msg_error ();
-            printf (_("while removing %s\n"), corresponding_file_to_purge);
-            perror (__func__);
+              msg_err_remove (corresponding_file_to_purge, __func__);
             break;
           }
 
@@ -433,11 +426,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
             bytes_freed += st.st_size;
           }
           else
-          {
-            print_msg_error ();
-            printf (_("while removing %s\n"), corresponding_file_to_purge);
-            perror (__func__);
-          }
+            msg_err_remove (corresponding_file_to_purge, __func__);
         }
 
         if (status == 0)
@@ -454,13 +443,8 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options)
               printf ("-%s\n", corresponding_file_to_purge);
           }
           else
-          {
-            print_msg_error ();
-            printf (_("while removing %s\n"), trashinfo_entry_realpath);
-            perror (__func__);
-          }
+            msg_err_remove (corresponding_file_to_purge, __func__);
         }
-
       }
     }
 
