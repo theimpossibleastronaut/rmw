@@ -176,6 +176,7 @@ user_verify (void)
   return (want_continue && (char_count <= 1));
 }
 
+
 /* used to prevent a TOCTOU race condtion */
 bool
 is_modified (const char* file, const int dev, const int inode)
@@ -191,4 +192,155 @@ is_modified (const char* file, const int dev, const int inode)
   printf ("%s ", file);
   puts ("has been modified since last check, not removing");
   return true;
+}
+
+
+/*!
+  *
+  * According to RFC2396, we must escape any character that's
+  * reserved or not available in US-ASCII, for simplification, here's
+  * the character that we must accept:
+  *
+  * - Alphabethics (A-Z and a-z)
+  * - Numerics (0-9)
+  * - The following charcters: ~ _ - .
+  *
+  * For purposes of this application we will not convert "/"s, as in
+  * this case they correspond to their semantic meaning.
+  * @param[in] c the character to check
+  * returns true if the character c is unreserved
+  * @see escape_url
+  * @see unescape_url
+ */
+static bool is_unreserved (char c)
+{
+  if ( ('A' <= c && c <= 'Z') ||
+       ('a' <= c && c <= 'z') ||
+       ('0' <= c && c <= '9') )
+    return 1;
+
+  switch (c)
+  {
+    case '-': case '_': case '~': case '.': case '/':
+      return 1;
+
+    default:
+      return 0;
+  }
+}
+
+
+/*!
+ * Convert str into a URL valid string, escaping when necessary
+ * @returns 0 on success, 1 on failure
+ * @see is_unreserved
+ * @see unescape_url
+ */
+bool escape_url (const char *str, char *dest, const int len)
+{
+  int pos_str;
+  int pos_dest;
+  pos_str = 0;
+  pos_dest = 0;
+
+  while (str[pos_str])
+  {
+    if (is_unreserved (str[pos_str]))
+    {
+      /* Check for buffer overflow (there should be enough space for 1
+       * character + '\0') */
+      if (pos_dest + 2 > len)
+      {
+        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, len, pos_dest+2);
+        return 1;
+      }
+
+      dest[pos_dest] = str[pos_str];
+      pos_dest += 1;
+    }
+    else {
+      /* Again, check for overflow (3 chars + '\0') */
+      if (pos_dest + 4 > len)
+      {
+        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, len, pos_dest+4);
+        return 1;
+      }
+
+      /* A quick explanation to this printf
+       * %% - print a '%'
+       * 0  - pad with left '0'
+       * 2  - width of string should be 2 (pad if it's just 1 char)
+       * hh - this is a byte
+       * X  - print hexadecimal form with uppercase letters
+       */
+      sprintf(dest + pos_dest, "%%%02hhX", str[pos_str]);
+      pos_dest += 3;
+    }
+    pos_str++;
+  }
+
+  dest[pos_dest] = '\0';
+
+#ifdef DEBUG
+DEBUG_PREFIX
+printf ("dest = %s in %s\n", dest, __func__);
+#endif
+
+  return 0;
+}
+
+
+/**
+ * Convert a URL valid string into a regular string, unescaping any '%'s
+ * that appear.
+ * returns 0 on succes, 1 on failure
+ */
+bool
+unescape_url (const char *str, char *dest, const int len)
+{
+  int pos_str;
+  int pos_dest;
+  pos_str = 0;
+  pos_dest = 0;
+
+  while (str[pos_str])
+  {
+    if (str[pos_str] == '%')
+    {
+      /* skip the '%' */
+      pos_str += 1;
+      /* Check for buffer overflow (there should be enough space for 1
+       * character + '\0') */
+      if (pos_dest + 2 > len)
+      {
+        printf (_
+                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
+                __func__, len, pos_dest + 2);
+        return 1;
+      }
+
+      sscanf (str + pos_str, "%2hhx", dest + pos_dest);
+      pos_str += 2;
+    }
+    else
+    {
+      /* Check for buffer overflow (there should be enough space for 1
+       * character + '\0') */
+      if (pos_dest + 2 > len)
+      {
+        printf (_
+                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
+                __func__, len, pos_dest + 2);
+        return 1;
+      }
+
+      dest[pos_dest] = str[pos_str];
+      pos_str += 1;
+    }
+    pos_dest++;
+  }
+
+  dest[pos_dest] = '\0';
+
+  return 0;
 }

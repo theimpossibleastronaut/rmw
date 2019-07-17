@@ -33,61 +33,6 @@
 #include "messages_rmw.h"
 #include "bst.h"
 
-/**
- * Convert a URL valid string into a regular string, unescaping any '%'s
- * that appear.
- * returns 0 on succes, 1 on failure
- */
-bool
-unescape_url (const char *str, char *dest, const int len)
-{
-  int pos_str;
-  int pos_dest;
-  pos_str = 0;
-  pos_dest = 0;
-
-  while (str[pos_str])
-  {
-    if (str[pos_str] == '%')
-    {
-      /* skip the '%' */
-      pos_str += 1;
-      /* Check for buffer overflow (there should be enough space for 1
-       * character + '\0') */
-      if (pos_dest + 2 > len)
-      {
-        printf (_
-                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, len, pos_dest + 2);
-        return 1;
-      }
-
-      sscanf (str + pos_str, "%2hhx", dest + pos_dest);
-      pos_str += 2;
-    }
-    else
-    {
-      /* Check for buffer overflow (there should be enough space for 1
-       * character + '\0') */
-      if (pos_dest + 2 > len)
-      {
-        printf (_
-                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, len, pos_dest + 2);
-        return 1;
-      }
-
-      dest[pos_dest] = str[pos_str];
-      pos_str += 1;
-    }
-    pos_dest++;
-  }
-
-  dest[pos_dest] = '\0';
-
-  return 0;
-}
-
 #ifndef TEST_LIB
 
 /**

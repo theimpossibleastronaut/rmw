@@ -55,9 +55,6 @@
 
 #define CTRLD 4
 
-bool
-unescape_url (const char *str, char *dest, const int len);
-
 #ifndef TEST_LIB
 int
 Restore (const char *argv, st_waste *waste_curr);

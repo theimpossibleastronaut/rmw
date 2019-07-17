@@ -1,6 +1,5 @@
 #include "rmw.h"
-#include "trashinfo_rmw.h"
-#include "restore_rmw.h"
+#include "utils_rmw.h"
 #include <assert.h>
 
 #define BUF_SIZE 80

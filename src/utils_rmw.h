@@ -44,3 +44,9 @@ user_verify (void);
 
 bool
 is_modified (const char* file, const int dev, const int inode);
+
+bool
+escape_url (const char *str, char *dest, const int len);
+
+bool
+unescape_url (const char *str, char *dest, const int len);
