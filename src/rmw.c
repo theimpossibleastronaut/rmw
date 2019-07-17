@@ -224,7 +224,6 @@ verbose = 1;
   snprintf (data_dir, MP, "%s%s", HOMEDIR, DATA_DIR);
   int created_data_dir = make_dir (data_dir);
   free (data_dir);
-  data_dir = NULL;
 
   if (created_data_dir == MAKE_DIR_FAILURE)
   {
@@ -275,7 +274,6 @@ Please check your configuration file and permissions\n\n"));
     waste_curr = waste_head;
     dispose_waste (waste_curr);
     free (waste_head);
-    waste_head = NULL;
     return 0;
   }
 

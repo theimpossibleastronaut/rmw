@@ -498,7 +498,6 @@ get_config_data (const rmw_options * cli_user_options)
   }
 
   free (line_from_config);
-  line_from_config = NULL;
 
   close_file (config_ptr, config_file, __func__);
 

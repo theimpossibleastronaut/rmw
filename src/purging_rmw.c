@@ -479,14 +479,13 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options, time_t
 short
 orphan_maint (st_waste * waste_curr, const char *formatted_str_time_now)
 {
-  rmw_target *file = (rmw_target *) malloc (sizeof (rmw_target));
-  chk_malloc (file, __func__, __LINE__);
+  rmw_target st_file_properties;
 
   /* searching for files that don't have a trashinfo: There will
    * never be a duplicate, but it initializes the struct member, and
    * create_trashinfo() will check for it, which is called later.
    */
-  file->is_duplicate = 0;
+  st_file_properties.is_duplicate = 0;
 
   char path_to_trashinfo[MP];
   int orphan_ctr = 0;
@@ -504,25 +503,24 @@ orphan_maint (st_waste * waste_curr, const char *formatted_str_time_now)
           strcmp (entry->d_name, "..") == 0)
         continue;
 
-      bufchk (basename (entry->d_name), MP);
-      strcpy (file->base_name, basename (entry->d_name));
+      st_file_properties.base_name = basename (entry->d_name);
 
-      int req_len = multi_strlen (waste_curr->info, file->base_name,
+      int req_len = multi_strlen (waste_curr->info, st_file_properties.base_name,
                DOT_TRASHINFO, NULL) + 1;
       bufchk_len (req_len, MP, __func__, __LINE__);
-      snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info, file->base_name,
+      snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info, st_file_properties.base_name,
                DOT_TRASHINFO);
 
       if (exists (path_to_trashinfo))
         continue;
 
       /* destination if restored */
-      req_len = multi_strlen(waste_curr->parent, "/orphans/", file->base_name, NULL) + 1;
+      req_len = multi_strlen(waste_curr->parent, "/orphans/", st_file_properties.base_name, NULL) + 1;
       bufchk_len (req_len, MP, __func__, __LINE__);
-      snprintf (file->real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
-               file->base_name);
+      snprintf (st_file_properties.real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
+               st_file_properties.base_name);
 
-      if (!create_trashinfo (file, waste_curr, formatted_str_time_now))
+      if (!create_trashinfo (&st_file_properties, waste_curr, formatted_str_time_now))
       {
         /* TRANSLATORS:  "created" refers to a file  */
         printf (_("Created %s\n"), path_to_trashinfo);
@@ -542,10 +540,6 @@ orphan_maint (st_waste * waste_curr, const char *formatted_str_time_now)
   }
 
   printf ("%d %s found\n", orphan_ctr, orphan_ctr == 1 ? "orphan" : "orphans");
-
-  free (file);
-  /* FIXME: here and other places, no need to assign null after it's freed */
-  file = NULL;
 
   return 0;
 }

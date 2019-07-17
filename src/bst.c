@@ -126,13 +126,9 @@ dispose (st_node * root)
   {
     dispose (root->left);
     dispose (root->right);
-
     free (root->data);
     free (root->size_str);
-    root->data = NULL;
-    root->size_str = NULL;
 
     free (root);
-    root = NULL;
   }
 }
