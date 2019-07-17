@@ -67,7 +67,7 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
       continue;
 
     bufchk (dirname, MP);
-    strncpy (st_dirname_properties.path, dirname, MP);
+    strncpy (st_dirname_properties.path, dirname, MP - 1);
 
     int pathLen = strlen (st_dirname_properties.path);
     if (st_dirname_properties.path[pathLen - 1] != '/')
@@ -330,7 +330,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options, time_t
       snprintf (trashinfo_entry_realpath, req_len, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
       /* FIXME: does this condition need modifying? */
-      time_t then;
+      time_t then = 0;
       if (!cli_user_options->want_empty_trash && !(then = get_then_time(st_trashinfo_dir_entry, trashinfo_entry_realpath)))
           continue;
 
