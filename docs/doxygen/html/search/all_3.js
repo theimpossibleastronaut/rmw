@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['close_5ffile',['close_file',['../messages__rmw_8c.html#aba5627f07c8ecab8e02441acde10c699',1,'close_file(FILE *file_ptr, const char *filename, const char *function_name):&#160;messages_rmw.c'],['../messages__rmw_8h.html#aba5627f07c8ecab8e02441acde10c699',1,'close_file(FILE *file_ptr, const char *filename, const char *function_name):&#160;messages_rmw.c']]],
-  ['config_5frmw_2ec',['config_rmw.c',['../config__rmw_8c.html',1,'']]],
-  ['config_5frmw_2eh',['config_rmw.h',['../config__rmw_8h.html',1,'']]],
-  ['create_5fnode',['create_node',['../bst_8c.html#a5c2b9a66df3a0c07fc3ea01833426734',1,'bst.c']]],
-  ['create_5fundo_5ffile',['create_undo_file',['../rmw_8c.html#a7ac2fc1abe5715969bc53095f10c78bd',1,'create_undo_file(st_removed *removals, st_removed *removals_head):&#160;rmw.c'],['../rmw_8h.html#a7ac2fc1abe5715969bc53095f10c78bd',1,'create_undo_file(st_removed *removals, st_removed *removals_head):&#160;rmw.c']]],
-  ['contributor_20covenant_20code_20of_20conduct',['Contributor Covenant Code of Conduct',['../md_CODE_OF_CONDUCT.html',1,'']]],
-  ['contributing_20to_20rmw',['Contributing to rmw',['../md_CONTRIBUTING.html',1,'']]]
+  ['data',['data',['../structst__node.html#a1b80abee3b0ae9306072941c3c71a8c8',1,'st_node']]],
+  ['del_5fchar_5fshift_5fleft',['del_char_shift_left',['../config__rmw_8c.html#af4f4a9aafaa836ca9b9ab6439c2aa64c',1,'config_rmw.c']]],
+  ['dev_5fnum',['dev_num',['../structst__waste.html#a73c61703e2718928ebef9cd3b6e3e4e1',1,'st_waste']]],
+  ['dispose',['dispose',['../bst_8c.html#a4d0760f7544e428f7aec84acc018ce2e',1,'dispose(st_node *root):&#160;bst.c'],['../bst_8h.html#a4d0760f7544e428f7aec84acc018ce2e',1,'dispose(st_node *root):&#160;bst.c']]],
+  ['dispose_5fremoved',['dispose_removed',['../rmw_8c.html#a55fc2b89e4ff1a89b4dd9de8e71282eb',1,'dispose_removed(st_removed *node):&#160;rmw.c'],['../rmw_8h.html#a55fc2b89e4ff1a89b4dd9de8e71282eb',1,'dispose_removed(st_removed *node):&#160;rmw.c']]]
 ];

@@ -99,8 +99,6 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a80e634fc845f0381be5b996bbb36d2b8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8h.html#a80e634fc845f0381be5b996bbb36d2b8">unescape_url</a> (const char *str, char *dest, const int len)</td></tr>
-<tr class="separator:a80e634fc845f0381be5b996bbb36d2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ae279a7200b8c93717bcfd6e45cbe57"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8h.html#a1ae279a7200b8c93717bcfd6e45cbe57">Restore</a> (const char *argv, <a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
 <tr class="separator:a1ae279a7200b8c93717bcfd6e45cbe57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03c348b05998a89318246f00275fce89"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8h.html#a03c348b05998a89318246f00275fce89">restore_select</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
@@ -180,9 +178,9 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>an error number </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8c.html#a1ae279a7200b8c93717bcfd6e45cbe57">Restore()</a> </dd>
 <dd>
-<a class="el" href="trashinfo__rmw_8c.html#a7900e6a6777838e267f1ca2bb0dad310">is_unreserved</a> </dd>
+<a class="el" href="utils__rmw_8c.html#a7900e6a6777838e267f1ca2bb0dad310">is_unreserved</a> </dd>
 <dd>
-<a class="el" href="trashinfo__rmw_8h.html#a90c983df6a6b5c50e9b08305220cade0">escape_url</a> </dd></dl>
+<a class="el" href="utils__rmw_8h.html#a90c983df6a6b5c50e9b08305220cade0">escape_url</a> </dd></dl>
 
 </div>
 </div>
@@ -214,41 +212,6 @@ Functions</h2></td></tr>
 <a class="el" href="rmw_8h.html#a824639431a0e94ac76721f576adb9b83">add_removal</a> </dd>
 <dd>
 <a class="el" href="restore__rmw_8c.html#a1ae279a7200b8c93717bcfd6e45cbe57">Restore</a> </dd></dl>
-
-</div>
-</div>
-<a id="a80e634fc845f0381be5b996bbb36d2b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80e634fc845f0381be5b996bbb36d2b8">&#9670;&nbsp;</a></span>unescape_url()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool unescape_url </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>str</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Convert a URL valid string into a regular string, unescaping any ''s that appear. returns 0 on succes, 1 on failure </p>
 
 </div>
 </div>

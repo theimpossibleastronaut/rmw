@@ -81,6 +81,7 @@ $(function() {
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;time.h&gt;</code><br />
 <code>#include &lt;locale.h&gt;</code><br />
 <code>#include &quot;gettext.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -88,7 +89,7 @@ Include dependency graph for rmw.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="rmw_8h__incl.png" border="0" usemap="#src_2rmw_8h" alt=""/></div>
 <map name="src_2rmw_8h" id="src_2rmw_8h">
-<area shape="rect" id="node10" href="gettext_8h_source.html" title="gettext.h" alt="" coords="508,80,581,107"/>
+<area shape="rect" id="node11" href="gettext_8h_source.html" title="gettext.h" alt="" coords="508,80,581,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -126,8 +127,6 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a78c99ffd76a7bb3c8c74db76207e9ab4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a78c99ffd76a7bb3c8c74db76207e9ab4">_XOPEN_SOURCE</a>&#160;&#160;&#160;600</td></tr>
-<tr class="separator:a78c99ffd76a7bb3c8c74db76207e9ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32a3cf3d9dd914f5aeeca5423c157934"><td class="memItemLeft" align="right" valign="top"><a id="a32a3cf3d9dd914f5aeeca5423c157934"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>_</b>(String)&#160;&#160;&#160;gettext (String)</td></tr>
 <tr class="separator:a32a3cf3d9dd914f5aeeca5423c157934"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,6 +164,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a876e06c65b0141d41b7f3f62bd9cba9e"><td class="memItemLeft" align="right" valign="top"><a id="a876e06c65b0141d41b7f3f62bd9cba9e"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>RETURN_CODE_OFFSET</b>&#160;&#160;&#160;10</td></tr>
 <tr class="separator:a876e06c65b0141d41b7f3f62bd9cba9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6508df70318d3f264c21b2df2dfe0417"><td class="memItemLeft" align="right" valign="top"><a id="a6508df70318d3f264c21b2df2dfe0417"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>SECONDS_IN_A_DAY</b>&#160;&#160;&#160;86400</td></tr>
+<tr class="separator:a6508df70318d3f264c21b2df2dfe0417"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -215,10 +217,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rmw_option_init</b> (
 <tr class="separator:a7ac2fc1abe5715969bc53095f10c78bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55fc2b89e4ff1a89b4dd9de8e71282eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a55fc2b89e4ff1a89b4dd9de8e71282eb">dispose_removed</a> (<a class="el" href="structst__removed.html">st_removed</a> *node)</td></tr>
 <tr class="separator:a55fc2b89e4ff1a89b4dd9de8e71282eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c663ed520af3eb7a9515a131bd98207"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a1c663ed520af3eb7a9515a131bd98207">get_time_string</a> (char *tm_str, const ushort len, const char *format)</td></tr>
-<tr class="separator:a1c663ed520af3eb7a9515a131bd98207"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cde99d90ef9fc51ae93e1fee557fe2e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a8cde99d90ef9fc51ae93e1fee557fe2e">is_time_to_purge</a> (void)</td></tr>
-<tr class="separator:a8cde99d90ef9fc51ae93e1fee557fe2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00aa036f8f792373e107c2851560283c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#a00aa036f8f792373e107c2851560283c">get_time_string</a> (char *tm_str, const ushort len, const char *format, time_t *time_t_now)</td></tr>
+<tr class="separator:a00aa036f8f792373e107c2851560283c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4dab18901ba813957363f7442da701c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#ab4dab18901ba813957363f7442da701c">is_time_to_purge</a> (time_t time_t_now)</td></tr>
+<tr class="separator:ab4dab18901ba813957363f7442da701c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb4aecc54e90350b86f9fbe1e077d87c"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rmw_8h.html#afb4aecc54e90350b86f9fbe1e077d87c">set_time_now_format</a> (void)</td></tr>
 <tr class="separator:afb4aecc54e90350b86f9fbe1e077d87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -230,21 +232,6 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>contains most of the global variables used by rmw </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a78c99ffd76a7bb3c8c74db76207e9ab4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78c99ffd76a7bb3c8c74db76207e9ab4">&#9670;&nbsp;</a></span>_XOPEN_SOURCE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _XOPEN_SOURCE&#160;&#160;&#160;600</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Allows for the use of some GNU extensions, such as itoa() and strptime() On some systems, this will be defined when configure is run as PKG_CHECK_MODULES adds items to CFLAGS. </p>
-
-</div>
-</div>
 <a id="a597dcd9e5f1de7a7d24b4ce24f1e98c7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a597dcd9e5f1de7a7d24b4ce24f1e98c7">&#9670;&nbsp;</a></span>MP</h2>
 
@@ -379,8 +366,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a1c663ed520af3eb7a9515a131bd98207"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c663ed520af3eb7a9515a131bd98207">&#9670;&nbsp;</a></span>get_time_string()</h2>
+<a id="a00aa036f8f792373e107c2851560283c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00aa036f8f792373e107c2851560283c">&#9670;&nbsp;</a></span>get_time_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -401,7 +388,13 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>format</em>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">time_t *&#160;</td>
+          <td class="paramname"><em>time_t_now</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -422,8 +415,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a8cde99d90ef9fc51ae93e1fee557fe2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8cde99d90ef9fc51ae93e1fee557fe2e">&#9670;&nbsp;</a></span>is_time_to_purge()</h2>
+<a id="ab4dab18901ba813957363f7442da701c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4dab18901ba813957363f7442da701c">&#9670;&nbsp;</a></span>is_time_to_purge()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -431,13 +424,13 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">bool is_time_to_purge </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">time_t&#160;</td>
+          <td class="paramname"><em>time_t_now</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Called in <a class="el" href="rmw_8c.html#a4ca41f4d2839df843f704b5c26b7606b">main()</a> to determine whether or not <a class="el" href="purging__rmw_8c.html#abbc7d6c1e1dad9e73c6f9c27ee715868">purge()</a> was run today, reads and writes to the 'lastpurge` file. If it hasn't been run today, the current day will be written. If 'lastpurge' doesn't exist, it gets created. </p><dl class="section return"><dt>Returns</dt><dd>FALSE if the day is the same (don't purge); otherwise TRUE and writes the current day to 'lastpurge' </dd></dl>
+<p>Called in <a class="el" href="rmw_8c.html#a4ca41f4d2839df843f704b5c26b7606b">main()</a> to determine whether or not <a class="el" href="purging__rmw_8c.html#a2a9605690569abc4611caf668634f462">purge()</a> was run today, reads and writes to the 'lastpurge` file. If it hasn't been run today, the current day will be written. If 'lastpurge' doesn't exist, it gets created. </p><dl class="section return"><dt>Returns</dt><dd>FALSE if the day is the same (don't purge); otherwise TRUE and writes the current day to 'lastpurge' </dd></dl>
 
 </div>
 </div>

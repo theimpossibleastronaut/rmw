@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['add_5fremoval',['add_removal',['../rmw_8c.html#a824639431a0e94ac76721f576adb9b83',1,'add_removal(st_removed *removals, const char *file):&#160;rmw.c'],['../rmw_8h.html#a824639431a0e94ac76721f576adb9b83',1,'add_removal(st_removed *removals, const char *file):&#160;rmw.c']]],
-  ['alt_5fconfig',['alt_config',['../structrmw__options.html#a0c075c01bf17f06a25c7fd6f4656decf',1,'rmw_options']]],
-  ['authors',['AUTHORS',['../md_AUTHORS.html',1,'']]]
+  ['base_5fname',['base_name',['../structrmw__target.html#a15f4ba686c5403e69d5e436690bc1d73',1,'rmw_target']]],
+  ['bst_2ec',['bst.c',['../bst_8c.html',1,'']]],
+  ['bst_2eh',['bst.h',['../bst_8h.html',1,'']]],
+  ['bufchk',['bufchk',['../strings__rmw_8c.html#adb719cd3b1173ecfcb22c07632885b3a',1,'strings_rmw.c']]],
+  ['bufchk_5flen',['bufchk_len',['../strings__rmw_8c.html#a09f92e5db745fbc606806ac28b35ce0e',1,'strings_rmw.c']]],
+  ['bug_20list',['Bug List',['../bug.html',1,'']]]
 ];

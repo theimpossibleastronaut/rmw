@@ -84,13 +84,13 @@ Include dependency graph for purging_rmw.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="purging__rmw_8c__incl.png" border="0" usemap="#src_2purging__rmw_8c" alt=""/></div>
 <map name="src_2purging__rmw_8c" id="src_2purging__rmw_8c">
-<area shape="rect" id="node2" href="rmw_8h.html" title="rmw.h" alt="" coords="441,155,499,181"/>
-<area shape="rect" id="node12" href="purging__rmw_8h.html" title="purging_rmw.h" alt="" coords="961,80,1067,107"/>
-<area shape="rect" id="node17" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="507,80,633,107"/>
-<area shape="rect" id="node18" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="726,155,830,181"/>
-<area shape="rect" id="node21" href="utils__rmw_8h.html" title="utils_rmw.h" alt="" coords="847,80,936,107"/>
-<area shape="rect" id="node22" href="trashinfo__rmw_8h.html" title="trashinfo_rmw.h" alt="" coords="657,80,771,107"/>
-<area shape="rect" id="node11" href="gettext_8h_source.html" title="gettext.h" alt="" coords="508,229,581,256"/>
+<area shape="rect" id="node2" href="rmw_8h.html" title="rmw.h" alt="" coords="455,155,513,181"/>
+<area shape="rect" id="node13" href="purging__rmw_8h.html" title="purging_rmw.h" alt="" coords="181,80,288,107"/>
+<area shape="rect" id="node17" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="616,80,741,107"/>
+<area shape="rect" id="node18" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="797,155,901,181"/>
+<area shape="rect" id="node21" href="utils__rmw_8h.html" title="utils_rmw.h" alt="" coords="313,80,402,107"/>
+<area shape="rect" id="node22" href="trashinfo__rmw_8h.html" title="trashinfo_rmw.h" alt="" coords="427,80,541,107"/>
+<area shape="rect" id="node12" href="gettext_8h_source.html" title="gettext.h" alt="" coords="329,229,402,256"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -100,11 +100,11 @@ Functions</h2></td></tr>
 <tr class="separator:ab23c6ec02d3b91c076c73f8c4ce161cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b77956b6dd10e0bb4e7d3432c0ab5bc"><td class="memItemLeft" align="right" valign="top">static time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#a0b77956b6dd10e0bb4e7d3432c0ab5bc">get_then_time</a> (struct dirent *entry, const char *entry_path)</td></tr>
 <tr class="separator:a0b77956b6dd10e0bb4e7d3432c0ab5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbc7d6c1e1dad9e73c6f9c27ee715868"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#abbc7d6c1e1dad9e73c6f9c27ee715868">purge</a> (const <a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const <a class="el" href="structrmw__options.html">rmw_options</a> *cli_user_options)</td></tr>
-<tr class="separator:abbc7d6c1e1dad9e73c6f9c27ee715868"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4f76b5e2cc8aa99c69d77965dd6cd72"><td class="memItemLeft" align="right" valign="top"><a id="af4f76b5e2cc8aa99c69d77965dd6cd72"></a>
-short&#160;</td><td class="memItemRight" valign="bottom"><b>orphan_maint</b> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
-<tr class="separator:af4f76b5e2cc8aa99c69d77965dd6cd72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9605690569abc4611caf668634f462"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8c.html#a2a9605690569abc4611caf668634f462">purge</a> (const <a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const <a class="el" href="structrmw__options.html">rmw_options</a> *cli_user_options, time_t time_t_now)</td></tr>
+<tr class="separator:a2a9605690569abc4611caf668634f462"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7c94f505bf1a89f7682ceb0fbae7849"><td class="memItemLeft" align="right" valign="top"><a id="ac7c94f505bf1a89f7682ceb0fbae7849"></a>
+short&#160;</td><td class="memItemRight" valign="bottom"><b>orphan_maint</b> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const char *formatted_str_time_now)</td></tr>
+<tr class="separator:ac7c94f505bf1a89f7682ceb0fbae7849"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -154,7 +154,7 @@ static off_t&#160;</td><td class="memItemRight" valign="bottom"><b>bytes_freed</
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Get the time a file was rmw'ed by reading the corresponding trashinfo file. Called from <a class="el" href="purging__rmw_8c.html#abbc7d6c1e1dad9e73c6f9c27ee715868">purge()</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Get the time a file was rmw'ed by reading the corresponding trashinfo file. Called from <a class="el" href="purging__rmw_8c.html#a2a9605690569abc4611caf668634f462">purge()</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">entry</td><td>directory entry </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">entry_path</td><td>path to directory entry </td></tr>
@@ -165,8 +165,8 @@ static off_t&#160;</td><td class="memItemRight" valign="bottom"><b>bytes_freed</
 
 </div>
 </div>
-<a id="abbc7d6c1e1dad9e73c6f9c27ee715868"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbc7d6c1e1dad9e73c6f9c27ee715868">&#9670;&nbsp;</a></span>purge()</h2>
+<a id="a2a9605690569abc4611caf668634f462"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9605690569abc4611caf668634f462">&#9670;&nbsp;</a></span>purge()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -181,7 +181,13 @@ static off_t&#160;</td><td class="memItemRight" valign="bottom"><b>bytes_freed</
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="structrmw__options.html">rmw_options</a> *&#160;</td>
-          <td class="paramname"><em>cli_user_options</em>&#160;</td>
+          <td class="paramname"><em>cli_user_options</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">time_t&#160;</td>
+          <td class="paramname"><em>time_t_now</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -197,7 +203,7 @@ static off_t&#160;</td><td class="memItemRight" valign="bottom"><b>bytes_freed</
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>error number </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="rmw_8h.html#a8cde99d90ef9fc51ae93e1fee557fe2e">is_time_to_purge</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="rmw_8h.html#ab4dab18901ba813957363f7442da701c">is_time_to_purge</a> </dd>
 <dd>
 <a class="el" href="purging__rmw_8c.html#a0b77956b6dd10e0bb4e7d3432c0ab5bc">get_then_time</a> </dd></dl>
 
@@ -242,7 +248,7 @@ static off_t&#160;</td><td class="memItemRight" valign="bottom"><b>bytes_freed</
   </tr>
 </table>
 </div><div class="memdoc">
-<p>remove dirs recursively, primarily used by <a class="el" href="purging__rmw_8c.html#abbc7d6c1e1dad9e73c6f9c27ee715868">purge()</a> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>remove dirs recursively, primarily used by <a class="el" href="purging__rmw_8c.html#a2a9605690569abc4611caf668634f462">purge()</a> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>the directory to be removed </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">level</td><td>keeps track of the number of times recursion has happened </td></tr>

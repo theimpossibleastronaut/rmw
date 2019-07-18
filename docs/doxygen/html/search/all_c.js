@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['next_5fnode',['next_node',['../structst__waste.html#aaecf64a2a63207e3ed3e8fa6545c4649',1,'st_waste']]]
+  ['open_5ferr',['open_err',['../messages__rmw_8c.html#afc6e49b216fb9c38ddb389ad3c97fbad',1,'open_err(const char *filename, const char *function_name):&#160;messages_rmw.c'],['../messages__rmw_8h.html#afc6e49b216fb9c38ddb389ad3c97fbad',1,'open_err(const char *filename, const char *function_name):&#160;messages_rmw.c']]]
 ];

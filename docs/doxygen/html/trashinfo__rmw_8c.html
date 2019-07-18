@@ -77,105 +77,21 @@ Include dependency graph for trashinfo_rmw.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="trashinfo__rmw_8c__incl.png" border="0" usemap="#src_2trashinfo__rmw_8c" alt=""/></div>
 <map name="src_2trashinfo__rmw_8c" id="src_2trashinfo__rmw_8c">
-<area shape="rect" id="node2" href="trashinfo__rmw_8h.html" title="trashinfo_rmw.h" alt="" coords="351,80,465,107"/>
-<area shape="rect" id="node14" href="utils__rmw_8h.html" title="utils_rmw.h" alt="" coords="237,80,326,107"/>
-<area shape="rect" id="node15" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="489,80,615,107"/>
-<area shape="rect" id="node3" href="rmw_8h.html" title="rmw.h" alt="" coords="379,155,437,181"/>
-<area shape="rect" id="node12" href="gettext_8h_source.html" title="gettext.h" alt="" coords="241,229,314,256"/>
-<area shape="rect" id="node16" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="772,155,876,181"/>
+<area shape="rect" id="node2" href="trashinfo__rmw_8h.html" title="trashinfo_rmw.h" alt="" coords="399,80,513,107"/>
+<area shape="rect" id="node15" href="utils__rmw_8h.html" title="utils_rmw.h" alt="" coords="285,80,374,107"/>
+<area shape="rect" id="node16" href="messages__rmw_8h.html" title="messages_rmw.h" alt="" coords="537,80,663,107"/>
+<area shape="rect" id="node3" href="rmw_8h.html" title="rmw.h" alt="" coords="427,155,485,181"/>
+<area shape="rect" id="node13" href="gettext_8h_source.html" title="gettext.h" alt="" coords="329,229,402,256"/>
+<area shape="rect" id="node17" href="strings__rmw_8h_source.html" title="strings_rmw.h" alt="" coords="812,155,916,181"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7900e6a6777838e267f1ca2bb0dad310"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="trashinfo__rmw_8c.html#a7900e6a6777838e267f1ca2bb0dad310">is_unreserved</a> (char c)</td></tr>
-<tr class="separator:a7900e6a6777838e267f1ca2bb0dad310"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90c983df6a6b5c50e9b08305220cade0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="trashinfo__rmw_8c.html#a90c983df6a6b5c50e9b08305220cade0">escape_url</a> (const char *str, char *dest, const int len)</td></tr>
-<tr class="separator:a90c983df6a6b5c50e9b08305220cade0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac352dc5f719925d334d8f6a60a837a60"><td class="memItemLeft" align="right" valign="top"><a id="ac352dc5f719925d334d8f6a60a837a60"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>create_trashinfo</b> (<a class="el" href="structrmw__target.html">rmw_target</a> *st_f_props, <a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
-<tr class="separator:ac352dc5f719925d334d8f6a60a837a60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf2d698382fb487f57259a7b09267fc0"><td class="memItemLeft" align="right" valign="top"><a id="abf2d698382fb487f57259a7b09267fc0"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>create_trashinfo</b> (<a class="el" href="structrmw__target.html">rmw_target</a> *st_f_props, <a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const char *formatted_str_time_now)</td></tr>
+<tr class="separator:abf2d698382fb487f57259a7b09267fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a90c983df6a6b5c50e9b08305220cade0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90c983df6a6b5c50e9b08305220cade0">&#9670;&nbsp;</a></span>escape_url()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool escape_url </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>str</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>len</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Convert str into a URL valid string, escaping when necessary </p><dl class="section return"><dt>Returns</dt><dd>0 on success, 1 on failure </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="trashinfo__rmw_8c.html#a7900e6a6777838e267f1ca2bb0dad310">is_unreserved</a> </dd>
-<dd>
-<a class="el" href="restore__rmw_8h.html#a80e634fc845f0381be5b996bbb36d2b8">unescape_url</a> </dd></dl>
-
-</div>
-</div>
-<a id="a7900e6a6777838e267f1ca2bb0dad310"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7900e6a6777838e267f1ca2bb0dad310">&#9670;&nbsp;</a></span>is_unreserved()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool is_unreserved </td>
-          <td>(</td>
-          <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>According to RFC2396, we must escape any character that's reserved or not available in US-ASCII, for simplification, here's the character that we must accept:</p>
-<ul>
-<li>Alphabethics (A-Z and a-z)</li>
-<li>Numerics (0-9)</li>
-<li>The following charcters: ~ _ - .</li>
-</ul>
-<p>For purposes of this application we will not convert "/"s, as in this case they correspond to their semantic meaning. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">c</td><td>the character to check returns true if the character c is unreserved </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="trashinfo__rmw_8c.html#a90c983df6a6b5c50e9b08305220cade0">escape_url</a> </dd>
-<dd>
-<a class="el" href="restore__rmw_8h.html#a80e634fc845f0381be5b996bbb36d2b8">unescape_url</a> </dd></dl>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

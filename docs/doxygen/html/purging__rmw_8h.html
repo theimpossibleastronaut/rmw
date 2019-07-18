@@ -71,13 +71,14 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;sys/stat.h&gt;</code><br />
-<code>#include &lt;time.h&gt;</code><br />
 <code>#include &lt;dirent.h&gt;</code><br />
 <code>#include &lt;unistd.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for purging_rmw.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="purging__rmw_8h__incl.png" border="0" usemap="#src_2purging__rmw_8h" alt=""/></div>
+<map name="src_2purging__rmw_8h" id="src_2purging__rmw_8h">
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -105,15 +106,15 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abbc7d6c1e1dad9e73c6f9c27ee715868"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8h.html#abbc7d6c1e1dad9e73c6f9c27ee715868">purge</a> (const <a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const <a class="el" href="structrmw__options.html">rmw_options</a> *cli_user_options)</td></tr>
-<tr class="separator:abbc7d6c1e1dad9e73c6f9c27ee715868"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4f76b5e2cc8aa99c69d77965dd6cd72"><td class="memItemLeft" align="right" valign="top"><a id="af4f76b5e2cc8aa99c69d77965dd6cd72"></a>
-short&#160;</td><td class="memItemRight" valign="bottom"><b>orphan_maint</b> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
-<tr class="separator:af4f76b5e2cc8aa99c69d77965dd6cd72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9605690569abc4611caf668634f462"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="purging__rmw_8h.html#a2a9605690569abc4611caf668634f462">purge</a> (const <a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const <a class="el" href="structrmw__options.html">rmw_options</a> *cli_user_options, time_t time_t_now)</td></tr>
+<tr class="separator:a2a9605690569abc4611caf668634f462"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7c94f505bf1a89f7682ceb0fbae7849"><td class="memItemLeft" align="right" valign="top"><a id="ac7c94f505bf1a89f7682ceb0fbae7849"></a>
+short&#160;</td><td class="memItemRight" valign="bottom"><b>orphan_maint</b> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr, const char *formatted_str_time_now)</td></tr>
+<tr class="separator:ac7c94f505bf1a89f7682ceb0fbae7849"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="abbc7d6c1e1dad9e73c6f9c27ee715868"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbc7d6c1e1dad9e73c6f9c27ee715868">&#9670;&nbsp;</a></span>purge()</h2>
+<a id="a2a9605690569abc4611caf668634f462"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9605690569abc4611caf668634f462">&#9670;&nbsp;</a></span>purge()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -128,7 +129,13 @@ short&#160;</td><td class="memItemRight" valign="bottom"><b>orphan_maint</b> (<a
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const <a class="el" href="structrmw__options.html">rmw_options</a> *&#160;</td>
-          <td class="paramname"><em>cli_user_options</em>&#160;</td>
+          <td class="paramname"><em>cli_user_options</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">time_t&#160;</td>
+          <td class="paramname"><em>time_t_now</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -144,7 +151,7 @@ short&#160;</td><td class="memItemRight" valign="bottom"><b>orphan_maint</b> (<a
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>error number </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="rmw_8h.html#a8cde99d90ef9fc51ae93e1fee557fe2e">is_time_to_purge</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="rmw_8h.html#ab4dab18901ba813957363f7442da701c">is_time_to_purge</a> </dd>
 <dd>
 <a class="el" href="purging__rmw_8c.html#a0b77956b6dd10e0bb4e7d3432c0ab5bc">get_then_time</a> </dd></dl>
 

@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['time_5fnow',['time_now',['../rmw_8c.html#afa8cbc915324c0c660a01e0e234eeac2',1,'rmw.c']]],
-  ['translate_5fconfig',['translate_config',['../config__rmw_8c.html#ad1ad9cfc7a2943e9fe0c7ceed914e84f',1,'translate_config(void):&#160;config_rmw.c'],['../config__rmw_8h.html#ad1ad9cfc7a2943e9fe0c7ceed914e84f',1,'translate_config(void):&#160;config_rmw.c']]],
-  ['trashinfo_5frmw_2ec',['trashinfo_rmw.c',['../trashinfo__rmw_8c.html',1,'']]],
-  ['trashinfo_5frmw_2eh',['trashinfo_rmw.h',['../trashinfo__rmw_8h.html',1,'']]],
-  ['trim_5fchar',['trim_char',['../strings__rmw_8c.html#abcb68bf296f2b7568e7c1012e10ce8cf',1,'strings_rmw.c']]],
-  ['trim_5fwhite_5fspace',['trim_white_space',['../strings__rmw_8c.html#a1736cdaa245ee93bf06301101c143f7f',1,'strings_rmw.c']]],
-  ['trivial_5frmw_2ec',['trivial_rmw.c',['../trivial__rmw_8c.html',1,'']]],
-  ['trivial_5frmw_2eh',['trivial_rmw.h',['../trivial__rmw_8h.html',1,'']]],
-  ['truncate_5fstr',['truncate_str',['../strings__rmw_8c.html#a0138c90cfecf7011d4dbc07dc81d29bb',1,'strings_rmw.c']]]
+  ['undo_5flast_5frmw',['undo_last_rmw',['../restore__rmw_8c.html#a30eaef2a8f85619df65aaf7728121eeb',1,'undo_last_rmw(st_waste *waste_curr):&#160;restore_rmw.c'],['../restore__rmw_8h.html#a30eaef2a8f85619df65aaf7728121eeb',1,'undo_last_rmw(st_waste *waste_curr):&#160;restore_rmw.c']]],
+  ['unescape_5furl',['unescape_url',['../utils__rmw_8c.html#a80e634fc845f0381be5b996bbb36d2b8',1,'unescape_url(const char *str, char *dest, const int len):&#160;utils_rmw.c'],['../utils__rmw_8h.html#a80e634fc845f0381be5b996bbb36d2b8',1,'unescape_url(const char *str, char *dest, const int len):&#160;utils_rmw.c']]],
+  ['user_5fverify',['user_verify',['../utils__rmw_8c.html#a94a6ce8721de6a492bb03e8eb8eb2607',1,'user_verify(void):&#160;utils_rmw.c'],['../utils__rmw_8h.html#a94a6ce8721de6a492bb03e8eb8eb2607',1,'user_verify(void):&#160;utils_rmw.c']]],
+  ['utils_5frmw_2ec',['utils_rmw.c',['../utils__rmw_8c.html',1,'']]],
+  ['utils_5frmw_2eh',['utils_rmw.h',['../utils__rmw_8h.html',1,'']]]
 ];

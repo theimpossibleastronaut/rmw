@@ -108,8 +108,50 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>human_readable_size
 <tr class="memitem:a1e8ff9a615621da0d60c6aa715623208"><td class="memItemLeft" align="right" valign="top"><a id="a1e8ff9a615621da0d60c6aa715623208"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_modified</b> (const char *file, const int dev, const int inode)</td></tr>
 <tr class="separator:a1e8ff9a615621da0d60c6aa715623208"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90c983df6a6b5c50e9b08305220cade0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__rmw_8h.html#a90c983df6a6b5c50e9b08305220cade0">escape_url</a> (const char *str, char *dest, const int len)</td></tr>
+<tr class="separator:a90c983df6a6b5c50e9b08305220cade0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80e634fc845f0381be5b996bbb36d2b8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils__rmw_8h.html#a80e634fc845f0381be5b996bbb36d2b8">unescape_url</a> (const char *str, char *dest, const int len)</td></tr>
+<tr class="separator:a80e634fc845f0381be5b996bbb36d2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a90c983df6a6b5c50e9b08305220cade0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90c983df6a6b5c50e9b08305220cade0">&#9670;&nbsp;</a></span>escape_url()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool escape_url </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Convert str into a URL valid string, escaping when necessary </p><dl class="section return"><dt>Returns</dt><dd>0 on success, 1 on failure </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="utils__rmw_8c.html#a7900e6a6777838e267f1ca2bb0dad310">is_unreserved</a> </dd>
+<dd>
+<a class="el" href="utils__rmw_8c.html#a80e634fc845f0381be5b996bbb36d2b8">unescape_url</a> </dd></dl>
+
+</div>
+</div>
 <a id="a832187570e36a515753dd52417eb3993"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a832187570e36a515753dd52417eb3993">&#9670;&nbsp;</a></span>exists()</h2>
 
@@ -152,6 +194,41 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_modified</b> (cons
 </div><div class="memdoc">
 <p><a class="el" href="utils__rmw_8c.html#a0260c34fc5cbcb4b23164887da9e8321">make_dir()</a></p>
 <p>Check for the existence of a dir, and create it if not found. Also creates parent directories. </p>
+
+</div>
+</div>
+<a id="a80e634fc845f0381be5b996bbb36d2b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80e634fc845f0381be5b996bbb36d2b8">&#9670;&nbsp;</a></span>unescape_url()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool unescape_url </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Convert a URL valid string into a regular string, unescaping any ''s that appear. returns 0 on succes, 1 on failure </p>
 
 </div>
 </div>
