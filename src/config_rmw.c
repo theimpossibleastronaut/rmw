@@ -119,22 +119,31 @@ translate_config (void)
  * Erases characters from the beginning of a string (i.e. shifts the
  * remaining string to the left.
  *
- * What really happens is that the address of str_addr is moved to the right.
- * Because this function alters the address of str_address (rather than characters
- * within the string itself), the address to str_addr (pointer to a pointer)
- * is passed.
- *
  * @param[in] c the character to erase
- * @param[out] &str reference to the string you want to change
+ * @param[out] src_str reference to the string you want to change
  * @return void
  *
- * Example: @code del_char_shift_left ('=', &src_string); @endcode
+ * Example: @code del_char_shift_left ('=', src_string); @endcode
  */
 static void
-del_char_shift_left (const char c, char **str)
+del_char_shift_left (const char c, char *src_str)
 {
-  while (**str == c)
-    (*str)++;
+  char *pos_ptr = src_str;
+  if (*pos_ptr++ != c)
+    return;
+
+  char dest_str[strlen (src_str) + 1];
+
+  while (*(pos_ptr) == c)
+    pos_ptr++;
+
+  int i = 0;
+  do
+  {
+    dest_str[i++] = *pos_ptr;
+  } while (*(pos_ptr++) != '\0');
+
+  strcpy (src_str, dest_str);
 
   return;
 }
@@ -142,16 +151,17 @@ del_char_shift_left (const char c, char **str)
 /*!
  * If "$HOME" or "~" is used in the configuration file, convert it
  * to the literal value.
- * @param[out] &str reference to the string containing \b $HOME or \b ~
+ * @param[out] str The string containing \b $HOME or \b ~
  * @return void
  *
  * Example:
- * @code realize_home (&config_line); @endcode
+ * @code realize_home (config_line); @endcode
  */
 static void
-realize_home (char **str)
+realize_home (char *str)
 {
-  trim_char ('/', *str);
+  char *str_ptr = str;
+  trim_char ('/', str_ptr);
 
   /*
    *
@@ -159,18 +169,23 @@ realize_home (char **str)
    * on Windows
    *
    */
-  del_char_shift_left (' ', str);
-  if (**str == '~')
-    del_char_shift_left ('~', str);
-  else if (strncmp (*str, "$HOME", 5) == 0)
-    *str += 5;
+  del_char_shift_left (' ', str_ptr);
+  if (*str_ptr == '~')
+    del_char_shift_left ('~', str_ptr);
+  else if (strncmp (str_ptr, "$HOME", 5) == 0)
+    str_ptr += 5;
   else
+  {
+    // puts ("DEBUG: returning...");
     return;
+  }
 
   char tmp_str[MP];
   extern const char *HOMEDIR;
-  snprintf (tmp_str, MP, "%s%s", HOMEDIR, *str);
-  snprintf (*str, MP, "%s", tmp_str);
+  snprintf (tmp_str, MP, "%s%s", HOMEDIR, str_ptr);
+  strcpy (str, tmp_str);
+  // puts ("DEBUG:");
+  // puts (str);
   return;
 }
 
@@ -193,8 +208,8 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
   bool removable = 0;
 
   char *value = strchr (line_from_config, '=');
-  del_char_shift_left ('=', &value);
-  del_char_shift_left (' ', &value);
+  del_char_shift_left ('=', value);
+  del_char_shift_left (' ', value);
 
   char rem_opt[CFG_LINE_LEN_MAX];
   bufchk (value, CFG_LINE_LEN_MAX);
@@ -207,8 +222,8 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
     char *comma_pos = strchr (value, ',');
     *comma_pos = '\0';
 
-    del_char_shift_left (',', &comma_val);
-    del_char_shift_left (' ', &comma_val);
+    del_char_shift_left (',', comma_val);
+    del_char_shift_left (' ', comma_val);
 
     if (strcmp ("removable", comma_val) == 0)
       removable = 1;
@@ -220,7 +235,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
     }
   }
 
-  realize_home (&value);
+  realize_home (value);
 
   if (removable && !exists (value))
   {
@@ -440,13 +455,13 @@ get_config_data (const rmw_options * cli_user_options)
 
   st_waste *waste_head = NULL;
   st_waste *waste_curr = NULL;
-  char *line_from_config = calloc (CFG_LINE_LEN_MAX + 1, 1);
+  char line_from_config[CFG_LINE_LEN_MAX + 1];
   while (fgets (line_from_config, CFG_LINE_LEN_MAX, config_ptr) != NULL)
   {
     bool do_continue = 0;
     bufchk (line_from_config, CFG_LINE_LEN_MAX);
     trim_white_space (line_from_config);
-    del_char_shift_left (' ', &line_from_config);
+    del_char_shift_left (' ', line_from_config);
 
     switch (*line_from_config)
     {
@@ -462,8 +477,8 @@ get_config_data (const rmw_options * cli_user_options)
         strncmp (line_from_config, "purgeDays", 9) == 0)
     {
       char *value = strchr (line_from_config, '=');
-      del_char_shift_left ('=', &value);
-      del_char_shift_left (' ', &value);
+      del_char_shift_left ('=', value);
+      del_char_shift_left (' ', value);
       purge_after = atoi (value);
     }
     else if (!strcmp (line_from_config, "force_required"))
@@ -496,8 +511,6 @@ get_config_data (const rmw_options * cli_user_options)
     if (waste_curr != NULL && waste_head == NULL)
       waste_head = waste_curr;
   }
-
-  free (line_from_config);
 
   close_file (config_ptr, config_file, __func__);
 

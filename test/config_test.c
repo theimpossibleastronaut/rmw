@@ -16,13 +16,13 @@ test_realize_home(void)
   chk_malloc (config_line, __func__, __LINE__);
 
   strcpy (config_line, "$HOME/.trash.rmw/");
-  realize_home (&config_line);
+  realize_home (config_line);
   printf ("%s\n", config_line);
   assert (!strcmp (config_line, "/home/andy/.trash.rmw"));
 
   strcpy (config_line, "~/.trash.rmw/");
   printf ("%s\n", config_line);
-  realize_home (&config_line);
+  realize_home (config_line);
   assert (!strcmp (config_line, "/home/andy/.trash.rmw"));
 }
 
@@ -33,13 +33,13 @@ test_del_char_shift_left (void)
   chk_malloc (config_line, __func__, __LINE__);
 
   strcpy (config_line, "    Hello, World");
-  del_char_shift_left (' ', &config_line);
+  del_char_shift_left (' ', config_line);
   assert (!strcmp (config_line, "Hello, World"));
 
-  del_char_shift_left (' ', &config_line);
+  del_char_shift_left (' ', config_line);
   assert (!strcmp (config_line, "Hello, World"));
 
-  del_char_shift_left ('H', &config_line);
+  del_char_shift_left ('H', config_line);
   assert (!strcmp (config_line, "ello, World"));
 }
 
