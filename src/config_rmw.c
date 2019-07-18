@@ -120,7 +120,7 @@ translate_config (void)
  * remaining string to the left.
  *
  * @param[in] c the character to erase
- * @param[out] src_str reference to the string you want to change
+ * @param[out] src_str the string you want to change
  * @return void
  *
  * Example: @code del_char_shift_left ('=', src_string); @endcode
