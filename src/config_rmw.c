@@ -128,20 +128,16 @@ translate_config (void)
 static void
 del_char_shift_left (const char c, char *src_str)
 {
-  char *pos_ptr = src_str;
-  if (*pos_ptr++ != c)
+  if (*src_str != c)
     return;
 
-  char dest_str[strlen (src_str) + 1];
+  char *str_ptr = src_str;
+  while (*str_ptr == c)
+    str_ptr++;
 
-  while (*(pos_ptr) == c)
-    pos_ptr++;
-
-  int i = 0;
-  do
-  {
-    dest_str[i++] = *pos_ptr;
-  } while (*(pos_ptr++) != '\0');
+  // copy the string pointed to so source and destination overlap
+  char dest_str[strlen (str_ptr) + 1];
+  strcpy (dest_str, str_ptr);
 
   strcpy (src_str, dest_str);
 
