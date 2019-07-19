@@ -271,9 +271,8 @@ Please check your configuration file and permissions\n\n"));
       waste_curr = waste_curr->next_node;
     }
 
-    waste_curr = waste_head;
-    dispose_waste (waste_curr);
-    free (waste_head);
+    dispose_waste (waste_head);
+    free (HOMEDIR);
     return 0;
   }
 
@@ -311,7 +310,11 @@ Please check your configuration file and permissions\n\n"));
   if (cli_user_options.want_selection_menu)
   {
     waste_curr = waste_head;
-    return restore_select (waste_curr);
+    int result = restore_select (waste_curr);
+    dispose_waste (waste_head);
+    free (time_str_appended);
+    free (HOMEDIR);
+    return result;
   }
 
   /* FIXME:
@@ -321,6 +324,9 @@ Please check your configuration file and permissions\n\n"));
   {
     waste_curr = waste_head;
     undo_last_rmw (waste_curr);
+    dispose_waste (waste_head);
+    free (time_str_appended);
+    free (HOMEDIR);
     return 0;
   }
 
@@ -450,8 +456,11 @@ Please check your configuration file and permissions\n\n"));
       }
     }
 
-    if (confirmed_removals_list != NULL)
-      create_undo_file (confirmed_removals_list, confirmed_removals_list_head);
+    if (confirmed_removals_list_head != NULL)
+    {
+      create_undo_file (confirmed_removals_list_head);
+      dispose_removed (confirmed_removals_list_head);
+    }
 
     printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
             removed_files_ctr), removed_files_ctr);
@@ -466,9 +475,7 @@ Please check your configuration file and permissions\n\n"));
 Enter '%s -h' for more information\n"), argv[0]);
   }
 
-  waste_curr = waste_head;
-  dispose_waste (waste_curr);
-  free (waste_head);
+  dispose_waste (waste_head);
   free (time_str_appended);
   free (HOMEDIR);
 
@@ -649,22 +656,20 @@ dispose_removed (st_removed *node)
  * @see add_removal
  */
 void
-create_undo_file (st_removed *removals, st_removed *removals_head)
+create_undo_file (st_removed *removals_head)
 {
   char undo_path[MP];
   bufchk (UNDO_FILE, MP - strlen (HOMEDIR));
   sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
-
   FILE *undo_file_ptr = fopen (undo_path, "w");
   if (undo_file_ptr != NULL)
   {
-    removals = removals_head;
-    while (removals != NULL)
+    st_removed *st_removals_list = removals_head;
+    while (st_removals_list != NULL)
     {
-      fprintf (undo_file_ptr, "%s\n", removals->file);
-      removals = removals->next_node;
+      fprintf (undo_file_ptr, "%s\n", st_removals_list->file);
+      st_removals_list = st_removals_list->next_node;
     }
-    dispose_removed (removals);
     close_file (undo_file_ptr, undo_path, __func__);
   }
   else

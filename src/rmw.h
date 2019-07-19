@@ -212,7 +212,7 @@ void
 rmw_option_init (struct rmw_options *x);
 
 void
-create_undo_file (st_removed *removals, st_removed *removals_head);
+create_undo_file (st_removed *removals_head);
 
 void
 dispose_removed (st_removed *node);

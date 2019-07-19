@@ -255,7 +255,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
     goto DO_CONT;
   }
 
-  st_waste *temp_node = (st_waste *) malloc (sizeof (st_waste));
+  st_waste *temp_node = malloc (sizeof (st_waste));
   chk_malloc (temp_node, __func__, __LINE__);
 
   if (waste_curr != NULL)
@@ -269,6 +269,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
     waste_curr = temp_node;
     waste_curr->prev_node = NULL;
   }
+  waste_curr->next_node = NULL;
 
   waste_curr->removable = removable ? true : false;
 
@@ -522,8 +523,6 @@ visit the rmw web site at\n"));
     msg_return_code (NO_WASTE_FOLDER);
     exit (NO_WASTE_FOLDER);
   }
-  else
-    waste_curr->next_node = NULL;
 
   return waste_head;
 }

@@ -115,9 +115,9 @@ dispose_waste (st_waste *node)
   if (node != NULL)
   {
     dispose_waste (node->next_node);
-    node = NULL;
     free (node);
   }
+  return;
 }
 
 char *
