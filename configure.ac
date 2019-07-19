@@ -10,7 +10,7 @@ AC_CONFIG_HEADERS([src/config.h:config.in])
 
 # RELEASE TODO
 # set to "no"
-AX_CHECK_ENABLE_DEBUG([no])
+AX_CHECK_ENABLE_DEBUG([yes])
 
 AC_PROG_CC
 AC_PROG_CC_STDC

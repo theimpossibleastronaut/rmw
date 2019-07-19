@@ -2942,7 +2942,7 @@ ac_config_headers="$ac_config_headers src/config.h:config.in"
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable debugging" >&5
 $as_echo_n "checking whether to enable debugging... " >&6; }
 
-    ax_enable_debug_default=no
+    ax_enable_debug_default=yes
     ax_enable_debug_is_release=$ax_is_release
 
     # If this is a release, override the default.
