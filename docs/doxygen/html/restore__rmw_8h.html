@@ -99,16 +99,16 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1ae279a7200b8c93717bcfd6e45cbe57"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8h.html#a1ae279a7200b8c93717bcfd6e45cbe57">Restore</a> (const char *argv, <a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
-<tr class="separator:a1ae279a7200b8c93717bcfd6e45cbe57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03c348b05998a89318246f00275fce89"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8h.html#a03c348b05998a89318246f00275fce89">restore_select</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
-<tr class="separator:a03c348b05998a89318246f00275fce89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30eaef2a8f85619df65aaf7728121eeb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8h.html#a30eaef2a8f85619df65aaf7728121eeb">undo_last_rmw</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr)</td></tr>
-<tr class="separator:a30eaef2a8f85619df65aaf7728121eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaf9786ab8ae25064839694ddfc9b4e9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8h.html#aaaf9786ab8ae25064839694ddfc9b4e9">Restore</a> (const char *argv, <a class="el" href="structst__waste.html">st_waste</a> *waste_curr, <a class="el" href="structst__time.html">st_time</a> *st_time_var)</td></tr>
+<tr class="separator:aaaf9786ab8ae25064839694ddfc9b4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c6b27b1c845d57e4b4aaf07928e4d8b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8h.html#a2c6b27b1c845d57e4b4aaf07928e4d8b">restore_select</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr, <a class="el" href="structst__time.html">st_time</a> *st_time_var)</td></tr>
+<tr class="separator:a2c6b27b1c845d57e4b4aaf07928e4d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acda02966680a749989128845a77b17a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="restore__rmw_8h.html#acda02966680a749989128845a77b17a0">undo_last_rmw</a> (<a class="el" href="structst__waste.html">st_waste</a> *waste_curr, <a class="el" href="structst__time.html">st_time</a> *st_time_var)</td></tr>
+<tr class="separator:acda02966680a749989128845a77b17a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a1ae279a7200b8c93717bcfd6e45cbe57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ae279a7200b8c93717bcfd6e45cbe57">&#9670;&nbsp;</a></span>Restore()</h2>
+<a id="aaaf9786ab8ae25064839694ddfc9b4e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaf9786ab8ae25064839694ddfc9b4e9">&#9670;&nbsp;</a></span>Restore()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -123,7 +123,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="structst__waste.html">st_waste</a> *&#160;</td>
-          <td class="paramname"><em>waste_curr</em>&#160;</td>
+          <td class="paramname"><em>waste_curr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structst__time.html">st_time</a> *&#160;</td>
+          <td class="paramname"><em>st_time_var</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -142,9 +148,9 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>an error code </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8c.html#a03c348b05998a89318246f00275fce89">restore_select</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8c.html#a2c6b27b1c845d57e4b4aaf07928e4d8b">restore_select</a> </dd>
 <dd>
-<a class="el" href="restore__rmw_8c.html#a30eaef2a8f85619df65aaf7728121eeb">undo_last_rmw</a> </dd></dl>
+<a class="el" href="restore__rmw_8c.html#acda02966680a749989128845a77b17a0">undo_last_rmw</a> </dd></dl>
 <p>The 2 code blocks below address restoring files with only the basename #14</p>
 <p>Not using the "[Trash Info]" line, but reading the file sequentially</p>
 <p>adding 5 for the 'Path=' preceding the path.</p>
@@ -152,8 +158,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a03c348b05998a89318246f00275fce89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03c348b05998a89318246f00275fce89">&#9670;&nbsp;</a></span>restore_select()</h2>
+<a id="a2c6b27b1c845d57e4b4aaf07928e4d8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c6b27b1c845d57e4b4aaf07928e4d8b">&#9670;&nbsp;</a></span>restore_select()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,8 +168,18 @@ Functions</h2></td></tr>
           <td class="memname">int restore_select </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structst__waste.html">st_waste</a> *&#160;</td>
-          <td class="paramname"><em>waste_curr</em></td><td>)</td>
+          <td class="paramname"><em>waste_curr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="structst__time.html">st_time</a> *&#160;</td>
+          <td class="paramname"><em>st_time_var</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -176,7 +192,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>an error number </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8c.html#a1ae279a7200b8c93717bcfd6e45cbe57">Restore()</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="restore__rmw_8c.html#aaaf9786ab8ae25064839694ddfc9b4e9">Restore()</a> </dd>
 <dd>
 <a class="el" href="utils__rmw_8c.html#a7900e6a6777838e267f1ca2bb0dad310">is_unreserved</a> </dd>
 <dd>
@@ -184,8 +200,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a30eaef2a8f85619df65aaf7728121eeb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30eaef2a8f85619df65aaf7728121eeb">&#9670;&nbsp;</a></span>undo_last_rmw()</h2>
+<a id="acda02966680a749989128845a77b17a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acda02966680a749989128845a77b17a0">&#9670;&nbsp;</a></span>undo_last_rmw()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -194,8 +210,18 @@ Functions</h2></td></tr>
           <td class="memname">void undo_last_rmw </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structst__waste.html">st_waste</a> *&#160;</td>
-          <td class="paramname"><em>waste_curr</em></td><td>)</td>
+          <td class="paramname"><em>waste_curr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="structst__time.html">st_time</a> *&#160;</td>
+          <td class="paramname"><em>st_time_var</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -211,7 +237,7 @@ Functions</h2></td></tr>
 <dd>
 <a class="el" href="rmw_8h.html#a824639431a0e94ac76721f576adb9b83">add_removal</a> </dd>
 <dd>
-<a class="el" href="restore__rmw_8c.html#a1ae279a7200b8c93717bcfd6e45cbe57">Restore</a> </dd></dl>
+<a class="el" href="restore__rmw_8c.html#aaaf9786ab8ae25064839694ddfc9b4e9">Restore</a> </dd></dl>
 
 </div>
 </div>
