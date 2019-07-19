@@ -29,7 +29,7 @@
 #ifndef TEST_LIB /* for ticket https://github.com/theimpossibleastronaut/rmw/issues/243 */
 
 int
-create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, const char *formatted_str_time_now)
+create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
 {
   /*
    * there already should have been buffer checking on these 2 when they were
@@ -53,10 +53,9 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
 
   if (st_f_props->is_duplicate)
   {
-    extern const char *time_str_appended;
-    int req_len = multi_strlen (final_info_dest, time_str_appended, NULL);
+    int req_len = multi_strlen (final_info_dest, st_time_var->suffix_added_dup_exists, NULL);
     bufchk_len (req_len, MP, __func__, __LINE__);
-    strncat (final_info_dest, time_str_appended, strlen (final_info_dest));
+    strncat (final_info_dest, st_time_var->suffix_added_dup_exists, strlen (final_info_dest));
   }
 
   req_len = multi_strlen (final_info_dest, DOT_TRASHINFO, NULL);
@@ -80,12 +79,12 @@ printf ("[Trash Info]\n");
 DEBUG_PREFIX
 printf ("Path=%s\n", escaped_path);
 DEBUG_PREFIX
-printf ("DeletionDate=%s\n", formatted_str_time_now);
+printf ("DeletionDate=%s\n", st_time_var->deletion_date);
 #endif
 
     fprintf (fp, "[Trash Info]\n");
     fprintf (fp, "Path=%s\n", escaped_path);
-    fprintf (fp, "DeletionDate=%s\n", formatted_str_time_now);
+    fprintf (fp, "DeletionDate=%s\n", st_time_var->deletion_date);
 
     return close_file (fp, final_info_dest, __func__);
   }

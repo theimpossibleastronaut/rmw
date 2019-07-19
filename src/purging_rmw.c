@@ -257,7 +257,10 @@ out:
  * @see get_then_time
  */
 int
-purge (const st_waste * waste_curr, const rmw_options * cli_user_options, time_t time_t_now)
+purge (
+  const st_waste * waste_curr,
+  const rmw_options * cli_user_options,
+  st_time *st_time_var)
 {
   extern const int purge_after;
   if (!purge_after)
@@ -334,7 +337,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options, time_t
       if (!cli_user_options->want_empty_trash && !(then = get_then_time(st_trashinfo_dir_entry, trashinfo_entry_realpath)))
           continue;
 
-      if (then + (SECONDS_IN_A_DAY * purge_after) <= time_t_now || cli_user_options->want_empty_trash)
+      if (then + (SECONDS_IN_A_DAY * purge_after) <= st_time_var->now || cli_user_options->want_empty_trash)
       {
         char corresponding_file_to_purge[MP];
         strcpy (corresponding_file_to_purge, waste_curr->files);
@@ -477,7 +480,7 @@ purge (const st_waste * waste_curr, const rmw_options * cli_user_options, time_t
 #ifndef TEST_LIB
 
 short
-orphan_maint (st_waste * waste_curr, const char *formatted_str_time_now)
+orphan_maint (st_waste * waste_curr, st_time *st_time_var)
 {
   rmw_target st_file_properties;
 
@@ -520,7 +523,7 @@ orphan_maint (st_waste * waste_curr, const char *formatted_str_time_now)
       snprintf (st_file_properties.real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
                st_file_properties.base_name);
 
-      if (!create_trashinfo (&st_file_properties, waste_curr, formatted_str_time_now))
+      if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))
       {
         /* TRANSLATORS:  "created" refers to a file  */
         printf (_("Created %s\n"), path_to_trashinfo);

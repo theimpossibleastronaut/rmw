@@ -49,7 +49,7 @@
  * @see undo_last_rmw
  */
 int
-Restore (const char *argv, st_waste *waste_curr)
+Restore (const char *argv, st_waste *waste_curr, st_time *st_time_var)
 {
   static struct restore
   {
@@ -81,7 +81,7 @@ Restore (const char *argv, st_waste *waste_curr)
 
       strcat (possibly_in_path, file_arg);
 
-      msg_warn_restore (Restore (possibly_in_path, waste_curr));
+      msg_warn_restore (Restore (possibly_in_path, waste_curr, st_time_var));
       waste_curr = waste_curr->next_node;
     }
 
@@ -162,9 +162,8 @@ Restore (const char *argv, st_waste *waste_curr)
          */
         if (exists (file.dest))
         {
-          extern const char *time_str_appended;
-          bufchk (time_str_appended, MP - strlen (file.dest));
-          strcat (file.dest, time_str_appended);
+          bufchk (st_time_var->suffix_added_dup_exists, MP - strlen (file.dest));
+          strcat (file.dest, st_time_var->suffix_added_dup_exists);
 
           if (verbose)
             printf (_("\
@@ -246,7 +245,7 @@ Duplicate filename at destination - appending time string...\n"));
  * @see escape_url
  */
 int
-restore_select (st_waste *waste_curr)
+restore_select (st_waste *waste_curr, st_time *st_time_var)
 {
   int c = 0;
 
@@ -390,7 +389,7 @@ restore_select (st_waste *waste_curr)
         {
           static char recover_file[PATH_MAX + 1];
           sprintf (recover_file, "%s%s", waste_curr->files, item_name (items[i]));
-          msg_warn_restore(Restore (recover_file, waste_curr));
+          msg_warn_restore(Restore (recover_file, waste_curr, st_time_var));
         }
       }
     }
@@ -416,7 +415,7 @@ restore_select (st_waste *waste_curr)
  * @see Restore
  */
 void
-undo_last_rmw (st_waste *waste_curr)
+undo_last_rmw (st_waste *waste_curr, st_time *st_time_var)
 {
   FILE *undo_file_ptr;
   static char undo_path[MP];
@@ -443,7 +442,7 @@ undo_last_rmw (st_waste *waste_curr)
   {
     int result = 0;
     trim_white_space (line);
-    result = Restore (line, waste_curr);
+    result = Restore (line, waste_curr, st_time_var);
     msg_warn_restore (result);
     err_ctr += result;
   }

@@ -41,11 +41,6 @@
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
-
-/* used by get_time_string() */
-#define LEN_TIME_NOW 19 + 1
-#define LEN_TIME_STR_APPENDED 14 + 1
-
 /*
  * These variables are used by only a few functions and don't need to be global.
  * Will use "extern" to declare them where they are needed.
@@ -54,8 +49,6 @@
 
 /*! The users HOME directory */
 char *HOMEDIR;
-
-char *time_str_appended;
 
 /*! Read from the user's config file */
 int purge_after = 0;
@@ -276,43 +269,29 @@ Please check your configuration file and permissions\n\n"));
     return 0;
   }
 
-  char t_fmt[LEN_TIME_NOW] = "";
-  set_time_now_format(t_fmt);
+  st_time st_time_var;
+  time_var_init (&st_time_var);
 
-  /*
-   * The length of the format above never exceeds 20 (including the NULL
-   * terminator) and is defined by LEN_TIME_NOW
-   *
-   */
-  char formatted_str_time_now[LEN_TIME_NOW];
-  time_t time_t_now = time (NULL);
-  get_time_string (formatted_str_time_now, LEN_TIME_NOW, t_fmt, &time_t_now);
-
-  if (cli_user_options.want_purge || is_time_to_purge(time_t_now))
+  if (cli_user_options.want_purge || is_time_to_purge(&st_time_var))
   {
     if (!force_required || cli_user_options.force)
-      purge (waste_curr, &cli_user_options, time_t_now);
+      purge (waste_curr, &cli_user_options, &st_time_var);
     else
       printf (_("purge has been skipped: use -f or --force\n"));
   }
 
-  /* String appended to duplicate filenames */
-  time_str_appended = calloc (LEN_TIME_STR_APPENDED, 1);
-  get_time_string (time_str_appended, LEN_TIME_STR_APPENDED, "_%H%M%S-%y%m%d", &time_t_now);
-
   if (cli_user_options.want_orphan_chk)
   {
     waste_curr = waste_head;
-    orphan_maint(waste_curr, formatted_str_time_now);
+    orphan_maint(waste_curr, &st_time_var);
     return 0;
   }
 
   if (cli_user_options.want_selection_menu)
   {
     waste_curr = waste_head;
-    int result = restore_select (waste_curr);
+    int result = restore_select (waste_curr, &st_time_var);
     dispose_waste (waste_head);
-    free (time_str_appended);
     free (HOMEDIR);
     return result;
   }
@@ -323,9 +302,8 @@ Please check your configuration file and permissions\n\n"));
   if (cli_user_options.want_undo)
   {
     waste_curr = waste_head;
-    undo_last_rmw (waste_curr);
+    undo_last_rmw (waste_curr, &st_time_var);
     dispose_waste (waste_head);
-    free (time_str_appended);
     free (HOMEDIR);
     return 0;
   }
@@ -341,7 +319,7 @@ Please check your configuration file and permissions\n\n"));
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
     {
       waste_curr = waste_head;
-      msg_warn_restore(restore_errors += Restore (argv[file_arg], waste_curr));
+      msg_warn_restore(restore_errors += Restore (argv[file_arg], waste_curr, &st_time_var));
     }
 
     return restore_errors;
@@ -410,9 +388,9 @@ Please check your configuration file and permissions\n\n"));
           if ((st_file_properties.is_duplicate = exists (st_file_properties.waste_dest_name)))
           {
             // append a time string
-            int req_len = multi_strlen (st_file_properties.waste_dest_name, time_str_appended, NULL) + 1;
+            int req_len = multi_strlen (st_file_properties.waste_dest_name, st_time_var.suffix_added_dup_exists, NULL) + 1;
             bufchk_len (req_len, MP, __func__, __LINE__);
-            strncat (st_file_properties.waste_dest_name, time_str_appended,
+            strncat (st_file_properties.waste_dest_name, st_time_var.suffix_added_dup_exists,
                       strlen (st_file_properties.waste_dest_name));
           }
 
@@ -423,7 +401,7 @@ Please check your configuration file and permissions\n\n"));
 
             removed_files_ctr++;
 
-            if (!create_trashinfo (&st_file_properties, waste_curr, formatted_str_time_now))
+            if (!create_trashinfo (&st_file_properties, waste_curr, &st_time_var))
             {
               confirmed_removals_list = add_removal (confirmed_removals_list, st_file_properties.waste_dest_name);
               if (confirmed_removals_list_head == NULL)
@@ -476,7 +454,6 @@ Enter '%s -h' for more information\n"), argv[0]);
   }
 
   dispose_waste (waste_head);
-  free (time_str_appended);
   free (HOMEDIR);
 
   return 0;
@@ -498,44 +475,6 @@ rmw_option_init (rmw_options *options)
 
 }
 
-/*!
- * Returns a formatted string based on whether or not
- * a fake year is requested at runtime. If a fake-year is not requested,
- * the returned string will be based on the local-time of the user's system.
- * @param[in,out] t_fmt The time format used.
- * @return void
- */
-void
-set_time_now_format (char *t_fmt)
-{
-  if  (getenv ("RMWTRASH") == NULL ||
-      (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
-    snprintf (t_fmt, LEN_TIME_NOW, "%s", "%FT%T");
-  else
-  {
-    printf ("  :test mode: Using fake year\n");
-    snprintf (t_fmt, LEN_TIME_NOW, "%s", "1999-%m-%dT%T");
-  }
-
-  return;
-}
-
-/*!
- * Assigns a time string to *tm_str based on the format requested
- * @param[out] tm_str assigned a new value based on format
- * @param[in] len the max length of string to be allocated
- * @param[in] format the format of the string
- * @return void
- */
-void
-get_time_string (char *tm_str, const ushort len, const char *format, time_t *time_t_now)
-{
-  struct tm *time_ptr;
-  time_ptr = localtime (time_t_now);
-  strftime (tm_str, len, format, time_ptr);
-  trim_white_space (tm_str);
-  bufchk (tm_str, len);
-}
 
 /*!
  * Called in @ref main() to determine whether or not @ref purge() was run today, reads
@@ -546,7 +485,7 @@ get_time_string (char *tm_str, const ushort len, const char *format, time_t *tim
  * writes the current day to 'lastpurge'
  */
 bool
-is_time_to_purge (time_t time_t_now)
+is_time_to_purge (st_time *st_time_var)
 {
   const int BUF_TIME = 80;
   int req_len = multi_strlen (HOMEDIR, PURGE_DAY_FILE, NULL) + 1;
@@ -572,14 +511,14 @@ is_time_to_purge (time_t time_t_now)
     trim_white_space (time_prev);
     close_file (fp, file_lastpurge, __func__);
 
-    if ((time_t_now - atoi (time_prev)) < SECONDS_IN_A_DAY)
+    if ((st_time_var->now - atoi (time_prev)) < SECONDS_IN_A_DAY)
       return FALSE;
   }
 
   fp = fopen (file_lastpurge, "w");
   if (fp)
   {
-    fprintf (fp, "%ld\n", time_t_now);
+    fprintf (fp, "%ld\n", st_time_var->now);
     close_file (fp, file_lastpurge, __func__);
 
     /*
@@ -649,8 +588,7 @@ dispose_removed (st_removed *node)
 
 /*!
  * Create a new undo_file (lastrmw)
- * @param[in] removals the linked list of files that were rmw'ed
- * @param[in] removals_head the first node in removals
+ * @param[in] removals_head the first node in the removals list
  * @return void
  * @see cli_user_options.want_undo_rmw
  * @see add_removal
@@ -674,5 +612,72 @@ create_undo_file (st_removed *removals_head)
   }
   else
     open_err (undo_path, __func__);
+
+  return;
+}
+
+
+void
+time_var_init (st_time *st_time_var)
+{
+  st_time_var->now = time (NULL);
+
+  set_which_deletion_date (st_time_var, LEN_DELETION_DATE);
+
+  set_time_string (
+    st_time_var->deletion_date,
+    LEN_DELETION_DATE,
+    st_time_var->t_fmt,
+    st_time_var->now);
+
+  set_time_string (
+    st_time_var->suffix_added_dup_exists,
+    LEN_TIME_STR_SUFFIX,
+    "_%H%M%S-%y%m%d",
+    st_time_var->now);
+
+  return;
+}
+
+
+/*!
+ * Returns a formatted string based on whether or not
+ * a fake year is requested at runtime. If a fake-year is not requested,
+ * the returned string will be based on the local-time of the user's system.
+ * @param[in] st_time_var structure holding time-related variables.
+ * @param[in] len The length required for the formatted string.
+ * @return void
+ */
+void
+set_which_deletion_date (st_time *st_time_var, const int len)
+{
+  if  (getenv ("RMWTRASH") == NULL ||
+      (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
+    snprintf (st_time_var->t_fmt, len, "%s", "%FT%T");
+  else
+  {
+    printf ("  :test mode: Using fake year\n");
+    snprintf (st_time_var->t_fmt, len, "%s", "1999-%m-%dT%T");
+  }
+  return;
+}
+
+
+/*!
+ * Assigns a time string to *tm_str based on the format requested
+ * @param[out] tm_str assigned a new value based on format
+ * @param[in] len the max length of string to be allocated
+ * @param[in] format the format of the string
+ * @param[in] time_t_now The current time returned by a call to time(NULL).
+ * @return void
+ */
+void
+set_time_string (char *tm_str, const int len, const char *format, time_t time_t_now)
+{
+  struct tm *time_ptr;
+  time_ptr = localtime (&time_t_now);
+  strftime (tm_str, len, format, time_ptr);
+  trim_white_space (tm_str);
+  bufchk (tm_str, len);
 }
 

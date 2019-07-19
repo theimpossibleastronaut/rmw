@@ -57,12 +57,12 @@
 
 #ifndef TEST_LIB
 int
-Restore (const char *argv, st_waste *waste_curr);
+Restore (const char *argv, st_waste *waste_curr, st_time *st_time_var);
 
 int
-restore_select (st_waste *waste_curr);
+restore_select (st_waste *waste_curr, st_time *st_time_var);
 
 void
-undo_last_rmw (st_waste *waste_curr);
+undo_last_rmw (st_waste *waste_curr, st_time *st_time_var);
 #endif /* TEST_LIB */
 

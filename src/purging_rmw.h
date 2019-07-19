@@ -33,8 +33,12 @@
 #define NOT_WRITEABLE 101
 #define MAX_DEPTH_REACHED 201
 
-int purge (const st_waste * waste_curr, const rmw_options * cli_user_options, time_t time_t_now);
+int
+purge (
+  const st_waste * waste_curr,
+  const rmw_options * cli_user_options,
+  st_time *st_time_var);
 
 #ifndef TEST_LIB
-short orphan_maint (st_waste * waste_curr, const char *formatted_str_time_now);
+short orphan_maint (st_waste * waste_curr, st_time *st_time_var);
 #endif

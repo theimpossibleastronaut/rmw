@@ -179,6 +179,22 @@ struct st_removed{
   st_removed *next_node;
 };
 
+
+typedef struct st_time st_time;
+
+#define LEN_DELETION_DATE (19 + 1)
+#define LEN_TIME_STR_SUFFIX (14 + 1)
+#define SECONDS_IN_A_DAY (60 * 60 * 24)
+
+/*! Holds variables related to time
+ */
+struct st_time {
+  char suffix_added_dup_exists[LEN_TIME_STR_SUFFIX];
+  char t_fmt[LEN_DELETION_DATE];
+  char deletion_date[LEN_DELETION_DATE];
+  time_t now;
+};
+
 /** Set when rmw is run with the --verbose option. Enables increased output
  * to stdout */
 int verbose;
@@ -217,15 +233,16 @@ create_undo_file (st_removed *removals_head);
 void
 dispose_removed (st_removed *node);
 
-void
-get_time_string (char *tm_str, const ushort len, const char *format, time_t *time_t_now);
-
 bool
-is_time_to_purge (time_t time_t_now);
+is_time_to_purge (st_time *st_time_var);
 
 void
-set_time_now_format (char *t_fmt);
+time_var_init (st_time *st_time_var);
 
-#define SECONDS_IN_A_DAY 86400
+void
+set_which_deletion_date (st_time *st_time_var, const int len);
+
+void
+set_time_string (char *tm_str, const int len, const char *format, time_t time_t_now);
 
 #endif
