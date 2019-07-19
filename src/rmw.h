@@ -223,8 +223,8 @@ get_time_string (char *tm_str, const ushort len, const char *format, time_t *tim
 bool
 is_time_to_purge (time_t time_t_now);
 
-char*
-set_time_now_format (void);
+void
+set_time_now_format (char *t_fmt);
 
 #define SECONDS_IN_A_DAY 86400
 

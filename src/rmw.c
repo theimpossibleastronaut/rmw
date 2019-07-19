@@ -277,7 +277,8 @@ Please check your configuration file and permissions\n\n"));
     return 0;
   }
 
-  char *t_fmt = set_time_now_format();
+  char t_fmt[LEN_TIME_NOW] = "";
+  set_time_now_format(t_fmt);
 
   /*
    * The length of the format above never exceeds 20 (including the NULL
@@ -494,14 +495,12 @@ rmw_option_init (rmw_options *options)
  * Returns a formatted string based on whether or not
  * a fake year is requested at runtime. If a fake-year is not requested,
  * the returned string will be based on the local-time of the user's system.
- * @return char*
+ * @param[in,out] t_fmt The time format used.
+ * @return void
  */
-char*
-set_time_now_format (void)
+void
+set_time_now_format (char *t_fmt)
 {
-  char *t_fmt = calloc (LEN_TIME_NOW, 1);
-  chk_malloc (t_fmt, __func__, __LINE__);
-
   if  (getenv ("RMWTRASH") == NULL ||
       (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
     snprintf (t_fmt, LEN_TIME_NOW, "%s", "%FT%T");
@@ -511,7 +510,7 @@ set_time_now_format (void)
     snprintf (t_fmt, LEN_TIME_NOW, "%s", "1999-%m-%dT%T");
   }
 
-  return t_fmt;
+  return;
 }
 
 /*!
