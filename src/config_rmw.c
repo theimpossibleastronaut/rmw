@@ -166,8 +166,6 @@ realize_home (char *str)
   bufchk_len (req_len, MP, __func__, __LINE__);
   snprintf (tmp_str, MP, "%s%s", HOMEDIR, str_ptr);
   strcpy (str, tmp_str);
-  // puts ("DEBUG:");
-  // puts (str);
   return;
 }
 
@@ -209,9 +207,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
     comma_val++;
     comma_val = del_char_shift_left (' ', comma_val);
 
-    trim_white_space (rem_opt);
-    // puts ("DEBUG:");
-    // puts (rem_opt);
+    trim_white_space (comma_val);
     if (strcmp ("removable", comma_val) == 0)
       removable = 1;
     else
@@ -234,7 +230,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
        * These lines are separated to ease translation
        *
        */
-      puts (tmp_waste_parent_folder);
+      fputs (tmp_waste_parent_folder, stdout);
       if (verbose)
       {
         printf (" (");
