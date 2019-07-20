@@ -1,5 +1,12 @@
 === rmw ChangeLog ===
 
+2019-07-20
+
+  * BUGFIX: (severity: low) Some calls to strncat() where an incorrect
+  value was used, which could potentially cause a string to get
+  truncated to an undesirable length
+  <https://github.com/theimpossibleastronaut/rmw/issues/257>.
+
 2019-07-16
 
   * The value written to the "lastpurge" file is no longer the day of

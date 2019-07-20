@@ -79,7 +79,7 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
 
     int req_len = multi_strlen (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name, NULL) + 1;
     bufchk_len (req_len, MP, __func__, __LINE__);
-    strncat (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name, req_len);
+    strcat (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name);
 
     struct stat st;
     if (lstat (st_dirname_properties.path, &st))

@@ -390,8 +390,7 @@ Please check your configuration file and permissions\n\n"));
             // append a time string
             int req_len = multi_strlen (st_file_properties.waste_dest_name, st_time_var.suffix_added_dup_exists, NULL) + 1;
             bufchk_len (req_len, MP, __func__, __LINE__);
-            strncat (st_file_properties.waste_dest_name, st_time_var.suffix_added_dup_exists,
-                      strlen (st_file_properties.waste_dest_name));
+            strcat (st_file_properties.waste_dest_name, st_time_var.suffix_added_dup_exists);
           }
 
           if (rename (st_file_properties.main_argv, st_file_properties.waste_dest_name) == 0)

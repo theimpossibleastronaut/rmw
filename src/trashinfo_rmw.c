@@ -55,12 +55,12 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
   {
     int req_len = multi_strlen (final_info_dest, st_time_var->suffix_added_dup_exists, NULL);
     bufchk_len (req_len, MP, __func__, __LINE__);
-    strncat (final_info_dest, st_time_var->suffix_added_dup_exists, strlen (final_info_dest));
+    strcat (final_info_dest, st_time_var->suffix_added_dup_exists);
   }
 
   req_len = multi_strlen (final_info_dest, DOT_TRASHINFO, NULL);
   bufchk_len (req_len, MP, __func__, __LINE__);
-  strncat (final_info_dest, DOT_TRASHINFO, strlen (final_info_dest));
+  strcat (final_info_dest, DOT_TRASHINFO);
 
   FILE *fp = fopen (final_info_dest, "w");
   if (fp != NULL)
