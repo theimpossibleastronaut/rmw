@@ -40,11 +40,10 @@
 
 static const int DEFAULT_PURGE_AFTER = 90;
 
+
 /*!
  * Prints a copy of the default config file to the specified stream. If
  * a translation is available, the output will be translated.
- * @param[in] stream stdout or a file pointer can be used
- * @return void
  */
 static void
 print_config (FILE *stream)
@@ -104,10 +103,10 @@ if (fprintf (stream, _("\n\
   msg_err_fatal_fprintf (__func__);
 }
 
+
 /*!
  * Print a translation (if available) of the comments in the config file
  * to stdout
- * @return void
  */
 void
 translate_config (void)
@@ -115,49 +114,34 @@ translate_config (void)
   print_config (stdout);
 }
 
+
 /*!
- * Erases characters from the beginning of a string (i.e. shifts the
- * remaining string to the left.
- *
- * @param[in] c the character to erase
- * @param[out] src_str the string you want to change
- * @return void
- *
- * Example: @code del_char_shift_left ('=', src_string); @endcode
+ * If a string begins with 'c', returns a pointer to the first occurrence
+ * in the string after 'c'
  */
-static void
+static char *
 del_char_shift_left (const char c, char *src_str)
 {
   if (*src_str != c)
-    return;
+    return src_str;
 
-  char *str_ptr = src_str;
-  while (*str_ptr == c)
-    str_ptr++;
+  while (*src_str == c)
+    src_str++;
 
-  // copy the string pointed to so source and destination overlap
-  char dest_str[strlen (str_ptr) + 1];
-  strcpy (dest_str, str_ptr);
-
-  strcpy (src_str, dest_str);
-
-  return;
+  return src_str;
 }
+
 
 /*!
  * If "$HOME" or "~" is used in the configuration file, convert it
  * to the literal value.
- * @param[out] str The string containing \b $HOME or \b ~
- * @return void
- *
- * Example:
- * @code realize_home (config_line); @endcode
  */
 static void
 realize_home (char *str)
 {
   char *str_ptr = str;
   trim_char ('/', str_ptr);
+  bufchk (str_ptr, MP);
 
   /*
    *
@@ -165,9 +149,9 @@ realize_home (char *str)
    * on Windows
    *
    */
-  del_char_shift_left (' ', str_ptr);
+  str_ptr = del_char_shift_left (' ', str_ptr);
   if (*str_ptr == '~')
-    del_char_shift_left ('~', str_ptr);
+    str_ptr++;
   else if (strncmp (str_ptr, "$HOME", 5) == 0)
     str_ptr += 5;
   else
@@ -178,6 +162,8 @@ realize_home (char *str)
 
   char tmp_str[MP];
   extern const char *HOMEDIR;
+  int req_len = multi_strlen (HOMEDIR, str_ptr, NULL) + 1;
+  bufchk_len (req_len, MP, __func__, __LINE__);
   snprintf (tmp_str, MP, "%s%s", HOMEDIR, str_ptr);
   strcpy (str, tmp_str);
   // puts ("DEBUG:");
@@ -185,55 +171,62 @@ realize_home (char *str)
   return;
 }
 
+
 /*!
  * This function is called when the "WASTE" option is encountered in the
  * config file. The line is parsed and added to the linked list of WASTE
  * folders.
  *
  * @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/213">rmw is unable to use the system trash folder on a Mac</a>
- *
- * @param[out] waste_curr linked list of waste folders
- * @param[in] line_from_config
- * @param[out] do_continue boolean value used by the calling function
- * @return node containing information about the new WASTE folder, or \b waste_curr if no new folder was added.
  */
 static st_waste *
-parse_line_waste (st_waste * waste_curr, const char * line_from_config,
+parse_line_waste (st_waste * waste_curr, const char * line_ptr,
                   bool * do_continue, const rmw_options * cli_user_options)
 {
   bool removable = 0;
 
-  char *value = strchr (line_from_config, '=');
-  del_char_shift_left ('=', value);
-  del_char_shift_left (' ', value);
+  char *raw_line = strchr (line_ptr, '=');
+  if (raw_line != NULL)
+    raw_line++; /* move past the '=' sign */
+  else
+  {
+    print_msg_warn();
+    puts ("configuration: A WASTE line must include an '=' sign.");
+    goto DO_CONT;
+  }
 
   char rem_opt[CFG_LINE_LEN_MAX];
-  bufchk (value, CFG_LINE_LEN_MAX);
-  strcpy (rem_opt, value);
+  strcpy (rem_opt, raw_line);
 
   char *comma_val = strchr (rem_opt, ',');
-
   if (comma_val != NULL)
   {
-    char *comma_pos = strchr (value, ',');
+    // the first part of raw_line before it gets truncated is
+    // the waste folder parent
+    char *comma_pos = strchr (raw_line, ',');
     *comma_pos = '\0';
 
-    del_char_shift_left (',', comma_val);
-    del_char_shift_left (' ', comma_val);
+    comma_val++;
+    comma_val = del_char_shift_left (' ', comma_val);
 
+    trim_white_space (rem_opt);
+    // puts ("DEBUG:");
+    // puts (rem_opt);
     if (strcmp ("removable", comma_val) == 0)
       removable = 1;
     else
     {
-      print_msg_error ();
+      print_msg_warn ();
       printf (_("invalid option in config\n"));
       goto DO_CONT;
     }
   }
 
-  realize_home (value);
+  char tmp_waste_parent_folder[MP];
+  strcpy (tmp_waste_parent_folder, raw_line);
+  realize_home (tmp_waste_parent_folder);
 
-  if (removable && !exists (value))
+  if (removable && !exists (tmp_waste_parent_folder))
   {
     if (cli_user_options->list)
     {
@@ -241,7 +234,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
        * These lines are separated to ease translation
        *
        */
-      printf ("%s", value);
+      puts (tmp_waste_parent_folder);
       if (verbose)
       {
         printf (" (");
@@ -274,12 +267,10 @@ parse_line_waste (st_waste * waste_curr, const char * line_from_config,
   waste_curr->removable = removable ? true : false;
 
   /* make the parent... */
-  int req_len = strlen (value) + 1;
-  bufchk_len (req_len, MP, __func__, __LINE__);
-  snprintf (waste_curr->parent, req_len, "%s", value);
+  strcpy (waste_curr->parent, tmp_waste_parent_folder);
 
   /* and the files... */
-  req_len = multi_strlen (waste_curr->parent, "/files/", NULL) + 1;
+  int req_len = multi_strlen (waste_curr->parent, "/files/", NULL) + 1;
   bufchk_len (req_len, MP, __func__, __LINE__);
   snprintf (waste_curr->files, req_len, "%s%s", waste_curr->parent, "/files/");
 
@@ -326,12 +317,9 @@ DO_CONT:
   return waste_curr;
 }
 
-/*
- *
- * name: realize_config_file
- *
- * determine the exact name of the config file to use, and return a file pointer
- *
+
+/*!
+ * Determine the exact name of the config file to use, and return a file pointer.
  */
 static FILE *
 realize_config_file (char *config_file, const rmw_options * cli_user_options)
@@ -427,14 +415,11 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
   exit (errno);
 }
 
-/*
- *
- * name: get_config_data
- *
- * get configuration data (parse the config file), returns a pointer to
+
+/*!
+ * Get configuration data (parse the config file), returns a pointer to
  * a linked list, each node containing info about usable "waste"
- * directories
- *
+ * directories.
  */
 st_waste *
 get_config_data (const rmw_options * cli_user_options)
@@ -456,11 +441,12 @@ get_config_data (const rmw_options * cli_user_options)
   while (fgets (line_from_config, CFG_LINE_LEN_MAX, config_ptr) != NULL)
   {
     bool do_continue = 0;
-    bufchk (line_from_config, CFG_LINE_LEN_MAX);
-    trim_white_space (line_from_config);
-    del_char_shift_left (' ', line_from_config);
+    char *line_ptr = line_from_config;
+    bufchk (line_ptr, CFG_LINE_LEN_MAX);
+    trim_white_space (line_ptr);
+    line_ptr = del_char_shift_left (' ', line_ptr);
 
-    switch (*line_from_config)
+    switch (*line_ptr)
     {
     case '#':
       continue;
@@ -470,24 +456,32 @@ get_config_data (const rmw_options * cli_user_options)
     /**
      * assign purge_after the value from config file
      */
-    if (strncmp (line_from_config, "purge_after", 11) == 0 ||
-        strncmp (line_from_config, "purgeDays", 9) == 0)
+    if (strncmp (line_ptr, "purge_after", 11) == 0 ||
+        strncmp (line_ptr, "purgeDays", 9) == 0)
     {
-      char *value = strchr (line_from_config, '=');
-      del_char_shift_left ('=', value);
-      del_char_shift_left (' ', value);
-      purge_after = atoi (value);
+      char *value = strchr (line_ptr, '=');
+      if (value != NULL)
+      {
+        value++;
+        value = del_char_shift_left (' ', value);
+        purge_after = atoi (value);
+      }
+      else
+      {
+        print_msg_warn();
+        puts ("configuration: 'purge_after' line must include an '=' sign.");
+      }
     }
-    else if (!strcmp (line_from_config, "force_required"))
+    else if (!strcmp (line_ptr, "force_required"))
       force_required = 1;
-    else if (strncmp ("WASTE", line_from_config, 5) == 0)
+    else if (strncmp ("WASTE", line_ptr, 5) == 0)
     {
       waste_curr =
-        parse_line_waste (waste_curr, line_from_config, &do_continue, cli_user_options);
+        parse_line_waste (waste_curr, line_ptr, &do_continue, cli_user_options);
       if (do_continue)
         continue;
     }
-    else if (!strncmp ("PROTECT", line_from_config, 7))
+    else if (!strncmp ("PROTECT", line_ptr, 7))
     {
       /* pctr just prevents this message from being repeated each time
        * "PROTECT" is encountered" */
@@ -496,13 +490,13 @@ get_config_data (const rmw_options * cli_user_options)
         printf ("The PROTECT feature has been removed.\n");
       pctr = 1;
     }
-    else if (!strcmp ("force_not_required", line_from_config))
+    else if (!strcmp ("force_not_required", line_ptr))
       printf ("The 'force_not_required' option has been replaced with 'force_required'.\n");
     else
     {
       print_msg_warn ();
       fprintf (stderr, _("Unknown or invalid option: '%s'\n"),
-               line_from_config);
+               line_ptr);
     }
 
     if (waste_curr != NULL && waste_head == NULL)

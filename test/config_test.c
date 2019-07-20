@@ -26,6 +26,7 @@ test_realize_home(void)
   assert (!strcmp (config_line, "/home/andy/.trash.rmw"));
 }
 
+
 static void
 test_del_char_shift_left (void)
 {
@@ -33,25 +34,23 @@ test_del_char_shift_left (void)
   chk_malloc (config_line, __func__, __LINE__);
 
   strcpy (config_line, "    Hello, World");
-  del_char_shift_left (' ', config_line);
-  assert (!strcmp (config_line, "Hello, World"));
+  char *l_ptr = config_line;
+  l_ptr = del_char_shift_left (' ', l_ptr);
+  assert (!strcmp (l_ptr, "Hello, World"));
 
-  del_char_shift_left (' ', config_line);
-  assert (!strcmp (config_line, "Hello, World"));
+  l_ptr = del_char_shift_left (' ', l_ptr);
+  assert (!strcmp (l_ptr, "Hello, World"));
 
-  del_char_shift_left ('H', config_line);
-  assert (!strcmp (config_line, "ello, World"));
+  l_ptr = del_char_shift_left ('H', l_ptr);
+  assert (!strcmp (l_ptr, "ello, World"));
 }
 
 int main (int argc, char *argv[])
 {
 
   test_realize_home ();
-  /*
-   * del_char_shift_left()
-   *
-   */
 
+  test_del_char_shift_left();
 
   return 0;
 }
