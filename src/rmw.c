@@ -292,14 +292,13 @@ Please check your configuration file and permissions\n\n"));
     return 0;
   }
 
-  int file_arg = 0;
-
   if (cli_user_options.want_restore)
   {
     int restore_errors = 0;
     /* subtract 1 from optind otherwise the first file in the list isn't
      * restored
      */
+    int file_arg = 0;
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
     {
       waste_curr = waste_head;
@@ -311,124 +310,13 @@ Please check your configuration file and permissions\n\n"));
 
   if (optind < argc) /* FIXME: shouldn't this be "else if"? */
   {
-    rmw_target st_file_properties;
-
-    st_removed *confirmed_removals_list = NULL;
-    st_removed *confirmed_removals_list_head = NULL;
-
-    static int main_error_ctr;
-    int removed_files_ctr = 0;
-    for (file_arg = optind; file_arg < argc; file_arg++)
+    int result = send_to_waste (argc, argv, waste_head, &st_time_var);
+    if (result > 1)
     {
-      /* leave "/" or "\" alone */
-      if (strcmp (argv[file_arg], "/") == 0 || strcmp (argv[file_arg], "/") == 0)
-      {
-        puts (_("The Easter Bunny says, \"Hello, world.\""));
-        continue;
-      }
-
-      bufchk (argv[file_arg], MP);
-      st_file_properties.main_argv = argv[file_arg];
-
-      static struct stat st_main_argv_statistics;
-      if (!lstat (st_file_properties.main_argv, &st_main_argv_statistics))
-      {
-        main_error_ctr = resolve_path (st_file_properties.main_argv, st_file_properties.real_path);
-        if (main_error_ctr == 1)
-          continue;
-        else if (main_error_ctr > 1)
-          break;
-      }
-      else
-      {
-        printf (_("File not found: '%s'\n"), st_file_properties.main_argv);
-        continue;
-      }
-
-      /**
-       * Make some variables -
-       * get ready for the ReMoval
-       */
-
-      bool waste_folder_on_same_filesystem = 0;
-
-      st_file_properties.base_name = basename (st_file_properties.main_argv);
-
-      /**
-       * cycle through wasteDirs to see which one matches
-       * device number of file.main_argv. Once found, the ReMoval
-       * happens (provided all the tests are passed.
-       */
-      waste_curr = waste_head;
-      while (waste_curr != NULL)
-      {
-        if (waste_curr->dev_num == st_main_argv_statistics.st_dev)
-        {
-          sprintf (st_file_properties.waste_dest_name, "%s%s",
-                    waste_curr->files, st_file_properties.base_name);
-
-          /* If a duplicate file exists
-           */
-          if ((st_file_properties.is_duplicate = exists (st_file_properties.waste_dest_name)))
-          {
-            // append a time string
-            int req_len = multi_strlen (st_file_properties.waste_dest_name, st_time_var.suffix_added_dup_exists, NULL) + 1;
-            bufchk_len (req_len, MP, __func__, __LINE__);
-            strcat (st_file_properties.waste_dest_name, st_time_var.suffix_added_dup_exists);
-          }
-
-          if (rename (st_file_properties.main_argv, st_file_properties.waste_dest_name) == 0)
-          {
-            if (verbose)
-              printf ("'%s' -> '%s'\n", st_file_properties.main_argv, st_file_properties.waste_dest_name);
-
-            removed_files_ctr++;
-
-            if (!create_trashinfo (&st_file_properties, waste_curr, &st_time_var))
-            {
-              confirmed_removals_list = add_removal (confirmed_removals_list, st_file_properties.waste_dest_name);
-              if (confirmed_removals_list_head == NULL)
-                confirmed_removals_list_head = confirmed_removals_list;
-            }
-          }
-          else
-            msg_err_rename (st_file_properties.main_argv,
-                            st_file_properties.waste_dest_name,
-                            __func__, __LINE__);
-
-      /**
-       * If we get to this point, it means a WASTE folder was found
-       * that matches the file system that file->main_argv was on.
-       * Setting match to 1 and breaking from the for loop
-       */
-          waste_folder_on_same_filesystem = 1;
-          break;
-        }
-
-        /* If the file didn't match with a waste folder on the same filesystem,
-         * try the next waste folder */
-        waste_curr = waste_curr->next_node;
-      }
-
-      if (!waste_folder_on_same_filesystem)
-      {
-        print_msg_warn ();
-        printf (_("No suitable filesystem found for \"%s\"\n"), st_file_properties.main_argv);
-      }
+      /* Don't need to print any messages here. Any warnings or errors
+       * should have been sent to stdout when they happened */
+      return result;
     }
-
-    if (confirmed_removals_list_head != NULL)
-    {
-      create_undo_file (confirmed_removals_list_head);
-      dispose_removed (confirmed_removals_list_head);
-    }
-
-    printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
-            removed_files_ctr), removed_files_ctr);
-    printf ("\n");
-
-    if (main_error_ctr > 1)
-      return main_error_ctr;
   }
   else if (!cli_user_options.want_purge && !cli_user_options.want_empty_trash && created_data_dir != FIRST_RUN)
   {
@@ -441,6 +329,134 @@ Enter '%s -h' for more information\n"), argv[0]);
   return 0;
 }
 #endif
+
+int
+send_to_waste (
+  const int argc,
+  char* const argv[],
+  st_waste *waste_head,
+  st_time *st_time_var)
+{
+  rmw_target st_file_properties;
+
+  st_removed *confirmed_removals_list = NULL;
+  st_removed *confirmed_removals_list_head = NULL;
+
+  static int main_error_ctr;
+  int removed_files_ctr = 0;
+  int file_arg;
+  for (file_arg = optind; file_arg < argc; file_arg++)
+  {
+    /* leave "/" or "\" alone */
+    if (strcmp (argv[file_arg], "/") == 0 || strcmp (argv[file_arg], "/") == 0)
+    {
+      puts (_("The Easter Bunny says, \"Hello, world.\""));
+      continue;
+    }
+
+    bufchk (argv[file_arg], MP);
+    st_file_properties.main_argv = argv[file_arg];
+
+    static struct stat st_main_argv_statistics;
+    if (!lstat (st_file_properties.main_argv, &st_main_argv_statistics))
+    {
+      main_error_ctr = resolve_path (st_file_properties.main_argv, st_file_properties.real_path);
+      if (main_error_ctr == 1)
+        continue;
+      else if (main_error_ctr > 1)
+        break;
+    }
+    else
+    {
+      printf (_("File not found: '%s'\n"), st_file_properties.main_argv);
+      continue;
+    }
+
+    /**
+     * Make some variables -
+     * get ready for the ReMoval
+     */
+
+    bool waste_folder_on_same_filesystem = 0;
+
+    st_file_properties.base_name = basename ((char*)st_file_properties.main_argv);
+
+    /**
+     * cycle through wasteDirs to see which one matches
+     * device number of file.main_argv. Once found, the ReMoval
+     * happens (provided all the tests are passed.
+     */
+    st_waste *waste_curr = waste_head;
+    while (waste_curr != NULL)
+    {
+      if (waste_curr->dev_num == st_main_argv_statistics.st_dev)
+      {
+        sprintf (st_file_properties.waste_dest_name, "%s%s",
+                  waste_curr->files, st_file_properties.base_name);
+
+        /* If a duplicate file exists
+         */
+        if ((st_file_properties.is_duplicate = exists (st_file_properties.waste_dest_name)))
+        {
+          // append a time string
+          int req_len = multi_strlen (st_file_properties.waste_dest_name, st_time_var->suffix_added_dup_exists, NULL) + 1;
+          bufchk_len (req_len, MP, __func__, __LINE__);
+          strcat (st_file_properties.waste_dest_name, st_time_var->suffix_added_dup_exists);
+        }
+
+        if (rename (st_file_properties.main_argv, st_file_properties.waste_dest_name) == 0)
+        {
+          if (verbose)
+            printf ("'%s' -> '%s'\n", st_file_properties.main_argv, st_file_properties.waste_dest_name);
+
+          removed_files_ctr++;
+
+          if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))
+          {
+            confirmed_removals_list = add_removal (confirmed_removals_list, st_file_properties.waste_dest_name);
+            if (confirmed_removals_list_head == NULL)
+              confirmed_removals_list_head = confirmed_removals_list;
+          }
+        }
+        else
+          msg_err_rename (st_file_properties.main_argv,
+                          st_file_properties.waste_dest_name,
+                          __func__, __LINE__);
+
+    /**
+     * If we get to this point, it means a WASTE folder was found
+     * that matches the file system that file->main_argv was on.
+     * Setting match to 1 and breaking from the for loop
+     */
+        waste_folder_on_same_filesystem = 1;
+        break;
+      }
+
+      /* If the file didn't match with a waste folder on the same filesystem,
+       * try the next waste folder */
+      waste_curr = waste_curr->next_node;
+    }
+
+    if (!waste_folder_on_same_filesystem)
+    {
+      print_msg_warn ();
+      printf (_("No suitable filesystem found for \"%s\"\n"), st_file_properties.main_argv);
+    }
+  }
+
+  if (confirmed_removals_list_head != NULL)
+  {
+    create_undo_file (confirmed_removals_list_head);
+    dispose_removed (confirmed_removals_list_head);
+  }
+
+  printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
+          removed_files_ctr), removed_files_ctr);
+  printf ("\n");
+
+  return main_error_ctr;
+}
+
 
 void
 rmw_option_init (rmw_options *options)

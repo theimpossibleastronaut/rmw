@@ -26,8 +26,6 @@
 #include "utils_rmw.h"
 #include "messages_rmw.h"
 
-#ifndef TEST_LIB /* for ticket https://github.com/theimpossibleastronaut/rmw/issues/243 */
-
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
 {
@@ -94,4 +92,3 @@ printf ("DeletionDate=%s\n", st_time_var->deletion_date);
     return ERR_OPEN;
   }
 }
-#endif

@@ -25,7 +25,5 @@
 #include "rmw.h"
 #include <sys/stat.h>
 
-#ifndef TEST_LIB
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var);
-#endif /* TEST_LIB */

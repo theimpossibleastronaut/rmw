@@ -147,14 +147,14 @@ typedef struct rmw_target rmw_target;
 struct rmw_target
 {
   /** Replaced by the filename to be rmw'ed, usually specified on the command line */
-  char *main_argv;
+  const char *main_argv;
 
   /** The absolute path to the file, stored later in a .trashinfo file */
   char real_path[MP];
 
   /** The basename of the target file, and used for the basename of it's corresponding
    * .trashinfo file */
-  char *base_name;
+  const char *base_name;
 
   /** The destination file name. This may be different if a file of the same name already
    *  exists in the WASTE folder */
@@ -218,6 +218,13 @@ enum {
  * These are only used in rmw.c but prototyping them here to enable
  * using rmw as a library (which is optional but just for people who
  * want to experiment. */
+
+int
+send_to_waste (
+  const int argc,
+  char* const argv[],
+  st_waste *waste_head,
+  st_time *st_time_var);
 
 st_removed*
 add_removal (st_removed *removals, const char *file);
