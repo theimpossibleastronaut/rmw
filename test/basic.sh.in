@@ -20,7 +20,7 @@ echo "rmw should display folders on removable devices that are not mounted"
 echo $SEPARATOR
 $RMW_TEST_CMD_STRING -l
 echo $SEPARATOR
-output=`$RMW_TEST_CMD_STRING -l | wc -l | sed 's/ //g')`
+output="$($RMW_TEST_CMD_STRING -l | wc -l | sed 's/ //g')"
 test "$output" = "4"
 test_result $?
 
