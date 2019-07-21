@@ -1,7 +1,3 @@
-/*!
- * @file rmw.h
- * contains most of the global variables used by rmw
- */
 /*
  * rmw.h
  *

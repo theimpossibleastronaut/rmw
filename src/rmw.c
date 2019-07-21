@@ -199,12 +199,11 @@ verbose = 1;
     return 1;
   }
 
-  char *data_dir = calloc(multi_strlen (HOMEDIR, DATA_DIR, NULL) + 1, 1);
-  chk_malloc (data_dir, __func__, __LINE__);
-  bufchk (HOMEDIR, MP - strlen (DATA_DIR));
-  snprintf (data_dir, MP, "%s%s", HOMEDIR, DATA_DIR);
+  int req_len = multi_strlen (HOMEDIR, DATA_DIR, NULL) + 1;
+  bufchk_len (req_len, MP, __func__, __LINE__);
+  char data_dir[req_len];
+  sprintf (data_dir, "%s%s", HOMEDIR, DATA_DIR);
   int created_data_dir = make_dir (data_dir);
-  free (data_dir);
 
   if (created_data_dir == MAKE_DIR_FAILURE)
   {
