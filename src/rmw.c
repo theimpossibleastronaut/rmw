@@ -229,29 +229,7 @@ Please check your configuration file and permissions\n\n"));
 
   if (cli_user_options.list)
   {
-    while (waste_curr != NULL)
-    {
-      printf ("%s", waste_curr->parent);
-      if (waste_curr->removable && verbose)
-      {
-      /*
-       * These lines are separated to ease translation
-       *
-       */
-
-        printf (" (");
-        printf (_("removable, "));
-        /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
-        printf (_("attached"));
-        printf (")");
-      }
-
-      printf ("\n");
-
-      waste_curr = waste_curr->next_node;
-    }
-
-    dispose_waste (waste_head);
+    list_waste_folders (waste_head);
     return 0;
   }
 
@@ -281,9 +259,6 @@ Please check your configuration file and permissions\n\n"));
     return result;
   }
 
-  /* FIXME:
-   * cli_user_options.want_undo_rmw() should return a value
-   */
   if (cli_user_options.want_undo)
   {
     waste_curr = waste_head;
@@ -329,6 +304,7 @@ Enter '%s -h' for more information\n"), argv[0]);
   return 0;
 }
 #endif
+
 
 int
 send_to_waste (
@@ -455,6 +431,37 @@ send_to_waste (
   printf ("\n");
 
   return main_error_ctr;
+}
+
+
+void
+list_waste_folders (st_waste *waste_head)
+{
+  st_waste *waste_curr = waste_head;
+  while (waste_curr != NULL)
+  {
+    printf ("%s", waste_curr->parent);
+    if (waste_curr->removable && verbose)
+    {
+    /*
+     * These lines are separated to ease translation
+     *
+     */
+
+      printf (" (");
+      printf (_("removable, "));
+      /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
+      printf (_("attached"));
+      printf (")");
+    }
+
+    printf ("\n");
+
+    waste_curr = waste_curr->next_node;
+  }
+
+  dispose_waste (waste_head);
+  return;
 }
 
 

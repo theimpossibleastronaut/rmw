@@ -226,6 +226,9 @@ send_to_waste (
   st_waste *waste_head,
   st_time *st_time_var);
 
+void
+list_waste_folders (st_waste *waste_head);
+
 st_removed*
 add_removal (st_removed *removals, const char *file);
 
