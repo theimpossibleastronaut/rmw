@@ -161,7 +161,6 @@ realize_home (char *str)
   }
 
   char tmp_str[MP];
-  extern const char *HOMEDIR;
   int req_len = multi_strlen (HOMEDIR, str_ptr, NULL) + 1;
   bufchk_len (req_len, MP, __func__, __LINE__);
   snprintf (tmp_str, MP, "%s%s", HOMEDIR, str_ptr);
@@ -323,7 +322,6 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
   if (verbose)
     printf ("sysconfdir = %s\n", SYSCONFDIR);
 
-  extern const char *HOMEDIR;
   /* If no alternate configuration was specifed (-c) */
   if (cli_user_options->alt_config == NULL)
   {
@@ -333,7 +331,8 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
      *
      * Create full path to config_file
      */
-    bufchk (CFG_FILE, MP - strlen (HOMEDIR));
+    int req_len = multi_strlen (CFG_FILE, HOMEDIR, NULL);
+    bufchk_len (req_len, MP, __func__, __LINE__);
     sprintf (config_file, "%s%s", HOMEDIR, CFG_FILE);
   }
   else

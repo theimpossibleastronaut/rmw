@@ -82,6 +82,8 @@
 /*! The MP macro is used as a shortcut throughout the program. */
 #define MP (PATH_MAX + 1)
 
+const char *HOMEDIR;
+
 #ifndef ushort
   #define ushort unsigned short int
 #endif

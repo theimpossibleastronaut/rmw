@@ -1,8 +1,3 @@
-/*!
- * @file rmw.c
- * @brief Contains the main() function, along with a few other functions that
- * are only used by main().
- */
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
@@ -46,9 +41,6 @@
  * Will use "extern" to declare them where they are needed.
  *
  */
-
-/*! The users HOME directory */
-char *HOMEDIR;
 
 /*! Read from the user's config file */
 int purge_after = 0;
@@ -190,24 +182,20 @@ verbose = 1;
     /* rmw doesn't work on Windows yet */
     /*! @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/71">Running and building rmw on Windows</a> */
   #ifndef WIN32
-    bufchk (getenv ("HOME"), MP);
-    HOMEDIR = calloc (strlen (getenv ("HOME")) + 1, 1);
-    chk_malloc (HOMEDIR, __func__, __LINE__);
-    snprintf (HOMEDIR, MP, "%s", getenv ("HOME"));
+    HOMEDIR = getenv ("HOME");
   #else
-    bufchk (getenv ("LOCALAPPDATA"), MP);
-    HOMEDIR = calloc (strlen (getenv ("LOCALAPPDATA")) + 1, 1);
-    chk_malloc (HOMEDIR, __func__, __LINE__);
-    snprintf (HOMEDIR, MP, "%s", getenv ("LOCALAPPDATA"));
+    HOMEDIR = getenv ("LOCALAPPDATA");
   #endif
 
-  if (HOMEDIR == NULL)
+  if (HOMEDIR != NULL)
+    bufchk (HOMEDIR, MP);
+  else
   {
     print_msg_error ();
     /* FIXME: Perhaps there should be an option in the config file so a
      * user can specify a home directory, and pass the $HOME variable
      */
-    printf (_("while getting the path to your home directory\n"));
+    fputs (_("while getting the path to your home directory\n"), stderr);
     return 1;
   }
 
@@ -265,7 +253,6 @@ Please check your configuration file and permissions\n\n"));
     }
 
     dispose_waste (waste_head);
-    free (HOMEDIR);
     return 0;
   }
 
@@ -292,7 +279,6 @@ Please check your configuration file and permissions\n\n"));
     waste_curr = waste_head;
     int result = restore_select (waste_curr, &st_time_var);
     dispose_waste (waste_head);
-    free (HOMEDIR);
     return result;
   }
 
@@ -304,7 +290,6 @@ Please check your configuration file and permissions\n\n"));
     waste_curr = waste_head;
     undo_last_rmw (waste_curr, &st_time_var);
     dispose_waste (waste_head);
-    free (HOMEDIR);
     return 0;
   }
 
@@ -453,7 +438,6 @@ Enter '%s -h' for more information\n"), argv[0]);
   }
 
   dispose_waste (waste_head);
-  free (HOMEDIR);
 
   return 0;
 }
