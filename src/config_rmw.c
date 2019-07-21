@@ -149,7 +149,6 @@ realize_home (char *str)
    * on Windows
    *
    */
-  str_ptr = del_char_shift_left (' ', str_ptr);
   if (*str_ptr == '~')
     str_ptr++;
   else if (strncmp (str_ptr, "$HOME", 5) == 0)
@@ -217,6 +216,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
     }
   }
 
+  raw_line = del_char_shift_left (' ', raw_line);
   char tmp_waste_parent_folder[MP];
   strcpy (tmp_waste_parent_folder, raw_line);
   realize_home (tmp_waste_parent_folder);
