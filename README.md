@@ -166,14 +166,6 @@ NOTE: That feature will not process wildcards unless the user is in a
 <WASTE>/files folder and the filespec actually exists in the present working
 directory.
 
-== -t, --translate ==
-
-A translation of the configuration file in your native
-language (if available) will be displayed.
-
-(If you would be interested in adding a translation, please see
-<https://remove-to-waste.info/translating.html>)
-
 == -f, --force ==
 
 A change from previous versions, purge is allowed to run without the '-f'
