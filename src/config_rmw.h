@@ -1,11 +1,8 @@
-/*!
- * @file config_rmw.h
- */
 /*
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +39,16 @@
  * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
  */
 
-void translate_config (void);
+typedef struct st_config st_config;
 
-st_waste *get_config_data (const rmw_options * cli_user_options);
+struct st_config {
+  st_waste *st_waste_folder_props_head;
+  int purge_after;
+  bool force_required;
+};
+
+void
+get_config_data (const rmw_options * cli_user_options, st_config *st_config_data);
+
+void
+init_config_data (st_config *st_config_data);

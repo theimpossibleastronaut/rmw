@@ -37,18 +37,6 @@
 #include "messages_rmw.h"
 
 /*
- * These variables are used by only a few functions and don't need to be global.
- * Will use "extern" to declare them where they are needed.
- *
- */
-
-/*! Read from the user's config file */
-int purge_after = 0;
-
-/*! Set from the command line and optionally from the user's config file */
-bool force_required = 0;
-
-/*
  * Defined when `make check` is used to build rmw as a library for unit testing,
  * or if built as a library
  * main() will not be built into the library.
@@ -101,7 +89,7 @@ main (const int argc, char* const argv[])
 
   verbose = 0; /* already declared, a global */
   rmw_options cli_user_options;
-  rmw_option_init (&cli_user_options);
+  init_rmw_options (&cli_user_options);
 
   do
   {
@@ -218,48 +206,44 @@ Please check your configuration file and permissions\n\n"));
    */
   created_data_dir = (created_data_dir == MAKE_DIR_SUCCESS) ? FIRST_RUN : 0;
 
-  st_waste *waste_head;
-  waste_head = get_config_data (&cli_user_options);
-
-  st_waste *waste_curr = waste_head;
+  st_config st_config_data;
+  init_config_data (&st_config_data);
+  get_config_data (&cli_user_options, &st_config_data);
 
   if (cli_user_options.list)
   {
-    list_waste_folders (waste_head);
+    list_waste_folders (st_config_data.st_waste_folder_props_head);
     return 0;
   }
 
   st_time st_time_var;
-  time_var_init (&st_time_var);
+  init_time_vars (&st_time_var);
 
   if (cli_user_options.want_purge || is_time_to_purge(&st_time_var))
   {
-    if (!force_required || cli_user_options.force)
-      purge (waste_curr, &cli_user_options, &st_time_var);
+    if (!st_config_data.force_required || cli_user_options.force)
+      purge (&st_config_data, &cli_user_options, &st_time_var);
     else
       printf (_("purge has been skipped: use -f or --force\n"));
   }
 
   if (cli_user_options.want_orphan_chk)
   {
-    waste_curr = waste_head;
-    orphan_maint(waste_curr, &st_time_var);
+    orphan_maint(st_config_data.st_waste_folder_props_head, &st_time_var);
     return 0;
   }
 
   if (cli_user_options.want_selection_menu)
   {
-    waste_curr = waste_head;
-    int result = restore_select (waste_curr, &st_time_var);
-    dispose_waste (waste_head);
+    int result = restore_select (st_config_data.st_waste_folder_props_head, &st_time_var);
+    dispose_waste (st_config_data.st_waste_folder_props_head);
     return result;
   }
 
   if (cli_user_options.want_undo)
   {
-    waste_curr = waste_head;
-    undo_last_rmw (waste_curr, &st_time_var);
-    dispose_waste (waste_head);
+    undo_last_rmw (st_config_data.st_waste_folder_props_head, &st_time_var);
+    dispose_waste (st_config_data.st_waste_folder_props_head);
     return 0;
   }
 
@@ -271,17 +255,17 @@ Please check your configuration file and permissions\n\n"));
      */
     int file_arg = 0;
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
-    {
-      waste_curr = waste_head;
-      msg_warn_restore(restore_errors += Restore (argv[file_arg], waste_curr, &st_time_var));
-    }
+      msg_warn_restore(
+        restore_errors += Restore (argv[file_arg],
+        st_config_data.st_waste_folder_props_head,
+        &st_time_var));
 
     return restore_errors;
   }
 
   if (optind < argc) /* FIXME: shouldn't this be "else if"? */
   {
-    int result = send_to_waste (argc, argv, waste_head, &st_time_var);
+    int result = send_to_waste (argc, argv, st_config_data.st_waste_folder_props_head, &st_time_var);
     if (result > 1)
     {
       /* Don't need to print any messages here. Any warnings or errors
@@ -295,7 +279,7 @@ Please check your configuration file and permissions\n\n"));
 Enter '%s -h' for more information\n"), argv[0]);
   }
 
-  dispose_waste (waste_head);
+  dispose_waste (st_config_data.st_waste_folder_props_head);
 
   return 0;
 }
@@ -462,7 +446,7 @@ list_waste_folders (st_waste *waste_head)
 
 
 void
-rmw_option_init (rmw_options *options)
+init_rmw_options (rmw_options *options)
 {
   options->want_restore = false;
   options->want_purge = false;
@@ -619,7 +603,7 @@ create_undo_file (st_removed *removals_head)
 
 
 void
-time_var_init (st_time *st_time_var)
+init_time_vars (st_time *st_time_var)
 {
   st_time_var->now = time (NULL);
 

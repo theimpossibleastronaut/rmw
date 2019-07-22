@@ -1,7 +1,3 @@
-/**
- * @file strings_rmw.c
- * @brief Contains functions primarily related to strings
- */
 /*
  * strings_rmw.c
  *

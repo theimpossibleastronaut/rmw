@@ -233,7 +233,7 @@ st_removed*
 add_removal (st_removed *removals, const char *file);
 
 void
-rmw_option_init (struct rmw_options *x);
+init_rmw_options (struct rmw_options *x);
 
 void
 create_undo_file (st_removed *removals_head);
@@ -245,7 +245,7 @@ bool
 is_time_to_purge (st_time *st_time_var);
 
 void
-time_var_init (st_time *st_time_var);
+init_time_vars (st_time *st_time_var);
 
 void
 set_which_deletion_date (st_time *st_time_var, const int len);

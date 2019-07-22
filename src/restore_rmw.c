@@ -1,4 +1,3 @@
-/*! @file restore_rmw.c */
 /*
  *
  * This file is part of rmw<https://remove-to-waste.info/>
@@ -28,6 +27,7 @@
   #include "rmw.h"
 #endif
 
+#include "config_rmw.h"
 #include "restore_rmw.h"
 #include "utils_rmw.h"
 #include "messages_rmw.h"
@@ -41,15 +41,9 @@
  * FIXME: The name of the first paramater needs changing. It's not really
  * argv but the name of a file selected for restoration. Only in some cases
  * will it really be argv.
- *
- * @param[in] argv The file to be restored
- * @param[in] waste_curr The linked list of waste folders
- * @return an error code
- * @see restore_select
- * @see undo_last_rmw
  */
 int
-Restore (const char *argv, st_waste *waste_curr, st_time *st_time_var)
+Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
 {
   static struct restore
   {
@@ -72,7 +66,7 @@ Restore (const char *argv, st_waste *waste_curr, st_time *st_time_var)
   {
     /* TRANSLATORS:  "basename" refers to the basename of a file  */
     printf (_("Searching using only the basename...\n"));
-
+    st_waste *waste_curr = waste_head;
     while (waste_curr != NULL)
     {
       static char *possibly_in_path;
@@ -237,16 +231,11 @@ Duplicate filename at destination - appending time string...\n"));
  * If rmw isn't built with ncurses wide-character support enabled, a user
  * may experience this minor
  * @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/205">In some cases, not all files are displayed when using '-s'</a>
- *
- * @param[in] waste_curr The linked list of waste folders
- * @return an error number
- * @see Restore()
- * @see is_unreserved
- * @see escape_url
  */
 int
-restore_select (st_waste *waste_curr, st_time *st_time_var)
+restore_select (st_waste *waste_head, st_time *st_time_var)
 {
+  st_waste *waste_curr = waste_head;
   int c = 0;
 
   do
@@ -389,6 +378,7 @@ restore_select (st_waste *waste_curr, st_time *st_time_var)
         {
           static char recover_file[PATH_MAX + 1];
           sprintf (recover_file, "%s%s", waste_curr->files, item_name (items[i]));
+          /* waste_curr, not waste_head should always be passed here */
           msg_warn_restore(Restore (recover_file, waste_curr, st_time_var));
         }
       }
@@ -407,15 +397,9 @@ restore_select (st_waste *waste_curr, st_time *st_time_var)
 
 /*!
  * Reads the `lastrmw` file and restores the files listed inside
- *
- * @param[in] waste_curr the linked list of waste folders
- * @return void
- * @see st_removed
- * @see add_removal
- * @see Restore
  */
 void
-undo_last_rmw (st_waste *waste_curr, st_time *st_time_var)
+undo_last_rmw (st_waste *waste_head, st_time *st_time_var)
 {
   FILE *undo_file_ptr;
   static char undo_path[MP];
@@ -436,12 +420,11 @@ undo_last_rmw (st_waste *waste_curr, st_time *st_time_var)
   }
 
   int err_ctr = 0;
-
   while (fgets (line, MP - 1, undo_file_ptr) != NULL)
   {
     int result = 0;
     trim_white_space (line);
-    result = Restore (line, waste_curr, st_time_var);
+    result = Restore (line, waste_head, st_time_var);
     msg_warn_restore (result);
     err_ctr += result;
   }

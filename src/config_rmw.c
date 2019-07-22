@@ -1,7 +1,3 @@
-/*!
- * @file config_rmw.c
- * @brief Contains functions used to read and parse the configuration file
- */
 /*
  * config_rmw.c
  *
@@ -38,7 +34,7 @@
 #include "trivial_rmw.h"
 #include "messages_rmw.h"
 
-static const int DEFAULT_PURGE_AFTER = 90;
+static const int DEFAULT_PURGE_AFTER = 0;
 
 
 /*!
@@ -401,26 +397,15 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
 
 
 /*!
- * Get configuration data (parse the config file), returns a pointer to
- * a linked list, each node containing info about usable "waste"
- * directories.
+ * Get configuration data (parse the config file)
  */
-st_waste *
-get_config_data (const rmw_options * cli_user_options)
+void
+get_config_data (const rmw_options * cli_user_options, st_config *st_config_data)
 {
-  /*
-   * The default value for purge_after is only used as a last resort,
-   * if for some reason purge_after isn't specified in the config file.
-   */
-  extern int purge_after;
-  purge_after = DEFAULT_PURGE_AFTER;
-  extern bool force_required;
-
   char config_file[MP];
   FILE *config_ptr = realize_config_file (config_file, cli_user_options);
 
-  st_waste *waste_head = NULL;
-  st_waste *waste_curr = NULL;
+  st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
   char line_from_config[CFG_LINE_LEN_MAX + 1];
   while (fgets (line_from_config, CFG_LINE_LEN_MAX, config_ptr) != NULL)
   {
@@ -448,7 +433,7 @@ get_config_data (const rmw_options * cli_user_options)
       {
         value++;
         value = del_char_shift_left (' ', value);
-        purge_after = atoi (value);
+        st_config_data->purge_after = atoi (value);
       }
       else
       {
@@ -457,7 +442,7 @@ get_config_data (const rmw_options * cli_user_options)
       }
     }
     else if (!strcmp (line_ptr, "force_required"))
-      force_required = 1;
+      st_config_data->force_required = 1;
     else if (strncmp ("WASTE", line_ptr, 5) == 0)
     {
       waste_curr =
@@ -483,8 +468,8 @@ get_config_data (const rmw_options * cli_user_options)
                line_ptr);
     }
 
-    if (waste_curr != NULL && waste_head == NULL)
-      waste_head = waste_curr;
+    if (waste_curr != NULL && st_config_data->st_waste_folder_props_head == NULL)
+      st_config_data->st_waste_folder_props_head = waste_curr;
   }
 
   close_file (config_ptr, config_file, __func__);
@@ -502,5 +487,19 @@ visit the rmw web site at\n"));
     exit (NO_WASTE_FOLDER);
   }
 
-  return waste_head;
+  return;
 }
+
+
+void
+init_config_data (st_config *st_config_data)
+{
+  st_config_data->st_waste_folder_props_head = NULL;
+  /*
+   * The default value for purge_after is only used as a last resort,
+   * if for some reason purge_after isn't specified in the config file.
+   */
+  st_config_data->purge_after = DEFAULT_PURGE_AFTER;
+  st_config_data->force_required = 0;
+}
+

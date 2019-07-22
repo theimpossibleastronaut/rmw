@@ -1,12 +1,8 @@
-/*!
- * @file purging_rmw.c
- * @brief functions related to the purge features of rmw
- */
 /*
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +23,7 @@
  */
 
 #include "rmw.h"
+#include "config_rmw.h"
 #include "purging_rmw.h"
 #include "messages_rmw.h"
 #include "strings_rmw.h"
@@ -258,12 +255,11 @@ out:
  */
 int
 purge (
-  const st_waste * waste_curr,
+  st_config *st_config_data,
   const rmw_options * cli_user_options,
   st_time *st_time_var)
 {
-  extern const int purge_after;
-  if (!purge_after)
+  if (!st_config_data->purge_after)
   {
   /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
    * directory  */
@@ -298,20 +294,19 @@ purge (
   if (cmd_dry_run)
     verbose = 1;
 
-  extern const int purge_after;
   printf ("\n");
   if (cli_user_options->want_empty_trash)
     printf (_("Purging all files in waste folders ...\n"));
   else
     printf (_("Purging files based on number of days in the waste folders (%u) ...\n"),
-            purge_after);
+            st_config_data->purge_after);
 
   struct stat st;
 
   unsigned int purge_ctr = 0;
   unsigned int dirs_containing_files_ctr = 0;
   unsigned int max_depth_reached_ctr = 0;
-
+  st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
   while (waste_curr != NULL)
   {
     struct dirent *st_trashinfo_dir_entry;
@@ -337,7 +332,8 @@ purge (
       if (!cli_user_options->want_empty_trash && !(then = get_then_time(st_trashinfo_dir_entry, trashinfo_entry_realpath)))
           continue;
 
-      if (then + (SECONDS_IN_A_DAY * purge_after) <= st_time_var->now || cli_user_options->want_empty_trash)
+      if (then + (SECONDS_IN_A_DAY * st_config_data->purge_after) <= st_time_var->now ||
+          cli_user_options->want_empty_trash)
       {
         char corresponding_file_to_purge[MP];
         strcpy (corresponding_file_to_purge, waste_curr->files);
@@ -480,7 +476,7 @@ purge (
 #ifndef TEST_LIB
 
 short
-orphan_maint (st_waste * waste_curr, st_time *st_time_var)
+orphan_maint (st_waste * waste_head, st_time *st_time_var)
 {
   rmw_target st_file_properties;
 
@@ -492,6 +488,7 @@ orphan_maint (st_waste * waste_curr, st_time *st_time_var)
 
   char path_to_trashinfo[MP];
   int orphan_ctr = 0;
+  st_waste *waste_curr = waste_head;
   while (waste_curr != NULL)
   {
     struct dirent *entry;
