@@ -26,7 +26,7 @@ rmw_SOURCES=	\
 	bst.h	\
 	gettext.h
 
-DEFS = -DSYSCONFDIR=\"$(sysconfdir)\" -DLOCALEDIR=\"$(localedir)\"
+DEFS = -DLOCALEDIR=\"$(localedir)\"
 
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a

@@ -87,7 +87,7 @@ main (const int argc, char* const argv[])
 
   short int next_option = 0;
 
-  verbose = 0; /* already declared, a global */
+  verbose = 0;
   rmw_options cli_user_options;
   init_rmw_options (&cli_user_options);
 

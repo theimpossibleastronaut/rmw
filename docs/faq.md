@@ -45,7 +45,7 @@ trashinfo format and directory layout is the same.
 
 If you're sure that your Desktop trash is compatible, you can add the
 appropriate line to your [rmw configuration
-file](https://github.com/theimpossibleastronaut/rmw/blob/master/rmwrc),
+file](https://github.com/theimpossibleastronaut/rmw/blob/master/rmwrc.example),
 if desired (a config file is created in ~/.config/rmw when rmw is first run).
 
 **Does rmw work on Windows?**

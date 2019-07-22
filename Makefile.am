@@ -1,6 +1,6 @@
 packextrasdir=@docdir@
 SUBDIRS = src man test po
-EXTRA_DIST = ABOUT-NLS README.md ChangeLog AUTHORS.md THANKS COPYING NEWS rmwrc
+EXTRA_DIST = ABOUT-NLS README.md ChangeLog AUTHORS.md THANKS COPYING NEWS rmwrc.example
 
 packextras_DATA=$(EXTRA_DIST)
 

@@ -55,8 +55,8 @@ that you have write access to. Example:
     make
     make install
 
-rmw will be installed to $HOME/usr/bin and the configuration file will be
-copied to $HOME/usr/etc
+The rmw binary will be installed to `$HOME/usr/bin` and documentation to
+`$HOME/usr/doc`.
 
 ### If configure fails
 
@@ -125,7 +125,6 @@ ReMove the FILE(s) to a WASTE directory listed in configuration file
 Restore FILE(s) from a WASTE directory
 
 -h, --help
--t, --translate           display a translation of the configuration file
 -c, --config filename     use an alternate configuration
 -l, --list                list waste directories
 -g, --purge               run purge even if it's been run today

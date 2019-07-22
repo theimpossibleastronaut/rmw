@@ -2,6 +2,10 @@
 
 2019-07-21
 
+  * Because rmw automatically creates a config file in the user's home
+  directory, rmw no longer searches in /etc (or /usr/local/etc..) for
+  rmwrc. It can be removed from your system if installed previously.
+
   * FEATURE-REMOVAL:-t,--translate option
 
 2019-07-20

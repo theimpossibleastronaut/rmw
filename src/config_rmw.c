@@ -38,8 +38,10 @@ static const int DEFAULT_PURGE_AFTER = 0;
 
 
 /*!
- * Prints a copy of the default config file to the specified stream. If
- * a translation is available, the output will be translated.
+ * Prints a copy of the default config file to the specified stream.
+ *
+ * If any changes are made to rmwrc.example, the text here will need to be updated
+ * to match
  */
 static void
 print_config (FILE *stream)
@@ -304,9 +306,6 @@ DO_CONT:
 static FILE *
 realize_config_file (char *config_file, const rmw_options * cli_user_options)
 {
-  if (verbose)
-    printf ("sysconfdir = %s\n", SYSCONFDIR);
-
   /* If no alternate configuration was specifed (-c) */
   if (cli_user_options->alt_config == NULL)
   {
@@ -336,26 +335,6 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
     return fp;
   }
 
-  char tmp_config_file[MP];
-  bufchk (config_file, MP);
-  strcpy (tmp_config_file, config_file);
-
-  bufchk ("/rmwrc", MP - strlen (SYSCONFDIR));
-  sprintf (config_file, "%s%s", SYSCONFDIR, "/rmwrc");
-
-  fp = fopen (config_file, "r");
-  if (fp != NULL)
-  {
-    MSG_USING_CONFIG;
-    return fp;
-  }
-
-  strcpy (config_file, tmp_config_file);
-
-/*
- * If any changes are made to rmwrc, the text here will need to be updated
- * to match
- */
   fp = fopen (config_file, "w");
   if (fp != NULL)
   {

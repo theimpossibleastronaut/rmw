@@ -73,7 +73,6 @@ CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 ./configure \
   --prefix=/usr \
-  --sysconfdir=/etc \
   --mandir=/usr/man \
   --localedir=/usr/share/locale \
   --docdir=/usr/doc/$PRGNAM-$VERSION \
@@ -82,8 +81,11 @@ CXXFLAGS="$SLKCFLAGS" \
 make
 make install-strip DESTDIR=$PKG
 
-mkdir -p $PKG/etc
-cat rmwrc > $PKG/etc/rmwrc.new
+#
+# rmw no longer searches for a system-wide config file
+#
+#mkdir -p $PKG/etc
+#cat rmwrc > $PKG/etc/rmwrc.new
 
 find $PKG/usr/man -type f -exec gzip -9 {} \;
 for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
