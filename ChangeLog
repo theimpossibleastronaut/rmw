@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2019-07-21
+
+  * FEATURE-REMOVAL:-t,--translate option
+
 2019-07-20
 
   * BUGFIX: (severity: low) Some calls to strncat() where an incorrect

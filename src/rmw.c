@@ -76,12 +76,11 @@ main (const int argc, char* const argv[])
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  const char *const short_options = "hvc:goz:lstuwVfeir";
+  const char *const short_options = "hvc:goz:lsuwVfeir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
     {"verbose", 0, NULL, 'v'},
-    {"translate", 0, NULL, 't'},
     {"config", 1, NULL, 'c'},
     {"list", 0, NULL, 'l'},
     {"purge", 0, NULL, 'g'},
@@ -116,9 +115,6 @@ main (const int argc, char* const argv[])
     case 'v':
       verbose++;
       break;
-    case 't':
-      translate_config ();
-      exit (0);
     case 'c':
       cli_user_options.alt_config = optarg;
       break;

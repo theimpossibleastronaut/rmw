@@ -50,7 +50,6 @@ ReMove the FILE(s) to a WASTE directory listed in configuration file\n\
 Restore FILE(s) from a WASTE directory\n\
 \n\
   -h, --help\n\
-  -t, --translate           display a translation of the configuration file\n\
   -c, --config filename     use an alternate configuration\n\
   -l, --list                list waste directories\n\
   -g, --purge               run purge even if it's been run today\n\

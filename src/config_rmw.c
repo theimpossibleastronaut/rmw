@@ -105,17 +105,6 @@ if (fprintf (stream, _("\n\
 
 
 /*!
- * Print a translation (if available) of the comments in the config file
- * to stdout
- */
-void
-translate_config (void)
-{
-  print_config (stdout);
-}
-
-
-/*!
  * If a string begins with 'c', returns a pointer to the first occurrence
  * in the string after 'c'
  */
