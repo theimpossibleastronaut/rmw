@@ -31,7 +31,7 @@ for information specific to the rmw website.
 
 source code patches should only contain changes related to a single
 issue. This helps speed up the review and discussion process. However,
-if you're helping fix typs and grammar errors in documentation,
+if you're helping fix typos and grammar errors in documentation,
 multiple changes in one PR is fine. General rule of thumb for
 documentation patches on this project is 5 unrelated changes or fewer
 to a PR. But if they are only one-word or letter changes, I can be
