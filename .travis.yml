@@ -101,7 +101,7 @@ script:
       make &&
       make check;
       result=$?;
-      if [ result != 0 ]; then
+      if [ $result != 0 ]; then
         cat test/*.log;
         exit $result;
       fi;
