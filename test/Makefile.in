@@ -93,6 +93,9 @@ check_PROGRAMS = strings$(EXEEXT) config_test$(EXEEXT) \
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps =  \
+	$(top_srcdir)/build-aux/m4/ax_append_compile_flags.m4 \
+	$(top_srcdir)/build-aux/m4/ax_append_flag.m4 \
+	$(top_srcdir)/build-aux/m4/ax_check_compile_flag.m4 \
 	$(top_srcdir)/build-aux/m4/ax_check_enable_debug.m4 \
 	$(top_srcdir)/build-aux/m4/ax_func_snprintf.m4 \
 	$(top_srcdir)/build-aux/m4/ax_require_defined.m4 \
@@ -426,7 +429,6 @@ ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
-GLOBAL_CFLAGS = @GLOBAL_CFLAGS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
@@ -525,7 +527,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = @GLOBAL_CFLAGS@ -I$(top_srcdir)/src @CURSES_CFLAGS@
+AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@
 strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
 multi_strlen_SOURCES = multi_strlen.c
