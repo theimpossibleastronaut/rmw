@@ -8,10 +8,10 @@ matrix:
       compiler: gcc
       env: DISTCHECK_ONLY="true" COMPILER="default"
     - os: linux
-      dist: xenial
+      dist: bionic
       compiler: gcc
     - os: linux
-      dist: xenial
+      dist: bionic
       compiler: gcc
       env:
         - secure: "W4b3+2QXHRWddzR0MP/8mpppepuHj1SsFXc/u+wjJWiQ59L2L2R+aGJ2e7wh3M26UaxxRdFZr0mcPEUo/EOn2as0oloAeRPt2lS8az3Doih/Wt1xqIAWNPOsY4ljtaValtZFGVOwcQZYePh314pAagQY/e+NoRWBIJ/Tl48AtcOJov4shq0ichp/8/4+DuAprpnRsSYSKPmMI6cYI0EWt0VKgzx+nOLYuORKetOEbqsRm55LIr5vZk5IueE45bqdlyGkwtPvmVg0XNGbLZxiIycZ6V/zvw9UxQy7DlqUjuZT4R5HJ/wIcvgVR9JprBN7Aza9NvTRupghGujoubb3Io6Xl71plpcAqyAjtpzre6IxxfHc7UEjIexK3tOgTBZff3AuR6+AEvVt9VZYh+TLLjx3Vmg4ek5ETvXeYRg4gbkf01obV019MdO1aNJgcOqOHExFuQ3VnxTo1tCDsT4z6pzRly2EXxOxzDWUGJ+c60tsmQzdr9SiQJgvecfxSfO4RCj2sgQ+2zNYWQ/Rk8HAcf+n7Sze/KTJ6DZltSGP6RA6mHbCNj4VQ63JmGhciSIvNaKbwAUaIlNQWFHFtctDFNwVhikEZNLgC+3o0+9apWBvmuHb5is4SlPSlsvYrUOzIZEApUNFlZh5+bNfXL7o1s5qWIvk56rhkYQ9dEWBzzk="
@@ -27,15 +27,15 @@ matrix:
           build_command: "make"
           branch_pattern: coverity_scan
     - os: linux
-      dist: trusty
+      dist: bionic
       compiler: gcc
       env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
     - os: linux
-      dist: trusty
+      dist: bionic
       compiler: gcc
       env: MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
     - os: linux
-      dist: xenial
+      dist: bionic
       compiler: gcc
       env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
@@ -79,12 +79,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
       eval "${MATRIX_EVAL}";
       if [ -n "$MATRIX_EVAL" ] && [ "$TRAVIS_COMPILER" != "clang" ]; then
-        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6B05F25D762E3157;
-        sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
-        sudo apt-get update -qq;
         sudo apt-get install -y $CC;
-      else
-        sudo apt-get update -qq;
       fi;
     else
       brew install ncurses &&
