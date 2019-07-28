@@ -1,11 +1,8 @@
-/*!
- * @file trivial_rmw.h
- */
 /*
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2017  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019 Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,11 +22,28 @@
  *
  */
 
-void
-print_usage (void);
+#include <getopt.h>
+
+typedef struct rmw_options rmw_options;
+
+/** CLI option switches for rmw. */
+struct rmw_options
+{
+  bool want_restore;
+  bool want_purge;
+  bool want_empty_trash;
+  bool want_orphan_chk;
+  bool want_selection_menu;
+  bool want_undo;
+  ushort force;
+  /*! list waste folder option */
+  bool list;
+  /*! Alternate configuration file given at the command line with -c */
+  const char *alt_config;
+};
 
 void
-warranty (void);
+init_rmw_options (rmw_options *options);
 
 void
-version (void);
+parse_cli_options (const int argc, char* const argv[], rmw_options *options);

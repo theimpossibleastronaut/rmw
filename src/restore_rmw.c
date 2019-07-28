@@ -27,6 +27,7 @@
   #include "rmw.h"
 #endif
 
+#include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "restore_rmw.h"
 #include "utils_rmw.h"

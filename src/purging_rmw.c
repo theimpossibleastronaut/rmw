@@ -23,6 +23,7 @@
  */
 
 #include "rmw.h"
+#include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "purging_rmw.h"
 #include "messages_rmw.h"

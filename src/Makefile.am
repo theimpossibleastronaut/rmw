@@ -7,7 +7,7 @@ rmw_SOURCES=	\
 	rmw.c	\
 	restore_rmw.c	\
 	config_rmw.c	\
-	trivial_rmw.c	\
+	parse_cli_options.c	\
 	strings_rmw.c	\
 	purging_rmw.c	\
 	messages_rmw.c	\
@@ -17,7 +17,7 @@ rmw_SOURCES=	\
 	rmw.h	\
 	restore_rmw.h 	\
 	config_rmw.h	\
-	trivial_rmw.h	\
+	parse_cli_options.h	\
 	strings_rmw.h	\
 	purging_rmw.h	\
 	messages_rmw.h	\

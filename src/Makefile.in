@@ -130,7 +130,7 @@ librmw_test_a_LIBADD =
 am__objects_1 = librmw_test_a-rmw.$(OBJEXT) \
 	librmw_test_a-restore_rmw.$(OBJEXT) \
 	librmw_test_a-config_rmw.$(OBJEXT) \
-	librmw_test_a-trivial_rmw.$(OBJEXT) \
+	librmw_test_a-parse_cli_options.$(OBJEXT) \
 	librmw_test_a-strings_rmw.$(OBJEXT) \
 	librmw_test_a-purging_rmw.$(OBJEXT) \
 	librmw_test_a-messages_rmw.$(OBJEXT) \
@@ -139,7 +139,7 @@ am__objects_1 = librmw_test_a-rmw.$(OBJEXT) \
 am_librmw_test_a_OBJECTS = $(am__objects_1)
 librmw_test_a_OBJECTS = $(am_librmw_test_a_OBJECTS)
 am_rmw_OBJECTS = rmw-rmw.$(OBJEXT) rmw-restore_rmw.$(OBJEXT) \
-	rmw-config_rmw.$(OBJEXT) rmw-trivial_rmw.$(OBJEXT) \
+	rmw-config_rmw.$(OBJEXT) rmw-parse_cli_options.$(OBJEXT) \
 	rmw-strings_rmw.$(OBJEXT) rmw-purging_rmw.$(OBJEXT) \
 	rmw-messages_rmw.$(OBJEXT) rmw-trashinfo_rmw.$(OBJEXT) \
 	rmw-utils_rmw.$(OBJEXT) rmw-bst.$(OBJEXT)
@@ -332,7 +332,7 @@ rmw_SOURCES = \
 	rmw.c	\
 	restore_rmw.c	\
 	config_rmw.c	\
-	trivial_rmw.c	\
+	parse_cli_options.c	\
 	strings_rmw.c	\
 	purging_rmw.c	\
 	messages_rmw.c	\
@@ -342,7 +342,7 @@ rmw_SOURCES = \
 	rmw.h	\
 	restore_rmw.h 	\
 	config_rmw.h	\
-	trivial_rmw.h	\
+	parse_cli_options.h	\
 	strings_rmw.h	\
 	purging_rmw.h	\
 	messages_rmw.h	\
@@ -491,11 +491,11 @@ librmw_test_a-config_rmw.o: config_rmw.c
 librmw_test_a-config_rmw.obj: config_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-config_rmw.obj `if test -f 'config_rmw.c'; then $(CYGPATH_W) 'config_rmw.c'; else $(CYGPATH_W) '$(srcdir)/config_rmw.c'; fi`
 
-librmw_test_a-trivial_rmw.o: trivial_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-trivial_rmw.o `test -f 'trivial_rmw.c' || echo '$(srcdir)/'`trivial_rmw.c
+librmw_test_a-parse_cli_options.o: parse_cli_options.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-parse_cli_options.o `test -f 'parse_cli_options.c' || echo '$(srcdir)/'`parse_cli_options.c
 
-librmw_test_a-trivial_rmw.obj: trivial_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-trivial_rmw.obj `if test -f 'trivial_rmw.c'; then $(CYGPATH_W) 'trivial_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trivial_rmw.c'; fi`
+librmw_test_a-parse_cli_options.obj: parse_cli_options.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-parse_cli_options.obj `if test -f 'parse_cli_options.c'; then $(CYGPATH_W) 'parse_cli_options.c'; else $(CYGPATH_W) '$(srcdir)/parse_cli_options.c'; fi`
 
 librmw_test_a-strings_rmw.o: strings_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-strings_rmw.o `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c
@@ -551,11 +551,11 @@ rmw-config_rmw.o: config_rmw.c
 rmw-config_rmw.obj: config_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-config_rmw.obj `if test -f 'config_rmw.c'; then $(CYGPATH_W) 'config_rmw.c'; else $(CYGPATH_W) '$(srcdir)/config_rmw.c'; fi`
 
-rmw-trivial_rmw.o: trivial_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-trivial_rmw.o `test -f 'trivial_rmw.c' || echo '$(srcdir)/'`trivial_rmw.c
+rmw-parse_cli_options.o: parse_cli_options.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-parse_cli_options.o `test -f 'parse_cli_options.c' || echo '$(srcdir)/'`parse_cli_options.c
 
-rmw-trivial_rmw.obj: trivial_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-trivial_rmw.obj `if test -f 'trivial_rmw.c'; then $(CYGPATH_W) 'trivial_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trivial_rmw.c'; fi`
+rmw-parse_cli_options.obj: parse_cli_options.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-parse_cli_options.obj `if test -f 'parse_cli_options.c'; then $(CYGPATH_W) 'parse_cli_options.c'; else $(CYGPATH_W) '$(srcdir)/parse_cli_options.c'; fi`
 
 rmw-strings_rmw.o: strings_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-strings_rmw.o `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c

@@ -25,11 +25,10 @@
 #include "rmw.h"
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <getopt.h>
 
 #include "utils_rmw.h"
 #include "restore_rmw.h"
-#include "trivial_rmw.h"
+#include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "trashinfo_rmw.h"
 #include "purging_rmw.h"
@@ -64,97 +63,9 @@ main (const int argc, char* const argv[])
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  const char *const short_options = "hvc:goz:lsuwVfeir";
-
-  const struct option long_options[] = {
-    {"help", 0, NULL, 'h'},
-    {"verbose", 0, NULL, 'v'},
-    {"config", 1, NULL, 'c'},
-    {"list", 0, NULL, 'l'},
-    {"purge", 0, NULL, 'g'},
-    {"orphaned", 0, NULL, 'o'},
-    {"restore", 1, NULL, 'z'},
-    {"select", 0, NULL, 's'},
-    {"undo-last", 0, NULL, 'u'},
-    {"warranty", 0, NULL, 'w'},
-    {"version", 0, NULL, 'V'},
-    {"interactive", 0, NULL, 'i'},
-    {"recurse", 0, NULL, 'r'},
-    {"force", 0, NULL, 'f'},
-    {"empty", 0, NULL, 'e'},
-    {NULL, 0, NULL, 0}
-  };
-
-  short int next_option = 0;
-
-  verbose = 0;
   rmw_options cli_user_options;
   init_rmw_options (&cli_user_options);
-
-  do
-  {
-    next_option = getopt_long (argc, argv, short_options, long_options, NULL);
-
-    switch (next_option)
-    {
-    case 'h':
-      print_usage ();
-      exit (0);
-    case 'v':
-      verbose++;
-      break;
-    case 'c':
-      cli_user_options.alt_config = optarg;
-      break;
-    case 'l':
-      cli_user_options.list = true;
-      break;
-    case 'g':
-      cli_user_options.want_purge = true;
-      break;
-    case 'o':
-      cli_user_options.want_orphan_chk = 1;
-      break;
-    case 'z':
-      cli_user_options.want_restore = true;
-      break;
-    case 's':
-      cli_user_options.want_selection_menu = 1;
-      break;
-    case 'u':
-      cli_user_options.want_undo = 1;
-      break;
-    case 'w':
-      warranty ();
-      break;
-    case 'V':
-      version ();
-      break;
-    case 'i':
-      printf (_("-i / --interactive: not implemented\n"));
-      break;
-    case 'r':
-      printf (_("-r / --recurse: not implemented\n"));
-      break;
-    case 'f':
-      if (cli_user_options.force < 2) /* This doesn't need to go higher than 2 */
-        cli_user_options.force++;
-      break;
-    case 'e':
-      cli_user_options.want_empty_trash = true;
-      cli_user_options.want_purge = true;
-      break;
-    case '?':
-      print_usage ();
-      exit (0);
-    case -1:
-      break;
-    default:
-      abort ();
-    }
-
-  }
-  while (next_option != -1);
+  parse_cli_options (argc, argv, &cli_user_options);
 
   if (verbose > 1)
     printf ("PATH_MAX = %d\n", MP - 1);
@@ -442,22 +353,6 @@ list_waste_folders (st_waste *waste_head)
 
   dispose_waste (waste_head);
   return;
-}
-
-
-void
-init_rmw_options (rmw_options *options)
-{
-  options->want_restore = false;
-  options->want_purge = false;
-  options->want_empty_trash = false;
-  options->want_orphan_chk = false;
-  options->want_selection_menu = false;
-  options->want_undo = false;
-  options->force = 0;
-  options->list = false;
-  options->alt_config = NULL;
-
 }
 
 

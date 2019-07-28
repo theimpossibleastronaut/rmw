@@ -28,10 +28,10 @@
 #include "rmw.h"
 #endif
 
+#include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
 #include "strings_rmw.h"
-#include "trivial_rmw.h"
 #include "messages_rmw.h"
 
 static const int DEFAULT_PURGE_AFTER = 0;
