@@ -6,7 +6,11 @@ matrix:
     - os: linux
       dist: xenial
       compiler: gcc
-      env: DISTCHECK_ONLY="true" COMPILER="default"
+      addons:
+        apt:
+          packages:
+            - valgrind
+      env: DISTCHECK_ONLY="true" COMPILER="default" VALGRIND="on"
     - os: linux
       dist: bionic
       compiler: gcc
@@ -29,7 +33,7 @@ matrix:
     - os: linux
       dist: bionic
       compiler: gcc
-      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6" VALGRIND="on"
     - os: linux
       dist: bionic
       compiler: gcc
@@ -81,6 +85,9 @@ before_install:
       if [ -n "$MATRIX_EVAL" ] && [ "$TRAVIS_COMPILER" != "clang" ]; then
         sudo apt-get install -y $CC;
       fi;
+      if [ "$CC" = "gcc-6" ]; then
+        sudo apt-get install -y valgrind;
+      fi;
     else
       brew install ncurses &&
       export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig";
@@ -96,10 +103,7 @@ script:
       make &&
       make check;
     else
-      make install &&
-      make uninstall &&
-      make distcheck &&
-      make distclean;
+      make distcheck;
     fi
 
 notifications:

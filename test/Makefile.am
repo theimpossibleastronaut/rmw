@@ -31,7 +31,7 @@ EXTRA_DIST=	\
 	rmw.purge_disabled.testrc
 
 clean-local:
-	dir=$(top_builddir)/test/tmp-home; \
+	dir=$(top_builddir)/test/rmw-tests-home; \
 	if test -d $$dir;	then	\
 		rm -rf $$dir;	\
 	fi

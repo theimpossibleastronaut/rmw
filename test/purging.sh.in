@@ -68,7 +68,7 @@ echo " == The trashinfo records that these files were rmw'ed in 1999"
 echo " == So they will be purged now."
 
 
-$BIN_DIR/rmw --verbose --purge -c $CONFIG
+$RMW_TEST_CMD_STRING --verbose --purge
 test_result $?
 
 
@@ -94,12 +94,12 @@ echo " == rmw should be able to purge directories and subdirectories"
 echo " == even if some of the dirs are read-only"
 
 echo $SEPARATOR
-RMWTRASH=fake-year $BIN_DIR/rmw --verbose -c $CONFIG $HOME/somefiles
+RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose $HOME/somefiles
 test_result $?
 
 echo $SEPARATOR
 echo " == only one f, should fail"
-$BIN_DIR/rmw -f --purge -c $CONFIG
+$RMW_TEST_CMD_STRING -f --purge
 test_result $?
 echo $SEPARATOR
 echo " == (files should still be present)"
@@ -110,7 +110,7 @@ test_result_want_fail $?
 
 echo $SEPARATOR
 echo " == 2 f's, this should pass"
-$BIN_DIR/rmw -ff --purge -c $CONFIG
+$RMW_TEST_CMD_STRING -ff --purge
 test_result $?
 
 echo

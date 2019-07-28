@@ -26,11 +26,21 @@ test_result_want_fail() {
 # HOME is defined in test/Makefile as "tmp-home". But...
 # Don't use the var $HOME here, just in case something went wrong somewhere ;)
 #
-if [ -e tmp-home ]; then
-  rm -rf tmp-home
+if [ -e rmw-tests-home ]; then
+  rm -rf rmw-tests-home
 fi
 
 RMW_TEST_CMD_STRING="$BIN_DIR/rmw -c $CONFIG"
+
+if [ "$VALGRIND" = "on" ]; then
+  if [ -z `which valgrind` ]; then
+    echo "Valgrind isn't installed"
+    exit 1
+  fi
+  VALGRIND=`which valgrind --error-exitcode=1`
+  RMW_TEST_CMD_STRING="$VALGRIND $RMW_TEST_CMD_STRING"
+fi
+
 RMW_ALT_TEST_CMD_STRING="$BIN_DIR/rmw -c $ALT_CONFIG"
 RMW_PURGE_DISABLED_CMD="$BIN_DIR/rmw -c $PURGE_DISABLED_CONFIG"
 SEPARATOR="\n\n--- "

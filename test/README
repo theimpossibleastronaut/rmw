@@ -1,3 +1,8 @@
 Use `make check` from the build directory to run the tests.
 
+Use `VALGRIND=on make check` to run some of the tests through valgrind.
+
+If valgrind isn't installed on your system, some checks will fail
+automatically.
+
 Detailed logs for each test will be created in `test/`
