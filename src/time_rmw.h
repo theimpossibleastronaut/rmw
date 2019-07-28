@@ -1,11 +1,7 @@
-/*!
- * @file purging_rmw.h
- */
 /*
+ * time_rmw.h
  *
- * This file is part of rmw<https://remove-to-waste.info/>
- *
- *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ * Copyright 2019 Andy <andy400-dev@yahoo.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,23 +21,28 @@
  *
  */
 
-#include <sys/stat.h>
-#include <dirent.h>
-#include <unistd.h>             /* for rmdir() */
+#include <time.h>
 
-#define RMDIR_MAX_DEPTH 32
-#define NOT_WRITEABLE 101
-#define MAX_DEPTH_REACHED 201
+#ifndef _INC_TIME_RMW_H
+#define _INC_TIME_RMW_H
 
-bool
-is_time_to_purge (st_time *st_time_var);
+typedef struct st_time st_time;
 
-int
-purge (
-  st_config *st_config_data,
-  const rmw_options * cli_user_options,
-  st_time *st_time_var);
+#define LEN_DELETION_DATE (19 + 1)
+#define LEN_TIME_STR_SUFFIX (14 + 1)
+#define SECONDS_IN_A_DAY (60 * 60 * 24)
 
-#ifndef TEST_LIB
-short orphan_maint (st_waste * waste_head, st_time *st_time_var);
+/*! Holds variables related to time
+ */
+struct st_time {
+  char suffix_added_dup_exists[LEN_TIME_STR_SUFFIX];
+  char t_fmt[LEN_DELETION_DATE];
+  char deletion_date[LEN_DELETION_DATE];
+  time_t now;
+};
+
+
+void
+init_time_vars (st_time *st_time_var);
+
 #endif

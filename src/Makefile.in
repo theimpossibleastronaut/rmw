@@ -134,6 +134,7 @@ am__objects_1 = librmw_test_a-main.$(OBJEXT) \
 	librmw_test_a-strings_rmw.$(OBJEXT) \
 	librmw_test_a-purging_rmw.$(OBJEXT) \
 	librmw_test_a-messages_rmw.$(OBJEXT) \
+	librmw_test_a-time_rmw.$(OBJEXT) \
 	librmw_test_a-trashinfo_rmw.$(OBJEXT) \
 	librmw_test_a-utils_rmw.$(OBJEXT) librmw_test_a-bst.$(OBJEXT)
 am_librmw_test_a_OBJECTS = $(am__objects_1)
@@ -141,8 +142,9 @@ librmw_test_a_OBJECTS = $(am_librmw_test_a_OBJECTS)
 am_rmw_OBJECTS = rmw-main.$(OBJEXT) rmw-restore_rmw.$(OBJEXT) \
 	rmw-config_rmw.$(OBJEXT) rmw-parse_cli_options.$(OBJEXT) \
 	rmw-strings_rmw.$(OBJEXT) rmw-purging_rmw.$(OBJEXT) \
-	rmw-messages_rmw.$(OBJEXT) rmw-trashinfo_rmw.$(OBJEXT) \
-	rmw-utils_rmw.$(OBJEXT) rmw-bst.$(OBJEXT)
+	rmw-messages_rmw.$(OBJEXT) rmw-time_rmw.$(OBJEXT) \
+	rmw-trashinfo_rmw.$(OBJEXT) rmw-utils_rmw.$(OBJEXT) \
+	rmw-bst.$(OBJEXT)
 rmw_OBJECTS = $(am_rmw_OBJECTS)
 rmw_DEPENDENCIES =
 rmw_LINK = $(CCLD) $(rmw_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
@@ -336,6 +338,7 @@ rmw_SOURCES = \
 	strings_rmw.c	\
 	purging_rmw.c	\
 	messages_rmw.c	\
+	time_rmw.c	\
 	trashinfo_rmw.c	\
 	utils_rmw.c	\
 	bst.c	\
@@ -347,6 +350,7 @@ rmw_SOURCES = \
 	strings_rmw.h	\
 	purging_rmw.h	\
 	messages_rmw.h	\
+	time_rmw.h	\
 	trashinfo_rmw.h	\
 	utils_rmw.h	\
 	bst.h	\
@@ -516,6 +520,12 @@ librmw_test_a-messages_rmw.o: messages_rmw.c
 librmw_test_a-messages_rmw.obj: messages_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-messages_rmw.obj `if test -f 'messages_rmw.c'; then $(CYGPATH_W) 'messages_rmw.c'; else $(CYGPATH_W) '$(srcdir)/messages_rmw.c'; fi`
 
+librmw_test_a-time_rmw.o: time_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-time_rmw.o `test -f 'time_rmw.c' || echo '$(srcdir)/'`time_rmw.c
+
+librmw_test_a-time_rmw.obj: time_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-time_rmw.obj `if test -f 'time_rmw.c'; then $(CYGPATH_W) 'time_rmw.c'; else $(CYGPATH_W) '$(srcdir)/time_rmw.c'; fi`
+
 librmw_test_a-trashinfo_rmw.o: trashinfo_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-trashinfo_rmw.o `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c
 
@@ -575,6 +585,12 @@ rmw-messages_rmw.o: messages_rmw.c
 
 rmw-messages_rmw.obj: messages_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-messages_rmw.obj `if test -f 'messages_rmw.c'; then $(CYGPATH_W) 'messages_rmw.c'; else $(CYGPATH_W) '$(srcdir)/messages_rmw.c'; fi`
+
+rmw-time_rmw.o: time_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-time_rmw.o `test -f 'time_rmw.c' || echo '$(srcdir)/'`time_rmw.c
+
+rmw-time_rmw.obj: time_rmw.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-time_rmw.obj `if test -f 'time_rmw.c'; then $(CYGPATH_W) 'time_rmw.c'; else $(CYGPATH_W) '$(srcdir)/time_rmw.c'; fi`
 
 rmw-trashinfo_rmw.o: trashinfo_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-trashinfo_rmw.o `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c

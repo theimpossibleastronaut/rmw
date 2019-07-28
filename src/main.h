@@ -30,6 +30,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "time_rmw.h"
 #include "trashinfo_rmw.h"
 
 typedef struct st_removed st_removed;
@@ -66,17 +67,5 @@ create_undo_file (st_removed *removals_head);
 
 void
 dispose_removed (st_removed *node);
-
-bool
-is_time_to_purge (st_time *st_time_var);
-
-void
-init_time_vars (st_time *st_time_var);
-
-void
-set_which_deletion_date (st_time *st_time_var, const int len);
-
-void
-set_time_string (char *tm_str, const int len, const char *format, time_t time_t_now);
 
 #endif

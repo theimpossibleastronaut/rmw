@@ -28,6 +28,8 @@
 #include "rmw.h"
 #include <sys/stat.h>
 
+#include "time_rmw.h"
+
 #define DOT_TRASHINFO ".trashinfo"
 
 typedef struct st_waste st_waste;

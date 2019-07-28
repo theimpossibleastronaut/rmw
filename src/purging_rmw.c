@@ -246,13 +246,71 @@ out:
   return then;
 }
 
+
+/*!
+ * Called in main() to determine whether or not purge() was run today, reads
+ * and writes to the 'lastpurge` file. If it hasn't been run today, the
+ * current day will be written. If 'lastpurge' doesn't exist, it gets
+ * created.
+ */
+bool
+is_time_to_purge (st_time *st_time_var)
+{
+  const int BUF_TIME = 80;
+  int req_len = multi_strlen (HOMEDIR, PURGE_DAY_FILE, NULL) + 1;
+  bufchk_len (req_len, MP, __func__, __LINE__);
+  char file_lastpurge[req_len];
+  snprintf (file_lastpurge, req_len, "%s%s", HOMEDIR, PURGE_DAY_FILE);
+
+  FILE *fp = fopen (file_lastpurge, "r");
+  bool init = (fp != NULL);
+  if (fp)
+  {
+    char time_prev[BUF_TIME];
+
+    if (fgets (time_prev, BUF_TIME, fp) == NULL)
+    {
+      print_msg_error ();
+      printf ("while getting line from %s\n", file_lastpurge);
+      perror (__func__);
+      close_file (fp, file_lastpurge, __func__);
+      exit (ERR_FGETS);
+    }
+
+    trim_white_space (time_prev);
+    close_file (fp, file_lastpurge, __func__);
+
+    if ((st_time_var->now - atoi (time_prev)) < SECONDS_IN_A_DAY)
+      return false;
+  }
+
+  fp = fopen (file_lastpurge, "w");
+  if (fp)
+  {
+    fprintf (fp, "%ld\n", st_time_var->now);
+    close_file (fp, file_lastpurge, __func__);
+
+    /*
+     * if this is the first time the file got created, it's very likely
+     * indeed that purge does not need to run. Only return FALSE if the
+     * file didn't previously exist.
+     */
+    return init;
+  }
+
+  /*
+   * if we can't even write this file to the config directory, something
+   * is not right. Make it fatal.
+   */
+  open_err (file_lastpurge, __func__);
+  msg_return_code (ERR_OPEN);
+  exit (ERR_OPEN);
+}
+
+
 /*!
  * Purges files older than x number of days, unless purge_after is set to
  * 0 in the config file.
- * @param[in] waste_curr the linked list of waste folders
- * @return error number
- * @see is_time_to_purge
- * @see get_then_time
  */
 int
 purge (

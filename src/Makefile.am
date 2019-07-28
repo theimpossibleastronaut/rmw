@@ -11,6 +11,7 @@ rmw_SOURCES=	\
 	strings_rmw.c	\
 	purging_rmw.c	\
 	messages_rmw.c	\
+	time_rmw.c	\
 	trashinfo_rmw.c	\
 	utils_rmw.c	\
 	bst.c	\
@@ -22,6 +23,7 @@ rmw_SOURCES=	\
 	strings_rmw.h	\
 	purging_rmw.h	\
 	messages_rmw.h	\
+	time_rmw.h	\
 	trashinfo_rmw.h	\
 	utils_rmw.h	\
 	bst.h	\
