@@ -28,7 +28,7 @@
 #include <stdarg.h>
 
 void
-bufchk (const char *str, unsigned short boundary);
+bufchk (const char *str, int boundary);
 
 void
 bufchk_len (const int len, const int boundary, const char *func, const int line);
@@ -43,7 +43,7 @@ void
 trim_char (const char c, char *str);
 
 void
-truncate_str (char *str, ushort pos);
+truncate_str (char *str, int pos);
 
 int
 resolve_path (const char *src, char *abs_path);

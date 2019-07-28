@@ -71,7 +71,7 @@ Please report this bug to the rmw developers.", func);
  * @see bufchk_len
  */
 void
-bufchk (const char *str, ushort boundary)
+bufchk (const char *str, int boundary)
 {
   entry_NULL_check (str, __func__);
 
@@ -81,7 +81,7 @@ bufchk (const char *str, ushort boundary)
    */
 #define STR_PART 10
 
-  static ushort len;
+  int len;
   len = strlen (str);
 
   if (len < boundary)
@@ -103,7 +103,7 @@ bufchk (const char *str, ushort boundary)
    * display_len, making it possible to view part of the strings to help
    * with debugging or tracing the error.
    */
-  static ushort display_len;
+  int display_len;
   display_len = 0;
 
   display_len = (boundary > STR_PART) ? STR_PART : boundary;
@@ -249,7 +249,7 @@ trim_char (const char c, char *str)
  * @return void
  */
 void
-truncate_str (char *str, ushort pos)
+truncate_str (char *str, int pos)
 {
   str[strlen (str) - pos] = '\0';
 }

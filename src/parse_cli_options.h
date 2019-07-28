@@ -35,7 +35,7 @@ struct rmw_options
   bool want_orphan_chk;
   bool want_selection_menu;
   bool want_undo;
-  ushort force;
+  int force;
   /*! list waste folder option */
   bool list;
   /*! Alternate configuration file given at the command line with -c */

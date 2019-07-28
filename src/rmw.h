@@ -80,10 +80,6 @@
 
 const char *HOMEDIR;
 
-#ifndef ushort
-  #define ushort unsigned short int
-#endif
-
 typedef struct st_waste st_waste;
 
 /** Each waste directory is added to a linked list and has the data
