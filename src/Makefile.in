@@ -127,7 +127,7 @@ am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
 librmw_test_a_AR = $(AR) $(ARFLAGS)
 librmw_test_a_LIBADD =
-am__objects_1 = librmw_test_a-rmw.$(OBJEXT) \
+am__objects_1 = librmw_test_a-main.$(OBJEXT) \
 	librmw_test_a-restore_rmw.$(OBJEXT) \
 	librmw_test_a-config_rmw.$(OBJEXT) \
 	librmw_test_a-parse_cli_options.$(OBJEXT) \
@@ -138,7 +138,7 @@ am__objects_1 = librmw_test_a-rmw.$(OBJEXT) \
 	librmw_test_a-utils_rmw.$(OBJEXT) librmw_test_a-bst.$(OBJEXT)
 am_librmw_test_a_OBJECTS = $(am__objects_1)
 librmw_test_a_OBJECTS = $(am_librmw_test_a_OBJECTS)
-am_rmw_OBJECTS = rmw-rmw.$(OBJEXT) rmw-restore_rmw.$(OBJEXT) \
+am_rmw_OBJECTS = rmw-main.$(OBJEXT) rmw-restore_rmw.$(OBJEXT) \
 	rmw-config_rmw.$(OBJEXT) rmw-parse_cli_options.$(OBJEXT) \
 	rmw-strings_rmw.$(OBJEXT) rmw-purging_rmw.$(OBJEXT) \
 	rmw-messages_rmw.$(OBJEXT) rmw-trashinfo_rmw.$(OBJEXT) \
@@ -329,7 +329,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = @CURSES_CFLAGS@
 rmw_CFLAGS = $(AM_CFLAGS)
 rmw_SOURCES = \
-	rmw.c	\
+	main.c	\
 	restore_rmw.c	\
 	config_rmw.c	\
 	parse_cli_options.c	\
@@ -340,6 +340,7 @@ rmw_SOURCES = \
 	utils_rmw.c	\
 	bst.c	\
 	rmw.h	\
+	main.h	\
 	restore_rmw.h 	\
 	config_rmw.h	\
 	parse_cli_options.h	\
@@ -473,11 +474,11 @@ distclean-compile:
 .c.obj:
 	$(AM_V_CC)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-librmw_test_a-rmw.o: rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-rmw.o `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
+librmw_test_a-main.o: main.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
 
-librmw_test_a-rmw.obj: rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-rmw.obj `if test -f 'rmw.c'; then $(CYGPATH_W) 'rmw.c'; else $(CYGPATH_W) '$(srcdir)/rmw.c'; fi`
+librmw_test_a-main.obj: main.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
 
 librmw_test_a-restore_rmw.o: restore_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-restore_rmw.o `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c
@@ -533,11 +534,11 @@ librmw_test_a-bst.o: bst.c
 librmw_test_a-bst.obj: bst.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
 
-rmw-rmw.o: rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-rmw.o `test -f 'rmw.c' || echo '$(srcdir)/'`rmw.c
+rmw-main.o: main.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
 
-rmw-rmw.obj: rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-rmw.obj `if test -f 'rmw.c'; then $(CYGPATH_W) 'rmw.c'; else $(CYGPATH_W) '$(srcdir)/rmw.c'; fi`
+rmw-main.obj: main.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
 
 rmw-restore_rmw.o: restore_rmw.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-restore_rmw.o `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c

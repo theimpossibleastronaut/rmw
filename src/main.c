@@ -1,4 +1,6 @@
 /*
+ * main.c
+ *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
  * Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
@@ -23,14 +25,11 @@
  */
 
 #include "rmw.h"
-#include <sys/stat.h>
-#include <sys/types.h>
-
+#include "main.h"
 #include "utils_rmw.h"
 #include "restore_rmw.h"
 #include "parse_cli_options.h"
 #include "config_rmw.h"
-#include "trashinfo_rmw.h"
 #include "purging_rmw.h"
 #include "strings_rmw.h"
 #include "messages_rmw.h"

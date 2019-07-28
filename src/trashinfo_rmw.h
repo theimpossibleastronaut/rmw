@@ -22,8 +22,53 @@
  *
  */
 
+#ifndef _INC_TRASHINFO_H
+#define _INC_TRASHINFO_H
+
 #include "rmw.h"
 #include <sys/stat.h>
 
+#define DOT_TRASHINFO ".trashinfo"
+
+typedef struct st_waste st_waste;
+
+/** Each waste directory is added to a linked list and has the data
+ * from this structure associated with it.
+ */
+struct st_waste
+{
+  /** The parent directory, e.g. $HOME/.local/share/Trash */
+  char parent[PATH_MAX + 1];
+
+  /*! The info directory (where .trashinfo files are written) will be appended to the parent directory */
+  char info[PATH_MAX + 1];
+
+  /** Appended to the parent directory, where files are moved to when they are rmw'ed
+   */
+  char files[PATH_MAX + 1];
+
+  /** The device number of the filesystem on which the file resides. rmw does
+   * not copy files from one filesystem to another, but rather only moves them.
+   * They must reside on the same filesystem as a WASTE folder specified in
+   * the configuration file.
+   */
+  unsigned int dev_num;
+
+  /** set to <tt>true</tt> if the parent directory is on a removable device,
+   * <tt>false</tt> otherwise.
+   */
+  bool removable;
+
+  /** Points to the previous WASTE directory in the linked list
+   */
+  st_waste *prev_node;
+
+  /** Points to the next WASTE directory in the linked list
+   */
+  st_waste *next_node;
+};
+
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var);
+
+#endif

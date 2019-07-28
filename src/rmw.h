@@ -64,8 +64,6 @@
 #define UNDO_FILE DATA_DIR"/lastrmw"
 #define PURGE_DAY_FILE DATA_DIR"/lastpurge"
 
-#define DOT_TRASHINFO ".trashinfo"
-
 /*!
  * PATH_MAX is used to set limits on how long a pathname can be.
  * Some systems may not define PATH_MAX so it's defined here if it's
@@ -79,44 +77,6 @@
 #define MP (PATH_MAX + 1)
 
 const char *HOMEDIR;
-
-typedef struct st_waste st_waste;
-
-/** Each waste directory is added to a linked list and has the data
- * from this structure associated with it.
- */
-struct st_waste
-{
-  /** The parent directory, e.g. $HOME/.local/share/Trash */
-  char parent[PATH_MAX + 1];
-
-  /*! The info directory (where .trashinfo files are written) will be appended to the parent directory */
-  char info[PATH_MAX + 1];
-
-  /** Appended to the parent directory, where files are moved to when they are rmw'ed
-   */
-  char files[PATH_MAX + 1];
-
-  /** The device number of the filesystem on which the file resides. rmw does
-   * not copy files from one filesystem to another, but rather only moves them.
-   * They must reside on the same filesystem as a WASTE folder specified in
-   * the configuration file.
-   */
-  unsigned int dev_num;
-
-  /** set to <tt>true</tt> if the parent directory is on a removable device,
-   * <tt>false</tt> otherwise.
-   */
-  bool removable;
-
-  /** Points to the previous WASTE directory in the linked list
-   */
-  st_waste *prev_node;
-
-  /** Points to the next WASTE directory in the linked list
-   */
-  st_waste *next_node;
-};
 
 typedef struct rmw_target rmw_target;
 
@@ -144,17 +104,6 @@ struct rmw_target
    */
   bool is_duplicate;
 };
-
-typedef struct st_removed st_removed;
-
-/*!
- * Holds a list of files that rmw will be ReMoving.
- */
-struct st_removed{
-  char file[MP];
-  st_removed *next_node;
-};
-
 
 typedef struct st_time st_time;
 
@@ -191,41 +140,5 @@ enum {
   FIRST_RUN,
   ERR_LSTAT
 };
-
-/* function prototypes for rmw.c
- * These are only used in rmw.c but prototyping them here to enable
- * using rmw as a library (which is optional but just for people who
- * want to experiment. */
-
-int
-send_to_waste (
-  const int argc,
-  char* const argv[],
-  st_waste *waste_head,
-  st_time *st_time_var);
-
-void
-list_waste_folders (st_waste *waste_head);
-
-st_removed*
-add_removal (st_removed *removals, const char *file);
-
-void
-create_undo_file (st_removed *removals_head);
-
-void
-dispose_removed (st_removed *node);
-
-bool
-is_time_to_purge (st_time *st_time_var);
-
-void
-init_time_vars (st_time *st_time_var);
-
-void
-set_which_deletion_date (st_time *st_time_var, const int len);
-
-void
-set_time_string (char *tm_str, const int len, const char *format, time_t time_t_now);
 
 #endif

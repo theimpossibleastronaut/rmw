@@ -24,6 +24,8 @@
 
 #include <sys/stat.h>
 
+#include "trashinfo_rmw.h"
+
 /* This is somewhat of an arbitrary value, used for allocating a string
  * with calloc. When the string is tokenized, each element is validated, so
  * if the there's a problem, that's where the check will fail.

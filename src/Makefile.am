@@ -4,7 +4,7 @@ AM_CFLAGS = @CURSES_CFLAGS@
 rmw_CFLAGS = $(AM_CFLAGS)
 
 rmw_SOURCES=	\
-	rmw.c	\
+	main.c	\
 	restore_rmw.c	\
 	config_rmw.c	\
 	parse_cli_options.c	\
@@ -15,6 +15,7 @@ rmw_SOURCES=	\
 	utils_rmw.c	\
 	bst.c	\
 	rmw.h	\
+	main.h	\
 	restore_rmw.h 	\
 	config_rmw.h	\
 	parse_cli_options.h	\

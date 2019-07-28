@@ -25,7 +25,12 @@
  *
  */
 
+#ifndef _INC_UTILS_H
+#define _INC_UTILS_H
+
 #include <sys/stat.h>
+
+#include "trashinfo_rmw.h"
 
 int
 make_dir (const char *dir);
@@ -50,3 +55,5 @@ escape_url (const char *str, char *dest, const int len);
 
 bool
 unescape_url (const char *str, char *dest, const int len);
+
+#endif

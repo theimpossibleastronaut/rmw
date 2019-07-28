@@ -1,10 +1,7 @@
-/**
- * @file restore_rmw.h
- */
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,6 +49,8 @@
 #else
 #  error "SysV or X/Open-compatible Curses header file required"
 #endif
+
+#include "trashinfo_rmw.h"
 
 #define CTRLD 4
 

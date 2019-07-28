@@ -22,6 +22,9 @@
  *
  */
 
+#ifndef _INC_PARSE_CLI_OPTIONS_H
+#define _INC_PARSE_CLI_OPTIONS_H
+
 #include <getopt.h>
 
 typedef struct rmw_options rmw_options;
@@ -47,3 +50,5 @@ init_rmw_options (rmw_options *options);
 
 void
 parse_cli_options (const int argc, char* const argv[], rmw_options *options);
+
+#endif
