@@ -170,6 +170,8 @@ Please check your configuration file and permissions\n\n"));
         st_config_data.st_waste_folder_props_head,
         &st_time_var));
 
+    dispose_waste (st_config_data.st_waste_folder_props_head);
+
     return restore_errors;
   }
 
