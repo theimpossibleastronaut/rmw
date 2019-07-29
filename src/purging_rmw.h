@@ -26,7 +26,6 @@
  */
 
 #include <sys/stat.h>
-#include <dirent.h>
 #include <unistd.h>             /* for rmdir() */
 
 #define RMDIR_MAX_DEPTH 32

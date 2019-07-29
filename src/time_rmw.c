@@ -25,6 +25,8 @@
 #include "rmw.h"
 #include "time_rmw.h"
 #include "strings_rmw.h"
+#include "trashinfo_rmw.h"
+#include "messages_rmw.h"
 
 /*!
  * Assigns a time string to *tm_str based on the format requested
@@ -79,6 +81,72 @@ init_time_vars (st_time *st_time_var)
     st_time_var->now);
 
   return;
+}
+
+/*!
+ * Get the time a file was rmw'ed by reading the corresponding trashinfo
+ * file. Called from @ref purge()
+ */
+time_t
+get_then_time(struct dirent *entry, const char *entry_path)
+{
+  bufchk (entry->d_name, MP);
+
+  char trashinfo_line[LEN_TRASHINFO_LINE_MAX];
+  *trashinfo_line = '\0';
+  time_t then = 0;
+
+  FILE *info_file_ptr = fopen (entry_path, "r");
+
+  if (info_file_ptr != NULL)
+  {
+    bool passed = 0;
+    /*
+    * unused  and unneeded Trash Info line.
+    * retrieved but not used.
+    * Check to see if it's really a .trashinfo file
+    */
+    if (fgets (trashinfo_line, LEN_TRASHINFO_LINE_MAX - 1, info_file_ptr)
+        != NULL)
+    {
+      if (strncmp (trashinfo_line, "[Trash Info]", 12) == 0)
+        if (fgets
+            (trashinfo_line, sizeof (trashinfo_line),
+             info_file_ptr) != NULL)
+          if (strncmp (trashinfo_line, "Path=", 5) == 0)
+            if (fgets
+                (trashinfo_line, sizeof (trashinfo_line),
+                 info_file_ptr) != NULL)
+            {
+              bufchk (trashinfo_line, 40);
+              trim_white_space (trashinfo_line);
+              if (strncmp (trashinfo_line, "DeletionDate=", 13) == 0
+                  && strlen (trashinfo_line) == 32)
+                passed = 1;
+            }
+    }
+    close_file (info_file_ptr, entry_path, __func__);
+
+    if (!passed)
+    {
+      display_dot_trashinfo_error (entry_path);
+      return then;
+    }
+  }
+  else
+  {
+    open_err (entry_path, __func__);
+    return then;
+  }
+
+  char *date_str_ptr = strchr (trashinfo_line, '=');
+  date_str_ptr++;
+
+  struct tm tm_then;
+  memset(&tm_then, 0, sizeof(struct tm));
+  strptime (date_str_ptr, "%Y-%m-%dT%H:%M:%S", &tm_then);
+  then = mktime (&tm_then);
+  return then;
 }
 
 

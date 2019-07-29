@@ -22,6 +22,7 @@
  */
 
 #include <time.h>
+#include <dirent.h>
 
 #ifndef _INC_TIME_RMW_H
 #define _INC_TIME_RMW_H
@@ -44,5 +45,8 @@ struct st_time {
 
 void
 init_time_vars (st_time *st_time_var);
+
+time_t
+get_then_time(struct dirent *entry, const char *entry_path);
 
 #endif
