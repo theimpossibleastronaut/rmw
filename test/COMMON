@@ -37,8 +37,8 @@ if [ "$VALGRIND" = "on" ]; then
     echo "Valgrind isn't installed"
     exit 1
   fi
-  VALGRIND=`which valgrind --error-exitcode=1`
-  RMW_TEST_CMD_STRING="$VALGRIND $RMW_TEST_CMD_STRING"
+  VALGRIND=`which valgrind`
+  RMW_TEST_CMD_STRING="$VALGRIND --leak-check=full --show-leak-kinds=all --error-exitcode=1 $RMW_TEST_CMD_STRING"
 fi
 
 RMW_ALT_TEST_CMD_STRING="$BIN_DIR/rmw -c $ALT_CONFIG"

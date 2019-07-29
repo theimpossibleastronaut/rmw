@@ -77,8 +77,11 @@ echo "\n\ntest undo/restore feature\n\n"
 
 set -x
 $RMW_TEST_CMD_STRING --verbose -u
+test_result $?
 $RMW_TEST_CMD_STRING --verbose -z $HOME/.trash.rmw/files/1
+test_result $?
 $RMW_TEST_CMD_STRING --verbose -z $HOME/.trash.rmw/files/2
+test_result $?
 $RMW_TEST_CMD_STRING --verbose -z $HOME/.trash.rmw/files/3
 test_result $?
 
