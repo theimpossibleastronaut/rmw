@@ -8,8 +8,13 @@ AC_CONFIG_HEADERS([src/config.h:config.in])
 # Don't add -g and -O2 by default
 : ${CFLAGS=""}
 
-# RELEASE TODO
-# set to "no"
+AX_IS_RELEASE([git-directory])
+# Define the variables listed in the second argument if debug is
+# enabled, defaulting to no variables. Defines the variables listed in
+# the third argument if debug is disabled, defaulting to NDEBUG. All
+# lists of variables should be space-separated.
+#
+# A "yes" value will be overridden by the value returned by AX_IS_RELEASE()
 AX_CHECK_ENABLE_DEBUG([yes])
 
 AC_PROG_CC
@@ -33,38 +38,38 @@ AM_PROG_AR
 
 AX_WITH_CURSES
 if test "x$ax_cv_curses" != xyes; then
-	AC_MSG_ERROR([requires an X/Open-compatible Curses library])
+        AC_MSG_ERROR([requires an X/Open-compatible Curses library])
 fi
 
 AX_WITH_CURSES_MENU
 if test "x$ax_cv_menu" != xyes; then
 # sometimes the AX_WITH_CURSES_MENU doesn't find the menu libary (reported on
 # Manjaro and OpenBSD), so we'll do some more checking
-	AC_CHECK_LIB(menu, free_menu, found_MENU=yes, found_MENU=no, [$CURSES_LIBS])
-	if test "x$found_MENU" = xyes; then
-		MENU_LIBS="-lmenu"
-		AC_DEFINE(HAVE_MENU, 1, [define to 1 if the curses menu library is present])
-		AC_CHECK_HEADER(menu.h, [found_MENU_H=yes], [found_MENU_H=no])
-		if test "x$found_MENU_H" = xyes; then
-			AC_DEFINE(HAVE_MENU_H, 1, [define to 1 if the menu header file is present])
-		else
-			AC_MSG_ERROR(Curses menu header not found)
-		fi
-	else
+        AC_CHECK_LIB(menu, free_menu, found_MENU=yes, found_MENU=no, [$CURSES_LIBS])
+        if test "x$found_MENU" = xyes; then
+                MENU_LIBS="-lmenu"
+                AC_DEFINE(HAVE_MENU, 1, [define to 1 if the curses menu library is present])
+                AC_CHECK_HEADER(menu.h, [found_MENU_H=yes], [found_MENU_H=no])
+                if test "x$found_MENU_H" = xyes; then
+                        AC_DEFINE(HAVE_MENU_H, 1, [define to 1 if the menu header file is present])
+                else
+                        AC_MSG_ERROR(Curses menu header not found)
+                fi
+        else
 
-		AC_MSG_ERROR([requires the Curses menu library.])
-	fi
+                AC_MSG_ERROR([requires the Curses menu library.])
+        fi
 fi
 
 AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
-AC_CONFIG_FILES([	Makefile
-			src/Makefile
-			man/Makefile
-			test/Makefile
-			po/Makefile.in
-			test/VARS])
+AC_CONFIG_FILES([       Makefile
+                        src/Makefile
+                        man/Makefile
+                        test/Makefile
+                        po/Makefile.in
+                        test/VARS])
 
 AC_CONFIG_FILES([test/basic.sh], [chmod +x test/basic.sh])
 AC_CONFIG_FILES([test/purging.sh], [chmod +x test/purging.sh])

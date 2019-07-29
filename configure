@@ -2934,8 +2934,24 @@ ac_config_headers="$ac_config_headers src/config.h:config.in"
 # Don't add -g and -O2 by default
 : ${CFLAGS=""}
 
-# RELEASE TODO
-# set to "no"
+
+
+
+
+        # $is_release = (.git directory does not exist)
+        if test -d ${srcdir}/.git; then :
+  ax_is_release=no
+else
+  ax_is_release=yes
+fi
+
+
+# Define the variables listed in the second argument if debug is
+# enabled, defaulting to no variables. Defines the variables listed in
+# the third argument if debug is disabled, defaulting to NDEBUG. All
+# lists of variables should be space-separated.
+#
+# A "yes" value will be overridden by the value returned by AX_IS_RELEASE()
 
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable debugging" >&5
@@ -6507,7 +6523,7 @@ fi
     unset ax_saved_CPPFLAGS
 
 if test "x$ax_cv_curses" != xyes; then
-	as_fn_error $? "requires an X/Open-compatible Curses library" "$LINENO" 5
+        as_fn_error $? "requires an X/Open-compatible Curses library" "$LINENO" 5
 fi
 
 
@@ -6882,7 +6898,7 @@ fi
 if test "x$ax_cv_menu" != xyes; then
 # sometimes the AX_WITH_CURSES_MENU doesn't find the menu libary (reported on
 # Manjaro and OpenBSD), so we'll do some more checking
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for free_menu in -lmenu" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for free_menu in -lmenu" >&5
 $as_echo_n "checking for free_menu in -lmenu... " >&6; }
 if ${ac_cv_lib_menu_free_menu+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -6924,12 +6940,12 @@ else
   found_MENU=no
 fi
 
-	if test "x$found_MENU" = xyes; then
-		MENU_LIBS="-lmenu"
+        if test "x$found_MENU" = xyes; then
+                MENU_LIBS="-lmenu"
 
 $as_echo "#define HAVE_MENU 1" >>confdefs.h
 
-		ac_fn_c_check_header_mongrel "$LINENO" "menu.h" "ac_cv_header_menu_h" "$ac_includes_default"
+                ac_fn_c_check_header_mongrel "$LINENO" "menu.h" "ac_cv_header_menu_h" "$ac_includes_default"
 if test "x$ac_cv_header_menu_h" = xyes; then :
   found_MENU_H=yes
 else
@@ -6937,17 +6953,17 @@ else
 fi
 
 
-		if test "x$found_MENU_H" = xyes; then
+                if test "x$found_MENU_H" = xyes; then
 
 $as_echo "#define HAVE_MENU_H 1" >>confdefs.h
 
-		else
-			as_fn_error $? "Curses menu header not found" "$LINENO" 5
-		fi
-	else
+                else
+                        as_fn_error $? "Curses menu header not found" "$LINENO" 5
+                fi
+        else
 
-		as_fn_error $? "requires the Curses menu library." "$LINENO" 5
-	fi
+                as_fn_error $? "requires the Curses menu library." "$LINENO" 5
+        fi
 fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for a sed that does not truncate output" >&5
