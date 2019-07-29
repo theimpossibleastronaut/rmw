@@ -32,6 +32,8 @@
 
 #define DOT_TRASHINFO ".trashinfo"
 
+#define LEN_TRASHINFO_LINE_MAX (MP * 3 + 5 + 1)
+
 typedef struct st_waste st_waste;
 
 /** Each waste directory is added to a linked list and has the data

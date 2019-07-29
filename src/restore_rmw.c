@@ -109,8 +109,8 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
         /* adding 5 for the 'Path=' preceding the path.
        * multiplying by 3 for worst case scenario (all chars escaped)
        */
-      static char line[MP * 3 + 5];
-      if (fgets (line, sizeof (line), fp) != NULL)
+      static char line[LEN_TRASHINFO_LINE_MAX];
+      if (fgets (line, LEN_TRASHINFO_LINE_MAX - 1, fp) != NULL)
       {
           /**
            * Not using the "[Trash Info]" line, but reading the file

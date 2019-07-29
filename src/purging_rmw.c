@@ -187,13 +187,11 @@ get_then_time(struct dirent *entry, const char *entry_path)
 {
   bufchk (entry->d_name, MP);
 
-  FILE *info_file_ptr;
-  char trashinfo_line[MP + 5];
-  char *tokenPtr;
-  struct tm tm_then;
+  char trashinfo_line[LEN_TRASHINFO_LINE_MAX];
+  *trashinfo_line = '\0';
   time_t then = 0;
 
-  info_file_ptr = fopen (entry_path, "r");
+  FILE *info_file_ptr = fopen (entry_path, "r");
 
   if (info_file_ptr != NULL)
   {
@@ -203,7 +201,7 @@ get_then_time(struct dirent *entry, const char *entry_path)
     * retrieved but not used.
     * Check to see if it's really a .trashinfo file
     */
-    if (fgets (trashinfo_line, sizeof (trashinfo_line), info_file_ptr)
+    if (fgets (trashinfo_line, LEN_TRASHINFO_LINE_MAX - 1, info_file_ptr)
         != NULL)
     {
       if (strncmp (trashinfo_line, "[Trash Info]", 12) == 0)
@@ -227,22 +225,22 @@ get_then_time(struct dirent *entry, const char *entry_path)
     if (!passed)
     {
       display_dot_trashinfo_error (entry_path);
-      goto out;
+      return then;
     }
   }
   else
   {
     open_err (entry_path, __func__);
-    goto out;
+    return then;
   }
 
-  tokenPtr = strtok (trashinfo_line, "=");
-  tokenPtr = strtok (NULL, "=");
+  char *date_str_ptr = strchr (trashinfo_line, '=');
+  date_str_ptr++;
 
-  strptime (tokenPtr, "%Y-%m-%dT%H:%M:%S", &tm_then);
+  struct tm tm_then;
+  memset(&tm_then, 0, sizeof(struct tm));
+  strptime (date_str_ptr, "%Y-%m-%dT%H:%M:%S", &tm_then);
   then = mktime (&tm_then);
-
-out:
   return then;
 }
 
@@ -386,9 +384,8 @@ purge (
       char trashinfo_entry_realpath[req_len];
       snprintf (trashinfo_entry_realpath, req_len, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
-      /* FIXME: does this condition need modifying? */
-      time_t then = 0;
-      if (!cli_user_options->want_empty_trash && !(then = get_then_time(st_trashinfo_dir_entry, trashinfo_entry_realpath)))
+      time_t then = get_then_time(st_trashinfo_dir_entry, trashinfo_entry_realpath);
+      if (!cli_user_options->want_empty_trash && !then)
           continue;
 
       if (then + (SECONDS_IN_A_DAY * st_config_data->purge_after) <= st_time_var->now ||
