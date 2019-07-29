@@ -50,7 +50,7 @@ struct st_removed{
  * want to experiment. */
 
 int
-send_to_waste (
+remove_to_waste (
   const int argc,
   char* const argv[],
   st_waste *waste_head,

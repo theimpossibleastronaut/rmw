@@ -175,9 +175,9 @@ Please check your configuration file and permissions\n\n"));
     return restore_errors;
   }
 
-  if (optind < argc) /* FIXME: shouldn't this be "else if"? */
+  if (optind < argc)
   {
-    int result = send_to_waste (argc, argv, st_config_data.st_waste_folder_props_head, &st_time_var);
+    int result = remove_to_waste (argc, argv, st_config_data.st_waste_folder_props_head, &st_time_var);
     if (result > 1)
     {
       /* Don't need to print any messages here. Any warnings or errors
@@ -199,7 +199,7 @@ Enter '%s -h' for more information\n"), argv[0]);
 
 
 int
-send_to_waste (
+remove_to_waste (
   const int argc,
   char* const argv[],
   st_waste *waste_head,
