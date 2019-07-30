@@ -21,11 +21,20 @@
  *
  */
 
-#include <time.h>
-#include <dirent.h>
-
 #ifndef _INC_TIME_RMW_H
 #define _INC_TIME_RMW_H
+
+/* for strptime()
+ * this macro doesn't get defined on some systems, such as Centos or Slackware,
+ * so gives the the warning:
+ * "implicit declaration of function 'strptime'"
+ *
+ * -andy5995 2019-07-30 */
+#ifndef __USE_XOPEN
+# define __USE_XOPEN
+#endif
+#include <time.h>
+#include <dirent.h>
 
 typedef struct st_time st_time;
 
