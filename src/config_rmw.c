@@ -70,6 +70,10 @@ if (fprintf (stream, _("\n\
 # WASTE=$HOME/.local/share/Trash\n")) < 0)
   msg_err_fatal_fprintf (__func__);
 
+fputs (_("\n\
+# A folder can use the $UID variable.\n\
+# WASTE=/mnt/fs/Trash-$UID\n"), stream);
+
 /* TRANSLATORS:  Do not translate the last line in this section  */
 if (fprintf (stream, _("\n\
 # Removable media: If a folder has ',removable' appended to it, rmw\n\
@@ -119,16 +123,42 @@ del_char_shift_left (const char c, char *src_str)
 }
 
 
+/*
+ * replace part of a string, adapted from code by Gazl
+ * https://www.linuxquestions.org/questions/showthread.php?&p=5794938#post5794938
+*/
+static void
+strrepl (char *dest, char *src, const char *str, char *repl)
+{
+  char *s, *d, *p;
+
+  s = strstr (src, str);
+  if (s)
+  {
+    d = dest ;
+    for (p = src ; p < s ; p++, d++)
+        *d = *p ;
+    for (p = repl ; *p != '\0' ; p++, d++)
+        *d = *p ;
+    for (p = s + strlen(str) ; *p != '\0' ; p++, d++)
+        *d = *p ;
+    *d = '\0' ;
+  }
+  else
+    strcpy(dest, src);
+
+  return;
+}
+
 /*!
- * If "$HOME" or "~" is used in the configuration file, convert it
+ * If "$HOME", "~", or "$UID" is used in the configuration file, convert it
  * to the literal value.
  */
 static void
-realize_home (char *str)
+realize_waste_line (char *str)
 {
-  char *str_ptr = str;
-  trim_char ('/', str_ptr);
-  bufchk (str_ptr, MP);
+  trim_char ('/', str);
+  bufchk (str, MP);
 
   /*
    *
@@ -136,21 +166,52 @@ realize_home (char *str)
    * on Windows
    *
    */
-  if (*str_ptr == '~')
-    str_ptr++;
-  else if (strncmp (str_ptr, "$HOME", 5) == 0)
-    str_ptr += 5;
-  else
+
+  const char *USER = getenv ("USER");
+  if (USER == NULL)
   {
-    // puts ("DEBUG: returning...");
-    return;
+    print_msg_error ();
+    fputs ("USER value returned was NULL\n", stderr);
+    exit (EXIT_FAILURE);
   }
 
-  char tmp_str[MP];
-  int req_len = multi_strlen (HOMEDIR, str_ptr, NULL) + 1;
-  bufchk_len (req_len, MP, __func__, __LINE__);
-  snprintf (tmp_str, MP, "%s%s", HOMEDIR, str_ptr);
-  strcpy (str, tmp_str);
+  struct passwd *pwd = getpwnam(USER); /* don't free, see getpwnam() for details */
+
+  if (pwd == NULL)
+  {
+    print_msg_error ();
+    fputs ("Unable to get $UID\n", stderr);
+    exit (EXIT_FAILURE);
+  }
+
+  char UID[40];
+  snprintf (UID, 39, "%u", pwd->pw_uid);
+
+  struct st_vars_to_check st_var[] = {
+    { "~", HOMEDIR },
+    { "$HOME", HOMEDIR },
+    { "$UID", UID },
+    { NULL, NULL }
+  };
+
+  int i = 0;
+  while (st_var[i].name != NULL)
+  {
+    if (strstr (str, st_var[i].name) != NULL)
+    {
+      char dest[CFG_LINE_LEN_MAX];
+      *dest = '\0';
+      strrepl (dest, str, st_var[i].name, (char*)st_var[i].value);
+      strcpy (str, dest);
+
+      /* check the string again, in case str contains something like
+       * $HOME/Trash-$UID (which would be rare, if ever, but... */
+      i--;
+    }
+
+    i++;
+  }
+
   return;
 }
 
@@ -206,7 +267,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   raw_line = del_char_shift_left (' ', raw_line);
   char tmp_waste_parent_folder[MP];
   strcpy (tmp_waste_parent_folder, raw_line);
-  realize_home (tmp_waste_parent_folder);
+  realize_waste_line (tmp_waste_parent_folder);
 
   if (removable && !exists (tmp_waste_parent_folder))
   {

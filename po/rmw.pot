@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.03-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-29 22:22-0500\n"
+"POT-Creation-Date: 2019-07-30 03:44-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
+#: src/config_rmw.c:73
+msgid ""
+"\n"
+"# A folder can use the $UID variable.\n"
+"# WASTE=/mnt/fs/Trash-$UID\n"
+msgstr ""
+
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/config_rmw.c:85
+#: src/config_rmw.c:89
 #, c-format
 msgid ""
 "\n"
@@ -53,7 +60,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/config_rmw.c:74
+#: src/config_rmw.c:78
 #, c-format
 msgid ""
 "\n"
@@ -67,7 +74,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/config_rmw.c:95
+#: src/config_rmw.c:99
 #, c-format
 msgid ""
 "\n"
@@ -241,7 +248,7 @@ msgstr ""
 msgid "Created directory %s\n"
 msgstr ""
 
-#: src/config_rmw.c:341
+#: src/config_rmw.c:402
 #, c-format
 msgid "Creating default configuration file:"
 msgstr ""
@@ -341,12 +348,12 @@ msgstr ""
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
 
-#: src/config_rmw.c:373
+#: src/config_rmw.c:434
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr ""
 
-#: src/config_rmw.c:446
+#: src/config_rmw.c:507
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
@@ -380,13 +387,13 @@ msgstr ""
 msgid "attached"
 msgstr ""
 
-#: src/config_rmw.c:328
+#: src/config_rmw.c:389
 #, c-format
 msgid "config file: %s\n"
 msgstr ""
 
 #. TRANSLATORS: context - "an unmounted device or filesystem is not presently attached or mounted"
-#: src/config_rmw.c:225
+#: src/config_rmw.c:286
 #, c-format
 msgid "detached"
 msgstr ""
@@ -412,12 +419,12 @@ msgstr ""
 msgid "function: <%s>"
 msgstr ""
 
-#: src/config_rmw.c:201
+#: src/config_rmw.c:262
 #, c-format
 msgid "invalid option in config\n"
 msgstr ""
 
-#: src/config_rmw.c:459
+#: src/config_rmw.c:520
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -445,7 +452,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr ""
 
-#: src/main.c:344 src/config_rmw.c:223
+#: src/main.c:344 src/config_rmw.c:284
 #, c-format
 msgid "removable, "
 msgstr ""

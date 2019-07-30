@@ -21,6 +21,9 @@ WASTE = $HOME/.trash.rmw
 # WASTE=$HOME/.local/share/Trash
 #
 
+# A folder can use the $UID variable.
+# WASTE=/mnt/fs/Trash-$UID
+
 # Removable media: If a folder has ',removable' appended to it, rmw
 # will not try to create it; it must be initially created manually. If
 # the folder exists when rmw is run, it will be used; if not, it will be

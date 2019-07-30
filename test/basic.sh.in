@@ -22,7 +22,7 @@ $RMW_TEST_CMD_STRING -l
 test_result $?
 echo $SEPARATOR
 output="$($RMW_TEST_CMD_STRING -l | wc -l | sed 's/ //g')"
-test "$output" = "4"
+test "$output" = "5"
 test_result $?
 
 echo $SEPARATOR

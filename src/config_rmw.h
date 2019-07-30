@@ -23,6 +23,7 @@
  */
 
 #include <sys/stat.h>
+#include <pwd.h>
 
 #include "trashinfo_rmw.h"
 
@@ -30,7 +31,7 @@
  * with calloc. When the string is tokenized, each element is validated, so
  * if the there's a problem, that's where the check will fail.
  */
-#define CFG_LINE_LEN_MAX MP * 2
+#define CFG_LINE_LEN_MAX (MP * 2 + 1)
 
 /* Not currently used
  * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
@@ -42,6 +43,11 @@ struct st_config {
   st_waste *st_waste_folder_props_head;
   int purge_after;
   bool force_required;
+};
+
+struct st_vars_to_check {
+  const char *name;
+  const char *value;
 };
 
 void

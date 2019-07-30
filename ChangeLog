@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2019-07-30
+
+  * A waste folder can now use the $UID (user id) variable.
+  <https://github.com/theimpossibleastronaut/rmw/issues/134>
+
 2019-07-21
 
   * Because rmw automatically creates a config file in the user's home
@@ -354,49 +359,49 @@ Thanks to GazL for pointing the problem out to me.
 
 2016-09-15
 
-	Closed  #41 - add config option: force_not_required
-	"force_not_required" in config file means -f or --force will not be
-	required on the command line for purge to run.
+  Closed  #41 - add config option: force_not_required
+  "force_not_required" in config file means -f or --force will not be
+  required on the command line for purge to run.
 
     Completed - using removable media #12
 
 2016-09-14
 
-	Closed #33 - Requiring -f / --force as an option for purge to
-	actually delete files (patched by Parth Suresh and Andy Alt)
+  Closed #33 - Requiring -f / --force as an option for purge to
+  actually delete files (patched by Parth Suresh and Andy Alt)
 
 
 2016-09-11
 
-	Closed #30 - disable verbose mode by default (patched by Parth Suresh)
-	Closed #29 - last entries in undofile get erased (patched by Bruce Hernandez)
+  Closed #30 - disable verbose mode by default (patched by Parth Suresh)
+  Closed #29 - last entries in undofile get erased (patched by Bruce Hernandez)
 
 
 2016-09-09
 
-	Makefile.am : Thanks to parthsuresh - added 4 lines (#28) that will
-	hopefully fix issue #21
+  Makefile.am : Thanks to parthsuresh - added 4 lines (#28) that will
+  hopefully fix issue #21
 
-	Added a function: open_err() : called if there is an error opening
-	a file, displays a message.
+  Added a function: open_err() : called if there is an error opening
+  a file, displays a message.
 
 2016-09-08
 
-	Added a function: close_file(), so I don't have to worry about
-	changing the way error messages are displayed.
+  Added a function: close_file(), so I don't have to worry about
+  changing the way error messages are displayed.
 
 2016-09-04
 
-	* Issuing another release, due to issue #24
+  * Issuing another release, due to issue #24
 
 2016-09-03
 
-	* Fixed: Warning about missing automake 1.14 #21
+  * Fixed: Warning about missing automake 1.14 #21
 
-	* restore_rmw.c: I changed a lot of variable names, re-worked the
-	function a little, and did a bit of cleaning.
+  * restore_rmw.c: I changed a lot of variable names, re-worked the
+  function a little, and did a bit of cleaning.
 
-	* Issuing an early release due to issue #21
+  * Issuing an early release due to issue #21
 
 -- Aug. 30 --
 

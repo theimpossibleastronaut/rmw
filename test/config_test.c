@@ -1,5 +1,6 @@
 
 const char *HOMEDIR = "/home/andy";
+const char *UID = "1000";
 
 /*
  * We include the C file here because realize_home() is declared there statically.
@@ -10,20 +11,25 @@ const char *HOMEDIR = "/home/andy";
 #include <assert.h>
 
 static void
-test_realize_home(void)
+test_realize_waste_line(void)
 {
   char *config_line = malloc (MP);
   chk_malloc (config_line, __func__, __LINE__);
 
   strcpy (config_line, "$HOME/.trash.rmw/");
-  realize_home (config_line);
+  realize_waste_line (config_line);
   printf ("%s\n", config_line);
   assert (!strcmp (config_line, "/home/andy/.trash.rmw"));
 
   strcpy (config_line, "~/.trash.rmw/");
   printf ("%s\n", config_line);
-  realize_home (config_line);
+  realize_waste_line (config_line);
   assert (!strcmp (config_line, "/home/andy/.trash.rmw"));
+
+  strcpy (config_line, "$UID/.trash.rmw/");
+  printf ("%s\n", config_line);
+  realize_waste_line (config_line);
+  assert (!strcmp (config_line, "1000/.trash.rmw"));
 }
 
 
@@ -48,7 +54,7 @@ test_del_char_shift_left (void)
 int main (int argc, char *argv[])
 {
 
-  test_realize_home ();
+  test_realize_waste_line ();
 
   test_del_char_shift_left();
 

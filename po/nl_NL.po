@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-28 00:48-0500\n"
+"POT-Creation-Date: 2019-07-30 03:44-0500\n"
 "PO-Revision-Date: 2019-07-06 21:10+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -19,8 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.2.3\n"
 
+#: src/config_rmw.c:73
+msgid ""
+"\n"
+"# A folder can use the $UID variable.\n"
+"# WASTE=/mnt/fs/Trash-$UID\n"
+msgstr ""
+
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/config_rmw.c:85
+#: src/config_rmw.c:89
 #, c-format
 msgid ""
 "\n"
@@ -73,7 +80,7 @@ msgstr ""
 "# WASTE=$HOME/.local/share/Trash\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/config_rmw.c:74
+#: src/config_rmw.c:78
 #, c-format
 msgid ""
 "\n"
@@ -99,7 +106,7 @@ msgstr ""
 "#WASTE=/mnt/sda10000/example_waste, removable"
 
 #. TRANSLATORS:  Do not translate the last line in this section
-#: src/config_rmw.c:95
+#: src/config_rmw.c:99
 #, c-format
 msgid ""
 "\n"
@@ -193,24 +200,24 @@ msgstr ""
 "#\n"
 "WASTE = $HOME/.trash.rmw\n"
 
-#: src/purging_rmw.c:508
+#: src/purging_rmw.c:435
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d directories overgeslagen (RMDIR_MAX_DEPTH bereikt)\n"
 
-#: src/purging_rmw.c:512
+#: src/purging_rmw.c:439
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d directories overgeslagen (bevat alleen-lezen bestanden)\n"
 
-#: src/purging_rmw.c:515
+#: src/purging_rmw.c:442
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%dbestand gepurged"
 msgstr[1] "%dbestanden gepurged"
 
-#: src/main.c:319
+#: src/main.c:321
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -218,7 +225,7 @@ msgstr[0] "%dbestand was verwijdert naar de afval map"
 msgstr[1] "%dbestanden zijn gepurged naar de afval map"
 
 #. TRANSLATORS: context: "Number of bytes freed"
-#: src/purging_rmw.c:527
+#: src/purging_rmw.c:454
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
@@ -232,21 +239,21 @@ msgstr[1] "%s vrij gemaakt"
 msgid "'q' - quit"
 msgstr "'q' - afsluiten"
 
-#: src/purging_rmw.c:523
+#: src/purging_rmw.c:450
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] "(%d map verwijderd)"
 msgstr[1] "(%d mappen verwijderd)"
 
-#: src/purging_rmw.c:519
+#: src/purging_rmw.c:446
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] "(%d bestand gepurged)"
 msgstr[1] "(%d bestanden gepurged)"
 
-#: src/purging_rmw.c:428
+#: src/purging_rmw.c:355
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(controleer eigenaar/schrijf permissies)\n"
@@ -281,7 +288,7 @@ msgid_plural "== contains %d files =="
 msgstr[0] "== bevat %d bestanden"
 msgstr[1] "== bevat %d bestanden =="
 
-#: src/purging_rmw.c:347
+#: src/purging_rmw.c:275
 msgid "Action cancelled."
 msgstr "Actie geannuleerd."
 
@@ -290,7 +297,7 @@ msgid "Continue? (y/n): "
 msgstr "Doorgaan? (y/n): "
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:585
+#: src/purging_rmw.c:512
 #, c-format
 msgid "Created %s\n"
 msgstr "Aangemaakt %s\n"
@@ -300,12 +307,12 @@ msgstr "Aangemaakt %s\n"
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/config_rmw.c:341
+#: src/config_rmw.c:402
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "Aanmaken van standaard configuratie bestand:"
 
-#: src/purging_rmw.c:426
+#: src/purging_rmw.c:353
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr "Directory niet gepurged - bevat nog steeds bestanden\n"
@@ -316,12 +323,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:237 src/restore_rmw.c:220
+#: src/main.c:239 src/restore_rmw.c:220
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
 
-#: src/main.c:188
+#: src/main.c:190
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -332,22 +339,22 @@ msgstr ""
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:436
+#: src/purging_rmw.c:363
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "Maximale diepte van %u bereikt, overslaan\n"
 
-#: src/main.c:309
+#: src/main.c:311
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
 
-#: src/purging_rmw.c:358
+#: src/purging_rmw.c:286
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Purgen van alle bestanden in afval mappen ...\n"
 
-#: src/purging_rmw.c:360
+#: src/purging_rmw.c:288
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
@@ -398,11 +405,11 @@ msgstr ""
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 
-#: src/main.c:219
+#: src/main.c:221
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr ""
 
-#: src/purging_rmw.c:344
+#: src/purging_rmw.c:272
 msgid "The contents of all waste folders will be deleted -"
 msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 
@@ -411,12 +418,12 @@ msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 msgid "Unable to continue. Exiting...\n"
 msgstr "Kan niet doorgaan. Afsluiten...\n"
 
-#: src/config_rmw.c:373
+#: src/config_rmw.c:434
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Kan een configuratie bestand niet lezen of schrijven.\n"
 
-#: src/config_rmw.c:446
+#: src/config_rmw.c:507
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
@@ -486,23 +493,23 @@ msgstr ""
 "  -V, --version             toon versie en licentie informatie\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/main.c:344
+#: src/main.c:346
 #, c-format
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:328
+#: src/config_rmw.c:389
 #, c-format
 msgid "config file: %s\n"
 msgstr "configuratie bestand: %s\n"
 
 #. TRANSLATORS: context - "an unmounted device or filesystem is not presently attached or mounted"
-#: src/config_rmw.c:225
+#: src/config_rmw.c:286
 #, c-format
 msgid "detached"
 msgstr "ontkoppeld"
 
-#: src/restore_rmw.c:440
+#: src/restore_rmw.c:441
 #, c-format
 msgid "failed to remove %s\n"
 msgstr "kon %s niet verwijderen\n"
@@ -523,12 +530,12 @@ msgstr "formaat van .trashinfo `bestand %s` is incorrect"
 msgid "function: <%s>"
 msgstr "functie: <%s>"
 
-#: src/config_rmw.c:201
+#: src/config_rmw.c:262
 #, c-format
 msgid "invalid option in config\n"
 msgstr "onjuiste optie in configuratie\n"
 
-#: src/config_rmw.c:459
+#: src/config_rmw.c:520
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -548,7 +555,7 @@ msgstr "purge is overgeslagen: gebruik -f of force\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/purging_rmw.c:325
+#: src/purging_rmw.c:253
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -562,7 +569,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "realpath() gaf een fout terug.\n"
 
-#: src/main.c:342 src/config_rmw.c:223
+#: src/main.c:344 src/config_rmw.c:284
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
@@ -625,7 +632,7 @@ msgstr "bij het maken van %s\n"
 msgid "while closing %s\n"
 msgstr "bij sluiten van %s\n"
 
-#: src/purging_rmw.c:591 src/utils_rmw.c:90
+#: src/purging_rmw.c:518 src/utils_rmw.c:90
 #, c-format
 msgid "while creating %s\n"
 msgstr "bij het maken van %s\n"

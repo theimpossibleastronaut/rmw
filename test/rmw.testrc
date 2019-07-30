@@ -7,6 +7,7 @@
 WASTE = $HOME/.trash.rmw
 WASTE = $HOME/.trash.rmw2
 WASTE = ~/.trash.rmw3
+WASTE = /mnt/fs/Trash-$UID, removable
 #
 
 # If you would like this to be your primary trash folder (which usually means
