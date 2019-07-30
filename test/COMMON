@@ -22,6 +22,8 @@ test_result_want_fail() {
   set -x
 }
 
+export RMWTEST=1
+
 #
 # HOME is defined in test/Makefile as "tmp-home". But...
 # Don't use the var $HOME here, just in case something went wrong somewhere ;)

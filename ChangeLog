@@ -2,6 +2,10 @@
 
 2019-07-30
 
+  * rmw now gets the user's HOMEDIR from a passwd struct (see
+  <https://linux.die.net/man/3/getpwnam>), not from the environmental
+  variable (unless testing).
+
   * A waste folder can now use the $UID (user id) variable.
   <https://github.com/theimpossibleastronaut/rmw/issues/134>
 

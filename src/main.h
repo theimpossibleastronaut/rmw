@@ -49,6 +49,9 @@ struct st_removed{
  * using rmw as a library (which is optional but just for people who
  * want to experiment. */
 
+const char *
+get_homedir (void);
+
 int
 remove_to_waste (
   const int argc,
