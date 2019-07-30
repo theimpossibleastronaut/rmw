@@ -14,12 +14,9 @@
 #include "bst.h"
 #include "messages_rmw.h"
 
+
 /*!
  * create a new node
- * @param[in] data
- * @param[in] size_str The formatted string that shows the file size when @ref restore_select() is used
- * @return node
- * @see dispose()
  */
 static st_node *
 create_node (char *data, char *size_str)
@@ -28,7 +25,6 @@ create_node (char *data, char *size_str)
   chk_malloc (new_node, __func__, __LINE__);
   new_node->data = (char *) calloc (strlen (data) + 1, 1);
   chk_malloc (new_node->data, __func__, __LINE__);
-
   strcpy (new_node->data, data);
   new_node->size_str = size_str;
   new_node->left = NULL;
@@ -36,11 +32,9 @@ create_node (char *data, char *size_str)
   return new_node;
 }
 
+
 /*!
  * Insert a new node into the binary search tree; used in
- * @ref restore_select()
- * @param[out] root
- * @see create_node
  */
 st_node *
 insert_node (st_node * root, comparer strcasecmp, char *data, char *size_str)
@@ -86,12 +80,9 @@ insert_node (st_node * root, comparer strcasecmp, char *data, char *size_str)
   return root;
 }
 
+
 /*!
  * Add a binary search tree to an array to populate the list of menu items
- * @param[in] node
- * @param[out] my_items
- * @param[out] level_one
- * @see restore_select()
  */
 void
 populate_menu (st_node * node, ITEM ** my_items, bool level_one)
@@ -111,13 +102,12 @@ populate_menu (st_node * node, ITEM ** my_items, bool level_one)
 
   /* now recur on right child */
   populate_menu (node->right, my_items, false);
+
+  return;
 }
 
 /*!
  * recursively remove all nodes of the tree
- * @param[out] root
- * @return void
- * @see create_node()
  */
 void
 dispose (st_node * root)
@@ -131,4 +121,5 @@ dispose (st_node * root)
 
     free (root);
   }
+  return;
 }

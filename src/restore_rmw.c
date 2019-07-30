@@ -386,6 +386,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var)
     }
     if (c != 10)
       endwin ();
+
     free_item (my_items[0]);
     free_item (my_items[1]);
     free_menu (my_menu);
