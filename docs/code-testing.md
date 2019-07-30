@@ -4,6 +4,7 @@ layout: default
 ---
 <ul>
   <li><a href="#general_testing">General Testing</a></li>
+  <li><a href="#testing_home">Specify different home directory</a></li>
   <li><a href="#testing_purge">Testing the purge feature</a></li>
   <li><a href="#profiling">Profiling</a></li>
   <li><a href="#create_test">How to Create a Unit Test</a></li>
@@ -14,6 +15,11 @@ layout: default
 If you're writing a patch, using <code class="w3-codespan">make
 check</code> will cover most of rmw's operations. If there's a test
 missing, please open a ticket.
+
+<h2 id="testing_home">Specify different home directory</h2>
+
+As of v0.7.03, you can provide a "fake" home directory by setting the
+environmental variable RMWTEST_HOME.
 
 <h2 id="testing_purge">Testing the purge feature</h2>
 

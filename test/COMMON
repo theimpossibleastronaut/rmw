@@ -22,14 +22,10 @@ test_result_want_fail() {
   set -x
 }
 
-export RMWTEST=1
+export RMWTEST_HOME
 
-#
-# HOME is defined in test/Makefile as "tmp-home". But...
-# Don't use the var $HOME here, just in case something went wrong somewhere ;)
-#
-if [ -e rmw-tests-home ]; then
-  rm -rf rmw-tests-home
+if [ -e $RMWTEST_HOME ]; then
+  rm -rf $RMWTEST_HOME
 fi
 
 RMW_TEST_CMD_STRING="$BIN_DIR/rmw -c $CONFIG"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-30 03:44-0500\n"
+"POT-Creation-Date: 2019-07-30 13:23-0500\n"
 "PO-Revision-Date: 2019-07-06 21:10+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -217,7 +217,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%dbestand gepurged"
 msgstr[1] "%dbestanden gepurged"
 
-#: src/main.c:321
+#: src/main.c:337
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -307,7 +307,7 @@ msgstr "Aangemaakt %s\n"
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/config_rmw.c:402
+#: src/config_rmw.c:395
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "Aanmaken van standaard configuratie bestand:"
@@ -323,12 +323,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:239 src/restore_rmw.c:220
+#: src/main.c:255 src/restore_rmw.c:220
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
 
-#: src/main.c:190
+#: src/main.c:191
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -344,7 +344,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "Maximale diepte van %u bereikt, overslaan\n"
 
-#: src/main.c:311
+#: src/main.c:327
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
@@ -405,7 +405,7 @@ msgstr ""
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 
-#: src/main.c:221
+#: src/main.c:237
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr ""
 
@@ -413,17 +413,17 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 
-#: src/main.c:107
+#: src/main.c:108
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Kan niet doorgaan. Afsluiten...\n"
 
-#: src/config_rmw.c:434
+#: src/config_rmw.c:427
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Kan een configuratie bestand niet lezen of schrijven.\n"
 
-#: src/config_rmw.c:507
+#: src/config_rmw.c:500
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
@@ -493,18 +493,18 @@ msgstr ""
 "  -V, --version             toon versie en licentie informatie\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/main.c:346
+#: src/main.c:362
 #, c-format
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:389
+#: src/config_rmw.c:382
 #, c-format
 msgid "config file: %s\n"
 msgstr "configuratie bestand: %s\n"
 
 #. TRANSLATORS: context - "an unmounted device or filesystem is not presently attached or mounted"
-#: src/config_rmw.c:286
+#: src/config_rmw.c:279
 #, c-format
 msgid "detached"
 msgstr "ontkoppeld"
@@ -530,12 +530,12 @@ msgstr "formaat van .trashinfo `bestand %s` is incorrect"
 msgid "function: <%s>"
 msgstr "functie: <%s>"
 
-#: src/config_rmw.c:262
+#: src/config_rmw.c:255
 #, c-format
 msgid "invalid option in config\n"
 msgstr "onjuiste optie in configuratie\n"
 
-#: src/config_rmw.c:520
+#: src/config_rmw.c:513
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -548,7 +548,7 @@ msgstr ""
 "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
 "rapporteren, bezoek de website van rmw op\n"
 
-#: src/main.c:137
+#: src/main.c:138
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of force\n"
@@ -569,7 +569,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "realpath() gaf een fout terug.\n"
 
-#: src/main.c:344 src/config_rmw.c:284
+#: src/main.c:360 src/config_rmw.c:277
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
@@ -606,7 +606,7 @@ msgstr ""
 msgid "search complete\n"
 msgstr "zoeken voltooid\n"
 
-#: src/main.c:105
+#: src/main.c:106
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -637,7 +637,7 @@ msgstr "bij sluiten van %s\n"
 msgid "while creating %s\n"
 msgstr "bij het maken van %s\n"
 
-#: src/main.c:92
+#: src/main.c:93
 msgid "while getting the path to your home directory\n"
 msgstr "bij het ophalen van het pad naar je thuismap\n"
 

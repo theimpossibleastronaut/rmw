@@ -73,12 +73,6 @@ main (const int argc, char* const argv[])
 verbose = 1;
 #endif
 
-  char *enable_test = getenv ("RMWTEST");
-  if (enable_test != NULL)
-    HOMEDIR = getenv ("HOME");
-  else
-  {
-
     /* rmw doesn't work on Windows yet */
     /*! @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/71">Running and building rmw on Windows</a> */
   #ifndef WIN32
@@ -87,7 +81,6 @@ verbose = 1;
     /* FIXME: This shouldn't be retrieved via an environmental variable */
     HOMEDIR = getenv ("LOCALAPPDATA");
   #endif
-  }
 
   if (HOMEDIR != NULL)
     bufchk (HOMEDIR, MP);
@@ -208,6 +201,10 @@ Enter '%s -h' for more information\n"), argv[0]);
 const char *
 get_homedir (void)
 {
+  char *enable_test = getenv ("RMWTEST_HOME");
+  if (enable_test != NULL)
+    return enable_test;
+
   uid_t uid = geteuid ();
   struct passwd *pwd = getpwuid(uid); /* don't free, see getpwnam() for details */
 

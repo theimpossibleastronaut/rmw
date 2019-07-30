@@ -1,5 +1,5 @@
 # This file was automatically generated. DO NOT EDIT
-HOME=@abs_top_builddir@/test/rmw-tests-home
+RMWTEST_HOME=@abs_top_builddir@/test/rmw-tests-home
 TESTS_DIR=@abs_top_srcdir@/test
 CONFIG=@abs_top_srcdir@/test/rmw.testrc
 ALT_CONFIG=@abs_top_srcdir@/test/rmw.alt.testrc

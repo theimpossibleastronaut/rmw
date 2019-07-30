@@ -23,8 +23,8 @@ $RMW_TEST_CMD_STRING
 test_result $?
 
 # Make some temporary files using a fake-year
-mkdir $HOME/tmp-files
-cd $HOME/tmp-files
+mkdir $RMWTEST_HOME/tmp-files
+cd $RMWTEST_HOME/tmp-files
 
 
 create_temp_files() {
@@ -43,13 +43,13 @@ create_temp_files() {
 }
 create_temp_files
 
-cd $HOME/..
+cd $RMWTEST_HOME/..
 echo "\n\n == use a built-in environmental variable to write a"
 echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
 
-RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose -c $CONFIG $HOME/tmp-files/*
+RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose -c $CONFIG $RMWTEST_HOME/tmp-files/*
 test_result $?
 
 
@@ -58,7 +58,7 @@ echo
 echo " == displaying a trashinfo; it shows a DeletionDate of 1999"
 
 
-cat $HOME/.trash.rmw/info/abc.trashinfo
+cat $RMWTEST_HOME/.trash.rmw/info/abc.trashinfo
 test_result $?
 
 
@@ -76,16 +76,16 @@ echo
 echo
 echo " == Test that the files are really gone"
 
-test -z "$(ls -A $HOME/.trash.rmw/files)"
+test -z "$(ls -A $RMWTEST_HOME/.trash.rmw/files)"
 test_result $?
-test -z "$(ls -A $HOME/.trash.rmw/info)"
+test -z "$(ls -A $RMWTEST_HOME/.trash.rmw/info)"
 test_result $?
 
 
 echo
 echo
 echo " Creating some files for testing..."
-cd $HOME
+cd $RMWTEST_HOME
 ../create-some-files.sh
 test_result $?
 
@@ -94,7 +94,7 @@ echo " == rmw should be able to purge directories and subdirectories"
 echo " == even if some of the dirs are read-only"
 
 echo $SEPARATOR
-RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose $HOME/somefiles
+RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles
 test_result $?
 
 echo $SEPARATOR
@@ -103,9 +103,9 @@ $RMW_TEST_CMD_STRING -f --purge
 test_result $?
 echo $SEPARATOR
 echo " == (files should still be present)"
-test -z $(ls -A $HOME/.trash.rmw/files)
+test -z $(ls -A $RMWTEST_HOME/.trash.rmw/files)
 test_result_want_fail $?
-test -z $(ls -A $HOME/.trash.rmw/info)
+test -z $(ls -A $RMWTEST_HOME/.trash.rmw/info)
 test_result_want_fail $?
 
 echo $SEPARATOR
@@ -117,15 +117,15 @@ echo
 echo
 echo " == Show that the files are really gone"
 
-test -z $(ls -A $HOME/.trash.rmw/files)
+test -z $(ls -A $RMWTEST_HOME/.trash.rmw/files)
 test_result $?
-test -z $(ls -A $HOME/.trash.rmw/info)
+test -z $(ls -A $RMWTEST_HOME/.trash.rmw/info)
 test_result $?
 
 echo
 echo
 echo " Creating some files for testing..."
-cd $HOME
+cd $RMWTEST_HOME
 ../create-some-files.sh
 test_result $?
 
@@ -134,7 +134,7 @@ echo
 echo " == rmw -e command should completely purge the waste folders,"
 echo " == no matter when they were deleted"
 
-$RMW_TEST_CMD_STRING --verbose $HOME/somefiles
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles
 test_result $?
 
 set +x
@@ -166,9 +166,9 @@ echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e
 test_result $?
 
 echo " == (files should still be present)"
-test -z $(ls -A $HOME/.trash.rmw/files)
+test -z $(ls -A $RMWTEST_HOME/.trash.rmw/files)
 test_result_want_fail $?
-test -z $(ls -A $HOME/.trash.rmw/info)
+test -z $(ls -A $RMWTEST_HOME/.trash.rmw/info)
 test_result_want_fail $?
 
 echo " == Empty works with force empty (-ffe)"
@@ -177,11 +177,11 @@ test_result $?
 
 echo " == Should work with 'Y' or 'y'"
 create_temp_files
-$RMW_TEST_CMD_STRING --verbose $HOME/somefiles && echo "y" | $RMW_TEST_CMD_STRING -e
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles && echo "y" | $RMW_TEST_CMD_STRING -e
 test_result $?
 
 create_temp_files
-$RMW_TEST_CMD_STRING --verbose $HOME/somefiles && echo "Y" | $RMW_TEST_CMD_STRING -e
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles && echo "Y" | $RMW_TEST_CMD_STRING -e
 test_result $?
 
 
@@ -189,9 +189,9 @@ echo
 echo
 echo " == Test that trash is not empty"
 
-test -z "$(ls -A $HOME/.trash.rmw/files)"
+test -z "$(ls -A $RMWTEST_HOME/.trash.rmw/files)"
 test_result_want_fail $?
-test -z "$(ls -A $HOME/.trash.rmw/info)"
+test -z "$(ls -A $RMWTEST_HOME/.trash.rmw/info)"
 test_result_want_fail $?
 
 echo " == Try to empty now with required options"
@@ -202,9 +202,9 @@ echo
 echo
 echo " == Test that the files are really gone"
 
-test -z "$(ls -A $HOME/.trash.rmw/files)"
+test -z "$(ls -A $RMWTEST_HOME/.trash.rmw/files)"
 test_result $?
-test -z "$(ls -A $HOME/.trash.rmw/info)"
+test -z "$(ls -A $RMWTEST_HOME/.trash.rmw/info)"
 test_result $?
 
 exit 0

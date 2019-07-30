@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-30 03:44-0500\n"
+"POT-Creation-Date: 2019-07-30 13:23-0500\n"
 "PO-Revision-Date: 2019-07-07 00:18+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -223,7 +223,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/main.c:321
+#: src/main.c:337
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -313,7 +313,7 @@ msgstr "%s angelegt\n"
 msgid "Created directory %s\n"
 msgstr "Verzeichnis %s angelegt\n"
 
-#: src/config_rmw.c:402
+#: src/config_rmw.c:395
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "Erzeuge standard  Konfigurationsdatei"
@@ -330,12 +330,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelter Dateiname im Zielverzeichnis, füge Zeitstempel an...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:239 src/restore_rmw.c:220
+#: src/main.c:255 src/restore_rmw.c:220
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Datei nicht gefunden: '%s'\n"
 
-#: src/main.c:190
+#: src/main.c:191
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -351,7 +351,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :Warnung: Maximale Tiefe von %u erreicht, überspringe ...\n"
 
-#: src/main.c:311
+#: src/main.c:327
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr " Kein passendes Dateisystem für \"%s\" gefunden\n"
@@ -413,7 +413,7 @@ msgstr ""
 "DAS PROGRAMM SICH ALS FEHLERHAFT HERAUSSTELLEN, ÜBERNEHMEN SIE DIE KOSTEN\n"
 "FÜR ALLE NOTWENDIGEN WARTUNGSARBEITEN, REPARATUREN ODER VERBESSERUNGEN.\n"
 
-#: src/main.c:221
+#: src/main.c:237
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr ""
 
@@ -421,17 +421,17 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Der Inhalt aller Mülleimer wird gelöscht -"
 
-#: src/main.c:107
+#: src/main.c:108
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Es kann nicht weitergemacht werden. Abbruch...\n"
 
-#: src/config_rmw.c:434
+#: src/config_rmw.c:427
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden\n"
 
-#: src/config_rmw.c:507
+#: src/config_rmw.c:500
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
@@ -501,18 +501,18 @@ msgstr ""
 "  -V, --version             Version und Lizenzinformationen anzeigen\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/main.c:346
+#: src/main.c:362
 #, c-format
 msgid "attached"
 msgstr "angeschlossen"
 
-#: src/config_rmw.c:389
+#: src/config_rmw.c:382
 #, c-format
 msgid "config file: %s\n"
 msgstr "Konfigurationsdatei. %s\n"
 
 #. TRANSLATORS: context - "an unmounted device or filesystem is not presently attached or mounted"
-#: src/config_rmw.c:286
+#: src/config_rmw.c:279
 #, c-format
 msgid "detached"
 msgstr "entfernt"
@@ -538,12 +538,12 @@ msgstr "Format von .trashinfo `Datei %s` ist fehlerhaft)"
 msgid "function: <%s>"
 msgstr "Funktion: <%s>"
 
-#: src/config_rmw.c:262
+#: src/config_rmw.c:255
 #, c-format
 msgid "invalid option in config\n"
 msgstr "Unzulässige Option in der Konfiguration\n"
 
-#: src/config_rmw.c:520
+#: src/config_rmw.c:513
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -556,7 +556,7 @@ msgstr ""
 "Wenn du weitere Hilfe brauchst oder einen Fehler melden willst,\n"
 "besuche die rmw-Webseite unter\n"
 
-#: src/main.c:137
+#: src/main.c:138
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "Papierkorbleerung wurde übersprungen: verwende -f oder --force\n"
@@ -577,7 +577,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "realpath() hat einen Fehler zurückgeliefert.\n"
 
-#: src/main.c:344 src/config_rmw.c:284
+#: src/main.c:360 src/config_rmw.c:277
 #, c-format
 msgid "removable, "
 msgstr "löschbar."
@@ -614,7 +614,7 @@ msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
 msgid "search complete\n"
 msgstr "Suche abgeschlossen\n"
 
-#: src/main.c:105
+#: src/main.c:106
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -647,7 +647,7 @@ msgstr ""
 msgid "while creating %s\n"
 msgstr "beim Anlegen von %s\n"
 
-#: src/main.c:92
+#: src/main.c:93
 msgid "while getting the path to your home directory\n"
 msgstr "beim Ermitteln des Pfades zu deinem Home-Verzeichnis.\n"
 

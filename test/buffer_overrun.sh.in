@@ -42,8 +42,8 @@ do
   i=`expr $i + 1`
 done
 
-touch $HOME/$str
-$RMW_TEST_CMD_STRING $HOME/$str
+touch $RMWTEST_HOME/$str
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/$str
 test_result $?
 
 set +x
@@ -59,8 +59,8 @@ do
   i=`expr $i + 1`
 done
 
-touch $HOME/$str
-$RMW_TEST_CMD_STRING $HOME/$str
+touch $RMWTEST_HOME/$str
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/$str
 # This assumes and exit code of 12 which may change depending on how
 # the error code is enum'med in rmw.h.
 test "x$?" = "x12"
