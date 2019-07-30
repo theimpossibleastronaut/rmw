@@ -24,6 +24,7 @@
 
 #include <sys/stat.h>
 #include <pwd.h>
+#include <unistd.h> /* for geteuid() */
 
 #include "trashinfo_rmw.h"
 

@@ -167,15 +167,8 @@ realize_waste_line (char *str)
    *
    */
 
-  const char *USER = getenv ("USER");
-  if (USER == NULL)
-  {
-    print_msg_error ();
-    fputs ("USER value returned was NULL\n", stderr);
-    exit (EXIT_FAILURE);
-  }
-
-  struct passwd *pwd = getpwnam(USER); /* don't free, see getpwnam() for details */
+  uid_t uid = geteuid ();
+  struct passwd *pwd = getpwuid(uid); /* don't free, see getpwnam() for details */
 
   if (pwd == NULL)
   {
