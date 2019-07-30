@@ -4,14 +4,14 @@ From the build directory:
 
     make check
 
-to run the tests. Some of them will use
-[valgrind](http://valgrind.org/) (if it's installed) and will be very
-slow. To disable the use of valgrind:
+to run the tests. Some of them will use valgrind<http://valgrind.org/>
+(if it's installed) and will be very slow. To disable the use of
+valgrind:
 
     USE_VALGRIND=0 make check
 
 Detailed logs for each test will be created in `test/`.
 
-For more information about testing, see the [Code Testing
-page](https://remove-to-waste.info/code-testing.html) on the rmw
+For more information about testing, see the Code Testing
+page<https://remove-to-waste.info/code-testing.html> on the rmw
 website.
