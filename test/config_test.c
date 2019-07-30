@@ -25,11 +25,6 @@ test_realize_waste_line(void)
   printf ("%s\n", config_line);
   realize_waste_line (config_line);
   assert (!strcmp (config_line, "/home/andy/.trash.rmw"));
-
-  strcpy (config_line, "$UID/.trash.rmw/");
-  printf ("%s\n", config_line);
-  realize_waste_line (config_line);
-  assert (!strcmp (config_line, "1000/.trash.rmw"));
 }
 
 
