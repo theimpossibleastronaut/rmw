@@ -699,7 +699,7 @@ distdir-am: $(DISTFILES)
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_LIBRARIES)
 check: check-am
-all-am: Makefile $(PROGRAMS) config.h all-local
+all-am: Makefile $(PROGRAMS) config.h
 installdirs:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -737,7 +737,7 @@ maintainer-clean-generic:
 clean: clean-am
 
 clean-am: clean-binPROGRAMS clean-checkLIBRARIES clean-generic \
-	clean-local mostlyclean-am
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
@@ -804,33 +804,22 @@ uninstall-am: uninstall-binPROGRAMS
 
 .MAKE: all check-am install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am all-local check check-am clean \
+.PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
 	clean-binPROGRAMS clean-checkLIBRARIES clean-generic \
-	clean-local cscopelist-am ctags ctags-am distclean \
-	distclean-compile distclean-generic distclean-hdr \
-	distclean-tags distdir dvi dvi-am html html-am info info-am \
-	install install-am install-binPROGRAMS install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS
+	cscopelist-am ctags ctags-am distclean distclean-compile \
+	distclean-generic distclean-hdr distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-binPROGRAMS install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
-
-all-local:
-	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;
-
-clean-local:
-	for file in $(top_builddir)/rmw; do	\
-		if test -f $$file; then	\
-			rm $$file;	\
-		fi	\
-	done;
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -37,13 +37,3 @@ librmw_test_a_SOURCES = $(rmw_SOURCES)
 librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB -DBUILD_LIBRARY
 
 rmw_LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@
-
-all-local:
-	cp $(top_builddir)/src/rmw $(top_builddir)/rmw;
-
-clean-local:
-	for file in $(top_builddir)/rmw; do	\
-		if test -f $$file; then	\
-			rm $$file;	\
-		fi	\
-	done;
