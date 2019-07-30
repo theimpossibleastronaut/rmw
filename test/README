@@ -1,8 +1,17 @@
-Use `make check` from the build directory to run the tests.
+# Testing
 
-Use `VALGRIND=on make check` to run some of the tests through valgrind.
+From the build directory:
 
-If valgrind isn't installed on your system, some checks will fail
-automatically.
+    make check
 
-Detailed logs for each test will be created in `test/`
+to run the tests. Some of them will use
+[valgrind](http://valgrind.org/) (if it's installed) and will be very
+slow. To disable the use of valgrind:
+
+    USE_VALGRIND=0 make check
+
+Detailed logs for each test will be created in `test/`.
+
+For more information about testing, see the [Code Testing
+page](https://remove-to-waste.info/code-testing.html) on the rmw
+website.
