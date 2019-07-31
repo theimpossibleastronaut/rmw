@@ -96,7 +96,7 @@ verbose = 1;
 
   int req_len = multi_strlen (HOMEDIR, DATA_DIR, NULL) + 1;
   bufchk_len (req_len, MP, __func__, __LINE__);
-  char data_dir[req_len];
+  char data_dir[MP];
   sprintf (data_dir, "%s%s", HOMEDIR, DATA_DIR);
   int created_data_dir = make_dir (data_dir);
 
@@ -284,7 +284,7 @@ remove_to_waste (
         {
           // append a time string
           int req_len = multi_strlen (st_file_properties.waste_dest_name, st_time_var->suffix_added_dup_exists, NULL) + 1;
-          bufchk_len (req_len, MP, __func__, __LINE__);
+          bufchk_len (req_len, sizeof st_file_properties.waste_dest_name, __func__, __LINE__);
           strcat (st_file_properties.waste_dest_name, st_time_var->suffix_added_dup_exists);
         }
 
@@ -393,7 +393,7 @@ add_removal (st_removed *removals, const char *file)
     removals = removals->next_node;
   }
   removals->next_node = NULL;
-  bufchk (file, MP);
+  bufchk (file, sizeof removals->file);
   strcpy (removals->file, file);
   return removals;
 }
@@ -426,8 +426,9 @@ dispose_removed (st_removed *node)
 void
 create_undo_file (st_removed *removals_head)
 {
-  char undo_path[MP];
-  bufchk (UNDO_FILE, MP - strlen (HOMEDIR));
+  int req_len = multi_strlen (HOMEDIR, UNDO_FILE, NULL) + 1;
+  bufchk_len (req_len, MP, __func__, __LINE__);
+  char undo_path[req_len];
   sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
   FILE *undo_file_ptr = fopen (undo_path, "w");
   if (undo_file_ptr != NULL)

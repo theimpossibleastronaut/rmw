@@ -56,6 +56,6 @@ void
 init_time_vars (st_time *st_time_var);
 
 time_t
-get_then_time(struct dirent *entry, const char *entry_path);
+get_then_time(const char *entry_path);
 
 #endif

@@ -177,8 +177,25 @@ realize_waste_line (char *str)
     exit (EXIT_FAILURE);
   }
 
+  /* What's a good length for this? */
   char UID[40];
-  snprintf (UID, 39, "%u", pwd->pw_uid);
+  snprintf (UID, sizeof UID, "%u", pwd->pw_uid);
+
+  /*
+   * I'm not sure the best way to check for a problem here. Likely any problem
+   * would be very rare, but I'm inserting a crude error check here just in case
+   *
+   * -andy5995 2019-07-31
+   */
+  if (strlen (UID) == sizeof (UID - 1))
+  {
+    print_msg_warn ();
+    /*
+     * If the length of pwd->pw_uid is over 39, it would have been truncated
+     * at the snprintf() statement above.
+     */
+    printf ("Your UID string most likely got truncated:\n%s\n", UID);
+  }
 
   struct st_vars_to_check st_var[] = {
     { "~", HOMEDIR },
@@ -307,8 +324,8 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
 
   /* and the files... */
   int req_len = multi_strlen (waste_curr->parent, "/files/", NULL) + 1;
-  bufchk_len (req_len, MP, __func__, __LINE__);
-  snprintf (waste_curr->files, req_len, "%s%s", waste_curr->parent, "/files/");
+  bufchk_len (req_len, sizeof waste_curr->files, __func__, __LINE__);
+  sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
 
   if (!exists (waste_curr->files))
   {
@@ -369,7 +386,7 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
      *
      * Create full path to config_file
      */
-    int req_len = multi_strlen (CFG_FILE, HOMEDIR, NULL);
+    int req_len = multi_strlen (CFG_FILE, HOMEDIR, NULL) + 1;
     bufchk_len (req_len, MP, __func__, __LINE__);
     sprintf (config_file, "%s%s", HOMEDIR, CFG_FILE);
   }

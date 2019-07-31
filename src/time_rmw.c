@@ -47,15 +47,15 @@ set_time_string (char *tm_str, const int len, const char *format, time_t time_t_
  * the returned string will be based on the local-time of the user's system.
  */
 static void
-set_which_deletion_date (st_time *st_time_var, const int len)
+set_which_deletion_date (char *format, const int len)
 {
   if  (getenv ("RMWTRASH") == NULL ||
       (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
-    snprintf (st_time_var->t_fmt, len, "%s", "%FT%T");
+    snprintf (format, len, "%s", "%FT%T");
   else
   {
     printf ("  :test mode: Using fake year\n");
-    snprintf (st_time_var->t_fmt, len, "%s", "1999-%m-%dT%T");
+    snprintf (format, len, "%s", "1999-%m-%dT%T");
   }
   return;
 }
@@ -66,17 +66,17 @@ init_time_vars (st_time *st_time_var)
 {
   st_time_var->now = time (NULL);
 
-  set_which_deletion_date (st_time_var, LEN_DELETION_DATE);
+  set_which_deletion_date (st_time_var->t_fmt, sizeof st_time_var->t_fmt);
 
   set_time_string (
     st_time_var->deletion_date,
-    LEN_DELETION_DATE,
+    sizeof st_time_var->deletion_date,
     st_time_var->t_fmt,
     st_time_var->now);
 
   set_time_string (
     st_time_var->suffix_added_dup_exists,
-    LEN_TIME_STR_SUFFIX,
+    sizeof st_time_var->suffix_added_dup_exists,
     "_%H%M%S-%y%m%d",
     st_time_var->now);
 
@@ -85,19 +85,14 @@ init_time_vars (st_time *st_time_var)
 
 /*!
  * Get the time a file was rmw'ed by reading the corresponding trashinfo
- * file. Called from @ref purge()
+ * file. Called from purge()
  */
 time_t
-get_then_time(struct dirent *entry, const char *entry_path)
+get_then_time(const char *entry_path)
 {
-  bufchk (entry->d_name, MP);
-
-  char trashinfo_line[LEN_TRASHINFO_LINE_MAX];
-  *trashinfo_line = '\0';
   time_t then = 0;
-
+  char trashinfo_line[LEN_TRASHINFO_LINE_MAX];
   FILE *info_file_ptr = fopen (entry_path, "r");
-
   if (info_file_ptr != NULL)
   {
     bool passed = 0;

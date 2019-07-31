@@ -188,7 +188,7 @@ is_time_to_purge (st_time *st_time_var)
   int req_len = multi_strlen (HOMEDIR, PURGE_DAY_FILE, NULL) + 1;
   bufchk_len (req_len, MP, __func__, __LINE__);
   char file_lastpurge[req_len];
-  snprintf (file_lastpurge, req_len, "%s%s", HOMEDIR, PURGE_DAY_FILE);
+  sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
 
   FILE *fp = fopen (file_lastpurge, "r");
   bool init = (fp != NULL);
@@ -312,9 +312,9 @@ purge (
       int req_len = multi_strlen (waste_curr->info, st_trashinfo_dir_entry->d_name, NULL) + 1;
       bufchk_len (req_len, MP, __func__, __LINE__);
       char trashinfo_entry_realpath[req_len];
-      snprintf (trashinfo_entry_realpath, req_len, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
+      sprintf (trashinfo_entry_realpath, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
-      time_t then = get_then_time(st_trashinfo_dir_entry, trashinfo_entry_realpath);
+      time_t then = get_then_time(trashinfo_entry_realpath);
       if (!cli_user_options->want_empty_trash && !then)
           continue;
 
@@ -493,7 +493,7 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var)
 
       int req_len = multi_strlen (waste_curr->info, st_file_properties.base_name,
                DOT_TRASHINFO, NULL) + 1;
-      bufchk_len (req_len, MP, __func__, __LINE__);
+      bufchk_len (req_len, sizeof path_to_trashinfo, __func__, __LINE__);
       snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info, st_file_properties.base_name,
                DOT_TRASHINFO);
 
@@ -502,8 +502,8 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var)
 
       /* destination if restored */
       req_len = multi_strlen(waste_curr->parent, "/orphans/", st_file_properties.base_name, NULL) + 1;
-      bufchk_len (req_len, MP, __func__, __LINE__);
-      snprintf (st_file_properties.real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
+      bufchk_len (req_len, sizeof st_file_properties.real_path, __func__, __LINE__);
+      sprintf (st_file_properties.real_path, "%s%s%s", waste_curr->parent, "/orphans/",
                st_file_properties.base_name);
 
       if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))
