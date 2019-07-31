@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-30 13:23-0500\n"
+"POT-Creation-Date: 2019-07-31 02:08-0500\n"
 "PO-Revision-Date: 2019-07-07 00:18+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -313,7 +313,7 @@ msgstr "%s angelegt\n"
 msgid "Created directory %s\n"
 msgstr "Verzeichnis %s angelegt\n"
 
-#: src/config_rmw.c:395
+#: src/config_rmw.c:412
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "Erzeuge standard  Konfigurationsdatei"
@@ -426,12 +426,12 @@ msgstr "Der Inhalt aller Mülleimer wird gelöscht -"
 msgid "Unable to continue. Exiting...\n"
 msgstr "Es kann nicht weitergemacht werden. Abbruch...\n"
 
-#: src/config_rmw.c:427
+#: src/config_rmw.c:444
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden\n"
 
-#: src/config_rmw.c:500
+#: src/config_rmw.c:517
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
@@ -506,13 +506,13 @@ msgstr ""
 msgid "attached"
 msgstr "angeschlossen"
 
-#: src/config_rmw.c:382
+#: src/config_rmw.c:399
 #, c-format
 msgid "config file: %s\n"
 msgstr "Konfigurationsdatei. %s\n"
 
 #. TRANSLATORS: context - "an unmounted device or filesystem is not presently attached or mounted"
-#: src/config_rmw.c:279
+#: src/config_rmw.c:296
 #, c-format
 msgid "detached"
 msgstr "entfernt"
@@ -538,12 +538,12 @@ msgstr "Format von .trashinfo `Datei %s` ist fehlerhaft)"
 msgid "function: <%s>"
 msgstr "Funktion: <%s>"
 
-#: src/config_rmw.c:255
+#: src/config_rmw.c:272
 #, c-format
 msgid "invalid option in config\n"
 msgstr "Unzulässige Option in der Konfiguration\n"
 
-#: src/config_rmw.c:513
+#: src/config_rmw.c:530
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -577,7 +577,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "realpath() hat einen Fehler zurückgeliefert.\n"
 
-#: src/main.c:360 src/config_rmw.c:277
+#: src/main.c:360 src/config_rmw.c:294
 #, c-format
 msgid "removable, "
 msgstr "löschbar."

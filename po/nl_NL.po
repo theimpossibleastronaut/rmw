@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-07-30 13:23-0500\n"
+"POT-Creation-Date: 2019-07-31 02:08-0500\n"
 "PO-Revision-Date: 2019-07-06 21:10+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -307,7 +307,7 @@ msgstr "Aangemaakt %s\n"
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/config_rmw.c:395
+#: src/config_rmw.c:412
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "Aanmaken van standaard configuratie bestand:"
@@ -418,12 +418,12 @@ msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 msgid "Unable to continue. Exiting...\n"
 msgstr "Kan niet doorgaan. Afsluiten...\n"
 
-#: src/config_rmw.c:427
+#: src/config_rmw.c:444
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Kan een configuratie bestand niet lezen of schrijven.\n"
 
-#: src/config_rmw.c:500
+#: src/config_rmw.c:517
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
@@ -498,13 +498,13 @@ msgstr ""
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:382
+#: src/config_rmw.c:399
 #, c-format
 msgid "config file: %s\n"
 msgstr "configuratie bestand: %s\n"
 
 #. TRANSLATORS: context - "an unmounted device or filesystem is not presently attached or mounted"
-#: src/config_rmw.c:279
+#: src/config_rmw.c:296
 #, c-format
 msgid "detached"
 msgstr "ontkoppeld"
@@ -530,12 +530,12 @@ msgstr "formaat van .trashinfo `bestand %s` is incorrect"
 msgid "function: <%s>"
 msgstr "functie: <%s>"
 
-#: src/config_rmw.c:255
+#: src/config_rmw.c:272
 #, c-format
 msgid "invalid option in config\n"
 msgstr "onjuiste optie in configuratie\n"
 
-#: src/config_rmw.c:513
+#: src/config_rmw.c:530
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -569,7 +569,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "realpath() gaf een fout terug.\n"
 
-#: src/main.c:360 src/config_rmw.c:277
+#: src/main.c:360 src/config_rmw.c:294
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "

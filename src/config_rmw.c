@@ -187,7 +187,7 @@ realize_waste_line (char *str)
    *
    * -andy5995 2019-07-31
    */
-  if (strlen (UID) == sizeof (UID - 1))
+  if (strlen (UID) == sizeof (UID) - 1)
   {
     print_msg_warn ();
     /*
