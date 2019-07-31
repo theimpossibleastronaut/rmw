@@ -110,7 +110,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
        * multiplying by 3 for worst case scenario (all chars escaped)
        */
       static char line[LEN_TRASHINFO_LINE_MAX];
-      if (fgets (line, LEN_TRASHINFO_LINE_MAX - 1, fp) != NULL)
+      if (fgets (line, sizeof line, fp) != NULL)
       {
           /**
            * Not using the "[Trash Info]" line, but reading the file
@@ -129,7 +129,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
         }
 
           /** adding 5 for the 'Path=' preceding the path. */
-        if (fgets (line, MP * 3 + 5, fp) != NULL)
+        if (fgets (line, sizeof line, fp) != NULL)
         {
           static char *tokenPtr;
 
@@ -422,7 +422,7 @@ undo_last_rmw (st_waste *waste_head, st_time *st_time_var)
   }
 
   int err_ctr = 0;
-  while (fgets (line, MP - 1, undo_file_ptr) != NULL)
+  while (fgets (line, sizeof line, undo_file_ptr) != NULL)
   {
     int result = 0;
     trim_white_space (line);

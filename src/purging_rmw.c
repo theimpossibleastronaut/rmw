@@ -196,7 +196,7 @@ is_time_to_purge (st_time *st_time_var)
   {
     char time_prev[BUF_TIME];
 
-    if (fgets (time_prev, BUF_TIME, fp) == NULL)
+    if (fgets (time_prev, sizeof time_prev, fp) == NULL)
     {
       print_msg_error ();
       printf ("while getting line from %s\n", file_lastpurge);

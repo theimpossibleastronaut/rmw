@@ -439,8 +439,8 @@ get_config_data (const rmw_options * cli_user_options, st_config *st_config_data
   FILE *config_ptr = realize_config_file (config_file, cli_user_options);
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
-  char line_from_config[CFG_LINE_LEN_MAX + 1];
-  while (fgets (line_from_config, CFG_LINE_LEN_MAX, config_ptr) != NULL)
+  char line_from_config[CFG_LINE_LEN_MAX];
+  while (fgets (line_from_config, sizeof line_from_config, config_ptr) != NULL)
   {
     bool do_continue = 0;
     char *line_ptr = line_from_config;

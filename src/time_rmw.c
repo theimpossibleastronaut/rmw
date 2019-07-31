@@ -106,16 +106,16 @@ get_then_time(struct dirent *entry, const char *entry_path)
     * retrieved but not used.
     * Check to see if it's really a .trashinfo file
     */
-    if (fgets (trashinfo_line, LEN_TRASHINFO_LINE_MAX - 1, info_file_ptr)
+    if (fgets (trashinfo_line, sizeof trashinfo_line, info_file_ptr)
         != NULL)
     {
       if (strncmp (trashinfo_line, "[Trash Info]", 12) == 0)
         if (fgets
-            (trashinfo_line, sizeof (trashinfo_line),
+            (trashinfo_line, sizeof trashinfo_line,
              info_file_ptr) != NULL)
           if (strncmp (trashinfo_line, "Path=", 5) == 0)
             if (fgets
-                (trashinfo_line, sizeof (trashinfo_line),
+                (trashinfo_line, sizeof trashinfo_line,
                  info_file_ptr) != NULL)
             {
               bufchk (trashinfo_line, 40);
