@@ -18,7 +18,7 @@ echo $SEPARATOR
 echo "List the waste folders..."
 echo "rmw should display folders on removable devices that are not mounted"
 echo $SEPARATOR
-$RMW_TEST_CMD_STRING -l
+$RMW_TEST_CMD_STRING -lv
 test_result $?
 echo $SEPARATOR
 output="$($RMW_TEST_CMD_STRING -l | wc -l | sed 's/ //g')"

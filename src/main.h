@@ -50,7 +50,7 @@ struct st_removed{
  * want to experiment. */
 
 const char *
-get_homedir (void);
+get_homedir (const char *alternate_homedir);
 
 int
 remove_to_waste (

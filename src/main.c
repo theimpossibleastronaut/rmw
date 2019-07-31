@@ -73,10 +73,11 @@ main (const int argc, char* const argv[])
 verbose = 1;
 #endif
 
-    /* rmw doesn't work on Windows yet */
-    /*! @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/71">Running and building rmw on Windows</a> */
+  /* rmw doesn't work on Windows yet
+   * FIXME: <https://github.com/theimpossibleastronaut/rmw/issues/71>
+   */
   #ifndef WIN32
-    HOMEDIR = get_homedir ();
+    HOMEDIR = get_homedir ("RMWTEST_HOME");
   #else
     /* FIXME: This shouldn't be retrieved via an environmental variable */
     HOMEDIR = getenv ("LOCALAPPDATA");
@@ -87,9 +88,6 @@ verbose = 1;
   else
   {
     print_msg_error ();
-    /* FIXME: Perhaps there should be an option in the config file so a
-     * user can specify a home directory, and pass the $HOME variable
-     */
     fputs (_("while getting the path to your home directory\n"), stderr);
     return 1;
   }
@@ -198,15 +196,23 @@ Enter '%s -h' for more information\n"), argv[0]);
 }
 #endif
 
+/* returns a pointer to the home directory, or optionally sets an
+ * alternate home directory (primarily useful for testing an app).
+ * If an alternate home directory isn't needed, the argument passed
+ * can be NULL instead of a string.
+ */
 const char *
-get_homedir (void)
+get_homedir (const char *alternate_homedir)
 {
-  char *enable_test = getenv ("RMWTEST_HOME");
-  if (enable_test != NULL)
-    return enable_test;
+  if (alternate_homedir != NULL)
+  {
+    char *enable_test = getenv (alternate_homedir);
+    if (enable_test != NULL)
+      return enable_test;
+  }
 
   uid_t uid = geteuid ();
-  struct passwd *pwd = getpwuid(uid); /* don't free, see getpwnam() for details */
+  struct passwd *pwd = getpwuid(uid);
 
   if (pwd == NULL)
     return NULL;
