@@ -8,42 +8,42 @@
 int
 main ()
 {
-  int req_len = MP;
-  bufchk_len (req_len, MP, __func__, __LINE__);
+  int req_len = LEN_MAX_PATH;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
 
-  req_len = MP - 1;
-  bufchk_len (req_len, MP, __func__, __LINE__);
+  req_len = LEN_MAX_PATH - 1;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
 
-  req_len = MP + 1;
-  bufchk_len (req_len, MP, __func__, __LINE__);
+  req_len = LEN_MAX_PATH + 1;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   assert (errno);
   errno = 0;
 
-  /* length of "test" will be == MP; bufchk should set errno to 1 */
-  char *test = malloc (MP + 1);
+  /* length of "test" will be == LEN_MAX_PATH; bufchk should set errno to 1 */
+  char *test = malloc (LEN_MAX_PATH + 1);
   chk_malloc (test, __func__, __LINE__);
 
   int i;
-  for (i = 0; i < MP; i++)
+  for (i = 0; i < LEN_MAX_PATH; i++)
     test[i] = 'a';
 
   test[i] = '\0';
-  bufchk (test, MP);
+  bufchk (test, LEN_MAX_PATH);
   assert (errno);
   errno = 0;
 
-   /* length of "test" will be < MP; bufchk should not change errno */
+   /* length of "test" will be < LEN_MAX_PATH; bufchk should not change errno */
   strcpy (test, "less than BUF_SIZE");
-  bufchk (test, MP);
+  bufchk (test, LEN_MAX_PATH);
   assert (!errno);
 
 
-/* length of "test" will be < MP; bufchk should not change errno */
-  for (i = 0; i < MP / 2; i++)
+/* length of "test" will be < LEN_MAX_PATH; bufchk should not change errno */
+  for (i = 0; i < LEN_MAX_PATH / 2; i++)
     test[i] = 'a';
 
   test[i] = '\0';
-  bufchk (test, MP);
+  bufchk (test, LEN_MAX_PATH);
   assert (!errno);
 
   free (test);
