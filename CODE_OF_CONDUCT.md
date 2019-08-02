@@ -34,9 +34,18 @@ This Code of Conduct applies both within project spaces and in public spaces whe
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at andy400-dev@yahoo.com. The project team will review and investigate all complaints, and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
+Instances of abusive, harassing, or otherwise unacceptable behavior may
+be reported by contacting the project maintainer, [Andy
+Alt](https://github.com/andy5995) at andy400-dev@yahoo.com. He will
+review and investigate all complaints, and will respond in a way that
+he deems appropriate to the circumstances. He is obligated to maintain
+confidentiality with regard to the reporter of an incident. Further
+details of specific enforcement policies may be posted separately.
 
-Project maintainers who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
+However, if you feel that the project maintainer has violated the Code
+of Conduct and don't feel comfortable contacting him about it, please
+[report him to
+GitHub](https://help.github.com/en/articles/reporting-abuse-or-spam).
 
 ## Attribution
 
