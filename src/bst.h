@@ -25,7 +25,7 @@ typedef int (*comparer) (const char *, const char *);
 typedef struct st_node
 {
   /*! Holds the filename */
-  char data[MP];
+  char data[LEN_MAX_PATH];
 
   /*! Holds the human readable size of the file */
   char size_str[LEN_MAX_HUMAN_READABLE_SIZE];

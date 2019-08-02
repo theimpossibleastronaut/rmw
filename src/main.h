@@ -39,7 +39,7 @@ typedef struct st_removed st_removed;
  * Holds a list of files that rmw will be ReMoving.
  */
 struct st_removed{
-  char file[MP];
+  char file[LEN_MAX_PATH];
   st_removed *next_node;
 };
 

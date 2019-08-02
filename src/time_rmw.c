@@ -91,7 +91,7 @@ time_t
 get_then_time(const char *entry_path)
 {
   time_t then = 0;
-  char trashinfo_line[LEN_TRASHINFO_LINE_MAX];
+  char trashinfo_line[LEN_MAX_TRASHINFO_LINE];
   FILE *info_file_ptr = fopen (entry_path, "r");
   if (info_file_ptr != NULL)
   {

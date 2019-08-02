@@ -41,12 +41,6 @@
  */
 #ifndef BUILD_LIBRARY
 
-/*!
- * The "main" part of rmw
- * @param[in] argc The number of paramaters given to rmw at run-time
- * @param[in] argv An array of arguments given to rmw at run-time
- * @return an error code of type int, usually 0 because this main function hardly ever segfaults
- */
 int
 main (const int argc, char* const argv[])
 {
@@ -67,7 +61,7 @@ main (const int argc, char* const argv[])
   parse_cli_options (argc, argv, &cli_user_options);
 
   if (verbose > 1)
-    printf ("PATH_MAX = %d\n", MP - 1);
+    printf ("PATH_MAX = %d\n", LEN_MAX_PATH - 1);
 
 #ifdef DEBUG
 verbose = 1;
@@ -84,7 +78,7 @@ verbose = 1;
   #endif
 
   if (HOMEDIR != NULL)
-    bufchk (HOMEDIR, MP);
+    bufchk (HOMEDIR, LEN_MAX_PATH);
   else
   {
     print_msg_error ();
@@ -93,8 +87,8 @@ verbose = 1;
   }
 
   int req_len = multi_strlen (HOMEDIR, DATA_DIR, NULL) + 1;
-  bufchk_len (req_len, MP, __func__, __LINE__);
-  char data_dir[MP];
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  char data_dir[LEN_MAX_PATH];
   sprintf (data_dir, "%s%s", HOMEDIR, DATA_DIR);
   int created_data_dir = make_dir (data_dir);
 
@@ -244,7 +238,7 @@ remove_to_waste (
       continue;
     }
 
-    bufchk (argv[file_arg], MP);
+    bufchk (argv[file_arg], LEN_MAX_PATH);
     st_file_properties.main_argv = argv[file_arg];
 
     static struct stat st_main_argv_statistics;
@@ -433,7 +427,7 @@ void
 create_undo_file (st_removed *removals_head)
 {
   int req_len = multi_strlen (HOMEDIR, UNDO_FILE, NULL) + 1;
-  bufchk_len (req_len, MP, __func__, __LINE__);
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   char undo_path[req_len];
   sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
   FILE *undo_file_ptr = fopen (undo_path, "w");

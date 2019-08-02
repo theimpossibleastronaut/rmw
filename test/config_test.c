@@ -13,7 +13,7 @@ const char *UID = "1000";
 static void
 test_realize_waste_line(void)
 {
-  char *config_line = malloc (MP);
+  char *config_line = malloc (LEN_MAX_PATH);
   chk_malloc (config_line, __func__, __LINE__);
 
   strcpy (config_line, "$HOME/.trash.rmw/");
@@ -31,7 +31,7 @@ test_realize_waste_line(void)
 static void
 test_del_char_shift_left (void)
 {
-  char *config_line = malloc (MP);
+  char *config_line = malloc (LEN_MAX_PATH);
   chk_malloc (config_line, __func__, __LINE__);
 
   strcpy (config_line, "    Hello, World");

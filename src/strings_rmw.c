@@ -268,12 +268,12 @@ resolve_path (const char *src, char *abs_path)
   /*
    * dirname() and basename() alters the src string, so making a copy
    */
-  char src_temp_dirname[MP];
-  char src_temp_basename[MP];
+  char src_temp_dirname[LEN_MAX_PATH];
+  char src_temp_basename[LEN_MAX_PATH];
 
-  bufchk (src, MP);
-  snprintf (src_temp_dirname, MP, "%s", src);
-  snprintf (src_temp_basename, MP, "%s", src);
+  bufchk (src, LEN_MAX_PATH);
+  snprintf (src_temp_dirname, LEN_MAX_PATH, "%s", src);
+  snprintf (src_temp_basename, LEN_MAX_PATH, "%s", src);
 
   if ((realpath (dirname (src_temp_dirname), abs_path)) != NULL)
   {
@@ -284,7 +284,7 @@ resolve_path (const char *src, char *abs_path)
     DEBUG_PREFIX printf ("abs_path = %s in %s\n", abs_path, __func__);
 #endif
 
-    bufchk (abs_path, MP);
+    bufchk (abs_path, LEN_MAX_PATH);
 
     return 0;
   }

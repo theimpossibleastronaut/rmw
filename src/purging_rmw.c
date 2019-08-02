@@ -50,7 +50,7 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
   int remove_result = 0;
 
   struct _dirname {
-    char path[MP];
+    char path[LEN_MAX_PATH];
     DIR *ptr;
     struct dirent *st_entry_ptr;
   } st_dirname_properties;
@@ -64,8 +64,8 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
     if (!strcmp (st_dirname_properties.st_entry_ptr->d_name, ".") || !strcmp (st_dirname_properties.st_entry_ptr->d_name, ".."))
       continue;
 
-    bufchk (dirname, MP);
-    strncpy (st_dirname_properties.path, dirname, MP - 1);
+    bufchk (dirname, LEN_MAX_PATH);
+    strncpy (st_dirname_properties.path, dirname, LEN_MAX_PATH - 1);
 
     int pathLen = strlen (st_dirname_properties.path);
     if (st_dirname_properties.path[pathLen - 1] != '/')
@@ -76,7 +76,7 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
     }
 
     int req_len = multi_strlen (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name, NULL) + 1;
-    bufchk_len (req_len, MP, __func__, __LINE__);
+    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     strcat (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name);
 
     struct stat st;
@@ -186,7 +186,7 @@ is_time_to_purge (st_time *st_time_var)
 {
   const int BUF_TIME = 80;
   int req_len = multi_strlen (HOMEDIR, PURGE_DAY_FILE, NULL) + 1;
-  bufchk_len (req_len, MP, __func__, __LINE__);
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   char file_lastpurge[req_len];
   sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
 
@@ -310,7 +310,7 @@ purge (
         continue;
 
       int req_len = multi_strlen (waste_curr->info, st_trashinfo_dir_entry->d_name, NULL) + 1;
-      bufchk_len (req_len, MP, __func__, __LINE__);
+      bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       char trashinfo_entry_realpath[req_len];
       sprintf (trashinfo_entry_realpath, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
@@ -321,10 +321,10 @@ purge (
       if (then + (SECONDS_IN_A_DAY * st_config_data->purge_after) <= st_time_var->now ||
           cli_user_options->want_empty_trash)
       {
-        char corresponding_file_to_purge[MP];
+        char corresponding_file_to_purge[LEN_MAX_PATH];
         strcpy (corresponding_file_to_purge, waste_curr->files);
 
-        char temp[MP];
+        char temp[LEN_MAX_PATH];
         strcpy (temp, st_trashinfo_dir_entry->d_name);
         truncate_str (temp, strlen (DOT_TRASHINFO)); /* acquire the (basename - trashinfo extension) */
 
@@ -472,7 +472,7 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var)
    */
   st_file_properties.is_duplicate = 0;
 
-  char path_to_trashinfo[MP];
+  char path_to_trashinfo[LEN_MAX_PATH];
   int orphan_ctr = 0;
   st_waste *waste_curr = waste_head;
   while (waste_curr != NULL)

@@ -45,14 +45,14 @@ make_dir (const char *dir)
   if (exists (dir))
     return 0;
 
-  char temp_dir[MP];
-  bufchk (dir, MP);
+  char temp_dir[LEN_MAX_PATH];
+  bufchk (dir, LEN_MAX_PATH);
   strcpy (temp_dir, dir);
 
   char *tokenPtr;
   tokenPtr = strtok (temp_dir, "/");
 
-  char add_to_path[MP];
+  char add_to_path[LEN_MAX_PATH];
   if (dir[0] == '/')
     add_to_path[0] = '/';
 
@@ -63,10 +63,10 @@ make_dir (const char *dir)
   while (tokenPtr != NULL)
   {
     if (strlen (add_to_path) > 1 || *add_to_path == '.')
-      snprintf (add_to_path + strlen (add_to_path), MP - strlen (add_to_path), "/");
+      snprintf (add_to_path + strlen (add_to_path), LEN_MAX_PATH - strlen (add_to_path), "/");
 
-    bufchk (tokenPtr, MP - strlen (add_to_path));
-    snprintf (add_to_path + strlen (add_to_path), MP - strlen (add_to_path), "%s", tokenPtr);
+    bufchk (tokenPtr, LEN_MAX_PATH - strlen (add_to_path));
+    snprintf (add_to_path + strlen (add_to_path), LEN_MAX_PATH - strlen (add_to_path), "%s", tokenPtr);
     tokenPtr = strtok (NULL, "/");
 
     if (!exists (add_to_path))

@@ -32,7 +32,7 @@
  * with calloc. When the string is tokenized, each element is validated, so
  * if the there's a problem, that's where the check will fail.
  */
-#define CFG_LINE_LEN_MAX (MP * 2 + 1)
+#define LEN_MAX_CFG_LINE (LEN_MAX_PATH * 2 + 1)
 
 /* Not currently used
  * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))

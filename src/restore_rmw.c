@@ -49,13 +49,13 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
   static struct restore
   {
     char *base_name;
-    char relative_path[MP];
-    char dest[MP];
-    char info[MP];
+    char relative_path[LEN_MAX_PATH];
+    char dest[LEN_MAX_PATH];
+    char info[LEN_MAX_PATH];
   } file;
 
-  bufchk (argv, MP);
-  char file_arg[MP];
+  bufchk (argv, LEN_MAX_PATH);
+  char file_arg[LEN_MAX_PATH];
   strcpy (file_arg, argv);
   file.base_name = basename (file_arg);
 
@@ -94,13 +94,13 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
     int req_len = multi_strlen (file.relative_path, "../info/", file.base_name, DOT_TRASHINFO, NULL) + 1;
     snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, "../info/",
              file.base_name, DOT_TRASHINFO);
-    bufchk  (file.info, MP);
+    bufchk  (file.info, LEN_MAX_PATH);
 
 #ifdef DEBUG
     printf ("Restore()/debug: %s\n", file.info);
 #endif
 
-    bufchk (file.info, MP);
+    bufchk (file.info, LEN_MAX_PATH);
 
     FILE *fp;
 
@@ -109,7 +109,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
         /* adding 5 for the 'Path=' preceding the path.
        * multiplying by 3 for worst case scenario (all chars escaped)
        */
-      static char line[LEN_TRASHINFO_LINE_MAX];
+      static char line[LEN_MAX_TRASHINFO_LINE];
       if (fgets (line, sizeof line, fp) != NULL)
       {
           /**
@@ -139,7 +139,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
             /**
              * tokenPtr now equals the escaped absolute path from the info file
              */
-          unescape_url (tokenPtr, file.dest, MP);
+          unescape_url (tokenPtr, file.dest, LEN_MAX_PATH);
           tokenPtr = NULL;
           trim_white_space (file.dest);
 
@@ -157,7 +157,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
          */
         if (exists (file.dest))
         {
-          bufchk (st_time_var->suffix_added_dup_exists, MP - strlen (file.dest));
+          bufchk (st_time_var->suffix_added_dup_exists, LEN_MAX_PATH - strlen (file.dest));
           strcat (file.dest, st_time_var->suffix_added_dup_exists);
 
           if (verbose)
@@ -165,7 +165,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
 Duplicate filename at destination - appending time string...\n"));
         }
 
-        static char parent_dir[MP];
+        static char parent_dir[LEN_MAX_PATH];
 
         strcpy (parent_dir, file.dest);
 
@@ -268,7 +268,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var)
       int req_len = multi_strlen (waste_curr->files, entry->d_name, NULL) + 1;
       char full_path[req_len];
       snprintf (full_path, req_len, "%s%s", waste_curr->files, entry->d_name);
-      bufchk (full_path, MP);
+      bufchk (full_path, LEN_MAX_PATH);
 
       struct stat st;
       if (lstat (full_path, &st))
@@ -404,11 +404,11 @@ void
 undo_last_rmw (st_waste *waste_head, st_time *st_time_var)
 {
   FILE *undo_file_ptr;
-  static char undo_path[MP];
-  static char line[MP];
+  static char undo_path[LEN_MAX_PATH];
+  static char line[LEN_MAX_PATH];
 
   sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
-  bufchk (undo_path, MP);
+  bufchk (undo_path, LEN_MAX_PATH);
 
   undo_file_ptr = fopen (undo_path, "r");
 

@@ -38,8 +38,8 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time
   /*
    * Make sure there's enough room in file_info_dest
    */
-  bufchk_len (req_len, MP, __func__, __LINE__);
-  char final_info_dest[MP];
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  char final_info_dest[LEN_MAX_PATH];
   snprintf (final_info_dest, req_len, "%s%s", waste_curr->info, st_f_props->base_name);
 
 #ifdef DEBUG
@@ -52,12 +52,12 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
   if (st_f_props->is_duplicate)
   {
     int req_len = multi_strlen (final_info_dest, st_time_var->suffix_added_dup_exists, NULL);
-    bufchk_len (req_len, MP, __func__, __LINE__);
+    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     strcat (final_info_dest, st_time_var->suffix_added_dup_exists);
   }
 
   req_len = multi_strlen (final_info_dest, DOT_TRASHINFO, NULL);
-  bufchk_len (req_len, MP, __func__, __LINE__);
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   strcat (final_info_dest, DOT_TRASHINFO);
 
   FILE *fp = fopen (final_info_dest, "w");
@@ -66,9 +66,9 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
     /* Worst case scenario: whole path is escaped, so 3 chars per
      * actual character
      **/
-    static char escaped_path[MP * 3];
+    static char escaped_path[LEN_MAX_PATH * 3];
 
-    if (escape_url (st_f_props->real_path, escaped_path, MP * 3) )
+    if (escape_url (st_f_props->real_path, escaped_path, LEN_MAX_PATH * 3) )
       return close_file (fp, final_info_dest, __func__);
 
 #ifdef DEBUG

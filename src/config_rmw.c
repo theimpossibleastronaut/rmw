@@ -158,7 +158,7 @@ static void
 realize_waste_line (char *str)
 {
   trim_char ('/', str);
-  bufchk (str, MP);
+  bufchk (str, LEN_MAX_PATH);
 
   /*
    *
@@ -209,7 +209,7 @@ realize_waste_line (char *str)
   {
     if (strstr (str, st_var[i].name) != NULL)
     {
-      char dest[CFG_LINE_LEN_MAX];
+      char dest[LEN_MAX_CFG_LINE];
       *dest = '\0';
       strrepl (dest, str, st_var[i].name, (char*)st_var[i].value);
       strcpy (str, dest);
@@ -249,7 +249,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
     return NULL;
   }
 
-  char rem_opt[CFG_LINE_LEN_MAX];
+  char rem_opt[LEN_MAX_CFG_LINE];
   strcpy (rem_opt, raw_line);
 
   char *comma_val = strchr (rem_opt, ',');
@@ -275,7 +275,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   }
 
   raw_line = del_char_shift_left (' ', raw_line);
-  char tmp_waste_parent_folder[MP];
+  char tmp_waste_parent_folder[LEN_MAX_PATH];
   strcpy (tmp_waste_parent_folder, raw_line);
   realize_waste_line (tmp_waste_parent_folder);
 
@@ -383,12 +383,12 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
      * Create full path to config_file
      */
     int req_len = multi_strlen (CFG_FILE, HOMEDIR, NULL) + 1;
-    bufchk_len (req_len, MP, __func__, __LINE__);
+    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     sprintf (config_file, "%s%s", HOMEDIR, CFG_FILE);
   }
   else
   {
-    bufchk (cli_user_options->alt_config, MP);
+    bufchk (cli_user_options->alt_config, LEN_MAX_PATH);
     strcpy (config_file, cli_user_options->alt_config);
   }
 
@@ -448,15 +448,15 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
 void
 get_config_data (const rmw_options * cli_user_options, st_config *st_config_data)
 {
-  char config_file[MP];
+  char config_file[LEN_MAX_PATH];
   FILE *config_ptr = realize_config_file (config_file, cli_user_options);
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
-  char line_from_config[CFG_LINE_LEN_MAX];
+  char line_from_config[LEN_MAX_CFG_LINE];
   while (fgets (line_from_config, sizeof line_from_config, config_ptr) != NULL)
   {
     char *line_ptr = line_from_config;
-    bufchk (line_ptr, CFG_LINE_LEN_MAX);
+    bufchk (line_ptr, LEN_MAX_CFG_LINE);
     trim_white_space (line_ptr);
     line_ptr = del_char_shift_left (' ', line_ptr);
 

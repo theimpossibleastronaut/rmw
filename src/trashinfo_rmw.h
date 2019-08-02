@@ -32,7 +32,7 @@
 
 #define DOT_TRASHINFO ".trashinfo"
 
-#define LEN_TRASHINFO_LINE_MAX (MP * 3 + 5 + 1)
+#define LEN_MAX_TRASHINFO_LINE (LEN_MAX_PATH * 3 + 5 + 1)
 
 typedef struct st_waste st_waste;
 

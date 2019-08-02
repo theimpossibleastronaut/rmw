@@ -72,8 +72,8 @@
 #  define PATH_MAX 256
 #endif
 
-/*! The MP macro is used as a shortcut throughout the program. */
-#define MP (PATH_MAX + 1)
+/*! The LEN_MAX_PATH macro is used as a shortcut throughout the program. */
+#define LEN_MAX_PATH (PATH_MAX + 1)
 
 const char *HOMEDIR;
 
@@ -87,7 +87,7 @@ struct rmw_target
   const char *main_argv;
 
   /** The absolute path to the file, stored later in a .trashinfo file */
-  char real_path[MP];
+  char real_path[LEN_MAX_PATH];
 
   /** The basename of the target file, and used for the basename of it's corresponding
    * .trashinfo file */
@@ -95,7 +95,7 @@ struct rmw_target
 
   /** The destination file name. This may be different if a file of the same name already
    *  exists in the WASTE folder */
-  char waste_dest_name[MP];
+  char waste_dest_name[LEN_MAX_PATH];
 
   /** Is <tt>true</tt> if the file exists in the destination WASTE/files folder,
    * false otherwise. If it's a duplicate, a string based on the current time
