@@ -22,11 +22,8 @@ static st_node *
 create_node (char *data, char *size_str)
 {
   st_node *new_node = (st_node *) malloc (sizeof (st_node));
-  chk_malloc (new_node, __func__, __LINE__);
-  new_node->data = (char *) calloc (strlen (data) + 1, 1);
-  chk_malloc (new_node->data, __func__, __LINE__);
   strcpy (new_node->data, data);
-  new_node->size_str = size_str;
+  strcpy (new_node->size_str, size_str);
   new_node->left = NULL;
   new_node->right = NULL;
   return new_node;
@@ -116,9 +113,6 @@ dispose (st_node * root)
   {
     dispose (root->left);
     dispose (root->right);
-    free (root->data);
-    free (root->size_str);
-
     free (root);
   }
   return;

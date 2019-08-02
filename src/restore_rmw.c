@@ -280,16 +280,16 @@ restore_select (st_waste *waste_head, st_time *st_time_var)
        * below) holds the description.
        *
        */
-      char *size_str = (char*)calloc (strlen (hr_size) + 2 + 4 + 1, 1);
-      sprintf (size_str, "[%s]", human_readable_size (st.st_size));
+      char formatted_hr_size[LEN_MAX_HUMAN_READABLE_SIZE];
+      snprintf (formatted_hr_size, sizeof formatted_hr_size, "[%s]", hr_size);
 
       if (S_ISDIR (st.st_mode))
-        strcat (size_str, " (D)");
+        strcat (formatted_hr_size, " (D)");
       else if (S_ISLNK (st.st_mode))
-        strcat (size_str, " (L)");
+        strcat (formatted_hr_size, " (L)");
 
       comparer int_cmp = strcasecmp;
-      root = insert_node(root, int_cmp, entry->d_name, size_str);
+      root = insert_node(root, int_cmp, entry->d_name, formatted_hr_size);
 
       n_choices++;
     }

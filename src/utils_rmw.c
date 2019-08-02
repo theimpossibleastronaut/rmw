@@ -124,7 +124,7 @@ char *
 human_readable_size (off_t size)
 {
   /* "xxxx.y GiB" - 10 chars + '\0' */
-  static char buffer[12];
+  static char buffer[LEN_MAX_HUMAN_READABLE_SIZE];
 
   /* Store only the first letter; we add "iB" later during snprintf(). */
   const char prefix[] = { 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y' };

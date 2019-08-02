@@ -5,6 +5,7 @@
 #include <strings.h>
 #include <stdlib.h>
 #include "config.h"
+#include "utils_rmw.h"
 
 #if defined HAVE_NCURSESW_MENU_H
 #  include <ncursesw/menu.h>
@@ -24,10 +25,10 @@ typedef int (*comparer) (const char *, const char *);
 typedef struct st_node
 {
   /*! Holds the filename */
-  char *data;
+  char data[MP];
 
   /*! Holds the human readable size of the file */
-  char *size_str;
+  char size_str[LEN_MAX_HUMAN_READABLE_SIZE];
 
   /*! Left node of the binary search tree */
   struct st_node *left;

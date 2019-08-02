@@ -32,6 +32,8 @@
 
 #include "trashinfo_rmw.h"
 
+#define LEN_MAX_HUMAN_READABLE_SIZE 20
+
 int
 make_dir (const char *dir);
 
