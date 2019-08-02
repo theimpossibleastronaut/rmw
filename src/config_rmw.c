@@ -235,7 +235,7 @@ realize_waste_line (char *str)
  */
 static st_waste *
 parse_line_waste (st_waste * waste_curr, const char * line_ptr,
-                  bool * do_continue, const rmw_options * cli_user_options)
+                 const rmw_options * cli_user_options)
 {
   bool removable = 0;
 
@@ -246,7 +246,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   {
     print_msg_warn();
     puts ("configuration: A WASTE line must include an '=' sign.");
-    goto DO_CONT;
+    return NULL;
   }
 
   char rem_opt[CFG_LINE_LEN_MAX];
@@ -269,8 +269,8 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
     else
     {
       print_msg_warn ();
-      printf (_("invalid option in config\n"));
-      goto DO_CONT;
+      printf (_("Invalid WASTE option: '%s'\n"), comma_val);
+      return NULL;
     }
   }
 
@@ -298,7 +298,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
       }
       printf ("\n");
     }
-    goto DO_CONT;
+    return NULL;
   }
 
   st_waste *temp_node = malloc (sizeof (st_waste));
@@ -363,10 +363,6 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   else
     msg_err_lstat(__func__, __LINE__);
 
-  return waste_curr;
-
-DO_CONT:
-  *do_continue = 1;
   return waste_curr;
 }
 
@@ -459,7 +455,6 @@ get_config_data (const rmw_options * cli_user_options, st_config *st_config_data
   char line_from_config[CFG_LINE_LEN_MAX];
   while (fgets (line_from_config, sizeof line_from_config, config_ptr) != NULL)
   {
-    bool do_continue = 0;
     char *line_ptr = line_from_config;
     bufchk (line_ptr, CFG_LINE_LEN_MAX);
     trim_white_space (line_ptr);
@@ -495,9 +490,11 @@ get_config_data (const rmw_options * cli_user_options, st_config *st_config_data
       st_config_data->force_required = 1;
     else if (strncmp ("WASTE", line_ptr, 5) == 0)
     {
-      waste_curr =
-        parse_line_waste (waste_curr, line_ptr, &do_continue, cli_user_options);
-      if (do_continue)
+      st_waste *st_new_waste_ptr =
+        parse_line_waste (waste_curr, line_ptr, cli_user_options);
+      if (st_new_waste_ptr != NULL)
+        waste_curr = st_new_waste_ptr;
+      else
         continue;
     }
     else if (!strncmp ("PROTECT", line_ptr, 7))
