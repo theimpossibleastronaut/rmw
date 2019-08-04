@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
 "POT-Creation-Date: 2019-08-02 01:00-0500\n"
-"PO-Revision-Date: 2019-07-06 21:10+0200\n"
+"PO-Revision-Date: 2019-08-04 16:21+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
 "teams/92532/nl_NL/)\n"
@@ -25,6 +25,9 @@ msgid ""
 "# A folder can use the $UID variable.\n"
 "# WASTE=/mnt/fs/Trash-$UID\n"
 msgstr ""
+"\n"
+"# Een map kan de $UID variabele gebruiken.\n"
+"# WASTE=/mnt/fs/Trash-$UID\n"
 
 #. TRANSLATORS:  Do not translate the last line in this section
 #: src/config_rmw.c:89
@@ -338,10 +341,9 @@ msgstr ""
 "Geef '%s -h' op voor meer informatie\n"
 
 #: src/config_rmw.c:272
-#, fuzzy, c-format
-#| msgid "Unknown or invalid option: '%s'\n"
+#, c-format
 msgid "Invalid WASTE option: '%s'\n"
-msgstr "Onbekende of invalide optie: '%s'\n"
+msgstr "Invalide optie: '%s'\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
@@ -413,7 +415,7 @@ msgstr ""
 
 #: src/main.c:243
 msgid "The Easter Bunny says, \"Hello, world.\""
-msgstr ""
+msgstr "De paashaas zegt, \"Hallo, wereld.\""
 
 #: src/purging_rmw.c:272
 msgid "The contents of all waste folders will be deleted -"
@@ -435,28 +437,7 @@ msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
 
 #: src/parse_cli_options.c:41
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: rmw [OPTION]... FILE...\n"
-#| "ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
-#| "\n"
-#| "   or: rmw -s\n"
-#| "   or: rmw -u\n"
-#| "   or: rmw -z FILE...\n"
-#| "Restore FILE(s) from a WASTE directory\n"
-#| "\n"
-#| "  -h, --help\n"
-#| "  -t, --translate           display a translation of the configuration "
-#| "file\n"
-#| "  -c, --config filename     use an alternate configuration\n"
-#| "  -l, --list                list waste directories\n"
-#| "  -g, --purge               run purge even if it's been run today\n"
-#| "  -o, --orphaned            check for orphaned files (maintenance)\n"
-#| "  -f, --force               allow rmw to purge files in the background\n"
-#| "  -e, --empty               completely empty (purge) all waste folders\n"
-#| "  -v, --verbose             increase output messages\n"
-#| "  -w, --warranty            display warranty\n"
-#| "  -V, --version             display version and license information\n"
+#, c-format
 msgid ""
 "Usage: rmw [OPTION]... FILE...\n"
 "ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
