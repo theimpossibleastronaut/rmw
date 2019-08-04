@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.03-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-08-02 01:00-0500\n"
+"POT-Creation-Date: 2019-08-04 15:17-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,7 +160,7 @@ msgid_plural "%d files purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/main.c:343
+#: src/main.c:337
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -233,7 +233,7 @@ msgstr[1] ""
 msgid "Action cancelled."
 msgstr ""
 
-#: src/utils_rmw.c:160
+#: src/utils_rmw.c:153
 msgid "Continue? (y/n): "
 msgstr ""
 
@@ -243,7 +243,7 @@ msgstr ""
 msgid "Created %s\n"
 msgstr ""
 
-#: src/utils_rmw.c:85
+#: src/utils_rmw.c:84
 #, c-format
 msgid "Created directory %s\n"
 msgstr ""
@@ -264,12 +264,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:261 src/restore_rmw.c:220
+#: src/main.c:255 src/restore_rmw.c:220
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
 
-#: src/main.c:189
+#: src/main.c:183
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -288,7 +288,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr ""
 
-#: src/main.c:333
+#: src/main.c:327
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr ""
@@ -340,7 +340,7 @@ msgid ""
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 msgstr ""
 
-#: src/main.c:243
+#: src/main.c:237
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr ""
 
@@ -348,7 +348,7 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
-#: src/main.c:106
+#: src/main.c:100
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
@@ -387,7 +387,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/main.c:368
+#: src/main.c:362
 #, c-format
 msgid "attached"
 msgstr ""
@@ -433,7 +433,7 @@ msgid ""
 "visit the rmw web site at\n"
 msgstr ""
 
-#: src/main.c:136
+#: src/main.c:130
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""
@@ -452,7 +452,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr ""
 
-#: src/main.c:366 src/config_rmw.c:294
+#: src/main.c:360 src/config_rmw.c:294
 #, c-format
 msgid "removable, "
 msgstr ""
@@ -469,8 +469,8 @@ msgid ""
 "for details.\n"
 msgstr ""
 
-#: src/utils_rmw.c:254 src/utils_rmw.c:265 src/utils_rmw.c:317
-#: src/utils_rmw.c:332
+#: src/utils_rmw.c:247 src/utils_rmw.c:258 src/utils_rmw.c:310
+#: src/utils_rmw.c:325
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr ""
@@ -480,7 +480,7 @@ msgstr ""
 msgid "search complete\n"
 msgstr ""
 
-#: src/main.c:104
+#: src/main.c:98
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -503,12 +503,12 @@ msgstr ""
 msgid "while closing %s\n"
 msgstr ""
 
-#: src/purging_rmw.c:518 src/utils_rmw.c:90
+#: src/purging_rmw.c:518 src/utils_rmw.c:89
 #, c-format
 msgid "while creating %s\n"
 msgstr ""
 
-#: src/main.c:91
+#: src/main.c:85
 msgid "while getting the path to your home directory\n"
 msgstr ""
 

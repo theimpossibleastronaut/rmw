@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-08-02 01:00-0500\n"
+"POT-Creation-Date: 2019-08-04 15:17-0500\n"
 "PO-Revision-Date: 2019-07-07 00:18+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -223,7 +223,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/main.c:343
+#: src/main.c:337
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -298,7 +298,7 @@ msgstr[1] "== enthält %d Dateien =="
 msgid "Action cancelled."
 msgstr "Ausführung abgebrochen."
 
-#: src/utils_rmw.c:160
+#: src/utils_rmw.c:153
 msgid "Continue? (y/n): "
 msgstr "Weitermachen (y/n):"
 
@@ -308,7 +308,7 @@ msgstr "Weitermachen (y/n):"
 msgid "Created %s\n"
 msgstr "%s angelegt\n"
 
-#: src/utils_rmw.c:85
+#: src/utils_rmw.c:84
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Verzeichnis %s angelegt\n"
@@ -330,12 +330,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelter Dateiname im Zielverzeichnis, füge Zeitstempel an...\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:261 src/restore_rmw.c:220
+#: src/main.c:255 src/restore_rmw.c:220
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Datei nicht gefunden: '%s'\n"
 
-#: src/main.c:189
+#: src/main.c:183
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -357,7 +357,7 @@ msgstr "Unbekannte oder ungültige Option: '%s'\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :Warnung: Maximale Tiefe von %u erreicht, überspringe ...\n"
 
-#: src/main.c:333
+#: src/main.c:327
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr " Kein passendes Dateisystem für \"%s\" gefunden\n"
@@ -419,7 +419,7 @@ msgstr ""
 "DAS PROGRAMM SICH ALS FEHLERHAFT HERAUSSTELLEN, ÜBERNEHMEN SIE DIE KOSTEN\n"
 "FÜR ALLE NOTWENDIGEN WARTUNGSARBEITEN, REPARATUREN ODER VERBESSERUNGEN.\n"
 
-#: src/main.c:243
+#: src/main.c:237
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr ""
 
@@ -427,7 +427,7 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Der Inhalt aller Mülleimer wird gelöscht -"
 
-#: src/main.c:106
+#: src/main.c:100
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Es kann nicht weitergemacht werden. Abbruch...\n"
@@ -507,7 +507,7 @@ msgstr ""
 "  -V, --version             Version und Lizenzinformationen anzeigen\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/main.c:368
+#: src/main.c:362
 #, c-format
 msgid "attached"
 msgstr "angeschlossen"
@@ -557,7 +557,7 @@ msgstr ""
 "Wenn du weitere Hilfe brauchst oder einen Fehler melden willst,\n"
 "besuche die rmw-Webseite unter\n"
 
-#: src/main.c:136
+#: src/main.c:130
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "Papierkorbleerung wurde übersprungen: verwende -f oder --force\n"
@@ -578,7 +578,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "realpath() hat einen Fehler zurückgeliefert.\n"
 
-#: src/main.c:366 src/config_rmw.c:294
+#: src/main.c:360 src/config_rmw.c:294
 #, c-format
 msgid "removable, "
 msgstr "löschbar."
@@ -604,8 +604,8 @@ msgstr ""
 "weiterverbreiten; siehe <http://www.gnu.org/licenses/gpl.html>\n"
 "für Details.\n"
 
-#: src/utils_rmw.c:254 src/utils_rmw.c:265 src/utils_rmw.c:317
-#: src/utils_rmw.c:332
+#: src/utils_rmw.c:247 src/utils_rmw.c:258 src/utils_rmw.c:310
+#: src/utils_rmw.c:325
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
@@ -615,7 +615,7 @@ msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
 msgid "search complete\n"
 msgstr "Suche abgeschlossen\n"
 
-#: src/main.c:104
+#: src/main.c:98
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -643,12 +643,12 @@ msgstr ""
 "beim Schliessen von %s\n"
 "\n"
 
-#: src/purging_rmw.c:518 src/utils_rmw.c:90
+#: src/purging_rmw.c:518 src/utils_rmw.c:89
 #, c-format
 msgid "while creating %s\n"
 msgstr "beim Anlegen von %s\n"
 
-#: src/main.c:91
+#: src/main.c:85
 msgid "while getting the path to your home directory\n"
 msgstr "beim Ermitteln des Pfades zu deinem Home-Verzeichnis.\n"
 
