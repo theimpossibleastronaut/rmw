@@ -1,7 +1,6 @@
-/*!
- * @file utils_rmw.c
- */
 /*
+ * utils_rmw.c
+ *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
  *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
@@ -92,21 +91,15 @@ make_dir (const char *dir)
   return MAKE_DIR_FAILURE;
 }
 
+
 /*!
  * Determine whether or not a file or directory exists.
- * @param[in] filename
- * @return true if file exists, false otherwise
  */
 int exists (const char *filename)
 {
-  FILE *fp = fopen (filename, "r");
-  if (fp != NULL)
-  {
-    close_file (fp, filename, __func__);
-    return true;
-  }
+  int res_access = access (filename, F_OK);
 
-  return false;
+  return (res_access == 0) ? true : false;
 }
 
 void

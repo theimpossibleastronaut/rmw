@@ -1,7 +1,5 @@
-/*!
- * @file utils_rmw.h
- */
 /*
+ * utils_rmw.h
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
@@ -29,6 +27,7 @@
 #define _INC_UTILS_H
 
 #include <sys/stat.h>
+#include <unistd.h>
 
 #include "trashinfo_rmw.h"
 
