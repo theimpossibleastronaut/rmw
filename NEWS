@@ -1,18 +1,33 @@
 === RMW Release Notes ===
 
-Git:
+---
 
-A waste folder can now use the $UID (user id) variable. Example:
+2019-08-06
+
+rmw v0.7.03 has been released
+
+* rmw now gets the user's HOMEDIR from a passwd struct (see
+<https://linux.die.net/man/3/getpwnam>), not from the environmental
+variable.
+
+* A waste folder can now use the $UID (user id) variable. Example:
 /mnt/fs/Trash-$UID
 
-Because rmw automatically creates a config file in the user's home
+* Because rmw automatically creates a config file in the user's home
 directory, rmw no longer searches in /etc (or /usr/local/etc..) for rmwrc.
 It can be removed from your system if installed previously.
+
+* A lot of code clean-up and refactoring since the last release.
+
+
+---
 
 2019-07-09
 
 rmw v0.7.02 has been released. See the ChangeLog for details.
 
+
+---
 2018-12-05
 
 rmw v0.7.01 has been released. See the ChangeLog for details.
