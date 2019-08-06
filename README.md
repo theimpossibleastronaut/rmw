@@ -1,4 +1,4 @@
-# rmw-0.7.03-dev
+# rmw-0.7.03
 
 ## Description
 
@@ -14,7 +14,7 @@ Web site: <https://remove-to-waste.info/>
 ## Build Status
 
 * [![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/theimpossibleastronaut/rmw)
-* [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3) 
+* [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
 
 ## Screenshots
 
@@ -136,7 +136,7 @@ Restore FILE(s) from a WASTE directory
 -V, --version             display version and license information
 
 
-	===] Restoring [===
+    ===] Restoring [===
 
 -z, --restore <wildcard filename(s) pattern>
 -s, --select              select files from list to restore
