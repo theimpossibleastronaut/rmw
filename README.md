@@ -24,7 +24,8 @@ Web site: <https://remove-to-waste.info/>
 
 ## Contact / Support
 
-See website [Help and Support section](https://remove-to-waste.info/#support)
+* [Bug Reports and Feature Requests](https://github.com/theimpossibleastronaut/rmw/blob/master/CONTRIBUTING.md#bug-reports-and-feature-requests)
+* [General Help, Support, Discussion](https://remove-to-waste.info/#support)
 
 ## Required libraries
 
