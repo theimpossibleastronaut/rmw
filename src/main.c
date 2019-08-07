@@ -352,23 +352,7 @@ list_waste_folders (st_waste *waste_head)
   st_waste *waste_curr = waste_head;
   while (waste_curr != NULL)
   {
-    printf ("%s", waste_curr->parent);
-    if (waste_curr->removable && verbose)
-    {
-    /*
-     * These lines are separated to ease translation
-     *
-     */
-
-      printf (" (");
-      printf (_("removable, "));
-      /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
-      printf (_("attached"));
-      printf (")");
-    }
-
-    printf ("\n");
-
+    show_folder_line (waste_curr->parent, waste_curr->removable);
     waste_curr = waste_curr->next_node;
   }
 

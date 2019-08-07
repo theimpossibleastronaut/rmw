@@ -56,3 +56,6 @@ get_config_data (const rmw_options * cli_user_options, st_config *st_config_data
 
 void
 init_config_data (st_config *st_config_data);
+
+void
+show_folder_line (const char *folder, const bool is_r);

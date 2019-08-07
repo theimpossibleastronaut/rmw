@@ -282,22 +282,8 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   if (removable && !exists (tmp_waste_parent_folder))
   {
     if (cli_user_options->list)
-    {
-      /*
-       * These lines are separated to ease translation
-       *
-       */
-      fputs (tmp_waste_parent_folder, stdout);
-      if (verbose)
-      {
-        printf (" (");
-        printf (_("removable, "));
-        /* TRANSLATORS: context - "an unmounted device or filesystem is not presently attached or mounted" */
-        printf (_("detached"));
-        printf (")");
-      }
-      printf ("\n");
-    }
+      show_folder_line (tmp_waste_parent_folder, removable);
+
     return NULL;
   }
 
@@ -550,3 +536,22 @@ init_config_data (st_config *st_config_data)
   st_config_data->force_required = 0;
 }
 
+void
+show_folder_line (const char *folder, const bool is_r)
+{
+  printf ("%s", folder);
+  if (is_r && verbose)
+  {
+    /*
+     * These lines are separated to ease translation
+     *
+     */
+    printf (" (");
+    printf (_("removable, "));
+    /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
+    printf (_("attached"));
+    printf (")");
+  }
+
+  printf ("\n");
+}
