@@ -67,15 +67,7 @@ main (const int argc, char* const argv[])
 verbose = 1;
 #endif
 
-  /* rmw doesn't work on Windows yet
-   * FIXME: <https://github.com/theimpossibleastronaut/rmw/issues/71>
-   */
-  #ifndef WIN32
-    HOMEDIR = get_homedir ("RMWTEST_HOME");
-  #else
-    /* FIXME: This shouldn't be retrieved via an environmental variable */
-    HOMEDIR = getenv ("LOCALAPPDATA");
-  #endif
+  HOMEDIR = get_homedir ("RMWTEST_HOME");
 
   if (HOMEDIR != NULL)
     bufchk (HOMEDIR, LEN_MAX_PATH);
@@ -205,13 +197,28 @@ get_homedir (const char *alternate_homedir)
       return enable_test;
   }
 
-  uid_t uid = geteuid ();
-  struct passwd *pwd = getpwuid(uid);
+  char *_homedir;
 
-  if (pwd == NULL)
+  #ifndef WIN32
+    _homedir = getenv ("HOME");
+  #else
+    char *_drive = getenv ("HOMEDRIVE");
+    char *_path = getenv ("HOMEPATH");
+
+    if (_drive != NULL && _path != NULL)
+    {
+      static char combined_path[LEN_MAX_PATH];
+      snprintf (combined_path, sizeof combined_path, "%s%s", _drive, _path);
+      _homedir = &combined_path[0];
+    }
+    else
+      _homedir = NULL;
+    #endif
+
+  if (_homedir == NULL)
     return NULL;
 
-  return pwd->pw_dir;
+  return _homedir;
 }
 
 int
