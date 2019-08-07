@@ -5,6 +5,10 @@
   * To get user's home dir, revert back to retrieving via environmental
   variable (conforms to FreeDesktop Trash Spec).
 
+  * on DragonFlyBSD, it's no longer required to use `env
+  MENU_LIBS=-lmenu` when running configure
+  <https://gitlab.com/andy5995/rmw/issues/220>
+
 2019-08-06
 
   * rmw v0.7.03 has been released.
