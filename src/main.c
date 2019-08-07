@@ -213,10 +213,7 @@ get_homedir (const char *alternate_homedir)
     }
     else
       _homedir = NULL;
-    #endif
-
-  if (_homedir == NULL)
-    return NULL;
+  #endif
 
   return _homedir;
 }
