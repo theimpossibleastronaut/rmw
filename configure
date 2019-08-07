@@ -6942,6 +6942,8 @@ fi
 
         if test "x$found_MENU" = xyes; then
                 MENU_LIBS="-lmenu"
+                # These 2 paths are set so the headers can be found on DragonFlyBSD
+                CFLAGS="$CFLAGS -I/usr/local/include -I/usr/local/include/ncurses"
 
 $as_echo "#define HAVE_MENU 1" >>confdefs.h
 
