@@ -28,7 +28,6 @@
 #define _INC_MAIN_H
 
 #include <sys/stat.h>
-#include <sys/types.h>
 
 #include "time_rmw.h"
 #include "trashinfo_rmw.h"
