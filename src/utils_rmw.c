@@ -95,11 +95,11 @@ make_dir (const char *dir)
 /*!
  * Determine whether or not a file or directory exists.
  */
-int exists (const char *filename)
+bool exists (const char *filename)
 {
-  int res_access = access (filename, F_OK);
-
-  return (res_access == 0) ? true : false;
+  /* if the file exists, access returns 0. Reversing that to "true" so
+   * reading "if (exists)" makes more sense. */
+  return ! access (filename, F_OK);
 }
 
 void
