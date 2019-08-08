@@ -106,6 +106,7 @@ init_rmw_options (rmw_options *options)
 {
   verbose = 0;
   options->want_restore = false;
+  options->want_dry_run = false;
   options->want_purge = false;
   options->want_empty_trash = false;
   options->want_orphan_chk = false;
@@ -114,19 +115,19 @@ init_rmw_options (rmw_options *options)
   options->force = 0;
   options->list = false;
   options->alt_config = NULL;
-
 }
 
 
 void
 parse_cli_options (const int argc, char* const argv[], rmw_options *options)
 {
-  const char *const short_options = "hvc:goz:lsuwVfeir";
+  const char *const short_options = "hvc:goz:lnsuwVfeir";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
     {"verbose", 0, NULL, 'v'},
     {"config", 1, NULL, 'c'},
+    {"dry-run", 0, NULL, 'n'},
     {"list", 0, NULL, 'l'},
     {"purge", 0, NULL, 'g'},
     {"orphaned", 0, NULL, 'o'},
@@ -158,6 +159,9 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
       break;
     case 'c':
       options->alt_config = optarg;
+      break;
+    case 'n':
+      options->want_dry_run = 1;
       break;
     case 'l':
       options->list = true;
@@ -208,4 +212,8 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
 
   }
   while (next_option != -1);
+
+  /* if dry-run was enabled, assume verbosity as well */
+  if (options->want_dry_run)
+    verbose = 1;
 }

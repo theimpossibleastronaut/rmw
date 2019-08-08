@@ -262,12 +262,6 @@ purge (
 
   short status = 0;
 
-  bool cmd_dry_run = 0;
-  char *rmwtrash_env = getenv("RMWTRASH");
-
-  if (rmwtrash_env != NULL)
-    cmd_dry_run = strcmp (rmwtrash_env, "dry-run") ? 0 : 1;
-
   if (cli_user_options->want_empty_trash) {
     puts(_("The contents of all waste folders will be deleted -"));
     if (!user_verify())
@@ -276,10 +270,6 @@ purge (
       return 0;
     }
   }
-
-  /* if dry-run was enabled, assume verbosity as well */
-  if (cmd_dry_run)
-    verbose = 1;
 
   printf ("\n");
   if (cli_user_options->want_empty_trash)
@@ -337,7 +327,7 @@ purge (
 
         if (S_ISDIR (st.st_mode))
         {
-          if (!cmd_dry_run)
+          if (!cli_user_options->want_dry_run)
             status = rmdir_recursive (corresponding_file_to_purge, 1, cli_user_options);
           else
           {
@@ -367,7 +357,7 @@ purge (
             break;
 
           case 0:
-            if (!cmd_dry_run)
+            if (!cli_user_options->want_dry_run)
               status = rmdir (corresponding_file_to_purge);
             else
               status = 0;
@@ -389,7 +379,7 @@ purge (
         }
         else
         {
-          if (!cmd_dry_run)
+          if (!cli_user_options->want_dry_run)
           {
             if (!is_modified (corresponding_file_to_purge, orig_dev, orig_inode))
               status = remove (corresponding_file_to_purge);
@@ -408,7 +398,7 @@ purge (
 
         if (status == 0)
         {
-          if (!cmd_dry_run)
+          if (!cli_user_options->want_dry_run)
             status = remove (trashinfo_entry_realpath);
           else
             status = 0;
