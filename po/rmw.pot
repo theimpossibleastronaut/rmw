@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: rmw 0.7.04-dev\n"
+"Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-08-12 00:25-0500\n"
+"POT-Creation-Date: 2019-08-12 15:19-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -230,7 +230,7 @@ msgstr ""
 msgid "Created directory %s\n"
 msgstr ""
 
-#: src/config_rmw.c:387
+#: src/config_rmw.c:386
 #, c-format
 msgid "Creating default configuration file:"
 msgstr ""
@@ -335,12 +335,12 @@ msgstr ""
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
 
-#: src/config_rmw.c:419
+#: src/config_rmw.c:418
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr ""
 
-#: src/config_rmw.c:518
+#: src/config_rmw.c:517
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
@@ -369,12 +369,12 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:570
+#: src/config_rmw.c:569
 #, c-format
 msgid "attached"
 msgstr ""
 
-#: src/config_rmw.c:373
+#: src/config_rmw.c:372
 #, c-format
 msgid "config file: %s\n"
 msgstr ""
@@ -404,7 +404,7 @@ msgstr ""
 msgid "function: <%s>"
 msgstr ""
 
-#: src/config_rmw.c:531
+#: src/config_rmw.c:530
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -432,7 +432,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr ""
 
-#: src/config_rmw.c:568
+#: src/config_rmw.c:567
 #, c-format
 msgid "removable, "
 msgstr ""

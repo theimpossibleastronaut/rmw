@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2019-08-12 00:25-0500\n"
+"POT-Creation-Date: 2019-08-12 15:19-0500\n"
 "PO-Revision-Date: 2019-08-04 16:21+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -343,7 +343,7 @@ msgstr "Aangemaakt %s\n"
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/config_rmw.c:387
+#: src/config_rmw.c:386
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "Aanmaken van standaard configuratie bestand:"
@@ -459,12 +459,12 @@ msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 msgid "Unable to continue. Exiting...\n"
 msgstr "Kan niet doorgaan. Afsluiten...\n"
 
-#: src/config_rmw.c:419
+#: src/config_rmw.c:418
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Kan een configuratie bestand niet lezen of schrijven.\n"
 
-#: src/config_rmw.c:518
+#: src/config_rmw.c:517
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
@@ -513,12 +513,12 @@ msgstr ""
 "  -V, --version             toon versie en licentie informatie\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:570
+#: src/config_rmw.c:569
 #, c-format
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:373
+#: src/config_rmw.c:372
 #, c-format
 msgid "config file: %s\n"
 msgstr "configuratie bestand: %s\n"
@@ -548,7 +548,7 @@ msgstr "formaat van .trashinfo `bestand %s` is incorrect"
 msgid "function: <%s>"
 msgstr "functie: <%s>"
 
-#: src/config_rmw.c:531
+#: src/config_rmw.c:530
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -582,7 +582,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr "realpath() gaf een fout terug.\n"
 
-#: src/config_rmw.c:568
+#: src/config_rmw.c:567
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
