@@ -67,7 +67,7 @@ main (const int argc, char* const argv[])
 verbose = 1;
 #endif
 
-  HOMEDIR = get_homedir ("RMWTEST_HOME");
+  HOMEDIR = get_home_dir (STR_ENABLE_TEST);
 
   if (HOMEDIR != NULL)
     bufchk (HOMEDIR, LEN_MAX_PATH);
@@ -78,10 +78,7 @@ verbose = 1;
     return 1;
   }
 
-  int req_len = multi_strlen (HOMEDIR, DATA_DIR, NULL) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char data_dir[LEN_MAX_PATH];
-  sprintf (data_dir, "%s%s", HOMEDIR, DATA_DIR);
+  const char *data_dir = get_data_rmw_home_dir ();
   int created_data_dir = make_dir (data_dir);
 
   if (created_data_dir == MAKE_DIR_FAILURE)
@@ -114,7 +111,7 @@ Please check your configuration file and permissions\n\n"));
   st_time st_time_var;
   init_time_vars (&st_time_var);
 
-  if (cli_user_options.want_purge || is_time_to_purge(&st_time_var))
+  if (cli_user_options.want_purge || is_time_to_purge(&st_time_var, data_dir))
   {
     if (!st_config_data.force_required || cli_user_options.force)
       purge (&st_config_data, &cli_user_options, &st_time_var);
@@ -135,9 +132,11 @@ Please check your configuration file and permissions\n\n"));
     return result;
   }
 
+  const char *mrl_file = get_most_recent_list_filename (data_dir);
+
   if (cli_user_options.want_undo)
   {
-    undo_last_rmw (st_config_data.st_waste_folder_props_head, &st_time_var);
+    undo_last_rmw (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file);
     dispose_waste (st_config_data.st_waste_folder_props_head);
     return 0;
   }
@@ -162,7 +161,13 @@ Please check your configuration file and permissions\n\n"));
 
   if (optind < argc)
   {
-    int result = remove_to_waste (argc, argv, st_config_data.st_waste_folder_props_head, &st_time_var);
+    int result = remove_to_waste (
+      argc,
+      argv,
+      st_config_data.st_waste_folder_props_head,
+      &st_time_var,
+      mrl_file);
+
     if (result > 1)
     {
       /* Don't need to print any messages here. Any warnings or errors
@@ -182,17 +187,18 @@ Enter '%s -h' for more information\n"), argv[0]);
 }
 #endif
 
-/* returns a pointer to the home directory, or optionally sets an
+/*
+ * Returns a pointer to the home directory, or optionally sets an
  * alternate home directory (primarily useful for testing an app).
  * If an alternate home directory isn't needed, the argument passed
  * can be NULL instead of a string.
  */
 const char *
-get_homedir (const char *alternate_homedir)
+get_home_dir (const char *alternate_home_dir)
 {
-  if (alternate_homedir != NULL)
+  if (alternate_home_dir != NULL)
   {
-    char *enable_test = getenv (alternate_homedir);
+    char *enable_test = getenv (alternate_home_dir);
     if (enable_test != NULL)
       return enable_test;
   }
@@ -218,12 +224,55 @@ get_homedir (const char *alternate_homedir)
   return _homedir;
 }
 
+
+const char*
+get_data_rmw_home_dir (void)
+{
+  const char rel_default[] = "/.local/share/rmw";
+
+  const char *xdg_data_home = getenv ("XDG_DATA_HOME");
+
+  static char data_rmw_home[LEN_MAX_PATH];
+  static const char *ptr = &data_rmw_home[0];
+
+  if (getenv (STR_ENABLE_TEST) != NULL ||
+      (xdg_data_home == NULL && getenv (STR_ENABLE_TEST) == NULL))
+  {
+    int req_len = multi_strlen (HOMEDIR, rel_default, NULL);
+    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+    sprintf (data_rmw_home, "%s%s", HOMEDIR, rel_default);
+    return ptr;
+  }
+
+  int req_len = multi_strlen (xdg_data_home, "/rmw", NULL);
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  sprintf (data_rmw_home, "%s/rmw", xdg_data_home);
+  ptr = &data_rmw_home[0];
+  return ptr;
+}
+
+
+const char*
+get_most_recent_list_filename (const char* data_dir)
+{
+  const char rel_most_recent_list_filename[] = "mrl";
+  int req_len = multi_strlen (data_dir, "/", rel_most_recent_list_filename, NULL);
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  static char mrl_file[LEN_MAX_PATH];
+  sprintf (mrl_file, "%s/%s", data_dir, rel_most_recent_list_filename);
+  static const char *ptr;
+  ptr = &mrl_file[0];
+  return ptr;
+}
+
+
 int
 remove_to_waste (
   const int argc,
   char* const argv[],
   st_waste *waste_head,
-  st_time *st_time_var)
+  st_time *st_time_var,
+  const char *mrl_file)
 {
   rmw_target st_file_properties;
 
@@ -334,7 +383,7 @@ remove_to_waste (
 
   if (confirmed_removals_list_head != NULL)
   {
-    create_undo_file (confirmed_removals_list_head);
+    create_undo_file (confirmed_removals_list_head, mrl_file);
     dispose_removed (confirmed_removals_list_head);
   }
 
@@ -386,11 +435,9 @@ add_removal (st_removed *removals, const char *file)
   return removals;
 }
 
+
 /*!
  * recursively remove all nodes of an object of type @ref st_removed
- * @param[out] node the node to be removed
- * @return void
- * @see add_removal
  */
 void
 dispose_removed (st_removed *node)
@@ -404,33 +451,26 @@ dispose_removed (st_removed *node)
   return;
 }
 
+
 /*!
  * Create a new undo_file (lastrmw)
- * @param[in] removals_head the first node in the removals list
- * @return void
- * @see cli_user_options.want_undo_rmw
- * @see add_removal
  */
 void
-create_undo_file (st_removed *removals_head)
+create_undo_file (st_removed *removals_head, const char* mrl_file)
 {
-  int req_len = multi_strlen (HOMEDIR, UNDO_FILE, NULL) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char undo_path[req_len];
-  sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
-  FILE *undo_file_ptr = fopen (undo_path, "w");
-  if (undo_file_ptr != NULL)
+  FILE *fd = fopen (mrl_file, "w");
+  if (fd)
   {
     st_removed *st_removals_list = removals_head;
     while (st_removals_list != NULL)
     {
-      fprintf (undo_file_ptr, "%s\n", st_removals_list->file);
+      fprintf (fd, "%s\n", st_removals_list->file);
       st_removals_list = st_removals_list->next_node;
     }
-    close_file (undo_file_ptr, undo_path, __func__);
+    close_file (fd, mrl_file, __func__);
   }
   else
-    open_err (undo_path, __func__);
+    open_err (mrl_file, __func__);
 
   return;
 }

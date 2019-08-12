@@ -50,19 +50,6 @@
   #define VERSION "unversioned"
 #endif
 
-/* DATA_DIR is relative to $HOME */
-#ifndef DATA_DIR
-  #ifndef WIN32
-    #define DATA_DIR "/.config/rmw"
-  #else
-    #define DATA_DIR "/rmw"
-  #endif
-#endif
-
-#define CFG_FILE DATA_DIR"/config"
-#define UNDO_FILE DATA_DIR"/lastrmw"
-#define PURGE_DAY_FILE DATA_DIR"/lastpurge"
-
 /*!
  * PATH_MAX is used to set limits on how long a pathname can be.
  * Some systems may not define PATH_MAX so it's defined here if it's
@@ -75,7 +62,8 @@
 /*! The LEN_MAX_PATH macro is used as a shortcut throughout the program. */
 #define LEN_MAX_PATH (PATH_MAX + 1)
 
-const char *HOMEDIR;
+/* path + filename of most_recent_list used by 'rmw -u' */
+const char *most_recent_list;
 
 typedef struct rmw_target rmw_target;
 

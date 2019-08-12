@@ -98,11 +98,11 @@ automatically created in $HOME/.config/rmw. Edit the file as desired.
 Documentation explaining the configuration can be found in your config
 file.
 
-Waste folders will be created automatically. (e.g. if '$HOME/trash.rmw'
-is listed in the config file, these 3 directories will be created:
-$HOME/trash.rmw
-$HOME/trash.rmw/files
-$HOME/trash.rmw/info
+Waste folders will be created automatically. (e.g. if '$HOME/.local/share/Waste'
+is uncommented in the config file, these 3 directories will be created:
+$HOME/.local/share/Waste
+$HOME/.local/share/Waste/files
+$HOME/.local/share/Waste/info
 
 If one of the WASTE folders is on removable media, then the user has the
 option of appending ',removable'.
@@ -179,9 +179,9 @@ you "permission denied; directory still contains files" (e.g. rwm -gff).
 
 ## Notes
 
-After you use rmw, it will create a 'lastpurge' and 'lastrmw' file in
-$HOME/config/rmw. `lastpurge` contains the day of the last time rmw did
-a purge check (it only checks once per day). `lastrmw` contains the
+After you use rmw, it will create a 'purge-time' and 'mrl' file in
+$HOME/.local/share/rmw. `purge-time` contains the day of the last time
+rmw did a purge check (it only checks once per day). `mrl` contains the
 filenames of the last rmw operation; the file is read when `rmw -u` is
 used.
 

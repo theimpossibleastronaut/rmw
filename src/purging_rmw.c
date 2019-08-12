@@ -23,6 +23,7 @@
  */
 
 #include "rmw.h"
+#include "main.h"
 #include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "purging_rmw.h"
@@ -182,16 +183,17 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
  * created.
  */
 bool
-is_time_to_purge (st_time *st_time_var)
+is_time_to_purge (st_time *st_time_var, const char* data_dir)
 {
   const int BUF_TIME = 80;
-  int req_len = multi_strlen (HOMEDIR, PURGE_DAY_FILE, NULL) + 1;
+  const char purge_time_file[] = "purge-time";
+  int req_len = multi_strlen (data_dir, "/", purge_time_file, NULL);
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char file_lastpurge[req_len];
-  sprintf (file_lastpurge, "%s%s", HOMEDIR, PURGE_DAY_FILE);
+  char file_lastpurge[req_len + 1];
+  sprintf (file_lastpurge, "%s/%s", data_dir, purge_time_file);
 
   FILE *fp = fopen (file_lastpurge, "r");
-  bool init = (fp != NULL);
+  bool init = (fp);
   if (fp)
   {
     char time_prev[BUF_TIME];

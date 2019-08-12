@@ -22,12 +22,12 @@ same command line option as rm.
 
 When rmw moves a file to a waste or trash folder, it also writes a
 *.trashinfo* file to the corresponding trash directory. The default
-waste folder rmw uses is *~/.trash.rmw*, therefore <code
+waste folder rmw uses is *~/.local/share/Waste*, therefore <code
 class="w3-codespan">rmw foo</code> would result in
 
 <p class="w3-code">
-  ~/.trash.rmw/foo<br />
-  ~/.trash.rmw/foo.trashinfo
+  ~/.local/share/Waste/files/foo<br />
+  ~/.local/share/Waste/info/foo.trashinfo
 </p>
 
 The contents of *foo.trashinfo* would look like this:

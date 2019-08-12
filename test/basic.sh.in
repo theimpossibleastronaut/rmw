@@ -42,9 +42,9 @@ echo "\n\n == rmw should be able to operate on multiple files\n"
 $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/*
 test_result $?
 
-test -n "$(ls -A $RMWTEST_HOME/.trash.rmw/files)"
+test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)"
 test_result $?
-test -n "$(ls -A $RMWTEST_HOME/.trash.rmw/info)"
+test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)"
 test_result $?
 
 echo $SEPARATOR
@@ -59,18 +59,18 @@ test_result $?
 echo "\n\n == Show contents of the files and info directories"
 set -x
 
-test -n "$(ls -A $RMWTEST_HOME/.trash.rmw/files)"
+test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)"
 test_result $?
-test -n "$(ls -A $RMWTEST_HOME/.trash.rmw/info)"
+test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)"
 test_result $?
 
-output="$(ls -A $RMWTEST_HOME/.trash.rmw/files | wc -l | sed 's/ //g')"
+output="$(ls -A $RMWTEST_HOME/.local/share/Waste/files | wc -l | sed 's/ //g')"
 test "$output" = "6"
 test_result $?
 
 echo "\n\n == Display contents of 1.trashinfo "
 set -x
-cat $RMWTEST_HOME/.trash.rmw/info/1.trashinfo
+cat $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo
 test_result $?
 
 echo "\n\ntest undo/restore feature\n\n"
@@ -78,11 +78,11 @@ echo "\n\ntest undo/restore feature\n\n"
 set -x
 $RMW_TEST_CMD_STRING --verbose -u
 test_result $?
-$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.trash.rmw/files/1
+$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/1
 test_result $?
-$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.trash.rmw/files/2
+$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/2
 test_result $?
-$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.trash.rmw/files/3
+$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/3
 test_result $?
 
 echo "\n\n == test that the files are restored to their previous locations"
@@ -98,13 +98,13 @@ test_result $?
 echo "\n\n == test that the .trashinfo files have been removed"
 
 set -x
-test -f $RMWTEST_HOME/.trash.rmw/info/1.trashinfo
+test -f $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo
 test_result_want_fail $?
 
-test -f $RMWTEST_HOME/.trash.rmw/info/2.trashinfo
+test -f $RMWTEST_HOME/.local/share/Waste/info/2.trashinfo
 test_result_want_fail $?
 
-test -f $RMWTEST_HOME/.trash.rmw/info/3.trashinfo
+test -f $RMWTEST_HOME/.local/share/Waste/info/3.trashinfo
 test_result_want_fail $?
 
 echo "Basic tests passed"

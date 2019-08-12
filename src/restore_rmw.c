@@ -401,50 +401,42 @@ restore_select (st_waste *waste_head, st_time *st_time_var)
  * Reads the `lastrmw` file and restores the files listed inside
  */
 void
-undo_last_rmw (st_waste *waste_head, st_time *st_time_var)
+undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file)
 {
-  FILE *undo_file_ptr;
-  static char undo_path[LEN_MAX_PATH];
-  static char line[LEN_MAX_PATH];
+  FILE *fd;
+  fd = fopen (mrl_file, "r");
 
-  sprintf (undo_path, "%s%s", HOMEDIR, UNDO_FILE);
-  bufchk (undo_path, LEN_MAX_PATH);
-
-  undo_file_ptr = fopen (undo_path, "r");
-
-  if (undo_file_ptr != NULL)
+  if (fd)
   {
-  }
-  else
-  {
-    open_err (undo_path, __func__);
-    return;
-  }
-
-  int err_ctr = 0;
-  while (fgets (line, sizeof line, undo_file_ptr) != NULL)
-  {
-    int result = 0;
-    trim_white_space (line);
-    result = Restore (line, waste_head, st_time_var);
-    msg_warn_restore (result);
-    err_ctr += result;
-  }
-
-  close_file (undo_file_ptr, undo_path, __func__);
-
-  if (err_ctr == 0)
-  {
-    if (remove (undo_path))
+    char line[LEN_MAX_PATH];
+    int err_ctr = 0;
+    while (fgets (line, sizeof line, fd) != NULL)
     {
-      print_msg_error ();
-      printf (_("failed to remove %s\n"), undo_path);
-      perror (__func__);
+      int result = 0;
+      trim_white_space (line);
+      result = Restore (line, waste_head, st_time_var);
+      msg_warn_restore (result);
+      err_ctr += result;
+    }
+
+    close_file (fd, mrl_file, __func__);
+
+    if (err_ctr == 0)
+    {
+      if (remove (mrl_file))
+      {
+        print_msg_error ();
+        printf (_("failed to remove %s\n"), mrl_file);
+        perror (__func__);
+      }
+
+      return;
     }
 
     return;
   }
 
+  open_err (mrl_file, __func__);
   return;
 }
 #endif /* TEST_LIB */

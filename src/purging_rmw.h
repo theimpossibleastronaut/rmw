@@ -33,7 +33,7 @@
 #define MAX_DEPTH_REACHED 201
 
 bool
-is_time_to_purge (st_time *st_time_var);
+is_time_to_purge (st_time *st_time_var, const char* data_dir);
 
 int
 purge (

@@ -4,9 +4,10 @@
 # NOTE: If two WASTE folders are on the same file system, rmw will move files
 # to the first WASTE folder listed, ignoring the second one.
 #
-WASTE = $HOME/.trash.rmw
-WASTE = $HOME/.trash.rmw2
-WASTE = $HOME/.trash.rmw3
+WASTE = $HOME/.local/share/Waste
+# The additional folders are just to show multiples in the listing
+WASTE = $HOME/.local/share/Waste-2
+WASTE = $HOME/.local/share/Waste-3
 #
 
 # If you would like this to be your primary trash folder (which usually means

@@ -32,6 +32,9 @@
 #include "time_rmw.h"
 #include "trashinfo_rmw.h"
 
+const char *HOMEDIR;
+#define STR_ENABLE_TEST "RMWTEST_HOME"
+
 typedef struct st_removed st_removed;
 
 /*!
@@ -49,14 +52,22 @@ struct st_removed{
  * want to experiment. */
 
 const char *
-get_homedir (const char *alternate_homedir);
+get_home_dir (const char *alternate_home_dir);
+
+const char *
+get_data_rmw_home_dir (void);
+
+const char*
+get_most_recent_list_filename (const char* data_dir);
+
 
 int
 remove_to_waste (
   const int argc,
   char* const argv[],
   st_waste *waste_head,
-  st_time *st_time_var);
+  st_time *st_time_var,
+  const char *mrl_file);
 
 void
 list_waste_folders (st_waste *waste_head);
@@ -65,7 +76,7 @@ st_removed*
 add_removal (st_removed *removals, const char *file);
 
 void
-create_undo_file (st_removed *removals_head);
+create_undo_file (st_removed *removals_head, const char *mrl);
 
 void
 dispose_removed (st_removed *node);

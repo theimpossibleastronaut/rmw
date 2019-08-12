@@ -51,6 +51,9 @@ struct st_vars_to_check {
   const char *value;
 };
 
+const char*
+get_config_home_dir (void);
+
 void
 get_config_data (const rmw_options * cli_user_options, st_config *st_config_data);
 
