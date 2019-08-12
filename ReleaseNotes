@@ -1,6 +1,6 @@
 === RMW Release Notes ===
 
-Git:
+v0.7.04
 
   * To get user's home dir, revert back to retrieving via environmental
   variable (conforms to FreeDesktop Trash Spec)
