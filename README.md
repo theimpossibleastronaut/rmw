@@ -1,4 +1,4 @@
-# rmw-0.7.04-dev
+# rmw-0.7.04
 
 ## Description
 
@@ -7,7 +7,9 @@ Its goal is to conform to [the FreeDesktop.org Trash
 specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
 and therefore be compatible with KDE, GNOME, XFCE, and others. Desktop
 integration is optional however, and by default, rmw will only use a
-waste folder separated from your desktop trash.
+waste folder separated from your desktop trash. One of its unique
+features is the ability to purge files from your Waste/Trash
+directories after x number of days.
 
 Web site: <https://remove-to-waste.info/>
 
@@ -89,16 +91,16 @@ still on the TODO list.
 ```
 == First-time use ==
 
-After rmw is installed, create the user configuration directory by
-typing 'rmw' and hitting enter. A configuration file will be
-automatically created in $HOME/.config/rmw. Edit the file as desired.
+After rmw is installed, running `rmw` will create a configuration file
+(rmwrc) in $HOME/.config (or $XDG_CONFIG_HOME). Edit the file as
+desired.
 
 == Configuration File ==
 
 Documentation explaining the configuration can be found in your config
 file.
 
-Waste folders will be created automatically. (e.g. if '$HOME/.local/share/Waste'
+Waste folders will be created automatically; e.g. if '$HOME/.local/share/Waste'
 is uncommented in the config file, these 3 directories will be created:
 $HOME/.local/share/Waste
 $HOME/.local/share/Waste/files
@@ -150,13 +152,20 @@ specified in the configuration file after 'x' number of days. Purging can be
 disabled by using 'purge_after = 0' in configuration file. rmw will only check
 once per day if it's time to purge (use -g to check more often).
 
-The day of the last purge is stored in $HOME/config/rmw/lastpurge
+The time of the last automatic purge check is stored in `purge-time`,
+located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
 
 == -e, --empty ==
 
-completely empty (purge) all waste folders
+Completely empty (purge) all waste folders
 
-== -z option ==
+== -u, --undo ==
+
+Restores files that were last rmw'ed. No arguments for `-u` are
+necessary. The list of files that were last rmw'ed is stored in `mrl`, located in
+$HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
+
+== -z, --restore ==
 
 To restore a file, or multiple files, specify the path to them in in the
 <WASTE>/files folder (wildcards ok).
@@ -176,13 +185,5 @@ option. If you'd rather require the use of '-f', you can add the line
 rmw will refuse to purge directories if they contain non-writable
 subdirectories. You can use -f 2 times if you ever see a message that tells
 you "permission denied; directory still contains files" (e.g. rwm -gff).
-
-## Notes
-
-After you use rmw, it will create a 'purge-time' and 'mrl' file in
-$HOME/.local/share/rmw. `purge-time` contains the day of the last time
-rmw did a purge check (it only checks once per day). `mrl` contains the
-filenames of the last rmw operation; the file is read when `rmw -u` is
-used.
 
 ```
