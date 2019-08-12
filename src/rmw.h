@@ -62,9 +62,6 @@
 /*! The LEN_MAX_PATH macro is used as a shortcut throughout the program. */
 #define LEN_MAX_PATH (PATH_MAX + 1)
 
-/* path + filename of most_recent_list used by 'rmw -u' */
-const char *most_recent_list;
-
 typedef struct rmw_target rmw_target;
 
 /** Holds information about a file that was specified for rmw'ing

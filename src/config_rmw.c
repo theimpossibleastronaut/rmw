@@ -347,7 +347,6 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
 static FILE *
 realize_config_file (char *config_file, const rmw_options * cli_user_options)
 {
-  const char *_config_home;
   /* If no alternate configuration was specifed (-c) */
   if (cli_user_options->alt_config == NULL)
   {
@@ -358,7 +357,7 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
      *
      * Create full path to config_file
      */
-    _config_home = get_config_home_dir ();
+    const char *_config_home = get_config_home_dir ();
     make_dir (_config_home);
     int req_len = multi_strlen (_config_home, "/", rel_default_config, NULL);
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
