@@ -301,7 +301,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   bufchk_len (req_len, sizeof waste_curr->files, __func__, __LINE__);
   sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
 
-  if (!exists (waste_curr->files))
+  if (! exists (waste_curr->files))
   {
     if (make_dir (waste_curr->files) == MAKE_DIR_FAILURE)
     {
@@ -317,7 +317,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
    */
   sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
 
-  if (!exists (waste_curr->info))
+  if (! exists (waste_curr->info))
   {
     if (make_dir (waste_curr->info) == MAKE_DIR_FAILURE)
     {

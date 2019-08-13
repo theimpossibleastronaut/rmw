@@ -79,24 +79,23 @@ verbose = 1;
   }
 
   const char *data_dir = get_data_rmw_home_dir ();
-  int created_data_dir = make_dir (data_dir);
 
-  if (created_data_dir == MAKE_DIR_FAILURE)
+  bool init_data_dir = (! exists (data_dir));
+
+  if (init_data_dir)
   {
-    print_msg_error ();
-    printf (_("unable to create config and data directory\n\
-Please check your configuration file and permissions\n\n"));
-    printf (_("Unable to continue. Exiting...\n"));
-    return MAKE_DIR_FAILURE;
+    if ((make_dir (data_dir) == MAKE_DIR_FAILURE))
+    {
+      print_msg_error ();
+      printf (_("\
+unable to create config and data directory\n\
+Please check your configuration file and permissions\
+\n\
+\n"));
+      printf (_("Unable to continue. Exiting...\n"));
+      return MAKE_DIR_FAILURE;
+    }
   }
-
-  /*
-   * Using FIRST_RUN makes the code a little more clear when it's used
-   * later. make_dir() will always return MAKE_DIR_SUCCESS if successful,
-   * but if make_dir() is used in other areas of the program, it's not
-   * necessarily the FIRST_RUN.
-   */
-  created_data_dir = (created_data_dir == MAKE_DIR_SUCCESS) ? FIRST_RUN : 0;
 
   st_config st_config_data;
   init_config_data (&st_config_data);
@@ -175,7 +174,7 @@ Please check your configuration file and permissions\n\n"));
       return result;
     }
   }
-  else if (!cli_user_options.want_purge && !cli_user_options.want_empty_trash && created_data_dir != FIRST_RUN)
+  else if (! cli_user_options.want_purge && ! cli_user_options.want_empty_trash && ! init_data_dir)
   {
     printf (_("Insufficient command line arguments given;\n\
 Enter '%s -h' for more information\n"), argv[0]);

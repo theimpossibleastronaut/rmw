@@ -41,9 +41,6 @@
 int
 make_dir (const char *dir)
 {
-  if (exists (dir))
-    return 0;
-
   char temp_dir[LEN_MAX_PATH];
   bufchk (dir, LEN_MAX_PATH);
   strcpy (temp_dir, dir);
