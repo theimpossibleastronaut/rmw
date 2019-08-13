@@ -100,7 +100,7 @@ Please check your configuration file and permissions\n\n"));
 
   st_config st_config_data;
   init_config_data (&st_config_data);
-  get_config_data (&cli_user_options, &st_config_data);
+  parse_config_file (&cli_user_options, &st_config_data);
 
   if (cli_user_options.list)
   {

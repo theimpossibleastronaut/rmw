@@ -342,64 +342,51 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
 
 
 /*!
- * Determine the exact name of the config file to use, and return a file pointer.
+ * Determine the exact name of the config file to use, and return a file descriptor.
  */
 static FILE *
-realize_config_file (char *config_file, const rmw_options * cli_user_options)
+realize_config_file (st_config * st_config_data, const rmw_options * cli_user_options)
 {
   /* If no alternate configuration was specifed (-c) */
   if (cli_user_options->alt_config == NULL)
   {
     const char rel_default_config[] = "rmwrc";
-    /**
-     * CFG_FILE is the file name of the rmw config file relative to
-     * the $HOME directory, defined at the top of rmw.h
-     *
-     * Create full path to config_file
-     */
-    const char *_config_home = get_config_home_dir ();
-    make_dir (_config_home);
-    int req_len = multi_strlen (_config_home, "/", rel_default_config, NULL);
+
+    int req_len = multi_strlen (st_config_data->dir, "/", rel_default_config, NULL);
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    sprintf (config_file, "%s/%s", _config_home, rel_default_config);
+    sprintf (st_config_data->file, "%s/%s", st_config_data->dir, rel_default_config);
   }
   else
   {
     bufchk (cli_user_options->alt_config, LEN_MAX_PATH);
-    strcpy (config_file, cli_user_options->alt_config);
+    strcpy (st_config_data->file, cli_user_options->alt_config);
   }
 
-#define MSG_USING_CONFIG if (verbose) printf (_("config file: %s\n"), config_file)
+#define MSG_USING_CONFIG if (verbose) printf (_("config file: %s\n"), st_config_data->file)
 
-  FILE *fp;
+  FILE *fd;
 
-  fp = fopen (config_file, "r");
-  if (fp != NULL)
+  fd = fopen (st_config_data->file, "r");
+  if (fd)
   {
     MSG_USING_CONFIG;
-    return fp;
+    return fd;
   }
 
-  fp = fopen (config_file, "w");
-  if (fp != NULL)
+  fd = fopen (st_config_data->file, "w");
+  if (fd)
   {
     printf (_("Creating default configuration file:"));
+    printf ("\n  %s\n\n", st_config_data->file);
 
-    /*
-     * To reduce clutter in the translation file (rmw.pot), we'll just
-     * separate this from the translatable string above.
-     *
-     */
-    printf ("\n  %s\n\n", config_file);
+    print_config (fd);
+    close_file (fd, st_config_data->file, __func__);
 
-    print_config (fp);
-
-    close_file (fp, config_file, __func__);
-    fp = fopen (config_file, "r");
-    if (fp != NULL)
+    fd = fopen (st_config_data->file, "r");
+    if (fd)
     {
       MSG_USING_CONFIG;
-      return fp;
+      return fd;
     }
   }
 
@@ -414,7 +401,7 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
    * such a time as it seems necessary.
    *
    */
-  open_err (config_file, __func__);
+  open_err (st_config_data->file, __func__);
   printf (_("Unable to read or write a configuration file.\n"));
   exit (errno);
 }
@@ -449,14 +436,13 @@ get_config_home_dir (void)
  * Get configuration data (parse the config file)
  */
 void
-get_config_data (const rmw_options * cli_user_options, st_config *st_config_data)
+parse_config_file (const rmw_options * cli_user_options, st_config *st_config_data)
 {
-  char config_file[LEN_MAX_PATH];
-  FILE *config_ptr = realize_config_file (config_file, cli_user_options);
+  FILE *fd = realize_config_file (st_config_data, cli_user_options);
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
   char line_from_config[LEN_MAX_CFG_LINE];
-  while (fgets (line_from_config, sizeof line_from_config, config_ptr) != NULL)
+  while (fgets (line_from_config, sizeof line_from_config, fd) != NULL)
   {
     char *line_ptr = line_from_config;
     bufchk (line_ptr, LEN_MAX_CFG_LINE);
@@ -522,7 +508,7 @@ get_config_data (const rmw_options * cli_user_options, st_config *st_config_data
       st_config_data->st_waste_folder_props_head = waste_curr;
   }
 
-  close_file (config_ptr, config_file, __func__);
+  close_file (fd, st_config_data->file, __func__);
 
   if (waste_curr == NULL)
   {
@@ -544,6 +530,12 @@ visit the rmw web site at\n"));
 void
 init_config_data (st_config *st_config_data)
 {
+  st_config_data->dir = get_config_home_dir ();
+
+  if (! exists (st_config_data->dir))
+    if ((make_dir (st_config_data->dir) == MAKE_DIR_FAILURE))
+      exit (MAKE_DIR_FAILURE);
+
   st_config_data->st_waste_folder_props_head = NULL;
   /*
    * The default value for purge_after is only used as a last resort,

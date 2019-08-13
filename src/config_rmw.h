@@ -41,6 +41,8 @@
 typedef struct st_config st_config;
 
 struct st_config {
+  const char *dir;
+  char file[LEN_MAX_PATH];
   st_waste *st_waste_folder_props_head;
   int purge_after;
   bool force_required;
@@ -55,7 +57,7 @@ const char*
 get_config_home_dir (void);
 
 void
-get_config_data (const rmw_options * cli_user_options, st_config *st_config_data);
+parse_config_file (const rmw_options * cli_user_options, st_config *st_config_data);
 
 void
 init_config_data (st_config *st_config_data);
