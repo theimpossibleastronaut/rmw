@@ -20,3 +20,5 @@ v0.7.04
   * The ~/.config/rmw directory is no longer used. It can be deleted,
   but you may first want to copy your old configuration file to the new
   location.
+
+  See https://github.com/theimpossibleastronaut/rmw/blob/v0.7.04/ChangeLog for more details.
