@@ -6,9 +6,11 @@ layout: default
 rmw (ReMove to Waste) is a safe-remove utility for the command line.
 Its goal is to conform to [the FreeDesktop.org Trash
 specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
-and therefore be compatible with KDE, GNOME, XFCE, and others.
-Desktop integration is optional however, and by default, rmw will only
-use a waste folder separated from your desktop trash.
+and therefore be compatible with KDE, GNOME, XFCE, and others. Desktop
+integration is optional however, and by default, rmw will only use a
+waste folder separated from your desktop trash. One of its unique
+features is the ability to purge files from your Waste/Trash
+directories after x number of days.
 
 rmw is written in C, open source, and has a [GNU
 GPLv3 License](https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING).
@@ -35,7 +37,6 @@ documented in the [README](https://github.com/theimpossibleastronaut/rmw/blob/ma
 <h2 id="support">Help, Support, Discussion</h2>
 <ul class="w3-ul">
   <li><span class="fas fa-rss fa-fw"></span>&nbsp;<a href="https://github.com/theimpossibleastronaut/rmw/releases.atom">RSS feed for new releases</a></li>
-  <li><span class="fas fa-comments fa-fw"></span>&nbsp;<a href="http://webchat.freenode.net?channels=%23rmw">#rmw on Freenode</a></li>
   <li><span class="fas fa-bug fa-fw"></span>&nbsp;The <a href="https://github.com/theimpossibleastronaut/rmw/issues">GitHub rmw issues section</a> for bug reports, feature requests and discussion</li>
   <li><span class="fas fa-at fa-fw"></span>&nbsp;Maintainer: <a href="https://github.com/andy5995/">Andy Alt</a> (andy400-dev [at] yahoo.com)</li>
 </ul>

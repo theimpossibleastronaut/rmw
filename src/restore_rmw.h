@@ -62,6 +62,6 @@ int
 restore_select (st_waste *waste_head, st_time *st_time_var);
 
 void
-undo_last_rmw (st_waste *waste_head, st_time *st_time_var);
+undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file);
 #endif /* TEST_LIB */
 

@@ -1,12 +1,9 @@
-AC_INIT([rmw], [0.7.03-dev], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
+AC_INIT([rmw], [0.7.05-dev], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([-Wall subdir-objects foreign no-dependencies])
 AM_SILENT_RULES([yes])
 AC_PREREQ(2.69)
 AC_CONFIG_HEADERS([src/config.h:config.in])
-
-# Don't add -g and -O2 by default
-: ${CFLAGS=""}
 
 AX_IS_RELEASE([git-directory])
 # Define the variables listed in the second argument if debug is
@@ -19,7 +16,7 @@ AX_CHECK_ENABLE_DEBUG([yes])
 
 AC_PROG_CC
 AC_PROG_CC_STDC
-AX_APPEND_COMPILE_FLAGS(-Wall)
+AX_CFLAGS_WARN_ALL
 
 AC_CONFIG_MACRO_DIRS([build-aux/m4])
 AC_PROG_INSTALL
@@ -48,6 +45,8 @@ if test "x$ax_cv_menu" != xyes; then
         AC_CHECK_LIB(menu, free_menu, found_MENU=yes, found_MENU=no, [$CURSES_LIBS])
         if test "x$found_MENU" = xyes; then
                 MENU_LIBS="-lmenu"
+                # These 2 paths are set so the headers can be found on DragonFlyBSD
+                CFLAGS="$CFLAGS -I/usr/local/include -I/usr/local/include/ncurses"
                 AC_DEFINE(HAVE_MENU, 1, [define to 1 if the curses menu library is present])
                 AC_CHECK_HEADER(menu.h, [found_MENU_H=yes], [found_MENU_H=no])
                 if test "x$found_MENU_H" = xyes; then

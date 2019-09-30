@@ -16,15 +16,15 @@ test_realize_waste_line(void)
   char *config_line = malloc (LEN_MAX_PATH);
   chk_malloc (config_line, __func__, __LINE__);
 
-  strcpy (config_line, "$HOME/.trash.rmw/");
+  strcpy (config_line, "$HOME/.local/share/Waste/");
   realize_waste_line (config_line);
   printf ("%s\n", config_line);
-  assert (!strcmp (config_line, "/home/andy/.trash.rmw"));
+  assert (!strcmp (config_line, "/home/andy/.local/share/Waste"));
 
-  strcpy (config_line, "~/.trash.rmw/");
+  strcpy (config_line, "~/.local/share/Waste/");
   printf ("%s\n", config_line);
   realize_waste_line (config_line);
-  assert (!strcmp (config_line, "/home/andy/.trash.rmw"));
+  assert (!strcmp (config_line, "/home/andy/.local/share/Waste"));
 }
 
 

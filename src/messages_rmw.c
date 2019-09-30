@@ -1,9 +1,5 @@
-/**
- * @file messages_rmw.c
- * @brief functions that handle messages to the user These are designed
- * to keep messages consistent, in one place.
- */
 /*
+ * messages_rmw.c
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
@@ -43,7 +39,6 @@ static const char *ERR_STRING[] = {
   "ERR_FGETS",
   "ERR_TRASHINFO_FORMAT",
   "FILE_NOT_FOUND",
-  "FIRST_RUN",
   "ERR_LSTAT"
 };
 

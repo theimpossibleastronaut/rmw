@@ -28,6 +28,7 @@
 #include "rmw.h"
 #endif
 
+#include "main.h"
 #include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
@@ -46,16 +47,13 @@ static const int DEFAULT_PURGE_AFTER = 0;
 static void
 print_config (FILE *stream)
 {
-/* TRANSLATORS:  Do not translate the last line in this section  */
-if (fprintf (stream, _("\
+  fputs (_("\
 # NOTE: If two WASTE folders are on the same file system, rmw will move files\n\
 # to the first WASTE folder listed, ignoring the second one.\n\
-#\n\
-WASTE = $HOME/.trash.rmw\n")) < 0)
-  msg_err_fatal_fprintf (__func__);
+#\n"), stream);
+  fputs ("WASTE = $HOME/.local/share/Waste\n", stream);
 
-/* TRANSLATORS:  Do not translate the last line in this section  */
-if (fprintf (stream, _("\n\
+  fputs (_("\n\
 # If you would like this to be your primary trash folder (which usually means\n\
 # that it will be the same as your Desktop Trash folder) be sure it precedes\n\
 # any other WASTE folders listed in the config file\n\
@@ -66,43 +64,33 @@ if (fprintf (stream, _("\n\
 #\n\
 # Note to OSX and Windows users: sending files to 'Desktop' trash\n\
 # doesn't work yet\n\
-#\n\
-# WASTE=$HOME/.local/share/Trash\n")) < 0)
-  msg_err_fatal_fprintf (__func__);
+#\n"), stream);
+  fputs ("# WASTE=$HOME/.local/share/Trash\n", stream);
 
-fputs (_("\n\
-# A folder can use the $UID variable.\n\
-# WASTE=/mnt/fs/Trash-$UID\n"), stream);
+  fputs (_("\n# A folder can use the $UID variable.\n"), stream);
+  fputs ("# WASTE=/mnt/fs/Trash-$UID\n", stream);
 
-/* TRANSLATORS:  Do not translate the last line in this section  */
-if (fprintf (stream, _("\n\
+  fputs (_("\n\
 # Removable media: If a folder has ',removable' appended to it, rmw\n\
 # will not try to create it; it must be initially created manually. If\n\
 # the folder exists when rmw is run, it will be used; if not, it will be\n\
 # skipped Once you create \"example_waste\", rmw will automatically create\n\
-# example_waste/info and example_waste/files\n\
-#\n\
-# WASTE=/mnt/sda10000/example_waste, removable")) < 0)
-  msg_err_fatal_fprintf (__func__);
+# example_waste/info and example_waste/files\n"), stream);
+  fputs ("# WASTE=/mnt/sda10000/example_waste, removable", stream);
 
-/* TRANSLATORS:  Do not translate the last line in this section  */
-if (fprintf (stream, _("\n\
+  fputs (_("\n\
 # How many days should files be allowed to stay in the waste folders before\n\
 # they are permanently deleted\n\
 #\n\
 # use '0' to disable purging\n\
-#\n\
-purge_after = %d\n"), DEFAULT_PURGE_AFTER) < 0)
-  msg_err_fatal_fprintf (__func__);
+#\n"), stream);
+  fprintf (stream, "purge_after = %d\n", DEFAULT_PURGE_AFTER);
 
-/* TRANSLATORS:  Do not translate the last line in this section  */
-if (fprintf (stream, _("\n\
+  fputs (_("\n\
 # purge is allowed to run without the '-f' option. If you'd rather\n\
 # require the use of '-f', you may uncomment the line below.\n\
-#\n\
-# force_required\n\
-#\n")) < 0)
-  msg_err_fatal_fprintf (__func__);
+#\n"), stream);
+  fputs ("# force_required\n", stream);
 }
 
 
@@ -282,22 +270,8 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   if (removable && !exists (tmp_waste_parent_folder))
   {
     if (cli_user_options->list)
-    {
-      /*
-       * These lines are separated to ease translation
-       *
-       */
-      fputs (tmp_waste_parent_folder, stdout);
-      if (verbose)
-      {
-        printf (" (");
-        printf (_("removable, "));
-        /* TRANSLATORS: context - "an unmounted device or filesystem is not presently attached or mounted" */
-        printf (_("detached"));
-        printf (")");
-      }
-      printf ("\n");
-    }
+      show_folder_line (tmp_waste_parent_folder, removable);
+
     return NULL;
   }
 
@@ -327,7 +301,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   bufchk_len (req_len, sizeof waste_curr->files, __func__, __LINE__);
   sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
 
-  if (!exists (waste_curr->files))
+  if (! exists (waste_curr->files))
   {
     if (make_dir (waste_curr->files) == MAKE_DIR_FAILURE)
     {
@@ -343,7 +317,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
    */
   sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
 
-  if (!exists (waste_curr->info))
+  if (! exists (waste_curr->info))
   {
     if (make_dir (waste_curr->info) == MAKE_DIR_FAILURE)
     {
@@ -368,60 +342,51 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
 
 
 /*!
- * Determine the exact name of the config file to use, and return a file pointer.
+ * Determine the exact name of the config file to use, and return a file descriptor.
  */
 static FILE *
-realize_config_file (char *config_file, const rmw_options * cli_user_options)
+realize_config_file (st_config * st_config_data, const rmw_options * cli_user_options)
 {
   /* If no alternate configuration was specifed (-c) */
   if (cli_user_options->alt_config == NULL)
   {
-    /**
-     * CFG_FILE is the file name of the rmw config file relative to
-     * the $HOME directory, defined at the top of rmw.h
-     *
-     * Create full path to config_file
-     */
-    int req_len = multi_strlen (CFG_FILE, HOMEDIR, NULL) + 1;
+    const char rel_default_config[] = "rmwrc";
+
+    int req_len = multi_strlen (st_config_data->dir, "/", rel_default_config, NULL);
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    sprintf (config_file, "%s%s", HOMEDIR, CFG_FILE);
+    sprintf (st_config_data->file, "%s/%s", st_config_data->dir, rel_default_config);
   }
   else
   {
     bufchk (cli_user_options->alt_config, LEN_MAX_PATH);
-    strcpy (config_file, cli_user_options->alt_config);
+    strcpy (st_config_data->file, cli_user_options->alt_config);
   }
 
-#define MSG_USING_CONFIG if (verbose) printf (_("config file: %s\n"), config_file)
+#define MSG_USING_CONFIG if (verbose) printf (_("config file: %s\n"), st_config_data->file)
 
-  FILE *fp;
-  fp = fopen (config_file, "r");
-  if (fp != NULL)
+  FILE *fd;
+
+  fd = fopen (st_config_data->file, "r");
+  if (fd)
   {
     MSG_USING_CONFIG;
-    return fp;
+    return fd;
   }
 
-  fp = fopen (config_file, "w");
-  if (fp != NULL)
+  fd = fopen (st_config_data->file, "w");
+  if (fd)
   {
     printf (_("Creating default configuration file:"));
+    printf ("\n  %s\n\n", st_config_data->file);
 
-    /*
-     * To reduce clutter in the translation file (rmw.pot), we'll just
-     * separate this from the translatable string above.
-     *
-     */
-    printf ("\n  %s\n\n", config_file);
+    print_config (fd);
+    close_file (fd, st_config_data->file, __func__);
 
-    print_config (fp);
-
-    close_file (fp, config_file, __func__);
-    fp = fopen (config_file, "r");
-    if (fp != NULL)
+    fd = fopen (st_config_data->file, "r");
+    if (fd)
     {
       MSG_USING_CONFIG;
-      return fp;
+      return fd;
     }
   }
 
@@ -436,9 +401,34 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
    * such a time as it seems necessary.
    *
    */
-  open_err (config_file, __func__);
+  open_err (st_config_data->file, __func__);
   printf (_("Unable to read or write a configuration file.\n"));
   exit (errno);
+}
+
+
+const char*
+get_config_home_dir (void)
+{
+  const char rel_default[] = "/.config";
+
+  const char *xdg_config_home = getenv ("XDG_CONFIG_HOME");
+
+  static const char *ptr;
+
+  if (getenv (STR_ENABLE_TEST) != NULL ||
+      (xdg_config_home == NULL && getenv (STR_ENABLE_TEST) == NULL))
+  {
+    int req_len = multi_strlen (HOMEDIR, rel_default, NULL);
+    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+    static char config_home[LEN_MAX_PATH];
+    sprintf (config_home, "%s%s", HOMEDIR, rel_default);
+    ptr = &config_home[0];
+    return ptr;
+  }
+
+  bufchk (xdg_config_home, LEN_MAX_PATH);
+  return xdg_config_home;
 }
 
 
@@ -446,14 +436,13 @@ realize_config_file (char *config_file, const rmw_options * cli_user_options)
  * Get configuration data (parse the config file)
  */
 void
-get_config_data (const rmw_options * cli_user_options, st_config *st_config_data)
+parse_config_file (const rmw_options * cli_user_options, st_config *st_config_data)
 {
-  char config_file[LEN_MAX_PATH];
-  FILE *config_ptr = realize_config_file (config_file, cli_user_options);
+  FILE *fd = realize_config_file (st_config_data, cli_user_options);
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
   char line_from_config[LEN_MAX_CFG_LINE];
-  while (fgets (line_from_config, sizeof line_from_config, config_ptr) != NULL)
+  while (fgets (line_from_config, sizeof line_from_config, fd) != NULL)
   {
     char *line_ptr = line_from_config;
     bufchk (line_ptr, LEN_MAX_CFG_LINE);
@@ -519,7 +508,7 @@ get_config_data (const rmw_options * cli_user_options, st_config *st_config_data
       st_config_data->st_waste_folder_props_head = waste_curr;
   }
 
-  close_file (config_ptr, config_file, __func__);
+  close_file (fd, st_config_data->file, __func__);
 
   if (waste_curr == NULL)
   {
@@ -541,6 +530,12 @@ visit the rmw web site at\n"));
 void
 init_config_data (st_config *st_config_data)
 {
+  st_config_data->dir = get_config_home_dir ();
+
+  if (! exists (st_config_data->dir))
+    if ((make_dir (st_config_data->dir) == MAKE_DIR_FAILURE))
+      exit (MAKE_DIR_FAILURE);
+
   st_config_data->st_waste_folder_props_head = NULL;
   /*
    * The default value for purge_after is only used as a last resort,
@@ -550,3 +545,22 @@ init_config_data (st_config *st_config_data)
   st_config_data->force_required = 0;
 }
 
+void
+show_folder_line (const char *folder, const bool is_r)
+{
+  printf ("%s", folder);
+  if (is_r && verbose)
+  {
+    /*
+     * These lines are separated to ease translation
+     *
+     */
+    printf (" (");
+    printf (_("removable, "));
+    /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
+    printf (_("attached"));
+    printf (")");
+  }
+
+  printf ("\n");
+}

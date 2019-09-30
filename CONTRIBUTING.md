@@ -1,6 +1,11 @@
 # Contributing to rmw
 
-## Coding Standards ##
+## Bug Reports and Feature Requests
+
+Anyone may [open an
+issue](https://github.com/theimpossibleastronaut/rmw/issues).
+
+## Coding Standards
 
 The goal is to use a style similar to [GNU Coding
 Standards](https://www.gnu.org/prep/standards/html_node/Formatting.html#Formatting),
@@ -19,7 +24,16 @@ but braces not indented:
 See [Website Design](https://remove-to-waste.info/website-design.html)
 for information specific to the rmw website.
 
-## Pull Requests ##
+## Patches and Pull Requests
+
+To prevent work-overlap, please post on a ticket if you'll be working
+on a specific issue (or create a ticket if there's not one open yet.
+**Note**: If more than one person submits a patch for the same thing,
+your patch may get rejected.
+
+**Note**: If you agreed to work to work on a ticket but later find that
+you're unable to work on it, or if you changed your mind, please post
+again on the ticket to let everyone know it's up for grabs.
 
 You can use [The GitHub
 flow](https://guides.github.com/introduction/flow/), which mostly just
@@ -44,7 +58,7 @@ If you submit a pull request, please add yourself (along with your
 personal link) to
 [AUTHORS.md](https://github.com/theimpossibleastronaut.com/rmw/blob/master/AUTHORS.md)
 
-## Syncing ##
+## Syncing
 
 Periodically, you'll need to sync your repo with the upstream.
 GitHub has instructions for doing this

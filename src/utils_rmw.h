@@ -36,7 +36,7 @@
 int
 make_dir (const char *dir);
 
-int
+bool
 exists (const char *filename);
 
 void

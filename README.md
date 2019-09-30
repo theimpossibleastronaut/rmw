@@ -1,4 +1,4 @@
-# rmw-0.7.03-dev
+# rmw-0.7.05-dev
 
 ## Description
 
@@ -7,14 +7,16 @@ Its goal is to conform to [the FreeDesktop.org Trash
 specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
 and therefore be compatible with KDE, GNOME, XFCE, and others. Desktop
 integration is optional however, and by default, rmw will only use a
-waste folder separated from your desktop trash.
+waste folder separated from your desktop trash. One of its unique
+features is the ability to purge files from your Waste/Trash
+directories after x number of days.
 
 Web site: <https://remove-to-waste.info/>
 
 ## Build Status
 
 * [![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/theimpossibleastronaut/rmw)
-* [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3) 
+* [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
 
 ## Screenshots
 
@@ -24,7 +26,8 @@ Web site: <https://remove-to-waste.info/>
 
 ## Contact / Support
 
-See website [Help and Support section](https://remove-to-waste.info/#support)
+* [Bug Reports and Feature Requests](https://github.com/theimpossibleastronaut/rmw/blob/master/CONTRIBUTING.md#bug-reports-and-feature-requests)
+* [General Help, Support, Discussion](https://remove-to-waste.info/#support)
 
 ## Required libraries
 
@@ -88,20 +91,20 @@ still on the TODO list.
 ```
 == First-time use ==
 
-After rmw is installed, create the user configuration directory by
-typing 'rmw' and hitting enter. A configuration file will be
-automatically created in $HOME/.config/rmw. Edit the file as desired.
+After rmw is installed, running `rmw` will create a configuration file
+(rmwrc) in $HOME/.config (or $XDG_CONFIG_HOME). Edit the file as
+desired.
 
 == Configuration File ==
 
 Documentation explaining the configuration can be found in your config
 file.
 
-Waste folders will be created automatically. (e.g. if '$HOME/trash.rmw'
-is listed in the config file, these 3 directories will be created:
-$HOME/trash.rmw
-$HOME/trash.rmw/files
-$HOME/trash.rmw/info
+Waste folders will be created automatically; e.g. if '$HOME/.local/share/Waste'
+is uncommented in the config file, these 3 directories will be created:
+$HOME/.local/share/Waste
+$HOME/.local/share/Waste/files
+$HOME/.local/share/Waste/info
 
 If one of the WASTE folders is on removable media, then the user has the
 option of appending ',removable'.
@@ -136,7 +139,7 @@ Restore FILE(s) from a WASTE directory
 -V, --version             display version and license information
 
 
-	===] Restoring [===
+    ===] Restoring [===
 
 -z, --restore <wildcard filename(s) pattern>
 -s, --select              select files from list to restore
@@ -149,13 +152,20 @@ specified in the configuration file after 'x' number of days. Purging can be
 disabled by using 'purge_after = 0' in configuration file. rmw will only check
 once per day if it's time to purge (use -g to check more often).
 
-The day of the last purge is stored in $HOME/config/rmw/lastpurge
+The time of the last automatic purge check is stored in `purge-time`,
+located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
 
 == -e, --empty ==
 
-completely empty (purge) all waste folders
+Completely empty (purge) all waste folders
 
-== -z option ==
+== -u, --undo ==
+
+Restores files that were last rmw'ed. No arguments for `-u` are
+necessary. The list of files that were last rmw'ed is stored in `mrl`, located in
+$HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
+
+== -z, --restore ==
 
 To restore a file, or multiple files, specify the path to them in in the
 <WASTE>/files folder (wildcards ok).
@@ -175,13 +185,5 @@ option. If you'd rather require the use of '-f', you can add the line
 rmw will refuse to purge directories if they contain non-writable
 subdirectories. You can use -f 2 times if you ever see a message that tells
 you "permission denied; directory still contains files" (e.g. rwm -gff).
-
-## Notes
-
-After you use rmw, it will create a 'lastpurge' and 'lastrmw' file in
-$HOME/config/rmw. `lastpurge` contains the day of the last time rmw did
-a purge check (it only checks once per day). `lastrmw` contains the
-filenames of the last rmw operation; the file is read when `rmw -u` is
-used.
 
 ```

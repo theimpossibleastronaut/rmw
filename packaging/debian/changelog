@@ -1,5 +1,5 @@
-rmw (0.7.02) unstable; urgency=medium
+rmw (0.7.04) stable; urgency=low
 
   * Initial Release.
 
- -- Andy Alt <andy400-dev@yahoo.com>  Fri, 05 Jul 2019 14:45:58 -0500
+ -- Andy Alt <andy400-dev@yahoo.com>  Fri, 10 Aug 2019 14:45:58 -0500

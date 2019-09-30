@@ -1,5 +1,39 @@
 === rmw ChangeLog ===
 
+2019-08-12
+
+  * rmw v0.7.04 has been released.
+
+  * The config file is now read from $XDG_CONFIG_HOME/rmwrc or
+  ~/.config/rmwrc.
+
+  * `lastpurge` is now 'purge-time' and stored in $XDG_DATA_HOME/rmw or
+  ~/.local/share/rmw.
+
+  * `lastrmw` is now 'mrl' and stored in $XDG_DATA_HOME/rmw or
+  ~/.local/share/rmw.
+
+  * The default Waste folder (specified in the configuration file) is now
+  ~/.local/share/Waste instead of ~/trash.rmw.
+
+  * The ~/.config/rmw directory is no longer used. It can be deleted,
+  but you may first want to copy your old configuration file to the new
+  location.
+
+
+2019-08-06
+
+  * To get user's home dir, revert back to retrieving via environmental
+  variable (conforms to FreeDesktop Trash Spec).
+
+  * on DragonFlyBSD, it's no longer required to use `env
+  MENU_LIBS=-lmenu` when running configure
+  <https://gitlab.com/andy5995/rmw/issues/220>
+
+2019-08-06
+
+  * rmw v0.7.03 has been released.
+
 2019-07-30
 
   * rmw now gets the user's HOMEDIR from a passwd struct (see

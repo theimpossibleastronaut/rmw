@@ -50,7 +50,7 @@ test_result $?
 echo $SEPARATOR
 echo "Restore using wildcard pattern, but be in the trash directory"
 set -x
-cd $RMWTEST_HOME/.trash.rmw/files
+cd $RMWTEST_HOME/.local/share/Waste/files
 $RMW_TEST_CMD_STRING -z topd*
 test_result $?
 
