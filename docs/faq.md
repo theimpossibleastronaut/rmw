@@ -3,7 +3,7 @@ title: FAQ
 layout: default
 ---
 
-**What your release cycle?**
+**What is your release cycle?**
 
 It varies, averaging once or twice a year. If bugs are found and
 reported, a release will happen sooner depending on the severity.
