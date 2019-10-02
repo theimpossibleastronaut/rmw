@@ -1,0 +1,11 @@
+#mySidebar ul.w3-ul {
+	padding-top: 5%;
+}
+
+.w3-brown {
+	width: 70%;
+	position: absolute;
+	left: 50px;
+	margin-top: -8px;
+	text-align: left;
+}
