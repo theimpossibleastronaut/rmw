@@ -9,3 +9,12 @@
 	margin-top: -8px;
 	text-align: left;
 }
+
+.w3-margin {
+	line-height: 24px;
+	margin: 24px !important;
+}
+
+.w3-row h2 {
+	margin-top: 48px;
+}
