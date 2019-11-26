@@ -123,7 +123,7 @@ init_rmw_options (rmw_options *options)
 void
 parse_cli_options (const int argc, char* const argv[], rmw_options *options)
 {
-  const char *const short_options = "hvc:goz:lnsuwVfeir";
+  const char *const short_options = "hvc:goz:lnsuwVfeirR";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
