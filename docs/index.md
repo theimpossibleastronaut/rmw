@@ -40,3 +40,10 @@ documented in the [README](https://github.com/theimpossibleastronaut/rmw/blob/ma
   <li><span class="fas fa-bug fa-fw"></span>&nbsp;The <a href="https://github.com/theimpossibleastronaut/rmw/issues">GitHub rmw issues section</a> for bug reports, feature requests and discussion</li>
   <li><span class="fas fa-at fa-fw"></span>&nbsp;Maintainer: <a href="https://github.com/andy5995/">Andy Alt</a> (andy400-dev [at] yahoo.com)</li>
 </ul>
+
+<h2 id="support">Press</h2>
+<ul>
+  <li>rmw was mentioned on page 90 of <a href="https://shop.heise.de/katalog/ct-25-2019">c't 25/2019</a></li>
+</ul>
+
+
