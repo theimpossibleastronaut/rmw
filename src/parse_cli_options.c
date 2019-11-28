@@ -54,6 +54,8 @@ Restore FILE(s) from a WASTE directory\n\
   -o, --orphaned            check for orphaned files (maintenance)\n\
   -f, --force               allow rmw to purge files in the background\n\
   -e, --empty               completely empty (purge) all waste folders\n\
+  -r, -R, --recursive       option used for compatibility with rm\n\
+                            (recursive operation is enabled by default)\n\
   -v, --verbose             increase output messages\n\
   -w, --warranty            display warranty\n\
   -V, --version             display version and license information\n"));
@@ -121,7 +123,7 @@ init_rmw_options (rmw_options *options)
 void
 parse_cli_options (const int argc, char* const argv[], rmw_options *options)
 {
-  const char *const short_options = "hvc:goz:lnsuwVfeir";
+  const char *const short_options = "hvc:goz:lnsuwVfeirR";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -137,7 +139,7 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
     {"warranty", 0, NULL, 'w'},
     {"version", 0, NULL, 'V'},
     {"interactive", 0, NULL, 'i'},
-    {"recurse", 0, NULL, 'r'},
+    {"recursive", 0, NULL, 'r'},
     {"force", 0, NULL, 'f'},
     {"empty", 0, NULL, 'e'},
     {NULL, 0, NULL, 0}
@@ -194,7 +196,8 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
       printf (_("-i / --interactive: not implemented\n"));
       break;
     case 'r':
-      printf (_("-r / --recurse: not implemented\n"));
+    case 'R':
+      printf (_("-r, -R, --recursive: option not required (enabled by default)\n"));
       break;
     case 'f':
       if (options->force < 2) /* This doesn't need to go higher than 2 */
