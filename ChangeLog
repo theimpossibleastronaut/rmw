@@ -1,5 +1,11 @@
 === rmw ChangeLog ===
 
+2019-11-27
+
+  * Added '-R' option, changed '--recurse' option to '--recursive',
+  added recursive (rm compatibility) options in --help output, fixed
+  message shown when using '-r, --recursive'
+
 2019-08-12
 
   * rmw v0.7.04 has been released.
