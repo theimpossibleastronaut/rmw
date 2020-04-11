@@ -20,7 +20,7 @@ Web site: <https://remove-to-waste.info/>
 
 ## Screenshots
 
-![rmw usage output](https://remove-to-waste.info/images/Screenshot_2019-07-05_22-47-51.png)
+![rmw usage output](https://remove-to-waste.info/images/Screenshot_2020-04-11.png)
 
 [More Screenshots](https://remove-to-waste.info/screenshots.html)
 
