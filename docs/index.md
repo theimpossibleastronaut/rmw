@@ -22,8 +22,8 @@ fa-fw"></span>&nbsp;[Authors/Credits](https://github.com/theimpossibleastronaut/
 Build instructions and a detailed list of features and usage are
 documented in the [README](https://github.com/theimpossibleastronaut/rmw/blob/master/README.md).
 
-<a href="/images/Screenshot_2019-07-05_22-47-51.png">
-  <img src="/images/Screenshot_2019-07-05_22-47-51.png" alt="Remove to Waste usage output" width="255" height="200">
+<a href="/images/Screenshot_2020-04-11.png">
+  <img src="/images/Screenshot_2020-04-11.png" alt="Remove to Waste usage output" width="290" height="200">
 </a>
 
 ## How To:
