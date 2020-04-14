@@ -22,10 +22,6 @@ fa-fw"></span>&nbsp;[Authors/Credits](https://github.com/theimpossibleastronaut/
 Build instructions and a detailed list of features and usage are
 documented in the [README](https://github.com/theimpossibleastronaut/rmw/blob/master/README.md).
 
-<a href="/images/Screenshot_2020-04-11.png">
-  <img src="/images/Screenshot_2020-04-11.png" alt="Remove to Waste usage output" width="290" height="200">
-</a>
-
 ## How To:
 <ul class="w3-ul">
   <li><span class="fas fa-hands-helping fa-fw"></span>&nbsp;<a href="https://github.com/theimpossibleastronaut/rmw/blob/master/CONTRIBUTING.md">contribute</a></li>
