@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
 "POT-Creation-Date: 2019-08-12 15:19-0500\n"
-"PO-Revision-Date: 2020-04-17 23:53+0530\n"
+"PO-Revision-Date: 2020-04-18 12:26+0530\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,6 +23,8 @@ msgid ""
 "\n"
 "# A folder can use the $UID variable.\n"
 msgstr ""
+"\n"
+"# folder $UID variable ka istemal karta hai\n"
 
 #: src/config_rmw.c:81
 msgid ""
@@ -34,10 +36,11 @@ msgid ""
 "# use '0' to disable purging\n"
 "#\n"
 msgstr ""
+" \n"
 "# Kitne dino tak failonko ko pehle apshist folder may rehne ki anumati "
 "di jani chahiye?\n"
 "# Yeh sthayi roop se hata di jati hai\n"
-"#\n"
+"\n"
 "# mitane ke liye '0' ka upyog karen\n"
 "#\n"
 
@@ -96,7 +99,7 @@ msgstr ""
 "yadi nahi hoga\n"
 "# ek baar jab 'example_waste\" banate hai, toh woh khudh ban jayega\n"
 "# example_waste/info aur example_waste/files may\n"
-" \n"
+"\n"
 
 #: src/config_rmw.c:89
 msgid ""
@@ -105,6 +108,7 @@ msgid ""
 "# require the use of '-f', you may uncomment the line below.\n"
 "#\n"
 msgstr ""
+" \n"
 "# shudh 'f' bikalp ke bina chalane ki anumati hai yadi | agar appko\n"
 "# 'f' ka prayog karna hai to niche Rekha par comment karen \n"
 "#\n"
@@ -120,14 +124,14 @@ msgid ""
 "  -s, --select              select files from list to restore\n"
 "  -u, --undo-last           undo last ReMove\n"
 msgstr ""
+"  \n"
+"  \n"
+"  \t ===] Bahal [===\n"
 "\n"
-"\n"
-" \t ===] Bahal [===\n"
-"\n"
-"-z, --bahal <wildcard filename(s) pattern>\n"
-"-s ,--bahal karneke liye suchi se chuninda         failon ka chayan "
+"  -z, --bahal <wildcard filename(s) pattern>\n"
+"  -s ,--bahal karneke liye suchi se chuninda         failon ka chayan "
 "karen\n"
-"-u, --purbith-pichle          purbit pichle ReMove\n"
+"  -u, --purbith-pichle          purbit pichle ReMove\n"
 
 #: src/parse_cli_options.c:66
 #, c-format
@@ -137,8 +141,6 @@ msgid ""
 "Visit the rmw home page for more help, and information about\n"
 "how to obtain support - "
 msgstr ""
-"\n"
-"\n"
 "adhik madad aur jankari ke liye rmw homepage jaaye\n"
 "aur samtharna prapt karen"
 
@@ -146,7 +148,7 @@ msgstr ""
 #. * serious error, sometimes a fatal one
 #: src/messages_rmw.c:54
 msgid "  :error: "
-msgstr "   :galati:"
+msgstr "   :galati: "
 
 #. TRANSLATORS: "return" code refers to a number returned by an operation
 #. * or function
@@ -184,7 +186,7 @@ msgstr ""
 #: src/purging_rmw.c:427
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
-msgstr ""
+msgstr "% directories ko chodo gaya hai(RMDIR_MAX_DEPTH hogaya)\n"
 
 #: src/purging_rmw.c:431
 #, c-format
@@ -196,14 +198,14 @@ msgstr "%d directories chodi gayi hai (sirf padhne wali files)\n"
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d failen sudhikaran ki gayi hai"
-msgstr[1] ""
+msgstr[1] "%d file sudhikaran ki gayi hai"
 
 #: src/main.c:390
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
 msgstr[0] "%d failen hatayi gayi hai waste folder ko"
-msgstr[1] ""
+msgstr[1] "%d files were removed to the waste folder"
 
 #. TRANSLATORS: context: "Number of bytes freed"
 #: src/purging_rmw.c:446
@@ -211,7 +213,7 @@ msgstr[1] ""
 msgid "%s freed"
 msgid_plural "%s freed"
 msgstr[0] "%s mukht kiya gaya"
-msgstr[1] ""
+msgstr[1] "%s mukht kiye gaya"
 
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
@@ -224,15 +226,15 @@ msgstr "'q' -chodna"
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
-msgstr[0] "(%d directory hatayi gayi)"
-msgstr[1] ""
+msgstr[0] "(%d directoriyan hatayi gayi)"
+msgstr[1] "(%d directory hatayi gayi)"
 
 #: src/purging_rmw.c:438
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] "(%d failen hatayi gayi)"
-msgstr[1] ""
+msgstr[1] "(%d file hatayi gayi)"
 
 #: src/purging_rmw.c:347
 #, c-format
@@ -253,7 +255,7 @@ msgstr "-r / --recurse: nahi kiya gaya\n"
 #.
 #: src/restore_rmw.c:324
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
-msgstr "<CURSOR-RIGHT / CURSOR-LEFT> - svich abhisht folder "
+msgstr "<CURSOR-RIGHT / CURSOR-LEFT> - svich abhisht folders"
 
 #: src/restore_rmw.c:325
 msgid ""
@@ -267,31 +269,31 @@ msgstr ""
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== shamil %d file =="
-msgstr[1] ""
+msgstr[1] "== failen shamil %d hai =="
 
 #: src/purging_rmw.c:271
 msgid "Action cancelled."
-msgstr "karya band kiya gaya"
+msgstr "karya band kiya gaya."
 
 #: src/utils_rmw.c:153
 msgid "Continue? (y/n): "
-msgstr "Jari rakhen? (haan/na)"
+msgstr "Jari rakhen? (haan/na): "
 
 #. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:504
 #, c-format
 msgid "Created %s\n"
-msgstr "banaya gaya %s\n"
+msgstr "Banaya gaya %s\n"
 
 #: src/utils_rmw.c:84
 #, c-format
 msgid "Created directory %s\n"
-msgstr "directory banayi gayi %s\n"
+msgstr "Yeh directory banayi gayi %s\n"
 
 #: src/config_rmw.c:386
 #, c-format
 msgid "Creating default configuration file:"
-msgstr "configuration file banate waqt"
+msgstr "configuration file banate waqt:"
 
 #: src/purging_rmw.c:345
 #, c-format
@@ -301,13 +303,13 @@ msgstr "Directory sudhikaran na ho -failen yahan hai \n"
 #: src/restore_rmw.c:164
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
-msgstr ""
+msgstr "behrupi file ka naam hai manzil par - sanlagn wakht par string \n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
 #: src/main.c:308 src/restore_rmw.c:220
 #, c-format
 msgid "File not found: '%s'\n"
-msgstr ""
+msgstr "File nahi mili: '%s'\n"
 
 #: src/main.c:180
 #, c-format
@@ -315,44 +317,48 @@ msgid ""
 "Insufficient command line arguments given;\n"
 "Enter '%s -h' for more information\n"
 msgstr ""
+"Sahi aadesh nahi diya gaya;\n"
+"Dabaye '%s -h' adhik jankari ke liye\n"
+" \n"
 
 #: src/config_rmw.c:260
 #, c-format
 msgid "Invalid WASTE option: '%s'\n"
-msgstr ""
+msgstr "Galat apshist option: '%s'\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
 #: src/purging_rmw.c:355
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
-msgstr ""
+msgstr "jyada se jyada %u hua, chod dijiye\n"
 
 #: src/main.c:380
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
-msgstr ""
+msgstr "koi sahi filesystem nahi mile \"%s\"\n"
 
 #: src/purging_rmw.c:278
 #, c-format
 msgid "Purging all files in waste folders ...\n"
-msgstr ""
+msgstr "sari failen ki sudhikaran kiya jayega apshist folders …\n"
 
 #: src/purging_rmw.c:280
 #, c-format
 msgid ""
 "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
+"sudhikaran files din ginke ke baad apshist folder se hogi (%u) …\n"
 
 #: src/restore_rmw.c:261
 #, c-format
 msgid "Reading %s...\n"
-msgstr ""
+msgstr "Padh raha hai %s…\n"
 
 #: src/parse_cli_options.c:71
 #, c-format
 msgid "Report bugs to <%s>.\n"
-msgstr ""
+msgstr "Galti yahan kare <%s>.\n"
 
 #. TRANSLATORS: ignore "Restore()"
 #. * "returned" refers to an error code (number) that was returned by
@@ -360,13 +366,13 @@ msgstr ""
 #: src/messages_rmw.c:146
 #, c-format
 msgid "Restore() returned %d\n"
-msgstr ""
+msgstr "Restore() aaya %d\n"
 
 #. TRANSLATORS:  "basename" refers to the basename of a file
 #: src/restore_rmw.c:69
 #, c-format
 msgid "Searching using only the basename...\n"
-msgstr ""
+msgstr "Khoja jaa raha hai basefile naam istemal karke…\n"
 
 #: src/parse_cli_options.c:77
 #, c-format
@@ -387,26 +393,26 @@ msgstr ""
 
 #: src/main.c:290
 msgid "The Easter Bunny says, \"Hello, world.\""
-msgstr ""
+msgstr "Easter Bunny bola, \"Hello, Duniya.\""
 
 #: src/purging_rmw.c:268
 msgid "The contents of all waste folders will be deleted -"
-msgstr ""
+msgstr "Apshist folder may jo hai abhi hataya jayega"
 
 #: src/main.c:89
 #, c-format
 msgid "Unable to continue. Exiting...\n"
-msgstr ""
+msgstr "Jaari nahi rakh saka. Bahar jaa raha hai….\n"
 
 #: src/config_rmw.c:418
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
-msgstr ""
+msgstr "Nahi padha or likha jaa raha configuration file\n"
 
 #: src/config_rmw.c:517
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
-msgstr ""
+msgstr "Unjana ya galat bikalp: '%s'\n"
 
 #: src/parse_cli_options.c:41
 #, c-format
@@ -430,26 +436,46 @@ msgid ""
 "  -w, --warranty            display warranty\n"
 "  -V, --version             display version and license information\n"
 msgstr ""
+"Istemal: rmw[Bikalp]… FILE...\n"
+"hataye file ya failon ko apshist directory, configuration file may\n"
+"\n"
+"   ya: rmw -s\n"
+"   ya: rmw -u\n"
+"   ya: rmw -z FILE...\n"
+"bahal karen filon ko apshist directory se\n"
+"\n"
+"  -h, --madad\n"
+"  -c, --config filename    madad aayegaa configuration ke liye\n"
+"  -l, --list               list apshist directories\n"
+"  -g, --sudhokaran             sudhikaran karen tab bhi agar aaj hua "
+"hai\n"
+"  -o, --akela          dekhen akele files ko(maintenance)\n"
+"  -f, --bal            rmw ko sudhikaran karen piche\n"
+"  -e. --khali           sab khali hai (sudhikaran) sare apshist folder "
+"ko\n"
+"  -v, --vaachal          nikalne wale messages badhaye\n"
+"  -w, --warranty         dikhaye warranty\n"
+"  -V, --sanskaran        dikhaye sanskaran aur licence ki jankari\n"
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
 #: src/config_rmw.c:569
 #, c-format
 msgid "attached"
-msgstr ""
+msgstr "jodagaya"
 
 #: src/config_rmw.c:372
 #, c-format
 msgid "config file: %s\n"
-msgstr ""
+msgstr "config file: %s\n"
 
 #: src/parse_cli_options.c:165
 msgid "dry-run mode enabled."
-msgstr ""
+msgstr "dry-run mode hai"
 
 #: src/restore_rmw.c:429
 #, c-format
 msgid "failed to remove %s\n"
-msgstr ""
+msgstr "hataya nahi jaa saka %s\n"
 
 #. TRANSLATORS:  ".trashinfo" should remain untranslated
 #. *
@@ -459,13 +485,13 @@ msgstr ""
 #: src/messages_rmw.c:128
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
-msgstr ""
+msgstr "praroop .trashinfo file ki 'file %s' galat hai"
 
 #. TRANSLATORS:  "function" refers to a C function
 #: src/messages_rmw.c:80 src/messages_rmw.c:112
 #, c-format
 msgid "function: <%s>"
-msgstr ""
+msgstr "samrooh <%s>"
 
 #: src/config_rmw.c:530
 #, c-format
@@ -475,11 +501,15 @@ msgid ""
 "If you need further help, or to report a possible bug,\n"
 "visit the rmw web site at\n"
 msgstr ""
+"koi kaam ka apshisht folder nahi mila\n"
+"Aapko binti hai ki configuration file and anumati dekhen\n"
+"agar aapko madad ki ya koi galti batani hai\n"
+"aap rmw web site par karen\n"
 
 #: src/main.c:119
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
-msgstr ""
+msgstr "sudhikaran nahi kiya gaya: -f or --force ka istemal karen\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
@@ -488,17 +518,17 @@ msgstr ""
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
 "\n"
-msgstr ""
+msgstr "sudhikaran nahi kiya jaa sakta('purge_after' ko '0' karen)\n"
 
 #: src/strings_rmw.c:293
 #, c-format
 msgid "realpath() returned an error.\n"
-msgstr ""
+msgstr "realpath() may error mila hai\n"
 
 #: src/config_rmw.c:567
 #, c-format
 msgid "removable, "
-msgstr ""
+msgstr "hataya ja sakta hai, "
 
 #: src/parse_cli_options.c:93
 #, c-format
@@ -538,7 +568,7 @@ msgstr ""
 #: src/messages_rmw.c:158
 #, c-format
 msgid "while attempting to allocate memory -- %s:L%d\n"
-msgstr "memory avantit prayas karte wakht\n"
+msgstr "memory avantit prayas karte wakht -- %s:L%d\n"
 
 #: src/purging_rmw.c:102
 #, c-format
@@ -548,12 +578,12 @@ msgstr "badalte wakht anumati %s\n"
 #: src/messages_rmw.c:109
 #, c-format
 msgid "while closing %s\n"
-msgstr "band karte waqt\n"
+msgstr "band karte waqt %s\n"
 
 #: src/purging_rmw.c:510 src/utils_rmw.c:89
 #, c-format
 msgid "while creating %s\n"
-msgstr "banate wakht\n"
+msgstr "banate wakht %s\n"
 
 #: src/main.c:77
 msgid "while getting the path to your home directory\n"
@@ -579,7 +609,7 @@ msgstr "hatate wakht %s\n"
 #: src/restore_rmw.c:186
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
-msgstr ".trashinfo fail hatate wakht\n"
+msgstr ".trashinfo fail hatate wakht:'%s'\n"
 
 #: src/messages_rmw.c:198
 #, c-format
