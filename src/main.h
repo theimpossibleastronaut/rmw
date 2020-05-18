@@ -32,7 +32,6 @@
 #include "time_rmw.h"
 #include "trashinfo_rmw.h"
 
-const char *HOMEDIR;
 #define STR_ENABLE_TEST "RMWTEST_HOME"
 
 typedef struct st_removed st_removed;

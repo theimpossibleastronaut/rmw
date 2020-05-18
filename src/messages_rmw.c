@@ -25,6 +25,8 @@
 
 #include "messages_rmw.h"
 
+extern int verbose;
+
 /* These strings need to match the order listed in the enum statement
  * in rmw.h */
 static const char *ERR_STRING[] = {

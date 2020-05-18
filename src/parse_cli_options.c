@@ -35,6 +35,8 @@
   #define RMW_VERSION_STRING VERSION
 #endif
 
+extern int verbose;
+
 static void
 print_usage (void)
 {

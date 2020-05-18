@@ -1,5 +1,5 @@
 
-const char *HOMEDIR = "/home/andy";
+extern const char *HOMEDIR;
 const char *UID = "1000";
 
 /*

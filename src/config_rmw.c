@@ -35,6 +35,10 @@
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
+extern int verbose;
+
+extern const char *HOMEDIR;
+
 static const int DEFAULT_PURGE_AFTER = 0;
 
 

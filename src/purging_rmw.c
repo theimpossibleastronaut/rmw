@@ -32,6 +32,8 @@
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
+extern int verbose;
+
 static unsigned int deleted_files_ctr = 0;
 static unsigned int deleted_dirs_ctr = 0;
 static off_t bytes_freed = 0;

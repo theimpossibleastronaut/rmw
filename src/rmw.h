@@ -89,11 +89,6 @@ struct rmw_target
   bool is_duplicate;
 };
 
-
-/** Set when rmw is run with the --verbose option. Enables increased output
- * to stdout */
-int verbose;
-
 #define RETURN_CODE_OFFSET 10
 enum {
   EXIT_FAILED_GETENV = RETURN_CODE_OFFSET,
