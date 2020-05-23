@@ -3,7 +3,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- * Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
+ * Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
  * Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
  *
  * This program is free software; you can redistribute it and/or modify
@@ -34,18 +34,12 @@
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
-/** Set when rmw is run with the --verbose option. Enables increased output
- * to stdout */
-int verbose;
-
 /*
  * Defined when `make check` is used to build rmw as a library for unit testing,
  * or if built as a library
  * main() will not be built into the library.
  */
 #ifndef BUILD_LIBRARY
-
-const char *HOMEDIR;
 
 int
 main (const int argc, char* const argv[])
@@ -190,8 +184,6 @@ Enter '%s -h' for more information\n"), argv[0]);
 
   return 0;
 }
-#else
-  const char *HOMEDIR = "/home/andy";
 #endif
 
 /*

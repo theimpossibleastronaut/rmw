@@ -32,8 +32,6 @@
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
-extern int verbose;
-
 /*!
  * Called by other functions to make sure a string has a value. Any function
  * that calls this should have received a string with a value. If the

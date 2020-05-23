@@ -34,8 +34,6 @@
 #include "messages_rmw.h"
 #include "bst.h"
 
-extern int verbose;
-
 #ifndef TEST_LIB
 
 /**
