@@ -33,6 +33,9 @@ AM_MAINTAINER_MODE
 AC_PROG_RANLIB
 AM_PROG_AR
 
+EXTRA_CFLAGS="-fno-common"
+AC_SUBST([EXTRA_CFLAGS])
+
 AX_WITH_CURSES
 if test "x$ax_cv_curses" != xyes; then
         AC_MSG_ERROR([requires an X/Open-compatible Curses library])

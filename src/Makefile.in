@@ -229,6 +229,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+EXTRA_CFLAGS = @EXTRA_CFLAGS@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
@@ -329,7 +330,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = @CURSES_CFLAGS@
-rmw_CFLAGS = $(AM_CFLAGS)
+rmw_CFLAGS = $(AM_CFLAGS) @EXTRA_CFLAGS@
 rmw_SOURCES = \
 	rmw.c	\
 	main.c	\

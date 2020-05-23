@@ -1,7 +1,7 @@
 bin_PROGRAMS=rmw
 AM_CFLAGS = @CURSES_CFLAGS@
 
-rmw_CFLAGS = $(AM_CFLAGS)
+rmw_CFLAGS = $(AM_CFLAGS) @EXTRA_CFLAGS@
 
 rmw_SOURCES=	\
 	rmw.c	\

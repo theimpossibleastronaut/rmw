@@ -658,6 +658,7 @@ PKG_CONFIG_PATH
 PKG_CONFIG
 CURSES_CFLAGS
 CURSES_LIBS
+EXTRA_CFLAGS
 ac_ct_AR
 AR
 RANLIB
@@ -5364,6 +5365,9 @@ unknown)
   as_fn_error $? "could not determine $AR interface" "$LINENO" 5
   ;;
 esac
+
+
+EXTRA_CFLAGS="-fno-common"
 
 
 
