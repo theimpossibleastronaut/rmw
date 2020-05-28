@@ -32,6 +32,8 @@
 
 #define DOT_TRASHINFO ".trashinfo"
 
+#define TI_LINE_COUNT 3
+
 extern const int LEN_MAX_TRASHINFO_LINE;
 
 typedef struct st_waste st_waste;
@@ -77,7 +79,7 @@ struct st__trashinfo {
   const int len;
 };
 
-extern struct st__trashinfo st_trashinfo[3];
+extern struct st__trashinfo st_trashinfo[TI_LINE_COUNT];
 
 enum {
   TI_HEADER,
