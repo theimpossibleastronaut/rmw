@@ -28,6 +28,7 @@ cd $RMWTEST_HOME/tmp-files
 
 
 create_temp_files() {
+  cd $RMWTEST_HOME/tmp-files
   set +x
   echo "\n\n == creating temporary files to be rmw'ed"
 
@@ -152,7 +153,7 @@ output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
 test "$output" = "purge has been skipped: use -f or --force"
 test_result $?
 
-echo " == Should not work 'Y' or 'y' is not supplied."
+echo " == Should not work if 'Y' or 'y' is not supplied."
 echo "yfw" | $RMW_TEST_CMD_STRING --purge -e
 test_result $?
 
@@ -177,22 +178,12 @@ test_result $?
 
 echo " == Should work with 'Y' or 'y'"
 create_temp_files
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles && echo "y" | $RMW_TEST_CMD_STRING -e
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "y" | $RMW_TEST_CMD_STRING -e
 test_result $?
 
 create_temp_files
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles && echo "Y" | $RMW_TEST_CMD_STRING -e
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "Y" | $RMW_TEST_CMD_STRING -e
 test_result $?
-
-
-echo
-echo
-echo " == Test that trash is not empty"
-
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)"
-test_result_want_fail $?
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)"
-test_result_want_fail $?
 
 echo " == Try to empty now with required options"
 RMWTRASH=empty $RMW_TEST_CMD_STRING --verbose -ff --purge
