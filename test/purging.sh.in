@@ -185,10 +185,6 @@ create_temp_files
 $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "Y" | $RMW_TEST_CMD_STRING -e
 test_result $?
 
-echo " == Try to empty now with required options"
-RMWTRASH=empty $RMW_TEST_CMD_STRING --verbose -ff --purge
-test_result $?
-
 echo
 echo
 echo " == Test that the files are really gone"

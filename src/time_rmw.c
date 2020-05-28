@@ -92,47 +92,10 @@ get_then_time(const char *entry_path)
 {
   time_t then = 0;
   char trashinfo_line[LEN_MAX_TRASHINFO_LINE];
-  FILE *info_file_ptr = fopen (entry_path, "r");
-  if (info_file_ptr != NULL)
-  {
-    bool passed = 0;
-    /*
-    * unused  and unneeded Trash Info line.
-    * retrieved but not used.
-    * Check to see if it's really a .trashinfo file
-    */
-    if (fgets (trashinfo_line, sizeof trashinfo_line, info_file_ptr)
-        != NULL)
-    {
-      if (strncmp (trashinfo_line, st_trashinfo[TI_HEADER].str, st_trashinfo[TI_HEADER].len) == 0)
-        if (fgets
-            (trashinfo_line, sizeof trashinfo_line,
-             info_file_ptr) != NULL)
-          if (strncmp (trashinfo_line, st_trashinfo[TI_PATH_LINE].str, st_trashinfo[TI_PATH_LINE].len) == 0)
-            if (fgets
-                (trashinfo_line, sizeof trashinfo_line,
-                 info_file_ptr) != NULL)
-            {
-              bufchk (trashinfo_line, 40);
-              trim_white_space (trashinfo_line);
-              if (strncmp (trashinfo_line, st_trashinfo[TI_DATE_LINE].str, st_trashinfo[TI_DATE_LINE].len) == 0
-                  && strlen (trashinfo_line) == 32)
-                passed = 1;
-            }
-    }
-    close_file (info_file_ptr, entry_path, __func__);
+  *trashinfo_line = '\0';
 
-    if (!passed)
-    {
-      display_dot_trashinfo_error (entry_path);
-      return then;
-    }
-  }
-  else
-  {
-    open_err (entry_path, __func__);
-    return then;
-  }
+  if (validate_trashinfo_file (entry_path, trashinfo_line) == 0)
+    return 0;
 
   char *date_str_ptr = strchr (trashinfo_line, '=');
   date_str_ptr++;

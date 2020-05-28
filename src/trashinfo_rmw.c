@@ -104,3 +104,40 @@ printf ("%s%s\n", st_trashinfo[TI_DATE_LINE].str, st_time_var->deletion_date);
     return ERR_OPEN;
   }
 }
+
+int
+validate_trashinfo_file (const char *file, char *line)
+{
+  FILE *info_file_ptr = fopen (file, "r");
+  if (info_file_ptr != NULL)
+  {
+    bool passed = 0;
+
+    while (fgets (line, LEN_MAX_TRASHINFO_LINE, info_file_ptr) != NULL)
+    {
+      trim_white_space (line);
+      if (strncmp (line, st_trashinfo[TI_HEADER].str, st_trashinfo[TI_HEADER].len) == 0 ||
+         strncmp (line, st_trashinfo[TI_PATH_LINE].str, st_trashinfo[TI_PATH_LINE].len) == 0 ||
+         (strncmp (line, st_trashinfo[TI_DATE_LINE].str, st_trashinfo[TI_DATE_LINE].len) == 0 && strlen (line) == 32))
+      {
+        passed = 1;
+      }
+      else
+      {
+        passed = 0;
+        break;
+      }
+    };
+    close_file (info_file_ptr, file, __func__);
+    if (passed)
+      return passed;
+
+    display_dot_trashinfo_error (file);
+    return 0;
+  }
+  else
+  {
+    open_err (file, __func__);
+    return 0;
+  }
+}
