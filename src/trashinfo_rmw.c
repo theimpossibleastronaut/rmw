@@ -2,7 +2,7 @@
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,18 @@
 #include "trashinfo_rmw.h"
 #include "utils_rmw.h"
 #include "messages_rmw.h"
+
+const char header[] = "[Trash Info]";
+const char path_line[] = "Path=";
+const char date_line[] = "DeletionDate=";
+
+const int LEN_MAX_TRASHINFO_LINE = (LEN_MAX_PATH * 3 + strlen (path_line) + 1);
+
+struct st__trashinfo st_trashinfo[] = {
+    { header, strlen (header) },
+    { path_line, strlen (path_line) },
+    { date_line, strlen (date_line) }
+};
 
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
@@ -73,16 +85,16 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
 
 #ifdef DEBUG
 DEBUG_PREFIX
-printf ("[Trash Info]\n");
+printf ("%s\n", st_trashinfo[TI_HEADER].str);
 DEBUG_PREFIX
-printf ("Path=%s\n", escaped_path);
+printf ("%s%s\n", st_trashinfo[TI_PATH_LINE].str, escaped_path);
 DEBUG_PREFIX
-printf ("DeletionDate=%s\n", st_time_var->deletion_date);
+printf ("%s%s\n", st_trashinfo[TI_DATE_LINE].str, st_time_var->deletion_date);
 #endif
 
-    fprintf (fp, "[Trash Info]\n");
-    fprintf (fp, "Path=%s\n", escaped_path);
-    fprintf (fp, "DeletionDate=%s\n", st_time_var->deletion_date);
+    fprintf (fp, "%s\n", st_trashinfo[TI_HEADER].str);
+    fprintf (fp, "%s%s\n", st_trashinfo[TI_PATH_LINE].str, escaped_path);
+    fprintf (fp, "%s%s\n", st_trashinfo[TI_DATE_LINE].str, st_time_var->deletion_date);
 
     return close_file (fp, final_info_dest, __func__);
   }

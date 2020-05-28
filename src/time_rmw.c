@@ -104,18 +104,18 @@ get_then_time(const char *entry_path)
     if (fgets (trashinfo_line, sizeof trashinfo_line, info_file_ptr)
         != NULL)
     {
-      if (strncmp (trashinfo_line, "[Trash Info]", 12) == 0)
+      if (strncmp (trashinfo_line, st_trashinfo[TI_HEADER].str, st_trashinfo[TI_HEADER].len) == 0)
         if (fgets
             (trashinfo_line, sizeof trashinfo_line,
              info_file_ptr) != NULL)
-          if (strncmp (trashinfo_line, "Path=", 5) == 0)
+          if (strncmp (trashinfo_line, st_trashinfo[TI_PATH_LINE].str, st_trashinfo[TI_PATH_LINE].len) == 0)
             if (fgets
                 (trashinfo_line, sizeof trashinfo_line,
                  info_file_ptr) != NULL)
             {
               bufchk (trashinfo_line, 40);
               trim_white_space (trashinfo_line);
-              if (strncmp (trashinfo_line, "DeletionDate=", 13) == 0
+              if (strncmp (trashinfo_line, st_trashinfo[TI_DATE_LINE].str, st_trashinfo[TI_DATE_LINE].len) == 0
                   && strlen (trashinfo_line) == 32)
                 passed = 1;
             }

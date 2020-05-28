@@ -2,7 +2,7 @@
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 
 #define DOT_TRASHINFO ".trashinfo"
 
-#define LEN_MAX_TRASHINFO_LINE (LEN_MAX_PATH * 3 + 5 + 1)
+extern const int LEN_MAX_TRASHINFO_LINE;
 
 typedef struct st_waste st_waste;
 
@@ -70,6 +70,19 @@ struct st_waste
   /** Points to the next WASTE directory in the linked list
    */
   st_waste *next_node;
+};
+
+struct st__trashinfo {
+  const char *str;
+  const int len;
+};
+
+extern struct st__trashinfo st_trashinfo[3];
+
+enum {
+  TI_HEADER,
+  TI_PATH_LINE,
+  TI_DATE_LINE
 };
 
 int

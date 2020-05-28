@@ -29,6 +29,7 @@
 
 #include "parse_cli_options.h"
 #include "config_rmw.h"
+#include "trashinfo_rmw.h"
 #include "restore_rmw.h"
 #include "utils_rmw.h"
 #include "messages_rmw.h"
@@ -106,10 +107,10 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
 
     if ((fp = fopen (file.info, "r")) != NULL)
     {
-        /* adding 5 for the 'Path=' preceding the path.
+        /* adding strlen (path_line) for the 'Path=' preceding the path.
        * multiplying by 3 for worst case scenario (all chars escaped)
        */
-      static char line[LEN_MAX_TRASHINFO_LINE];
+      char line[LEN_MAX_TRASHINFO_LINE];
       if (fgets (line, sizeof line, fp) != NULL)
       {
           /**
@@ -117,7 +118,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
            * sequentially
            */
 
-        if (strncmp (line, "[Trash Info]", 12) == 0)
+        if (strncmp (line, st_trashinfo[TI_HEADER].str, st_trashinfo[TI_HEADER].len) == 0)
         {
         }
         else
