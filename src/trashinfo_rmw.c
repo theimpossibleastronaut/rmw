@@ -141,15 +141,16 @@ init_trashinfo_spec (struct st__trashinfo *x)
   const char *ti_line[] = {
     "[Trash Info]",
     "Path=",
-    "DeletionDate="
+    "DeletionDate=",
+    NULL
   };
 
-  x[TI_HEADER].str = ti_line[TI_HEADER];
-  x[TI_HEADER].len = strlen (ti_line[TI_HEADER]);
+  int i = 0;
 
-  x[TI_PATH_LINE].str =  ti_line[TI_PATH_LINE];
-  x[TI_PATH_LINE].len = strlen (ti_line[TI_PATH_LINE]);
-
-  x[TI_DATE_LINE].str = ti_line[TI_DATE_LINE];
-  x[TI_DATE_LINE].len = strlen (ti_line[TI_DATE_LINE]);
+  while (ti_line[i] != NULL)
+  {
+    x[i].str = ti_line[i];
+    x[i].len = strlen (ti_line[i]);
+    i++;
+  };
 }
