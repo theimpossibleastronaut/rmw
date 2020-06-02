@@ -118,7 +118,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
            * sequentially
            */
 
-        if (strncmp (line, st_trashinfo[TI_HEADER].str, st_trashinfo[TI_HEADER].len) == 0)
+        if (strncmp (line, st_trashinfo_spec[TI_HEADER].str, st_trashinfo_spec[TI_HEADER].len) == 0)
         {
         }
         else

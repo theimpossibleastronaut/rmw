@@ -26,17 +26,9 @@
 #include "utils_rmw.h"
 #include "messages_rmw.h"
 
-const char header[] = "[Trash Info]";
-const char path_line[] = "Path=";
-const char date_line[] = "DeletionDate=";
+struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
-const int LEN_MAX_TRASHINFO_LINE = (LEN_MAX_PATH * 3 + strlen (path_line) + 1);
-
-struct st__trashinfo st_trashinfo[] = {
-    { header, strlen (header) },
-    { path_line, strlen (path_line) },
-    { date_line, strlen (date_line) }
-};
+const int LEN_MAX_TRASHINFO_LINE = (LEN_MAX_PATH * 3 + strlen ("Path=") + 1);
 
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
@@ -85,16 +77,16 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
 
 #ifdef DEBUG
 DEBUG_PREFIX
-printf ("%s\n", st_trashinfo[TI_HEADER].str);
+printf ("%s\n", st_trashinfo_spec[TI_HEADER].str);
 DEBUG_PREFIX
-printf ("%s%s\n", st_trashinfo[TI_PATH_LINE].str, escaped_path);
+printf ("%s%s\n", st_trashinfo_spec[TI_PATH_LINE].str, escaped_path);
 DEBUG_PREFIX
-printf ("%s%s\n", st_trashinfo[TI_DATE_LINE].str, st_time_var->deletion_date);
+printf ("%s%s\n", st_trashinfo_spec[TI_DATE_LINE].str, st_time_var->deletion_date);
 #endif
 
-    fprintf (fp, "%s\n", st_trashinfo[TI_HEADER].str);
-    fprintf (fp, "%s%s\n", st_trashinfo[TI_PATH_LINE].str, escaped_path);
-    fprintf (fp, "%s%s\n", st_trashinfo[TI_DATE_LINE].str, st_time_var->deletion_date);
+    fprintf (fp, "%s\n", st_trashinfo_spec[TI_HEADER].str);
+    fprintf (fp, "%s%s\n", st_trashinfo_spec[TI_PATH_LINE].str, escaped_path);
+    fprintf (fp, "%s%s\n", st_trashinfo_spec[TI_DATE_LINE].str, st_time_var->deletion_date);
 
     return close_file (fp, final_info_dest, __func__);
   }
@@ -116,15 +108,15 @@ validate_trashinfo_file (const char *file, char *line)
     while (fgets (line, LEN_MAX_TRASHINFO_LINE, info_file_ptr) != NULL)
     {
       trim_white_space (line);
-      if (strncmp (line, st_trashinfo[TI_HEADER].str, st_trashinfo[TI_HEADER].len) == 0 ||
-         strncmp (line, st_trashinfo[TI_PATH_LINE].str, st_trashinfo[TI_PATH_LINE].len) == 0 ||
-         (strncmp (line, st_trashinfo[TI_DATE_LINE].str, st_trashinfo[TI_DATE_LINE].len) == 0 && strlen (line) == 32))
+      if (strncmp (line, st_trashinfo_spec[TI_HEADER].str, st_trashinfo_spec[TI_HEADER].len) == 0 ||
+         strncmp (line, st_trashinfo_spec[TI_PATH_LINE].str, st_trashinfo_spec[TI_PATH_LINE].len) == 0 ||
+         (strncmp (line, st_trashinfo_spec[TI_DATE_LINE].str, st_trashinfo_spec[TI_DATE_LINE].len) == 0 && strlen (line) == 32))
       {
         passed++;
       }
       else
       {
-        passed = 0;
+
         break;
       }
     }
@@ -141,4 +133,23 @@ validate_trashinfo_file (const char *file, char *line)
     open_err (file, __func__);
     return 0;
   }
+}
+
+void
+init_trashinfo_spec (struct st__trashinfo *x)
+{
+  const char *ti_line[] = {
+    "[Trash Info]",
+    "Path=",
+    "DeletionDate="
+  };
+
+  x[TI_HEADER].str = ti_line[TI_HEADER];
+  x[TI_HEADER].len = strlen (ti_line[TI_HEADER]);
+
+  x[TI_PATH_LINE].str =  ti_line[TI_PATH_LINE];
+  x[TI_PATH_LINE].len = strlen (ti_line[TI_PATH_LINE]);
+
+  x[TI_DATE_LINE].str = ti_line[TI_DATE_LINE];
+  x[TI_DATE_LINE].len = strlen (ti_line[TI_DATE_LINE]);
 }

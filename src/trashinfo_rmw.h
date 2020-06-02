@@ -76,10 +76,10 @@ struct st_waste
 
 struct st__trashinfo {
   const char *str;
-  const int len;
+  int len;
 };
 
-extern struct st__trashinfo st_trashinfo[TI_LINE_COUNT];
+extern struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
 enum {
   TI_HEADER,
@@ -92,5 +92,8 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time
 
 int
 validate_trashinfo_file (const char *file, char *line);
+
+void
+init_trashinfo_spec (struct st__trashinfo *x);
 
 #endif
