@@ -5,13 +5,15 @@ check_PROGRAMS = \
 	config_test \
 	multi_strlen	\
 	buffer_overrun	\
-	url_encoding
+	url_encoding	\
+	trashinfo
 
 strings_SOURCES = strings.c
 config_test_SOURCES = config_test.c
 multi_strlen_SOURCES = multi_strlen.c
 buffer_overrun_SOURCES = buffer_overrun.c
 url_encoding_SOURCES = url_encoding.c
+trashinfo_SOURCES = trashinfo.c
 
 test_scripts =	\
 	basic.sh	\
