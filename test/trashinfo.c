@@ -7,7 +7,7 @@
 int
 main ()
 {
-  init_trashinfo_spec (&st_trashinfo_spec[0]);
+  init_trashinfo_spec ();
 
   assert (strcmp (st_trashinfo_spec[TI_HEADER].str, "[Trash Info]") == 0);
   assert (strcmp (st_trashinfo_spec[TI_PATH_LINE].str, "Path=") == 0);
