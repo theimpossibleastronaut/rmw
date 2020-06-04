@@ -69,6 +69,9 @@ matrix:
       compiler: clang
 # osx
     - os: osx
+      osx_image: xcode11.5
+      env: XCODE="true"
+    - os: osx
       # 9.4 fails "/usr/local/Homebrew/Library/Homebrew/brew.rb:10:in `<main>': Homebrew must be run under Ruby 2.6! You're running 2.3.3. (RuntimeError)"
       # osx_image: xcode9.4
       osx_image: xcode11.2
