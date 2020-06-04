@@ -94,6 +94,6 @@ int
 validate_trashinfo_file (const char *file, char *line);
 
 void
-init_trashinfo_spec (struct st__trashinfo *x);
+init_trashinfo_spec (void);
 
 #endif

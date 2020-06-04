@@ -136,7 +136,7 @@ validate_trashinfo_file (const char *file, char *line)
 }
 
 void
-init_trashinfo_spec (struct st__trashinfo *x)
+init_trashinfo_spec (void)
 {
   const char *ti_line[] = {
     "[Trash Info]",
@@ -148,8 +148,8 @@ init_trashinfo_spec (struct st__trashinfo *x)
 
   while (i < TI_LINE_COUNT)
   {
-    x[i].str = ti_line[i];
-    x[i].len = strlen (ti_line[i]);
+    st_trashinfo_spec[i].str = ti_line[i];
+    st_trashinfo_spec[i].len = strlen (ti_line[i]);
     i++;
   };
 }
