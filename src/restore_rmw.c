@@ -92,9 +92,9 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
 
     truncate_str (file.relative_path, strlen (file.base_name));
 
-    int req_len = multi_strlen (file.relative_path, "../info/", file.base_name, DOT_TRASHINFO, NULL) + 1;
+    int req_len = multi_strlen (file.relative_path, "../info/", file.base_name, TRASHINFO_EXT, NULL) + 1;
     snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, "../info/",
-             file.base_name, DOT_TRASHINFO);
+             file.base_name, TRASHINFO_EXT);
     bufchk  (file.info, LEN_MAX_PATH);
 
 #ifdef DEBUG

@@ -318,7 +318,7 @@ purge (
 
         char temp[LEN_MAX_PATH];
         strcpy (temp, st_trashinfo_dir_entry->d_name);
-        truncate_str (temp, strlen (DOT_TRASHINFO)); /* acquire the (basename - trashinfo extension) */
+        truncate_str (temp, strlen (TRASHINFO_EXT)); /* acquire the (basename - trashinfo extension) */
 
         strcat (corresponding_file_to_purge, temp); /* path to file in <WASTE>/files */
         if (lstat (corresponding_file_to_purge, &st))
@@ -484,10 +484,10 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var)
       st_file_properties.base_name = basename (entry->d_name);
 
       int req_len = multi_strlen (waste_curr->info, st_file_properties.base_name,
-               DOT_TRASHINFO, NULL) + 1;
+               TRASHINFO_EXT, NULL) + 1;
       bufchk_len (req_len, sizeof path_to_trashinfo, __func__, __LINE__);
       snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info, st_file_properties.base_name,
-               DOT_TRASHINFO);
+               TRASHINFO_EXT);
 
       if (exists (path_to_trashinfo))
         continue;

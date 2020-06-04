@@ -30,7 +30,7 @@
 
 #include "time_rmw.h"
 
-#define DOT_TRASHINFO ".trashinfo"
+#define TRASHINFO_EXT ".trashinfo"
 
 #define TI_LINE_COUNT 3
 

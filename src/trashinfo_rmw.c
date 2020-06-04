@@ -60,9 +60,9 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
     strcat (final_info_dest, st_time_var->suffix_added_dup_exists);
   }
 
-  req_len = multi_strlen (final_info_dest, DOT_TRASHINFO, NULL);
+  req_len = multi_strlen (final_info_dest, TRASHINFO_EXT, NULL);
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  strcat (final_info_dest, DOT_TRASHINFO);
+  strcat (final_info_dest, TRASHINFO_EXT);
 
   FILE *fp = fopen (final_info_dest, "w");
   if (fp != NULL)
