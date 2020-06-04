@@ -16,6 +16,10 @@ If you're writing a patch, using <code class="w3-codespan">make
 check</code> will cover most of rmw's operations. If there's a test
 missing, please open a ticket.
 
+If [valgrind](https://www.valgrind.org/) is installed, the check will
+include some tests for resource leaks. To bypass using `valgrind`, use
+<code class="w3-codespan">USE_VALGRIND=0 make check</code>
+
 <h2 id="testing_home">Specify different home directory</h2>
 
 As of v0.7.03, you can provide a "fake" home directory by setting the
