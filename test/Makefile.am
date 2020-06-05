@@ -1,4 +1,4 @@
-AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@
+AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@
 
 check_PROGRAMS = \
 	strings	\

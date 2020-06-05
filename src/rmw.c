@@ -26,7 +26,7 @@
 
 #include "rmw.h"
 
-int verbose;
+int verbose = 0;
 
 #ifndef BUILD_LIBRARY
 const char *HOMEDIR;
