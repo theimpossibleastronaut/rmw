@@ -31,6 +31,7 @@
 
 #include "time_rmw.h"
 #include "trashinfo_rmw.h"
+#include "parse_cli_options.h"
 
 #define STR_ENABLE_TEST "RMWTEST_HOME"
 
@@ -66,7 +67,8 @@ remove_to_waste (
   char* const argv[],
   st_waste *waste_head,
   st_time *st_time_var,
-  const char *mrl_file);
+  const char *mrl_file,
+  const rmw_options * cli_user_options);
 
 void
 list_waste_folders (st_waste *waste_head);

@@ -28,7 +28,6 @@
 #include "main.h"
 #include "utils_rmw.h"
 #include "restore_rmw.h"
-#include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "purging_rmw.h"
 #include "strings_rmw.h"
@@ -128,7 +127,7 @@ Please check your configuration file and permissions\
 
   if (cli_user_options.want_selection_menu)
   {
-    int result = restore_select (st_config_data.st_waste_folder_props_head, &st_time_var);
+    int result = restore_select (st_config_data.st_waste_folder_props_head, &st_time_var, &cli_user_options);
     dispose_waste (st_config_data.st_waste_folder_props_head);
     return result;
   }
@@ -137,7 +136,7 @@ Please check your configuration file and permissions\
 
   if (cli_user_options.want_undo)
   {
-    undo_last_rmw (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file);
+    undo_last_rmw (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file, &cli_user_options);
     dispose_waste (st_config_data.st_waste_folder_props_head);
     return 0;
   }
@@ -153,7 +152,8 @@ Please check your configuration file and permissions\
       msg_warn_restore(
         restore_errors += Restore (argv[file_arg],
         st_config_data.st_waste_folder_props_head,
-        &st_time_var));
+        &st_time_var,
+        &cli_user_options));
 
     dispose_waste (st_config_data.st_waste_folder_props_head);
 
@@ -167,7 +167,8 @@ Please check your configuration file and permissions\
       argv,
       st_config_data.st_waste_folder_props_head,
       &st_time_var,
-      mrl_file);
+      mrl_file,
+      &cli_user_options);
 
     if (result > 1)
     {
@@ -273,7 +274,8 @@ remove_to_waste (
   char* const argv[],
   st_waste *waste_head,
   st_time *st_time_var,
-  const char *mrl_file)
+  const char *mrl_file,
+  const rmw_options * cli_user_options)
 {
   rmw_target st_file_properties;
 
@@ -342,19 +344,24 @@ remove_to_waste (
           strcat (st_file_properties.waste_dest_name, st_time_var->suffix_added_dup_exists);
         }
 
-        if (rename (st_file_properties.main_argv, st_file_properties.waste_dest_name) == 0)
+        int r_result = 0;
+        if (cli_user_options->want_dry_run == false)
+          r_result = rename (st_file_properties.main_argv, st_file_properties.waste_dest_name);
+
+        if (r_result == 0)
         {
           if (verbose)
             printf ("'%s' -> '%s'\n", st_file_properties.main_argv, st_file_properties.waste_dest_name);
 
           removed_files_ctr++;
 
-          if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))
-          {
-            confirmed_removals_list = add_removal (confirmed_removals_list, st_file_properties.waste_dest_name);
-            if (confirmed_removals_list_head == NULL)
-              confirmed_removals_list_head = confirmed_removals_list;
-          }
+          if (cli_user_options->want_dry_run == false)
+            if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))
+            {
+              confirmed_removals_list = add_removal (confirmed_removals_list, st_file_properties.waste_dest_name);
+              if (confirmed_removals_list_head == NULL)
+                confirmed_removals_list_head = confirmed_removals_list;
+            }
         }
         else
           msg_err_rename (st_file_properties.main_argv,

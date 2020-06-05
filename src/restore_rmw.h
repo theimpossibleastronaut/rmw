@@ -56,12 +56,12 @@
 
 #ifndef TEST_LIB
 int
-Restore (const char *argv, st_waste *waste_head, st_time *st_time_var);
+Restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);
 
 int
-restore_select (st_waste *waste_head, st_time *st_time_var);
+restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);
 
 void
-undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file);
+undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options);
 #endif /* TEST_LIB */
 

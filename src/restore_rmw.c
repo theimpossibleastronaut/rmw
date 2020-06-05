@@ -45,7 +45,7 @@
  * will it really be argv.
  */
 int
-Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
+Restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options)
 {
   static struct restore
   {
@@ -77,7 +77,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var)
 
       strcat (possibly_in_path, file_arg);
 
-      msg_warn_restore (Restore (possibly_in_path, waste_curr, st_time_var));
+      msg_warn_restore (Restore (possibly_in_path, waste_curr, st_time_var, cli_user_options));
       waste_curr = waste_curr->next_node;
     }
 
@@ -172,16 +172,23 @@ Duplicate filename at destination - appending time string...\n"));
 
         truncate_str (parent_dir, strlen (basename (file.dest)));
 
-        /* FIXME: needs error checking */
-        if (! exists (parent_dir))
-          make_dir (parent_dir);
+        if (cli_user_options->want_dry_run == 0)
+          if (! exists (parent_dir))
+            make_dir (parent_dir);
 
-        int rename_res = rename (file_arg, file.dest);
+        int rename_res = 0;
+        if (cli_user_options->want_dry_run == 0)
+          rename_res = rename (file_arg, file.dest);
+
         if (!rename_res)
         {
           printf ("+'%s' -> '%s'\n", file_arg, file.dest);
 
-          if (remove (file.info) != 0)
+          int result = 0;
+          if (cli_user_options->want_dry_run == 0)
+            result = remove (file.info);
+
+          if (result != 0)
           {
             print_msg_error ();
             printf (_("while removing .trashinfo file: '%s'\n"),
@@ -235,7 +242,7 @@ Duplicate filename at destination - appending time string...\n"));
  * @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/205">In some cases, not all files are displayed when using '-s'</a>
  */
 int
-restore_select (st_waste *waste_head, st_time *st_time_var)
+restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options)
 {
   st_waste *waste_curr = waste_head;
   int c = 0;
@@ -381,7 +388,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var)
           static char recover_file[PATH_MAX + 1];
           sprintf (recover_file, "%s%s", waste_curr->files, item_name (items[i]));
           /* waste_curr, not waste_head should always be passed here */
-          msg_warn_restore(Restore (recover_file, waste_curr, st_time_var));
+          msg_warn_restore(Restore (recover_file, waste_curr, st_time_var, cli_user_options));
         }
       }
     }
@@ -402,7 +409,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var)
  * Reads the `lastrmw` file and restores the files listed inside
  */
 void
-undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file)
+undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options)
 {
   FILE *fd;
   fd = fopen (mrl_file, "r");
@@ -413,9 +420,8 @@ undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file)
     int err_ctr = 0;
     while (fgets (line, sizeof line, fd) != NULL)
     {
-      int result = 0;
       trim_white_space (line);
-      result = Restore (line, waste_head, st_time_var);
+      int result = Restore (line, waste_head, st_time_var, cli_user_options);
       msg_warn_restore (result);
       err_ctr += result;
     }
@@ -424,7 +430,10 @@ undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file)
 
     if (err_ctr == 0)
     {
-      if (remove (mrl_file))
+      int result = 0;
+      if (cli_user_options->want_dry_run == 0)
+        result = remove (mrl_file);
+      if (result)
       {
         print_msg_error ();
         printf (_("failed to remove %s\n"), mrl_file);
