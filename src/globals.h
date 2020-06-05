@@ -1,5 +1,5 @@
 /*
- * rmw.h
+ * globals.h
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef _INC_RMW_H
-#define _INC_RMW_H
+#ifndef _INC_GLOBALS_H
+#define _INC_GLOBALS_H
 
 #include "config.h"
 #include <errno.h>
@@ -61,33 +61,6 @@
 
 /*! The LEN_MAX_PATH macro is used as a shortcut throughout the program. */
 #define LEN_MAX_PATH (PATH_MAX + 1)
-
-typedef struct rmw_target rmw_target;
-
-/** Holds information about a file that was specified for rmw'ing
- */
-struct rmw_target
-{
-  /** Replaced by the filename to be rmw'ed, usually specified on the command line */
-  const char *main_argv;
-
-  /** The absolute path to the file, stored later in a .trashinfo file */
-  char real_path[LEN_MAX_PATH];
-
-  /** The basename of the target file, and used for the basename of it's corresponding
-   * .trashinfo file */
-  const char *base_name;
-
-  /** The destination file name. This may be different if a file of the same name already
-   *  exists in the WASTE folder */
-  char waste_dest_name[LEN_MAX_PATH];
-
-  /** Is <tt>true</tt> if the file exists in the destination WASTE/files folder,
-   * false otherwise. If it's a duplicate, a string based on the current time
-   * will be appended to \ref dest_name
-   */
-  bool is_duplicate;
-};
 
 #define RETURN_CODE_OFFSET 10
 enum {

@@ -22,9 +22,9 @@
  *
  */
 
-#ifndef INC_RMW_H
-#define INC_RMW_H
-  #include "rmw.h"
+#ifndef INC_GLOBALS_H
+#define INC_GLOBALS_H
+  #include "globals.h"
 #endif
 
 #include "parse_cli_options.h"

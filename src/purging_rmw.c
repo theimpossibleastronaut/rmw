@@ -22,7 +22,7 @@
  *
  */
 
-#include "rmw.h"
+#include "globals.h"
 #include "main.h"
 #include "parse_cli_options.h"
 #include "config_rmw.h"

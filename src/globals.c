@@ -1,5 +1,5 @@
 /*
- * rmw.c
+ * globals.c
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
@@ -24,7 +24,7 @@
  *
  */
 
-#include "rmw.h"
+#include "globals.h"
 
 int verbose = 0;
 

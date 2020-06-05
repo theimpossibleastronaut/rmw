@@ -24,7 +24,7 @@
  *
  */
 
-#include "rmw.h"
+#include "globals.h"
 #include "main.h"
 #include "utils_rmw.h"
 #include "restore_rmw.h"

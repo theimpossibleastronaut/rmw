@@ -1,4 +1,4 @@
-#include "rmw.h"
+#include "globals.h"
 #include "trashinfo_rmw.h"
 #include <assert.h>
 

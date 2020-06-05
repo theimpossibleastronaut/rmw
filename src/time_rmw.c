@@ -22,7 +22,7 @@
  */
 
 
-#include "rmw.h"
+#include "globals.h"
 #include "time_rmw.h"
 #include "strings_rmw.h"
 #include "trashinfo_rmw.h"

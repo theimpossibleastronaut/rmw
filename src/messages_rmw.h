@@ -25,7 +25,7 @@
  *
  */
 
-#include "rmw.h"
+#include "globals.h"
 #include "strings_rmw.h"
 
 #define MAX_MSG_SIZE 512
