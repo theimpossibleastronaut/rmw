@@ -80,8 +80,8 @@ matrix:
       osx_image: xcode10.1
       env: XCODE="true"
 
-#  allow_failures:
-#    - os: osx
+  allow_failures:
+    - os: osx
 
 before_install:
   - echo $CC
