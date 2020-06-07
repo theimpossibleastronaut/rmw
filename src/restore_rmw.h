@@ -56,7 +56,7 @@
 
 #ifndef TEST_LIB
 int
-Restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);
+restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);
 
 int
 restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);

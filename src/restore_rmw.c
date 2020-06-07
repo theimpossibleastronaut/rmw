@@ -38,14 +38,14 @@
 #ifndef TEST_LIB
 
 /**
- * Restores a file that was previously moved via rmw.
+ * restores a file that was previously moved via rmw.
  *
  * FIXME: The name of the first paramater needs changing. It's not really
  * argv but the name of a file selected for restoration. Only in some cases
  * will it really be argv.
  */
 int
-Restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options)
+restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options)
 {
   static struct restore
   {
@@ -72,7 +72,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw
     bufchk  (file.info, LEN_MAX_PATH);
 
 #ifdef DEBUG
-    printf ("Restore()/debug: %s\n", file.info);
+    printf ("restore()/debug: %s\n", file.info);
 #endif
 
     bufchk (file.info, LEN_MAX_PATH);
@@ -355,7 +355,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
           static char recover_file[PATH_MAX + 1];
           sprintf (recover_file, "%s%s", waste_curr->files, item_name (items[i]));
           /* waste_curr, not waste_head should always be passed here */
-          msg_warn_restore(Restore (recover_file, waste_curr, st_time_var, cli_user_options));
+          msg_warn_restore(restore (recover_file, waste_curr, st_time_var, cli_user_options));
         }
       }
     }
@@ -388,7 +388,7 @@ undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file,
     while (fgets (line, sizeof line, fd) != NULL)
     {
       trim_white_space (line);
-      int result = Restore (line, waste_head, st_time_var, cli_user_options);
+      int result = restore (line, waste_head, st_time_var, cli_user_options);
       msg_warn_restore (result);
       err_ctr += result;
     }

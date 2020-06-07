@@ -135,10 +135,10 @@ void msg_warn_restore (int result)
     print_msg_warn ();
     if (result != FILE_NOT_FOUND)
     {
-      /* TRANSLATORS: ignore "Restore()"
+      /* TRANSLATORS: ignore "restore()"
        * "returned" refers to an error code (number) that was returned by
        * an operation */
-      printf (_("Restore() returned %d\n"), result);
+      printf (_("restore() returned %d\n"), result);
     }
   }
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2020-06-07 00:42-0500\n"
+"POT-Creation-Date: 2020-06-07 09:41-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -296,14 +296,6 @@ msgstr ""
 msgid "Report bugs to <%s>.\n"
 msgstr ""
 
-#. TRANSLATORS: ignore "Restore()"
-#. * "returned" refers to an error code (number) that was returned by
-#. * an operation
-#: src/messages_rmw.c:141
-#, c-format
-msgid "Restore() returned %d\n"
-msgstr ""
-
 #: src/parse_cli_options.c:79
 #, c-format
 msgid ""
@@ -432,6 +424,14 @@ msgstr ""
 #: src/config_rmw.c:559
 #, c-format
 msgid "removable, "
+msgstr ""
+
+#. TRANSLATORS: ignore "restore()"
+#. * "returned" refers to an error code (number) that was returned by
+#. * an operation
+#: src/messages_rmw.c:141
+#, c-format
+msgid "restore() returned %d\n"
 msgstr ""
 
 #: src/parse_cli_options.c:95

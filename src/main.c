@@ -150,7 +150,7 @@ Please check your configuration file and permissions\
     int file_arg = 0;
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
       msg_warn_restore(
-        restore_errors += Restore (argv[file_arg],
+        restore_errors += restore (argv[file_arg],
         st_config_data.st_waste_folder_props_head,
         &st_time_var,
         &cli_user_options));

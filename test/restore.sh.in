@@ -1,5 +1,5 @@
 #!/bin/sh
-# restore.sh: tests rmw's Restore features
+# restore.sh: tests rmw's restore features
 #
 # This script can be used to demonstrate the restore features of rmw to
 # new users, and to test for bugs when making code changes
@@ -37,7 +37,7 @@ $RMW_TEST_CMD_STRING -u
 test_result $?
 
 echo $SEPARATOR
-echo "Restore using wildcard pattern, but be in the trash directory"
+echo "restore using wildcard pattern, but be in the trash directory"
 set -x
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/topdir
 cd $RMWTEST_HOME/.local/share/Waste/files
@@ -63,6 +63,6 @@ test_result_want_fail $?
 chmod +w -R $RMWTEST_HOME/no_write_perms
 
 echo $SEPARATOR
-echo "Restore tests passed"
+echo "restore tests passed"
 
 exit 0

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2020-06-07 00:42-0500\n"
+"POT-Creation-Date: 2020-06-07 09:41-0500\n"
 "PO-Revision-Date: 2019-07-07 00:18+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -421,14 +421,6 @@ msgstr "Lese %s...\n"
 msgid "Report bugs to <%s>.\n"
 msgstr "Melde Fehler an <%s>.\n"
 
-#. TRANSLATORS: ignore "Restore()"
-#. * "returned" refers to an error code (number) that was returned by
-#. * an operation
-#: src/messages_rmw.c:141
-#, c-format
-msgid "Restore() returned %d\n"
-msgstr "Restore() lieferte %d\n"
-
 #: src/parse_cli_options.c:79
 #, c-format
 msgid ""
@@ -616,6 +608,15 @@ msgstr "realpath() hat einen Fehler zurückgeliefert.\n"
 #, c-format
 msgid "removable, "
 msgstr "löschbar."
+
+#. TRANSLATORS: ignore "restore()"
+#. * "returned" refers to an error code (number) that was returned by
+#. * an operation
+#: src/messages_rmw.c:141
+#, fuzzy, c-format
+#| msgid "Restore() returned %d\n"
+msgid "restore() returned %d\n"
+msgstr "Restore() lieferte %d\n"
 
 #: src/parse_cli_options.c:95
 #, c-format
