@@ -45,7 +45,7 @@ echo $SEPARATOR
 echo "Try restoring with -z using a wildcard (will fail)"
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/topdir
 $RMW_TEST_CMD_STRING --verbose -z topd*
-test_result $?
+test_result_want_fail $?
 
 echo $SEPARATOR
 echo "Restore using wildcard pattern, but be in the trash directory"
@@ -57,7 +57,7 @@ test_result $?
 echo $SEPARATOR
 echo "Try restoring a file that doesn't exist"
 $RMW_TEST_CMD_STRING -z nonexistent_fil*
-test_result $?
+test_result_want_fail $?
 
 echo $SEPARATOR
 echo "What happens when trying to ReMove file inside dir with no write permissions..."

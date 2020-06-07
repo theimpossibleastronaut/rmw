@@ -2,7 +2,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw
     /* TRANSLATORS:  "basename" refers to the basename of a file  */
     printf (_("Searching using only the basename...\n"));
     st_waste *waste_curr = waste_head;
+    int found_flag = -1;
     while (waste_curr != NULL)
     {
       static char *possibly_in_path;
@@ -77,13 +78,17 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw
 
       strcat (possibly_in_path, file_arg);
 
-      msg_warn_restore (Restore (possibly_in_path, waste_curr, st_time_var, cli_user_options));
+      int result = Restore (possibly_in_path, waste_curr, st_time_var, cli_user_options);
+      if (result == 0)
+        found_flag = 0; /* only one successful restore should be needed to prevent a non-zero return code */
+
+      msg_warn_restore (result);
       waste_curr = waste_curr->next_node;
     }
 
     printf (_("search complete\n"));
 
-    return 0;
+    return found_flag;
   }
 
   if (exists (file_arg))
