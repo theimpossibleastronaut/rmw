@@ -107,7 +107,7 @@ before_install:
   - echo $CC
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
       eval "${MATRIX_EVAL}";
-      if [ -n "$MATRIX_EVAL" ] && [ "$TRAVIS_COMPILER" != "clang" && "$CC" != "gcc-9" && "$CC" != "gcc-10" ]; then
+      if [ -n "$MATRIX_EVAL" ] && [ "$TRAVIS_COMPILER" != "clang" ] && [ "$CC" != "gcc-9" ] && [ "$CC" != "gcc-10" ]; then
         sudo apt-get install -y $CC;
       fi;
       if [ "$CC" = "gcc-6" ]; then
