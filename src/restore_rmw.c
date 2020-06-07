@@ -60,37 +60,6 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw
   strcpy (file_arg, argv);
   file.base_name = basename (file_arg);
 
-/**
- * The 2 code blocks below address
- * restoring files with only the basename #14
- */
-  if ((strcmp (file.base_name, file_arg) == 0) && !exists (file.base_name))
-  {
-    /* TRANSLATORS:  "basename" refers to the basename of a file  */
-    printf (_("Searching using only the basename...\n"));
-    st_waste *waste_curr = waste_head;
-    int found_flag = -1;
-    while (waste_curr != NULL)
-    {
-      static char *possibly_in_path;
-
-      possibly_in_path = waste_curr->files;
-
-      strcat (possibly_in_path, file_arg);
-
-      int result = Restore (possibly_in_path, waste_curr, st_time_var, cli_user_options);
-      if (result == 0)
-        found_flag = 0; /* only one successful restore should be needed to prevent a non-zero return code */
-
-      msg_warn_restore (result);
-      waste_curr = waste_curr->next_node;
-    }
-
-    printf (_("search complete\n"));
-
-    return found_flag;
-  }
-
   if (exists (file_arg))
   {
     strcpy (file.relative_path, file_arg);

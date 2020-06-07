@@ -1,5 +1,12 @@
 === rmw ChangeLog ===
 
+2020-06-07
+
+  * Feature removed: restore with '-z' using only the basename from any
+  directory. User must be in a Trash directory or specify the full path
+  (e.g. rmw -z ~/.local/share/Trash/foo.bar). For details, see issue
+  #272.
+
 2020-05-28
 
   * Fixed broken purge test

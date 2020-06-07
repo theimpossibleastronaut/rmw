@@ -115,7 +115,7 @@ rmw is run, it will be used; if not, it will be skipped. Once you
 create "example_waste", rmw will automatically create
 example_waste/info and example_waste/files
 
-    e.g: WASTE=/mnt/sda10000/example_waste, removable
+    e.g.: WASTE=/mnt/sda10000/example_waste, removable
 
 == Features and Options ==
 
@@ -170,11 +170,6 @@ $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
 To restore a file, or multiple files, specify the path to them in in the
 <WASTE>/files folder (wildcards ok).
 e.g. 'rmw -z ~/.local/share/Trash/files/foo*'
-
-Files can also be restored using only the basename, from within any directory.
-NOTE: That feature will not process wildcards unless the user is in a
-<WASTE>/files folder and the filespec actually exists in the present working
-directory.
 
 == -f, --force ==
 

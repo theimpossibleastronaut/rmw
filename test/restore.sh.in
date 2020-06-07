@@ -37,19 +37,9 @@ $RMW_TEST_CMD_STRING -u
 test_result $?
 
 echo $SEPARATOR
-echo "Restore by using the basename, from anywhere"
-$RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/topdir
-$RMW_TEST_CMD_STRING -z topdir
-
-echo $SEPARATOR
-echo "Try restoring with -z using a wildcard (will fail)"
-$RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/topdir
-$RMW_TEST_CMD_STRING --verbose -z topd*
-test_result_want_fail $?
-
-echo $SEPARATOR
 echo "Restore using wildcard pattern, but be in the trash directory"
 set -x
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/topdir
 cd $RMWTEST_HOME/.local/share/Waste/files
 $RMW_TEST_CMD_STRING -z topd*
 test_result $?
