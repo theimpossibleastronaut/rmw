@@ -106,16 +106,9 @@ Restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw
           /** adding 5 for the 'Path=' preceding the path. */
         if (fgets (line, sizeof line, fp) != NULL)
         {
-          static char *tokenPtr;
-
-          tokenPtr = strtok (line, "=");
-          tokenPtr = strtok (NULL, "=");
-
-            /**
-             * tokenPtr now equals the escaped absolute path from the info file
-             */
-          unescape_url (tokenPtr, file.dest, LEN_MAX_PATH);
-          tokenPtr = NULL;
+          char *path_ptr = strchr (line, '=');
+          path_ptr++; /* move past the '=' sign */
+          unescape_url (path_ptr, file.dest, LEN_MAX_PATH);
           trim_white_space (file.dest);
 
           close_file (fp, file.info, __func__);
