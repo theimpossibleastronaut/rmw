@@ -42,6 +42,26 @@ matrix:
       dist: bionic
       compiler: gcc
       env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-9
+      env: MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+    - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-10
+      env: MATRIX_EVAL="CC=gcc-10 && CXX=g++-10"
 
 # clang
     - os: linux
@@ -87,7 +107,7 @@ before_install:
   - echo $CC
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
       eval "${MATRIX_EVAL}";
-      if [ -n "$MATRIX_EVAL" ] && [ "$TRAVIS_COMPILER" != "clang" ]; then
+      if [ -n "$MATRIX_EVAL" ] && [ "$TRAVIS_COMPILER" != "clang" && "$CC" != "gcc-9" && "$CC" != "gcc-10" ]; then
         sudo apt-get install -y $CC;
       fi;
       if [ "$CC" = "gcc-6" ]; then
