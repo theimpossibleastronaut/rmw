@@ -329,7 +329,7 @@ purge (
 
         if (S_ISDIR (st.st_mode))
         {
-          if (!cli_user_options->want_dry_run)
+          if (cli_user_options->want_dry_run == false)
             status = rmdir_recursive (corresponding_file_to_purge, 1, cli_user_options);
           else
           {
@@ -359,7 +359,7 @@ purge (
             break;
 
           case 0:
-            if (!cli_user_options->want_dry_run)
+            if (cli_user_options->want_dry_run == false)
               status = rmdir (corresponding_file_to_purge);
             else
               status = 0;
@@ -381,7 +381,7 @@ purge (
         }
         else
         {
-          if (!cli_user_options->want_dry_run)
+          if (cli_user_options->want_dry_run == false)
           {
             if (!is_modified (corresponding_file_to_purge, orig_dev, orig_inode))
               status = remove (corresponding_file_to_purge);
@@ -400,7 +400,7 @@ purge (
 
         if (status == 0)
         {
-          if (!cli_user_options->want_dry_run)
+          if (cli_user_options->want_dry_run == false)
             status = remove (trashinfo_entry_realpath);
           else
             status = 0;

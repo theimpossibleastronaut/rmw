@@ -139,12 +139,12 @@ Duplicate filename at destination - appending time string...\n"));
 
         truncate_str (parent_dir, strlen (basename (file.dest)));
 
-        if (cli_user_options->want_dry_run == 0)
+        if (cli_user_options->want_dry_run == false)
           if (! exists (parent_dir))
             make_dir (parent_dir);
 
         int rename_res = 0;
-        if (cli_user_options->want_dry_run == 0)
+        if (cli_user_options->want_dry_run == false)
           rename_res = rename (file_arg, file.dest);
 
         if (!rename_res)
@@ -152,7 +152,7 @@ Duplicate filename at destination - appending time string...\n"));
           printf ("+'%s' -> '%s'\n", file_arg, file.dest);
 
           int result = 0;
-          if (cli_user_options->want_dry_run == 0)
+          if (cli_user_options->want_dry_run == false)
             result = remove (file.info);
 
           if (result != 0)
@@ -398,7 +398,7 @@ undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file,
     if (err_ctr == 0)
     {
       int result = 0;
-      if (cli_user_options->want_dry_run == 0)
+      if (cli_user_options->want_dry_run == false)
         result = remove (mrl_file);
       if (result)
       {
