@@ -62,7 +62,7 @@ Restore FILE(s) from a WASTE directory\n\
   printf (_("\
   \n\n\
   \t===] Restoring [===\n\n\
-  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Trash/foo*)\n\
+  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)\n\
   -s, --select              select files from list to restore\n\
   -u, --undo-last           undo last ReMove\n"));
   printf (_("\
