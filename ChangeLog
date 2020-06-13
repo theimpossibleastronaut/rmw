@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2020-06-13
+
+  * rmw v0.7.05 released
+
 2020-06-07
 
   * Feature removed: restore with '-z' using only the basename from any
@@ -10,6 +14,10 @@
 2020-05-28
 
   * Fixed broken purge test
+
+2020-05-18
+
+  * Fix for compiling with gcc 10 (Thanks to muralikodali and GazL)
 
 2019-11-27
 
