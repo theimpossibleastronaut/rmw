@@ -62,23 +62,23 @@ set_which_deletion_date (char *format, const int len)
 
 
 void
-init_time_vars (st_time *st_time_var)
+init_time_vars (st_time *x)
 {
-  st_time_var->now = time (NULL);
+  x->now = time (NULL);
 
-  set_which_deletion_date (st_time_var->t_fmt, sizeof st_time_var->t_fmt);
-
-  set_time_string (
-    st_time_var->deletion_date,
-    sizeof st_time_var->deletion_date,
-    st_time_var->t_fmt,
-    st_time_var->now);
+  set_which_deletion_date (x->t_fmt, sizeof x->t_fmt);
 
   set_time_string (
-    st_time_var->suffix_added_dup_exists,
-    sizeof st_time_var->suffix_added_dup_exists,
+    x->deletion_date,
+    sizeof x->deletion_date,
+    x->t_fmt,
+    x->now);
+
+  set_time_string (
+    x->suffix_added_dup_exists,
+    sizeof x->suffix_added_dup_exists,
     "_%H%M%S-%y%m%d",
-    st_time_var->now);
+    x->now);
 
   return;
 }

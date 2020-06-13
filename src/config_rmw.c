@@ -528,21 +528,21 @@ visit the rmw web site at\n"));
 
 
 void
-init_config_data (st_config *st_config_data)
+init_config_data (st_config *x)
 {
-  st_config_data->dir = get_config_home_dir ();
+  x->dir = get_config_home_dir ();
 
-  if (! exists (st_config_data->dir))
-    if ((make_dir (st_config_data->dir) == MAKE_DIR_FAILURE))
+  if (! exists (x->dir))
+    if ((make_dir (x->dir) == MAKE_DIR_FAILURE))
       exit (MAKE_DIR_FAILURE);
 
-  st_config_data->st_waste_folder_props_head = NULL;
+  x->st_waste_folder_props_head = NULL;
   /*
    * The default value for purge_after is only used as a last resort,
    * if for some reason purge_after isn't specified in the config file.
    */
-  st_config_data->purge_after = DEFAULT_PURGE_AFTER;
-  st_config_data->force_required = 0;
+  x->purge_after = DEFAULT_PURGE_AFTER;
+  x->force_required = 0;
 }
 
 void

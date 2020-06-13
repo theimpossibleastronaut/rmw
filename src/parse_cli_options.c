@@ -104,19 +104,19 @@ for details.\n"), RMW_VERSION_STRING);
 }
 
 void
-init_rmw_options (rmw_options *options)
+init_rmw_options (rmw_options *x)
 {
   verbose = 0;
-  options->want_restore = false;
-  options->want_dry_run = false;
-  options->want_purge = false;
-  options->want_empty_trash = false;
-  options->want_orphan_chk = false;
-  options->want_selection_menu = false;
-  options->want_undo = false;
-  options->force = 0;
-  options->list = false;
-  options->alt_config = NULL;
+  x->want_restore = false;
+  x->want_dry_run = false;
+  x->want_purge = false;
+  x->want_empty_trash = false;
+  x->want_orphan_chk = false;
+  x->want_selection_menu = false;
+  x->want_undo = false;
+  x->force = 0;
+  x->list = false;
+  x->alt_config = NULL;
 }
 
 
