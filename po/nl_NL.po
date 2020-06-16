@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2020-06-13 00:34-0500\n"
+"POT-Creation-Date: 2020-06-16 01:00-0500\n"
 "PO-Revision-Date: 2019-08-04 16:21+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -262,7 +262,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%dbestand gepurged"
 msgstr[1] "%dbestanden gepurged"
 
-#: src/main.c:398
+#: src/main.c:414
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -276,6 +276,11 @@ msgid "%s freed"
 msgid_plural "%s freed"
 msgstr[0] "%s vrij gemaakt"
 msgstr[1] "%s vrij gemaakt"
+
+#: src/main.c:323
+#, c-format
+msgid "%s resides within a waste folder and has been ignored\n"
+msgstr ""
 
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
@@ -394,7 +399,7 @@ msgstr "Invalide optie: '%s'\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "Maximale diepte van %u bereikt, overslaan\n"
 
-#: src/main.c:388
+#: src/main.c:404
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "Geen geschikt bestandssysteem gevonden voor \"%s\"\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2020-06-13 00:34-0500\n"
+"POT-Creation-Date: 2020-06-16 01:00-0500\n"
 "PO-Revision-Date: 2020-04-18 12:26+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -205,7 +205,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d failen sudhikaran ki gayi hai"
 msgstr[1] "%d file sudhikaran ki gayi hai"
 
-#: src/main.c:398
+#: src/main.c:414
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -219,6 +219,11 @@ msgid "%s freed"
 msgid_plural "%s freed"
 msgstr[0] "%s mukht kiya gaya"
 msgstr[1] "%s mukht kiye gaya"
+
+#: src/main.c:323
+#, c-format
+msgid "%s resides within a waste folder and has been ignored\n"
+msgstr ""
 
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
@@ -338,7 +343,7 @@ msgstr "Galat apshist option: '%s'\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "jyada se jyada %u hua, chod dijiye\n"
 
-#: src/main.c:388
+#: src/main.c:404
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "koi sahi filesystem nahi mile \"%s\"\n"
