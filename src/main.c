@@ -322,6 +322,7 @@ remove_to_waste (
         print_msg_warn ();
         printf (_("%s resides within a waste folder and has been ignored\n"), st_file_properties.main_argv);
         is_protected = 1;
+        break;
       }
       waste_curr = waste_curr->next_node;
     }
@@ -398,7 +399,7 @@ remove_to_waste (
       waste_curr = waste_curr->next_node;
     }
 
-    if (!waste_folder_on_same_filesystem && !is_protected)
+    if (!waste_folder_on_same_filesystem)
     {
       print_msg_warn ();
       printf (_("No suitable filesystem found for \"%s\"\n"), st_file_properties.main_argv);
