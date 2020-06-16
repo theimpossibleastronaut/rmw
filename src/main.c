@@ -282,7 +282,7 @@ remove_to_waste (
   st_removed *confirmed_removals_list = NULL;
   st_removed *confirmed_removals_list_head = NULL;
 
-  static int main_error_ctr;
+  int main_error_ctr = 0;
   int removed_files_ctr = 0;
   int file_arg;
   for (file_arg = optind; file_arg < argc; file_arg++)
@@ -312,6 +312,22 @@ remove_to_waste (
       continue;
     }
 
+    /* Make sure the file isn't a waste folder or a file within a waste folder */
+    bool is_protected = 0;
+    st_waste *waste_curr = waste_head;
+    while (waste_curr != NULL)
+    {
+      if (strncmp (waste_curr->parent, st_file_properties.real_path, strlen (waste_curr->parent)) == 0)
+      {
+        print_msg_warn ();
+        printf (_("%s resides within a waste folder and has been ignored\n"), st_file_properties.main_argv);
+        is_protected = 1;
+      }
+      waste_curr = waste_curr->next_node;
+    }
+    if (is_protected)
+      continue;
+
     /**
      * Make some variables -
      * get ready for the ReMoval
@@ -326,7 +342,7 @@ remove_to_waste (
      * device number of file.main_argv. Once found, the ReMoval
      * happens (provided all the tests are passed.
      */
-    st_waste *waste_curr = waste_head;
+    waste_curr = waste_head;
     while (waste_curr != NULL)
     {
       if (waste_curr->dev_num == st_main_argv_statistics.st_dev)
@@ -382,7 +398,7 @@ remove_to_waste (
       waste_curr = waste_curr->next_node;
     }
 
-    if (!waste_folder_on_same_filesystem)
+    if (!waste_folder_on_same_filesystem && !is_protected)
     {
       print_msg_warn ();
       printf (_("No suitable filesystem found for \"%s\"\n"), st_file_properties.main_argv);

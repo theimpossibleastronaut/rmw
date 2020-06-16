@@ -68,6 +68,16 @@ output="$(ls -A $RMWTEST_HOME/.local/share/Waste/files | wc -l | sed 's/ //g')"
 test "$output" = "6"
 test_result $?
 
+echo $SEPARATOR
+echo "  == rmw should refuse to move a waste folder or a file that resides within a waste folder"
+output="$($RMW_TEST_CMD_STRING $RMWTEST_HOME/.local/share/Waste/info)"
+test "$output" = " :warning: $RMWTEST_HOME/.local/share/Waste/info resides within a waste folder and has been ignored
+0 files were removed to the waste folder"
+test_result $?
+
+# If the file gets removed (which it shouldn't), then the test that follows it will fail
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo
+
 echo "\n\n == Display contents of 1.trashinfo "
 set -x
 cat $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo
@@ -106,6 +116,8 @@ test_result_want_fail $?
 
 test -f $RMWTEST_HOME/.local/share/Waste/info/3.trashinfo
 test_result_want_fail $?
+
+
 
 echo "Basic tests passed"
 exit 0
