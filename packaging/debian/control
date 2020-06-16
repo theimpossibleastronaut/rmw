@@ -1,9 +1,9 @@
 Source: rmw
-Section: Utilities
+Section: utils
 Priority: optional
 Maintainer: Andy Alt <andy400-dev@yahoo.com>
-Build-Depends: libc6-dev, libncursesw5-dev, libtinfo-dev
-Standards-Version: 3.9.8
+Build-Depends: debhelper (>= 12~), libncursesw5-dev, libtinfo-dev
+Standards-Version: 4.3.0
 Homepage: https://remove-to-waste.info/
 
 Package: rmw
