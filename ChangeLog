@@ -1,5 +1,13 @@
 === rmw ChangeLog ===
 
+2020-06-16
+
+  * rmw v0.7.05 released
+
+  * rmw will now refuse to move a waste folder or a file that resides
+  within a waste folder (This feature was in place before, but at some
+  point Andy accidentally removed the code).
+
 2020-06-07
 
   * Feature removed: restore with '-z' using only the basename from any
@@ -10,6 +18,10 @@
 2020-05-28
 
   * Fixed broken purge test
+
+2020-05-18
+
+  * Fix for compiling with gcc 10 (Thanks to muralikodali and GazL)
 
 2019-11-27
 

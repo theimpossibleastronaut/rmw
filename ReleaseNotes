@@ -1,24 +1,20 @@
 === RMW Release Notes ===
 
-v0.7.04
+  * Fix for compiling with gcc 10 (Thanks to muralikodali and GazL)
 
-  * To get user's home dir, revert back to retrieving via environmental
-  variable (conforms to FreeDesktop Trash Spec)
+  * rmw will now refuse to move a waste folder or a file that resides
+  within a waste folder (This feature was in place before, but at some
+  point Andy accidentally removed the code).
 
-  * The config file is now read from $XDG_CONFIG_HOME/rmwrc or
-  ~/.config/rmwrc.
+  * Feature removed: restore with '-z' using only the basename from any
+  directory. User must be in a Trash directory or specify the full path
+  (e.g. rmw -z ~/.local/share/Trash/foo.bar). For details, see issue
+  #272.
 
-  * `lastpurge` is now 'purge-time' and stored in $XDG_DATA_HOME/rmw or
-  ~/.local/share/rmw.
+  * Added '-R' option, changed '--recurse' option to '--recursive',
+  added recursive (rm compatibility) options in --help output, fixed
+  message shown when using '-r, --recursive'
 
-  * `lastrmw` is now 'mrl' and stored in $XDG_DATA_HOME/rmw or
-  ~/.local/share/rmw.
+  * Fixed broken purge test
 
-  * The default Waste folder (specified in the configuration file) is now
-  ~/.local/share/Waste instead of ~/trash.rmw.
-
-  * The ~/.config/rmw directory is no longer used. It can be deleted,
-  but you may first want to copy your old configuration file to the new
-  location.
-
-  See https://github.com/theimpossibleastronaut/rmw/blob/v0.7.04/ChangeLog for more details.
+  See https://github.com/theimpossibleastronaut/rmw/blob/v0.7.05/ChangeLog for more details.
