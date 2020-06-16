@@ -2,13 +2,11 @@
 
 2020-06-16
 
+  * rmw v0.7.05 released
+
   * rmw will now refuse to move a waste folder or a file that resides
   within a waste folder (This feature was in place before, but at some
   point Andy accidentally removed the code).
-
-2020-06-13
-
-  * rmw v0.7.05 released
 
 2020-06-07
 
