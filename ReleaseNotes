@@ -1,16 +1,20 @@
 === RMW Release Notes ===
 
+  * Fix for compiling with gcc 10 (Thanks to muralikodali and GazL)
+
+  * rmw will now refuse to move a waste folder or a file that resides
+  within a waste folder (This feature was in place before, but at some
+  point Andy accidentally removed the code).
+
   * Feature removed: restore with '-z' using only the basename from any
   directory. User must be in a Trash directory or specify the full path
   (e.g. rmw -z ~/.local/share/Trash/foo.bar). For details, see issue
   #272.
 
-  * Fixed broken purge test
-
-  * Fix for compiling with gcc 10 (Thanks to muralikodali and GazL)
-
   * Added '-R' option, changed '--recurse' option to '--recursive',
   added recursive (rm compatibility) options in --help output, fixed
   message shown when using '-r, --recursive'
+
+  * Fixed broken purge test
 
   See https://github.com/theimpossibleastronaut/rmw/blob/v0.7.05/ChangeLog for more details.
