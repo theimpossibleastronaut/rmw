@@ -38,15 +38,13 @@
  * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
  */
 
-typedef struct st_config st_config;
-
-struct st_config {
+typedef struct st_config {
   const char *dir;
   char file[LEN_MAX_PATH];
   st_waste *st_waste_folder_props_head;
   int purge_after;
   bool force_required;
-};
+} st_config;
 
 struct st_vars_to_check {
   const char *name;

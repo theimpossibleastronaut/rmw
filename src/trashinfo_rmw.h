@@ -36,11 +36,10 @@
 
 extern const int LEN_MAX_TRASHINFO_LINE;
 
-typedef struct st_waste st_waste;
-
 /** Each waste directory is added to a linked list and has the data
  * from this structure associated with it.
  */
+typedef struct st_waste st_waste;
 struct st_waste
 {
   /** The parent directory, e.g. $HOME/.local/share/Trash */
@@ -74,11 +73,9 @@ struct st_waste
   st_waste *next_node;
 };
 
-typedef struct rmw_target rmw_target;
-
 /** Holds information about a file that was specified for rmw'ing
  */
-struct rmw_target
+typedef struct rmw_target
 {
   /** Replaced by the filename to be rmw'ed, usually specified on the command line */
   const char *main_argv;
@@ -99,7 +96,7 @@ struct rmw_target
    * will be appended to \ref dest_name
    */
   bool is_duplicate;
-};
+} rmw_target;
 
 struct st__trashinfo {
   const char *str;

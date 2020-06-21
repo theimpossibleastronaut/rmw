@@ -36,21 +36,18 @@
 #include <time.h>
 #include <dirent.h>
 
-typedef struct st_time st_time;
-
 #define LEN_MAX_DELETION_DATE (19 + 1)
 #define LEN_MAX_TIME_STR_SUFFIX (14 + 1)
 #define SECONDS_IN_A_DAY (60 * 60 * 24)
 
 /*! Holds variables related to time
  */
-struct st_time {
+typedef struct st_time {
   char suffix_added_dup_exists[LEN_MAX_TIME_STR_SUFFIX];
   char t_fmt[LEN_MAX_DELETION_DATE];
   char deletion_date[LEN_MAX_DELETION_DATE];
   time_t now;
-};
-
+} st_time;
 
 void
 init_time_vars (st_time *st_time_var);

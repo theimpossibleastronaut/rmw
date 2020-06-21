@@ -27,10 +27,8 @@
 
 #include <getopt.h>
 
-typedef struct rmw_options rmw_options;
-
 /** CLI option switches for rmw. */
-struct rmw_options
+typedef struct rmw_options
 {
   bool want_restore;
   bool want_purge;
@@ -44,7 +42,7 @@ struct rmw_options
   bool list;
   /*! Alternate configuration file given at the command line with -c */
   const char *alt_config;
-};
+} rmw_options;
 
 void
 init_rmw_options (rmw_options *options);

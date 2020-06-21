@@ -35,12 +35,11 @@
 
 #define STR_ENABLE_TEST "RMWTEST_HOME"
 
-typedef struct st_removed st_removed;
-
 /*!
  * Holds a list of files that rmw will be ReMoving.
  */
-struct st_removed{
+typedef struct st_removed st_removed;
+struct st_removed {
   char file[LEN_MAX_PATH];
   st_removed *next_node;
 };

@@ -22,7 +22,8 @@ typedef int (*comparer) (const char *, const char *);
 /*! Used for @ref restore_select() and contains info about each file
  * in the waste folder
  */
-typedef struct st_node
+typedef struct st_node st_node;
+struct st_node
 {
   /*! Holds the filename */
   char data[LEN_MAX_PATH];
@@ -31,11 +32,11 @@ typedef struct st_node
   char size_str[LEN_MAX_HUMAN_READABLE_SIZE];
 
   /*! Left node of the binary search tree */
-  struct st_node *left;
+  st_node *left;
 
   /*! Right node of the binary search tree */
-  struct st_node *right;
-} st_node;
+  st_node *right;
+};
 
 st_node *insert_node (st_node * root, comparer compare, char *data, char *size_str);
 
