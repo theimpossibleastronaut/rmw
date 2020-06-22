@@ -28,7 +28,7 @@
 #include <getopt.h>
 
 /** CLI option switches for rmw. */
-typedef struct rmw_options
+typedef struct
 {
   bool want_restore;
   bool want_purge;

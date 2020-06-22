@@ -75,7 +75,7 @@ struct st_waste
 
 /** Holds information about a file that was specified for rmw'ing
  */
-typedef struct rmw_target
+typedef struct
 {
   /** Replaced by the filename to be rmw'ed, usually specified on the command line */
   const char *main_argv;

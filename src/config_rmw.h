@@ -38,7 +38,7 @@
  * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
  */
 
-typedef struct st_config {
+typedef struct {
   const char *dir;
   char file[LEN_MAX_PATH];
   st_waste *st_waste_folder_props_head;

@@ -42,7 +42,7 @@
 
 /*! Holds variables related to time
  */
-typedef struct st_time {
+typedef struct {
   char suffix_added_dup_exists[LEN_MAX_TIME_STR_SUFFIX];
   char t_fmt[LEN_MAX_DELETION_DATE];
   char deletion_date[LEN_MAX_DELETION_DATE];
