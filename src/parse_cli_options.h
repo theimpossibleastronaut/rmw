@@ -36,6 +36,7 @@ typedef struct
   bool want_orphan_chk;
   bool want_selection_menu;
   bool want_undo;
+  bool want_most_recent;
   bool want_dry_run;
   int force;
   /*! list waste folder option */

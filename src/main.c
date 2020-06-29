@@ -133,6 +133,11 @@ Please check your configuration file and permissions\
   }
 
   const char *mrl_file = get_most_recent_list_filename (data_dir);
+  if (verbose)
+    printf ("most recent list (mrl file): %s\n", mrl_file);
+
+  if (cli_user_options.want_most_recent)
+    most_recent_list (mrl_file, &cli_user_options);
 
   if (cli_user_options.want_undo)
   {
@@ -177,7 +182,10 @@ Please check your configuration file and permissions\
       return result;
     }
   }
-  else if (! cli_user_options.want_purge && ! cli_user_options.want_empty_trash && ! init_data_dir)
+  else if (! cli_user_options.want_purge &&
+          ! cli_user_options.want_empty_trash &&
+          ! init_data_dir &&
+          ! cli_user_options.want_most_recent)
   {
     printf (_("Insufficient command line arguments given;\n\
 Enter '%s -h' for more information\n"), argv[0]);
@@ -497,5 +505,28 @@ create_undo_file (st_removed *removals_head, const char* mrl_file)
   else
     open_err (mrl_file, __func__);
 
+  return;
+}
+
+void
+most_recent_list (const char *mrl_file, const rmw_options * cli_user_options)
+{
+  FILE *fd;
+  fd = fopen (mrl_file, "r");
+
+  if (fd)
+  {
+    char line[LEN_MAX_PATH];
+    while (fgets (line, sizeof line, fd) != NULL)
+    {
+      trim_white_space (line);
+      puts (line);
+    }
+
+    close_file (fd, mrl_file, __func__);
+    return;
+  }
+
+  open_err (mrl_file, __func__);
   return;
 }
