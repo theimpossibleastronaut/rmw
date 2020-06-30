@@ -144,7 +144,7 @@ Please check your configuration file and permissions\
     {
       if (cli_user_options.want_most_recent)
       {
-        puts (mrl_contents);
+        printf ("%s", mrl_contents);
         free (mrl_contents);
       }
       else
@@ -536,7 +536,8 @@ get_mrl_contents (const char *mrl_file)
     const int f_size = ftell (fd);
     fseek(fd, 0, SEEK_SET);
 
-    char *contents = malloc (f_size + 1);
+    char *contents = calloc (f_size + 1, 1);
+    chk_malloc (contents, __func__, __LINE__);
     fread(contents, f_size + 1, 1, fd);
     close_file (fd, mrl_file, __func__);
 

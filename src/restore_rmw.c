@@ -382,13 +382,11 @@ undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file,
     char *line = strtok (mrl_contents, "\n");
     while (line != NULL)
     {
-      // trim_white_space (line);
-      // int result = restore (line, waste_head, st_time_var, cli_user_options);
-      puts (line);
+      int result = restore (line, waste_head, st_time_var, cli_user_options);
       line = strtok (NULL, "\n");
 
-      // msg_warn_restore (result);
-      // err_ctr += result;
+      msg_warn_restore (result);
+      err_ctr += result;
     }
 
     free (mrl_contents);
@@ -397,7 +395,7 @@ undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file,
     {
       int result = 0;
       if (cli_user_options->want_dry_run == false)
-        // result = remove (mrl_file);
+        result = remove (mrl_file);
       if (result)
       {
         print_msg_error ();
