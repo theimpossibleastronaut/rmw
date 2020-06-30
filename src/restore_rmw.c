@@ -376,30 +376,28 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
  * Reads the `mrl` file and restores the files listed inside
  */
 void
-undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options)
+undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options, char *mrl_contents)
 {
-  FILE *fd;
-  fd = fopen (mrl_file, "r");
-
-  if (fd)
-  {
-    char line[LEN_MAX_PATH];
     int err_ctr = 0;
-    while (fgets (line, sizeof line, fd) != NULL)
+    char *line = strtok (mrl_contents, "\n");
+    while (line != NULL)
     {
-      trim_white_space (line);
-      int result = restore (line, waste_head, st_time_var, cli_user_options);
-      msg_warn_restore (result);
-      err_ctr += result;
+      // trim_white_space (line);
+      // int result = restore (line, waste_head, st_time_var, cli_user_options);
+      puts (line);
+      line = strtok (NULL, "\n");
+
+      // msg_warn_restore (result);
+      // err_ctr += result;
     }
 
-    close_file (fd, mrl_file, __func__);
+    free (mrl_contents);
 
     if (err_ctr == 0)
     {
       int result = 0;
       if (cli_user_options->want_dry_run == false)
-        result = remove (mrl_file);
+        // result = remove (mrl_file);
       if (result)
       {
         print_msg_error ();
@@ -409,11 +407,6 @@ undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file,
 
       return;
     }
-
-    return;
-  }
-
-  open_err (mrl_file, __func__);
   return;
 }
 #endif /* TEST_LIB */

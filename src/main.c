@@ -136,14 +136,31 @@ Please check your configuration file and permissions\
   if (verbose)
     printf ("most recent list (mrl file): %s\n", mrl_file);
 
-  if (cli_user_options.want_most_recent)
-    most_recent_list (mrl_file, &cli_user_options);
-
-  if (cli_user_options.want_undo)
+  if (cli_user_options.want_most_recent || cli_user_options.want_undo)
   {
-    undo_last_rmw (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file, &cli_user_options);
-    dispose_waste (st_config_data.st_waste_folder_props_head);
-    return 0;
+    char *mrl_contents = get_mrl_contents (mrl_file);
+
+    if (mrl_contents != NULL)
+    {
+      if (cli_user_options.want_most_recent)
+      {
+        puts (mrl_contents);
+        free (mrl_contents);
+      }
+      else
+      if (cli_user_options.want_undo)
+      {
+        undo_last_rmw (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file, &cli_user_options, mrl_contents);
+        dispose_waste (st_config_data.st_waste_folder_props_head);
+        return 0;
+      }
+    }
+    // else
+      /* There's already an error message displayed in get_mrl_contents(),
+       * but probably need something more user-friendly. One or the other but not
+       * bother.
+       *
+        puts ("Most recent list not found"); */
   }
 
   if (cli_user_options.want_restore)
@@ -260,7 +277,6 @@ get_data_rmw_home_dir (void)
   ptr = &data_rmw_home[0];
   return ptr;
 }
-
 
 const char*
 get_most_recent_list_filename (const char* data_dir)
@@ -508,25 +524,25 @@ create_undo_file (st_removed *removals_head, const char* mrl_file)
   return;
 }
 
-void
-most_recent_list (const char *mrl_file, const rmw_options * cli_user_options)
+char*
+get_mrl_contents (const char *mrl_file)
 {
   FILE *fd;
   fd = fopen (mrl_file, "r");
 
   if (fd)
   {
-    char line[LEN_MAX_PATH];
-    while (fgets (line, sizeof line, fd) != NULL)
-    {
-      trim_white_space (line);
-      puts (line);
-    }
+    fseek (fd, 0, SEEK_END);
+    const int f_size = ftell (fd);
+    fseek(fd, 0, SEEK_SET);
 
+    char *contents = malloc (f_size + 1);
+    fread(contents, f_size + 1, 1, fd);
     close_file (fd, mrl_file, __func__);
-    return;
+
+    return contents;
   }
 
   open_err (mrl_file, __func__);
-  return;
+  return NULL;
 }

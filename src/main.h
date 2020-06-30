@@ -81,7 +81,7 @@ create_undo_file (st_removed *removals_head, const char *mrl);
 void
 dispose_removed (st_removed *node);
 
-void
-most_recent_list (const char *mrl_file, const rmw_options * cli_user_options);
+char*
+get_mrl_contents (const char *mrl_file);
 
 #endif
