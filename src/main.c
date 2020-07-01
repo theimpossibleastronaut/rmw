@@ -148,19 +148,23 @@ Please check your configuration file and permissions\
         free (mrl_contents);
       }
       else
-      if (cli_user_options.want_undo)
-      {
         undo_last_rmw (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file, &cli_user_options, mrl_contents);
-        dispose_waste (st_config_data.st_waste_folder_props_head);
-        return 0;
-      }
     }
-    // else
-      /* There's already an error message displayed in get_mrl_contents(),
+    else
+    {
+      /* If NULL was returned by get_mrl_contents(), it should already have displayed an error message;
        * but probably need something more user-friendly. One or the other but not
-       * bother.
+       * both. It's not really an error if there's no mrl file; under normal circumstances, that just
+       * means 1 of 2 things: no files have been rmw'ed since the last undo, or rmw hasn't been
+       * used yet.
        *
         puts ("Most recent list not found"); */
+    }
+    /* We can exit the program here, which means rmw will effectively ignore any other
+     * options or filenames passed on the command line; there isn't any good reason to use
+     * either -u or -m with other options. */
+    dispose_waste (st_config_data.st_waste_folder_props_head);
+    return 0;
   }
 
   if (cli_user_options.want_restore)
@@ -201,8 +205,7 @@ Please check your configuration file and permissions\
   }
   else if (! cli_user_options.want_purge &&
           ! cli_user_options.want_empty_trash &&
-          ! init_data_dir &&
-          ! cli_user_options.want_most_recent)
+          ! init_data_dir)
   {
     printf (_("Insufficient command line arguments given;\n\
 Enter '%s -h' for more information\n"), argv[0]);
@@ -532,9 +535,9 @@ get_mrl_contents (const char *mrl_file)
 
   if (fd)
   {
-    fseek (fd, 0, SEEK_END);
-    const int f_size = ftell (fd);
-    fseek(fd, 0, SEEK_SET);
+    fseek (fd, 0, SEEK_END); // move to the end of the file so we can use ftell()
+    const int f_size = ftell (fd); // Get the size of the file
+    fseek(fd, 0, SEEK_SET); // Go back to the the beginning of the file
 
     char *contents = calloc (f_size + 1, 1);
     chk_malloc (contents, __func__, __LINE__);
