@@ -178,19 +178,19 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
       options->want_purge = true;
       break;
     case 'o':
-      options->want_orphan_chk = 1;
+      options->want_orphan_chk = true;
       break;
     case 'z':
       options->want_restore = true;
       break;
     case 's':
-      options->want_selection_menu = 1;
+      options->want_selection_menu = true;
       break;
     case 'u':
-      options->want_undo = 1;
+      options->want_undo = true;
       break;
     case 'm':
-      options->list_most_recent = 1;
+      options->list_most_recent = true;
       break;
     case 'w':
       warranty ();
