@@ -115,7 +115,7 @@ init_rmw_options (rmw_options *x)
   x->want_orphan_chk = false;
   x->want_selection_menu = false;
   x->want_undo = false;
-  x->want_most_recent = false;
+  x->list_most_recent = false;
   x->force = 0;
   x->list = false;
   x->alt_config = NULL;
@@ -190,7 +190,7 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
       options->want_undo = 1;
       break;
     case 'm':
-      options->want_most_recent = 1;
+      options->list_most_recent = 1;
       break;
     case 'w':
       warranty ();

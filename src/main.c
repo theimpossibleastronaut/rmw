@@ -136,13 +136,13 @@ Please check your configuration file and permissions\
   if (verbose)
     printf ("most recent list (mrl file): %s\n", mrl_file);
 
-  if (cli_user_options.want_most_recent || cli_user_options.want_undo)
+  if (cli_user_options.list_most_recent || cli_user_options.want_undo)
   {
     char *mrl_contents = get_mrl_contents (mrl_file);
 
     if (mrl_contents != NULL)
     {
-      if (cli_user_options.want_most_recent)
+      if (cli_user_options.list_most_recent)
       {
         printf ("%s", mrl_contents);
         free (mrl_contents);
