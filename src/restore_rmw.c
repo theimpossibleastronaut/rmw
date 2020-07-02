@@ -45,7 +45,7 @@
  * will it really be argv.
  */
 int
-restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options)
+restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_options)
 {
   static struct restore
   {
@@ -353,9 +353,9 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
         if (item_value (items[i]) == TRUE)
         {
           static char recover_file[PATH_MAX + 1];
-          sprintf (recover_file, "%s%s", waste_curr->files, item_name (items[i]));
+          snprintf (recover_file, sizeof (recover_file), "%s%s", waste_curr->files, item_name (items[i]));
           /* waste_curr, not waste_head should always be passed here */
-          msg_warn_restore(restore (recover_file, waste_curr, st_time_var, cli_user_options));
+          msg_warn_restore(restore (recover_file, st_time_var, cli_user_options));
         }
       }
     }
@@ -376,15 +376,15 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
  * Restores files from the mrl
  */
 void
-undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options, char *mrl_contents)
+undo_last_rmw (st_time *st_time_var, const rmw_options * cli_user_options, char *mrl_contents)
 {
     int err_ctr = 0;
     char *line = strtok (mrl_contents, "\n");
     while (line != NULL)
     {
-      int result = restore (line, waste_head, st_time_var, cli_user_options);
+      trim_white_space (line);
+      int result = restore (line, st_time_var, cli_user_options);
       line = strtok (NULL, "\n");
-
       msg_warn_restore (result);
       err_ctr += result;
     }

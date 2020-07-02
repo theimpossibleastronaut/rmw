@@ -299,7 +299,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   /* and the files... */
   int req_len = multi_strlen (waste_curr->parent, "/files/", NULL) + 1;
   bufchk_len (req_len, sizeof waste_curr->files, __func__, __LINE__);
-  sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
+  snprintf (waste_curr->files, req_len, "%s%s", waste_curr->parent, "/files/");
 
   if (! exists (waste_curr->files))
   {
@@ -315,7 +315,9 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
    * was ok
    *
    */
-  sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
+  req_len = multi_strlen (waste_curr->parent, "/info/", NULL) + 1;
+  bufchk_len (req_len, sizeof waste_curr->info, __func__, __LINE__);
+  snprintf (waste_curr->info, req_len, "%s%s", waste_curr->parent, "/info/");
 
   if (! exists (waste_curr->info))
   {

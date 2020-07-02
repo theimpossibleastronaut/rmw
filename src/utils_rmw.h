@@ -49,7 +49,7 @@ bool
 user_verify (void);
 
 bool
-is_modified (const char* file, const int dev, const int inode);
+is_modified (const char* file, const unsigned long int dev, const unsigned long int inode);
 
 bool
 escape_url (const char *str, char *dest, const int len);

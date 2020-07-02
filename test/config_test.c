@@ -45,7 +45,7 @@ test_del_char_shift_left (void)
   assert (!strcmp (l_ptr, "ello, World"));
 }
 
-int main (int argc, char *argv[])
+int main (void)
 {
 
   test_realize_waste_line ();
