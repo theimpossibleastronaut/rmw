@@ -102,4 +102,3 @@ AC_CONFIG_FILES([test/create-some-files.sh], [chmod +x test/create-some-files.sh
 
 AC_OUTPUT
 echo ""
-echo "$CC"
