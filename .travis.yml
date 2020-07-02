@@ -5,15 +5,12 @@ matrix:
   include:
     - os: linux
       dist: xenial
-      compiler: gcc
+      compiler: gcc # defaults to version 5 on xenial
       addons:
         apt:
           packages:
             - valgrind
       env: DISTCHECK_ONLY="true" COMPILER="default"
-    - os: linux
-      dist: bionic
-      compiler: gcc
     - os: linux
       dist: bionic
       compiler: gcc
@@ -36,8 +33,7 @@ matrix:
       env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
     - os: linux
       dist: bionic
-      compiler: gcc
-      env: MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      compiler: gcc # defaults to version 7 on bionic
     - os: linux
       dist: bionic
       compiler: gcc
