@@ -33,7 +33,7 @@ AM_MAINTAINER_MODE
 AC_PROG_RANLIB
 AM_PROG_AR
 
-EXTRA_CFLAGS="-fno-common"
+EXTRA_CFLAGS="-Wextra -fno-common -fstack-protector-strong -D_FORTIFY_SOURCE=2 -Werror=format-security -Wformat-overflow=2"
 AC_SUBST([EXTRA_CFLAGS])
 
 AX_WITH_CURSES
