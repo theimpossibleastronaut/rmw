@@ -33,7 +33,28 @@ AM_MAINTAINER_MODE
 AC_PROG_RANLIB
 AM_PROG_AR
 
-EXTRA_CFLAGS="-Wextra -fno-common -fstack-protector-strong -D_FORTIFY_SOURCE=2 -Werror=format-security -Wformat-overflow=2"
+EXTRA_CFLAGS="-Wextra -fno-common"
+
+AX_CHECK_COMPILE_FLAG(-fstack-protector-strong, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no])
+if test "x$ax_gcc_flag_option" = "xyes"; then
+        EXTRA_CFLAGS+=" -fstack-protector-strong"
+fi
+
+AX_CHECK_COMPILE_FLAG(-Werror=format-security, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no])
+if test "x$ax_gcc_flag_option" = "xyes"; then
+        EXTRA_CFLAGS+=" -Werror=format-security"
+fi
+
+AX_CHECK_COMPILE_FLAG(-Wformat-overflow=2, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no])
+if test "x$ax_gcc_flag_option" = "xyes"; then
+        EXTRA_CFLAGS+=" -Wformat-overflow=2"
+fi
+
+AX_CHECK_COMPILE_FLAG(-D_FORTIFY_SOURCE=2, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no])
+if test "x$ax_gcc_flag_option" = "xyes"; then
+        EXTRA_CFLAGS+=" -D_FORTIFY_SOURCE=2"
+fi
+
 AC_SUBST([EXTRA_CFLAGS])
 
 AX_WITH_CURSES
@@ -81,3 +102,4 @@ AC_CONFIG_FILES([test/create-some-files.sh], [chmod +x test/create-some-files.sh
 
 AC_OUTPUT
 echo ""
+echo "$CC"
