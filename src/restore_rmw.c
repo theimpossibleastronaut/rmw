@@ -53,7 +53,10 @@ restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_op
     char relative_path[LEN_MAX_PATH];
     char dest[LEN_MAX_PATH];
     char info[LEN_MAX_PATH];
+    char relative_info_path[9];
   } file;
+
+  sprintf (file.relative_info_path, "%s", "../info/");
 
   bufchk (argv, LEN_MAX_PATH);
   char file_arg[LEN_MAX_PATH];
@@ -65,17 +68,19 @@ restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_op
     strcpy (file.relative_path, file_arg);
 
     truncate_str (file.relative_path, strlen (file.base_name));
-
-    int req_len = multi_strlen (file.relative_path, "../info/", file.base_name, TRASHINFO_EXT, NULL) + 1;
-    snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, "../info/",
+    long unsigned int req_len = multi_strlen (file.relative_path, file.relative_info_path, file.base_name, TRASHINFO_EXT, NULL) + 1;
+    if (req_len > sizeof file.info)
+    {
+      print_msg_error ();
+      fprintf (stderr, "Overflow averted -- %s -- func:%s\n", file.relative_path, __func__);
+      exit (EXIT_BUF_ERR);
+    }
+    snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, file.relative_info_path,
              file.base_name, TRASHINFO_EXT);
-    bufchk  (file.info, LEN_MAX_PATH);
 
 #ifdef DEBUG
     printf ("restore()/debug: %s\n", file.info);
 #endif
-
-    bufchk (file.info, LEN_MAX_PATH);
 
     FILE *fp;
 

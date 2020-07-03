@@ -125,4 +125,7 @@ script:
       make check;
     else
       make distcheck;
+      make distclean;
+      ../configure --enable-release;
+      make V=1;
     fi
