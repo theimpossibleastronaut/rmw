@@ -542,6 +542,16 @@ get_mrl_contents (const char *mrl_file)
     char *contents = calloc (f_size + 1, 1);
     chk_malloc (contents, __func__, __LINE__);
     fread(contents, f_size + 1, 1, fd);
+    if (feof (fd) == 0)
+    {
+      print_msg_error ();
+      /* I think the only time there'd be an error at this point is if the user
+       * was having a hard drive failure. Not going to do any more error-handling than
+       * just to print a message */
+      fprintf (stderr, "while reading %s\n", mrl_file);
+      clearerr (fd);
+    }
+
     close_file (fd, mrl_file, __func__);
 
     return contents;
