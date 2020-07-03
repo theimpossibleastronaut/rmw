@@ -5486,7 +5486,8 @@ if test "x$ax_gcc_flag_option" = "xyes"; then
         EXTRA_CFLAGS+=" -Wformat-overflow=2"
 fi
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -D_FORTIFY_SOURCE=2" >&5
+if test "x$ax_is_release" = "xyes"; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -D_FORTIFY_SOURCE=2" >&5
 $as_echo_n "checking whether C compiler accepts -D_FORTIFY_SOURCE=2... " >&6; }
 if ${ax_cv_check_cflags___D_FORTIFY_SOURCE_2+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -5521,8 +5522,9 @@ else
   ax_gcc_flag_option=no
 fi
 
-if test "x$ax_gcc_flag_option" = "xyes"; then
-        EXTRA_CFLAGS+=" -D_FORTIFY_SOURCE=2"
+        if test "x$ax_gcc_flag_option" = "xyes"; then
+                EXTRA_CFLAGS+=" -D_FORTIFY_SOURCE=2 -O2"
+        fi
 fi
 
 
