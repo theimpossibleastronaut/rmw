@@ -65,7 +65,7 @@ Restore FILE(s) from a WASTE directory\n\
   -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)\n\
   -s, --select              select files from list to restore\n\
   -u, --undo-last           undo last ReMove\n\
-  -m, --most-recent         list most recently rmw'ed files\n"));
+  -m, --most-recent-list    list most recently rmw'ed files\n"));
   printf (_("\
   \n\n\
 Visit the rmw home page for more help, and information about\n\
@@ -115,7 +115,7 @@ init_rmw_options (rmw_options *x)
   x->want_orphan_chk = false;
   x->want_selection_menu = false;
   x->want_undo = false;
-  x->list_most_recent = false;
+  x->most_recent_list = false;
   x->force = 0;
   x->list = false;
   x->alt_config = NULL;
@@ -138,7 +138,7 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
     {"restore", 1, NULL, 'z'},
     {"select", 0, NULL, 's'},
     {"undo-last", 0, NULL, 'u'},
-    {"most-recent", 0, NULL, 'm'},
+    {"most-recent-list", 0, NULL, 'm'},
     {"warranty", 0, NULL, 'w'},
     {"version", 0, NULL, 'V'},
     {"interactive", 0, NULL, 'i'},
@@ -190,7 +190,7 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
       options->want_undo = true;
       break;
     case 'm':
-      options->list_most_recent = true;
+      options->most_recent_list = true;
       break;
     case 'w':
       warranty ();
