@@ -161,6 +161,7 @@ Please check your configuration file and permissions\
        * used yet.
        *
         puts ("Most recent list not found"); */
+        return -1;
     }
     /* We can exit the program here, which means rmw will effectively ignore any other
      * options or filenames passed on the command line; there isn't any good reason to use
