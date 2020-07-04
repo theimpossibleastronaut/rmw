@@ -59,6 +59,9 @@ test/tmp-home
 /po/Makefile.in
 /po/POTFILES
 
+#cmake
+_cmakebuild
+
 # coverity
 cov-int
 *.tgz

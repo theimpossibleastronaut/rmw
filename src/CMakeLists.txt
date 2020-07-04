@@ -14,7 +14,9 @@ add_executable (${BIN_OUTPUT}
 
 message(STATUS "Searching for curses")
 
+# module needed for the check_include_function
 include(CheckIncludeFile)
+# if these are found, the VARIABLE will be set to true and defined in config.h
 check_include_file("ncursesw/menu.h" HAVE_NCURSESW_MENU_H)
 check_include_file("ncurses/menu.h" HAVE_NCURSES_MENU_H)
 check_include_file("menu.h" HAVE_MENU_H)
@@ -25,11 +27,16 @@ check_include_file(ncurses/curses.h HAVE_NCURSES_CURSES_H)
 check_include_file(ncurses.h HAVE_NCURSES_H)
 check_include_file(curses.h HAVE_CURSES_H)
 
+# module needed for the pkg_check_modules function
 include(FindPkgConfig)
+# uses pkg-config to find the correct linker flags.
+# NCURSES_LDFLAGS (used for target_link... below) will be set to whatever would be output by `pkg-config --libs ncurses`
 pkg_check_modules(NCURSES ncurses)
+# MENU_LDFLAGS will be set to whatever would be output by `pkg-config --libs menu`
 pkg_check_modules(MENU menu)
 
 include(CheckFunctionExists)
+# if the function works, the VARIABLE will be set to true in config.h
 check_function_exists(gettext HAVE_GETTEXT)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/src ${INCLUDE_DIRECTORIES})

@@ -9,5 +9,8 @@ SET(BIN_OUTPUT ${ProjectName})
 
 set(CMAKE_C_FLAGS "-Wall -O0 -DLOCALEDIR=${CMAKE_INSTALL_LOCALEDIR}")
 
+# process CMakeLists.txt in the src subdirectory
 ADD_SUBDIRECTORY( ${CMAKE_SOURCE_DIR}/src )
+
+# writes the config.h file
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/src/config.h)
