@@ -1,5 +1,9 @@
 #define PACKAGE "@ProjectName@"
 #define VERSION "@CMAKE_PROJECT_VERSION@"
+#define PACKAGE_URL "@CMAKE_PROJECT_HOMEPAGE_URL@"
+
+/* Define to the address where bug reports for this package should be sent. */
+#define PACKAGE_BUGREPORT "https://github.com/theimpossibleastronaut/rmw/issues"
 
 #cmakedefine HAVE_NCURSESW_MENU_H @HAVE_NCURSESW_MENU_H@
 #cmakedefine HAVE_NCURSES_MENU_H @HAVE_NCURSES_MENU_H@
@@ -11,3 +15,9 @@
 #cmakedefine HAVE_NCURSES_CURSES_H @HAVE_NCURSES_CURSES_H@
 #cmakedefine HAVE_NCURSES_H @HAVE_NCURSES_H@
 #cmakedefine HAVE_CURSES_H @HAVE_CURSES_H@
+
+#cmakedefine ENABLE_NLS
+
+/* Define if the GNU gettext() function is already present or preinstalled.
+   */
+#cmakedefine HAVE_GETTEXT @HAVE_GETTEXT@

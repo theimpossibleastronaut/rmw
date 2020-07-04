@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 
 SET(ProjectName rmw)
-project(${ProjectName} VERSION 0.7.06.1)
+project(${ProjectName} VERSION 0.7.06.1 HOMEPAGE_URL "https://remove-to-waste.info/")
 
 SET(ProjectName rmw)
 
