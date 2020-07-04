@@ -373,7 +373,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
 }
 
 /*!
- * Reads the `mrl` file and restores the files listed inside
+ * Restores files from the mrl
  */
 void
 undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options, char *mrl_contents)
