@@ -1,0 +1,9 @@
+#cmakedefine HAVE_FEATURE_A @Feature_A_FOUND@
+#cmakedefine HAVE_FEATURE_B @Feature_B_FOUND@
+
+#define PACKAGE "@ProjectName@"
+#define VERSION "@CMAKE_PROJECT_VERSION@"
+
+#cmakedefine CURSES_HAVE_NCURSESW_H
+#cmakedefine CURSES_HAVE_NCURSES_CURSES_H
+
