@@ -18,6 +18,10 @@
 
 #cmakedefine ENABLE_NLS
 
+#define ENABLE_NLS 1
 /* Define if the GNU gettext() function is already present or preinstalled.
    */
 #cmakedefine HAVE_GETTEXT @HAVE_GETTEXT@
+#cmakedefine HAVE_DCGETTEXT @HAVE_DCGETTEXT@
+#cmakedefine HAVE_LIBINTL_H @HAVE_LIBINTL_H@
+

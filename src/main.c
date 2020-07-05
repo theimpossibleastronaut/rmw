@@ -51,9 +51,9 @@ main (const int argc, char* const argv[])
     return 1;
   }
 
-  // setlocale (LC_ALL, "");
-  // bindtextdomain (PACKAGE, LOCALEDIR);
-  // textdomain (PACKAGE);
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain (PACKAGE);
 
   rmw_options cli_user_options;
   init_rmw_options (&cli_user_options);

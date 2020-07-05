@@ -7,7 +7,10 @@ SET(ProjectName rmw)
 
 SET(BIN_OUTPUT ${ProjectName})
 
-set(CMAKE_C_FLAGS "-Wall -O0 -DLOCALEDIR=${CMAKE_INSTALL_LOCALEDIR}")
+set(CMAKE_C_FLAGS "-Wall -O0")
+
+# For gettext, where translation files get installed to
+add_compile_definitions(LOCALEDIR="${CMAKE_INSTALL_LOCALEDIR}")
 
 # process CMakeLists.txt in the src subdirectory
 ADD_SUBDIRECTORY( ${CMAKE_SOURCE_DIR}/src )
