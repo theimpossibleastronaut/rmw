@@ -35,18 +35,26 @@ pkg_check_modules(NCURSES ncurses)
 # MENU_LDFLAGS will be set to whatever would be output by `pkg-config --libs menu`
 pkg_check_modules(MENU menu)
 
-include(CheckFunctionExists)
-# if the function works, the VARIABLE will be set to true in config.h
-check_function_exists(gettext HAVE_GETTEXT)
-check_function_exists(dcgettext HAVE_DCGETTEXT)
+#option(enable-nls "enable nls" ON)
+set(ENABLE_NLS ON CACHE BOOL "Enable-nls")
+set(Gettext_FOUND FALSE)
+if(ENABLE_NLS)
+  include(CheckFunctionExists)
+  # if the function works, the VARIABLE will be set to true in config.h
+  # check_function_exists(gettext HAVE_GETTEXT)
+  #check_function_exists(dcgettext HAVE_DCGETTEXT)
 
-find_package(Intl)
-if(Intl_FOUND)
-  set(EXTERNAL_LIBS ${EXTERNAL_LIBS} ${Intl_LIBRARIES})
-  set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} ${Intl_INCLUDE_DIR})
+  find_package(Intl)
+  if(Intl_FOUND)
+    set(EXTERNAL_LIBS ${EXTERNAL_LIBS} ${Intl_LIBRARIES})
+    set(INCLUDE_DIRECTORIES ${INCLUDE_DIRECTORIES} ${Intl_INCLUDE_DIR})
+  endif()
+
+  find_package(Gettext)
+  if(Gettext_FOUND)
+    set(HAVE_GETTEXT TRUE)
+  endif()
 endif()
-
-find_package(Gettext)
 
 include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_BINARY_DIR}/src ${INCLUDE_DIRECTORIES})
 
