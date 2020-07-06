@@ -64,7 +64,8 @@ Restore FILE(s) from a WASTE directory\n\
   \t===] Restoring [===\n\n\
   -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)\n\
   -s, --select              select files from list to restore\n\
-  -u, --undo-last           undo last ReMove\n"));
+  -u, --undo-last           undo last ReMove\n\
+  -m, --most-recent-list    list most recently rmw'ed files\n"));
   printf (_("\
   \n\n\
 Visit the rmw home page for more help, and information about\n\
@@ -114,6 +115,7 @@ init_rmw_options (rmw_options *x)
   x->want_orphan_chk = false;
   x->want_selection_menu = false;
   x->want_undo = false;
+  x->most_recent_list = false;
   x->force = 0;
   x->list = false;
   x->alt_config = NULL;
@@ -123,7 +125,7 @@ init_rmw_options (rmw_options *x)
 void
 parse_cli_options (const int argc, char* const argv[], rmw_options *options)
 {
-  const char *const short_options = "hvc:goz:lnsuwVfeirR";
+  const char *const short_options = "hvc:goz:lnsumwVfeirR";
 
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
@@ -136,6 +138,7 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
     {"restore", 1, NULL, 'z'},
     {"select", 0, NULL, 's'},
     {"undo-last", 0, NULL, 'u'},
+    {"most-recent-list", 0, NULL, 'm'},
     {"warranty", 0, NULL, 'w'},
     {"version", 0, NULL, 'V'},
     {"interactive", 0, NULL, 'i'},
@@ -175,16 +178,19 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
       options->want_purge = true;
       break;
     case 'o':
-      options->want_orphan_chk = 1;
+      options->want_orphan_chk = true;
       break;
     case 'z':
       options->want_restore = true;
       break;
     case 's':
-      options->want_selection_menu = 1;
+      options->want_selection_menu = true;
       break;
     case 'u':
-      options->want_undo = 1;
+      options->want_undo = true;
+      break;
+    case 'm':
+      options->most_recent_list = true;
       break;
     case 'w':
       warranty ();

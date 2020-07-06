@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2020-06-29
+
+  * add '-m, --most-recent-list' option: list most recently rmw'ed files
+
 2020-06-16
 
   * rmw v0.7.05 released

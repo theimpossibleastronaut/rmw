@@ -146,6 +146,7 @@ Restore FILE(s) from a WASTE directory
 -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)
 -s, --select              select files from list to restore
 -u, --undo-last           undo last ReMove
+-m, --most-recent-list    list most recently rmw'ed files
 
 == Purging ==
 

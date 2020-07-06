@@ -40,6 +40,93 @@
  */
 #ifndef BUILD_LIBRARY
 
+static const char*
+get_most_recent_list_filename (const char* data_dir)
+{
+  const char rel_most_recent_list_filename[] = "mrl";
+  int req_len = multi_strlen (data_dir, "/", rel_most_recent_list_filename, NULL);
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  static char mrl_file[LEN_MAX_PATH];
+  sprintf (mrl_file, "%s/%s", data_dir, rel_most_recent_list_filename);
+  static const char *ptr;
+  ptr = &mrl_file[0];
+  if (verbose)
+    printf ("most recent list (mrl file): %s\n", mrl_file);
+  return ptr;
+}
+
+static char*
+get_mrl_contents (const char *mrl_file)
+{
+  FILE *fd;
+  fd = fopen (mrl_file, "r");
+
+  if (fd)
+  {
+    fseek (fd, 0, SEEK_END); // move to the end of the file so we can use ftell()
+    const int f_size = ftell (fd); // Get the size of the file
+    fseek(fd, 0, SEEK_SET); // Go back to the the beginning of the file
+
+    char *contents = calloc (f_size + 1, 1);
+    chk_malloc (contents, __func__, __LINE__);
+    fread(contents, f_size + 1, 1, fd);
+    if (feof (fd) == 0)
+    {
+      print_msg_error ();
+      /* I think the only time there'd be an error at this point is if the user
+       * was having a hard drive failure. Not going to do any more error-handling than
+       * just to print a message */
+      fprintf (stderr, "while reading %s\n", mrl_file);
+      clearerr (fd);
+    }
+
+    close_file (fd, mrl_file, __func__);
+
+    return contents;
+  }
+
+  open_err (mrl_file, __func__);
+  return NULL;
+}
+
+static void
+process_mrl (st_waste *waste_head,
+    st_time *st_time_var,
+    const char *mrl_file,
+    rmw_options *cli_user_options)
+{
+  char *mrl_contents = get_mrl_contents (mrl_file);
+
+  if (mrl_contents != NULL)
+  {
+    if (cli_user_options->most_recent_list)
+    {
+      printf ("%s", mrl_contents);
+      free (mrl_contents);
+      if (cli_user_options->want_undo)
+        puts (_("Skipping --undo-last because --most-recent-list was requested"));
+    }
+    else
+      undo_last_rmw (waste_head, st_time_var, mrl_file, cli_user_options, mrl_contents);
+  }
+  else
+  {
+    /* If NULL was returned by get_mrl_contents(), it should already have displayed an error message;
+     * but probably need something more user-friendly. One or the other but not
+     * both. It's not really an error if there's no mrl file; under normal circumstances, that just
+     * means 1 of 2 things: no files have been rmw'ed since the last undo, or rmw hasn't been
+     * used yet.
+     *
+      puts ("Most recent list not found"); */
+      exit (-1);
+  }
+  /* We can exit the program here, which means rmw will effectively ignore any other
+   * options or filenames passed on the command line; there isn't any good reason to use
+   * either -u or -m with other options. */
+  dispose_waste (waste_head);
+  exit (0);
+}
+
 int
 main (const int argc, char* const argv[])
 {
@@ -134,12 +221,8 @@ Please check your configuration file and permissions\
 
   const char *mrl_file = get_most_recent_list_filename (data_dir);
 
-  if (cli_user_options.want_undo)
-  {
-    undo_last_rmw (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file, &cli_user_options);
-    dispose_waste (st_config_data.st_waste_folder_props_head);
-    return 0;
-  }
+  if (cli_user_options.most_recent_list || cli_user_options.want_undo)
+    process_mrl (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file, &cli_user_options);
 
   if (cli_user_options.want_restore)
   {
@@ -177,7 +260,9 @@ Please check your configuration file and permissions\
       return result;
     }
   }
-  else if (! cli_user_options.want_purge && ! cli_user_options.want_empty_trash && ! init_data_dir)
+  else if (! cli_user_options.want_purge &&
+          ! cli_user_options.want_empty_trash &&
+          ! init_data_dir)
   {
     printf (_("Insufficient command line arguments given;\n\
 Enter '%s -h' for more information\n"), argv[0]);
@@ -252,21 +337,6 @@ get_data_rmw_home_dir (void)
   ptr = &data_rmw_home[0];
   return ptr;
 }
-
-
-const char*
-get_most_recent_list_filename (const char* data_dir)
-{
-  const char rel_most_recent_list_filename[] = "mrl";
-  int req_len = multi_strlen (data_dir, "/", rel_most_recent_list_filename, NULL);
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  static char mrl_file[LEN_MAX_PATH];
-  sprintf (mrl_file, "%s/%s", data_dir, rel_most_recent_list_filename);
-  static const char *ptr;
-  ptr = &mrl_file[0];
-  return ptr;
-}
-
 
 int
 remove_to_waste (
@@ -499,3 +569,4 @@ create_undo_file (st_removed *removals_head, const char* mrl_file)
 
   return;
 }
+

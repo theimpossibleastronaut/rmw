@@ -83,7 +83,13 @@ set -x
 cat $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo
 test_result $?
 
-echo "\n\ntest undo/restore feature\n\n"
+echo $SEPARATOR
+echo "  == Test -m option"
+$RMW_TEST_CMD_STRING --verbose -m
+test_result $?
+
+echo $SEPARATOR
+echo "  == test undo/restore feature"
 
 set -x
 $RMW_TEST_CMD_STRING --verbose -u
