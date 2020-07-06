@@ -6,13 +6,15 @@ AC_PREREQ(2.69)
 AC_CONFIG_HEADERS([src/config.h:config.in])
 
 AX_IS_RELEASE([git-directory])
-# Define the variables listed in the second argument if debug is
-# enabled, defaulting to no variables. Defines the variables listed in
-# the third argument if debug is disabled, defaulting to NDEBUG. All
-# lists of variables should be space-separated.
-#
-# A "yes" value will be overridden by the value returned by AX_IS_RELEASE()
-AX_CHECK_ENABLE_DEBUG([yes])
+
+# Also provide an argument to enable a release build manually
+AC_ARG_ENABLE([release],
+    AS_HELP_STRING([--enable-release], [Enable release build (Default: disabled unless .git directory is present]))
+AS_IF([test "x$enable_release" = "xyes"], [ax_is_release=yes])
+
+# A "yes" value would be overridden by the value of $ax_is_release, returned by AX_IS_RELEASE()
+# or set using --enable-release.
+AX_CHECK_ENABLE_DEBUG([no])
 
 AC_PROG_CC
 AC_PROG_CC_STDC
@@ -33,7 +35,29 @@ AM_MAINTAINER_MODE
 AC_PROG_RANLIB
 AM_PROG_AR
 
-EXTRA_CFLAGS="-fno-common"
+EXTRA_CFLAGS="-Wextra -fno-common"
+
+AX_CHECK_COMPILE_FLAG(-Werror=format-security, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no])
+if test "x$ax_gcc_flag_option" = "xyes"; then
+        EXTRA_CFLAGS+=" -Werror=format-security"
+fi
+
+AX_CHECK_COMPILE_FLAG(-Wformat-overflow=2, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no])
+if test "x$ax_gcc_flag_option" = "xyes"; then
+        EXTRA_CFLAGS+=" -Wformat-overflow=2"
+fi
+
+if test "x$ax_is_release" = "xyes"; then
+        AX_CHECK_COMPILE_FLAG(-fstack-protector-strong, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no])
+        if test "x$ax_gcc_flag_option" = "xyes"; then
+                EXTRA_CFLAGS+=" -fstack-protector-strong"
+        fi
+        AX_CHECK_COMPILE_FLAG(-D_FORTIFY_SOURCE=2, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no])
+        if test "x$ax_gcc_flag_option" = "xyes"; then
+                EXTRA_CFLAGS+=" -D_FORTIFY_SOURCE=2 -O2"
+        fi
+fi
+
 AC_SUBST([EXTRA_CFLAGS])
 
 AX_WITH_CURSES
@@ -80,4 +104,7 @@ AC_CONFIG_FILES([test/buffer_overrun.sh], [chmod +x test/buffer_overrun.sh])
 AC_CONFIG_FILES([test/create-some-files.sh], [chmod +x test/create-some-files.sh])
 
 AC_OUTPUT
+echo ""
+echo "    ==[ Options ]=="
+echo "Build for release:        $ax_is_release"
 echo ""

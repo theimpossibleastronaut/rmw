@@ -746,6 +746,7 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_silent_rules
+enable_release
 enable_debug
 enable_largefile
 enable_maintainer_mode
@@ -1403,6 +1404,8 @@ Optional Features:
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-silent-rules   less verbose build output (undo: "make V=1")
   --disable-silent-rules  verbose build output (undo: "make V=0")
+  --enable-release        Enable release build (Default: disabled unless .git
+                          directory is present
   --enable-debug=[yes/info/profile/no]
                           compile with debugging
   --disable-largefile     omit support for large files
@@ -2944,18 +2947,25 @@ else
 fi
 
 
-# Define the variables listed in the second argument if debug is
-# enabled, defaulting to no variables. Defines the variables listed in
-# the third argument if debug is disabled, defaulting to NDEBUG. All
-# lists of variables should be space-separated.
-#
-# A "yes" value will be overridden by the value returned by AX_IS_RELEASE()
+
+# Also provide an argument to enable a release build manually
+# Check whether --enable-release was given.
+if test "${enable_release+set}" = set; then :
+  enableval=$enable_release;
+fi
+
+if test "x$enable_release" = "xyes"; then :
+  ax_is_release=yes
+fi
+
+# A "yes" value would be overridden by the value of $ax_is_release, returned by AX_IS_RELEASE()
+# or set using --enable-release.
 
 
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable debugging" >&5
 $as_echo_n "checking whether to enable debugging... " >&6; }
 
-    ax_enable_debug_default=yes
+    ax_enable_debug_default=no
     ax_enable_debug_is_release=$ax_is_release
 
     # If this is a release, override the default.
@@ -5367,7 +5377,165 @@ unknown)
 esac
 
 
-EXTRA_CFLAGS="-fno-common"
+EXTRA_CFLAGS="-Wextra -fno-common"
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -Werror=format-security" >&5
+$as_echo_n "checking whether C compiler accepts -Werror=format-security... " >&6; }
+if ${ax_cv_check_cflags___Werror_format_security+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="$CFLAGS  -Werror=format-security"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags___Werror_format_security=yes
+else
+  ax_cv_check_cflags___Werror_format_security=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___Werror_format_security" >&5
+$as_echo "$ax_cv_check_cflags___Werror_format_security" >&6; }
+if test "x$ax_cv_check_cflags___Werror_format_security" = xyes; then :
+  ax_gcc_flag_option=yes
+else
+  ax_gcc_flag_option=no
+fi
+
+if test "x$ax_gcc_flag_option" = "xyes"; then
+        EXTRA_CFLAGS+=" -Werror=format-security"
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -Wformat-overflow=2" >&5
+$as_echo_n "checking whether C compiler accepts -Wformat-overflow=2... " >&6; }
+if ${ax_cv_check_cflags___Wformat_overflow_2+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="$CFLAGS  -Wformat-overflow=2"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags___Wformat_overflow_2=yes
+else
+  ax_cv_check_cflags___Wformat_overflow_2=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___Wformat_overflow_2" >&5
+$as_echo "$ax_cv_check_cflags___Wformat_overflow_2" >&6; }
+if test "x$ax_cv_check_cflags___Wformat_overflow_2" = xyes; then :
+  ax_gcc_flag_option=yes
+else
+  ax_gcc_flag_option=no
+fi
+
+if test "x$ax_gcc_flag_option" = "xyes"; then
+        EXTRA_CFLAGS+=" -Wformat-overflow=2"
+fi
+
+if test "x$ax_is_release" = "xyes"; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fstack-protector-strong" >&5
+$as_echo_n "checking whether C compiler accepts -fstack-protector-strong... " >&6; }
+if ${ax_cv_check_cflags___fstack_protector_strong+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="$CFLAGS  -fstack-protector-strong"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags___fstack_protector_strong=yes
+else
+  ax_cv_check_cflags___fstack_protector_strong=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___fstack_protector_strong" >&5
+$as_echo "$ax_cv_check_cflags___fstack_protector_strong" >&6; }
+if test "x$ax_cv_check_cflags___fstack_protector_strong" = xyes; then :
+  ax_gcc_flag_option=yes
+else
+  ax_gcc_flag_option=no
+fi
+
+        if test "x$ax_gcc_flag_option" = "xyes"; then
+                EXTRA_CFLAGS+=" -fstack-protector-strong"
+        fi
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -D_FORTIFY_SOURCE=2" >&5
+$as_echo_n "checking whether C compiler accepts -D_FORTIFY_SOURCE=2... " >&6; }
+if ${ax_cv_check_cflags___D_FORTIFY_SOURCE_2+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$CFLAGS
+  CFLAGS="$CFLAGS  -D_FORTIFY_SOURCE=2"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ax_cv_check_cflags___D_FORTIFY_SOURCE_2=yes
+else
+  ax_cv_check_cflags___D_FORTIFY_SOURCE_2=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+  CFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___D_FORTIFY_SOURCE_2" >&5
+$as_echo "$ax_cv_check_cflags___D_FORTIFY_SOURCE_2" >&6; }
+if test "x$ax_cv_check_cflags___D_FORTIFY_SOURCE_2" = xyes; then :
+  ax_gcc_flag_option=yes
+else
+  ax_gcc_flag_option=no
+fi
+
+        if test "x$ax_gcc_flag_option" = "xyes"; then
+                EXTRA_CFLAGS+=" -D_FORTIFY_SOURCE=2 -O2"
+        fi
+fi
+
 
 
 
@@ -10712,4 +10880,7 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
+echo ""
+echo "    == Options =="
+echo "Build for release:        $ax_is_release"
 echo ""

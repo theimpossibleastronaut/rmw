@@ -83,8 +83,8 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
     struct stat st;
     if (lstat (st_dirname_properties.path, &st))
       msg_err_lstat (__func__, __LINE__);
-    int orig_dev = st.st_dev;
-    int orig_inode = st.st_ino;
+    unsigned long int orig_dev = st.st_dev;
+    unsigned long int orig_inode = st.st_ino;
 
     if (cli_user_options->force >= 2 && ~st.st_mode & S_IWUSR) /* use >= 2 to protect against future changes */
     {
@@ -304,7 +304,7 @@ purge (
       int req_len = multi_strlen (waste_curr->info, st_trashinfo_dir_entry->d_name, NULL) + 1;
       bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       char trashinfo_entry_realpath[req_len];
-      sprintf (trashinfo_entry_realpath, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
+      snprintf (trashinfo_entry_realpath, sizeof (trashinfo_entry_realpath), "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
       time_t then = get_then_time(trashinfo_entry_realpath);
       if (!cli_user_options->want_empty_trash && !then)
@@ -495,7 +495,7 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var)
       /* destination if restored */
       req_len = multi_strlen(waste_curr->parent, "/orphans/", st_file_properties.base_name, NULL) + 1;
       bufchk_len (req_len, sizeof st_file_properties.real_path, __func__, __LINE__);
-      sprintf (st_file_properties.real_path, "%s%s%s", waste_curr->parent, "/orphans/",
+      snprintf (st_file_properties.real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
                st_file_properties.base_name);
 
       if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))

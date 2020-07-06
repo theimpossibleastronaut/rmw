@@ -45,7 +45,7 @@
  * will it really be argv.
  */
 int
-restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options)
+restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_options)
 {
   static struct restore
   {
@@ -53,7 +53,10 @@ restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw
     char relative_path[LEN_MAX_PATH];
     char dest[LEN_MAX_PATH];
     char info[LEN_MAX_PATH];
+    char relative_info_path[9];
   } file;
+
+  sprintf (file.relative_info_path, "%s", "../info/");
 
   bufchk (argv, LEN_MAX_PATH);
   char file_arg[LEN_MAX_PATH];
@@ -65,17 +68,19 @@ restore (const char *argv, st_waste *waste_head, st_time *st_time_var, const rmw
     strcpy (file.relative_path, file_arg);
 
     truncate_str (file.relative_path, strlen (file.base_name));
-
-    int req_len = multi_strlen (file.relative_path, "../info/", file.base_name, TRASHINFO_EXT, NULL) + 1;
-    snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, "../info/",
+    long unsigned int req_len = multi_strlen (file.relative_path, file.relative_info_path, file.base_name, TRASHINFO_EXT, NULL) + 1;
+    if (req_len > sizeof file.info)
+    {
+      print_msg_error ();
+      fprintf (stderr, "Overflow averted -- %s -- func:%s\n", file.relative_path, __func__);
+      exit (EXIT_BUF_ERR);
+    }
+    snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, file.relative_info_path,
              file.base_name, TRASHINFO_EXT);
-    bufchk  (file.info, LEN_MAX_PATH);
 
 #ifdef DEBUG
     printf ("restore()/debug: %s\n", file.info);
 #endif
-
-    bufchk (file.info, LEN_MAX_PATH);
 
     FILE *fp;
 
@@ -353,9 +358,9 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
         if (item_value (items[i]) == TRUE)
         {
           static char recover_file[PATH_MAX + 1];
-          sprintf (recover_file, "%s%s", waste_curr->files, item_name (items[i]));
+          snprintf (recover_file, sizeof (recover_file), "%s%s", waste_curr->files, item_name (items[i]));
           /* waste_curr, not waste_head should always be passed here */
-          msg_warn_restore(restore (recover_file, waste_curr, st_time_var, cli_user_options));
+          msg_warn_restore(restore (recover_file, st_time_var, cli_user_options));
         }
       }
     }
@@ -376,15 +381,15 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
  * Restores files from the mrl
  */
 void
-undo_last_rmw (st_waste *waste_head, st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options, char *mrl_contents)
+undo_last_rmw (st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options, char *mrl_contents)
 {
     int err_ctr = 0;
     char *line = strtok (mrl_contents, "\n");
     while (line != NULL)
     {
-      int result = restore (line, waste_head, st_time_var, cli_user_options);
+      trim_white_space (line);
+      int result = restore (line, st_time_var, cli_user_options);
       line = strtok (NULL, "\n");
-
       msg_warn_restore (result);
       err_ctr += result;
     }

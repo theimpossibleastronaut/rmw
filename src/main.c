@@ -107,7 +107,7 @@ process_mrl (st_waste *waste_head,
         puts (_("Skipping --undo-last because --most-recent-list was requested"));
     }
     else
-      undo_last_rmw (waste_head, st_time_var, mrl_file, cli_user_options, mrl_contents);
+      undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents);
   }
   else
   {
@@ -234,7 +234,6 @@ Please check your configuration file and permissions\
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
       msg_warn_restore(
         restore_errors += restore (argv[file_arg],
-        st_config_data.st_waste_folder_props_head,
         &st_time_var,
         &cli_user_options));
 
@@ -418,7 +417,7 @@ remove_to_waste (
     {
       if (waste_curr->dev_num == st_main_argv_statistics.st_dev)
       {
-        sprintf (st_file_properties.waste_dest_name, "%s%s",
+        snprintf (st_file_properties.waste_dest_name, sizeof (st_file_properties.waste_dest_name), "%s%s",
                   waste_curr->files, st_file_properties.base_name);
 
         /* If a duplicate file exists
