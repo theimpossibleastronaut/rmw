@@ -35,6 +35,6 @@ DEFS = -DLOCALEDIR=\"$(localedir)\"
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a
 librmw_test_a_SOURCES = $(rmw_SOURCES)
-librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB -DBUILD_LIBRARY
+librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB
 
 rmw_LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@

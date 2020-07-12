@@ -38,7 +38,7 @@
  * or if built as a library
  * main() will not be built into the library.
  */
-#ifndef BUILD_LIBRARY
+#ifndef TEST_LIB
 
 static const char*
 get_most_recent_list_filename (const char* data_dir)

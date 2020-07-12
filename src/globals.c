@@ -28,7 +28,7 @@
 
 int verbose = 0;
 
-#ifndef BUILD_LIBRARY
+#ifndef TEST_LIB
 const char *HOMEDIR;
 #else
 const char *HOMEDIR = "/home/andy";
