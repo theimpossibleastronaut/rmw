@@ -11,41 +11,35 @@ fi
 echo "== On first run, directories should get created"
 # show commands that are run
 set -x
-$RMW_TEST_CMD_STRING
-test_result $?
+$RMW_TEST_CMD_STRING || exit $?
 
 echo $SEPARATOR
 echo "List the waste folders..."
 echo "rmw should display folders on removable devices that are not mounted"
 echo $SEPARATOR
-$RMW_TEST_CMD_STRING -lv
-test_result $?
+$RMW_TEST_CMD_STRING -lv || exit $?
+
 echo $SEPARATOR
 output="$($RMW_TEST_CMD_STRING -l | wc -l | sed 's/ //g')"
-test "$output" = "5"
-test_result $?
+test "$output" = "5" || exit $?
 
 echo $SEPARATOR
 
 # Make some temporary files
-mkdir $RMWTEST_HOME/tmp-files && cd $RMWTEST_HOME/tmp-files
-test_result $?
+mkdir $RMWTEST_HOME/tmp-files && cd $RMWTEST_HOME/tmp-files || exit $?
+
 echo "\n\n == creating temporary files to be deleted"
 set -x
 for file in 1 2 3; do
   touch $file
 done
-cd $RMWTEST_HOME/..
-test_result $?
+cd $RMWTEST_HOME/.. || exit $?
 
 echo "\n\n == rmw should be able to operate on multiple files\n"
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/*
-test_result $?
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* || exit $?
 
-test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)"
-test_result $?
-test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)"
-test_result $?
+test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)" || exit $?
+test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)" || exit $?
 
 echo $SEPARATOR
 echo "rmw should append a time_string to duplicate files..."
@@ -53,63 +47,49 @@ cd $RMWTEST_HOME/tmp-files
 for file in 1 2 3; do
   touch $file
 done
-$RMW_TEST_CMD_STRING 1 2 3
-test_result $?
+$RMW_TEST_CMD_STRING 1 2 3 || exit $?
 
 echo "\n\n == Show contents of the files and info directories"
 set -x
 
-test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)"
-test_result $?
-test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)"
-test_result $?
+test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)" || exit $?
+test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)" || exit $?
 
 output="$(ls -A $RMWTEST_HOME/.local/share/Waste/files | wc -l | sed 's/ //g')"
-test "$output" = "6"
-test_result $?
+test "$output" = "6" || exit $?
 
 echo $SEPARATOR
 echo "  == rmw should refuse to move a waste folder or a file that resides within a waste folder"
 output="$($RMW_TEST_CMD_STRING $RMWTEST_HOME/.local/share/Waste/info)"
 test "$output" = " :warning: $RMWTEST_HOME/.local/share/Waste/info resides within a waste folder and has been ignored
-0 files were removed to the waste folder"
-test_result $?
+0 files were removed to the waste folder" || exit $?
 
 # If the file gets removed (which it shouldn't), then the test that follows it will fail
-$RMW_TEST_CMD_STRING $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo || exit $?
 
 echo "\n\n == Display contents of 1.trashinfo "
 set -x
-cat $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo
-test_result $?
+cat $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo || exit $?
 
 echo $SEPARATOR
 echo "  == Test -m option"
-$RMW_TEST_CMD_STRING --verbose -m
-test_result $?
+$RMW_TEST_CMD_STRING --verbose -m || exit $?
 
 echo $SEPARATOR
 echo "  == test undo/restore feature"
 
 set -x
-$RMW_TEST_CMD_STRING --verbose -u
-test_result $?
-$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/1
-test_result $?
-$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/2
-test_result $?
-$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/3
-test_result $?
+$RMW_TEST_CMD_STRING --verbose -u || exit $?
+$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/1 || exit $?
+$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/2 || exit $?
+$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/3 || exit $?
 
 echo "\n\n == test that the files are restored to their previous locations"
 
 set -x
-test -f $RMWTEST_HOME/tmp-files/1
-test_result $?
-test -f $RMWTEST_HOME/tmp-files/2
-test_result $?
-test -f $RMWTEST_HOME/tmp-files/3
-test_result $?
+test -f $RMWTEST_HOME/tmp-files/1 || exit $?
+test -f $RMWTEST_HOME/tmp-files/2 || exit $?
+test -f $RMWTEST_HOME/tmp-files/3 || exit $?
 
 echo "\n\n == test that the .trashinfo files have been removed"
 
@@ -122,8 +102,6 @@ test_result_want_fail $?
 
 test -f $RMWTEST_HOME/.local/share/Waste/info/3.trashinfo
 test_result_want_fail $?
-
-
 
 echo "Basic tests passed"
 exit 0
