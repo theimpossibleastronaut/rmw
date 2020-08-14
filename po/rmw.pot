@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: rmw 0.7.05-dev\n"
+"Project-Id-Version: rmw 0.7.06-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2020-06-16 01:00-0500\n"
+"POT-Creation-Date: 2020-08-14 12:10-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,9 +81,10 @@ msgid ""
 "files/foo*)\n"
 "  -s, --select              select files from list to restore\n"
 "  -u, --undo-last           undo last ReMove\n"
+"  -m, --most-recent-list    list most recently rmw'ed files\n"
 msgstr ""
 
-#: src/parse_cli_options.c:68
+#: src/parse_cli_options.c:69
 #, c-format
 msgid ""
 "  \n"
@@ -143,7 +144,7 @@ msgid_plural "%d files purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/main.c:414
+#: src/main.c:484
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -158,7 +159,7 @@ msgid_plural "%s freed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/main.c:323
+#: src/main.c:392
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
@@ -166,7 +167,7 @@ msgstr ""
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:306
+#: src/restore_rmw.c:311
 msgid "'q' - quit"
 msgstr ""
 
@@ -189,28 +190,28 @@ msgstr[1] ""
 msgid "(check owner/write permissions)\n"
 msgstr ""
 
-#: src/parse_cli_options.c:196
+#: src/parse_cli_options.c:202
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr ""
 
-#: src/parse_cli_options.c:200
+#: src/parse_cli_options.c:206
 #, c-format
 msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr ""
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:299
+#: src/restore_rmw.c:304
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr ""
 
-#: src/restore_rmw.c:300
+#: src/restore_rmw.c:305
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 
-#: src/restore_rmw.c:295
+#: src/restore_rmw.c:300
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -236,7 +237,7 @@ msgstr ""
 msgid "Created directory %s\n"
 msgstr ""
 
-#: src/config_rmw.c:379
+#: src/config_rmw.c:381
 #, c-format
 msgid "Creating default configuration file:"
 msgstr ""
@@ -246,18 +247,18 @@ msgstr ""
 msgid "Directory not purged - still contains files\n"
 msgstr ""
 
-#: src/restore_rmw.c:132
+#: src/restore_rmw.c:137
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:311 src/restore_rmw.c:195
+#: src/main.c:380 src/restore_rmw.c:200
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
 
-#: src/main.c:182
+#: src/main.c:266
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -276,7 +277,7 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr ""
 
-#: src/main.c:404
+#: src/main.c:474
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr ""
@@ -291,17 +292,21 @@ msgstr ""
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 
-#: src/restore_rmw.c:236
+#: src/restore_rmw.c:241
 #, c-format
 msgid "Reading %s...\n"
 msgstr ""
 
-#: src/parse_cli_options.c:73
+#: src/parse_cli_options.c:74
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
 
-#: src/parse_cli_options.c:79
+#: src/main.c:107
+msgid "Skipping --undo-last because --most-recent-list was requested"
+msgstr ""
+
+#: src/parse_cli_options.c:80
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -314,7 +319,7 @@ msgid ""
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 msgstr ""
 
-#: src/main.c:293
+#: src/main.c:362
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr ""
 
@@ -322,17 +327,17 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
-#: src/main.c:94
+#: src/main.c:181
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
 
-#: src/config_rmw.c:405
+#: src/config_rmw.c:407
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr ""
 
-#: src/config_rmw.c:503
+#: src/config_rmw.c:505
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
@@ -363,21 +368,21 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:561
+#: src/config_rmw.c:563
 #, c-format
 msgid "attached"
 msgstr ""
 
-#: src/config_rmw.c:365
+#: src/config_rmw.c:367
 #, c-format
 msgid "config file: %s\n"
 msgstr ""
 
-#: src/parse_cli_options.c:167
+#: src/parse_cli_options.c:170
 msgid "dry-run mode enabled."
 msgstr ""
 
-#: src/restore_rmw.c:406
+#: src/restore_rmw.c:407
 #, c-format
 msgid "failed to remove %s\n"
 msgstr ""
@@ -398,7 +403,7 @@ msgstr ""
 msgid "function: <%s>"
 msgstr ""
 
-#: src/config_rmw.c:516
+#: src/config_rmw.c:518
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -407,7 +412,7 @@ msgid ""
 "visit the rmw web site at\n"
 msgstr ""
 
-#: src/main.c:119
+#: src/main.c:206
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""
@@ -426,7 +431,7 @@ msgstr ""
 msgid "realpath() returned an error.\n"
 msgstr ""
 
-#: src/config_rmw.c:559
+#: src/config_rmw.c:561
 #, c-format
 msgid "removable, "
 msgstr ""
@@ -439,7 +444,7 @@ msgstr ""
 msgid "restore() returned %d\n"
 msgstr ""
 
-#: src/parse_cli_options.c:95
+#: src/parse_cli_options.c:96
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -457,7 +462,7 @@ msgstr ""
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr ""
 
-#: src/main.c:89
+#: src/main.c:176
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -485,7 +490,7 @@ msgstr ""
 msgid "while creating %s\n"
 msgstr ""
 
-#: src/main.c:76
+#: src/main.c:163
 msgid "while getting the path to your home directory\n"
 msgstr ""
 
@@ -506,7 +511,7 @@ msgstr ""
 msgid "while removing %s\n"
 msgstr ""
 
-#: src/restore_rmw.c:161
+#: src/restore_rmw.c:166
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr ""
