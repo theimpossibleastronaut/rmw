@@ -19,8 +19,7 @@ echo "== On first run, directories should get created"
 # show commands that are run
 
 
-$RMW_TEST_CMD_STRING
-test_result $?
+$RMW_TEST_CMD_STRING || exit $?
 
 # Make some temporary files using a fake-year
 mkdir $RMWTEST_HOME/tmp-files
@@ -50,58 +49,46 @@ echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
 
-RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose -c $CONFIG $RMWTEST_HOME/tmp-files/*
-test_result $?
-
+RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose -c $CONFIG $RMWTEST_HOME/tmp-files/* || exit $?
 
 echo
 echo
 echo " == displaying a trashinfo; it shows a DeletionDate of 1999"
 
 
-cat $RMWTEST_HOME/.local/share/Waste/info/abc.trashinfo
-test_result $?
-
+cat $RMWTEST_HOME/.local/share/Waste/info/abc.trashinfo || exit $?
 
 echo
 echo
 echo " == The trashinfo records that these files were rmw'ed in 1999"
 echo " == So they will be purged now."
 
-
-$RMW_TEST_CMD_STRING --verbose --purge
-test_result $?
-
+$RMW_TEST_CMD_STRING --verbose --purge || exit $?
 
 echo
 echo
 echo " == Test that the files are really gone"
 
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)"
-test_result $?
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)"
-test_result $?
-
+test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)" || exit $?
+test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)" || exit $?
 
 echo
 echo
 echo " Creating some files for testing..."
 cd $RMWTEST_HOME
-../create-some-files.sh
-test_result $?
+../create-some-files.sh || exit $?
 
 echo $SEPARATOR
 echo " == rmw should be able to purge directories and subdirectories"
 echo " == even if some of the dirs are read-only"
 
 echo $SEPARATOR
-RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles
-test_result $?
+RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles || exit $?
 
 echo $SEPARATOR
 echo " == only one f, should fail"
-$RMW_TEST_CMD_STRING -f --purge
-test_result $?
+$RMW_TEST_CMD_STRING -f --purge || exit $?
+
 echo $SEPARATOR
 echo " == (files should still be present)"
 test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/files)
@@ -111,32 +98,27 @@ test_result_want_fail $?
 
 echo $SEPARATOR
 echo " == 2 f's, this should pass"
-$RMW_TEST_CMD_STRING -ff --purge
-test_result $?
+$RMW_TEST_CMD_STRING -ff --purge || exit $?
 
 echo
 echo
 echo " == Show that the files are really gone"
 
-test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/files)
-test_result $?
-test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/info)
-test_result $?
+test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/files) || exit $?
+test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/info) || exit $?
 
 echo
 echo
 echo " Creating some files for testing..."
 cd $RMWTEST_HOME
-../create-some-files.sh
-test_result $?
+../create-some-files.sh || exit $?
 
 echo
 echo
 echo " == rmw -e command should completely purge the waste folders,"
 echo " == no matter when they were deleted"
 
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles
-test_result $?
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles || exit $?
 
 set +x
 echo $SEPARATOR
@@ -145,26 +127,20 @@ set -x
 output=`$RMW_PURGE_DISABLED_CMD -eff`
 expected=`echo "purging is disabled ('purge_after' is set to '0')" | cut -b1-20`
 output=`echo $output | cut -b1-20`
-test "$output" = "$expected"
-test_result $?
+test "$output" = "$expected" || exit $?
 
 echo " == Should not work if '-f' isn't used"
 output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
-test "$output" = "purge has been skipped: use -f or --force"
-test_result $?
+test "$output" = "purge has been skipped: use -f or --force" || exit $?
 
 echo " == Should not work if 'Y' or 'y' is not supplied."
-echo "yfw" | $RMW_TEST_CMD_STRING --purge -e
-test_result $?
+echo "yfw" | $RMW_TEST_CMD_STRING --purge -e || exit $?
 
-echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e
-test_result $?
+echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e || exit $?
 
-echo "n" | $RMW_TEST_CMD_STRING --purge -e
-test_result $?
+echo "n" | $RMW_TEST_CMD_STRING --purge -e || exit $?
 
-echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e
-test_result $?
+echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e || exit $?
 
 echo " == (files should still be present)"
 test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/files)
@@ -173,25 +149,20 @@ test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/info)
 test_result_want_fail $?
 
 echo " == Empty works with force empty (-ffe)"
-echo "y" | $RMW_TEST_CMD_STRING -ffe
-test_result $?
+echo "y" | $RMW_TEST_CMD_STRING -ffe || exit $?
 
 echo " == Should work with 'Y' or 'y'"
 create_temp_files
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "y" | $RMW_TEST_CMD_STRING -e
-test_result $?
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "y" | $RMW_TEST_CMD_STRING -e || exit $?
 
 create_temp_files
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "Y" | $RMW_TEST_CMD_STRING -e
-test_result $?
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "Y" | $RMW_TEST_CMD_STRING -e || exit $?
 
 echo
 echo
 echo " == Test that the files are really gone"
 
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)"
-test_result $?
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)"
-test_result $?
+test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)" || exit $?
+test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)" || exit $?
 
 exit 0

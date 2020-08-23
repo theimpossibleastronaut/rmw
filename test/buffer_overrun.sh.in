@@ -26,8 +26,7 @@ set -x
 $RMW_TEST_CMD_STRING $str
 # This assumes and exit code of 12 which may change depending on how
 # the error code is enum'med in rmw.h.
-test "x$?" = "x12"
-test_result $?
+test "x$?" = "x12" || exit $?
 
 set +x
 $SEPARATOR
@@ -43,8 +42,7 @@ do
 done
 
 touch $RMWTEST_HOME/$str
-$RMW_TEST_CMD_STRING $RMWTEST_HOME/$str
-test_result $?
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/$str || exit $?
 
 set +x
 $SEPARATOR
@@ -63,7 +61,6 @@ touch $RMWTEST_HOME/$str
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/$str
 # This assumes and exit code of 12 which may change depending on how
 # the error code is enum'med in rmw.h.
-test "x$?" = "x12"
-test_result $?
+test "x$?" = "x12" || exit $?
 
 exit 0

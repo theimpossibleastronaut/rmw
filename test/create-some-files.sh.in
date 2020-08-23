@@ -5,7 +5,7 @@ if [ ! -e ../VARS ]; then
   exit 1
 fi
 
-mkdir -p somefiles/topdir/dir1/dir2/dir3 &&
+mkdir -p somefiles/topdir/dir1/dir2/dir3 || exit $?
 
 c=1
 while [ $c -lt 25 ]
