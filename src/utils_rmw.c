@@ -173,7 +173,7 @@ is_modified (const char* file, const unsigned long int dev, const unsigned long 
 {
   struct stat st;
   if (lstat (file, &st))
-    msg_err_lstat (__func__, __LINE__);
+    msg_err_lstat (file, __func__, __LINE__);
 
   if (dev == st.st_dev && inode == st.st_ino)
     return false;

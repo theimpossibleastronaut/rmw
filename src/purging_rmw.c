@@ -82,7 +82,7 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
 
     struct stat st;
     if (lstat (st_dirname_properties.path, &st))
-      msg_err_lstat (__func__, __LINE__);
+      msg_err_lstat (st_dirname_properties.path, __func__, __LINE__);
     unsigned long int orig_dev = st.st_dev;
     unsigned long int orig_inode = st.st_ino;
 
@@ -92,7 +92,7 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
       {
         /* Now that the mode has changed, lstat must be run again */
         if (lstat (st_dirname_properties.path, &st))
-          msg_err_lstat (__func__, __LINE__);
+          msg_err_lstat (st_dirname_properties.path, __func__, __LINE__);
         orig_dev = st.st_dev;
         orig_inode = st.st_ino;
       }
@@ -322,7 +322,7 @@ purge (
 
         strcat (corresponding_file_to_purge, temp); /* path to file in <WASTE>/files */
         if (lstat (corresponding_file_to_purge, &st))
-          msg_err_lstat (__func__, __LINE__);
+          msg_err_lstat (corresponding_file_to_purge, __func__, __LINE__);
 
         int orig_dev = st.st_dev;
         int orig_inode = st.st_ino;

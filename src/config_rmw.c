@@ -337,7 +337,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   if (!lstat (waste_curr->parent, &st))
     waste_curr->dev_num = st.st_dev;
   else
-    msg_err_lstat(__func__, __LINE__);
+    msg_err_lstat(waste_curr->parent, __func__, __LINE__);
 
   return waste_curr;
 }

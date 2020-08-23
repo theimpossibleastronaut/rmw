@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2020-08-22
+
+  * If lstat() encounters and error, also display the filename/directory it
+  was attempting to access.
+
 2020-06-29
 
   * add '-m, --most-recent-list' option: list most recently rmw'ed files

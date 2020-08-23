@@ -252,7 +252,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
 
       struct stat st;
       if (lstat (full_path, &st))
-        msg_err_lstat (__func__, __LINE__);
+        msg_err_lstat (full_path, __func__, __LINE__);
       char *hr_size = human_readable_size (st.st_size);
 
       /*

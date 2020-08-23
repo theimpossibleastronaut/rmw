@@ -64,7 +64,7 @@ void
 msg_err_buffer_overrun (const char *func, const int line);
 
 void
-msg_err_lstat (const char *func, const int LINE);
+msg_err_lstat (const char *file, const char *func, const int LINE);
 
 void
 msg_err_remove (const char *file, const char *func);

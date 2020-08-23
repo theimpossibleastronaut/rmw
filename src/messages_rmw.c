@@ -234,11 +234,11 @@ msg_err_buffer_overrun (const char *func, const int line)
  * @return void
  */
 void
-msg_err_lstat (const char *func, const int line)
+msg_err_lstat (const char *file, const char *func, const int line)
 {
   print_msg_error();
   perror ("lstat()");
-  fprintf (stderr, "%s:L%d\n", func, line);
+  fprintf (stderr, "%s in %s:L%d\n", file, func, line);
   exit (ERR_LSTAT);
 }
 
