@@ -246,7 +246,8 @@ int
 purge (
   st_config *st_config_data,
   const rmw_options * cli_user_options,
-  st_time *st_time_var)
+  st_time *st_time_var,
+  int *orphan_ctr)
 {
   if (!st_config_data->purge_after)
   {
@@ -321,8 +322,30 @@ purge (
         truncate_str (temp, strlen (TRASHINFO_EXT)); /* acquire the (basename - trashinfo extension) */
 
         strcat (corresponding_file_to_purge, temp); /* path to file in <WASTE>/files */
+
+        // If the corresponding file wasn't found, either display an error and exit, or remove the
+        // (probably) orphaned trashinfo file.
         if (lstat (corresponding_file_to_purge, &st))
-          msg_err_lstat (corresponding_file_to_purge, __func__, __LINE__);
+        {
+          if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
+          {
+            if (cli_user_options->want_dry_run == false)
+            {
+              if (remove(trashinfo_entry_realpath) != 0)
+                msg_err_remove (trashinfo_entry_realpath, __func__);
+            }
+            printf ("removed '%s'\n", trashinfo_entry_realpath);
+            (*orphan_ctr)++;
+            continue;
+          }
+          else
+          {
+            printf ("While processing %s:\n", trashinfo_entry_realpath);
+            puts ("You can remove the trashinfo file with '-offg'");
+            // Will exit after error
+            msg_err_lstat (corresponding_file_to_purge, __func__, __LINE__);
+          }
+        }
 
         int orig_dev = st.st_dev;
         int orig_inode = st.st_ino;
@@ -454,7 +477,7 @@ purge (
 #ifndef TEST_LIB
 
 short
-orphan_maint (st_waste * waste_head, st_time *st_time_var)
+orphan_maint (st_waste * waste_head, st_time *st_time_var, int *orphan_ctr)
 {
   rmw_target st_file_properties;
 
@@ -465,7 +488,6 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var)
   st_file_properties.is_duplicate = 0;
 
   char path_to_trashinfo[LEN_MAX_PATH];
-  int orphan_ctr = 0;
   st_waste *waste_curr = waste_head;
   while (waste_curr != NULL)
   {
@@ -502,7 +524,7 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var)
       {
         /* TRANSLATORS:  "created" refers to a file  */
         printf (_("Created %s\n"), path_to_trashinfo);
-        orphan_ctr++;
+        (*orphan_ctr)++;
       }
       else
       {
@@ -517,7 +539,7 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var)
     waste_curr = waste_curr->next_node;
   }
 
-  printf ("%d %s found\n", orphan_ctr, orphan_ctr == 1 ? "orphan" : "orphans");
+  printf ("%d %s found\n", *orphan_ctr, *orphan_ctr == 1 ? "orphan" : "orphans");
 
   return 0;
 }

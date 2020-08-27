@@ -198,17 +198,18 @@ Please check your configuration file and permissions\
   st_time st_time_var;
   init_time_vars (&st_time_var);
 
+  int orphan_ctr = 0;
   if (cli_user_options.want_purge || is_time_to_purge(&st_time_var, data_dir))
   {
     if (!st_config_data.force_required || cli_user_options.force)
-      purge (&st_config_data, &cli_user_options, &st_time_var);
+      purge (&st_config_data, &cli_user_options, &st_time_var, &orphan_ctr);
     else
       printf (_("purge has been skipped: use -f or --force\n"));
   }
 
   if (cli_user_options.want_orphan_chk)
   {
-    orphan_maint(st_config_data.st_waste_folder_props_head, &st_time_var);
+    orphan_maint(st_config_data.st_waste_folder_props_head, &st_time_var, &orphan_ctr);
     return 0;
   }
 
