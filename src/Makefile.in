@@ -88,7 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = rmw$(EXEEXT)
+bin_PROGRAMS = $(top_builddir)/rmw$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/build-aux/m4/ax_append_flag.m4 \
@@ -140,16 +140,15 @@ am__objects_1 = librmw_test_a-globals.$(OBJEXT) \
 	librmw_test_a-utils_rmw.$(OBJEXT) librmw_test_a-bst.$(OBJEXT)
 am_librmw_test_a_OBJECTS = $(am__objects_1)
 librmw_test_a_OBJECTS = $(am_librmw_test_a_OBJECTS)
-am_rmw_OBJECTS = rmw-globals.$(OBJEXT) rmw-main.$(OBJEXT) \
-	rmw-restore_rmw.$(OBJEXT) rmw-config_rmw.$(OBJEXT) \
-	rmw-parse_cli_options.$(OBJEXT) rmw-strings_rmw.$(OBJEXT) \
-	rmw-purging_rmw.$(OBJEXT) rmw-messages_rmw.$(OBJEXT) \
-	rmw-time_rmw.$(OBJEXT) rmw-trashinfo_rmw.$(OBJEXT) \
-	rmw-utils_rmw.$(OBJEXT) rmw-bst.$(OBJEXT)
-rmw_OBJECTS = $(am_rmw_OBJECTS)
-rmw_DEPENDENCIES =
-rmw_LINK = $(CCLD) $(rmw_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
-	$@
+am___top_builddir__rmw_OBJECTS = globals.$(OBJEXT) main.$(OBJEXT) \
+	restore_rmw.$(OBJEXT) config_rmw.$(OBJEXT) \
+	parse_cli_options.$(OBJEXT) strings_rmw.$(OBJEXT) \
+	purging_rmw.$(OBJEXT) messages_rmw.$(OBJEXT) \
+	time_rmw.$(OBJEXT) trashinfo_rmw.$(OBJEXT) utils_rmw.$(OBJEXT) \
+	bst.$(OBJEXT)
+__top_builddir__rmw_OBJECTS = $(am___top_builddir__rmw_OBJECTS)
+__top_builddir__rmw_DEPENDENCIES =
+am__dirstamp = $(am__leading_dot)dirstamp
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -181,8 +180,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(librmw_test_a_SOURCES) $(rmw_SOURCES)
-DIST_SOURCES = $(librmw_test_a_SOURCES) $(rmw_SOURCES)
+SOURCES = $(librmw_test_a_SOURCES) $(__top_builddir__rmw_SOURCES)
+DIST_SOURCES = $(librmw_test_a_SOURCES) $(__top_builddir__rmw_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -332,7 +331,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = @CURSES_CFLAGS@
 rmw_CFLAGS = $(AM_CFLAGS) @EXTRA_CFLAGS@
-rmw_SOURCES = \
+__top_builddir__rmw_SOURCES = \
 	globals.c	\
 	main.c	\
 	restore_rmw.c	\
@@ -362,9 +361,9 @@ rmw_SOURCES = \
 
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a
-librmw_test_a_SOURCES = $(rmw_SOURCES)
+librmw_test_a_SOURCES = $(__top_builddir__rmw_SOURCES)
 librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB
-rmw_LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@
+__top_builddir__rmw_LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -464,10 +463,13 @@ librmw_test.a: $(librmw_test_a_OBJECTS) $(librmw_test_a_DEPENDENCIES) $(EXTRA_li
 	$(AM_V_at)-rm -f librmw_test.a
 	$(AM_V_AR)$(librmw_test_a_AR) librmw_test.a $(librmw_test_a_OBJECTS) $(librmw_test_a_LIBADD)
 	$(AM_V_at)$(RANLIB) librmw_test.a
+$(top_builddir)/$(am__dirstamp):
+	@$(MKDIR_P) $(top_builddir)
+	@: > $(top_builddir)/$(am__dirstamp)
 
-rmw$(EXEEXT): $(rmw_OBJECTS) $(rmw_DEPENDENCIES) $(EXTRA_rmw_DEPENDENCIES) 
-	@rm -f rmw$(EXEEXT)
-	$(AM_V_CCLD)$(rmw_LINK) $(rmw_OBJECTS) $(rmw_LDADD) $(LIBS)
+$(top_builddir)/rmw$(EXEEXT): $(__top_builddir__rmw_OBJECTS) $(__top_builddir__rmw_DEPENDENCIES) $(EXTRA___top_builddir__rmw_DEPENDENCIES) $(top_builddir)/$(am__dirstamp)
+	@rm -f $(top_builddir)/rmw$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(__top_builddir__rmw_OBJECTS) $(__top_builddir__rmw_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -552,78 +554,6 @@ librmw_test_a-bst.o: bst.c
 
 librmw_test_a-bst.obj: bst.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_test_a_CFLAGS) $(CFLAGS) -c -o librmw_test_a-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
-
-rmw-globals.o: globals.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-globals.o `test -f 'globals.c' || echo '$(srcdir)/'`globals.c
-
-rmw-globals.obj: globals.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-globals.obj `if test -f 'globals.c'; then $(CYGPATH_W) 'globals.c'; else $(CYGPATH_W) '$(srcdir)/globals.c'; fi`
-
-rmw-main.o: main.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
-
-rmw-main.obj: main.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
-
-rmw-restore_rmw.o: restore_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-restore_rmw.o `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c
-
-rmw-restore_rmw.obj: restore_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-restore_rmw.obj `if test -f 'restore_rmw.c'; then $(CYGPATH_W) 'restore_rmw.c'; else $(CYGPATH_W) '$(srcdir)/restore_rmw.c'; fi`
-
-rmw-config_rmw.o: config_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-config_rmw.o `test -f 'config_rmw.c' || echo '$(srcdir)/'`config_rmw.c
-
-rmw-config_rmw.obj: config_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-config_rmw.obj `if test -f 'config_rmw.c'; then $(CYGPATH_W) 'config_rmw.c'; else $(CYGPATH_W) '$(srcdir)/config_rmw.c'; fi`
-
-rmw-parse_cli_options.o: parse_cli_options.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-parse_cli_options.o `test -f 'parse_cli_options.c' || echo '$(srcdir)/'`parse_cli_options.c
-
-rmw-parse_cli_options.obj: parse_cli_options.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-parse_cli_options.obj `if test -f 'parse_cli_options.c'; then $(CYGPATH_W) 'parse_cli_options.c'; else $(CYGPATH_W) '$(srcdir)/parse_cli_options.c'; fi`
-
-rmw-strings_rmw.o: strings_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-strings_rmw.o `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c
-
-rmw-strings_rmw.obj: strings_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-strings_rmw.obj `if test -f 'strings_rmw.c'; then $(CYGPATH_W) 'strings_rmw.c'; else $(CYGPATH_W) '$(srcdir)/strings_rmw.c'; fi`
-
-rmw-purging_rmw.o: purging_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-purging_rmw.o `test -f 'purging_rmw.c' || echo '$(srcdir)/'`purging_rmw.c
-
-rmw-purging_rmw.obj: purging_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-purging_rmw.obj `if test -f 'purging_rmw.c'; then $(CYGPATH_W) 'purging_rmw.c'; else $(CYGPATH_W) '$(srcdir)/purging_rmw.c'; fi`
-
-rmw-messages_rmw.o: messages_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-messages_rmw.o `test -f 'messages_rmw.c' || echo '$(srcdir)/'`messages_rmw.c
-
-rmw-messages_rmw.obj: messages_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-messages_rmw.obj `if test -f 'messages_rmw.c'; then $(CYGPATH_W) 'messages_rmw.c'; else $(CYGPATH_W) '$(srcdir)/messages_rmw.c'; fi`
-
-rmw-time_rmw.o: time_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-time_rmw.o `test -f 'time_rmw.c' || echo '$(srcdir)/'`time_rmw.c
-
-rmw-time_rmw.obj: time_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-time_rmw.obj `if test -f 'time_rmw.c'; then $(CYGPATH_W) 'time_rmw.c'; else $(CYGPATH_W) '$(srcdir)/time_rmw.c'; fi`
-
-rmw-trashinfo_rmw.o: trashinfo_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-trashinfo_rmw.o `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c
-
-rmw-trashinfo_rmw.obj: trashinfo_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-trashinfo_rmw.obj `if test -f 'trashinfo_rmw.c'; then $(CYGPATH_W) 'trashinfo_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trashinfo_rmw.c'; fi`
-
-rmw-utils_rmw.o: utils_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-utils_rmw.o `test -f 'utils_rmw.c' || echo '$(srcdir)/'`utils_rmw.c
-
-rmw-utils_rmw.obj: utils_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-utils_rmw.obj `if test -f 'utils_rmw.c'; then $(CYGPATH_W) 'utils_rmw.c'; else $(CYGPATH_W) '$(srcdir)/utils_rmw.c'; fi`
-
-rmw-bst.o: bst.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-bst.o `test -f 'bst.c' || echo '$(srcdir)/'`bst.c
-
-rmw-bst.obj: bst.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rmw_CFLAGS) $(CFLAGS) -c -o rmw-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -744,6 +674,7 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-test -z "$(top_builddir)/$(am__dirstamp)" || rm -f $(top_builddir)/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"

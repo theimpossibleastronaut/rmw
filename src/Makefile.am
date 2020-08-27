@@ -1,9 +1,9 @@
-bin_PROGRAMS=rmw
+bin_PROGRAMS = $(top_builddir)/rmw
 AM_CFLAGS = @CURSES_CFLAGS@
 
 rmw_CFLAGS = $(AM_CFLAGS) @EXTRA_CFLAGS@
 
-rmw_SOURCES=	\
+__top_builddir__rmw_SOURCES=	\
 	globals.c	\
 	main.c	\
 	restore_rmw.c	\
@@ -34,7 +34,7 @@ DEFS = -DLOCALEDIR=\"$(localedir)\"
 
 # static library used by 'make check'
 check_LIBRARIES = librmw_test.a
-librmw_test_a_SOURCES = $(rmw_SOURCES)
+librmw_test_a_SOURCES = $(__top_builddir__rmw_SOURCES)
 librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB
 
-rmw_LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@
+__top_builddir__rmw_LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@
