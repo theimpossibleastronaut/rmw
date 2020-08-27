@@ -15,21 +15,18 @@ fi
 
 echo $SEPARATOR
 echo "Initialize"
-$RMW_TEST_CMD_STRING
-test_result $?
+$RMW_TEST_CMD_STRING || exit $?
 
 echo $SEPARATOR
 echo " Creating some files for testing..."
 cd $RMWTEST_HOME
-../create-some-files.sh
-test_result $?
+../create-some-files.sh || exit $?
 
 echo $SEPARATOR
 echo "ReMove files and then restore them by using -u"
 set -x
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/*
-$RMW_TEST_CMD_STRING -u
-test_result $?
+$RMW_TEST_CMD_STRING -u || exit $?
 
 echo $SEPARATOR
 echo "Show result when no undo file exists..."
@@ -41,8 +38,7 @@ echo "restore using wildcard pattern, but be in the trash directory"
 set -x
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/topdir
 cd $RMWTEST_HOME/.local/share/Waste/files
-$RMW_TEST_CMD_STRING -z topd*
-test_result $?
+$RMW_TEST_CMD_STRING -z topd* || exit $?
 
 echo $SEPARATOR
 echo "Try restoring a file that doesn't exist"
