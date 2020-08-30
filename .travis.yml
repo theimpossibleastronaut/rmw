@@ -10,7 +10,9 @@ matrix:
         apt:
           packages:
             - valgrind
-      env: DISTCHECK_ONLY="true" COMPILER="default"
+      env:
+        - DISTCHECK_ONLY="true" COMPILER="default"
+        - CONFIGURE_OPTS="--enable-release"
     - os: linux
       dist: bionic
       compiler: gcc
@@ -37,7 +39,9 @@ matrix:
     - os: linux
       dist: bionic
       compiler: gcc
-      env: MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - CONFIGURE_OPTS="--enable-release"
     - os: linux
       dist: bionic
       compiler: gcc
@@ -57,7 +61,12 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-10
-      env: MATRIX_EVAL="CC=gcc-10 && CXX=g++-10"
+      env:
+        - MATRIX_EVAL="CC=gcc-10 && CXX=g++-10"
+        - CONFIGURE_OPTS="--enable-release"
+    - os: linux
+      dist: focal
+      compiler: gcc
 
 # clang
     - os: linux
@@ -79,10 +88,16 @@ matrix:
             - llvm-toolchain-xenial-6.0
           packages:
             - clang-6.0
-      env: MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+        - CONFIGURE_OPTS="--enable-release"
     - os: linux
       dist: xenial
       compiler: clang
+    - os: linux
+      dist: focal
+      compiler: clang
+
 # osx
     - os: osx
       osx_image: xcode11.5
@@ -119,13 +134,11 @@ script:
       exit 0;
     fi
   - mkdir build && cd build
-  - ../configure --prefix=$PWD/install-test
+  - ../configure ${CONFIGURE_OPTS}
   - if [ -z "$DISTCHECK_ONLY" ]; then
       make &&
       make check;
     else
       make distcheck;
       make distclean;
-      ../configure --enable-release;
-      make V=1;
     fi
