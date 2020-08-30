@@ -329,12 +329,15 @@ purge (
         {
           if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
           {
+            int res = 0;
             if (cli_user_options->want_dry_run == false)
             {
-              if (remove(trashinfo_entry_realpath) != 0)
+              res = remove(trashinfo_entry_realpath);
+              if (res != 0)
                 msg_err_remove (trashinfo_entry_realpath, __func__);
             }
-            printf ("removed '%s'\n", trashinfo_entry_realpath);
+            if (res == 0)
+              printf ("removed '%s'\n", trashinfo_entry_realpath);
             (*orphan_ctr)++;
             continue;
           }
