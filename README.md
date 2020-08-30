@@ -15,7 +15,7 @@ Web site: <https://remove-to-waste.info/>
 
 ## Build Status
 
-* [![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/theimpossibleastronaut/rmw)
+* [![Build Status](https://api.travis-ci.com/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.com/github/theimpossibleastronaut/rmw)
 * [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
 
 ## Screenshots
