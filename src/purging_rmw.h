@@ -28,7 +28,7 @@
 #include <sys/stat.h>
 #include <unistd.h>             /* for rmdir() */
 
-#define RMDIR_MAX_DEPTH 32
+#define RMDIR_MAX_DEPTH 2048
 #define NOT_WRITEABLE 101
 #define MAX_DEPTH_REACHED 201
 
