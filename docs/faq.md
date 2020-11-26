@@ -55,7 +55,9 @@ if desired (a config file is created in ~/.config/rmw when rmw is first run).
 
 Not yet. There's [an open
 ticket](https://github.com/theimpossibleastronaut/rmw/issues/71) for
-that.
+that. But reportedly, rmw works well on the <a
+href="https://github.com/ethanhs/WSL-Programs">Windows Subsystem for
+Linux</a>.
 
 **Can I use wildcard and regex patterns with rmw?**
 
