@@ -3,6 +3,9 @@ title: FAQ
 layout: default
 ---
 
+Anything that isn't covered here may be found on the <a
+href="/extra_tips.html">Extra Tips</a> page.
+
 **What is your release cycle?**
 
 It varies, averaging once or twice a year. If bugs are found and

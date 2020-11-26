@@ -311,6 +311,16 @@ purge (
       if (!cli_user_options->want_empty_trash && !then)
           continue;
 
+      char corresponding_file_to_purge[LEN_MAX_PATH];
+      strcpy (corresponding_file_to_purge, waste_curr->files);
+
+      char temp[LEN_MAX_PATH];
+      strcpy (temp, st_trashinfo_dir_entry->d_name);
+      truncate_str (temp, strlen (TRASHINFO_EXT)); /* acquire the (basename - trashinfo extension) */
+
+      strcat (corresponding_file_to_purge, temp); /* path to file in <WASTE>/files */
+
+      // To ensure better precision, days_remaining (defined below) isn't used here
       if (then + (SECONDS_IN_A_DAY * st_config_data->purge_after) <= st_time_var->now ||
           cli_user_options->want_empty_trash)
       {
@@ -439,6 +449,19 @@ purge (
           }
           else
             msg_err_remove (corresponding_file_to_purge, __func__);
+        }
+      }
+      else
+      {
+        if (verbose >= 2)
+        {
+          // TODO: This isn't very precise. If less than a day is
+          // remaining, '0' will be reported. If 3.98 days remain, then '3'
+          // will be reported.
+          long int days_remaining = (then + (SECONDS_IN_A_DAY * st_config_data->purge_after) - st_time_var->now) / SECONDS_IN_A_DAY;
+          printf (_("%s will be purged in "), corresponding_file_to_purge);
+          printf (ngettext("%li day", "%li days", days_remaining), days_remaining);
+          printf ("\n");
         }
       }
     }
