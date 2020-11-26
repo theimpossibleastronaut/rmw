@@ -75,7 +75,9 @@ enum {
   ERR_FGETS,
   ERR_TRASHINFO_FORMAT,
   FILE_NOT_FOUND,
-  ERR_LSTAT
+  ERR_LSTAT,
+  NOT_WRITEABLE,
+  MAX_DEPTH_REACHED
 };
 
 extern int verbose;

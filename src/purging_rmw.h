@@ -5,7 +5,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,8 +29,6 @@
 #include <unistd.h>             /* for rmdir() */
 
 #define RMDIR_MAX_DEPTH 2048
-#define NOT_WRITEABLE 101
-#define MAX_DEPTH_REACHED 201
 
 bool
 is_time_to_purge (st_time *st_time_var, const char* data_dir);
