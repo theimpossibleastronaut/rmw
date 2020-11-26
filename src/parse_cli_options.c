@@ -169,7 +169,8 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
       options->want_dry_run = true;
       puts (_("dry-run mode enabled."));
       /* assume verbosity as well */
-      verbose = 1;
+      if (verbose == 0)
+        verbose = 1;
       break;
     case 'l':
       options->list = true;
