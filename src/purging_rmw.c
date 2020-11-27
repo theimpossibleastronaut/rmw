@@ -2,7 +2,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -320,9 +320,9 @@ purge (
 
       strcat (corresponding_file_to_purge, temp); /* path to file in <WASTE>/files */
 
-      // To ensure better precision, days_remaining (defined below) isn't used here
-      if (then + (SECONDS_IN_A_DAY * st_config_data->purge_after) <= st_time_var->now ||
-          cli_user_options->want_empty_trash)
+      double days_remaining =
+        ((double)then + (SECONDS_IN_A_DAY * st_config_data->purge_after) - st_time_var->now) / SECONDS_IN_A_DAY;
+      if (days_remaining <= 0 || cli_user_options->want_empty_trash)
       {
         char corresponding_file_to_purge[LEN_MAX_PATH];
         strcpy (corresponding_file_to_purge, waste_curr->files);
@@ -455,12 +455,8 @@ purge (
       {
         if (verbose >= 2)
         {
-          // TODO: This isn't very precise. If less than a day is
-          // remaining, '0' will be reported. If 3.98 days remain, then '3'
-          // will be reported.
-          long int days_remaining = (then + (SECONDS_IN_A_DAY * st_config_data->purge_after) - st_time_var->now) / SECONDS_IN_A_DAY;
           printf (_("%s will be purged in "), corresponding_file_to_purge);
-          printf (ngettext("%li day", "%li days", days_remaining), days_remaining);
+          printf (_("%.2lf days"), days_remaining);
           printf ("\n");
         }
       }
