@@ -24,15 +24,15 @@
 
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
-  #include "globals.h"
+#include "globals.h"
 #endif
 
 #include "parse_cli_options.h"
 /* GIT_REV can defined during build-time with -D */
 #ifdef GIT_REV
-  #define RMW_VERSION_STRING VERSION "." GIT_REV
+#define RMW_VERSION_STRING VERSION "." GIT_REV
 #else
-  #define RMW_VERSION_STRING VERSION
+#define RMW_VERSION_STRING VERSION
 #endif
 
 static void
@@ -74,10 +74,10 @@ how to obtain support - "));
   printf (_("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
 }
 
-static
-void warranty (void)
+static void
+warranty (void)
 {
-printf (_("\
+  printf (_("\
 THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n\
 APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n\
 HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n\
@@ -105,7 +105,7 @@ for details.\n"), RMW_VERSION_STRING);
 }
 
 void
-init_rmw_options (rmw_options *x)
+init_rmw_options (rmw_options * x)
 {
   verbose = 0;
   x->want_restore = false;
@@ -123,7 +123,7 @@ init_rmw_options (rmw_options *x)
 
 
 void
-parse_cli_options (const int argc, char* const argv[], rmw_options *options)
+parse_cli_options (const int argc, char *const argv[], rmw_options * options)
 {
   const char *const short_options = "hvc:goz:lnsumwVfeirR";
 
@@ -204,10 +204,11 @@ parse_cli_options (const int argc, char* const argv[], rmw_options *options)
       break;
     case 'r':
     case 'R':
-      printf (_("-r, -R, --recursive: option not required (enabled by default)\n"));
+      printf (_
+              ("-r, -R, --recursive: option not required (enabled by default)\n"));
       break;
     case 'f':
-      if (options->force < 2) /* This doesn't need to go higher than 2 */
+      if (options->force < 2)   /* This doesn't need to go higher than 2 */
         options->force++;
       break;
     case 'e':
