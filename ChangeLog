@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2020-11-29
+
+  * Improved handling of file with leading hyphens
+  * When an invalid option is given, usage output no longer displays
+
 2020-11-26
 
   * You can view how many days remain until a file is purged by using

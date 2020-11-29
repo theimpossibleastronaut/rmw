@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.06-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2020-11-26 04:32-0600\n"
+"POT-Creation-Date: 2020-11-29 05:24-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: src/parse_cli_options.c:41
+#: src/parse_cli_options.c:43
 #, c-format
 msgid ""
 "Usage: rmw [OPTION]... FILE...\n"
@@ -43,7 +43,7 @@ msgid ""
 "  -V, --version             display version and license information\n"
 msgstr ""
 
-#: src/parse_cli_options.c:62
+#: src/parse_cli_options.c:64
 #, c-format
 msgid ""
 "  \n"
@@ -57,7 +57,7 @@ msgid ""
 "  -m, --most-recent-list    list most recently rmw'ed files\n"
 msgstr ""
 
-#: src/parse_cli_options.c:69
+#: src/parse_cli_options.c:71
 #, c-format
 msgid ""
 "  \n"
@@ -66,12 +66,12 @@ msgid ""
 "how to obtain support - "
 msgstr ""
 
-#: src/parse_cli_options.c:74
+#: src/parse_cli_options.c:76
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
 
-#: src/parse_cli_options.c:80
+#: src/parse_cli_options.c:82
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -84,7 +84,7 @@ msgid ""
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 msgstr ""
 
-#: src/parse_cli_options.c:96
+#: src/parse_cli_options.c:98
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -96,18 +96,28 @@ msgid ""
 "for details.\n"
 msgstr ""
 
-#: src/parse_cli_options.c:170
+#: src/parse_cli_options.c:128
+#, c-format
+msgid "Try '%s ./%s' to remove the file '%s'.\n"
+msgstr ""
+
+#: src/parse_cli_options.c:195
 msgid "dry-run mode enabled."
 msgstr ""
 
-#: src/parse_cli_options.c:203
+#: src/parse_cli_options.c:228
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr ""
 
-#: src/parse_cli_options.c:207
+#: src/parse_cli_options.c:233
 #, c-format
 msgid "-r, -R, --recursive: option not required (enabled by default)\n"
+msgstr ""
+
+#: src/parse_cli_options.c:245
+#, c-format
+msgid "Try '%s --help' for more information."
 msgstr ""
 
 #: src/main.c:107
@@ -446,43 +456,41 @@ msgstr ""
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr ""
 
-#: src/purging_rmw.c:462
+#: src/purging_rmw.c:458
 #, c-format
 msgid "%s will be purged in "
 msgstr ""
 
-#: src/purging_rmw.c:463
+#: src/purging_rmw.c:459
 #, c-format
-msgid "%li day"
-msgid_plural "%li days"
-msgstr[0] ""
-msgstr[1] ""
+msgid "%.2lf days"
+msgstr ""
 
-#: src/purging_rmw.c:476
+#: src/purging_rmw.c:472
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr ""
 
-#: src/purging_rmw.c:480
+#: src/purging_rmw.c:476
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr ""
 
-#: src/purging_rmw.c:483
+#: src/purging_rmw.c:479
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:487
+#: src/purging_rmw.c:483
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:491
+#: src/purging_rmw.c:487
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
@@ -490,7 +498,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS: context: "Number of bytes freed"
-#: src/purging_rmw.c:495
+#: src/purging_rmw.c:491
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
@@ -498,12 +506,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:552
+#: src/purging_rmw.c:548
 #, c-format
 msgid "Created %s\n"
 msgstr ""
 
-#: src/purging_rmw.c:558 src/utils_rmw.c:86
+#: src/purging_rmw.c:554 src/utils_rmw.c:86
 #, c-format
 msgid "while creating %s\n"
 msgstr ""

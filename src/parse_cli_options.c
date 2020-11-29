@@ -2,7 +2,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@
 #define INC_GLOBALS_H
 #include "globals.h"
 #endif
+
+#include <sys/stat.h>
 
 #include "parse_cli_options.h"
 /* GIT_REV can defined during build-time with -D */
@@ -104,6 +106,32 @@ for details.\n"), RMW_VERSION_STRING);
   exit (0);
 }
 
+/* Advise the user about invalid usages like "rm -foo" if the file
+ * "-foo" exists, assuming ARGC and ARGV are as with 'main'.
+ *
+ * This function (lightly modified) is on loan from rm.c in the
+ * GNU coreutils package<https://www.gnu.org/software/coreutils/coreutils.html> */
+static void
+diagnose_leading_hyphen (const int argc, char *const argv[])
+{
+  /* OPTIND is unreliable, so iterate through the arguments looking
+     for a file name that looks like an option.  */
+  printf ("working\n");
+  for (int i = 1; i < argc; i++)
+  {
+    char const *arg = argv[i];
+    struct stat st;
+
+    if (arg[0] == '-' && arg[1] && lstat (arg, &st) == 0)
+    {
+      fprintf (stderr,
+               _("Try '%s ./%s' to remove the file '%s'.\n"),
+               argv[0], arg, arg);
+      break;
+    }
+  }
+}
+
 void
 init_rmw_options (rmw_options * x)
 {
@@ -125,8 +153,6 @@ init_rmw_options (rmw_options * x)
 void
 parse_cli_options (const int argc, char *const argv[], rmw_options * options)
 {
-  const char *const short_options = "hvc:goz:lnsumwVfeirR";
-
   const struct option long_options[] = {
     {"help", 0, NULL, 'h'},
     {"verbose", 0, NULL, 'v'},
@@ -148,13 +174,12 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
     {NULL, 0, NULL, 0}
   };
 
-  int next_option = 0;
-
-  do
+  int c;
+  while ((c =
+          getopt_long (argc, argv, "hvc:goz:lnsumwVfeirR", long_options,
+                       NULL)) != -1)
   {
-    next_option = getopt_long (argc, argv, short_options, long_options, NULL);
-
-    switch (next_option)
+    switch (c)
     {
     case 'h':
       print_usage ();
@@ -215,17 +240,12 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       options->want_empty_trash = true;
       options->want_purge = true;
       break;
-    case '?':
-      print_usage ();
-      exit (0);
-    case -1:
-      break;
     default:
-      abort ();
+      diagnose_leading_hyphen (argc, argv);
+      printf (_("Try '%s --help' for more information."), argv[0]);
+      exit (EXIT_FAILURE);
     }
-
   }
-  while (next_option != -1);
 
   return;
 }
