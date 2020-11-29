@@ -38,40 +38,72 @@
 #endif
 
 static void
-print_usage (void)
+print_usage (const char *prog_name)
 {
-  printf (_("\
-Usage: rmw [OPTION]... FILE...\n\
+  printf (_("Usage: %s [OPTION]... FILE...\n\
 ReMove the FILE(s) to a WASTE directory listed in configuration file\n\
 \n\
-   or: rmw -s\n\
-   or: rmw -u\n\
-   or: rmw -z FILE...\n\
-Restore FILE(s) from a WASTE directory\n\
-\n\
+   or: %s -s\n\
+   or: %s -u\n\
+   or: %s -z FILE...\n\
+"), prog_name, prog_name, prog_name, prog_name);
+  fputs (_("\
+Restore FILE(s) from a WASTE directory\n\n\
+"), stdout);
+  fputs (_("\
   -h, --help\n\
+"), stdout);
+  fputs (_("\
   -c, --config filename     use an alternate configuration\n\
+"), stdout);
+  fputs (_("\
   -l, --list                list waste directories\n\
+"), stdout);
+  fputs (_("\
   -g, --purge               run purge even if it's been run today\n\
+"), stdout);
+  fputs (_("\
   -o, --orphaned            check for orphaned files (maintenance)\n\
+"), stdout);
+  fputs (_("\
   -f, --force               allow rmw to purge files in the background\n\
+"), stdout);
+  fputs (_("\
   -e, --empty               completely empty (purge) all waste folders\n\
+"), stdout);
+  fputs (_("\
   -r, -R, --recursive       option used for compatibility with rm\n\
                             (recursive operation is enabled by default)\n\
+"), stdout);
+  fputs (_("\
   -v, --verbose             increase output messages\n\
+"), stdout);
+  fputs (_("\
   -w, --warranty            display warranty\n\
-  -V, --version             display version and license information\n"));
-  printf (_("\
+"), stdout);
+  fputs (_("\
+  -V, --version             display version and license information\n\
+"), stdout);
+  fputs (_("\
   \n\n\
-  \t===] Restoring [===\n\n\
+  \t===] Restoring [===\n\n"), stdout);
+  fputs (_("\
   -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)\n\
+"), stdout);
+  fputs (_("\
   -s, --select              select files from list to restore\n\
+"), stdout);
+  fputs (_("\
   -u, --undo-last           undo last ReMove\n\
-  -m, --most-recent-list    list most recently rmw'ed files\n"));
-  printf (_("\
+"), stdout);
+  fputs (_("\
+  -m, --most-recent-list    list most recently rmw'ed files\n\
+"), stdout);
+  fputs (_("\
   \n\n\
 Visit the rmw home page for more help, and information about\n\
-how to obtain support - "));
+how to obtain support - \
+"), stdout);
   printf ("<" PACKAGE_URL ">\n\n");
   printf (_("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
 }
@@ -116,7 +148,6 @@ diagnose_leading_hyphen (const int argc, char *const argv[])
 {
   /* OPTIND is unreliable, so iterate through the arguments looking
      for a file name that looks like an option.  */
-  printf ("working\n");
   for (int i = 1; i < argc; i++)
   {
     char const *arg = argv[i];
@@ -182,7 +213,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
     switch (c)
     {
     case 'h':
-      print_usage ();
+      print_usage (argv[0]);
       exit (0);
     case 'v':
       verbose++;
@@ -242,7 +273,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       break;
     default:
       diagnose_leading_hyphen (argc, argv);
-      printf (_("Try '%s --help' for more information."), argv[0]);
+      fprintf (stderr, _("Try '%s --help' for more information.\n"), argv[0]);
       exit (EXIT_FAILURE);
     }
   }

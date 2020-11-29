@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.06-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2020-11-29 05:24-0600\n"
+"POT-Creation-Date: 2020-11-29 10:42-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,168 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-
-#: src/parse_cli_options.c:43
-#, c-format
-msgid ""
-"Usage: rmw [OPTION]... FILE...\n"
-"ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
-"\n"
-"   or: rmw -s\n"
-"   or: rmw -u\n"
-"   or: rmw -z FILE...\n"
-"Restore FILE(s) from a WASTE directory\n"
-"\n"
-"  -h, --help\n"
-"  -c, --config filename     use an alternate configuration\n"
-"  -l, --list                list waste directories\n"
-"  -g, --purge               run purge even if it's been run today\n"
-"  -o, --orphaned            check for orphaned files (maintenance)\n"
-"  -f, --force               allow rmw to purge files in the background\n"
-"  -e, --empty               completely empty (purge) all waste folders\n"
-"  -r, -R, --recursive       option used for compatibility with rm\n"
-"                            (recursive operation is enabled by default)\n"
-"  -v, --verbose             increase output messages\n"
-"  -w, --warranty            display warranty\n"
-"  -V, --version             display version and license information\n"
-msgstr ""
-
-#: src/parse_cli_options.c:64
-#, c-format
-msgid ""
-"  \n"
-"\n"
-"  \t===] Restoring [===\n"
-"\n"
-"  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
-"files/foo*)\n"
-"  -s, --select              select files from list to restore\n"
-"  -u, --undo-last           undo last ReMove\n"
-"  -m, --most-recent-list    list most recently rmw'ed files\n"
-msgstr ""
-
-#: src/parse_cli_options.c:71
-#, c-format
-msgid ""
-"  \n"
-"\n"
-"Visit the rmw home page for more help, and information about\n"
-"how to obtain support - "
-msgstr ""
-
-#: src/parse_cli_options.c:76
-#, c-format
-msgid "Report bugs to <%s>.\n"
-msgstr ""
-
-#: src/parse_cli_options.c:82
-#, c-format
-msgid ""
-"THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
-"APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
-"HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n"
-"OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
-"THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
-"PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
-"IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
-"ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
-msgstr ""
-
-#: src/parse_cli_options.c:98
-#, c-format
-msgid ""
-"rmw %s\n"
-"Author: Andy Alt (andy400-dev@yahoo.com)\n"
-"The RMW team: see AUTHORS file\n"
-"This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n"
-"This is free software, and you are welcome to redistribute it\n"
-"under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n"
-"for details.\n"
-msgstr ""
-
-#: src/parse_cli_options.c:128
-#, c-format
-msgid "Try '%s ./%s' to remove the file '%s'.\n"
-msgstr ""
-
-#: src/parse_cli_options.c:195
-msgid "dry-run mode enabled."
-msgstr ""
-
-#: src/parse_cli_options.c:228
-#, c-format
-msgid "-i / --interactive: not implemented\n"
-msgstr ""
-
-#: src/parse_cli_options.c:233
-#, c-format
-msgid "-r, -R, --recursive: option not required (enabled by default)\n"
-msgstr ""
-
-#: src/parse_cli_options.c:245
-#, c-format
-msgid "Try '%s --help' for more information."
-msgstr ""
-
-#: src/main.c:107
-msgid "Skipping --undo-last because --most-recent-list was requested"
-msgstr ""
-
-#: src/main.c:163
-msgid "while getting the path to your home directory\n"
-msgstr ""
-
-#: src/main.c:176
-#, c-format
-msgid ""
-"unable to create config and data directory\n"
-"Please check your configuration file and permissions\n"
-"\n"
-msgstr ""
-
-#: src/main.c:181
-#, c-format
-msgid "Unable to continue. Exiting...\n"
-msgstr ""
-
-#: src/main.c:207
-#, c-format
-msgid "purge has been skipped: use -f or --force\n"
-msgstr ""
-
-#: src/main.c:267
-#, c-format
-msgid ""
-"Insufficient command line arguments given;\n"
-"Enter '%s -h' for more information\n"
-msgstr ""
-
-#: src/main.c:363
-msgid "The Easter Bunny says, \"Hello, world.\""
-msgstr ""
-
-#. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:381 src/restore_rmw.c:200
-#, c-format
-msgid "File not found: '%s'\n"
-msgstr ""
-
-#: src/main.c:393
-#, c-format
-msgid "%s resides within a waste folder and has been ignored\n"
-msgstr ""
-
-#: src/main.c:475
-#, c-format
-msgid "No suitable filesystem found for \"%s\"\n"
-msgstr ""
-
-#: src/main.c:485
-#, c-format
-msgid "%d file was removed to the waste folder"
-msgid_plural "%d files were removed to the waste folder"
-msgstr[0] ""
-msgstr[1] ""
 
 #: src/config_rmw.c:50
 msgid ""
@@ -285,6 +123,66 @@ msgstr ""
 msgid "attached"
 msgstr ""
 
+#: src/main.c:107
+msgid "Skipping --undo-last because --most-recent-list was requested"
+msgstr ""
+
+#: src/main.c:163
+msgid "while getting the path to your home directory\n"
+msgstr ""
+
+#: src/main.c:176
+#, c-format
+msgid ""
+"unable to create config and data directory\n"
+"Please check your configuration file and permissions\n"
+"\n"
+msgstr ""
+
+#: src/main.c:181
+#, c-format
+msgid "Unable to continue. Exiting...\n"
+msgstr ""
+
+#: src/main.c:207
+#, c-format
+msgid "purge has been skipped: use -f or --force\n"
+msgstr ""
+
+#: src/main.c:267
+#, c-format
+msgid ""
+"Insufficient command line arguments given;\n"
+"Enter '%s -h' for more information\n"
+msgstr ""
+
+#: src/main.c:363
+msgid "The Easter Bunny says, \"Hello, world.\""
+msgstr ""
+
+#. TRANSLATORS:  "%s" refers to a file or directory
+#: src/main.c:381 src/restore_rmw.c:200
+#, c-format
+msgid "File not found: '%s'\n"
+msgstr ""
+
+#: src/main.c:393
+#, c-format
+msgid "%s resides within a waste folder and has been ignored\n"
+msgstr ""
+
+#: src/main.c:475
+#, c-format
+msgid "No suitable filesystem found for \"%s\"\n"
+msgstr ""
+
+#: src/main.c:485
+#, c-format
+msgid "%d file was removed to the waste folder"
+msgid_plural "%d files were removed to the waste folder"
+msgstr[0] ""
+msgstr[1] ""
+
 #. TRANSLATORS: this precedes a string which informs the user of a more
 #. * serious error, sometimes a fatal one
 #: src/messages_rmw.c:49
@@ -362,49 +260,157 @@ msgstr ""
 msgid "while removing %s\n"
 msgstr ""
 
-#: src/restore_rmw.c:137
+#: src/parse_cli_options.c:43
 #, c-format
-msgid "Duplicate filename at destination - appending time string...\n"
-msgstr ""
-
-#: src/restore_rmw.c:166
-#, c-format
-msgid "while removing .trashinfo file: '%s'\n"
-msgstr ""
-
-#: src/restore_rmw.c:241
-#, c-format
-msgid "Reading %s...\n"
-msgstr ""
-
-#: src/restore_rmw.c:300
-#, c-format
-msgid "== contains %d file =="
-msgid_plural "== contains %d files =="
-msgstr[0] ""
-msgstr[1] ""
-
-#. TRANSLATORS: I believe the words between the < and > can be translated
-#.
-#: src/restore_rmw.c:304
-msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
-msgstr ""
-
-#: src/restore_rmw.c:305
 msgid ""
-"<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
+"Usage: %s [OPTION]... FILE...\n"
+"ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
+"\n"
+"   or: %s -s\n"
+"   or: %s -u\n"
+"   or: %s -z FILE...\n"
 msgstr ""
 
-#. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
-#. * for input in this case.
-#.
-#: src/restore_rmw.c:311
-msgid "'q' - quit"
+#: src/parse_cli_options.c:50
+msgid ""
+"Restore FILE(s) from a WASTE directory\n"
+"\n"
 msgstr ""
 
-#: src/restore_rmw.c:407
+#: src/parse_cli_options.c:53
+msgid "  -h, --help\n"
+msgstr ""
+
+#: src/parse_cli_options.c:56
+msgid "  -c, --config filename     use an alternate configuration\n"
+msgstr ""
+
+#: src/parse_cli_options.c:59
+msgid "  -l, --list                list waste directories\n"
+msgstr ""
+
+#: src/parse_cli_options.c:62
+msgid "  -g, --purge               run purge even if it's been run today\n"
+msgstr ""
+
+#: src/parse_cli_options.c:65
+msgid "  -o, --orphaned            check for orphaned files (maintenance)\n"
+msgstr ""
+
+#: src/parse_cli_options.c:68
+msgid ""
+"  -f, --force               allow rmw to purge files in the background\n"
+msgstr ""
+
+#: src/parse_cli_options.c:71
+msgid ""
+"  -e, --empty               completely empty (purge) all waste folders\n"
+msgstr ""
+
+#: src/parse_cli_options.c:74
+msgid ""
+"  -r, -R, --recursive       option used for compatibility with rm\n"
+"                            (recursive operation is enabled by default)\n"
+msgstr ""
+
+#: src/parse_cli_options.c:78
+msgid "  -v, --verbose             increase output messages\n"
+msgstr ""
+
+#: src/parse_cli_options.c:81
+msgid "  -w, --warranty            display warranty\n"
+msgstr ""
+
+#: src/parse_cli_options.c:84
+msgid "  -V, --version             display version and license information\n"
+msgstr ""
+
+#: src/parse_cli_options.c:87
+msgid ""
+"  \n"
+"\n"
+"  \t===] Restoring [===\n"
+"\n"
+msgstr ""
+
+#: src/parse_cli_options.c:90
+msgid ""
+"  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
+"files/foo*)\n"
+msgstr ""
+
+#: src/parse_cli_options.c:93
+msgid "  -s, --select              select files from list to restore\n"
+msgstr ""
+
+#: src/parse_cli_options.c:96
+msgid "  -u, --undo-last           undo last ReMove\n"
+msgstr ""
+
+#: src/parse_cli_options.c:99
+msgid "  -m, --most-recent-list    list most recently rmw'ed files\n"
+msgstr ""
+
+#: src/parse_cli_options.c:102
+msgid ""
+"  \n"
+"\n"
+"Visit the rmw home page for more help, and information about\n"
+"how to obtain support - "
+msgstr ""
+
+#: src/parse_cli_options.c:108
 #, c-format
-msgid "failed to remove %s\n"
+msgid "Report bugs to <%s>.\n"
+msgstr ""
+
+#: src/parse_cli_options.c:114
+#, c-format
+msgid ""
+"THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
+"APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n"
+"HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n"
+"OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,\n"
+"THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR\n"
+"PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n"
+"IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
+"ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
+msgstr ""
+
+#: src/parse_cli_options.c:130
+#, c-format
+msgid ""
+"rmw %s\n"
+"Author: Andy Alt (andy400-dev@yahoo.com)\n"
+"The RMW team: see AUTHORS file\n"
+"This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n"
+"This is free software, and you are welcome to redistribute it\n"
+"under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n"
+"for details.\n"
+msgstr ""
+
+#: src/parse_cli_options.c:159
+#, c-format
+msgid "Try '%s ./%s' to remove the file '%s'.\n"
+msgstr ""
+
+#: src/parse_cli_options.c:226
+msgid "dry-run mode enabled."
+msgstr ""
+
+#: src/parse_cli_options.c:259
+#, c-format
+msgid "-i / --interactive: not implemented\n"
+msgstr ""
+
+#: src/parse_cli_options.c:264
+#, c-format
+msgid "-r, -R, --recursive: option not required (enabled by default)\n"
+msgstr ""
+
+#: src/parse_cli_options.c:276
+#, c-format
+msgid "Try '%s --help' for more information.\n"
 msgstr ""
 
 #: src/purging_rmw.c:102
@@ -514,6 +520,51 @@ msgstr ""
 #: src/purging_rmw.c:554 src/utils_rmw.c:86
 #, c-format
 msgid "while creating %s\n"
+msgstr ""
+
+#: src/restore_rmw.c:137
+#, c-format
+msgid "Duplicate filename at destination - appending time string...\n"
+msgstr ""
+
+#: src/restore_rmw.c:166
+#, c-format
+msgid "while removing .trashinfo file: '%s'\n"
+msgstr ""
+
+#: src/restore_rmw.c:241
+#, c-format
+msgid "Reading %s...\n"
+msgstr ""
+
+#: src/restore_rmw.c:300
+#, c-format
+msgid "== contains %d file =="
+msgid_plural "== contains %d files =="
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS: I believe the words between the < and > can be translated
+#.
+#: src/restore_rmw.c:304
+msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
+msgstr ""
+
+#: src/restore_rmw.c:305
+msgid ""
+"<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
+msgstr ""
+
+#. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
+#. * for input in this case.
+#.
+#: src/restore_rmw.c:311
+msgid "'q' - quit"
+msgstr ""
+
+#: src/restore_rmw.c:407
+#, c-format
+msgid "failed to remove %s\n"
 msgstr ""
 
 #: src/strings_rmw.c:122
