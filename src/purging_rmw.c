@@ -43,14 +43,16 @@ static off_t bytes_freed = 0;
  * @return error number
  */
 static int
-rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_user_options)
+rmdir_recursive (char *dirname, short unsigned level,
+                 const rmw_options * cli_user_options)
 {
   if (level == RMDIR_MAX_DEPTH)
     return MAX_DEPTH_REACHED;
 
   int remove_result = 0;
 
-  struct _dirname {
+  struct _dirname
+  {
     char path[LEN_MAX_PATH];
     DIR *ptr;
     struct dirent *st_entry_ptr;
@@ -60,9 +62,11 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
   if (st_dirname_properties.ptr == NULL)
     msg_err_open_dir (dirname, __func__, __LINE__);
 
-  while ((st_dirname_properties.st_entry_ptr = readdir (st_dirname_properties.ptr)) != NULL)
+  while ((st_dirname_properties.st_entry_ptr =
+          readdir (st_dirname_properties.ptr)) != NULL)
   {
-    if (!strcmp (st_dirname_properties.st_entry_ptr->d_name, ".") || !strcmp (st_dirname_properties.st_entry_ptr->d_name, ".."))
+    if (!strcmp (st_dirname_properties.st_entry_ptr->d_name, ".")
+        || !strcmp (st_dirname_properties.st_entry_ptr->d_name, ".."))
       continue;
 
     bufchk (dirname, LEN_MAX_PATH);
@@ -76,9 +80,12 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
       st_dirname_properties.path[pathLen] = '\0';
     }
 
-    int req_len = multi_strlen (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name, NULL) + 1;
+    int req_len =
+      multi_strlen (st_dirname_properties.path,
+                    st_dirname_properties.st_entry_ptr->d_name, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    strcat (st_dirname_properties.path, st_dirname_properties.st_entry_ptr->d_name);
+    strcat (st_dirname_properties.path,
+            st_dirname_properties.st_entry_ptr->d_name);
 
     struct stat st;
     if (lstat (st_dirname_properties.path, &st))
@@ -86,7 +93,7 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
     unsigned long int orig_dev = st.st_dev;
     unsigned long int orig_inode = st.st_ino;
 
-    if (cli_user_options->force >= 2 && ~st.st_mode & S_IWUSR) /* use >= 2 to protect against future changes */
+    if (cli_user_options->force >= 2 && ~st.st_mode & S_IWUSR)  /* use >= 2 to protect against future changes */
     {
       if (!chmod (st_dirname_properties.path, 00700))
       {
@@ -130,7 +137,9 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
       }
       else
       {
-        remove_result = rmdir_recursive (st_dirname_properties.path, ++level, cli_user_options);
+        remove_result =
+          rmdir_recursive (st_dirname_properties.path, ++level,
+                           cli_user_options);
         level--;
 
         switch (remove_result)
@@ -183,7 +192,7 @@ rmdir_recursive (char *dirname, short unsigned level, const rmw_options * cli_us
  * created.
  */
 bool
-is_time_to_purge (st_time *st_time_var, const char* data_dir)
+is_time_to_purge (st_time * st_time_var, const char *data_dir)
 {
   const int BUF_TIME = 80;
   const char purge_time_file[] = "purge-time";
@@ -243,16 +252,14 @@ is_time_to_purge (st_time *st_time_var, const char* data_dir)
  * 0 in the config file.
  */
 int
-purge (
-  st_config *st_config_data,
-  const rmw_options * cli_user_options,
-  st_time *st_time_var,
-  int *orphan_ctr)
+purge (st_config * st_config_data,
+       const rmw_options * cli_user_options,
+       st_time * st_time_var, int *orphan_ctr)
 {
   if (!st_config_data->purge_after)
   {
-  /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
-   * directory  */
+    /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
+     * directory  */
     printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
 
     /* purge_after is kind of a "fail-safe". If someone sets it to "0", don't
@@ -265,11 +272,12 @@ purge (
 
   short status = 0;
 
-  if (cli_user_options->want_empty_trash) {
-    puts(_("The contents of all waste folders will be deleted -"));
-    if (!user_verify())
+  if (cli_user_options->want_empty_trash)
+  {
+    puts (_("The contents of all waste folders will be deleted -"));
+    if (!user_verify ())
     {
-      puts(_("Action cancelled."));
+      puts (_("Action cancelled."));
       return 0;
     }
   }
@@ -278,7 +286,8 @@ purge (
   if (cli_user_options->want_empty_trash)
     printf (_("Purging all files in waste folders ...\n"));
   else
-    printf (_("Purging files based on number of days in the waste folders (%u) ...\n"),
+    printf (_
+            ("Purging files based on number of days in the waste folders (%u) ...\n"),
             st_config_data->purge_after);
 
   struct stat st;
@@ -299,29 +308,34 @@ purge (
      */
     while ((st_trashinfo_dir_entry = readdir (trashinfo_dir)) != NULL)
     {
-      if (!strcmp (st_trashinfo_dir_entry->d_name, ".") || !strcmp (st_trashinfo_dir_entry->d_name, ".."))
+      if (!strcmp (st_trashinfo_dir_entry->d_name, ".")
+          || !strcmp (st_trashinfo_dir_entry->d_name, ".."))
         continue;
 
-      int req_len = multi_strlen (waste_curr->info, st_trashinfo_dir_entry->d_name, NULL) + 1;
+      int req_len =
+        multi_strlen (waste_curr->info, st_trashinfo_dir_entry->d_name,
+                      NULL) + 1;
       bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       char trashinfo_entry_realpath[req_len];
-      snprintf (trashinfo_entry_realpath, sizeof (trashinfo_entry_realpath), "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
+      snprintf (trashinfo_entry_realpath, sizeof (trashinfo_entry_realpath),
+                "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
-      time_t then = get_then_time(trashinfo_entry_realpath);
+      time_t then = get_then_time (trashinfo_entry_realpath);
       if (!cli_user_options->want_empty_trash && !then)
-          continue;
+        continue;
 
       char corresponding_file_to_purge[LEN_MAX_PATH];
       strcpy (corresponding_file_to_purge, waste_curr->files);
 
       char temp[LEN_MAX_PATH];
       strcpy (temp, st_trashinfo_dir_entry->d_name);
-      truncate_str (temp, strlen (TRASHINFO_EXT)); /* acquire the (basename - trashinfo extension) */
+      truncate_str (temp, strlen (TRASHINFO_EXT));      /* acquire the (basename - trashinfo extension) */
 
-      strcat (corresponding_file_to_purge, temp); /* path to file in <WASTE>/files */
+      strcat (corresponding_file_to_purge, temp);       /* path to file in <WASTE>/files */
 
       double days_remaining =
-        ((double)then + (SECONDS_IN_A_DAY * st_config_data->purge_after) - st_time_var->now) / SECONDS_IN_A_DAY;
+        ((double) then + (SECONDS_IN_A_DAY * st_config_data->purge_after) -
+         st_time_var->now) / SECONDS_IN_A_DAY;
       if (days_remaining <= 0 || cli_user_options->want_empty_trash)
       {
         char corresponding_file_to_purge[LEN_MAX_PATH];
@@ -329,20 +343,21 @@ purge (
 
         char temp[LEN_MAX_PATH];
         strcpy (temp, st_trashinfo_dir_entry->d_name);
-        truncate_str (temp, strlen (TRASHINFO_EXT)); /* acquire the (basename - trashinfo extension) */
+        truncate_str (temp, strlen (TRASHINFO_EXT));    /* acquire the (basename - trashinfo extension) */
 
-        strcat (corresponding_file_to_purge, temp); /* path to file in <WASTE>/files */
+        strcat (corresponding_file_to_purge, temp);     /* path to file in <WASTE>/files */
 
         // If the corresponding file wasn't found, either display an error and exit, or remove the
         // (probably) orphaned trashinfo file.
         if (lstat (corresponding_file_to_purge, &st))
         {
-          if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
+          if (cli_user_options->want_orphan_chk
+              && cli_user_options->force >= 2)
           {
             int res = 0;
             if (cli_user_options->want_dry_run == false)
             {
-              res = remove(trashinfo_entry_realpath);
+              res = remove (trashinfo_entry_realpath);
               if (res != 0)
                 msg_err_remove (trashinfo_entry_realpath, __func__);
             }
@@ -366,7 +381,9 @@ purge (
         if (S_ISDIR (st.st_mode))
         {
           if (cli_user_options->want_dry_run == false)
-            status = rmdir_recursive (corresponding_file_to_purge, 1, cli_user_options);
+            status =
+              rmdir_recursive (corresponding_file_to_purge, 1,
+                               cli_user_options);
           else
           {
             /* Not much choice but to
@@ -410,7 +427,7 @@ purge (
             break;
 
           default:
-              msg_err_remove (corresponding_file_to_purge, __func__);
+            msg_err_remove (corresponding_file_to_purge, __func__);
             break;
           }
 
@@ -419,9 +436,11 @@ purge (
         {
           if (cli_user_options->want_dry_run == false)
           {
-            if (!is_modified (corresponding_file_to_purge, orig_dev, orig_inode))
+            if (!is_modified
+                (corresponding_file_to_purge, orig_dev, orig_inode))
               status = remove (corresponding_file_to_purge);
-            else status = -1;
+            else
+              status = -1;
           }
           else
             status = 0;
@@ -499,7 +518,7 @@ purge (
 #ifndef TEST_LIB
 
 short
-orphan_maint (st_waste * waste_head, st_time *st_time_var, int *orphan_ctr)
+orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 {
   rmw_target st_file_properties;
 
@@ -527,20 +546,25 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var, int *orphan_ctr)
 
       st_file_properties.base_name = basename (entry->d_name);
 
-      int req_len = multi_strlen (waste_curr->info, st_file_properties.base_name,
-               TRASHINFO_EXT, NULL) + 1;
+      int req_len =
+        multi_strlen (waste_curr->info, st_file_properties.base_name,
+                      TRASHINFO_EXT, NULL) + 1;
       bufchk_len (req_len, sizeof path_to_trashinfo, __func__, __LINE__);
-      snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info, st_file_properties.base_name,
-               TRASHINFO_EXT);
+      snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info,
+                st_file_properties.base_name, TRASHINFO_EXT);
 
       if (exists (path_to_trashinfo))
         continue;
 
       /* destination if restored */
-      req_len = multi_strlen(waste_curr->parent, "/orphans/", st_file_properties.base_name, NULL) + 1;
-      bufchk_len (req_len, sizeof st_file_properties.real_path, __func__, __LINE__);
-      snprintf (st_file_properties.real_path, req_len, "%s%s%s", waste_curr->parent, "/orphans/",
-               st_file_properties.base_name);
+      req_len =
+        multi_strlen (waste_curr->parent, "/orphans/",
+                      st_file_properties.base_name, NULL) + 1;
+      bufchk_len (req_len, sizeof st_file_properties.real_path, __func__,
+                  __LINE__);
+      snprintf (st_file_properties.real_path, req_len, "%s%s%s",
+                waste_curr->parent, "/orphans/",
+                st_file_properties.base_name);
 
       if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))
       {
@@ -561,7 +585,8 @@ orphan_maint (st_waste * waste_head, st_time *st_time_var, int *orphan_ctr)
     waste_curr = waste_curr->next_node;
   }
 
-  printf ("%d %s found\n", *orphan_ctr, *orphan_ctr == 1 ? "orphan" : "orphans");
+  printf ("%d %s found\n", *orphan_ctr,
+          *orphan_ctr == 1 ? "orphan" : "orphans");
 
   return 0;
 }
