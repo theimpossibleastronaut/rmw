@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.06-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2020-11-29 10:42-0600\n"
+"POT-Creation-Date: 2020-11-30 07:16-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -278,7 +278,7 @@ msgid ""
 msgstr ""
 
 #: src/parse_cli_options.c:53
-msgid "  -h, --help\n"
+msgid "  -h, --help                show help for command line options\n"
 msgstr ""
 
 #: src/parse_cli_options.c:56
@@ -413,90 +413,85 @@ msgstr ""
 msgid "Try '%s --help' for more information.\n"
 msgstr ""
 
-#: src/purging_rmw.c:102
+#: src/purging_rmw.c:109
 #, c-format
 msgid "while changing permissions of %s\n"
 msgstr ""
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/purging_rmw.c:256
+#: src/purging_rmw.c:263
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
 "\n"
 msgstr ""
 
-#: src/purging_rmw.c:269
+#: src/purging_rmw.c:277
 msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
-#: src/purging_rmw.c:272
+#: src/purging_rmw.c:280
 msgid "Action cancelled."
 msgstr ""
 
-#: src/purging_rmw.c:279
+#: src/purging_rmw.c:287
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr ""
 
-#: src/purging_rmw.c:281
+#: src/purging_rmw.c:290
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 
-#: src/purging_rmw.c:381
+#: src/purging_rmw.c:398
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr ""
 
-#: src/purging_rmw.c:383
+#: src/purging_rmw.c:400
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr ""
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:391
+#: src/purging_rmw.c:408
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr ""
 
-#: src/purging_rmw.c:458
+#: src/purging_rmw.c:477
 #, c-format
-msgid "%s will be purged in "
+msgid "%s will be purged in %.2lf days\n"
 msgstr ""
 
-#: src/purging_rmw.c:459
-#, c-format
-msgid "%.2lf days"
-msgstr ""
-
-#: src/purging_rmw.c:472
+#: src/purging_rmw.c:490
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr ""
 
-#: src/purging_rmw.c:476
+#: src/purging_rmw.c:494
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr ""
 
-#: src/purging_rmw.c:479
+#: src/purging_rmw.c:497
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:483
+#: src/purging_rmw.c:501
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging_rmw.c:487
+#: src/purging_rmw.c:505
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
@@ -504,7 +499,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS: context: "Number of bytes freed"
-#: src/purging_rmw.c:491
+#: src/purging_rmw.c:509
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
@@ -512,12 +507,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:548
+#: src/purging_rmw.c:571
 #, c-format
 msgid "Created %s\n"
 msgstr ""
 
-#: src/purging_rmw.c:554 src/utils_rmw.c:86
+#: src/purging_rmw.c:577 src/utils_rmw.c:86
 #, c-format
 msgid "while creating %s\n"
 msgstr ""
