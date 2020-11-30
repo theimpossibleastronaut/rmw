@@ -1,7 +1,7 @@
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_op
 int
 restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);
 
-void
+int
 undo_last_rmw (st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options, char *mrl_contents);
 
 #endif /* TEST_LIB */

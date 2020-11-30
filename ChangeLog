@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2020-11-30
+
+  * bugfix: restore broken symbolic links instead of giving a "file not
+  found" message (issue #292)
+
 2020-11-29
 
   * Improved handling of file with leading hyphens

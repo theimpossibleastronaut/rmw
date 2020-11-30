@@ -54,6 +54,12 @@ chmod -R -w $RMWTEST_HOME/no_write_perms
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/no_write_perms
 test_result_want_fail $?
 
+echo $SEPARATOR
+echo "Broken symlink"
+ln -s $RMWTEST_HOME $RMWTEST_HOME/link_test || exit $?
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/link_test || exit $?
+$RMW_TEST_CMD_STRING -u || exit $?
+
 # change permissions back to writable so the dir gets removed before the
 # next test (done in COMMON)
 chmod +w -R $RMWTEST_HOME/no_write_perms

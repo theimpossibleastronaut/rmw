@@ -107,7 +107,14 @@ process_mrl (st_waste *waste_head,
         puts (_("Skipping --undo-last because --most-recent-list was requested"));
     }
     else
-      undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents);
+    {
+      int res = undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents);
+      if (res)
+      {
+        dispose_waste (waste_head);
+        exit (res);
+      }
+    }
   }
   else
   {

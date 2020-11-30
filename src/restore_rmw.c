@@ -380,7 +380,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
 /*!
  * Restores files from the mrl
  */
-void
+int
 undo_last_rmw (st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options, char *mrl_contents)
 {
     int err_ctr = 0;
@@ -408,8 +408,8 @@ undo_last_rmw (st_time *st_time_var, const char *mrl_file, const rmw_options * c
         perror (__func__);
       }
 
-      return;
+      return result;
     }
-  return;
+  return err_ctr;
 }
 #endif /* TEST_LIB */

@@ -94,9 +94,14 @@ make_dir (const char *dir)
  */
 bool exists (const char *filename)
 {
-  /* if the file exists, access returns 0. Reversing that to "true" so
-   * reading "if (exists)" makes more sense. */
-  return ! access (filename, F_OK);
+  /* access() always dereferences symbolic links, and therefore doesn't
+   * recognized broken links. */
+  // return ! access (filename, F_OK);
+
+  static struct stat st;
+  static int res;
+  res = (lstat (filename, &st));
+  return res == 0 ? true : false;
 }
 
 void
