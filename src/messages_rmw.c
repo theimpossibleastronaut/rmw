@@ -25,23 +25,6 @@
 
 #include "messages_rmw.h"
 
-/* These strings need to match the order listed in the enum statement
- * in rmw.h */
-static const char *ERR_STRING[] = {
-  "EXIT_FAILED_GETENV",
-  "NO_WASTE_FOLDER",
-  "EXIT_BUF_ERR",
-  "EXIT_MALLOC_ERR",
-  "MAKE_DIR_SUCCESS",
-  "MAKE_DIR_FAILURE",
-  "ERR_OPEN",
-  "ERR_CLOSE",
-  "ERR_FGETS",
-  "ERR_TRASHINFO_FORMAT",
-  "FILE_NOT_FOUND",
-  "ERR_LSTAT"
-};
-
 void print_msg_error (void)
 {
   /* TRANSLATORS: this precedes a string which informs the user of a more
@@ -164,7 +147,7 @@ msg_return_code (int code)
   {
     /* TRANSLATORS: "return" code refers to a number returned by an operation
      * or function */
-    printf (_("  :return code: %d -- %s\n"), code, ERR_STRING[code - RETURN_CODE_OFFSET]);
+    printf (_("  :return code: %d\n"), code);
   }
 }
 

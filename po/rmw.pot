@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.06-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2020-11-30 07:16-0600\n"
+"POT-Creation-Date: 2020-11-30 14:09-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,11 +127,11 @@ msgstr ""
 msgid "Skipping --undo-last because --most-recent-list was requested"
 msgstr ""
 
-#: src/main.c:163
+#: src/main.c:170
 msgid "while getting the path to your home directory\n"
 msgstr ""
 
-#: src/main.c:176
+#: src/main.c:183
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -139,44 +139,44 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:181
+#: src/main.c:188
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
 
-#: src/main.c:207
+#: src/main.c:214
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""
 
-#: src/main.c:267
+#: src/main.c:274
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
 "Enter '%s -h' for more information\n"
 msgstr ""
 
-#: src/main.c:363
+#: src/main.c:370
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:381 src/restore_rmw.c:200
+#: src/main.c:388 src/restore_rmw.c:200
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
 
-#: src/main.c:393
+#: src/main.c:400
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/main.c:475
+#: src/main.c:482
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr ""
 
-#: src/main.c:485
+#: src/main.c:492
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -185,29 +185,29 @@ msgstr[1] ""
 
 #. TRANSLATORS: this precedes a string which informs the user of a more
 #. * serious error, sometimes a fatal one
-#: src/messages_rmw.c:49
+#: src/messages_rmw.c:32
 msgid "  :error: "
 msgstr ""
 
 #. TRANSLATORS: this precedes a string which warns the user of some minor
 #. * but not fatal problem
-#: src/messages_rmw.c:56
+#: src/messages_rmw.c:39
 msgid " :warning: "
 msgstr ""
 
 #. TRANSLATORS:  "opening" refers to a file
-#: src/messages_rmw.c:71
+#: src/messages_rmw.c:54
 #, c-format
 msgid "while opening %s\n"
 msgstr ""
 
 #. TRANSLATORS:  "function" refers to a C function
-#: src/messages_rmw.c:75 src/messages_rmw.c:107
+#: src/messages_rmw.c:58 src/messages_rmw.c:90
 #, c-format
 msgid "function: <%s>"
 msgstr ""
 
-#: src/messages_rmw.c:104
+#: src/messages_rmw.c:87
 #, c-format
 msgid "while closing %s\n"
 msgstr ""
@@ -217,7 +217,7 @@ msgstr ""
 #. *               "format" refers to the layout of the file
 #. *                contents
 #.
-#: src/messages_rmw.c:123
+#: src/messages_rmw.c:106
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr ""
@@ -225,29 +225,29 @@ msgstr ""
 #. TRANSLATORS: ignore "restore()"
 #. * "returned" refers to an error code (number) that was returned by
 #. * an operation
-#: src/messages_rmw.c:141
+#: src/messages_rmw.c:124
 #, c-format
 msgid "restore() returned %d\n"
 msgstr ""
 
-#: src/messages_rmw.c:153
+#: src/messages_rmw.c:136
 #, c-format
 msgid "while attempting to allocate memory -- %s:L%d\n"
 msgstr ""
 
 #. TRANSLATORS: "return" code refers to a number returned by an operation
 #. * or function
-#: src/messages_rmw.c:167
+#: src/messages_rmw.c:150
 #, c-format
-msgid "  :return code: %d -- %s\n"
+msgid "  :return code: %d\n"
 msgstr ""
 
-#: src/messages_rmw.c:184
+#: src/messages_rmw.c:167
 #, c-format
 msgid "while opening %s -- %s:L%d\n"
 msgstr ""
 
-#: src/messages_rmw.c:193
+#: src/messages_rmw.c:176
 #, c-format
 msgid ""
 "while trying to move (rename)\n"
@@ -255,7 +255,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/messages_rmw.c:250
+#: src/messages_rmw.c:233
 #, c-format
 msgid "while removing %s\n"
 msgstr ""
@@ -579,12 +579,12 @@ msgstr ""
 msgid "Created directory %s\n"
 msgstr ""
 
-#: src/utils_rmw.c:150
+#: src/utils_rmw.c:155
 msgid "Continue? (y/n): "
 msgstr ""
 
-#: src/utils_rmw.c:244 src/utils_rmw.c:255 src/utils_rmw.c:307
-#: src/utils_rmw.c:322
+#: src/utils_rmw.c:249 src/utils_rmw.c:260 src/utils_rmw.c:312
+#: src/utils_rmw.c:327
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr ""
