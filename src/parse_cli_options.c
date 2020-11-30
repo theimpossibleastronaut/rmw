@@ -51,7 +51,7 @@ ReMove the FILE(s) to a WASTE directory listed in configuration file\n\
 Restore FILE(s) from a WASTE directory\n\n\
 "), stdout);
   fputs (_("\
-  -h, --help\n\
+  -h, --help                show help for command line options\n\
 "), stdout);
   fputs (_("\
   -c, --config filename     use an alternate configuration\n\
