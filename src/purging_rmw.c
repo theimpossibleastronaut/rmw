@@ -80,9 +80,9 @@ rmdir_recursive (char *dirname, short unsigned level,
       st_dirname_properties.path[pathLen] = '\0';
     }
 
-    int req_len =
-      multi_strlen (st_dirname_properties.path,
-                    st_dirname_properties.st_entry_ptr->d_name, NULL) + 1;
+    int req_len = multi_strlen (st_dirname_properties.path,
+                                st_dirname_properties.st_entry_ptr->d_name,
+                                NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     strcat (st_dirname_properties.path,
             st_dirname_properties.st_entry_ptr->d_name);
@@ -474,9 +474,8 @@ purge (st_config * st_config_data,
       {
         if (verbose >= 2)
         {
-          printf (_("%s will be purged in "), corresponding_file_to_purge);
-          printf (_("%.2lf days"), days_remaining);
-          printf ("\n");
+          printf (_("%s will be purged in %.2lf days\n"),
+                  corresponding_file_to_purge, days_remaining);
         }
       }
     }
