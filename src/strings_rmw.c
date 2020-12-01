@@ -3,7 +3,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2018  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -141,7 +141,8 @@ bufchk (const char *str, int boundary)
  * @see bufchk
  */
 void
-bufchk_len (const int len, const int dest_boundary, const char *func, const int line)
+bufchk_len (const int len, const int dest_boundary, const char *func,
+            const int line)
 {
   if (len <= dest_boundary)
     return;
@@ -164,20 +165,21 @@ bufchk_len (const int len, const int dest_boundary, const char *func, const int 
  * @return the combined length of each string
  */
 int
-multi_strlen (const char* argv, ...)
+multi_strlen (const char *argv, ...)
 {
   va_list vlist;
   char *str;
   int len = 0;
 
-  str = (char*)argv;
+  str = (char *) argv;
   va_start (vlist, argv);
   do
   {
     len += strlen (str);
-    str = va_arg (vlist, char*);
-  } while (str != NULL);
-  va_end(vlist);
+    str = va_arg (vlist, char *);
+  }
+  while (str != NULL);
+  va_end (vlist);
   return len;
 }
 
