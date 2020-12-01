@@ -1,7 +1,5 @@
 bin_PROGRAMS = $(top_builddir)/rmw
-AM_CFLAGS = @CURSES_CFLAGS@
-
-rmw_CFLAGS = $(AM_CFLAGS) @EXTRA_CFLAGS@
+AM_CFLAGS = @CURSES_CFLAGS@ @EXTRA_CFLAGS@
 
 __top_builddir__rmw_SOURCES=	\
 	globals.c	\
