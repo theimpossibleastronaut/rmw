@@ -4,9 +4,8 @@ on: [push, pull_request]
 
 jobs:
   build:
-
+    if: contains(toJson(github.event.commits), '[skip jekyll]') == false
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Build the site in the jekyll/builder container
