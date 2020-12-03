@@ -39,3 +39,6 @@ clean-local:
 	if test -d $$dir;	then	\
 		rm -rf $$dir;	\
 	fi
+	if test -d $(top_builddir)/test/rmdir_test; then	\
+		rm -rf $(top_builddir)/test/rmdir_test;	\
+	fi
