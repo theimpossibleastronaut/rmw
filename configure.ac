@@ -97,10 +97,10 @@ AC_CONFIG_FILES([       Makefile
                         po/Makefile.in
                         test/VARS])
 
-AC_CONFIG_FILES([test/basic.sh], [chmod +x test/basic.sh])
-AC_CONFIG_FILES([test/purging.sh], [chmod +x test/purging.sh])
-AC_CONFIG_FILES([test/restore.sh], [chmod +x test/restore.sh])
-AC_CONFIG_FILES([test/buffer_overrun.sh], [chmod +x test/buffer_overrun.sh])
+AC_CONFIG_FILES([test/test_basic.sh], [chmod +x test/test_basic.sh])
+AC_CONFIG_FILES([test/test_purging.sh], [chmod +x test/test_purging.sh])
+AC_CONFIG_FILES([test/test_restore.sh], [chmod +x test/test_restore.sh])
+AC_CONFIG_FILES([test/test_buffer_overrun.sh], [chmod +x test/test_buffer_overrun.sh])
 AC_CONFIG_FILES([test/create-some-files.sh], [chmod +x test/create-some-files.sh])
 
 AC_OUTPUT

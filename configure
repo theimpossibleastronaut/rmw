@@ -9376,13 +9376,13 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 ac_config_files="$ac_config_files Makefile src/Makefile man/Makefile test/Makefile po/Makefile.in test/VARS"
 
 
-ac_config_files="$ac_config_files test/basic.sh"
+ac_config_files="$ac_config_files test/test_basic.sh"
 
-ac_config_files="$ac_config_files test/purging.sh"
+ac_config_files="$ac_config_files test/test_purging.sh"
 
-ac_config_files="$ac_config_files test/restore.sh"
+ac_config_files="$ac_config_files test/test_restore.sh"
 
-ac_config_files="$ac_config_files test/buffer_overrun.sh"
+ac_config_files="$ac_config_files test/test_buffer_overrun.sh"
 
 ac_config_files="$ac_config_files test/create-some-files.sh"
 
@@ -10123,10 +10123,10 @@ do
     "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
     "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
     "test/VARS") CONFIG_FILES="$CONFIG_FILES test/VARS" ;;
-    "test/basic.sh") CONFIG_FILES="$CONFIG_FILES test/basic.sh" ;;
-    "test/purging.sh") CONFIG_FILES="$CONFIG_FILES test/purging.sh" ;;
-    "test/restore.sh") CONFIG_FILES="$CONFIG_FILES test/restore.sh" ;;
-    "test/buffer_overrun.sh") CONFIG_FILES="$CONFIG_FILES test/buffer_overrun.sh" ;;
+    "test/test_basic.sh") CONFIG_FILES="$CONFIG_FILES test/test_basic.sh" ;;
+    "test/test_purging.sh") CONFIG_FILES="$CONFIG_FILES test/test_purging.sh" ;;
+    "test/test_restore.sh") CONFIG_FILES="$CONFIG_FILES test/test_restore.sh" ;;
+    "test/test_buffer_overrun.sh") CONFIG_FILES="$CONFIG_FILES test/test_buffer_overrun.sh" ;;
     "test/create-some-files.sh") CONFIG_FILES="$CONFIG_FILES test/create-some-files.sh" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
@@ -10837,10 +10837,10 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
         ;;
       esac
     done ;;
-    "test/basic.sh":F) chmod +x test/basic.sh ;;
-    "test/purging.sh":F) chmod +x test/purging.sh ;;
-    "test/restore.sh":F) chmod +x test/restore.sh ;;
-    "test/buffer_overrun.sh":F) chmod +x test/buffer_overrun.sh ;;
+    "test/test_basic.sh":F) chmod +x test/test_basic.sh ;;
+    "test/test_purging.sh":F) chmod +x test/test_purging.sh ;;
+    "test/test_restore.sh":F) chmod +x test/test_restore.sh ;;
+    "test/test_buffer_overrun.sh":F) chmod +x test/test_buffer_overrun.sh ;;
     "test/create-some-files.sh":F) chmod +x test/create-some-files.sh ;;
 
   esac
