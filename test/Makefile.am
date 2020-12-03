@@ -1,25 +1,25 @@
 AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -DTEST_LIB
 
 check_PROGRAMS = \
-	strings	\
-	config_test \
-	multi_strlen	\
-	buffer_overrun	\
-	url_encoding	\
-	trashinfo
+	test_strings	\
+	test_config_test \
+	test_multi_strlen	\
+	test_buffer_overrun	\
+	test_url_encoding	\
+	test_trashinfo
 
-strings_SOURCES = strings.c
-config_test_SOURCES = config_test.c
-multi_strlen_SOURCES = multi_strlen.c
-buffer_overrun_SOURCES = buffer_overrun.c
-url_encoding_SOURCES = url_encoding.c
-trashinfo_SOURCES = trashinfo.c
+test_strings_SOURCES = test_strings.c
+test_config_test_SOURCES = test_config.c
+test_multi_strlen_SOURCES = test_multi_strlen.c
+test_buffer_overrun_SOURCES = test_buffer_overrun.c
+test_url_encoding_SOURCES = test_url_encoding.c
+test_trashinfo_SOURCES = test_trashinfo.c
 
 test_scripts =	\
-	basic.sh	\
-	purging.sh	\
-	restore.sh	\
-	buffer_overrun.sh
+	test_basic.sh	\
+	test_purging.sh	\
+	test_restore.sh	\
+	test_buffer_overrun.sh
 
 TESTS=$(check_PROGRAMS) $(test_scripts)
 

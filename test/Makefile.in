@@ -87,9 +87,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = strings$(EXEEXT) config_test$(EXEEXT) \
-	multi_strlen$(EXEEXT) buffer_overrun$(EXEEXT) \
-	url_encoding$(EXEEXT) trashinfo$(EXEEXT)
+check_PROGRAMS = test_strings$(EXEEXT) test_config_test$(EXEEXT) \
+	test_multi_strlen$(EXEEXT) test_buffer_overrun$(EXEEXT) \
+	test_url_encoding$(EXEEXT) test_trashinfo$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/build-aux/m4/ax_append_flag.m4 \
@@ -117,33 +117,33 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES = VARS basic.sh purging.sh restore.sh \
-	buffer_overrun.sh create-some-files.sh
+CONFIG_CLEAN_FILES = VARS test_basic.sh test_purging.sh \
+	test_restore.sh test_buffer_overrun.sh create-some-files.sh
 CONFIG_CLEAN_VPATH_FILES =
-am_buffer_overrun_OBJECTS = buffer_overrun.$(OBJEXT)
-buffer_overrun_OBJECTS = $(am_buffer_overrun_OBJECTS)
-buffer_overrun_LDADD = $(LDADD)
-buffer_overrun_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_config_test_OBJECTS = config_test.$(OBJEXT)
-config_test_OBJECTS = $(am_config_test_OBJECTS)
-config_test_LDADD = $(LDADD)
-config_test_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_multi_strlen_OBJECTS = multi_strlen.$(OBJEXT)
-multi_strlen_OBJECTS = $(am_multi_strlen_OBJECTS)
-multi_strlen_LDADD = $(LDADD)
-multi_strlen_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_strings_OBJECTS = strings.$(OBJEXT)
-strings_OBJECTS = $(am_strings_OBJECTS)
-strings_LDADD = $(LDADD)
-strings_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_trashinfo_OBJECTS = trashinfo.$(OBJEXT)
-trashinfo_OBJECTS = $(am_trashinfo_OBJECTS)
-trashinfo_LDADD = $(LDADD)
-trashinfo_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_url_encoding_OBJECTS = url_encoding.$(OBJEXT)
-url_encoding_OBJECTS = $(am_url_encoding_OBJECTS)
-url_encoding_LDADD = $(LDADD)
-url_encoding_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+am_test_buffer_overrun_OBJECTS = test_buffer_overrun.$(OBJEXT)
+test_buffer_overrun_OBJECTS = $(am_test_buffer_overrun_OBJECTS)
+test_buffer_overrun_LDADD = $(LDADD)
+test_buffer_overrun_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+am_test_config_test_OBJECTS = test_config.$(OBJEXT)
+test_config_test_OBJECTS = $(am_test_config_test_OBJECTS)
+test_config_test_LDADD = $(LDADD)
+test_config_test_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+am_test_multi_strlen_OBJECTS = test_multi_strlen.$(OBJEXT)
+test_multi_strlen_OBJECTS = $(am_test_multi_strlen_OBJECTS)
+test_multi_strlen_LDADD = $(LDADD)
+test_multi_strlen_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+am_test_strings_OBJECTS = test_strings.$(OBJEXT)
+test_strings_OBJECTS = $(am_test_strings_OBJECTS)
+test_strings_LDADD = $(LDADD)
+test_strings_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+am_test_trashinfo_OBJECTS = test_trashinfo.$(OBJEXT)
+test_trashinfo_OBJECTS = $(am_test_trashinfo_OBJECTS)
+test_trashinfo_LDADD = $(LDADD)
+test_trashinfo_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+am_test_url_encoding_OBJECTS = test_url_encoding.$(OBJEXT)
+test_url_encoding_OBJECTS = $(am_test_url_encoding_OBJECTS)
+test_url_encoding_LDADD = $(LDADD)
+test_url_encoding_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -171,12 +171,13 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(buffer_overrun_SOURCES) $(config_test_SOURCES) \
-	$(multi_strlen_SOURCES) $(strings_SOURCES) \
-	$(trashinfo_SOURCES) $(url_encoding_SOURCES)
-DIST_SOURCES = $(buffer_overrun_SOURCES) $(config_test_SOURCES) \
-	$(multi_strlen_SOURCES) $(strings_SOURCES) \
-	$(trashinfo_SOURCES) $(url_encoding_SOURCES)
+SOURCES = $(test_buffer_overrun_SOURCES) $(test_config_test_SOURCES) \
+	$(test_multi_strlen_SOURCES) $(test_strings_SOURCES) \
+	$(test_trashinfo_SOURCES) $(test_url_encoding_SOURCES)
+DIST_SOURCES = $(test_buffer_overrun_SOURCES) \
+	$(test_config_test_SOURCES) $(test_multi_strlen_SOURCES) \
+	$(test_strings_SOURCES) $(test_trashinfo_SOURCES) \
+	$(test_url_encoding_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -406,10 +407,10 @@ TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
 TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/VARS.in \
-	$(srcdir)/basic.sh.in $(srcdir)/buffer_overrun.sh.in \
-	$(srcdir)/create-some-files.sh.in $(srcdir)/purging.sh.in \
-	$(srcdir)/restore.sh.in $(top_srcdir)/build-aux/test-driver \
-	README
+	$(srcdir)/create-some-files.sh.in $(srcdir)/test_basic.sh.in \
+	$(srcdir)/test_buffer_overrun.sh.in \
+	$(srcdir)/test_purging.sh.in $(srcdir)/test_restore.sh.in \
+	$(top_srcdir)/build-aux/test-driver README
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -533,17 +534,17 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -DTEST_LIB
-strings_SOURCES = strings.c
-config_test_SOURCES = config_test.c
-multi_strlen_SOURCES = multi_strlen.c
-buffer_overrun_SOURCES = buffer_overrun.c
-url_encoding_SOURCES = url_encoding.c
-trashinfo_SOURCES = trashinfo.c
+test_strings_SOURCES = test_strings.c
+test_config_test_SOURCES = test_config.c
+test_multi_strlen_SOURCES = test_multi_strlen.c
+test_buffer_overrun_SOURCES = test_buffer_overrun.c
+test_url_encoding_SOURCES = test_url_encoding.c
+test_trashinfo_SOURCES = test_trashinfo.c
 test_scripts = \
-	basic.sh	\
-	purging.sh	\
-	restore.sh	\
-	buffer_overrun.sh
+	test_basic.sh	\
+	test_purging.sh	\
+	test_restore.sh	\
+	test_buffer_overrun.sh
 
 TESTS = $(check_PROGRAMS) $(test_scripts)
 LDADD = @LIBINTL@ $(top_builddir)/src/librmw_test.a @MENU_LIBS@ @CURSES_LIBS@
@@ -589,13 +590,13 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 $(am__aclocal_m4_deps):
 VARS: $(top_builddir)/config.status $(srcdir)/VARS.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-basic.sh: $(top_builddir)/config.status $(srcdir)/basic.sh.in
+test_basic.sh: $(top_builddir)/config.status $(srcdir)/test_basic.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-purging.sh: $(top_builddir)/config.status $(srcdir)/purging.sh.in
+test_purging.sh: $(top_builddir)/config.status $(srcdir)/test_purging.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-restore.sh: $(top_builddir)/config.status $(srcdir)/restore.sh.in
+test_restore.sh: $(top_builddir)/config.status $(srcdir)/test_restore.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-buffer_overrun.sh: $(top_builddir)/config.status $(srcdir)/buffer_overrun.sh.in
+test_buffer_overrun.sh: $(top_builddir)/config.status $(srcdir)/test_buffer_overrun.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 create-some-files.sh: $(top_builddir)/config.status $(srcdir)/create-some-files.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
@@ -603,29 +604,29 @@ create-some-files.sh: $(top_builddir)/config.status $(srcdir)/create-some-files.
 clean-checkPROGRAMS:
 	-test -z "$(check_PROGRAMS)" || rm -f $(check_PROGRAMS)
 
-buffer_overrun$(EXEEXT): $(buffer_overrun_OBJECTS) $(buffer_overrun_DEPENDENCIES) $(EXTRA_buffer_overrun_DEPENDENCIES) 
-	@rm -f buffer_overrun$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(buffer_overrun_OBJECTS) $(buffer_overrun_LDADD) $(LIBS)
+test_buffer_overrun$(EXEEXT): $(test_buffer_overrun_OBJECTS) $(test_buffer_overrun_DEPENDENCIES) $(EXTRA_test_buffer_overrun_DEPENDENCIES) 
+	@rm -f test_buffer_overrun$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_buffer_overrun_OBJECTS) $(test_buffer_overrun_LDADD) $(LIBS)
 
-config_test$(EXEEXT): $(config_test_OBJECTS) $(config_test_DEPENDENCIES) $(EXTRA_config_test_DEPENDENCIES) 
-	@rm -f config_test$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(config_test_OBJECTS) $(config_test_LDADD) $(LIBS)
+test_config_test$(EXEEXT): $(test_config_test_OBJECTS) $(test_config_test_DEPENDENCIES) $(EXTRA_test_config_test_DEPENDENCIES) 
+	@rm -f test_config_test$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_config_test_OBJECTS) $(test_config_test_LDADD) $(LIBS)
 
-multi_strlen$(EXEEXT): $(multi_strlen_OBJECTS) $(multi_strlen_DEPENDENCIES) $(EXTRA_multi_strlen_DEPENDENCIES) 
-	@rm -f multi_strlen$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(multi_strlen_OBJECTS) $(multi_strlen_LDADD) $(LIBS)
+test_multi_strlen$(EXEEXT): $(test_multi_strlen_OBJECTS) $(test_multi_strlen_DEPENDENCIES) $(EXTRA_test_multi_strlen_DEPENDENCIES) 
+	@rm -f test_multi_strlen$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_multi_strlen_OBJECTS) $(test_multi_strlen_LDADD) $(LIBS)
 
-strings$(EXEEXT): $(strings_OBJECTS) $(strings_DEPENDENCIES) $(EXTRA_strings_DEPENDENCIES) 
-	@rm -f strings$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(strings_OBJECTS) $(strings_LDADD) $(LIBS)
+test_strings$(EXEEXT): $(test_strings_OBJECTS) $(test_strings_DEPENDENCIES) $(EXTRA_test_strings_DEPENDENCIES) 
+	@rm -f test_strings$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_strings_OBJECTS) $(test_strings_LDADD) $(LIBS)
 
-trashinfo$(EXEEXT): $(trashinfo_OBJECTS) $(trashinfo_DEPENDENCIES) $(EXTRA_trashinfo_DEPENDENCIES) 
-	@rm -f trashinfo$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(trashinfo_OBJECTS) $(trashinfo_LDADD) $(LIBS)
+test_trashinfo$(EXEEXT): $(test_trashinfo_OBJECTS) $(test_trashinfo_DEPENDENCIES) $(EXTRA_test_trashinfo_DEPENDENCIES) 
+	@rm -f test_trashinfo$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_trashinfo_OBJECTS) $(test_trashinfo_LDADD) $(LIBS)
 
-url_encoding$(EXEEXT): $(url_encoding_OBJECTS) $(url_encoding_DEPENDENCIES) $(EXTRA_url_encoding_DEPENDENCIES) 
-	@rm -f url_encoding$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(url_encoding_OBJECTS) $(url_encoding_LDADD) $(LIBS)
+test_url_encoding$(EXEEXT): $(test_url_encoding_OBJECTS) $(test_url_encoding_DEPENDENCIES) $(EXTRA_test_url_encoding_DEPENDENCIES) 
+	@rm -f test_url_encoding$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_url_encoding_OBJECTS) $(test_url_encoding_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -832,72 +833,72 @@ recheck: all $(check_PROGRAMS)
 	        am__force_recheck=am--force-recheck \
 	        TEST_LOGS="$$log_list"; \
 	exit $$?
-strings.log: strings$(EXEEXT)
-	@p='strings$(EXEEXT)'; \
-	b='strings'; \
+test_strings.log: test_strings$(EXEEXT)
+	@p='test_strings$(EXEEXT)'; \
+	b='test_strings'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-config_test.log: config_test$(EXEEXT)
-	@p='config_test$(EXEEXT)'; \
-	b='config_test'; \
+test_config_test.log: test_config_test$(EXEEXT)
+	@p='test_config_test$(EXEEXT)'; \
+	b='test_config_test'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-multi_strlen.log: multi_strlen$(EXEEXT)
-	@p='multi_strlen$(EXEEXT)'; \
-	b='multi_strlen'; \
+test_multi_strlen.log: test_multi_strlen$(EXEEXT)
+	@p='test_multi_strlen$(EXEEXT)'; \
+	b='test_multi_strlen'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-buffer_overrun.log: buffer_overrun$(EXEEXT)
-	@p='buffer_overrun$(EXEEXT)'; \
-	b='buffer_overrun'; \
+test_buffer_overrun.log: test_buffer_overrun$(EXEEXT)
+	@p='test_buffer_overrun$(EXEEXT)'; \
+	b='test_buffer_overrun'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-url_encoding.log: url_encoding$(EXEEXT)
-	@p='url_encoding$(EXEEXT)'; \
-	b='url_encoding'; \
+test_url_encoding.log: test_url_encoding$(EXEEXT)
+	@p='test_url_encoding$(EXEEXT)'; \
+	b='test_url_encoding'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-trashinfo.log: trashinfo$(EXEEXT)
-	@p='trashinfo$(EXEEXT)'; \
-	b='trashinfo'; \
+test_trashinfo.log: test_trashinfo$(EXEEXT)
+	@p='test_trashinfo$(EXEEXT)'; \
+	b='test_trashinfo'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-basic.sh.log: basic.sh
-	@p='basic.sh'; \
-	b='basic.sh'; \
+test_basic.sh.log: test_basic.sh
+	@p='test_basic.sh'; \
+	b='test_basic.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-purging.sh.log: purging.sh
-	@p='purging.sh'; \
-	b='purging.sh'; \
+test_purging.sh.log: test_purging.sh
+	@p='test_purging.sh'; \
+	b='test_purging.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-restore.sh.log: restore.sh
-	@p='restore.sh'; \
-	b='restore.sh'; \
+test_restore.sh.log: test_restore.sh
+	@p='test_restore.sh'; \
+	b='test_restore.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-buffer_overrun.sh.log: buffer_overrun.sh
-	@p='buffer_overrun.sh'; \
-	b='buffer_overrun.sh'; \
+test_buffer_overrun.sh.log: test_buffer_overrun.sh
+	@p='test_buffer_overrun.sh'; \
+	b='test_buffer_overrun.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
