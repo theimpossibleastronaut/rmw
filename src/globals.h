@@ -76,8 +76,7 @@ enum {
   ERR_TRASHINFO_FORMAT,
   FILE_NOT_FOUND,
   ERR_LSTAT,
-  NOT_WRITEABLE,
-  MAX_DEPTH_REACHED
+  NOT_WRITEABLE
 };
 
 extern int verbose;

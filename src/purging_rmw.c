@@ -1,4 +1,5 @@
 /*
+ * purging_rmw.c
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
@@ -46,10 +47,10 @@ static
 #endif
 int
 rmdir_recursive (char *dirname, short unsigned level,
-                 const rmw_options * cli_user_options)
+                 const int force)
 {
-  if (level == RMDIR_MAX_DEPTH)
-    return MAX_DEPTH_REACHED;
+  if (level > RMDIR_MAX_DEPTH)
+    return RMDIR_MAX_DEPTH;
 
   int remove_result = 0;
 
@@ -95,7 +96,7 @@ rmdir_recursive (char *dirname, short unsigned level,
     unsigned long int orig_dev = st.st_dev;
     unsigned long int orig_inode = st.st_ino;
 
-    if (cli_user_options->force >= 2 && ~st.st_mode & S_IWUSR)  /* use >= 2 to protect against future changes */
+    if (force >= 2 && ~st.st_mode & S_IWUSR)  /* use >= 2 to protect against future changes */
     {
       if (!chmod (st_dirname_properties.path, 00700))
       {
@@ -140,8 +141,7 @@ rmdir_recursive (char *dirname, short unsigned level,
       else
       {
         remove_result =
-          rmdir_recursive (st_dirname_properties.path, ++level,
-                           cli_user_options);
+          rmdir_recursive (st_dirname_properties.path, ++level, force);
         level--;
 
         switch (remove_result)
@@ -152,10 +152,10 @@ rmdir_recursive (char *dirname, short unsigned level,
             msg_err_close_dir (dirname, __func__, __LINE__);
           return NOT_WRITEABLE;
           break;
-        case MAX_DEPTH_REACHED:
+        case RMDIR_MAX_DEPTH:
           if (closedir (st_dirname_properties.ptr))
             msg_err_close_dir (dirname, __func__, __LINE__);
-          return MAX_DEPTH_REACHED;
+          return RMDIR_MAX_DEPTH;
           break;
         }
       }
@@ -385,7 +385,7 @@ purge (st_config * st_config_data,
           if (cli_user_options->want_dry_run == false)
             status =
               rmdir_recursive (corresponding_file_to_purge, 1,
-                               cli_user_options);
+                               cli_user_options->force);
           else
           {
             /* Not much choice but to
@@ -403,7 +403,7 @@ purge (st_config * st_config_data,
             dirs_containing_files_ctr++;
             break;
 
-          case MAX_DEPTH_REACHED:
+          case RMDIR_MAX_DEPTH:
             print_msg_warn ();
             /* TRANSLATORS:  "depth" refers to the recursion depth in a
              * directory   */

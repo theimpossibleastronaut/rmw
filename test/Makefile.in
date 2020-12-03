@@ -1098,6 +1098,9 @@ clean-local:
 	if test -d $$dir;	then	\
 		rm -rf $$dir;	\
 	fi
+	if test -d $(top_builddir)/test/rmdir_test; then	\
+		rm -rf $(top_builddir)/test/rmdir_test;	\
+	fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

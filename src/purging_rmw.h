@@ -32,7 +32,11 @@
 #include "time_rmw.h"
 #include "config_rmw.h"
 
-#define RMDIR_MAX_DEPTH 2048
+#ifndef TEST_LIB
+  #define RMDIR_MAX_DEPTH 128
+#else
+  #define RMDIR_MAX_DEPTH 32
+#endif
 
 bool is_time_to_purge (st_time * st_time_var, const char *data_dir);
 
@@ -47,7 +51,7 @@ short orphan_maint (st_waste * waste_head, st_time * st_time_var,
 #else
 int
 rmdir_recursive (char *dirname, short unsigned level,
-                 const rmw_options * cli_user_options);
+                 const int force);
 #endif
 
 #endif
