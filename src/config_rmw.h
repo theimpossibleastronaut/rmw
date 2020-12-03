@@ -22,6 +22,9 @@
  *
  */
 
+#ifndef _INC_CONFIG_H
+#define _INC_CONFIG_H
+
 #include <sys/stat.h>
 #include <pwd.h>
 #include <unistd.h> /* for geteuid() */
@@ -71,4 +74,6 @@ del_char_shift_left (const char c, char *src_str);
 
 void
 realize_waste_line (char *str);
+#endif
+
 #endif

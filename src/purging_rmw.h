@@ -1,7 +1,5 @@
-/*!
- * @file purging_rmw.h
- */
 /*
+ * purging_rmw.h
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
@@ -25,8 +23,14 @@
  *
  */
 
+#ifndef _INC_PURGING_H
+#define _INC_PURGING_H
+
 #include <sys/stat.h>
 #include <unistd.h>             /* for rmdir() */
+
+#include "time_rmw.h"
+#include "config_rmw.h"
 
 #define RMDIR_MAX_DEPTH 2048
 
@@ -40,4 +44,10 @@ purge (st_config * st_config_data,
 #ifndef TEST_LIB
 short orphan_maint (st_waste * waste_head, st_time * st_time_var,
                     int *orphan_ctr);
+#else
+int
+rmdir_recursive (char *dirname, short unsigned level,
+                 const rmw_options * cli_user_options);
+#endif
+
 #endif
