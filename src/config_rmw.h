@@ -27,6 +27,8 @@
 #include <unistd.h> /* for geteuid() */
 
 #include "trashinfo_rmw.h"
+#include "parse_cli_options.h"
+#include "messages_rmw.h"
 
 /* This is somewhat of an arbitrary value, used for allocating a string
  * with calloc. When the string is tokenized, each element is validated, so
@@ -62,3 +64,11 @@ init_config_data (st_config *st_config_data);
 
 void
 show_folder_line (const char *folder, const bool is_r);
+
+#ifdef TEST_LIB
+char *
+del_char_shift_left (const char c, char *src_str);
+
+void
+realize_waste_line (char *str);
+#endif

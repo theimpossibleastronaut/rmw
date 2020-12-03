@@ -1,16 +1,9 @@
+#include <config_rmw.h>
+#include <assert.h>
 
 const char *UID = "1000";
 
-/*
- * We include the C file here because realize_home() is declared there statically.
- * Because of that, it can't be used from the library.
- *
- */
-#include <config_rmw.c>
-#include <assert.h>
-
-static void
-test_realize_waste_line(void)
+int main (void)
 {
   char *config_line = malloc (LEN_MAX_PATH);
   chk_malloc (config_line, __func__, __LINE__);
@@ -24,15 +17,8 @@ test_realize_waste_line(void)
   printf ("%s\n", config_line);
   realize_waste_line (config_line);
   assert (!strcmp (config_line, "/home/andy/.local/share/Waste"));
-}
 
-
-static void
-test_del_char_shift_left (void)
-{
-  char *config_line = malloc (LEN_MAX_PATH);
-  chk_malloc (config_line, __func__, __LINE__);
-
+  // test_del_char_shift_left();
   strcpy (config_line, "    Hello, World");
   char *l_ptr = config_line;
   l_ptr = del_char_shift_left (' ', l_ptr);
@@ -43,14 +29,6 @@ test_del_char_shift_left (void)
 
   l_ptr = del_char_shift_left ('H', l_ptr);
   assert (!strcmp (l_ptr, "ello, World"));
-}
-
-int main (void)
-{
-
-  test_realize_waste_line ();
-
-  test_del_char_shift_left();
 
   return 0;
 }
