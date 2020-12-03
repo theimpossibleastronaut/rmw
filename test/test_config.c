@@ -1,5 +1,5 @@
-#include <config_rmw.h>
 #include <assert.h>
+#include <config_rmw.h>
 
 const char *UID = "1000";
 

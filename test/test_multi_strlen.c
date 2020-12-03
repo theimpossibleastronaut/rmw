@@ -1,6 +1,6 @@
+#include <assert.h>
 #include "globals.h"
 #include "strings_rmw.h"
-#include <assert.h>
 
 /* multi_strlen should return a pre-determined length */
 

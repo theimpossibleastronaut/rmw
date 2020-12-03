@@ -1,6 +1,6 @@
+#include <assert.h>
 #include "globals.h"
 #include "utils_rmw.h"
-#include <assert.h>
 
 #define BUF_SIZE 80
 
