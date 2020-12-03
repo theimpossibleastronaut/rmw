@@ -29,11 +29,9 @@
 #endif
 
 #include "main.h"
-#include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
 #include "strings_rmw.h"
-#include "messages_rmw.h"
 
 static const int DEFAULT_PURGE_AFTER = 0;
 
@@ -98,7 +96,10 @@ print_config (FILE *stream)
  * If a string begins with 'c', returns a pointer to the first occurrence
  * in the string after 'c'
  */
-static char *
+#ifndef TEST_LIB
+static
+#endif
+char *
 del_char_shift_left (const char c, char *src_str)
 {
   if (*src_str != c)
@@ -142,7 +143,10 @@ strrepl (char *dest, char *src, const char *str, char *repl)
  * If "$HOME", "~", or "$UID" is used in the configuration file, convert it
  * to the literal value.
  */
-static void
+#ifndef TEST_LIB
+static
+#endif
+void
 realize_waste_line (char *str)
 {
   trim_char ('/', str);
