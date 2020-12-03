@@ -25,7 +25,6 @@
 #include "globals.h"
 #include "main.h"
 #include "parse_cli_options.h"
-#include "config_rmw.h"
 #include "purging_rmw.h"
 #include "messages_rmw.h"
 #include "strings_rmw.h"
@@ -42,7 +41,10 @@ static off_t bytes_freed = 0;
  * @param[out] level keeps track of the number of times recursion has happened
  * @return error number
  */
-static int
+#ifndef TEST_LIB
+static
+#endif
+int
 rmdir_recursive (char *dirname, short unsigned level,
                  const rmw_options * cli_user_options)
 {
