@@ -1,4 +1,4 @@
-#include <assert.h>
+#include "test.h"
 #include <purging_rmw.h>
 
 // TODO: Add more tests for the rmdir_recursive function, such as

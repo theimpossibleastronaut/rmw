@@ -1,4 +1,4 @@
-#include <assert.h>
+#include "test.h"
 #include "globals.h"
 #include "utils_rmw.h"
 

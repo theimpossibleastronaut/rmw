@@ -1,4 +1,4 @@
-#include <assert.h>
+#include "test.h"
 #include <config_rmw.h>
 
 const char *UID = "1000";
