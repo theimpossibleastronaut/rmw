@@ -55,9 +55,12 @@ $RMW_TEST_CMD_STRING $RMWTEST_HOME/no_write_perms
 test_result_want_fail $?
 
 echo $SEPARATOR
-echo "Broken symlink"
+echo "Symlinks"
 ln -s $RMWTEST_HOME $RMWTEST_HOME/link_test || exit $?
-$RMW_TEST_CMD_STRING $RMWTEST_HOME/link_test || exit $?
+# broken link
+ln -s broken_symlink_test $RMWTEST_HOME/link_test2 || exit $?
+file $RMWTEST_HOME/link_test2
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/link_test $RMWTEST_HOME/link_test2 || exit $?
 $RMW_TEST_CMD_STRING -u || exit $?
 
 # change permissions back to writable so the dir gets removed before the
