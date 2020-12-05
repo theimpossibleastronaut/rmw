@@ -59,7 +59,6 @@ echo "Symlinks"
 ln -s $RMWTEST_HOME $RMWTEST_HOME/link_test || exit $?
 # broken link
 ln -s broken_symlink_test $RMWTEST_HOME/link_test2 || exit $?
-file $RMWTEST_HOME/link_test2
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/link_test $RMWTEST_HOME/link_test2 || exit $?
 $RMW_TEST_CMD_STRING -u || exit $?
 
