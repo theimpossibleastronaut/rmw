@@ -49,7 +49,7 @@ int main (void)
 
   // Because some of the created files don't have write permission, this
   // should fail the first time when force isn't set to 2
-  assert (rmdir_recursive (dir_rmdir_test, level, force) != 0);
+  assert (rmdir_recursive (dir_rmdir_test, level, force) == EACCES);
 
   force = 2;
   // Now it should pass

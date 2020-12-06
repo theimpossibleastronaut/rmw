@@ -147,10 +147,10 @@ rmdir_recursive (char *dirname, short unsigned level,
         switch (remove_result)
         {
 
-        case NOT_WRITEABLE:
+        case EACCES:
           if (closedir (st_dirname_properties.ptr))
             msg_err_close_dir (dirname, __func__, __LINE__);
-          return NOT_WRITEABLE;
+          return EACCES;
           break;
         case RMDIR_MAX_DEPTH:
           if (closedir (st_dirname_properties.ptr))
@@ -169,7 +169,7 @@ rmdir_recursive (char *dirname, short unsigned level,
       if (closedir (st_dirname_properties.ptr))
         msg_err_close_dir (dirname, __func__, __LINE__);
 
-      return NOT_WRITEABLE;
+      return EACCES;
     }
   }
 
@@ -395,7 +395,7 @@ purge (st_config * st_config_data,
 
           switch (status)
           {
-          case NOT_WRITEABLE:
+          case EACCES:
             print_msg_warn ();
             printf (_("Directory not purged - still contains files\n"));
             printf ("%s\n", corresponding_file_to_purge);
