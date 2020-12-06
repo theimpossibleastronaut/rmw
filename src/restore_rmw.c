@@ -196,8 +196,8 @@ Duplicate filename at destination - appending time string...\n"));
     printf (" :");
     /* TRANSLATORS:  "%s" refers to a file or directory  */
     printf (_("File not found: '%s'\n"), file_arg);
-    msg_return_code (FILE_NOT_FOUND);
-    return FILE_NOT_FOUND;
+    msg_return_code (ENOENT);
+    return ENOENT;
   }
 
   return 0;

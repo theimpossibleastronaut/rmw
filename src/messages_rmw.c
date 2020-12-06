@@ -113,10 +113,10 @@ void msg_warn_restore (int result)
   if (result == 0)
     return;
 
-  if (result != FILE_NOT_FOUND)
+  if (result != ENOENT)
   {
     print_msg_warn ();
-    if (result != FILE_NOT_FOUND)
+    if (result != ENOENT)
     {
       /* TRANSLATORS: ignore "restore()"
        * "returned" refers to an error code (number) that was returned by
