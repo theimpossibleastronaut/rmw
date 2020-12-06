@@ -1,5 +1,4 @@
 #include "test.h"
-#include "globals.h"
 #include "strings_rmw.h"
 
 /* multi_strlen should return a pre-determined length */
