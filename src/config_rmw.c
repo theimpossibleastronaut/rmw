@@ -307,9 +307,9 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
 
   if (! exists (waste_curr->files))
   {
-    if (make_dir (waste_curr->files) == MAKE_DIR_FAILURE)
+    if (make_dir (waste_curr->files) != 0)
     {
-      exit (EXIT_FAILURE);
+      exit (errno);
     }
   }
 
@@ -325,7 +325,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
 
   if (! exists (waste_curr->info))
   {
-    if (make_dir (waste_curr->info) == MAKE_DIR_FAILURE)
+    if (make_dir (waste_curr->info) != 0)
     {
       exit (EXIT_FAILURE);
     }
@@ -525,8 +525,8 @@ If you need further help, or to report a possible bug,\n\
 visit the rmw web site at\n"));
     printf ("  " PACKAGE_URL "\n");
     printf ("Unable to continue. Exiting...\n");
-    msg_return_code (NO_WASTE_FOLDER);
-    exit (NO_WASTE_FOLDER);
+    msg_return_code (-1);
+    exit (EXIT_FAILURE);
   }
 
   return;
@@ -539,8 +539,8 @@ init_config_data (st_config *x)
   x->dir = get_config_home_dir ();
 
   if (! exists (x->dir))
-    if ((make_dir (x->dir) == MAKE_DIR_FAILURE))
-      exit (MAKE_DIR_FAILURE);
+    if ((make_dir (x->dir) != 0))
+      exit (errno);
 
   x->st_waste_folder_props_head = NULL;
   /*

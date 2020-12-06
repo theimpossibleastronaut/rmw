@@ -215,7 +215,7 @@ is_time_to_purge (st_time * st_time_var, const char *data_dir)
       printf ("while getting line from %s\n", file_lastpurge);
       perror (__func__);
       close_file (fp, file_lastpurge, __func__);
-      exit (ERR_FGETS);
+      exit (EXIT_FAILURE);
     }
 
     trim_white_space (time_prev);
@@ -244,8 +244,8 @@ is_time_to_purge (st_time * st_time_var, const char *data_dir)
    * is not right. Make it fatal.
    */
   open_err (file_lastpurge, __func__);
-  msg_return_code (ERR_OPEN);
-  exit (ERR_OPEN);
+  msg_return_code (errno);
+  exit (errno);
 }
 
 

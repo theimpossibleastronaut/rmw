@@ -54,7 +54,7 @@ make_dir (const char *dir)
 
   add_to_path[1] = '\0';
 
-  bool mk_err = 0;
+  bool res = 0;
 
   while (tokenPtr != NULL)
   {
@@ -67,25 +67,25 @@ make_dir (const char *dir)
 
     if (!exists (add_to_path))
     {
-      mk_err = (mkdir (add_to_path, S_IRWXU));
+      res = (mkdir (add_to_path, S_IRWXU));
 
-      if (!mk_err)
+      if (!res)
         continue;
       else
         break;
     }
   }
 
-  if (!mk_err)
+  if (!res)
   {
     printf (_("Created directory %s\n"), dir);
-    return MAKE_DIR_SUCCESS;
+    return res;
   }
 
   print_msg_error ();
   printf (_("while creating %s\n"), add_to_path);
   perror ("make_dir()");
-  return MAKE_DIR_FAILURE;
+  return errno;
 }
 
 

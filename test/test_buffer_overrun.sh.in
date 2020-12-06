@@ -24,9 +24,9 @@ done
 $SEPARATOR
 set -x
 $RMW_TEST_CMD_STRING $str
-# This assumes and exit code of 12 which may change depending on how
+# This assumes and exit code of 11 which may change depending on how
 # the error code is enum'med in rmw.h.
-test "x$?" = "x12" || exit $?
+test "x$?" = "x11" || exit $?
 
 set +x
 $SEPARATOR
@@ -59,8 +59,8 @@ done
 
 touch $RMWTEST_HOME/$str
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/$str
-# This assumes and exit code of 12 which may change depending on how
+# This assumes and exit code of 11 which may change depending on how
 # the error code is enum'med in rmw.h.
-test "x$?" = "x12" || exit $?
+test "x$?" = "x11" || exit $?
 
 exit 0

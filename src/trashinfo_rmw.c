@@ -93,7 +93,7 @@ printf ("%s%s\n", st_trashinfo_spec[TI_DATE_LINE].str, st_time_var->deletion_dat
   else
   {
     open_err (final_info_dest, __func__);
-    return ERR_OPEN;
+    return errno;
   }
 }
 

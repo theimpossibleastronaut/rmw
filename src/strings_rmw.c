@@ -123,8 +123,8 @@ bufchk (const char *str, int boundary)
     fprintf (stderr, "%s\n\n", temp);
   }
 
-  msg_return_code (EXIT_BUF_ERR);
-  exit (EXIT_BUF_ERR);
+  msg_return_code (EBUF);
+  exit (EBUF);
 }
 
 /*!
@@ -154,7 +154,7 @@ bufchk_len (const int len, const int dest_boundary, const char *func,
 
   print_msg_error ();
   msg_err_buffer_overrun (func, line);
-  exit (EXIT_BUF_ERR);
+  exit (EBUF);
 }
 
 /*!

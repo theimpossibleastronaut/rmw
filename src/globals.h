@@ -61,20 +61,7 @@
 /*! The LEN_MAX_PATH macro is used as a shortcut throughout the program. */
 #define LEN_MAX_PATH (PATH_MAX + 1)
 
-#define RETURN_CODE_OFFSET 10
-enum {
-  EXIT_FAILED_GETENV = RETURN_CODE_OFFSET,
-  NO_WASTE_FOLDER,
-  EXIT_BUF_ERR,
-  EXIT_MALLOC_ERR,
-  MAKE_DIR_SUCCESS,
-  MAKE_DIR_FAILURE,
-  ERR_OPEN,
-  ERR_CLOSE,
-  ERR_FGETS,
-  ERR_TRASHINFO_FORMAT,
-  ERR_LSTAT
-};
+#define EBUF 11
 
 extern int verbose;
 

@@ -71,7 +71,7 @@ restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_op
     {
       print_msg_error ();
       fprintf (stderr, "Overflow averted -- %s -- func:%s\n", file.relative_path, __func__);
-      exit (EXIT_BUF_ERR);
+      exit (EBUF);
     }
     snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, file.relative_info_path,
              file.base_name, TRASHINFO_EXT);
@@ -103,7 +103,7 @@ restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_op
           display_dot_trashinfo_error (file.info);
           close_file (fp, file.info, __func__);
 
-          return ERR_TRASHINFO_FORMAT;
+          return -1;
         }
 
           /** adding 5 for the 'Path=' preceding the path. */
@@ -121,7 +121,7 @@ restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_op
           display_dot_trashinfo_error (file.info);
           close_file (fp, file.info, __func__);
 
-          return ERR_FGETS;
+          return -1;
         }
 
         /* Check for duplicate filename
@@ -179,14 +179,14 @@ Duplicate filename at destination - appending time string...\n"));
         printf ("(fgets) Able to open '%s' but encountered an unknown error\n",
                 file.info);
         close_file (fp, file.info, __func__);
-        return ERR_FGETS;
+        return -1;
       }
 
     }
     else
     {
       open_err (file.info, __func__);
-      return ERR_OPEN;
+      return errno;
     }
   }
   else

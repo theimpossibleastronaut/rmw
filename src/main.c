@@ -177,7 +177,7 @@ verbose = 1;
 
   if (init_data_dir)
   {
-    if ((make_dir (data_dir) == MAKE_DIR_FAILURE))
+    if ((make_dir (data_dir) != 0))
     {
       print_msg_error ();
       printf (_("\
@@ -186,7 +186,7 @@ Please check your configuration file and permissions\
 \n\
 \n"));
       printf (_("Unable to continue. Exiting...\n"));
-      return MAKE_DIR_FAILURE;
+      return errno;
     }
   }
 

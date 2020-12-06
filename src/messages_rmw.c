@@ -90,8 +90,8 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
     sprintf (combined_msg, _("function: <%s>"), function_name);
     perror (combined_msg);
 
-    msg_return_code (ERR_CLOSE);
-    return ERR_CLOSE;
+    msg_return_code (errno);
+    return errno;
   }
 }
 
@@ -134,14 +134,14 @@ void chk_malloc (void *state, const char *func, const int line)
   {
     print_msg_error ();
     printf (_("while attempting to allocate memory -- %s:L%d\n"), func, line);
-    msg_return_code (EXIT_MALLOC_ERR);
-    exit (EXIT_MALLOC_ERR);
+    msg_return_code (-1);
+    exit (EXIT_FAILURE);
   }
   return;
 }
 
 void
-msg_return_code (int code)
+msg_return_code (const int code)
 {
   if (verbose)
   {
@@ -222,7 +222,7 @@ msg_err_lstat (const char *file, const char *func, const int line)
   print_msg_error();
   perror ("lstat()");
   fprintf (stderr, "%s in %s:L%d\n", file, func, line);
-  exit (ERR_LSTAT);
+  exit (errno);
 }
 
 void
