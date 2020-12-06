@@ -35,8 +35,6 @@
 #include "messages_rmw.h"
 #include "bst.h"
 
-#ifndef TEST_LIB
-
 /**
  * restores a file that was previously moved via rmw.
  *
@@ -412,4 +410,3 @@ undo_last_rmw (st_time *st_time_var, const char *mrl_file, const rmw_options * c
     }
   return err_ctr;
 }
-#endif /* TEST_LIB */
