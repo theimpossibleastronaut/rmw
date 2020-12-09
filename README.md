@@ -177,10 +177,6 @@ e.g. 'rmw -z ~/.local/share/Waste/files/foo*'
 
 == -f, --force ==
 
-A change from previous versions, purge is allowed to run without the '-f'
-option. If you'd rather require the use of '-f', you can add the line
-'force_required' in your configuration file.
-
 rmw will refuse to purge directories if they contain non-writable
 subdirectories. You can use -f 2 times if you ever see a message that tells
 you "permission denied; directory still contains files" (e.g. rwm -gff).
