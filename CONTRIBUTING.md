@@ -5,6 +5,9 @@
 Anyone may [open an
 issue](https://github.com/theimpossibleastronaut/rmw/issues).
 
+Feature requests should go in [GitHub
+Discussions](https://github.com/theimpossibleastronaut/rmw/discussions).
+
 ## Coding Standards
 
 The goal is to use a style similar to [GNU Coding
