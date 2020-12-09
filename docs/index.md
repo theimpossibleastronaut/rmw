@@ -39,7 +39,7 @@ documented in the [README](https://github.com/theimpossibleastronaut/rmw/blob/ma
 
 <h2 id="support">Press</h2>
 <ul>
-  <li>rmw was mentioned on page 90 of <a href="https://shop.heise.de/katalog/ct-25-2019">c't 25/2019</a></li>
+  <li>rmw was reviewed on page 90 of <a href="https://shop.heise.de/katalog/ct-25-2019">c't 25/2019</a></li>
 </ul>
 
 
