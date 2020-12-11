@@ -247,6 +247,39 @@ is_time_to_purge (st_time * st_time_var, const char *data_dir)
   exit (errno);
 }
 
+enum label_location {
+  TOP,
+  BOTTOM
+};
+
+// For display_wastedir_label()
+void make_dashes (const char *dir)
+{
+  char *l_ptr = (char*)dir;
+  while (*l_ptr != '\0')
+  {
+    printf ("-");
+    l_ptr++;
+  }
+  puts ("--------");
+  return;
+}
+
+void display_wastedir_label (enum label_location loc, const char *dir)
+{
+  if (loc == TOP)
+  {
+    printf ("\n  [ %s ]\n", dir);
+    make_dashes (dir);
+    // printf ("\n");
+  }
+  else
+  {
+    make_dashes (dir);
+    // printf ("  [ %s ]\n", dir);
+  }
+  return;
+}
 
 /*!
  * Purges files older than x number of days, unless purge_after is set to
@@ -304,15 +337,7 @@ purge (st_config * st_config_data,
     if (trashinfo_dir == NULL)
       msg_err_open_dir (waste_curr->info, __func__, __LINE__);
 
-    printf ("\n  [%s]\n", waste_curr->files);
-    char *l_ptr = waste_curr->files;
-    printf ("--");
-      while (*l_ptr != '\0')
-    {
-      printf ("-");
-      l_ptr++;
-    }
-    puts ("--");
+    display_wastedir_label (TOP, waste_curr->files);
 
     /*
      *  Read each file in <WASTE>/info
@@ -492,6 +517,8 @@ purge (st_config * st_config_data,
 
     if (closedir (trashinfo_dir))
       msg_err_close_dir (waste_curr->info, __func__, __LINE__);
+
+    display_wastedir_label (BOTTOM, waste_curr->files);
 
     waste_curr = waste_curr->next_node;
   }
