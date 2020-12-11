@@ -304,6 +304,16 @@ purge (st_config * st_config_data,
     if (trashinfo_dir == NULL)
       msg_err_open_dir (waste_curr->info, __func__, __LINE__);
 
+    printf ("\n  [%s]\n", waste_curr->files);
+    char *l_ptr = waste_curr->files;
+    printf ("--");
+      while (*l_ptr != '\0')
+    {
+      printf ("-");
+      l_ptr++;
+    }
+    puts ("--");
+
     /*
      *  Read each file in <WASTE>/info
      */
@@ -464,7 +474,7 @@ purge (st_config * st_config_data,
           {
             purge_ctr++;
             if (verbose)
-              printf ("-%s\n", corresponding_file_to_purge);
+              printf ("-%s\n", basename (corresponding_file_to_purge));
           }
           else
             msg_err_remove (corresponding_file_to_purge, __func__);
@@ -474,8 +484,8 @@ purge (st_config * st_config_data,
       {
         if (verbose >= 2)
         {
-          printf (_("%s will be purged in %.2lf days\n"),
-                  corresponding_file_to_purge, days_remaining);
+          printf (_("'%s' will be purged in %.2lf days\n"),
+                  basename (corresponding_file_to_purge), days_remaining);
         }
       }
     }
