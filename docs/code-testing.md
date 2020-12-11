@@ -51,7 +51,7 @@ flags](https://sourceware.org/binutils/docs/gprof/Compiling.html#Compiling).
 The easiest way to do that is
 
 <p class="w3-code">
-  make clean<br />
+  make distclean<br />
   ../configure --enable-debug=profile<br />
   make
 </p>
@@ -64,7 +64,10 @@ Then run rmw with any parameters you like.
 
 That will produce a file called <code
 class="w3-codespan">gmon.out</code>. Now run <code
+
 class="w3-codespan">gprof ./rmw gmon.out</code> to view the results.
+(To learn about runtime options for gprof, check the documentation on
+its website.)
 
 <h2 id="create_test">How to Create a Unit Test</h2>
 
