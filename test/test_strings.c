@@ -5,6 +5,16 @@
 
 #define BUF_SIZE 80
 
+void test_isdotdir(void)
+{
+  assert (isdotdir (".") == true);
+  assert (isdotdir ("..") == true);
+  assert (isdotdir (".t") == false);
+  assert (isdotdir ("...") == false);
+  assert (isdotdir ("t.") == false);
+  assert (isdotdir (".. ") == false);
+}
+
 int
 main ()
 {
@@ -38,6 +48,8 @@ main ()
   assert (!strcmp (test, "Hello World\n\t\v stop"));
 
   free (test);
+
+  test_isdotdir();
 
   return 0;
 }

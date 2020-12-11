@@ -240,7 +240,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
 
     while ((entry = readdir (waste_dir)) != NULL)
     {
-      if (!strcmp (entry->d_name, ".") || !strcmp (entry->d_name, ".."))
+      if (isdotdir (entry->d_name))
         continue;
 
       int req_len = multi_strlen (waste_curr->files, entry->d_name, NULL) + 1;

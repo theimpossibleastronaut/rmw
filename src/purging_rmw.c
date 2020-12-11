@@ -68,8 +68,7 @@ rmdir_recursive (char *dirname, short unsigned level,
   while ((st_dirname_properties.st_entry_ptr =
           readdir (st_dirname_properties.ptr)) != NULL)
   {
-    if (!strcmp (st_dirname_properties.st_entry_ptr->d_name, ".")
-        || !strcmp (st_dirname_properties.st_entry_ptr->d_name, ".."))
+    if (isdotdir (st_dirname_properties.st_entry_ptr->d_name))
       continue;
 
     bufchk (dirname, LEN_MAX_PATH);
@@ -310,8 +309,7 @@ purge (st_config * st_config_data,
      */
     while ((st_trashinfo_dir_entry = readdir (trashinfo_dir)) != NULL)
     {
-      if (!strcmp (st_trashinfo_dir_entry->d_name, ".")
-          || !strcmp (st_trashinfo_dir_entry->d_name, ".."))
+      if (isdotdir (st_trashinfo_dir_entry->d_name))
         continue;
 
       int req_len =
@@ -541,8 +539,7 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
     while ((entry = readdir (files)) != NULL)
     {
-      if (strcmp (entry->d_name, ".") == 0 ||
-          strcmp (entry->d_name, "..") == 0)
+      if (isdotdir(entry->d_name))
         continue;
 
       st_file_properties.base_name = basename (entry->d_name);

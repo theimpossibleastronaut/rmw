@@ -26,6 +26,7 @@
 #include <stdarg.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdbool.h>
 
 void
 bufchk (const char *str, int boundary);
@@ -47,3 +48,5 @@ truncate_str (char *str, int pos);
 
 int
 resolve_path (const char *src, char *abs_path);
+
+bool isdotdir (const char *dir);
