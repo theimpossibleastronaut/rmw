@@ -5,13 +5,20 @@
 # or to provide custom queries or build logic.
 name: "CodeQL"
 
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+    - 'README.md'
+    - 'docs/'
+  pull_request:
+    paths-ignore:
+    - 'README.md'
+    - 'docs/'
 #  schedule:
 #    - cron: '0 6 * * 6'
 
 jobs:
   analyze:
-    if: contains(toJson(github.event.commits), '[skip ci]') == false
     name: Analyze
     runs-on: ubuntu-latest
 
