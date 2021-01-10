@@ -63,9 +63,8 @@ Then run rmw with any parameters you like.
 </p>
 
 That will produce a file called <code
-class="w3-codespan">gmon.out</code>. Now run <code
-
-class="w3-codespan">gprof ./rmw gmon.out</code> to view the results.
+class="w3-codespan">gmon.out</code>. To view the results, run
+<p class="w3-code">gprof ./rmw gmon.out</p>
 (To learn about runtime options for gprof, check the documentation on
 its website.)
 
