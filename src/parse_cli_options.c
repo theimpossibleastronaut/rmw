@@ -237,6 +237,10 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       options->list = true;
       break;
     case 'g':
+      /* Ignore if used twice, but parse it if --purge was given no argument the first time */
+      if (options->want_purge > 0)
+        break;
+        
       if (optarg == NULL)
       {
         options->want_purge = -1;
