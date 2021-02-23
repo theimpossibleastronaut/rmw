@@ -59,12 +59,12 @@ Use `../configure --help` to view available compile-time options.
 If you would like to install rmw without superuser privileges, use a prefix
 that you have write access to. Example:
 
-    ../configure --prefix=$HOME/usr
+    ../configure --prefix=$HOME/.local
     make
     make install
 
-The rmw binary will be installed to `$HOME/usr/bin` and documentation to
-`$HOME/usr/doc`.
+The rmw binary will be installed to `$HOME/.local/bin` and documentation to
+`$HOME/.local/doc`.
 
 ### If configure fails
 
