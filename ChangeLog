@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2021-02-23
+
+  * Allow optional argument to -g/--purge that can override the value of
+  'purge_after' in the configuration file (-g[N_DAYS], --purge[=N_DAYS]).
+
 2020-11-30
 
   * bugfix: restore broken symbolic links instead of giving a "file not

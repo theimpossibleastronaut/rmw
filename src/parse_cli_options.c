@@ -2,7 +2,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #endif
 
 #include <sys/stat.h>
+#include <ctype.h>
 
 #include "parse_cli_options.h"
 /* GIT_REV can defined during build-time with -D */
@@ -60,7 +61,11 @@ Restore FILE(s) from a WASTE directory\n\n\
   -l, --list                list waste directories\n\
 "), stdout);
   fputs (_("\
-  -g, --purge               run purge even if it's been run today\n\
+  -g[N_DAYS], --purge[=N_DAYS]\n\
+                            run purge even if it's been run today;\n\
+                            optional argument 'N_DAYS' overrides 'purge_after'\n\
+                            value from the configuration file\n\
+                            (Examples: -g90, --purge=90)\n\
 "), stdout);
   fputs (_("\
   -o, --orphaned            check for orphaned files (maintenance)\n\
@@ -169,7 +174,7 @@ init_rmw_options (rmw_options * x)
   verbose = 0;
   x->want_restore = false;
   x->want_dry_run = false;
-  x->want_purge = false;
+  x->want_purge = 0;
   x->want_empty_trash = false;
   x->want_orphan_chk = false;
   x->want_selection_menu = false;
@@ -190,7 +195,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
     {"config", 1, NULL, 'c'},
     {"dry-run", 0, NULL, 'n'},
     {"list", 0, NULL, 'l'},
-    {"purge", 0, NULL, 'g'},
+    {"purge", 2, NULL, 'g'},
     {"orphaned", 0, NULL, 'o'},
     {"restore", 1, NULL, 'z'},
     {"select", 0, NULL, 's'},
@@ -207,7 +212,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
 
   int c;
   while ((c =
-          getopt_long (argc, argv, "hvc:goz:lnsumwVfeirR", long_options,
+          getopt_long (argc, argv, "hvc:g::oz:lnsumwVfeirR", long_options,
                        NULL)) != -1)
   {
     switch (c)
@@ -232,7 +237,22 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       options->list = true;
       break;
     case 'g':
-      options->want_purge = true;
+      if (optarg == NULL)
+      {
+        options->want_purge = -1;
+        break;
+      }
+      char *p = optarg;
+      while (*p != '\0')
+      {
+        if (!isdigit (*p))
+        {
+          printf ("Arguments given to --purge must be numeric only\n");
+          exit (EXIT_FAILURE);
+        }
+        p++;
+      }
+      options->want_purge = atoi (optarg);
       break;
     case 'o':
       options->want_orphan_chk = true;
@@ -269,7 +289,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       break;
     case 'e':
       options->want_empty_trash = true;
-      options->want_purge = true;
+      options->want_purge = -1;
       break;
     default:
       diagnose_leading_hyphen (argc, argv);

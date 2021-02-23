@@ -3,7 +3,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -463,22 +463,29 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
       continue;
     }
     /**
-     * assign purge_after the value from config file
+     * assign purge_after the value from config file unless set by --purge
      */
     if (strncmp (line_ptr, "purge_after", 11) == 0 ||
         strncmp (line_ptr, "purgeDays", 9) == 0)
     {
-      char *value = strchr (line_ptr, '=');
-      if (value != NULL)
+      if (cli_user_options->want_purge <= 0)
       {
-        value++;
-        value = del_char_shift_left (' ', value);
-        st_config_data->purge_after = atoi (value);
+        char *value = strchr (line_ptr, '=');
+        if (value != NULL)
+        {
+          value++;
+          value = del_char_shift_left (' ', value);
+          st_config_data->purge_after = atoi (value);
+        }
+        else
+        {
+          print_msg_warn();
+          puts ("configuration: 'purge_after' line must include an '=' sign.");
+        }
       }
       else
       {
-        print_msg_warn();
-        puts ("configuration: 'purge_after' line must include an '=' sign.");
+        st_config_data->purge_after = cli_user_options->want_purge;
       }
     }
     else if (!strcmp (line_ptr, "force_required"))

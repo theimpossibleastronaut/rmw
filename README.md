@@ -1,5 +1,9 @@
 # rmw-0.7.06-dev
 
+This README applies to the current development version and some
+information it contains may not apply to the [last
+release](https://github.com/theimpossibleastronaut/rmw/releases/tag/v0.7.05).
+
 ## Description
 
 rmw (ReMove to Waste) is a safe-remove utility for the command line.
@@ -131,7 +135,11 @@ Restore FILE(s) from a WASTE directory
 -h, --help
 -c, --config filename     use an alternate configuration
 -l, --list                list waste directories
--g, --purge               run purge even if it's been run today
+-g[N_DAYS], --purge[=N_DAYS]
+                          run purge even if it's been run today;
+                          optional argument 'N_DAYS' overrides 'purge_after'
+                          value from the configuration file
+                          (Examples: -g90, --purge=90)
 -o, --orphaned            check for orphaned files (maintenance)
 -f, --force               allow purge to run
 -e, --empty               completely empty (purge) all waste folders
@@ -151,10 +159,15 @@ Restore FILE(s) from a WASTE directory
 
 == Purging ==
 
-If purging is 'on', rmw will permanently delete files from the folders
-specified in the configuration file after 'x' number of days. Purging can be
-disabled by using 'purge_after = 0' in configuration file. rmw will only check
-once per day if it's time to purge (use -g to check more often).
+If purging is enabled, rmw will permanently delete files from the
+folders specified in the configuration file after 'x' number of days.
+By default, purging is disabled ('purge_after' is set to '0' in the
+configuration file). To enable, use a value greater than '0' (Example:
+If '45' is specified, rmw will permanently delete files that have been
+in the waste (or trash) for more than 45 days.
+
+The value of 'purge_after' can be temporarily overriden by using -g
+[N_DAYS] or --purge[=NDAYS].
 
 The time of the last automatic purge check is stored in `purge-time`,
 located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).

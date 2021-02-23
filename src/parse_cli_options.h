@@ -2,7 +2,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2019 Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2021 Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
 typedef struct
 {
   bool want_restore;
-  bool want_purge;
+  int want_purge;
   bool want_empty_trash;
   bool want_orphan_chk;
   bool want_selection_menu;

@@ -33,11 +33,22 @@ Use an alternate configuration file.
 \fB\-f \-\-force\fR
 Allow rmw to purge files in the background.
 .TP
-\fB\-g \-\-purge\fR
-Purge waste directories (permanently remove files).
+\fB\-g[N_DAYS] \-\-purge[=N_DAYS]\fR
+If purging is enabled, rmw will permanently delete files from the
+folders specified in the configuration file after 'x' number of days.
+By default, purging is disabled ('purge_after' is set to '0' in the
+configuration file). To enable, use a value greater than '0' (Example:
+If '45' is specified, rmw will permanently delete files that have been
+in the waste (or trash) for more than 45 days.
+
+The value of 'purge_after' can be temporarily overriden by using -g
+[N_DAYS] or --purge[=NDAYS] (Examples: -g90, --purge=90).
+
+The time of the last automatic purge check is stored in `purge-time`,
+located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
 .TP
 \fB\-e \-\-empty\fR
-completely empty (purge) all waste folders
+completely empty (purge) all waste folders.
 .TP
 \fB\-r, \-R, \-\-recursive\fR
 option used for compatibility with rm (recursive operation is enabled by default)
