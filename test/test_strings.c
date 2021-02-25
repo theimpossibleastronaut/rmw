@@ -13,6 +13,8 @@ void test_isdotdir(void)
   assert (isdotdir ("...") == false);
   assert (isdotdir ("t.") == false);
   assert (isdotdir (".. ") == false);
+
+  return;
 }
 
 int

@@ -3,7 +3,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -304,15 +304,16 @@ purge (st_config * st_config_data,
     if (trashinfo_dir == NULL)
       msg_err_open_dir (waste_curr->info, __func__, __LINE__);
 
-    printf ("\n  [%s]\n", waste_curr->files);
-    char *l_ptr = waste_curr->files;
-    printf ("--");
-      while (*l_ptr != '\0')
+    if (verbose)
     {
-      printf ("-");
-      l_ptr++;
+      puts ("");
+      printf ("  [%s]\n", waste_curr->files);
+      printf ("  ");
+      char *p = waste_curr->files;
+      while (*(p++) != '\0')
+        printf ("-");
+      puts ("--");
     }
-    puts ("--");
 
     /*
      *  Read each file in <WASTE>/info
