@@ -374,9 +374,11 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     if (c != 10)
       endwin ();
 
+    unpost_menu (my_menu);
+    free_menu (my_menu);
     free_item (my_items[0]);
     free_item (my_items[1]);
-    free_menu (my_menu);
+    free (my_items);
     dispose (root);
 
   }while (c != 'q' && c != 10);
