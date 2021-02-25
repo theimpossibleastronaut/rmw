@@ -20,4 +20,5 @@ jobs:
       run: |
         docker run \
         -v ${{ github.workspace }}/docs:/srv/jekyll -v ${{ github.workspace }}/docs/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future"
+        jekyll/builder:latest /bin/bash -c "chown jekyll:jekyll /srv/jekyll/Gemfile.lock && \
+        chown jekyll:jekyll /srv/jekyll/Gemfile && chmod 777 /srv/jekyll && jekyll build --future"
