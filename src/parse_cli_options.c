@@ -251,7 +251,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       {
         if (!isdigit (*p))
         {
-          printf ("Arguments given to --purge must be numeric only\n");
+          puts (_("Arguments given to --purge must be numeric only"));
           exit (EXIT_FAILURE);
         }
         p++;
