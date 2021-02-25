@@ -1,5 +1,11 @@
 === rmw ChangeLog ===
 
+2021-02-25
+
+  * When using -s,--select, the number of lines the terminal has will
+  be checked. The number of items in the list will be based on that; if
+  it doesn't meet the minumum requirement, rmw will exit.
+
 2021-02-23
 
   * Allow optional argument to -g/--purge that can override the value of

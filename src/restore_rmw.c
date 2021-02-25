@@ -2,7 +2,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -275,13 +275,21 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     if (closedir (waste_dir))
       msg_err_close_dir (waste_curr->files, __func__, __LINE__);
 
+    const int start_line_bottom = 7;
+    const int min_lines_required = start_line_bottom + 3;
     /* Initialize curses */
     initscr ();
+    if (LINES < min_lines_required)
+    {
+      endwin();
+      printf (_("Your terminal only has %d lines. A minimum of %d lines is required.\n"), LINES, min_lines_required);
+      exit (EXIT_FAILURE);
+    }
     clear ();
     cbreak ();
     noecho ();
     keypad (stdscr, TRUE);
-
+ 
     ITEM **my_items;
     MENU *my_menu;
     /* Initialize items */
@@ -291,22 +299,23 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     my_items[n_choices] = (ITEM *)NULL;
 
     my_menu = new_menu ((ITEM **) my_items);
+    set_menu_format(my_menu, LINES - start_line_bottom - 1, 1);
     menu_opts_off (my_menu, O_ONEVALUE);
 
-    mvprintw (LINES - 7, 0, "== %s ==", waste_curr->files);
-    mvprintw (LINES - 6, 0,
+    mvprintw (LINES - start_line_bottom, 0, "== %s ==", waste_curr->files);
+    mvprintw (LINES - (start_line_bottom - 1), 0,
           ngettext ("== contains %d file ==", "== contains %d files ==", n_choices), n_choices);
 
     /* TRANSLATORS: I believe the words between the < and > can be translated
      */
-    mvprintw (LINES - 4, 0, _("<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"));
-    mvprintw (LINES - 3, 0, _("\
+    mvprintw (LINES - (start_line_bottom - 3), 0, _("<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"));
+    mvprintw (LINES - (start_line_bottom - 4), 0, _("\
 <SPACE> - select or unselect an item. / <ENTER> - restore selected items"));
 
     /* TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
      * for input in this case.
     */
-    mvprintw (LINES - 2, 0, _("'q' - quit"));
+    mvprintw (LINES - (start_line_bottom - 5), 0, _("'q' - quit"));
     post_menu (my_menu);
     refresh ();
 
