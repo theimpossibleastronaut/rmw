@@ -17,6 +17,8 @@ test_url_encoding_SOURCES = test_url_encoding.c
 test_trashinfo_SOURCES = test_trashinfo.c
 test_rmdir_recursive = test_rmdir_recursive.c
 
+noinst_HEADERS = test.h
+
 test_scripts =	\
 	test_basic.sh	\
 	test_purging.sh	\
