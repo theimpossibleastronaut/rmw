@@ -139,6 +139,6 @@ script:
       make &&
       make check;
     else
-      make distcheck;
+      make distcheck &&
       make distclean;
     fi
