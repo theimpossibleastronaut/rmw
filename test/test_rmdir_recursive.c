@@ -60,7 +60,7 @@ int main (void)
   for (i = 0; i < RMDIR_MAX_DEPTH + 1; i++)
   {
     assert (mkdir (dir_rmdir_test, S_IRWXU) == 0);
-    chdir (dir_rmdir_test);
+    assert (chdir (dir_rmdir_test) == 0);
   }
 
   // Go back to the original cwd
