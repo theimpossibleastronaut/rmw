@@ -137,14 +137,6 @@ process_mrl (st_waste *waste_head,
 int
 main (const int argc, char* const argv[])
 {
-  /* Make sure PATH_MAX has a sane value */
-  if (PATH_MAX < 256)
-  {
-    print_msg_error ();
-    fputs ("Invalid value for PATH_MAX\n", stderr);
-    return 1;
-  }
-
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);

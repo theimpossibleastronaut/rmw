@@ -364,7 +364,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
       {
         if (item_value (items[i]) == TRUE)
         {
-          static char recover_file[PATH_MAX + 1];
+          static char recover_file[LEN_MAX_PATH];
           snprintf (recover_file, sizeof (recover_file), "%s%s", waste_curr->files, item_name (items[i]));
           /* waste_curr, not waste_head should always be passed here */
           msg_warn_restore(restore (recover_file, st_time_var, cli_user_options));
