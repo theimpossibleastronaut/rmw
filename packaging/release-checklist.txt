@@ -20,7 +20,6 @@ Add release date to ChangeLog
 
 Change Month and Year in man/man.1
 
-make check
 make distcheck
 make dist
 
@@ -34,7 +33,14 @@ Make Debian package
   tar xf rmw-<version>.tar.gz
   cd rmw-<version>
   cp -a packaging/debian .
+  dch -v <newversion>-1
+  cp debian/changelog <rmwsrcdir>/packaging/debian
   dpkg-buildpackage -us -uc -tc (The resulting package will be one level up)
   
   Check the Debian package
     lintian -i -I --show-overrides gentoo_0.9.12-1_i386.changes
+
+Get the md5sum and sha256sum of the source tarball and Debian package
+
+Publish the release
+  paste in the ReleaseNotes file and the 'sums of the two files listed above.

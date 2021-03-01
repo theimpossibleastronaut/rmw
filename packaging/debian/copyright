@@ -3,11 +3,11 @@ Upstream-Name: rmw
 Source: <https://github.com/theimpossibleastronaut/rmw>
 
 Files: *
-Copyright: 2012-2019 Andy Alt <andy400-dev@yahoo.com>
+Copyright: 2012-2021 Andy Alt <andy400-dev@yahoo.com>
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2019 Andy Alt <andy400-dev@yahoo.com>
+Copyright: 2021 Andy Alt <andy400-dev@yahoo.com>
 License: GPL-3.0+
 
 License: GPL-3.0+

@@ -1,20 +1,25 @@
 === RMW Release Notes ===
 
-  * Fix for compiling with gcc 10 (Thanks to muralikodali and GazL)
+v0.7.06
 
-  * rmw will now refuse to move a waste folder or a file that resides
-  within a waste folder (This feature was in place before, but at some
-  point Andy accidentally removed the code).
-
-  * Feature removed: restore with '-z' using only the basename from any
-  directory. User must be in a Trash directory or specify the full path
-  (e.g. rmw -z ~/.local/share/Trash/foo.bar). For details, see issue
-  #272.
-
-  * Added '-R' option, changed '--recurse' option to '--recursive',
-  added recursive (rm compatibility) options in --help output, fixed
-  message shown when using '-r, --recursive'
-
-  * Fixed broken purge test
-
-  See https://github.com/theimpossibleastronaut/rmw/blob/v0.7.05/ChangeLog for more details.
+  * When using -s,--select, the number of lines the terminal has will
+  be checked. The number of items in the list will be based on that; if
+  it doesn't meet the minumum requirement, rmw will exit.
+  
+  * Allow optional argument to -g/--purge that can override the value of
+  'purge_after' in the configuration file (-g[N_DAYS], --purge[=N_DAYS]).
+  
+  * bugfix: restore broken symbolic links instead of giving a "file not
+  found" message (issue #292)
+  
+  * Improved handling of file with leading hyphens
+  
+  * When an invalid option is given, usage output no longer displays
+  
+  * You can view how many days remain until a file is purged by using
+  -vv (with -fg).
+  
+  * If lstat() encounters and error, also display the filename/directory it
+  was attempting to access.
+  
+  * add '-m, --most-recent-list' option: list most recently rmw'ed files

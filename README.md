@@ -1,8 +1,4 @@
-# rmw-0.7.06-dev
-
-This README applies to the current development version and some
-information it contains may not apply to the [last
-release](https://github.com/theimpossibleastronaut/rmw/releases/tag/v0.7.05).
+# rmw-0.7.06
 
 ## Description
 
@@ -166,7 +162,7 @@ configuration file). To enable, use a value greater than '0' (Example:
 If '45' is specified, rmw will permanently delete files that have been
 in the waste (or trash) for more than 45 days.
 
-The value of 'purge_after' can be temporarily overriden by using -g
+The value of 'purge_after' can be temporarily overridden by using -g
 [N_DAYS] or --purge[=NDAYS].
 
 The time of the last automatic purge check is stored in `purge-time`,
