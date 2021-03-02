@@ -39,8 +39,14 @@ Make Debian package
   
   Check the Debian package
     lintian -i -I --show-overrides gentoo_0.9.12-1_i386.changes
+    
+push all changes
 
 Get the md5sum and sha256sum of the source tarball and Debian package
 
 Publish the release
   paste in the ReleaseNotes file and the 'sums of the two files listed above.
+  
+Close milestone (https://github.com/theimpossibleastronaut/rmw/milestones)
+
+Create Slackbuild tarball and submit to Slackbuilds.org (https://slackbuilds.org/guidelines/)
