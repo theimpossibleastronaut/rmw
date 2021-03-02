@@ -28,7 +28,7 @@
 
 struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
-const int LEN_MAX_TRASHINFO_LINE = (LEN_MAX_PATH * 3 + strlen ("Path=") + 1);
+const int LEN_MAX_TRASHINFO_LINE = (PATH_MAX * 3 + strlen ("Path=") + 1);
 
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
