@@ -3,7 +3,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,11 +64,6 @@ Please report this bug to the rmw developers.", func);
  * Used before putting a string into a fixed length array. The main purpose is
  * to avoid having something like "if string > boundary then..." throughout
  * the program where checking the length of a string is required.
- * @param[in] str The string to check
- * @param[in] boundary maximum length, including space for the NULL terminator
- * @return void
- * @see msg_err_buffer_overrun
- * @see bufchk_len
  */
 void
 bufchk (const char *str, int boundary)
@@ -132,13 +127,6 @@ bufchk (const char *str, int boundary)
  * Usually used before concatenating 2 or more strings. Program will exit
  * with an error code if len exceeds boundary. len should already have space
  * for the null terminator when this function is called.
- * @param[in] len The string to check
- * @param[in] dest_boundary length needed for destination string
- * @param[in] func The calling function
- * @param[in] line The line number from where the function was called
- * @return void
- * @see msg_err_buffer_overrun
- * @see bufchk
  */
 void
 bufchk_len (const int len, const int dest_boundary, const char *func,

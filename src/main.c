@@ -3,7 +3,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- * Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
+ * Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
  * Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
  *
  * This program is free software; you can redistribute it and/or modify
@@ -419,7 +419,7 @@ remove_to_waste (
       {
         int req_len = multi_strlen (waste_curr->files, st_file_properties.base_name, NULL) + 1;
         bufchk_len (req_len, sizeof st_file_properties.waste_dest_name, __func__, __LINE__);
-        sprintf (st_file_properties.waste_dest_name, "%s%s",
+        snprintf (st_file_properties.waste_dest_name, req_len, "%s%s",
                   waste_curr->files, st_file_properties.base_name);
 
         /* If a duplicate file exists

@@ -45,16 +45,17 @@
 int
 restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_options)
 {
+  char relative_info_path[] = "../info/";
   static struct restore
   {
     char *base_name;
     char relative_path[LEN_MAX_PATH];
     char dest[LEN_MAX_PATH];
     char info[LEN_MAX_PATH];
-    char relative_info_path[9];
+    char relative_info_path[sizeof relative_info_path];
   } file;
 
-  sprintf (file.relative_info_path, "%s", "../info/");
+  strcpy (file.relative_info_path, relative_info_path);
 
   bufchk (argv, LEN_MAX_PATH);
   char file_arg[LEN_MAX_PATH];
@@ -66,13 +67,8 @@ restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_op
     strcpy (file.relative_path, file_arg);
 
     truncate_str (file.relative_path, strlen (file.base_name));
-    long unsigned int req_len = multi_strlen (file.relative_path, file.relative_info_path, file.base_name, TRASHINFO_EXT, NULL) + 1;
-    if (req_len > sizeof file.info)
-    {
-      print_msg_error ();
-      fprintf (stderr, "Overflow averted -- %s -- func:%s\n", file.relative_path, __func__);
-      exit (EBUF);
-    }
+    int req_len = multi_strlen (file.relative_path, file.relative_info_path, file.base_name, TRASHINFO_EXT, NULL) + 1;
+    bufchk_len (req_len, sizeof file.info, __func__, __LINE__);
     snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, file.relative_info_path,
              file.base_name, TRASHINFO_EXT);
 
@@ -289,7 +285,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     cbreak ();
     noecho ();
     keypad (stdscr, TRUE);
- 
+
     ITEM **my_items;
     MENU *my_menu;
     /* Initialize items */

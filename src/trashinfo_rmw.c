@@ -2,7 +2,7 @@
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2020  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 
 struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
-const int LEN_MAX_TRASHINFO_LINE = (PATH_MAX * 3 + strlen ("Path=") + 1);
+const int LEN_MAX_TRASHINFO_LINE = (PATH_MAX * 3 + sizeof ("Path=") + 1);
 
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
