@@ -289,10 +289,8 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     ITEM **my_items;
     MENU *my_menu;
     /* Initialize items */
-    my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
+    my_items = (ITEM **) calloc (n_choices, sizeof (ITEM *));
     populate_menu (root, my_items, true);
-
-    my_items[n_choices] = (ITEM *)NULL;
 
     my_menu = new_menu ((ITEM **) my_items);
     set_menu_format(my_menu, LINES - start_line_bottom - 1, 1);
@@ -372,8 +370,11 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
 
     unpost_menu (my_menu);
     free_menu (my_menu);
-    free_item (my_items[0]);
-    free_item (my_items[1]);
+
+    int i;
+    for(i = 0; i < n_choices; ++i)
+      free_item(my_items[i]);
+
     free (my_items);
     dispose (root);
 
