@@ -51,7 +51,7 @@ entry_NULL_check (const char *str, const char *func)
     print_msg_error ();
     fprintf (stderr,
              "A NULL string was passed to %s. That should not happen.\n\
-Please report this bug to the rmw developers.", func);
+Please report this bug to the rmw developers.\n", func);
     exit (EXIT_FAILURE);
 #else
     errno = 1;
