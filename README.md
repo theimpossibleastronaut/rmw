@@ -192,6 +192,6 @@ e.g. 'rmw -z ~/.local/share/Waste/files/foo*'
 
 rmw will refuse to purge directories if they contain non-writable
 subdirectories. You can use -f 2 times if you ever see a message that tells
-you "permission denied; directory still contains files" (e.g. rwm -gff).
+you "permission denied; directory still contains files" (e.g. rwm -ffg).
 
 ```
