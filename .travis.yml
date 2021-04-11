@@ -100,15 +100,10 @@ matrix:
 
 # osx
     - os: osx
-      osx_image: xcode11.5
+      osx_image: xcode11.6
       env: XCODE="true"
     - os: osx
-      # 9.4 fails "/usr/local/Homebrew/Library/Homebrew/brew.rb:10:in `<main>': Homebrew must be run under Ruby 2.6! You're running 2.3.3. (RuntimeError)"
-      # osx_image: xcode9.4
-      osx_image: xcode11.2
-      env: XCODE="true"
-    - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode12.2
       env: XCODE="true"
 
   allow_failures:
@@ -138,6 +133,11 @@ script:
   - if [ -z "$DISTCHECK_ONLY" ]; then
       make &&
       make check;
+      r=$?;
+      if test "x$r" != x0; then
+        cat test/test-suite.log;
+      fi;
+      exit $r;
     else
       make distcheck &&
       make distclean;
