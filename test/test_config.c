@@ -37,6 +37,45 @@ void test_waste (void)
   return;
 }
 
+void test_strrepl (void)
+{
+  char path[LEN_MAX_PATH];
+  char *static_path = "/home/foo/bar";
+  strcpy (path, static_path);
+
+  char *new_string = strrepl (path, "/foo/bar", "/foo");
+  assert (strcmp (new_string, "/home/foo") == 0);
+  free (new_string);
+
+  new_string = strrepl (path, "/foo/bar", "/foo/BAR");
+  assert (strcmp (new_string, "/home/foo/BAR") == 0);
+  free (new_string);
+
+  new_string = strrepl (path, "/foo/bar", "");
+  assert (strcmp (new_string, "/home") == 0);
+  free (new_string);
+
+  new_string = strrepl (path, "abc", "/home");
+  assert (strcmp (new_string, path) == 0);
+  free (new_string);
+
+  // FIXME: No replacement should happen here, but it does. The resulting string is
+  // "/home/home/foo/bar". The function needs fixing to handle strings of zero length
+  // properly
+  //
+  // new_string = strrepl (path, "", "/home");
+  // puts (new_string);
+  // assert (strcmp (new_string, path) == 0);
+  // free (new_string);
+
+  new_string = strrepl (path, "f", "/home/foo/bar");
+  assert (strcmp (new_string, "/home//home/foo/baroo/bar") == 0);
+  free (new_string);
+
+  assert (strcmp (static_path, path) == 0);
+
+  return;
+}
 
 int main (void)
 {
@@ -44,6 +83,7 @@ int main (void)
   snprintf (tmp, LEN_MAX_PATH, "%s/%s", HOME_TEST_DIR, "test_config_dir");
   HOMEDIR = tmp;
   test_waste ();
+  test_strrepl ();
   char *config_line = malloc (LEN_MAX_PATH);
   chk_malloc (config_line, __func__, __LINE__);
 

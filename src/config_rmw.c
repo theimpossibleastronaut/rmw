@@ -122,9 +122,20 @@ del_char_shift_left (const char needle, char *haystack)
  * replace part of a string, adapted from code by Gazl
  * https://www.linuxquestions.org/questions/showthread.php?&p=5794938#post5794938
 */
-static void
-strrepl (char *dest, char *src, const char *str, char *repl)
+#ifndef TEST_LIB
+static
+#endif
+char
+*strrepl (char *src, const char *str, char *repl)
 {
+  // The replacement text may make the returned string shorter or
+  // longer than src, so just add the length of all three for the
+  // mallocation.
+  int req_len = multi_strlen (src, str, repl, NULL) + 1;
+  bufchk_len (req_len, LEN_MAX_CFG_LINE, __func__, __LINE__);
+  char *dest = malloc (req_len);
+  chk_malloc (dest, __func__, __LINE__);
+
   char *s, *d, *p;
 
   s = strstr (src, str);
@@ -142,7 +153,7 @@ strrepl (char *dest, char *src, const char *str, char *repl)
   else
     strcpy(dest, src);
 
-  return;
+  return dest;
 }
 
 /*!
@@ -207,10 +218,9 @@ realize_waste_line (char *str)
   {
     if (strstr (str, st_var[i].name) != NULL)
     {
-      char dest[LEN_MAX_CFG_LINE];
-      *dest = '\0';
-      strrepl (dest, str, st_var[i].name, (char*)st_var[i].value);
+      char *dest = strrepl (str, st_var[i].name, (char*)st_var[i].value);
       strcpy (str, dest);
+      free (dest);
 
       /* check the string again, in case str contains something like
        * $HOME/Trash-$UID (which would be rare, if ever, but... */
