@@ -71,7 +71,7 @@ show_folder_line (const char *folder, const bool is_r);
 
 #ifdef TEST_LIB
 char *
-del_char_shift_left (const char c, char *src_str);
+del_char_shift_left (const char needle, char *haystack);
 
 void
 realize_waste_line (char *str);

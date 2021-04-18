@@ -93,22 +93,28 @@ print_config (FILE *stream)
 
 
 /*!
- * If a string begins with 'c', returns a pointer to the first occurrence
- * in the string after 'c'
+ * If haystack begins with 'needle', returns a pointer to the first occurrence
+ * in the string after 'needle'.
+ * ex1: char *ptr = del_char_shift ('/', string);
+ * '*string' will still point to 'string[0]'
+ *
+ * ex2: string = del_char_shift ('/', string);
+ * '*string' may change
  */
 #ifndef TEST_LIB
 static
 #endif
 char *
-del_char_shift_left (const char c, char *src_str)
+del_char_shift_left (const char needle, char *haystack)
 {
-  if (*src_str != c)
-    return src_str;
+  char *ptr = haystack;
+  if (*ptr != needle)
+    return ptr;
 
-  while (*src_str == c)
-    src_str++;
+  while (*ptr == needle)
+    ptr++;
 
-  return src_str;
+  return ptr;
 }
 
 
