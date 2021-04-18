@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -e ../VARS ]; then
+if [ ! -e @abs_builddir@/VARS ]; then
   echo "This script shouldn't be run by itself. It's used by make check."
   exit 1
 fi

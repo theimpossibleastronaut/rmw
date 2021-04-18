@@ -28,7 +28,8 @@
 
 struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
-const int LEN_MAX_TRASHINFO_LINE = (PATH_MAX * 3 + sizeof ("Path=") + 1);
+const int LEN_MAX_TRASHINFO_LINE = sizeof ("Path=") + LEN_MAX_ESCAPED_PATH;
+
 
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
@@ -70,22 +71,27 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
     /* Worst case scenario: whole path is escaped, so 3 chars per
      * actual character
      **/
-    static char escaped_path[LEN_MAX_PATH * 3];
+    static char escaped_path[LEN_MAX_ESCAPED_PATH];
 
-    if (escape_url (st_f_props->real_path, escaped_path, LEN_MAX_PATH * 3) )
+    if (escape_url (st_f_props->real_path, escaped_path, LEN_MAX_ESCAPED_PATH) )
       return close_file (fp, final_info_dest, __func__);
 
-#ifdef DEBUG
-DEBUG_PREFIX
-printf ("%s\n", st_trashinfo_spec[TI_HEADER].str);
-DEBUG_PREFIX
-printf ("%s%s\n", st_trashinfo_spec[TI_PATH_LINE].str, escaped_path);
-DEBUG_PREFIX
-printf ("%s%s\n", st_trashinfo_spec[TI_DATE_LINE].str, st_time_var->deletion_date);
-#endif
+    char *escaped_path_ptr = escaped_path;
+    if (waste_curr->media_root != NULL)
+    {
+      escaped_path_ptr = &escaped_path[strlen (waste_curr->media_root)];
+      if (*escaped_path_ptr == '/')
+        escaped_path_ptr++;
+      else
+      {
+        print_msg_error ();
+        fprintf (stderr, "Expected a leading '/' in the pathname '%s'\n", escaped_path_ptr);
+        exit (EXIT_FAILURE);
+      }
+    }
 
     fprintf (fp, "%s\n", st_trashinfo_spec[TI_HEADER].str);
-    fprintf (fp, "%s%s\n", st_trashinfo_spec[TI_PATH_LINE].str, escaped_path);
+    fprintf (fp, "%s%s\n", st_trashinfo_spec[TI_PATH_LINE].str, escaped_path_ptr);
     fprintf (fp, "%s%s\n", st_trashinfo_spec[TI_DATE_LINE].str, st_time_var->deletion_date);
 
     return close_file (fp, final_info_dest, __func__);

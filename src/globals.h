@@ -61,6 +61,8 @@
 /*! The LEN_MAX_PATH macro is used as a shortcut throughout the program. */
 #define LEN_MAX_PATH (PATH_MAX + 1)
 
+#define LEN_MAX_ESCAPED_PATH (PATH_MAX * 3 + 1)
+
 #define EBUF 11
 
 extern int verbose;

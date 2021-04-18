@@ -20,12 +20,12 @@ $RMW_TEST_CMD_STRING || exit $?
 echo $SEPARATOR
 echo " Creating some files for testing..."
 cd $RMWTEST_HOME
-../create-some-files.sh || exit $?
+@abs_builddir@/create-some-files.sh || exit $?
 
 echo $SEPARATOR
 echo "ReMove files and then restore them by using -u"
 set -x
-$RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/*
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/* || exit $?
 $RMW_TEST_CMD_STRING -u || exit $?
 
 echo $SEPARATOR
@@ -36,9 +36,10 @@ test_result_want_fail $?
 echo $SEPARATOR
 echo "restore using wildcard pattern, but be in the trash directory"
 set -x
-$RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/topdir
-cd $RMWTEST_HOME/.local/share/Waste/files
-$RMW_TEST_CMD_STRING -z topd* || exit $?
+$RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/topdir -v || exit $?
+cd $PRIMARY_WASTE_DIR/files
+output=$($RMW_TEST_CMD_STRING -z topd*) || exit $?
+test "$output" = "+'topdir' -> '$RMWTEST_HOME/somefiles/topdir'" || exit $?
 
 echo $SEPARATOR
 echo "Try restoring a file that doesn't exist"
@@ -60,11 +61,49 @@ ln -s $RMWTEST_HOME $RMWTEST_HOME/link_test || exit $?
 # broken link
 ln -s broken_symlink_test $RMWTEST_HOME/link_test2 || exit $?
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/link_test $RMWTEST_HOME/link_test2 || exit $?
-$RMW_TEST_CMD_STRING -u || exit $?
+output=$($RMW_TEST_CMD_STRING -u) || exit $?
+test "$output" = "+'$RMWTEST_HOME/.Waste/files/link_test' -> '$RMWTEST_HOME/link_test'
++'$RMWTEST_HOME/.Waste/files/link_test2' -> '$RMWTEST_HOME/link_test2'" || exit $?
 
 # change permissions back to writable so the dir gets removed before the
 # next test (done in COMMON)
 chmod +w -R $RMWTEST_HOME/no_write_perms
+
+# This test will only work on Andy's workstation.
+# The media root, /home/andy/src is on a different partition than /home/andy
+# It's mounted with 'bind' and therefore has a different device id
+#
+# /dev/sda7 on /mnt/sda7 type ext4 (rw,relatime)
+# /dev/sda7 on /home/andy/src type ext4 (rw,relatime)
+
+if test -f "@abs_builddir@/4507107f3ff0df740c7699fb9dc4cecc041c59c9"; then
+  test_file="media_root_test"
+  PREV_RMWTEST_HOME=$RMWTEST_HOME
+  # needs to be unset so rmw will use $HOME instead
+  unset RMWTEST_HOME
+  test_file_path=$PREV_RMWTEST_HOME/$test_file
+  if test -f $test_file_path; then
+    rm $test_file_path
+  fi
+  if test -f /home/andy/src/.Trash-1000/files/$test_file; then
+    rm /home/andy/src/.Trash-1000/files/$test_file
+  fi
+  if test -f /home/andy/src/.Trash-1000/info/$test_file.trashinfo; then
+    rm /home/andy/src/.Trash-1000/info/$test_file.trashinfo
+  fi
+  touch $test_file_path
+  $BIN_DIR/rmw -c /home/andy/.config/rmwrc $test_file_path || exit $?
+  echo $SEPARATOR
+  output=$(grep Path /home/andy/src/.Trash-1000/info/$test_file.trashinfo) || exit $?
+  echo $SEPARATOR
+  # There should be no leading '/' in the filename.
+  test "$output" = "Path=rmw-project/_build/test/rmw-tests-home/test_restore.sh_dir/media_root_test" || exit $?
+  echo $SEPARATOR
+  output=$($BIN_DIR/rmw -uv -c /home/andy/.config/rmwrc | grep files) || exit $?
+  echo $SEPARATOR
+  test "$output" = "+'/home/andy/src/.Trash-1000/files/media_root_test' -> '/home/andy/src/rmw-project/_build/test/rmw-tests-home/test_restore.sh_dir/media_root_test'
+-/home/andy/src/.Trash-1000/files/../info/media_root_test.trashinfo" || exit $?
+fi
 
 echo $SEPARATOR
 echo "restore tests passed"

@@ -626,6 +626,7 @@ gt_needs=
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
+HOME_TEST_DIR
 POSUB
 LTLIBINTL
 LIBINTL
@@ -2930,7 +2931,6 @@ else
   AM_DEFAULT_V=$AM_DEFAULT_VERBOSITY
 fi
 AM_BACKSLASH='\'
-
 
 ac_config_headers="$ac_config_headers src/config.h:config.in"
 
@@ -9371,6 +9371,14 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 
 
 
+
+#AX_VALGRIND_DFLT([sgcheck], [off])
+#AX_VALGRIND_CHECK
+
+if test "x$ac_pwd" = x; then
+        as_fn_error $? "while determining top build directory" "$LINENO" 5
+fi
+HOME_TEST_DIR=$ac_pwd/test/rmw-tests-home
 
 
 ac_config_files="$ac_config_files Makefile src/Makefile man/Makefile test/Makefile po/Makefile.in test/VARS"

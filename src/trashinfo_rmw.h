@@ -57,12 +57,19 @@ struct st_waste
    * They must reside on the same filesystem as a WASTE folder specified in
    * the configuration file.
    */
-  unsigned int dev_num;
+  dev_t dev_num;
 
   /** set to <tt>true</tt> if the parent directory is on a removable device,
    * <tt>false</tt> otherwise.
    */
   bool removable;
+
+  /*
+   * If a waste folder is at the top level, a relative path will be
+   * used (per the Freedesktop trash spec). See
+   https://github.com/theimpossibleastronaut/rmw/issues/299 for more
+   info */
+  char *media_root;
 
   /** Points to the previous WASTE directory in the linked list
    */

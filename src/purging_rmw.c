@@ -46,7 +46,7 @@ static off_t bytes_freed = 0;
 static
 #endif
 int
-rmdir_recursive (char *dirname, short unsigned level,
+rmdir_recursive (const char *dirname, short unsigned level,
                  const int force)
 {
   if (level > RMDIR_MAX_DEPTH)

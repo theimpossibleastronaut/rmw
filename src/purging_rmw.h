@@ -50,7 +50,7 @@ short orphan_maint (st_waste * waste_head, st_time * st_time_var,
                     int *orphan_ctr);
 #else
 int
-rmdir_recursive (char *dirname, short unsigned level,
+rmdir_recursive (const char *dirname, short unsigned level,
                  const int force);
 #endif
 

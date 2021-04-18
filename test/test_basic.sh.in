@@ -17,11 +17,12 @@ echo $SEPARATOR
 echo "List the waste folders..."
 echo "rmw should display folders on removable devices that are not mounted"
 echo $SEPARATOR
-$RMW_TEST_CMD_STRING -lv || exit $?
-
-echo $SEPARATOR
-output="$($RMW_TEST_CMD_STRING -l | wc -l | sed 's/ //g')"
-test "$output" = "5" || exit $?
+output="$($RMW_TEST_CMD_STRING -l)"
+test "$output" = "/mnt/fs/Trash-$(id -u)
+/mnt/sda10000/example_waste
+@abs_top_builddir@/test/rmw-tests-home/test_basic.sh_dir/.Waste
+@abs_top_builddir@/test/rmw-tests-home/test_basic.sh_dir/.local/share/Waste-2
+@abs_top_builddir@/test/rmw-tests-home/test_basic.sh_dir/.local/share/Waste-3" || exit $?
 
 echo $SEPARATOR
 
@@ -38,8 +39,8 @@ cd $RMWTEST_HOME/.. || exit $?
 echo "\n\n == rmw should be able to operate on multiple files\n"
 $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* || exit $?
 
-test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)" || exit $?
-test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)" || exit $?
+test -n "$(ls -A $PRIMARY_WASTE_DIR/files)" || exit $?
+test -n "$(ls -A $PRIMARY_WASTE_DIR/info)" || exit $?
 
 echo $SEPARATOR
 echo "rmw should append a time_string to duplicate files..."
@@ -52,24 +53,24 @@ $RMW_TEST_CMD_STRING 1 2 3 || exit $?
 echo "\n\n == Show contents of the files and info directories"
 set -x
 
-test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)" || exit $?
-test -n "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)" || exit $?
+test -n "$(ls -A $PRIMARY_WASTE_DIR/files)" || exit $?
+test -n "$(ls -A $PRIMARY_WASTE_DIR/info)" || exit $?
 
-output="$(ls -A $RMWTEST_HOME/.local/share/Waste/files | wc -l | sed 's/ //g')"
+output="$(ls -A $PRIMARY_WASTE_DIR/files | wc -l | sed 's/ //g')"
 test "$output" = "6" || exit $?
 
 echo $SEPARATOR
 echo "  == rmw should refuse to move a waste folder or a file that resides within a waste folder"
-output="$($RMW_TEST_CMD_STRING $RMWTEST_HOME/.local/share/Waste/info)"
-test "$output" = " :warning: $RMWTEST_HOME/.local/share/Waste/info resides within a waste folder and has been ignored
+output="$($RMW_TEST_CMD_STRING $PRIMARY_WASTE_DIR/info)"
+test "$output" = " :warning: $PRIMARY_WASTE_DIR/info resides within a waste folder and has been ignored
 0 files were removed to the waste folder" || exit $?
 
 # If the file gets removed (which it shouldn't), then the test that follows it will fail
-$RMW_TEST_CMD_STRING $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo || exit $?
+$RMW_TEST_CMD_STRING $PRIMARY_WASTE_DIR/info/1.trashinfo || exit $?
 
 echo "\n\n == Display contents of 1.trashinfo "
 set -x
-cat $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo || exit $?
+cat $PRIMARY_WASTE_DIR/info/1.trashinfo || exit $?
 
 echo $SEPARATOR
 echo "  == Test -m option"
@@ -80,9 +81,9 @@ echo "  == test undo/restore feature"
 
 set -x
 $RMW_TEST_CMD_STRING --verbose -u || exit $?
-$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/1 || exit $?
-$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/2 || exit $?
-$RMW_TEST_CMD_STRING --verbose -z $RMWTEST_HOME/.local/share/Waste/files/3 || exit $?
+$RMW_TEST_CMD_STRING --verbose -z $PRIMARY_WASTE_DIR/files/1 || exit $?
+$RMW_TEST_CMD_STRING --verbose -z $PRIMARY_WASTE_DIR/files/2 || exit $?
+$RMW_TEST_CMD_STRING --verbose -z $PRIMARY_WASTE_DIR/files/3 || exit $?
 
 echo "\n\n == test that the files are restored to their previous locations"
 
@@ -94,13 +95,13 @@ test -f $RMWTEST_HOME/tmp-files/3 || exit $?
 echo "\n\n == test that the .trashinfo files have been removed"
 
 set -x
-test -f $RMWTEST_HOME/.local/share/Waste/info/1.trashinfo
+test -f $PRIMARY_WASTE_DIR/info/1.trashinfo
 test_result_want_fail $?
 
-test -f $RMWTEST_HOME/.local/share/Waste/info/2.trashinfo
+test -f $PRIMARY_WASTE_DIR/info/2.trashinfo
 test_result_want_fail $?
 
-test -f $RMWTEST_HOME/.local/share/Waste/info/3.trashinfo
+test -f $PRIMARY_WASTE_DIR/info/3.trashinfo
 test_result_want_fail $?
 
 echo "Basic tests passed"

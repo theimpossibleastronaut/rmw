@@ -1,4 +1,8 @@
-AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -DTEST_LIB
+AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -DTEST_LIB -DHOME_TEST_DIR=\"$(HOME_TEST_DIR)\"
+
+#@VALGRIND_CHECK_RULES@
+#VALGRIND_SUPPRESSIONS_FILES = @srcdir@/default.supp
+#EXTRA_DIST = @srcdir@/default.supp
 
 check_PROGRAMS = \
 	test_strings	\
@@ -15,7 +19,7 @@ test_multi_strlen_SOURCES = test_multi_strlen.c
 test_buffer_overrun_SOURCES = test_buffer_overrun.c
 test_url_encoding_SOURCES = test_url_encoding.c
 test_trashinfo_SOURCES = test_trashinfo.c
-test_rmdir_recursive = test_rmdir_recursive.c
+test_rmdir_recursive_SOURCES = test_rmdir_recursive.c
 
 noinst_HEADERS = test.h
 

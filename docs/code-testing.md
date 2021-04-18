@@ -8,6 +8,7 @@ layout: default
   <li><a href="#testing_purge">Testing the purge feature</a></li>
   <li><a href="#profiling">Profiling</a></li>
   <li><a href="#create_test">How to Create a Unit Test</a></li>
+  <li><a href="#env_vars">Influential Environmental Variables</a></li>
 </ul>
 
 <h2 id="general_testing">General Testing</h2>
@@ -80,4 +81,18 @@ The test I created for it is
 then I've added the test to
 [test/Makefile.am](https://github.com/theimpossibleastronaut/rmw/commit/edaf560929e8589bac8874b93ae3520962ffab39#diff-7d1a3afeff4f7c00c95d6be6f2847e6e)
 and re-ran 'automake'.
+
+<h2 id="env_vars">Influential Environmental Variables</h2>
+
+RMW_FAKE_MEDIA_ROOT (used only for code testing) when rmw-ing files,
+relative paths are written to the Path key of a trashinfo file. rmw is
+faked into believing that all waste directories are at the top level of
+a device or removable medium (see <a
+href="https://github.com/theimpossibleastronaut/rmw/issues/299">issue
+299</a> for more information). Only accepts "true" as an argument; any
+other value will register as "false".
+
+<p class="w3-code">
+ex: RMW_FAKE_MEDIA_ROOT=true rmw [file(s) to be removed]
+</p>
 

@@ -110,6 +110,8 @@ dispose_waste (st_waste *node)
   if (node != NULL)
   {
     dispose_waste (node->next_node);
+    if (node->media_root != NULL)
+      free (node->media_root);
     free (node);
   }
   return;

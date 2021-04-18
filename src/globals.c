@@ -28,8 +28,4 @@
 
 int verbose = 0;
 
-#ifndef TEST_LIB
 const char *HOMEDIR;
-#else
-const char *HOMEDIR = "/home/andy";
-#endif

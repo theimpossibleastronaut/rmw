@@ -4,7 +4,7 @@
 # NOTE: If two WASTE folders are on the same file system, rmw will move files
 # to the first WASTE folder listed, ignoring the second one.
 #
-WASTE = $HOME/.local/share/Waste
+WASTE = $HOME/.Waste
 # The additional folders are just to show multiples in the listing
 WASTE = $HOME/.local/share/Waste-2
 WASTE = ~/.local/share/Waste-3

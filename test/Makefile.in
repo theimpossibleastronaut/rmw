@@ -135,8 +135,8 @@ am_test_multi_strlen_OBJECTS = test_multi_strlen.$(OBJEXT)
 test_multi_strlen_OBJECTS = $(am_test_multi_strlen_OBJECTS)
 test_multi_strlen_LDADD = $(LDADD)
 test_multi_strlen_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-test_rmdir_recursive_SOURCES = test_rmdir_recursive.c
-test_rmdir_recursive_OBJECTS = test_rmdir_recursive.$(OBJEXT)
+am_test_rmdir_recursive_OBJECTS = test_rmdir_recursive.$(OBJEXT)
+test_rmdir_recursive_OBJECTS = $(am_test_rmdir_recursive_OBJECTS)
 test_rmdir_recursive_LDADD = $(LDADD)
 test_rmdir_recursive_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 am_test_strings_OBJECTS = test_strings.$(OBJEXT)
@@ -179,12 +179,12 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(test_buffer_overrun_SOURCES) $(test_config_test_SOURCES) \
-	$(test_multi_strlen_SOURCES) test_rmdir_recursive.c \
+	$(test_multi_strlen_SOURCES) $(test_rmdir_recursive_SOURCES) \
 	$(test_strings_SOURCES) $(test_trashinfo_SOURCES) \
 	$(test_url_encoding_SOURCES)
 DIST_SOURCES = $(test_buffer_overrun_SOURCES) \
 	$(test_config_test_SOURCES) $(test_multi_strlen_SOURCES) \
-	test_rmdir_recursive.c $(test_strings_SOURCES) \
+	$(test_rmdir_recursive_SOURCES) $(test_strings_SOURCES) \
 	$(test_trashinfo_SOURCES) $(test_url_encoding_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -447,6 +447,7 @@ GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+HOME_TEST_DIR = @HOME_TEST_DIR@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -542,14 +543,14 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -DTEST_LIB
+AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -DTEST_LIB -DHOME_TEST_DIR=\"$(HOME_TEST_DIR)\"
 test_strings_SOURCES = test_strings.c
 test_config_test_SOURCES = test_config.c
 test_multi_strlen_SOURCES = test_multi_strlen.c
 test_buffer_overrun_SOURCES = test_buffer_overrun.c
 test_url_encoding_SOURCES = test_url_encoding.c
 test_trashinfo_SOURCES = test_trashinfo.c
-test_rmdir_recursive = test_rmdir_recursive.c
+test_rmdir_recursive_SOURCES = test_rmdir_recursive.c
 noinst_HEADERS = test.h
 test_scripts = \
 	test_basic.sh	\

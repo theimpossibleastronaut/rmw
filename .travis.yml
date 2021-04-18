@@ -32,7 +32,9 @@ matrix:
     - os: linux
       dist: bionic
       compiler: gcc
-      env: MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - USE_VALGRIND=true
     - os: linux
       dist: bionic
       compiler: gcc # defaults to version 7 on bionic
@@ -42,6 +44,7 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
         - CONFIGURE_OPTS="--enable-release"
+        - RMW_FAKE_MEDIA_ROOT=true
     - os: linux
       dist: bionic
       compiler: gcc
@@ -51,7 +54,10 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-9
-      env: MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+      env:
+        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+        - RMW_FAKE_MEDIA_ROOT=true
+        - USE_VALGRIND=true
     - os: linux
       dist: bionic
       compiler: gcc
@@ -98,6 +104,8 @@ matrix:
       dist: focal
       compiler: clang
 
+# purging test fails on osx
+# See https://github.com/theimpossibleastronaut/rmw/issues/283 for details
 # osx
     - os: osx
       osx_image: xcode11.6
@@ -106,7 +114,7 @@ matrix:
       osx_image: xcode12.2
       env: XCODE="true"
 
-  allow_failures:
+#  allow_failures:
     - os: osx
 
 before_install:
@@ -116,7 +124,7 @@ before_install:
       if [ -n "$MATRIX_EVAL" ] && [ "$TRAVIS_COMPILER" != "clang" ] && [ "$CC" != "gcc-9" ] && [ "$CC" != "gcc-10" ]; then
         sudo apt-get install -y $CC;
       fi;
-      if [ "$CC" = "gcc-6" ]; then
+      if [ "$USE_VALGRIND" = "true" ]; then
         sudo apt-get install -y valgrind;
       fi;
     else
@@ -132,7 +140,7 @@ script:
   - ../configure ${CONFIGURE_OPTS}
   - if [ -z "$DISTCHECK_ONLY" ]; then
       make &&
-      make check;
+      make check -j5;
       r=$?;
       if test "x$r" != x0; then
         cat test/test-suite.log;

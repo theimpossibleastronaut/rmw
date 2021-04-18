@@ -35,6 +35,34 @@
 #include "messages_rmw.h"
 #include "bst.h"
 
+
+#ifndef TEST_LIB
+static
+#endif
+char *media_root (const char *file_arg)
+{
+  char file_arg_copy[strlen (file_arg) + 1];
+  strcpy (file_arg_copy, file_arg);
+  char *file_arg_dirname = dirname (file_arg_copy);
+
+  char two_dir_levels[] = "/../..";
+  int req_len = multi_strlen (file_arg_dirname, two_dir_levels, NULL) + 1;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  char media_root_rel_path[req_len];
+  snprintf (media_root_rel_path, sizeof media_root_rel_path, "%s%s", file_arg_dirname, two_dir_levels);
+
+  char *media_root = realpath (media_root_rel_path, NULL);
+
+  if (media_root == NULL)
+  {
+    perror ("::realpath");
+    exit (errno);
+  }
+
+  return media_root;
+}
+
+
 /**
  * restores a file that was previously moved via rmw.
  *
@@ -118,6 +146,21 @@ restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_op
           close_file (fp, file.info, __func__);
 
           return -1;
+        }
+
+        /* If the path in the Path key is relative, determine which waste folder in which the file
+         * being restored resides, get the dirname of that waste folder and prepend it
+         * to file.dest (thereby making the entire path absolute for restoration.
+         */
+        if (*file.dest != '/')
+        {
+          char *mroot = media_root (file_arg);
+          req_len = multi_strlen (mroot, "/", file.dest, NULL) + 1;
+          char abs_dest[req_len];
+          bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+          snprintf (abs_dest, sizeof abs_dest, "%s/%s", mroot, file.dest);
+          free (mroot);
+          strcpy (file.dest, abs_dest);
         }
 
         /* Check for duplicate filename

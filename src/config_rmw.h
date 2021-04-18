@@ -2,7 +2,7 @@
  *
  * This file is part of rmw<https://remove-to-waste.info/>
  *
- *  Copyright (C) 2012-2019  Andy Alt (andy400-dev@yahoo.com)
+ *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ typedef struct {
   st_waste *st_waste_folder_props_head;
   int purge_after;
   bool force_required;
+  bool fake_media_root;
 } st_config;
 
 struct st_vars_to_check {
@@ -74,6 +75,10 @@ del_char_shift_left (const char c, char *src_str);
 
 void
 realize_waste_line (char *str);
+
+st_waste *
+parse_line_waste (st_waste * waste_curr, const char * line_ptr,
+                 const rmw_options * cli_user_options, bool fake_media_root);
 #endif
 
 #endif

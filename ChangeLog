@@ -1,5 +1,18 @@
 === rmw ChangeLog ===
 
+2021-04-08
+
+  * bugfix: When restoring files from removable media or devices, rmw
+  will now process relative paths (this primarily affects users who
+  trash a file with the "move to trash" option from their desktop, and
+  then later try to restore with rmw. See
+  https://github.com/theimpossibleastronaut/rmw/issues/299 for more
+  information).
+
+  * Removed deprecated config option (purgeDays)
+
+  * Minor updates to tests infrastructure
+
 2021-03-01
 
   * rmw v0.7.06 released

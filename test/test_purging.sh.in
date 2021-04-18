@@ -48,15 +48,11 @@ echo "\n\n == use a built-in environmental variable to write a"
 echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
-
-RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose -c $CONFIG $RMWTEST_HOME/tmp-files/* || exit $?
-
+RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* || exit $?
 echo
 echo
 echo " == displaying a trashinfo; it shows a DeletionDate of 1999"
-
-
-cat $RMWTEST_HOME/.local/share/Waste/info/abc.trashinfo || exit $?
+cat $PRIMARY_WASTE_DIR/info/abc.trashinfo || exit $?
 
 echo
 echo
@@ -69,20 +65,21 @@ echo
 echo
 echo " == Test that the files are really gone"
 
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)" || exit $?
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)" || exit $?
+test -z "$(ls -A $PRIMARY_WASTE_DIR/files)" || exit $?
+test -z "$(ls -A $PRIMARY_WASTE_DIR/info)" || exit $?
 
 echo
 echo
 echo " Creating some files for testing..."
 cd $RMWTEST_HOME
-../create-some-files.sh || exit $?
+@abs_builddir@/create-some-files.sh || exit $?
 
 echo $SEPARATOR
 echo " == rmw should be able to purge directories and subdirectories"
 echo " == even if some of the dirs are read-only"
 
 echo $SEPARATOR
+
 RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles || exit $?
 
 echo $SEPARATOR
@@ -91,9 +88,9 @@ $RMW_TEST_CMD_STRING -f --purge || exit $?
 
 echo $SEPARATOR
 echo " == (files should still be present)"
-test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/files)
+test -z $(ls -A $PRIMARY_WASTE_DIR/files)
 test_result_want_fail $?
-test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/info)
+test -z $(ls -A $PRIMARY_WASTE_DIR/info)
 test_result_want_fail $?
 
 echo $SEPARATOR
@@ -104,14 +101,14 @@ echo
 echo
 echo " == Show that the files are really gone"
 
-test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/files) || exit $?
-test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/info) || exit $?
+test -z $(ls -A $PRIMARY_WASTE_DIR/files) || exit $?
+test -z $(ls -A $PRIMARY_WASTE_DIR/info) || exit $?
 
 echo
 echo
 echo " Creating some files for testing..."
 cd $RMWTEST_HOME
-../create-some-files.sh || exit $?
+@abs_builddir@/create-some-files.sh || exit $?
 
 echo
 echo
@@ -143,9 +140,9 @@ echo "n" | $RMW_TEST_CMD_STRING --purge -e || exit $?
 echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e || exit $?
 
 echo " == (files should still be present)"
-test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/files)
+test -z $(ls -A $PRIMARY_WASTE_DIR/files)
 test_result_want_fail $?
-test -z $(ls -A $RMWTEST_HOME/.local/share/Waste/info)
+test -z $(ls -A $PRIMARY_WASTE_DIR/info)
 test_result_want_fail $?
 
 echo " == Empty works with force empty (-ffe)"
@@ -162,7 +159,7 @@ echo
 echo
 echo " == Test that the files are really gone"
 
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/files)" || exit $?
-test -z "$(ls -A $RMWTEST_HOME/.local/share/Waste/info)" || exit $?
+test -z "$(ls -A $PRIMARY_WASTE_DIR/files)" || exit $?
+test -z "$(ls -A $PRIMARY_WASTE_DIR/info)" || exit $?
 
 exit 0

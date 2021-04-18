@@ -267,15 +267,11 @@ resolve_path (const char *src, char *abs_path)
 
   if ((realpath (dirname (src_temp_dirname), abs_path)) != NULL)
   {
-    strcat (abs_path, "/");
-    strcat (abs_path, basename (src_temp_basename));
-
-#ifdef DEBUG
-    DEBUG_PREFIX printf ("abs_path = %s in %s\n", abs_path, __func__);
-#endif
-
-    bufchk (abs_path, LEN_MAX_PATH);
-
+    const int req_len = multi_strlen (abs_path, "/", basename (src_temp_basename), NULL) + 1;
+    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+    char tmp[req_len];
+    sprintf (tmp, "%s/%s", abs_path, basename (src_temp_basename));
+    strcpy (abs_path, tmp);
     return 0;
   }
 

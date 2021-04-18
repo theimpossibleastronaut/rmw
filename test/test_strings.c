@@ -20,8 +20,9 @@ void test_isdotdir(void)
 int
 main ()
 {
-  char *test = malloc (BUF_SIZE + 1);
+  char *test = calloc (1, BUF_SIZE + 1);
   chk_malloc (test, __func__, __LINE__);
+  free (test);
   test = NULL;
   trim_white_space (test);
   assert (errno);

@@ -1,8 +1,8 @@
+AC_PREREQ(2.69)
 AC_INIT([rmw], [0.7.07-dev], [https://github.com/theimpossibleastronaut/rmw/issues],,[https://remove-to-waste.info/])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([-Wall subdir-objects foreign no-dependencies])
 AM_SILENT_RULES([yes])
-AC_PREREQ(2.69)
 AC_CONFIG_HEADERS([src/config.h:config.in])
 
 AX_IS_RELEASE([git-directory])
@@ -89,6 +89,13 @@ fi
 
 AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.8])
+#AX_VALGRIND_DFLT([sgcheck], [off])
+#AX_VALGRIND_CHECK
+
+if test "x$ac_pwd" = x; then
+        AC_MSG_ERROR(while determining top build directory)
+fi
+AC_SUBST(HOME_TEST_DIR, [$ac_pwd/test/rmw-tests-home])
 
 AC_CONFIG_FILES([       Makefile
                         src/Makefile

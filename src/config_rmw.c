@@ -222,12 +222,13 @@ realize_waste_line (char *str)
  * This function is called when the "WASTE" option is encountered in the
  * config file. The line is parsed and added to the linked list of WASTE
  * folders.
- *
- * @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/213">rmw is unable to use the system trash folder on a Mac</a>
  */
-static st_waste *
+#ifndef TEST_LIB
+static
+#endif
+st_waste *
 parse_line_waste (st_waste * waste_curr, const char * line_ptr,
-                 const rmw_options * cli_user_options)
+                 const rmw_options * cli_user_options, bool fake_media_root)
 {
   bool removable = 0;
 
@@ -337,9 +338,37 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
    * Really, if we get to this point, lstat shouldn't have any problem,
    * checking return values is good practice so we'll do it.
    */
-  struct stat st;
+  struct stat st, mp_st;
   if (!lstat (waste_curr->parent, &st))
+  {
     waste_curr->dev_num = st.st_dev;
+
+    /* We're reusing 'tmp' here after every call to dirname()
+     * An excerpt from the dirname() man page states:
+     *
+     * char *dirname(char *path);
+     *
+     * Both  dirname() and basename() may modify the contents of path, so it may be de‐
+     * sirable to pass a copy when calling one of these functions.
+     */
+    char tmp[LEN_MAX_PATH];
+    strcpy (tmp, waste_curr->parent);
+    char *media_root_ptr = dirname (tmp);
+    waste_curr->media_root = calloc (1, strlen (media_root_ptr) + 1);
+    chk_malloc (waste_curr->media_root, __func__, __LINE__);
+    strcpy (waste_curr->media_root, media_root_ptr);
+    strcpy (tmp, waste_curr->media_root);
+    if (!lstat (dirname (tmp), &mp_st))
+    {
+      if (mp_st.st_dev == waste_curr->dev_num && !fake_media_root)
+      {
+        free (waste_curr->media_root);
+        waste_curr->media_root = NULL;
+      }
+    }
+    else
+      msg_err_lstat(waste_curr->parent, __func__, __LINE__);
+  }
   else
     msg_err_lstat(waste_curr->parent, __func__, __LINE__);
 
@@ -465,8 +494,7 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
     /**
      * assign purge_after the value from config file unless set by --purge
      */
-    if (strncmp (line_ptr, "purge_after", 11) == 0 ||
-        strncmp (line_ptr, "purgeDays", 9) == 0)
+    if (strncmp (line_ptr, "purge_after", 11) == 0)
     {
       if (cli_user_options->want_purge <= 0)
       {
@@ -493,7 +521,7 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
     else if (strncmp ("WASTE", line_ptr, 5) == 0)
     {
       st_waste *st_new_waste_ptr =
-        parse_line_waste (waste_curr, line_ptr, cli_user_options);
+        parse_line_waste (waste_curr, line_ptr, cli_user_options, st_config_data->fake_media_root);
       if (st_new_waste_ptr != NULL)
         waste_curr = st_new_waste_ptr;
       else
@@ -556,6 +584,14 @@ init_config_data (st_config *x)
    */
   x->purge_after = DEFAULT_PURGE_AFTER;
   x->force_required = 0;
+
+  const char *f = getenv ("RMW_FAKE_MEDIA_ROOT");
+  if (f != NULL)
+    x->fake_media_root = (strcmp (f, "true") == 0) ? true : false;
+  else
+    x->fake_media_root = false;
+  if (verbose)
+    printf ("RMW_FAKE_MEDIA_ROOT = %s\n", x->fake_media_root == false ? "false" : "true");
 }
 
 void
