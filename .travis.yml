@@ -114,7 +114,7 @@ matrix:
       osx_image: xcode12.2
       env: XCODE="true"
 
-#  allow_failures:
+  allow_failures:
     - os: osx
 
 before_install:
