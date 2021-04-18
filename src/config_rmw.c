@@ -132,7 +132,6 @@ char
   // longer than src, so just add the length of all three for the
   // mallocation.
   int req_len = multi_strlen (src, str, repl, NULL) + 1;
-  bufchk_len (req_len, LEN_MAX_CFG_LINE, __func__, __LINE__);
   char *dest = malloc (req_len);
   chk_malloc (dest, __func__, __LINE__);
 
@@ -153,6 +152,8 @@ char
   else
     strcpy(dest, src);
 
+  dest = realloc (dest, strlen (dest) + 1);
+  chk_malloc (dest, __func__, __LINE__);
   return dest;
 }
 
@@ -219,6 +220,7 @@ realize_waste_line (char *str)
     if (strstr (str, st_var[i].name) != NULL)
     {
       char *dest = strrepl (str, st_var[i].name, (char*)st_var[i].value);
+      bufchk (dest, LEN_MAX_PATH);
       strcpy (str, dest);
       free (dest);
 
