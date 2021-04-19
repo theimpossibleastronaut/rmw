@@ -3,28 +3,21 @@ name: C/C++ CI
 on:
   push:
     paths-ignore:
-    - 'README.md'
-    - 'docs/'
+    - '**/*.md'
+    - 'docs/**'
   pull_request:
     paths-ignore:
-    - 'README.md'
-    - 'docs/'
+    - '**/*.md'
+    - 'docs/**'
 
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      run: ./configure
-      run: make
-      run: USE_VALGRIND=0 make check
-      run: USE_VALGRIND=0 make distcheck
-      
-  macos:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-      run: ./configure
-      run: make
-      run: USE_VALGRIND=0 make check
-      run: USE_VALGRIND=0 make distcheck
+    - name: Install dependencies
+      run: sudo apt-get install -y gettext
+    - run: ./configure
+    - run: make
+    - run: USE_VALGRIND=0 make check
+    - run: USE_VALGRIND=0 make distcheck

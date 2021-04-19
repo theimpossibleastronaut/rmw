@@ -2,13 +2,11 @@ name: Jekyll site CI
 
 on:
   push:
-    paths-ignore:
-    - 'src'
-    - 'test'
+    paths:
+    - 'docs/**'
   pull_request:
-    paths-ignore:
-    - 'src'
-    - 'test'
+    paths:
+    - 'docs/**'
 
 jobs:
   build:
