@@ -31,7 +31,7 @@ main ()
   assert (errno);
   errno = 0;
 
-   /* length of "test" will be < LEN_MAX_PATH; bufchk should not change errno */
+  /* length of "test" will be < LEN_MAX_PATH; bufchk should not change errno */
   strcpy (test, "less than BUF_SIZE");
   bufchk (test, LEN_MAX_PATH);
   assert (!errno);
@@ -48,4 +48,3 @@ main ()
   free (test);
   return 0;
 }
-

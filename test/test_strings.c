@@ -5,7 +5,8 @@
 
 #define BUF_SIZE 80
 
-void test_isdotdir(void)
+void
+test_isdotdir (void)
 {
   assert (isdotdir (".") == true);
   assert (isdotdir ("..") == true);
@@ -52,7 +53,7 @@ main ()
 
   free (test);
 
-  test_isdotdir();
+  test_isdotdir ();
 
   return 0;
 }

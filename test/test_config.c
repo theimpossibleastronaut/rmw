@@ -4,7 +4,8 @@
 
 const char *UID = "1000";
 
-void test_waste (void)
+void
+test_waste (void)
 {
   rmw_options cli_user_options;
   init_rmw_options (&cli_user_options);
@@ -16,7 +17,8 @@ void test_waste (void)
   st_waste *waste_curr = st_config_data.st_waste_folder_props_head;
 
   struct st_waste *st_new_waste_ptr =
-        parse_line_waste (waste_curr, line, &cli_user_options, st_config_data.fake_media_root);
+    parse_line_waste (waste_curr, line, &cli_user_options,
+		      st_config_data.fake_media_root);
 
   char expected[LEN_MAX_PATH];
   snprintf (expected, LEN_MAX_PATH, "%s/foo/bar/Waste", HOMEDIR);
@@ -25,19 +27,20 @@ void test_waste (void)
   if (!st_config_data.fake_media_root)
     assert (st_new_waste_ptr->media_root == NULL);
   else
-  {
-    char tmp[LEN_MAX_PATH];
-    snprintf (tmp, sizeof tmp, "%s/foo/bar", HOMEDIR);
-    // puts (tmp);
-    assert (strcmp (st_new_waste_ptr->media_root, tmp) == 0);
-  }
+    {
+      char tmp[LEN_MAX_PATH];
+      snprintf (tmp, sizeof tmp, "%s/foo/bar", HOMEDIR);
+      // puts (tmp);
+      assert (strcmp (st_new_waste_ptr->media_root, tmp) == 0);
+    }
 
   free (st_new_waste_ptr);
 
   return;
 }
 
-void test_strrepl (void)
+void
+test_strrepl (void)
 {
   char path[LEN_MAX_PATH];
   char *static_path = "/home/foo/bar";
@@ -77,7 +80,8 @@ void test_strrepl (void)
   return;
 }
 
-int main (void)
+int
+main (void)
 {
   char tmp[LEN_MAX_PATH];
   snprintf (tmp, LEN_MAX_PATH, "%s/%s", HOME_TEST_DIR, "test_config_dir");

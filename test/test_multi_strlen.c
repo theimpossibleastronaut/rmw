@@ -6,6 +6,7 @@
 int
 main ()
 {
-  assert (multi_strlen ("this"," is"," a", " test string", NULL) == strlen ("this is a test string"));
+  assert (multi_strlen ("this", " is", " a", " test string", NULL) ==
+	  strlen ("this is a test string"));
   return 0;
 }
