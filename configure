@@ -626,6 +626,7 @@ gt_needs=
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
+LIBOBJS
 HOME_TEST_DIR
 POSUB
 LTLIBINTL
@@ -666,7 +667,6 @@ RANLIB
 MAINT
 MAINTAINER_MODE_FALSE
 MAINTAINER_MODE_TRUE
-LIBOBJS
 EGREP
 GREP
 CPP
@@ -1774,73 +1774,6 @@ fi
   as_fn_set_status $ac_retval
 
 } # ac_fn_c_try_link
-
-# ac_fn_c_check_func LINENO FUNC VAR
-# ----------------------------------
-# Tests whether FUNC exists, setting the cache variable VAR accordingly
-ac_fn_c_check_func ()
-{
-  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
-$as_echo_n "checking for $2... " >&6; }
-if eval \${$3+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-/* Define $2 to an innocuous variant, in case <limits.h> declares $2.
-   For example, HP-UX 11i <limits.h> declares gettimeofday.  */
-#define $2 innocuous_$2
-
-/* System header to define __stub macros and hopefully few prototypes,
-    which can conflict with char $2 (); below.
-    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
-    <limits.h> exists even on freestanding compilers.  */
-
-#ifdef __STDC__
-# include <limits.h>
-#else
-# include <assert.h>
-#endif
-
-#undef $2
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char $2 ();
-/* The GNU C library defines this for functions which it implements
-    to always fail with ENOSYS.  Some functions are actually named
-    something starting with __ and the normal name is an alias.  */
-#if defined __stub_$2 || defined __stub___$2
-choke me
-#endif
-
-int
-main ()
-{
-return $2 ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  eval "$3=yes"
-else
-  eval "$3=no"
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-fi
-eval ac_res=\$$3
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-
-} # ac_fn_c_check_func
 
 # ac_fn_c_check_header_mongrel LINENO HEADER VAR INCLUDES
 # -------------------------------------------------------
@@ -2965,7 +2898,7 @@ fi
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to enable debugging" >&5
 $as_echo_n "checking whether to enable debugging... " >&6; }
 
-    ax_enable_debug_default=no
+    ax_enable_debug_default=yes
     ax_enable_debug_is_release=$ax_is_release
 
     # If this is a release, override the default.
@@ -4970,120 +4903,6 @@ rm -rf conftest*
 
 fi
 
-for ac_func in snprintf vsnprintf
-do :
-  as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
-ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
-if eval test \"x\$"$as_ac_var"\" = x"yes"; then :
-  cat >>confdefs.h <<_ACEOF
-#define `$as_echo "HAVE_$ac_func" | $as_tr_cpp` 1
-_ACEOF
-
-fi
-done
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for working snprintf" >&5
-$as_echo_n "checking for working snprintf... " >&6; }
-if ${ac_cv_have_working_snprintf+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test "$cross_compiling" = yes; then :
-  ac_cv_have_working_snprintf=cross
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <stdio.h>
-
-int main(void)
-{
-    char bufs[5] = { 'x', 'x', 'x', '\0', '\0' };
-    char bufd[5] = { 'x', 'x', 'x', '\0', '\0' };
-    int i;
-    i = snprintf (bufs, 2, "%s", "111");
-    if (strcmp (bufs, "1")) exit (1);
-    if (i != 3) exit (1);
-    i = snprintf (bufd, 2, "%d", 111);
-    if (strcmp (bufd, "1")) exit (1);
-    if (i != 3) exit (1);
-    exit(0);
-}
-_ACEOF
-if ac_fn_c_try_run "$LINENO"; then :
-  ac_cv_have_working_snprintf=yes
-else
-  ac_cv_have_working_snprintf=no
-fi
-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
-  conftest.$ac_objext conftest.beam conftest.$ac_ext
-fi
-
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_have_working_snprintf" >&5
-$as_echo "$ac_cv_have_working_snprintf" >&6; }
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for working vsnprintf" >&5
-$as_echo_n "checking for working vsnprintf... " >&6; }
-if ${ac_cv_have_working_vsnprintf+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test "$cross_compiling" = yes; then :
-  ac_cv_have_working_vsnprintf=cross
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <stdio.h>
-#include <stdarg.h>
-
-int my_vsnprintf (char *buf, const char *tmpl, ...)
-{
-    int i;
-    va_list args;
-    va_start (args, tmpl);
-    i = vsnprintf (buf, 2, tmpl, args);
-    va_end (args);
-    return i;
-}
-
-int main(void)
-{
-    char bufs[5] = { 'x', 'x', 'x', '\0', '\0' };
-    char bufd[5] = { 'x', 'x', 'x', '\0', '\0' };
-    int i;
-    i = my_vsnprintf (bufs, "%s", "111");
-    if (strcmp (bufs, "1")) exit (1);
-    if (i != 3) exit (1);
-    i = my_vsnprintf (bufd, "%d", 111);
-    if (strcmp (bufd, "1")) exit (1);
-    if (i != 3) exit (1);
-    exit(0);
-}
-_ACEOF
-if ac_fn_c_try_run "$LINENO"; then :
-  ac_cv_have_working_vsnprintf=yes
-else
-  ac_cv_have_working_vsnprintf=no
-fi
-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
-  conftest.$ac_objext conftest.beam conftest.$ac_ext
-fi
-
-fi
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_have_working_vsnprintf" >&5
-$as_echo "$ac_cv_have_working_vsnprintf" >&6; }
-if test x$ac_cv_have_working_snprintf$ac_cv_have_working_vsnprintf != "xyesyes"; then
-  case " $LIBOBJS " in
-  *" snprintf.$ac_objext "* ) ;;
-  *) LIBOBJS="$LIBOBJS snprintf.$ac_objext"
- ;;
-esac
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Replacing missing/broken (v)snprintf() with version from http://www.ijs.si/software/snprintf/." >&5
-$as_echo "$as_me: WARNING: Replacing missing/broken (v)snprintf() with version from http://www.ijs.si/software/snprintf/." >&2;}
-
-$as_echo "#define PREFER_PORTABLE_SNPRINTF 1" >>confdefs.h
-
-fi
 
 # This prevents problems such as those shown in
 # https://github.com/theimpossibleastronaut/rmw/commit/90200c2df06b16f16b5d21d25c51966c0ee65b23#commitcomment-30291627
@@ -9372,8 +9191,6 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 
 
 
-#AX_VALGRIND_DFLT([sgcheck], [off])
-#AX_VALGRIND_CHECK
 
 if test "x$ac_pwd" = x; then
         as_fn_error $? "while determining top build directory" "$LINENO" 5
@@ -10890,5 +10707,7 @@ fi
 
 echo ""
 echo "    == Options =="
-echo "Build for release:        $ax_is_release"
+echo "Installation prefix:                  $prefix"
+echo "Debug enabled:                        $enable_debug"
+echo "Build for release:                    $ax_is_release"
 echo ""

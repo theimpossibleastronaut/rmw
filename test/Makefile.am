@@ -1,9 +1,5 @@
 AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -DTEST_LIB -DHOME_TEST_DIR=\"$(HOME_TEST_DIR)\"
 
-#@VALGRIND_CHECK_RULES@
-#VALGRIND_SUPPRESSIONS_FILES = @srcdir@/default.supp
-#EXTRA_DIST = @srcdir@/default.supp
-
 check_PROGRAMS = \
 	test_strings	\
 	test_config_test \

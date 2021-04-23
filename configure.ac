@@ -14,7 +14,7 @@ AS_IF([test "x$enable_release" = "xyes"], [ax_is_release=yes])
 
 # A "yes" value would be overridden by the value of $ax_is_release, returned by AX_IS_RELEASE()
 # or set using --enable-release.
-AX_CHECK_ENABLE_DEBUG([no])
+AX_CHECK_ENABLE_DEBUG([yes])
 
 AC_PROG_CC
 AC_PROG_CC_STDC
@@ -24,7 +24,6 @@ AC_CONFIG_MACRO_DIRS([build-aux/m4])
 AC_PROG_INSTALL
 AC_HEADER_STDBOOL
 AC_SYS_LARGEFILE
-AX_FUNC_SNPRINTF
 
 # This prevents problems such as those shown in
 # https://github.com/theimpossibleastronaut/rmw/commit/90200c2df06b16f16b5d21d25c51966c0ee65b23#commitcomment-30291627
@@ -89,8 +88,6 @@ fi
 
 AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.8])
-#AX_VALGRIND_DFLT([sgcheck], [off])
-#AX_VALGRIND_CHECK
 
 if test "x$ac_pwd" = x; then
         AC_MSG_ERROR(while determining top build directory)
@@ -113,5 +110,7 @@ AC_CONFIG_FILES([test/create-some-files.sh], [chmod +x test/create-some-files.sh
 AC_OUTPUT
 echo ""
 echo "    ==[ Options ]=="
-echo "Build for release:        $ax_is_release"
+echo "Installation prefix:                  $prefix"
+echo "Debug enabled:                        $enable_debug"
+echo "Build for release:                    $ax_is_release"
 echo ""
