@@ -67,9 +67,9 @@ get_mrl_contents (const char *mrl_file)
     const int f_size = ftell (fd); // Get the size of the file
     fseek(fd, 0, SEEK_SET); // Go back to the the beginning of the file
 
-    char *contents = calloc (f_size + 1, 1);
+    char *contents = calloc (1, f_size + 1);
     chk_malloc (contents, __func__, __LINE__);
-    fread(contents, f_size + 1, 1, fd);
+    fread (contents, f_size + 1, 1, fd);
     if (feof (fd) == 0)
     {
       print_msg_error ();

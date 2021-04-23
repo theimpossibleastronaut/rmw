@@ -176,7 +176,7 @@ user_verify (void)
 
 /* used to prevent a TOCTOU race condtion */
 bool
-is_modified (const char* file, const unsigned long int dev, const unsigned long int inode)
+is_modified (const char* file, dev_t dev, const unsigned long int inode)
 {
   struct stat st;
   if (lstat (file, &st))

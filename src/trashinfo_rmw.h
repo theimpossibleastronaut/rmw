@@ -1,4 +1,3 @@
-/*! @file trashinfo_rmw.h */
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
@@ -34,7 +33,7 @@
 
 #define TI_LINE_COUNT 3
 
-extern const int LEN_MAX_TRASHINFO_LINE;
+extern const int LEN_MAX_TRASHINFO_PATH_LINE;
 
 /** Each waste directory is added to a linked list and has the data
  * from this structure associated with it.
@@ -105,6 +104,9 @@ typedef struct
   bool is_duplicate;
 } rmw_target;
 
+extern const char *path_key;
+extern const char *deletion_date_key;
+
 struct st__trashinfo {
   const char *str;
   int len;
@@ -121,8 +123,8 @@ enum {
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var);
 
-int
-validate_trashinfo_file (const char *file, char *line);
+char
+*parse_trashinfo_file (const char *file, const char* req_value);
 
 void
 init_trashinfo_spec (void);

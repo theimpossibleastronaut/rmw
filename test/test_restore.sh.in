@@ -26,7 +26,13 @@ echo $SEPARATOR
 echo "ReMove files and then restore them by using -u"
 set -x
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/* || exit $?
-$RMW_TEST_CMD_STRING -u || exit $?
+echo $SEPARATOR
+output=$($RMW_TEST_CMD_STRING -uvv | grep Waste) || exit $?
+echo $SEPARATOR
+test "$output" = "+'$RMWTEST_HOME/.Waste/files/read_only_file' -> '$RMWTEST_HOME/somefiles/read_only_file'
+-$RMWTEST_HOME/.Waste/info/read_only_file.trashinfo
++'$RMWTEST_HOME/.Waste/files/topdir' -> '$RMWTEST_HOME/somefiles/topdir'
+-$RMWTEST_HOME/.Waste/info/topdir.trashinfo" || exit $?
 
 echo $SEPARATOR
 echo "Show result when no undo file exists..."
@@ -99,10 +105,10 @@ if test -f "@abs_builddir@/4507107f3ff0df740c7699fb9dc4cecc041c59c9"; then
   # There should be no leading '/' in the filename.
   test "$output" = "Path=rmw-project/_build/test/rmw-tests-home/test_restore.sh_dir/media_root_test" || exit $?
   echo $SEPARATOR
-  output=$($BIN_DIR/rmw -uv -c /home/andy/.config/rmwrc | grep files) || exit $?
+  output=$($BIN_DIR/rmw -uvv -c /home/andy/.config/rmwrc | grep media_root_test) || exit $?
   echo $SEPARATOR
   test "$output" = "+'/home/andy/src/.Trash-1000/files/media_root_test' -> '/home/andy/src/rmw-project/_build/test/rmw-tests-home/test_restore.sh_dir/media_root_test'
--/home/andy/src/.Trash-1000/files/../info/media_root_test.trashinfo" || exit $?
+-/home/andy/src/.Trash-1000/info/media_root_test.trashinfo" || exit $?
 fi
 
 echo $SEPARATOR

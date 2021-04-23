@@ -1,4 +1,3 @@
-/*! @file trashinfo_rmw.c */
 /*
  * This file is part of rmw<https://remove-to-waste.info/>
  *
@@ -28,7 +27,10 @@
 
 struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
-const int LEN_MAX_TRASHINFO_LINE = sizeof ("Path=") + LEN_MAX_ESCAPED_PATH;
+const int LEN_MAX_TRASHINFO_PATH_LINE = sizeof ("Path=") + LEN_MAX_ESCAPED_PATH;
+
+const char *path_key = "Path";
+const char *deletion_date_key = "DeletionDate";
 
 
 int
@@ -103,43 +105,85 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
   }
 }
 
-int
-validate_trashinfo_file (const char *file, char *line)
+
+/*
+ * name: parse_trashinfo_file
+ *
+ * Checks the integrity of a trashinfo file and returns req_value for
+ * either the Path or DeletionDate key
+ *
+ */
+char
+*parse_trashinfo_file (const char *file, const char* req_value)
 {
-  FILE *info_file_ptr = fopen (file, "r");
-  if (info_file_ptr != NULL)
+  if (strcmp (req_value, path_key) != 0 && strcmp (req_value, deletion_date_key) != 0)
   {
-    int passed = 0;
+    print_msg_error ();
+    fprintf (stderr, "Required arg for %s can be either \"%s\" or \"%s\".", __func__, path_key, deletion_date_key);
+    return NULL;
+  }
 
-    while (fgets (line, LEN_MAX_TRASHINFO_LINE, info_file_ptr) != NULL)
+  int line_no = 0;
+  FILE *fp = fopen (file, "r");
+  if (fp != NULL)
+  {
+    char *value = malloc (LEN_MAX_ESCAPED_PATH);
+    chk_malloc (value, __func__, __LINE__);
+    bool res = true;
+    char fp_line[LEN_MAX_TRASHINFO_PATH_LINE];
+    while (fgets (fp_line, LEN_MAX_TRASHINFO_PATH_LINE, fp) != NULL && res == true)
     {
-      trim_white_space (line);
-      if (strncmp (line, st_trashinfo_spec[TI_HEADER].str, st_trashinfo_spec[TI_HEADER].len) == 0 ||
-         strncmp (line, st_trashinfo_spec[TI_PATH_LINE].str, st_trashinfo_spec[TI_PATH_LINE].len) == 0 ||
-         (strncmp (line, st_trashinfo_spec[TI_DATE_LINE].str, st_trashinfo_spec[TI_DATE_LINE].len) == 0 && strlen (line) == 32))
-      {
-        passed++;
+      trim_white_space (fp_line);
+
+      switch (line_no) {
+        case TI_HEADER:
+          res = strncmp (fp_line, st_trashinfo_spec[TI_HEADER].str, st_trashinfo_spec[TI_HEADER].len) == 0;
+          break;
+        case TI_PATH_LINE:
+          res = strncmp (fp_line, st_trashinfo_spec[TI_PATH_LINE].str, st_trashinfo_spec[TI_PATH_LINE].len) == 0;
+          if (res && strcmp (req_value, path_key) == 0)
+          {
+            char *path_ptr = strchr (fp_line, '=');
+            path_ptr++; /* move past the '=' sign */
+            unescape_url (path_ptr, value, LEN_MAX_PATH);
+            trim_white_space (value);
+          }
+          break;
+        case TI_DATE_LINE:
+          res = strncmp (fp_line, st_trashinfo_spec[TI_DATE_LINE].str, st_trashinfo_spec[TI_DATE_LINE].len) == 0
+                && strlen (fp_line) == 32;
+
+          if (res && strcmp (req_value, deletion_date_key) == 0)
+          {
+            char *date_str_ptr = strchr (fp_line, '=');
+            date_str_ptr++;
+            strcpy (value, date_str_ptr);
+            value = realloc (value, strlen (date_str_ptr) + 1);
+            chk_malloc (value, __func__, __LINE__);
+          }
+          break;
+        default:
+          res = false;
+          break;
+        }
+        line_no++;
       }
-      else
-      {
+    close_file (fp, file, __func__);
 
-        break;
-      }
-    }
-    close_file (info_file_ptr, file, __func__);
+    if (res && line_no == TI_LINE_COUNT)
+      return value;
 
-    if (passed == TI_LINE_COUNT)
-      return 1;
-
+    free (value);
     display_dot_trashinfo_error (file);
-    return 0;
+    return NULL;
   }
   else
   {
     open_err (file, __func__);
-    return 0;
+    return NULL;
   }
 }
+
 
 void
 init_trashinfo_spec (void)

@@ -88,23 +88,12 @@ init_time_vars (st_time *x)
  * file. Called from purge()
  */
 time_t
-get_then_time(const char *entry_path)
+get_then_time(const char *raw_deletion_date)
 {
-  time_t then = 0;
-  char trashinfo_line[LEN_MAX_TRASHINFO_LINE];
-  *trashinfo_line = '\0';
-
-  if (validate_trashinfo_file (entry_path, trashinfo_line) == 0)
-    return 0;
-
-  char *date_str_ptr = strchr (trashinfo_line, '=');
-  date_str_ptr++;
-
   struct tm tm_then;
   memset(&tm_then, 0, sizeof(struct tm));
-  strptime (date_str_ptr, "%Y-%m-%dT%H:%M:%S", &tm_then);
-  then = mktime (&tm_then);
-  return then;
+  strptime (raw_deletion_date, "%Y-%m-%dT%H:%M:%S", &tm_then);
+  return mktime (&tm_then);
 }
 
 

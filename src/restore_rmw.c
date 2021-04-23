@@ -35,197 +35,119 @@
 #include "messages_rmw.h"
 #include "bst.h"
 
-
 #ifndef TEST_LIB
 static
 #endif
-char *media_root (const char *file_arg)
+char *get_waste_parent (const char *src)
 {
-  char file_arg_copy[strlen (file_arg) + 1];
-  strcpy (file_arg_copy, file_arg);
-  char *file_arg_dirname = dirname (file_arg_copy);
+  char src_copy[strlen (src) + 1];
+  strcpy (src_copy, src);
+  char *src_dirname = dirname (src_copy);
 
-  char two_dir_levels[] = "/../..";
-  int req_len = multi_strlen (file_arg_dirname, two_dir_levels, NULL) + 1;
+  char *one_dir_level = "/..";
+  int req_len = multi_strlen (src_dirname, one_dir_level, NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char media_root_rel_path[req_len];
-  snprintf (media_root_rel_path, sizeof media_root_rel_path, "%s%s", file_arg_dirname, two_dir_levels);
+  char waste_parent_rel_path[req_len];
+  snprintf (waste_parent_rel_path, sizeof waste_parent_rel_path, "%s%s", src_dirname, one_dir_level);
 
-  char *media_root = realpath (media_root_rel_path, NULL);
+  char *waste_parent = realpath (waste_parent_rel_path, NULL);
 
-  if (media_root == NULL)
+  if (waste_parent == NULL)
   {
     perror ("::realpath");
     exit (errno);
   }
 
-  return media_root;
+  return waste_parent;
 }
 
 
-/**
- * restores a file that was previously moved via rmw.
- *
- * FIXME: The name of the first paramater needs changing. It's not really
- * argv but the name of a file selected for restoration. Only in some cases
- * will it really be argv.
- */
 int
-restore (const char *argv, st_time *st_time_var, const rmw_options * cli_user_options)
+restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_options)
 {
-  char relative_info_path[] = "../info/";
-  static struct restore
+  if (exists (src))
   {
-    char *base_name;
-    char relative_path[LEN_MAX_PATH];
+    bufchk (src, LEN_MAX_PATH);
+    char *waste_parent = get_waste_parent (src);
+    char src_copy[strlen (src) + 1];
+    strcpy (src_copy, src);
+    char *src_basename = basename (src_copy);
+
+    char src_tinfo[LEN_MAX_PATH];
+    int req_len = multi_strlen (waste_parent, "/info/", src_basename, TRASHINFO_EXT, NULL) + 1;
+    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+    snprintf (src_tinfo, req_len, "%s%s%s%s", waste_parent, "/info/",
+             src_basename, TRASHINFO_EXT);
+
+    char *_dest = parse_trashinfo_file (src_tinfo, path_key);
+    if (_dest == NULL)
+      return 1;
+
+    /* If the path in the Path key is relative, determine which waste folder in which the file
+     * being restored resides, get the dirname of that waste folder and prepend it
+     * to dest (thereby making the entire path absolute for restoration.
+     */
     char dest[LEN_MAX_PATH];
-    char info[LEN_MAX_PATH];
-    char relative_info_path[sizeof relative_info_path];
-  } file;
-
-  strcpy (file.relative_info_path, relative_info_path);
-
-  bufchk (argv, LEN_MAX_PATH);
-  char file_arg[LEN_MAX_PATH];
-  strcpy (file_arg, argv);
-  file.base_name = basename (file_arg);
-
-  if (exists (file_arg))
-  {
-    strcpy (file.relative_path, file_arg);
-
-    truncate_str (file.relative_path, strlen (file.base_name));
-    int req_len = multi_strlen (file.relative_path, file.relative_info_path, file.base_name, TRASHINFO_EXT, NULL) + 1;
-    bufchk_len (req_len, sizeof file.info, __func__, __LINE__);
-    snprintf (file.info, req_len, "%s%s%s%s", file.relative_path, file.relative_info_path,
-             file.base_name, TRASHINFO_EXT);
-
-#ifdef DEBUG
-    printf ("restore()/debug: %s\n", file.info);
-#endif
-
-    FILE *fp;
-
-    if ((fp = fopen (file.info, "r")) != NULL)
+    strcpy (dest, _dest);
+    if (*_dest != '/')
     {
-        /* adding strlen (path_line) for the 'Path=' preceding the path.
-       * multiplying by 3 for worst case scenario (all chars escaped)
-       */
-      char line[LEN_MAX_TRASHINFO_LINE];
-      if (fgets (line, sizeof line, fp) != NULL)
-      {
-          /**
-           * Not using the "[Trash Info]" line, but reading the file
-           * sequentially
-           */
+      char *media_root = dirname (waste_parent);
+      req_len = multi_strlen (media_root, "/", _dest, NULL) + 1;
+      bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+      char tmp[LEN_MAX_PATH];
+      snprintf (tmp, req_len, "%s/%s", media_root, _dest);
+      strcpy (dest, tmp);
+    }
+    free (waste_parent);
+    free (_dest);
 
-        if (strncmp (line, st_trashinfo_spec[TI_HEADER].str, st_trashinfo_spec[TI_HEADER].len) == 0)
-        {
-        }
-        else
-        {
-          display_dot_trashinfo_error (file.info);
-          close_file (fp, file.info, __func__);
+    /* Check for duplicate filename
+     */
+    if (exists (dest))
+    {
+      bufchk (st_time_var->suffix_added_dup_exists, LEN_MAX_PATH - strlen (dest));
+      strcat (dest, st_time_var->suffix_added_dup_exists);
 
-          return -1;
-        }
-
-          /** adding 5 for the 'Path=' preceding the path. */
-        if (fgets (line, sizeof line, fp) != NULL)
-        {
-          char *path_ptr = strchr (line, '=');
-          path_ptr++; /* move past the '=' sign */
-          unescape_url (path_ptr, file.dest, LEN_MAX_PATH);
-          trim_white_space (file.dest);
-
-          close_file (fp, file.info, __func__);
-        }
-        else
-        {
-          display_dot_trashinfo_error (file.info);
-          close_file (fp, file.info, __func__);
-
-          return -1;
-        }
-
-        /* If the path in the Path key is relative, determine which waste folder in which the file
-         * being restored resides, get the dirname of that waste folder and prepend it
-         * to file.dest (thereby making the entire path absolute for restoration.
-         */
-        if (*file.dest != '/')
-        {
-          char *mroot = media_root (file_arg);
-          req_len = multi_strlen (mroot, "/", file.dest, NULL) + 1;
-          char abs_dest[req_len];
-          bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-          snprintf (abs_dest, sizeof abs_dest, "%s/%s", mroot, file.dest);
-          free (mroot);
-          strcpy (file.dest, abs_dest);
-        }
-
-        /* Check for duplicate filename
-         */
-        if (exists (file.dest))
-        {
-          bufchk (st_time_var->suffix_added_dup_exists, LEN_MAX_PATH - strlen (file.dest));
-          strcat (file.dest, st_time_var->suffix_added_dup_exists);
-
-          if (verbose)
-            printf (_("\
+      if (verbose)
+        printf (_("\
 Duplicate filename at destination - appending time string...\n"));
-        }
+    }
 
-        static char parent_dir[LEN_MAX_PATH];
+    static char parent_dir[LEN_MAX_PATH];
 
-        strcpy (parent_dir, file.dest);
+    strcpy (parent_dir, dest);
 
-        truncate_str (parent_dir, strlen (basename (file.dest)));
+    truncate_str (parent_dir, strlen (basename (dest)));
 
-        if (cli_user_options->want_dry_run == false)
-          if (! exists (parent_dir))
-            make_dir (parent_dir);
+    if (cli_user_options->want_dry_run == false)
+      if (! exists (parent_dir))
+        make_dir (parent_dir);
 
-        int rename_res = 0;
-        if (cli_user_options->want_dry_run == false)
-          rename_res = rename (file_arg, file.dest);
+    int rename_res = 0;
+    if (cli_user_options->want_dry_run == false)
+      rename_res = rename (src, dest);
 
-        if (!rename_res)
-        {
-          printf ("+'%s' -> '%s'\n", file_arg, file.dest);
+    if (!rename_res)
+    {
+      printf ("+'%s' -> '%s'\n", src, dest);
 
-          int result = 0;
-          if (cli_user_options->want_dry_run == false)
-            result = remove (file.info);
+      int result = 0;
+      if (cli_user_options->want_dry_run == false)
+        result = remove (src_tinfo);
 
-          if (result != 0)
-          {
-            print_msg_error ();
-            printf (_("while removing .trashinfo file: '%s'\n"),
-                    file.info);
-          }
-          else if (verbose)
-            printf ("-%s\n", file.info);
-        }
-        else
-        {
-          msg_err_rename (file_arg, file.dest, __func__, __LINE__);
-          return rename_res;
-        }
-      }
-      else
+      if (result != 0)
       {
         print_msg_error ();
-        printf ("(fgets) Able to open '%s' but encountered an unknown error\n",
-                file.info);
-        close_file (fp, file.info, __func__);
-        return -1;
+        printf (_("while removing .trashinfo file: '%s'\n"),
+                src_tinfo);
       }
-
+      else if (verbose >= 2)
+        printf ("-%s\n", src_tinfo);
     }
     else
     {
-      open_err (file.info, __func__);
-      return errno;
+      msg_err_rename (src, dest, __func__, __LINE__);
+      return rename_res;
     }
   }
   else
@@ -234,7 +156,7 @@ Duplicate filename at destination - appending time string...\n"));
      * string below it unchanged */
     printf (" :");
     /* TRANSLATORS:  "%s" refers to a file or directory  */
-    printf (_("File not found: '%s'\n"), file_arg);
+    printf (_("File not found: '%s'\n"), src);
     msg_return_code (ENOENT);
     return ENOENT;
   }

@@ -331,7 +331,19 @@ purge (st_config * st_config_data,
       snprintf (trashinfo_entry_realpath, sizeof (trashinfo_entry_realpath),
                 "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
-      time_t then = get_then_time (trashinfo_entry_realpath);
+      char *raw_deletion_date = parse_trashinfo_file (trashinfo_entry_realpath, deletion_date_key);
+      time_t then = 0;
+      if (raw_deletion_date != NULL)
+      {
+        then = get_then_time (raw_deletion_date);
+        free (raw_deletion_date);
+      }
+      else
+      {
+        print_msg_error ();
+        fprintf (stderr, "while getting deletion date from %s.\n", trashinfo_entry_realpath);
+      }
+
       if (!cli_user_options->want_empty_trash && !then)
         continue;
 
