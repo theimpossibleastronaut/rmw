@@ -5381,12 +5381,12 @@ EXTRA_CFLAGS="-Wextra -fno-common"
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -Werror=format-security" >&5
 $as_echo_n "checking whether C compiler accepts -Werror=format-security... " >&6; }
-if ${ax_cv_check_cflags___Werror_format_security+:} false; then :
+if ${ax_cv_check_cflags__Werror__Werror_format_security+:} false; then :
   $as_echo_n "(cached) " >&6
 else
 
   ax_check_save_flags=$CFLAGS
-  CFLAGS="$CFLAGS  -Werror=format-security"
+  CFLAGS="$CFLAGS -Werror -Werror=format-security"
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -5399,16 +5399,16 @@ main ()
 }
 _ACEOF
 if ac_fn_c_try_compile "$LINENO"; then :
-  ax_cv_check_cflags___Werror_format_security=yes
+  ax_cv_check_cflags__Werror__Werror_format_security=yes
 else
-  ax_cv_check_cflags___Werror_format_security=no
+  ax_cv_check_cflags__Werror__Werror_format_security=no
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
   CFLAGS=$ax_check_save_flags
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___Werror_format_security" >&5
-$as_echo "$ax_cv_check_cflags___Werror_format_security" >&6; }
-if test "x$ax_cv_check_cflags___Werror_format_security" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__Werror_format_security" >&5
+$as_echo "$ax_cv_check_cflags__Werror__Werror_format_security" >&6; }
+if test "x$ax_cv_check_cflags__Werror__Werror_format_security" = xyes; then :
   ax_gcc_flag_option=yes
 else
   ax_gcc_flag_option=no
@@ -5420,12 +5420,12 @@ fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -Wformat-overflow=2" >&5
 $as_echo_n "checking whether C compiler accepts -Wformat-overflow=2... " >&6; }
-if ${ax_cv_check_cflags___Wformat_overflow_2+:} false; then :
+if ${ax_cv_check_cflags__Werror__Wformat_overflow_2+:} false; then :
   $as_echo_n "(cached) " >&6
 else
 
   ax_check_save_flags=$CFLAGS
-  CFLAGS="$CFLAGS  -Wformat-overflow=2"
+  CFLAGS="$CFLAGS -Werror -Wformat-overflow=2"
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -5438,16 +5438,16 @@ main ()
 }
 _ACEOF
 if ac_fn_c_try_compile "$LINENO"; then :
-  ax_cv_check_cflags___Wformat_overflow_2=yes
+  ax_cv_check_cflags__Werror__Wformat_overflow_2=yes
 else
-  ax_cv_check_cflags___Wformat_overflow_2=no
+  ax_cv_check_cflags__Werror__Wformat_overflow_2=no
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
   CFLAGS=$ax_check_save_flags
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___Wformat_overflow_2" >&5
-$as_echo "$ax_cv_check_cflags___Wformat_overflow_2" >&6; }
-if test "x$ax_cv_check_cflags___Wformat_overflow_2" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__Wformat_overflow_2" >&5
+$as_echo "$ax_cv_check_cflags__Werror__Wformat_overflow_2" >&6; }
+if test "x$ax_cv_check_cflags__Werror__Wformat_overflow_2" = xyes; then :
   ax_gcc_flag_option=yes
 else
   ax_gcc_flag_option=no
@@ -5460,12 +5460,12 @@ fi
 if test "x$ax_is_release" = "xyes"; then
         { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fstack-protector-strong" >&5
 $as_echo_n "checking whether C compiler accepts -fstack-protector-strong... " >&6; }
-if ${ax_cv_check_cflags___fstack_protector_strong+:} false; then :
+if ${ax_cv_check_cflags__Werror__fstack_protector_strong+:} false; then :
   $as_echo_n "(cached) " >&6
 else
 
   ax_check_save_flags=$CFLAGS
-  CFLAGS="$CFLAGS  -fstack-protector-strong"
+  CFLAGS="$CFLAGS -Werror -fstack-protector-strong"
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -5478,16 +5478,16 @@ main ()
 }
 _ACEOF
 if ac_fn_c_try_compile "$LINENO"; then :
-  ax_cv_check_cflags___fstack_protector_strong=yes
+  ax_cv_check_cflags__Werror__fstack_protector_strong=yes
 else
-  ax_cv_check_cflags___fstack_protector_strong=no
+  ax_cv_check_cflags__Werror__fstack_protector_strong=no
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
   CFLAGS=$ax_check_save_flags
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___fstack_protector_strong" >&5
-$as_echo "$ax_cv_check_cflags___fstack_protector_strong" >&6; }
-if test "x$ax_cv_check_cflags___fstack_protector_strong" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fstack_protector_strong" >&5
+$as_echo "$ax_cv_check_cflags__Werror__fstack_protector_strong" >&6; }
+if test "x$ax_cv_check_cflags__Werror__fstack_protector_strong" = xyes; then :
   ax_gcc_flag_option=yes
 else
   ax_gcc_flag_option=no
@@ -5498,12 +5498,12 @@ fi
         fi
         { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -D_FORTIFY_SOURCE=2" >&5
 $as_echo_n "checking whether C compiler accepts -D_FORTIFY_SOURCE=2... " >&6; }
-if ${ax_cv_check_cflags___D_FORTIFY_SOURCE_2+:} false; then :
+if ${ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2+:} false; then :
   $as_echo_n "(cached) " >&6
 else
 
   ax_check_save_flags=$CFLAGS
-  CFLAGS="$CFLAGS  -D_FORTIFY_SOURCE=2"
+  CFLAGS="$CFLAGS -Werror -D_FORTIFY_SOURCE=2"
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -5516,16 +5516,16 @@ main ()
 }
 _ACEOF
 if ac_fn_c_try_compile "$LINENO"; then :
-  ax_cv_check_cflags___D_FORTIFY_SOURCE_2=yes
+  ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2=yes
 else
-  ax_cv_check_cflags___D_FORTIFY_SOURCE_2=no
+  ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2=no
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
   CFLAGS=$ax_check_save_flags
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags___D_FORTIFY_SOURCE_2" >&5
-$as_echo "$ax_cv_check_cflags___D_FORTIFY_SOURCE_2" >&6; }
-if test "x$ax_cv_check_cflags___D_FORTIFY_SOURCE_2" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2" >&5
+$as_echo "$ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2" >&6; }
+if test "x$ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2" = xyes; then :
   ax_gcc_flag_option=yes
 else
   ax_gcc_flag_option=no

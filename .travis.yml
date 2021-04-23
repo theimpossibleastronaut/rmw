@@ -108,6 +108,9 @@ matrix:
 # See https://github.com/theimpossibleastronaut/rmw/issues/283 for details
 # osx
     - os: osx
+      osx_image: xcode11.2
+      env: XCODE="true"
+    - os: osx
       osx_image: xcode11.6
       env: XCODE="true"
     - os: osx
@@ -139,14 +142,14 @@ script:
   - mkdir build && cd build
   - ../configure ${CONFIGURE_OPTS}
   - if [ -z "$DISTCHECK_ONLY" ]; then
-      make &&
-      make check -j5;
+      make V=1 &&
+      make V=1 check -j5;
       r=$?;
       if test "x$r" != x0; then
         cat test/test-suite.log;
       fi;
       exit $r;
     else
-      make distcheck &&
+      make V=1 distcheck &&
       make distclean;
     fi
