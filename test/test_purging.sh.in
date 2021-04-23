@@ -48,7 +48,7 @@ echo "\n\n == use a built-in environmental variable to write a"
 echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
-RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* || exit $?
+RMW_FAKE_YEAR=true $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* || exit $?
 echo
 echo
 echo " == displaying a trashinfo; it shows a DeletionDate of 1999"
@@ -80,7 +80,7 @@ echo " == even if some of the dirs are read-only"
 
 echo $SEPARATOR
 
-RMWTRASH=fake-year $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles || exit $?
+RMW_FAKE_YEAR=True $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles || exit $?
 
 echo $SEPARATOR
 echo " == only one f, should fail"

@@ -5,7 +5,6 @@ layout: default
 <ul>
   <li><a href="#general_testing">General Testing</a></li>
   <li><a href="#testing_home">Specify different home directory</a></li>
-  <li><a href="#testing_purge">Testing the purge feature</a></li>
   <li><a href="#profiling">Profiling</a></li>
   <li><a href="#create_test">How to Create a Unit Test</a></li>
   <li><a href="#env_vars">Influential Environmental Variables</a></li>
@@ -25,22 +24,6 @@ include some tests for resource leaks. To bypass using `valgrind`, use
 
 As of v0.7.03, you can provide a "fake" home directory by setting the
 environmental variable RMWTEST_HOME.
-
-<h2 id="testing_purge">Testing the purge feature</h2>
-
-Setting the RMWTRASH environmental variable at run-time to "fake-year"
-will write the year 1999 to the DeletionDate string in the .trashinfo
-file.
-
-<p class="w3-code">
-  RMWTRASH=fake-year rmw some.txt temp.asc files.doc
-</p>
-
-Then run rmw with the purge option
-
-<p class="w3-code">
-  rmw -fg
-</p>
 
 <!-- This section probably would be better on a separate "Debugging" page (not yet created) -->
 <h2 id="profiling">Profiling</h2>
@@ -84,7 +67,20 @@ and re-ran 'automake'.
 
 <h2 id="env_vars">Influential Environmental Variables</h2>
 
-RMW_FAKE_MEDIA_ROOT (used only for code testing) when rmw-ing files,
+* RMW_FAKE_YEAR=true will write the year 1999 to the DeletionDate string
+in the .trashinfo file (to test the purge feature).
+
+<p class="w3-code">
+  RMW_FAKE_YEAR=true rmw some.txt temp.asc files.doc
+</p>
+
+Then run rmw with the purge option
+
+<p class="w3-code">
+  rmw -fg
+</p>
+
+* RMW_FAKE_MEDIA_ROOT** (used only for code testing) when rmw-ing files,
 relative paths are written to the Path key of a trashinfo file. rmw is
 faked into believing that all waste directories are at the top level of
 a device or removable medium (see <a
@@ -95,4 +91,5 @@ other value will register as "false".
 <p class="w3-code">
 ex: RMW_FAKE_MEDIA_ROOT=true rmw [file(s) to be removed]
 </p>
+
 

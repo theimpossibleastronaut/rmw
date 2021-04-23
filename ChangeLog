@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2021-04-23
+
+  * (for testing) Replace RMWTRASH(=fake-year) with RMW_FAKE_YEAR(=true)
+
 2021-04-08
 
   * bugfix: When restoring files from removable media or devices, rmw
@@ -12,6 +16,7 @@
   * Removed deprecated config option (purgeDays)
 
   * Minor updates to tests infrastructure
+
 
 2021-03-01
 

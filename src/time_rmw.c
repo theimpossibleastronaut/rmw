@@ -49,14 +49,15 @@ set_time_string (char *tm_str, const int len, const char *format, time_t time_t_
 static void
 set_which_deletion_date (char *format, const int len)
 {
-  if  (getenv ("RMWTRASH") == NULL ||
-      (getenv ("RMWTRASH") != NULL && strcmp (getenv ("RMWTRASH"), "fake-year") != 0))
-    snprintf (format, len, "%s", "%FT%T");
-  else
+  char *fake_year = getenv ("RMW_FAKE_YEAR");
+  bool valid_value = false;
+  if (fake_year != NULL)
   {
-    printf ("  :test mode: Using fake year\n");
-    snprintf (format, len, "%s", "1999-%m-%dT%T");
+    valid_value = strcasecmp (fake_year, "true") == 0;
+    puts ("RMW_FAKE_YEAR:true");
   }
+  snprintf (format, len, "%s", valid_value ? "1999-%m-%dT%T" : "%FT%T");
+
   return;
 }
 

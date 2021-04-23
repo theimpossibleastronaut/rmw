@@ -605,11 +605,11 @@ init_config_data (st_config *x)
 
   const char *f = getenv ("RMW_FAKE_MEDIA_ROOT");
   if (f != NULL)
-    x->fake_media_root = (strcmp (f, "true") == 0) ? true : false;
+    x->fake_media_root = (strcasecmp (f, "true") == 0) ? true : false;
   else
     x->fake_media_root = false;
   if (verbose)
-    printf ("RMW_FAKE_MEDIA_ROOT = %s\n", x->fake_media_root == false ? "false" : "true");
+    printf ("RMW_FAKE_MEDIA_ROOT:%s\n", x->fake_media_root == false ? "false" : "true");
 }
 
 void
