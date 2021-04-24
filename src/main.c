@@ -108,7 +108,7 @@ process_mrl (st_waste *waste_head,
     }
     else
     {
-      int res = undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents);
+      int res = undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents, waste_head);
       if (res)
       {
         dispose_waste (waste_head);
@@ -235,7 +235,8 @@ Please check your configuration file and permissions\
       msg_warn_restore(
         restore_errors += restore (argv[file_arg],
         &st_time_var,
-        &cli_user_options));
+        &cli_user_options,
+        st_config_data.st_waste_folder_props_head));
 
     dispose_waste (st_config_data.st_waste_folder_props_head);
 

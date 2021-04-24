@@ -23,6 +23,12 @@ cd $RMWTEST_HOME
 @abs_builddir@/create-some-files.sh || exit $?
 
 echo $SEPARATOR
+echo "Try to restore files that aren't in a Waste/files folder"
+substring="not in a Waste directory"
+output=$($RMW_TEST_CMD_STRING -z $RMWTEST_HOME/somefiles/* 2>&1) || test_result_want_fail $?
+test "${output#*$substring}" != "$output" || exit $?
+
+echo $SEPARATOR
 echo "ReMove files and then restore them by using -u"
 set -x
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/* || exit $?

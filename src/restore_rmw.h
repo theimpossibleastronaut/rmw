@@ -55,13 +55,15 @@
 #define CTRLD 4
 
 int
-restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_options);
+restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_options, st_waste *waste_head);
 
 int
 restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);
 
 int
-undo_last_rmw (st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options, char *mrl_contents);
+undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
+  rmw_options * cli_user_options, char *mrl_contents, st_waste
+  *waste_head);
 
 #ifdef TEST_LIB
 char *waste_parent (const char *src);

@@ -63,12 +63,32 @@ char *get_waste_parent (const char *src)
 
 
 int
-restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_options)
+restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_options, st_waste *waste_head)
 {
   if (exists (src))
   {
     bufchk (src, LEN_MAX_PATH);
     char *waste_parent = get_waste_parent (src);
+
+    st_waste *waste_curr = waste_head;
+    bool waste_match = false;
+    while (waste_curr != NULL)
+    {
+      if (strcmp (waste_curr->parent, waste_parent) == 0)
+      {
+        waste_match = true;
+        break;
+      }
+      waste_curr = waste_curr->next_node;
+    }
+
+    if (!waste_match)
+    {
+      print_msg_error ();
+      fprintf (stderr, "'%s' is not in a Waste directory.\n", src);
+      return 1;
+    }
+
     char src_copy[strlen (src) + 1];
     strcpy (src_copy, src);
     char *src_basename = basename (src_copy);
@@ -325,8 +345,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
         {
           static char recover_file[LEN_MAX_PATH];
           snprintf (recover_file, sizeof (recover_file), "%s%s", waste_curr->files, item_name (items[i]));
-          /* waste_curr, not waste_head should always be passed here */
-          msg_warn_restore(restore (recover_file, st_time_var, cli_user_options));
+          msg_warn_restore(restore (recover_file, st_time_var, cli_user_options, waste_head));
         }
       }
     }
@@ -352,14 +371,16 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
  * Restores files from the mrl
  */
 int
-undo_last_rmw (st_time *st_time_var, const char *mrl_file, const rmw_options * cli_user_options, char *mrl_contents)
+undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
+  rmw_options * cli_user_options, char *mrl_contents, st_waste
+  *waste_head)
 {
     int err_ctr = 0;
     char *line = strtok (mrl_contents, "\n");
     while (line != NULL)
     {
       trim_white_space (line);
-      int result = restore (line, st_time_var, cli_user_options);
+      int result = restore (line, st_time_var, cli_user_options, waste_head);
       line = strtok (NULL, "\n");
       msg_warn_restore (result);
       err_ctr += result;
