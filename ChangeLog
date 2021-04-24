@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2021-04-26
+
+  * rmw v0.7.07 released
+
 2021-04-25
 
   * bugfix: list output (rmw -lv) shows all removable devices as

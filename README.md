@@ -1,8 +1,4 @@
-# rmw-0.7.07-dev
-
-This README applies to the current development version and some
-information it contains may not apply to the [last
-release](https://github.com/theimpossibleastronaut/rmw/releases/tag/v0.7.06).
+# rmw-0.7.07
 
 ## Description
 

@@ -1,4 +1,4 @@
-# rmw-0.7.05
+# rmw-0.7.07
 
 ## Description
 
@@ -15,7 +15,8 @@ Web site: <https://remove-to-waste.info/>
 
 ## Build Status
 
-* [![Build Status](https://travis-ci.org/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.org/theimpossibleastronaut/rmw)
+* [![Build Status](https://api.travis-ci.com/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.com/github/theimpossibleastronaut/rmw)
+* [![CodeQL](https://github.com/theimpossibleastronaut/rmw/workflows/CodeQL/badge.svg)](https://github.com/theimpossibleastronaut/rmw/actions?query=workflow%3ACodeQL)
 * [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
 
 ## Screenshots
@@ -54,12 +55,12 @@ Use `../configure --help` to view available compile-time options.
 If you would like to install rmw without superuser privileges, use a prefix
 that you have write access to. Example:
 
-    ../configure --prefix=$HOME/usr
+    ../configure --prefix=$HOME/.local
     make
     make install
 
-The rmw binary will be installed to `$HOME/usr/bin` and documentation to
-`$HOME/usr/doc`.
+The rmw binary will be installed to `$HOME/.local/bin` and documentation to
+`$HOME/.local/doc`.
 
 ### If configure fails
 
@@ -130,7 +131,11 @@ Restore FILE(s) from a WASTE directory
 -h, --help
 -c, --config filename     use an alternate configuration
 -l, --list                list waste directories
--g, --purge               run purge even if it's been run today
+-g[N_DAYS], --purge[=N_DAYS]
+                          run purge even if it's been run today;
+                          optional argument 'N_DAYS' overrides 'purge_after'
+                          value from the configuration file
+                          (Examples: -g90, --purge=90)
 -o, --orphaned            check for orphaned files (maintenance)
 -f, --force               allow purge to run
 -e, --empty               completely empty (purge) all waste folders
@@ -146,13 +151,19 @@ Restore FILE(s) from a WASTE directory
 -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)
 -s, --select              select files from list to restore
 -u, --undo-last           undo last ReMove
+-m, --most-recent-list    list most recently rmw'ed files
 
 == Purging ==
 
-If purging is 'on', rmw will permanently delete files from the folders
-specified in the configuration file after 'x' number of days. Purging can be
-disabled by using 'purge_after = 0' in configuration file. rmw will only check
-once per day if it's time to purge (use -g to check more often).
+If purging is enabled, rmw will permanently delete files from the
+folders specified in the configuration file after 'x' number of days.
+By default, purging is disabled ('purge_after' is set to '0' in the
+configuration file). To enable, use a value greater than '0' (Example:
+If '45' is specified, rmw will permanently delete files that have been
+in the waste (or trash) for more than 45 days.
+
+The value of 'purge_after' can be temporarily overridden by using -g
+[N_DAYS] or --purge[=NDAYS].
 
 The time of the last automatic purge check is stored in `purge-time`,
 located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
@@ -175,12 +186,8 @@ e.g. 'rmw -z ~/.local/share/Waste/files/foo*'
 
 == -f, --force ==
 
-A change from previous versions, purge is allowed to run without the '-f'
-option. If you'd rather require the use of '-f', you can add the line
-'force_required' in your configuration file.
-
 rmw will refuse to purge directories if they contain non-writable
 subdirectories. You can use -f 2 times if you ever see a message that tells
-you "permission denied; directory still contains files" (e.g. rwm -gff).
+you "permission denied; directory still contains files" (e.g. rwm -ffg).
 
 ```
