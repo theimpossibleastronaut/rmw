@@ -41,6 +41,65 @@ create_temp_files() {
   done
   set -x
 }
+
+echo
+echo
+echo " Creating some files for testing..."
+cd $RMWTEST_HOME
+@abs_builddir@/create-some-files.sh || exit $?
+
+echo
+echo
+echo " == rmw -e command should completely purge the waste folders,"
+echo " == no matter when they were deleted"
+
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles || exit $?
+
+set +x
+echo $SEPARATOR
+echo '  == purging disabled should output a message that purging is disabled'
+set -x
+output=`$RMW_PURGE_DISABLED_CMD -eff`
+expected=`echo "purging is disabled ('purge_after' is set to '0')" | cut -b1-20`
+output=`echo $output | cut -b1-20`
+test "$output" = "$expected" || exit $?
+
+echo " == Should not work if '-f' isn't used"
+output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
+test "$output" = "purge has been skipped: use -f or --force" || exit $?
+
+echo " == Should not work if 'Y' or 'y' is not supplied."
+echo "yfw" | $RMW_TEST_CMD_STRING --purge -e || exit $?
+
+echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e || exit $?
+
+echo "n" | $RMW_TEST_CMD_STRING --purge -e || exit $?
+
+echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e || exit $?
+
+echo " == (files should still be present)"
+test -z $(ls -A $PRIMARY_WASTE_DIR/files)
+test_result_want_fail $?
+test -z $(ls -A $PRIMARY_WASTE_DIR/info)
+test_result_want_fail $?
+
+echo " == Empty works with force empty (-ffe)"
+echo "y" | $RMW_TEST_CMD_STRING -ffe || exit $?
+
+echo " == Should work with 'Y' or 'y'"
+create_temp_files
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "y" | $RMW_TEST_CMD_STRING -e || exit $?
+
+create_temp_files
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "Y" | $RMW_TEST_CMD_STRING -e || exit $?
+
+echo
+echo
+echo " == Test that the files are really gone"
+
+test -z "$(ls -A $PRIMARY_WASTE_DIR/files)" || exit $?
+test -z "$(ls -A $PRIMARY_WASTE_DIR/info)" || exit $?
+
 create_temp_files
 
 cd $RMWTEST_HOME/..
@@ -103,63 +162,5 @@ echo " == Show that the files are really gone"
 
 test -z $(ls -A $PRIMARY_WASTE_DIR/files) || exit $?
 test -z $(ls -A $PRIMARY_WASTE_DIR/info) || exit $?
-
-echo
-echo
-echo " Creating some files for testing..."
-cd $RMWTEST_HOME
-@abs_builddir@/create-some-files.sh || exit $?
-
-echo
-echo
-echo " == rmw -e command should completely purge the waste folders,"
-echo " == no matter when they were deleted"
-
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles || exit $?
-
-set +x
-echo $SEPARATOR
-echo '  == purging disabled should output a message that purging is disabled'
-set -x
-output=`$RMW_PURGE_DISABLED_CMD -eff`
-expected=`echo "purging is disabled ('purge_after' is set to '0')" | cut -b1-20`
-output=`echo $output | cut -b1-20`
-test "$output" = "$expected" || exit $?
-
-echo " == Should not work if '-f' isn't used"
-output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
-test "$output" = "purge has been skipped: use -f or --force" || exit $?
-
-echo " == Should not work if 'Y' or 'y' is not supplied."
-echo "yfw" | $RMW_TEST_CMD_STRING --purge -e || exit $?
-
-echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e || exit $?
-
-echo "n" | $RMW_TEST_CMD_STRING --purge -e || exit $?
-
-echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e || exit $?
-
-echo " == (files should still be present)"
-test -z $(ls -A $PRIMARY_WASTE_DIR/files)
-test_result_want_fail $?
-test -z $(ls -A $PRIMARY_WASTE_DIR/info)
-test_result_want_fail $?
-
-echo " == Empty works with force empty (-ffe)"
-echo "y" | $RMW_TEST_CMD_STRING -ffe || exit $?
-
-echo " == Should work with 'Y' or 'y'"
-create_temp_files
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "y" | $RMW_TEST_CMD_STRING -e || exit $?
-
-create_temp_files
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "Y" | $RMW_TEST_CMD_STRING -e || exit $?
-
-echo
-echo
-echo " == Test that the files are really gone"
-
-test -z "$(ls -A $PRIMARY_WASTE_DIR/files)" || exit $?
-test -z "$(ls -A $PRIMARY_WASTE_DIR/info)" || exit $?
 
 exit 0
