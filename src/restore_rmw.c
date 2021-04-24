@@ -274,7 +274,9 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     ITEM **my_items;
     MENU *my_menu;
     /* Initialize items */
-    my_items = (ITEM **) calloc (n_choices, sizeof (ITEM *));
+    // Why is the '+1' needed here? (rmw segfaults without it)
+    my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
+    chk_malloc (my_items, __func__, __LINE__);
     populate_menu (root, my_items, true);
 
     my_menu = new_menu ((ITEM **) my_items);

@@ -874,6 +874,13 @@ clean-local:
 		rm @builddir@/po/stamp-po;	\
 	fi
 
+make check-local:
+	if test $$(command -v valgrind); then	\
+		echo q | valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 @top_builddir@/rmw -s;	\
+	else	\
+		echo "Valgrind not installed";	\
+	fi
+
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
