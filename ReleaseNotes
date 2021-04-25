@@ -9,6 +9,9 @@ v0.7.07
   https://github.com/theimpossibleastronaut/rmw/issues/299 for more
   information).
 
+  * bugfix: list output (rmw -lv) shows all removable devices as
+  attached even for those that are detached.
+
   * Removed deprecated config option (purgeDays)
 
   * Minor updates to tests infrastructure
