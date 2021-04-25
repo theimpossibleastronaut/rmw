@@ -495,10 +495,14 @@ remove_to_waste (
 void
 list_waste_folders (st_waste *waste_head)
 {
+  // Directories that are not on attached medium are not included in
+  // the waste linked list, so we can just assign true here.
+  const bool is_attached = true;
+
   st_waste *waste_curr = waste_head;
   while (waste_curr != NULL)
   {
-    show_folder_line (waste_curr->parent, waste_curr->removable);
+    show_folder_line (waste_curr->parent, waste_curr->removable, is_attached);
     waste_curr = waste_curr->next_node;
   }
 

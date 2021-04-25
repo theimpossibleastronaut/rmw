@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2021-04-25
+
+  * bugfix: list output (rmw -lv) shows all removable devices as
+  attached even for those that are detached.
+
 2021-04-23
 
   * (for testing) Replace RMWTRASH(=fake-year) with RMW_FAKE_YEAR(=true)

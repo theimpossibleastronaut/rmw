@@ -290,10 +290,11 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   strcpy (tmp_waste_parent_folder, raw_line);
   realize_waste_line (tmp_waste_parent_folder);
 
-  if (removable && !exists (tmp_waste_parent_folder))
+  bool is_attached = exists (tmp_waste_parent_folder);
+  if (removable && !is_attached)
   {
     if (cli_user_options->list)
-      show_folder_line (tmp_waste_parent_folder, removable);
+      show_folder_line (tmp_waste_parent_folder, removable, is_attached);
 
     return NULL;
   }
@@ -613,7 +614,7 @@ init_config_data (st_config *x)
 }
 
 void
-show_folder_line (const char *folder, const bool is_r)
+show_folder_line (const char *folder, const bool is_r, const bool is_attached)
 {
   printf ("%s", folder);
   if (is_r && verbose)
@@ -625,8 +626,7 @@ show_folder_line (const char *folder, const bool is_r)
     printf (" (");
     printf (_("removable, "));
     /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
-    printf (_("attached"));
-    printf (")");
+    printf ("%s)", is_attached == true ? _("attached") : _("detached"));
   }
 
   printf ("\n");
