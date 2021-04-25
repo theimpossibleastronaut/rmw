@@ -6,14 +6,14 @@ Change version number
   packaging/Slackbuild/rmw/rmw.info (also change version numbers in download link)
   rmw.Slackbuild
   packaging/Debian/changelog
-  
+
 cp README.md packaging/Slackbuild/rmw/README.Slackware
-  
+
 run autoreconf
 
 update po and pot files
   (from the build directory) cd po && make update-po
-  
+
 Copy ChangeLog entries that apply to current release to ReleaseNotes
 (remove dates and reorder entries in in order of important or interest)
 
@@ -38,22 +38,23 @@ Check copyright date/year
 
 Make Debian package
   cp rmw-0.7.07.tar.gz rmw_0.7.07.orig.tar.gz
+  tar xf rmw-<version>.tar.gz
   cd rmw-<version>
   cp -a <rmwsrcdir>/packaging/debian .
   dch -v <newversion>-1
   cp debian/changelog <rmwsrcdir>/packaging/debian
   dpkg-buildpackage -us -uc -tc (The resulting package will be one level up)
-  
+
   Check the Debian package
     lintian -i -I --show-overrides gentoo_0.9.12-1_i386.changes
-    
+
 push all changes
 
 Get the md5sum and sha256sum of the source tarball and Debian package
 
 Publish the release
   paste in the ReleaseNotes file and the 'sums of the two files listed above.
-  
+
 Close milestone (https://github.com/theimpossibleastronaut/rmw/milestones)
 
 Create Slackbuild tarball and submit to Slackbuilds.org (https://slackbuilds.org/guidelines/)
