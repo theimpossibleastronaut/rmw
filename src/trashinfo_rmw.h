@@ -42,14 +42,14 @@ typedef struct st_waste st_waste;
 struct st_waste
 {
   /** The parent directory, e.g. $HOME/.local/share/Trash */
-  char parent[LEN_MAX_PATH];
+  char *parent;
 
   /*! The info directory (where .trashinfo files are written) will be appended to the parent directory */
-  char info[LEN_MAX_PATH];
+  char *info;
 
   /** Appended to the parent directory, where files are moved to when they are rmw'ed
    */
-  char files[LEN_MAX_PATH];
+  char *files;
 
   /** The device number of the filesystem on which the file resides. rmw does
    * not copy files from one filesystem to another, but rather only moves them.

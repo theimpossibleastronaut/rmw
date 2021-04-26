@@ -318,11 +318,15 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   waste_curr->removable = removable ? true : false;
 
   /* make the parent... */
+  waste_curr->parent = malloc (strlen (tmp_waste_parent_folder) + 1);
+  chk_malloc (waste_curr->parent, __func__, __LINE__);
   strcpy (waste_curr->parent, tmp_waste_parent_folder);
 
   /* and the files... */
   int req_len = multi_strlen (waste_curr->parent, "/files/", NULL) + 1;
-  bufchk_len (req_len, sizeof waste_curr->files, __func__, __LINE__);
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  waste_curr->files = malloc (req_len);
+  chk_malloc (waste_curr->files, __func__, __LINE__);
   snprintf (waste_curr->files, req_len, "%s%s", waste_curr->parent, "/files/");
 
   if (! exists (waste_curr->files))
@@ -340,7 +344,8 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
    *
    */
   req_len = multi_strlen (waste_curr->parent, "/info/", NULL) + 1;
-  bufchk_len (req_len, sizeof waste_curr->info, __func__, __LINE__);
+  waste_curr->info = malloc (req_len);
+  chk_malloc (waste_curr->info, __func__, __LINE__);
   snprintf (waste_curr->info, req_len, "%s%s", waste_curr->parent, "/info/");
 
   if (! exists (waste_curr->info))
