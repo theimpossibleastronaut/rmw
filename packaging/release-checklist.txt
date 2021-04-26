@@ -1,22 +1,29 @@
 Remove "development version" notice from README
 
 Change version number
-  configure.ac
+  configure.ac (AC_INIT)
   README.md
   packaging/Slackbuild/rmw/rmw.info (also change version numbers in download link)
   rmw.Slackbuild
   packaging/Debian/changelog
-  
-cp README packaging/Slackbuild/rmw/README.Slackware
-  
+
+cp README.md packaging/Slackbuild/rmw/README.Slackware
+
 run autoreconf
 
 update po and pot files
   (from the build directory) cd po && make update-po
-  
+
 Copy ChangeLog entries that apply to current release to ReleaseNotes
+(remove dates and reorder entries in in order of important or interest)
+
 
 Add release date to ChangeLog
+Ex:
+2021-04-25
+
+  * rmw v0.7.07 released
+
 
 Change Month and Year in man/man.1
 
@@ -30,23 +37,25 @@ Check copyright date/year
   packaging/Slackbuild/rmw/rmw.Slackbuild
 
 Make Debian package
+  cp rmw-0.7.07.tar.gz rmw_0.7.07.orig.tar.gz
   tar xf rmw-<version>.tar.gz
   cd rmw-<version>
-  cp -a packaging/debian .
-  dch -v <newversion>-1
+  cp -a <rmwsrcdir>/packaging/debian .
+  dch -r 0.7.07 (updates the changelog in debian/
+	remove "-1" from version at top of debian/changelog
   cp debian/changelog <rmwsrcdir>/packaging/debian
   dpkg-buildpackage -us -uc -tc (The resulting package will be one level up)
-  
+
   Check the Debian package
-    lintian -i -I --show-overrides gentoo_0.9.12-1_i386.changes
-    
+    lintian -i -I --show-overrides rmw_0.7.07_amd64.changes
+
 push all changes
 
 Get the md5sum and sha256sum of the source tarball and Debian package
 
 Publish the release
   paste in the ReleaseNotes file and the 'sums of the two files listed above.
-  
+
 Close milestone (https://github.com/theimpossibleastronaut/rmw/milestones)
 
 Create Slackbuild tarball and submit to Slackbuilds.org (https://slackbuilds.org/guidelines/)

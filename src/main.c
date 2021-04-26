@@ -287,7 +287,11 @@ get_home_dir (const char *alternate_home_dir)
   {
     char *enable_test = getenv (alternate_home_dir);
     if (enable_test != NULL)
+    {
+      if (verbose)
+        printf ("RMWTEST_HOME:%s\n", enable_test);
       return enable_test;
+    }
   }
 
   char *_homedir;

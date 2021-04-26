@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-04-25 14:05-0500\n"
+"POT-Creation-Date: 2021-04-26 14:04-0500\n"
 "PO-Revision-Date: 2020-04-18 12:26+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -214,27 +214,27 @@ msgstr ""
 "Dabaye '%s -h' adhik jankari ke liye\n"
 " \n"
 
-#: src/main.c:363
+#: src/main.c:367
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr "Easter Bunny bola, \"Hello, Duniya.\""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:381 src/restore_rmw.c:179
+#: src/main.c:385 src/restore_rmw.c:179
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "File nahi mili: '%s'\n"
 
-#: src/main.c:393
+#: src/main.c:397
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/main.c:477
+#: src/main.c:481
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "koi sahi filesystem nahi mile \"%s\"\n"
 
-#: src/main.c:487
+#: src/main.c:491
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -675,6 +675,40 @@ msgstr "Jari rakhen? (haan/na): "
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr "rmw: %s(): buffer bhut chota hai (mila %d, chahiye tha %d)\n"
 
+#~ msgid "search complete\n"
+#~ msgstr "dhundhna purna hua\n"
+
+#~ msgid "Searching using only the basename...\n"
+#~ msgstr "Khoja jaa raha hai basefile naam istemal karke…\n"
+
+#~ msgid "-r / --recurse: not implemented\n"
+#~ msgstr "-r / --recurse: nahi kiya gaya\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "  \n"
+#~| "\n"
+#~| "  \t===] Restoring [===\n"
+#~| "\n"
+#~| "  -z, --restore <wildcard filename(s) pattern>\n"
+#~| "  -s, --select              select files from list to restore\n"
+#~| "  -u, --undo-last           undo last ReMove\n"
+#~ msgid ""
+#~ "  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
+#~ "files/foo*)\n"
+#~ "  -s, --select              select files from list to restore\n"
+#~ "  -u, --undo-last           undo last ReMove\n"
+#~ "  -m, --most-recent-list    list most recently rmw'ed files\n"
+#~ msgstr ""
+#~ "  \n"
+#~ "  \n"
+#~ "  \t ===] Bahal [===\n"
+#~ "\n"
+#~ "  -z, --bahal <wildcard filename(s) pattern>\n"
+#~ "  -s ,--bahal karneke liye suchi se chuninda         failon ka chayan "
+#~ "karen\n"
+#~ "  -u, --purbith-pichle          purbit pichle ReMove\n"
+
 #, fuzzy
 #~| msgid ""
 #~| "Usage: rmw [OPTION]... FILE...\n"
@@ -728,37 +762,3 @@ msgstr "rmw: %s(): buffer bhut chota hai (mila %d, chahiye tha %d)\n"
 #~ "  -v, --vaachal          nikalne wale messages badhaye\n"
 #~ "  -w, --warranty         dikhaye warranty\n"
 #~ "  -V, --sanskaran        dikhaye sanskaran aur licence ki jankari\n"
-
-#, fuzzy
-#~| msgid ""
-#~| "  \n"
-#~| "\n"
-#~| "  \t===] Restoring [===\n"
-#~| "\n"
-#~| "  -z, --restore <wildcard filename(s) pattern>\n"
-#~| "  -s, --select              select files from list to restore\n"
-#~| "  -u, --undo-last           undo last ReMove\n"
-#~ msgid ""
-#~ "  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
-#~ "files/foo*)\n"
-#~ "  -s, --select              select files from list to restore\n"
-#~ "  -u, --undo-last           undo last ReMove\n"
-#~ "  -m, --most-recent-list    list most recently rmw'ed files\n"
-#~ msgstr ""
-#~ "  \n"
-#~ "  \n"
-#~ "  \t ===] Bahal [===\n"
-#~ "\n"
-#~ "  -z, --bahal <wildcard filename(s) pattern>\n"
-#~ "  -s ,--bahal karneke liye suchi se chuninda         failon ka chayan "
-#~ "karen\n"
-#~ "  -u, --purbith-pichle          purbit pichle ReMove\n"
-
-#~ msgid "-r / --recurse: not implemented\n"
-#~ msgstr "-r / --recurse: nahi kiya gaya\n"
-
-#~ msgid "Searching using only the basename...\n"
-#~ msgstr "Khoja jaa raha hai basefile naam istemal karke…\n"
-
-#~ msgid "search complete\n"
-#~ msgstr "dhundhna purna hua\n"

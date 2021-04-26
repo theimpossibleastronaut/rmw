@@ -1,25 +1,24 @@
 === RMW Release Notes ===
 
-v0.7.06
+v0.7.07
 
-  * When using -s,--select, the number of lines the terminal has will
-  be checked. The number of items in the list will be based on that; if
-  it doesn't meet the minumum requirement, rmw will exit.
-  
-  * Allow optional argument to -g/--purge that can override the value of
-  'purge_after' in the configuration file (-g[N_DAYS], --purge[=N_DAYS]).
-  
-  * bugfix: restore broken symbolic links instead of giving a "file not
-  found" message (issue #292)
-  
-  * Improved handling of file with leading hyphens
-  
-  * When an invalid option is given, usage output no longer displays
-  
-  * You can view how many days remain until a file is purged by using
-  -vv (with -fg).
-  
-  * If lstat() encounters and error, also display the filename/directory it
-  was attempting to access.
-  
-  * add '-m, --most-recent-list' option: list most recently rmw'ed files
+  * bugfix: When restoring files from removable media or devices, rmw
+  will now process relative paths (this primarily affects users who
+  trash a file with the "move to trash" option from their desktop, and
+  then later try to restore with rmw. See
+  https://github.com/theimpossibleastronaut/rmw/issues/299 for more
+  information).
+
+  * bugfix: list output (rmw -lv) shows all removable devices as
+  attached even for those that are detached.
+
+  * Removed deprecated config option (purgeDays)
+
+  * Minor updates to tests infrastructure
+
+  * (for testing) Replace RMWTRASH(=fake-year) with RMW_FAKE_YEAR(=true)
+
+Note to mac os users: Purging tests are failing on the Travis CI test
+system when using xcode 11.5 and above. If you get errors while purging
+or 'make check' fails for you, please report on issue
+https://github.com/theimpossibleastronaut/rmw/issues/283

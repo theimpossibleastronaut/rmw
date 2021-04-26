@@ -4,7 +4,3 @@ export DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow
 
 %:
 	dh $@
-
-# The check will fail if parallel jobs is > 1
-override_dh_auto_test:
-	$(MAKE) -j1 check

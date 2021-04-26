@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: rmw 0.7.07-dev\n"
+"Project-Id-Version: rmw 0.7.07\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-04-25 14:05-0500\n"
+"POT-Creation-Date: 2021-04-26 14:04-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,27 +159,27 @@ msgid ""
 "Enter '%s -h' for more information\n"
 msgstr ""
 
-#: src/main.c:363
+#: src/main.c:367
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:381 src/restore_rmw.c:179
+#: src/main.c:385 src/restore_rmw.c:179
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr ""
 
-#: src/main.c:393
+#: src/main.c:397
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/main.c:477
+#: src/main.c:481
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr ""
 
-#: src/main.c:487
+#: src/main.c:491
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
