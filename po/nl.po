@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-04-25 14:27-0500\n"
+"POT-Creation-Date: 2021-04-26 14:04-0500\n"
 "PO-Revision-Date: 2019-08-04 16:21+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -215,27 +215,27 @@ msgstr ""
 "Geen bestandsnamen of commando lijn opties werden gegeven;\n"
 "Geef '%s -h' op voor meer informatie\n"
 
-#: src/main.c:363
+#: src/main.c:367
 msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr "De paashaas zegt, \"Hallo, wereld.\""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:381 src/restore_rmw.c:179
+#: src/main.c:385 src/restore_rmw.c:179
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
 
-#: src/main.c:393
+#: src/main.c:397
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/main.c:477
+#: src/main.c:481
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
 
-#: src/main.c:487
+#: src/main.c:491
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
