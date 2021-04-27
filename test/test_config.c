@@ -62,14 +62,10 @@ test_strrepl (void)
   assert (strcmp (new_string, path) == 0);
   free (new_string);
 
-  // FIXME: No replacement should happen here, but it does. The resulting string is
-  // "/home/home/foo/bar". The function needs fixing to handle strings of zero length
-  // properly
-  //
-  // new_string = strrepl (path, "", "/home");
-  // puts (new_string);
-  // assert (strcmp (new_string, path) == 0);
-  // free (new_string);
+  new_string = strrepl (path, "", "/home");
+  puts (new_string);
+  assert (strcmp (new_string, path) == 0);
+  free (new_string);
 
   new_string = strrepl (path, "f", "/home/foo/bar");
   assert (strcmp (new_string, "/home//home/foo/baroo/bar") == 0);

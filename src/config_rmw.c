@@ -138,7 +138,7 @@ char
   char *s, *d, *p;
 
   s = strstr (src, str);
-  if (s)
+  if (s && *str != '\0')
   {
     d = dest ;
     for (p = src ; p < s ; p++, d++)
