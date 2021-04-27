@@ -27,6 +27,8 @@
 
 struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
+const char trashinfo_ext[] = ".trashinfo";
+const int len_trashinfo_ext = (sizeof (trashinfo_ext) - 1); /* Subtract 1 for the terminating NULL */
 const int LEN_MAX_TRASHINFO_PATH_LINE = sizeof ("Path=") + LEN_MAX_ESCAPED_PATH;
 
 const char *path_key = "Path";
@@ -63,9 +65,9 @@ printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __f
     strcat (final_info_dest, st_time_var->suffix_added_dup_exists);
   }
 
-  req_len = multi_strlen (final_info_dest, TRASHINFO_EXT, NULL);
+  req_len = multi_strlen (final_info_dest, trashinfo_ext, NULL);
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  strcat (final_info_dest, TRASHINFO_EXT);
+  strcat (final_info_dest, trashinfo_ext);
 
   FILE *fp = fopen (final_info_dest, "w");
   if (fp != NULL)

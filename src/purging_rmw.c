@@ -291,8 +291,6 @@ purge (st_config * st_config_data,
             ("Purging files based on number of days in the waste folders (%u) ...\n"),
             st_config_data->purge_after);
 
-  struct stat st;
-
   unsigned int purge_ctr = 0;
   unsigned int dirs_containing_files_ctr = 0;
   unsigned int max_depth_reached_ctr = 0;
@@ -348,30 +346,22 @@ purge (st_config * st_config_data,
         continue;
 
       char corresponding_file_to_purge[LEN_MAX_PATH];
-      strcpy (corresponding_file_to_purge, waste_curr->files);
-
-      char temp[LEN_MAX_PATH];
-      strcpy (temp, st_trashinfo_dir_entry->d_name);
-      truncate_str (temp, strlen (TRASHINFO_EXT));      /* acquire the (basename - trashinfo extension) */
-
-      strcat (corresponding_file_to_purge, temp);       /* path to file in <WASTE>/files */
 
       double days_remaining =
         ((double) then + (SECONDS_IN_A_DAY * st_config_data->purge_after) -
          st_time_var->now) / SECONDS_IN_A_DAY;
       if (days_remaining <= 0 || cli_user_options->want_empty_trash)
       {
-        char corresponding_file_to_purge[LEN_MAX_PATH];
-        strcpy (corresponding_file_to_purge, waste_curr->files);
-
-        char temp[LEN_MAX_PATH];
+        char temp[strlen (st_trashinfo_dir_entry->d_name) + 1];
         strcpy (temp, st_trashinfo_dir_entry->d_name);
-        truncate_str (temp, strlen (TRASHINFO_EXT));    /* acquire the (basename - trashinfo extension) */
-
-        strcat (corresponding_file_to_purge, temp);     /* path to file in <WASTE>/files */
+        truncate_str (temp, len_trashinfo_ext);    /* acquire the (basename - trashinfo extension) */
+        req_len = multi_strlen (waste_curr->files, temp, NULL) + 1;
+        bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+        snprintf (corresponding_file_to_purge, req_len, "%s%s", waste_curr->files, temp);
 
         // If the corresponding file wasn't found, either display an error and exit, or remove the
         // (probably) orphaned trashinfo file.
+        struct stat st;
         if (lstat (corresponding_file_to_purge, &st))
         {
           if (cli_user_options->want_orphan_chk
@@ -569,10 +559,10 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
       int req_len =
         multi_strlen (waste_curr->info, st_file_properties.base_name,
-                      TRASHINFO_EXT, NULL) + 1;
+                      trashinfo_ext, NULL) + 1;
       bufchk_len (req_len, sizeof path_to_trashinfo, __func__, __LINE__);
       snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info,
-                st_file_properties.base_name, TRASHINFO_EXT);
+                st_file_properties.base_name, trashinfo_ext);
 
       if (exists (path_to_trashinfo))
         continue;

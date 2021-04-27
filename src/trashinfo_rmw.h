@@ -29,7 +29,8 @@
 
 #include "time_rmw.h"
 
-#define TRASHINFO_EXT ".trashinfo"
+extern const char trashinfo_ext[];
+extern const int len_trashinfo_ext;
 
 #define TI_LINE_COUNT 3
 

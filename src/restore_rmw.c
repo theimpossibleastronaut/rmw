@@ -94,10 +94,10 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     char *src_basename = basename (src_copy);
 
     char src_tinfo[LEN_MAX_PATH];
-    int req_len = multi_strlen (waste_parent, "/info/", src_basename, TRASHINFO_EXT, NULL) + 1;
+    int req_len = multi_strlen (waste_parent, "/info/", src_basename, trashinfo_ext, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     snprintf (src_tinfo, req_len, "%s%s%s%s", waste_parent, "/info/",
-             src_basename, TRASHINFO_EXT);
+             src_basename, trashinfo_ext);
 
     char *_dest = parse_trashinfo_file (src_tinfo, path_key);
     if (_dest == NULL)
