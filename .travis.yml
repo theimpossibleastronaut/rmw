@@ -144,7 +144,7 @@ script:
   - if [ -z "$DISTCHECK_ONLY" ]; then
       make V=1 &&
       make check-selectrestore || exit $?;
-      make V=1 check -j5 || exit $?;
+      make V=1 check -j5;
       r=$?;
       if test "x$r" != x0; then
         cat test/test-suite.log;
