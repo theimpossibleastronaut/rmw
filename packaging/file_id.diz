@@ -1,4 +1,5 @@
-rmw (ReMove to Waste) is a safe-remove
+rmw v0.7.07
+ReMove to Waste is a safe-remove
 utility for the command line. Its goal is to
 conform to the FreeDesktop.org Trash
 specification and therefore be compatible
