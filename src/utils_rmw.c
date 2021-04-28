@@ -177,24 +177,6 @@ user_verify (void)
 }
 
 
-/* used to prevent a TOCTOU race condtion */
-bool
-is_modified (const char* file, dev_t dev, const unsigned long int inode)
-{
-  struct stat st;
-  if (lstat (file, &st))
-    msg_err_lstat (file, __func__, __LINE__);
-
-  if (dev == st.st_dev && inode == st.st_ino)
-    return false;
-
-  print_msg_warn ();
-  printf ("%s ", file);
-  puts ("has been modified since last check, not removing");
-  return true;
-}
-
-
 /*!
   *
   * According to RFC2396, we must escape any character that's

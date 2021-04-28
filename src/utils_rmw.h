@@ -49,9 +49,6 @@ bool
 user_verify (void);
 
 bool
-is_modified (const char* file, dev_t dev, const unsigned long int inode);
-
-bool
 escape_url (const char *str, char *dest, const int len);
 
 bool

@@ -92,18 +92,14 @@ rmdir_recursive (const char *dirname, short unsigned level,
     struct stat st;
     if (lstat (st_dirname_properties.path, &st))
       msg_err_lstat (st_dirname_properties.path, __func__, __LINE__);
-    unsigned long int orig_dev = st.st_dev;
-    unsigned long int orig_inode = st.st_ino;
 
-    if (force >= 2 && ~st.st_mode & S_IWUSR)  /* use >= 2 to protect against future changes */
+    if (force >= 2 && ~st.st_mode & S_IWUSR)
     {
       if (!chmod (st_dirname_properties.path, 00700))
       {
         /* Now that the mode has changed, lstat must be run again */
         if (lstat (st_dirname_properties.path, &st))
           msg_err_lstat (st_dirname_properties.path, __func__, __LINE__);
-        orig_dev = st.st_dev;
-        orig_inode = st.st_ino;
       }
       else
       {
@@ -124,18 +120,15 @@ rmdir_recursive (const char *dirname, short unsigned level,
     {
       if (!S_ISDIR (st.st_mode))
       {
-        if (!is_modified (st_dirname_properties.path, orig_dev, orig_inode))
-          remove_result = remove (st_dirname_properties.path);
-        else
-          remove_result = -1;
-
-        if (remove_result == 0)
+        if (remove (st_dirname_properties.path) == 0)
         {
           deleted_files_ctr++;
           bytes_freed += st.st_size;
         }
         else
+        {
           perror ("rmdir_recursive -> remove");
+        }
       }
       else
       {
@@ -159,7 +152,6 @@ rmdir_recursive (const char *dirname, short unsigned level,
         }
       }
     }
-
     else
     {
       printf ("\nPermission denied while deleting\n");
@@ -388,9 +380,6 @@ purge (st_config * st_config_data,
           }
         }
 
-        int orig_dev = st.st_dev;
-        int orig_inode = st.st_ino;
-
         if (S_ISDIR (st.st_mode))
         {
           if (cli_user_options->want_dry_run == false)
@@ -448,13 +437,7 @@ purge (st_config * st_config_data,
         else
         {
           if (cli_user_options->want_dry_run == false)
-          {
-            if (!is_modified
-                (corresponding_file_to_purge, orig_dev, orig_inode))
-              status = remove (corresponding_file_to_purge);
-            else
-              status = -1;
-          }
+            status = remove (corresponding_file_to_purge);
           else
             status = 0;
           if (status == 0)
