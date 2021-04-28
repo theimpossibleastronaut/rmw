@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2021-04-29
+
+  * rmw v0.7.08 released
+
 2021-04-28
 
   * bugfix: fixes test failing on osx using xcode 11.5 and above (#283)

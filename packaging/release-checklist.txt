@@ -5,7 +5,6 @@ Change version number
   README.md
   packaging/Slackbuild/rmw/rmw.info (also change version numbers in download link)
   rmw.Slackbuild
-  packaging/Debian/changelog
 
 cp README.md packaging/Slackbuild/rmw/README.Slackware
 

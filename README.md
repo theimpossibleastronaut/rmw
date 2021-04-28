@@ -1,4 +1,4 @@
-# rmw-0.7.08-dev
+# rmw-0.7.08
 
 ## Description
 
