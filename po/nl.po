@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-04-26 14:04-0500\n"
+"POT-Creation-Date: 2021-04-28 14:03-0500\n"
 "PO-Revision-Date: 2019-08-04 16:21+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -130,27 +130,27 @@ msgstr ""
 msgid "Invalid WASTE option: '%s'\n"
 msgstr "Invalide optie: '%s'\n"
 
-#: src/config_rmw.c:419
+#: src/config_rmw.c:424
 #, c-format
 msgid "config file: %s\n"
 msgstr "configuratie bestand: %s\n"
 
-#: src/config_rmw.c:433
+#: src/config_rmw.c:438
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "Aanmaken van standaard configuratie bestand:"
 
-#: src/config_rmw.c:459
+#: src/config_rmw.c:464
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Kan een configuratie bestand niet lezen of schrijven.\n"
 
-#: src/config_rmw.c:563
+#: src/config_rmw.c:568
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
 
-#: src/config_rmw.c:576
+#: src/config_rmw.c:581
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -163,17 +163,17 @@ msgstr ""
 "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
 "rapporteren, bezoek de website van rmw op\n"
 
-#: src/config_rmw.c:627
+#: src/config_rmw.c:632
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:629
+#: src/config_rmw.c:634
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:629
+#: src/config_rmw.c:634
 msgid "detached"
 msgstr "ontkoppeld"
 
@@ -506,14 +506,14 @@ msgstr ""
 msgid "Try '%s --help' for more information.\n"
 msgstr ""
 
-#: src/purging_rmw.c:111
+#: src/purging_rmw.c:107
 #, c-format
 msgid "while changing permissions of %s\n"
 msgstr "bij het maken van %s\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/purging_rmw.c:264
+#: src/purging_rmw.c:256
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -522,74 +522,74 @@ msgstr ""
 "verwijderen is uitgeschakeld, 'purge_after' is ingesteld op 0\n"
 "\n"
 
-#: src/purging_rmw.c:278
+#: src/purging_rmw.c:270
 msgid "The contents of all waste folders will be deleted -"
 msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 
-#: src/purging_rmw.c:281
+#: src/purging_rmw.c:273
 msgid "Action cancelled."
 msgstr "Actie geannuleerd."
 
-#: src/purging_rmw.c:288
+#: src/purging_rmw.c:280
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Purgen van alle bestanden in afval mappen ...\n"
 
-#: src/purging_rmw.c:291
+#: src/purging_rmw.c:283
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Purgen van bestanden gebaseerd op het aantal dagen in de afval map (%u)...\n"
 
-#: src/purging_rmw.c:421
+#: src/purging_rmw.c:400
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr "Directory niet gepurged - bevat nog steeds bestanden\n"
 
-#: src/purging_rmw.c:423
+#: src/purging_rmw.c:402
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(controleer eigenaar/schrijf permissies)\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:431
+#: src/purging_rmw.c:410
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "Maximale diepte van %u bereikt, overslaan\n"
 
-#: src/purging_rmw.c:500
+#: src/purging_rmw.c:473
 #, fuzzy, c-format
 #| msgid "%d file purged"
 #| msgid_plural "%d files purged"
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr "%dbestand gepurged"
 
-#: src/purging_rmw.c:513
+#: src/purging_rmw.c:486
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d directories overgeslagen (RMDIR_MAX_DEPTH bereikt)\n"
 
-#: src/purging_rmw.c:517
+#: src/purging_rmw.c:490
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d directories overgeslagen (bevat alleen-lezen bestanden)\n"
 
-#: src/purging_rmw.c:520
+#: src/purging_rmw.c:493
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%dbestand gepurged"
 msgstr[1] "%dbestanden gepurged"
 
-#: src/purging_rmw.c:524
+#: src/purging_rmw.c:497
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] "(%d bestand gepurged)"
 msgstr[1] "(%d bestanden gepurged)"
 
-#: src/purging_rmw.c:528
+#: src/purging_rmw.c:501
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
@@ -597,7 +597,7 @@ msgstr[0] "(%d map verwijderd)"
 msgstr[1] "(%d mappen verwijderd)"
 
 #. TRANSLATORS: context: "Number of bytes freed"
-#: src/purging_rmw.c:532
+#: src/purging_rmw.c:505
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
@@ -605,12 +605,12 @@ msgstr[0] "%s vrij gemaakt"
 msgstr[1] "%s vrij gemaakt"
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:593
+#: src/purging_rmw.c:566
 #, c-format
 msgid "Created %s\n"
 msgstr "Aangemaakt %s\n"
 
-#: src/purging_rmw.c:599 src/utils_rmw.c:86
+#: src/purging_rmw.c:572 src/utils_rmw.c:86
 #, c-format
 msgid "while creating %s\n"
 msgstr "bij het maken van %s\n"
@@ -686,51 +686,125 @@ msgstr "realpath() gaf een fout terug.\n"
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/utils_rmw.c:157
+#: src/utils_rmw.c:160
 msgid "Continue? (y/n): "
 msgstr "Doorgaan? (y/n): "
 
-#: src/utils_rmw.c:251 src/utils_rmw.c:262 src/utils_rmw.c:314
-#: src/utils_rmw.c:329
+#: src/utils_rmw.c:236 src/utils_rmw.c:247 src/utils_rmw.c:299
+#: src/utils_rmw.c:314
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr ""
 "rmw: %s(): buffer te klein (wou %d hebben, had een minimum nodig van %d)\n"
 
-#~ msgid ""
-#~ "\n"
-#~ "# If attempting to rmw files under this directory, they will not be "
-#~ "processed\n"
-#~ "# unless -B --bypass is given as an argument.\n"
-#~ "#\n"
-#~ "# PROTECT = /usr/local/bin\n"
-#~ "# PROTECT = $HOME/src\n"
-#~ msgstr ""
-#~ "\n"
-#~ "# Indien je probeert met rmw bestanden te verwijderen in deze map zullen "
-#~ "ze niet\n"
-#~ "# mee worden genomen tenzij -B --bypass is gegeven als argument.\n"
-#~ "#\n"
-#~ "# PROTECT = /usr/local/bin\n"
-#~ "# PROTECT = $HOME/src\n"
+#~ msgid "search complete\n"
+#~ msgstr "zoeken voltooid\n"
+
+#, fuzzy
+#~| msgid "  :Error: number %d trying to create a .trashinfo file\n"
+#~ msgid "number %d trying to create a .trashinfo file\n"
+#~ msgstr " :Fout: nummer %d bij maken van een .trashinfo bestand\n"
+
+#~ msgid "invalid option in config\n"
+#~ msgstr "onjuiste optie in configuratie\n"
+
+#, fuzzy
+#~| msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
+#~ msgid "buffer overrun (segmentation fault) prevented.\n"
+#~ msgstr "  :Error: buffer overrun (segmentatie fout) voorkomen.\n"
+
+#~ msgid "Skipped: %s is in a protected directory\n"
+#~ msgstr "Overgeslagen: %s is in een beveiligde map\n"
+
+#~ msgid "Searching using only the basename...\n"
+#~ msgstr "Zoeken enkel op de basis naam\n"
 
 #~ msgid ""
-#~ "\n"
-#~ "# purge will not run unless `--force` is used at the command line. "
-#~ "Uncomment\n"
-#~ "# the line below if you would like purge to check daily for files that\n"
-#~ "# that exceed the days specified in purge_after\n"
-#~ "#\n"
-#~ "#force_not_required\n"
+#~ "If you think this may be a bug, please report it to the rmw developers.\n"
 #~ msgstr ""
+#~ "Als je denkt dat dit een fout is, rapporteer dit aan de rmw "
+#~ "ontwikkelaars.\n"
+
+#~ msgid "-r / --recurse: not implemented\n"
+#~ msgstr "-r / --recurse: nog niet beschikbaar\n"
+
+#~ msgid " :warning: Maximum number of waste folders reached: %d\n"
+#~ msgstr " :waarschuwing: Het maximum aantal afval mappen is bereikt: %d\n"
+
+#~ msgid " :warning: Maximum number of protected folders reached: %d\n"
+#~ msgstr ""
+#~ " :waarschuwing: Het maximaal aantal beschermde mappen is bereikt: %d\n"
+
+#~ msgid ""
+#~ "  :Error: unable to create config and data directory\n"
+#~ "Please check your configuration file and permissions\n"
 #~ "\n"
-#~ "# purge zal niet starten tenzij `--force` wordt gebruikt bij het "
-#~ "aanroepen. Comment\n"
-#~ "# de regel hieronder uit als je dagelijks wilt controleren op bestanden "
-#~ "die het aantal\n"
-#~ "# dagen overschrijden opgegeven bij purge_after\n"
-#~ "#\n"
-#~ "#force_not_required\n"
+#~ "If you need further help, or to report a possible bug,\n"
+#~ "visit the rmw web site at\n"
+#~ "\n"
+#~ "  https://github.com/andy5995/rmw/wiki\n"
+#~ "\n"
+#~ "Unable to continue. Exiting...\n"
+#~ msgstr ""
+#~ "  :Fout: kan configuratie en data map niet aanmaken\n"
+#~ "Controleer je configuratie bestand en bestandspermissies\n"
+#~ "\n"
+#~ "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
+#~ "rapporteren, bezoek de website van rmw op\n"
+#~ "\n"
+#~ "  https://github.com/andy5995/rmw/wiki\n"
+#~ "\n"
+#~ "Kan niet doorgaan. Afsluiten\n"
+
+#~ msgid "  :Error: invalid purge_after value in configuration\n"
+#~ msgstr "  :Fout: onjuiste waarde voor purge_after in configuratie\n"
+
+#~ msgid "  :Error: Restore (rename) failed: %s\n"
+#~ msgstr ":Fout: Terugzetten (rename) mislukt: %s\n"
+
+#~ msgid ""
+#~ "  :Error: Can not open configuration file\n"
+#~ "%s (or)\n"
+#~ "%s%s\n"
+#~ "\n"
+#~ "A default configuration file can be found at\n"
+#~ "https://github.com/andy5995/rmw/tree/master\n"
+#~ "Terminating...\n"
+#~ msgstr ""
+#~ ":Fout: Kan het configuratiebestand\n"
+#~ "%s (of)\n"
+#~ "%s%s\n"
+#~ "\n"
+#~ "Een standaard configuratie bestand kan worden gevonden op\n"
+#~ "https://github.com/andy5995/rmw/tree/master\n"
+#~ "Afsluiten...\n"
+
+#~ msgid "  :Error number %d trying to move %s :\n"
+#~ msgstr " :Fout nummer %d bij verplaatsen van %s:\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "  \n"
+#~| "\n"
+#~| "  \t===] Restoring [===\n"
+#~| "\n"
+#~| "  -z, --restore <wildcard filename(s) pattern>\n"
+#~| "  -s, --select              select files from list to restore\n"
+#~| "  -u, --undo-last           undo last ReMove\n"
+#~ msgid ""
+#~ "  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
+#~ "files/foo*)\n"
+#~ "  -s, --select              select files from list to restore\n"
+#~ "  -u, --undo-last           undo last ReMove\n"
+#~ "  -m, --most-recent-list    list most recently rmw'ed files\n"
+#~ msgstr ""
+#~ "  \n"
+#~ "\n"
+#~ "  \t===] Terugzetten [===\n"
+#~ "\n"
+#~ "  -z, --restore <joker teken bestandsna(a)m(en) patroon>\n"
+#~ "  -s, --select              selecteer bestand(en) uit een lijst\n"
+#~ "  -u, --undo-last           maak laatste verwijdering ongedaan\n"
 
 #, fuzzy
 #~| msgid ""
@@ -787,111 +861,37 @@ msgstr ""
 #~ "  -w, --warranty            toon garantie\n"
 #~ "  -V, --version             toon versie en licentie informatie\n"
 
-#, fuzzy
-#~| msgid ""
-#~| "  \n"
-#~| "\n"
-#~| "  \t===] Restoring [===\n"
-#~| "\n"
-#~| "  -z, --restore <wildcard filename(s) pattern>\n"
-#~| "  -s, --select              select files from list to restore\n"
-#~| "  -u, --undo-last           undo last ReMove\n"
 #~ msgid ""
-#~ "  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
-#~ "files/foo*)\n"
-#~ "  -s, --select              select files from list to restore\n"
-#~ "  -u, --undo-last           undo last ReMove\n"
-#~ "  -m, --most-recent-list    list most recently rmw'ed files\n"
+#~ "\n"
+#~ "# purge will not run unless `--force` is used at the command line. "
+#~ "Uncomment\n"
+#~ "# the line below if you would like purge to check daily for files that\n"
+#~ "# that exceed the days specified in purge_after\n"
+#~ "#\n"
+#~ "#force_not_required\n"
 #~ msgstr ""
-#~ "  \n"
 #~ "\n"
-#~ "  \t===] Terugzetten [===\n"
-#~ "\n"
-#~ "  -z, --restore <joker teken bestandsna(a)m(en) patroon>\n"
-#~ "  -s, --select              selecteer bestand(en) uit een lijst\n"
-#~ "  -u, --undo-last           maak laatste verwijdering ongedaan\n"
-
-#~ msgid "  :Error number %d trying to move %s :\n"
-#~ msgstr " :Fout nummer %d bij verplaatsen van %s:\n"
+#~ "# purge zal niet starten tenzij `--force` wordt gebruikt bij het "
+#~ "aanroepen. Comment\n"
+#~ "# de regel hieronder uit als je dagelijks wilt controleren op bestanden "
+#~ "die het aantal\n"
+#~ "# dagen overschrijden opgegeven bij purge_after\n"
+#~ "#\n"
+#~ "#force_not_required\n"
 
 #~ msgid ""
-#~ "  :Error: Can not open configuration file\n"
-#~ "%s (or)\n"
-#~ "%s%s\n"
 #~ "\n"
-#~ "A default configuration file can be found at\n"
-#~ "https://github.com/andy5995/rmw/tree/master\n"
-#~ "Terminating...\n"
+#~ "# If attempting to rmw files under this directory, they will not be "
+#~ "processed\n"
+#~ "# unless -B --bypass is given as an argument.\n"
+#~ "#\n"
+#~ "# PROTECT = /usr/local/bin\n"
+#~ "# PROTECT = $HOME/src\n"
 #~ msgstr ""
-#~ ":Fout: Kan het configuratiebestand\n"
-#~ "%s (of)\n"
-#~ "%s%s\n"
 #~ "\n"
-#~ "Een standaard configuratie bestand kan worden gevonden op\n"
-#~ "https://github.com/andy5995/rmw/tree/master\n"
-#~ "Afsluiten...\n"
-
-#~ msgid "  :Error: Restore (rename) failed: %s\n"
-#~ msgstr ":Fout: Terugzetten (rename) mislukt: %s\n"
-
-#~ msgid "  :Error: invalid purge_after value in configuration\n"
-#~ msgstr "  :Fout: onjuiste waarde voor purge_after in configuratie\n"
-
-#~ msgid ""
-#~ "  :Error: unable to create config and data directory\n"
-#~ "Please check your configuration file and permissions\n"
-#~ "\n"
-#~ "If you need further help, or to report a possible bug,\n"
-#~ "visit the rmw web site at\n"
-#~ "\n"
-#~ "  https://github.com/andy5995/rmw/wiki\n"
-#~ "\n"
-#~ "Unable to continue. Exiting...\n"
-#~ msgstr ""
-#~ "  :Fout: kan configuratie en data map niet aanmaken\n"
-#~ "Controleer je configuratie bestand en bestandspermissies\n"
-#~ "\n"
-#~ "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
-#~ "rapporteren, bezoek de website van rmw op\n"
-#~ "\n"
-#~ "  https://github.com/andy5995/rmw/wiki\n"
-#~ "\n"
-#~ "Kan niet doorgaan. Afsluiten\n"
-
-#~ msgid " :warning: Maximum number of protected folders reached: %d\n"
-#~ msgstr ""
-#~ " :waarschuwing: Het maximaal aantal beschermde mappen is bereikt: %d\n"
-
-#~ msgid " :warning: Maximum number of waste folders reached: %d\n"
-#~ msgstr " :waarschuwing: Het maximum aantal afval mappen is bereikt: %d\n"
-
-#~ msgid "-r / --recurse: not implemented\n"
-#~ msgstr "-r / --recurse: nog niet beschikbaar\n"
-
-#~ msgid ""
-#~ "If you think this may be a bug, please report it to the rmw developers.\n"
-#~ msgstr ""
-#~ "Als je denkt dat dit een fout is, rapporteer dit aan de rmw "
-#~ "ontwikkelaars.\n"
-
-#~ msgid "Searching using only the basename...\n"
-#~ msgstr "Zoeken enkel op de basis naam\n"
-
-#~ msgid "Skipped: %s is in a protected directory\n"
-#~ msgstr "Overgeslagen: %s is in een beveiligde map\n"
-
-#, fuzzy
-#~| msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
-#~ msgid "buffer overrun (segmentation fault) prevented.\n"
-#~ msgstr "  :Error: buffer overrun (segmentatie fout) voorkomen.\n"
-
-#~ msgid "invalid option in config\n"
-#~ msgstr "onjuiste optie in configuratie\n"
-
-#, fuzzy
-#~| msgid "  :Error: number %d trying to create a .trashinfo file\n"
-#~ msgid "number %d trying to create a .trashinfo file\n"
-#~ msgstr " :Fout: nummer %d bij maken van een .trashinfo bestand\n"
-
-#~ msgid "search complete\n"
-#~ msgstr "zoeken voltooid\n"
+#~ "# Indien je probeert met rmw bestanden te verwijderen in deze map zullen "
+#~ "ze niet\n"
+#~ "# mee worden genomen tenzij -B --bypass is gegeven als argument.\n"
+#~ "#\n"
+#~ "# PROTECT = /usr/local/bin\n"
+#~ "# PROTECT = $HOME/src\n"

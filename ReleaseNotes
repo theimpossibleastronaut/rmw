@@ -1,24 +1,5 @@
 === RMW Release Notes ===
 
-v0.7.07
+v0.7.08
 
-  * bugfix: When restoring files from removable media or devices, rmw
-  will now process relative paths (this primarily affects users who
-  trash a file with the "move to trash" option from their desktop, and
-  then later try to restore with rmw. See
-  https://github.com/theimpossibleastronaut/rmw/issues/299 for more
-  information).
-
-  * bugfix: list output (rmw -lv) shows all removable devices as
-  attached even for those that are detached.
-
-  * Removed deprecated config option (purgeDays)
-
-  * Minor updates to tests infrastructure
-
-  * (for testing) Replace RMWTRASH(=fake-year) with RMW_FAKE_YEAR(=true)
-
-Note to mac os users: Purging tests are failing on the Travis CI test
-system when using xcode 11.5 and above. If you get errors while purging
-or 'make check' fails for you, please report on issue
-https://github.com/theimpossibleastronaut/rmw/issues/283
+  * bugfix: fixes test failing on osx using xcode 11.5 and above (#283)

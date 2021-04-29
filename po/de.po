@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-04-26 14:04-0500\n"
+"POT-Creation-Date: 2021-04-28 14:03-0500\n"
 "PO-Revision-Date: 2019-07-07 00:18+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -127,27 +127,27 @@ msgstr ""
 msgid "Invalid WASTE option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
 
-#: src/config_rmw.c:419
+#: src/config_rmw.c:424
 #, c-format
 msgid "config file: %s\n"
 msgstr "Konfigurationsdatei. %s\n"
 
-#: src/config_rmw.c:433
+#: src/config_rmw.c:438
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "Erzeuge standard  Konfigurationsdatei"
 
-#: src/config_rmw.c:459
+#: src/config_rmw.c:464
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden\n"
 
-#: src/config_rmw.c:563
+#: src/config_rmw.c:568
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
 
-#: src/config_rmw.c:576
+#: src/config_rmw.c:581
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -160,17 +160,17 @@ msgstr ""
 "Wenn du weitere Hilfe brauchst oder einen Fehler melden willst,\n"
 "besuche die rmw-Webseite unter\n"
 
-#: src/config_rmw.c:627
+#: src/config_rmw.c:632
 #, c-format
 msgid "removable, "
 msgstr "löschbar."
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:629
+#: src/config_rmw.c:634
 msgid "attached"
 msgstr "angeschlossen"
 
-#: src/config_rmw.c:629
+#: src/config_rmw.c:634
 msgid "detached"
 msgstr "entfernt"
 
@@ -527,14 +527,14 @@ msgstr ""
 msgid "Try '%s --help' for more information.\n"
 msgstr ""
 
-#: src/purging_rmw.c:111
+#: src/purging_rmw.c:107
 #, c-format
 msgid "while changing permissions of %s\n"
 msgstr "beim Ändern der Berechtigungen von %s\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/purging_rmw.c:264
+#: src/purging_rmw.c:256
 #, c-format
 msgid ""
 "purging is disabled ('purge_after' is set to '0')\n"
@@ -543,73 +543,73 @@ msgstr ""
 "Papierkorbleerung ist deaktiviert ('purge_after' steht auf '0')\n"
 "\n"
 
-#: src/purging_rmw.c:278
+#: src/purging_rmw.c:270
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Der Inhalt aller Mülleimer wird gelöscht -"
 
-#: src/purging_rmw.c:281
+#: src/purging_rmw.c:273
 msgid "Action cancelled."
 msgstr "Ausführung abgebrochen."
 
-#: src/purging_rmw.c:288
+#: src/purging_rmw.c:280
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Lösche alle Dateien aus Papierkörben ...\n"
 
-#: src/purging_rmw.c:291
+#: src/purging_rmw.c:283
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Lösche Dateien auf Grundlage der Verweildauer in den Papierkörben (%u) ...\n"
 
-#: src/purging_rmw.c:421
+#: src/purging_rmw.c:400
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr ""
 " :Warnung: Verzeichnis wurde nicht gelöscht - es enthält noch Dateien\n"
 
-#: src/purging_rmw.c:423
+#: src/purging_rmw.c:402
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(überprüfe Eigentümer/Schreibberechtigung)\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:431
+#: src/purging_rmw.c:410
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :Warnung: Maximale Tiefe von %u erreicht, überspringe ...\n"
 
-#: src/purging_rmw.c:500
+#: src/purging_rmw.c:473
 #, c-format
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr ""
 
-#: src/purging_rmw.c:513
+#: src/purging_rmw.c:486
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d Verzeichnisse übersprungen (RMDIR_MAX_DEPTH erreicht)\n"
 
-#: src/purging_rmw.c:517
+#: src/purging_rmw.c:490
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d Verzeichnisse übersprungen (enthalten schreibgeschützte Dateien)\n"
 
-#: src/purging_rmw.c:520
+#: src/purging_rmw.c:493
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/purging_rmw.c:524
+#: src/purging_rmw.c:497
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] "(%d Datei gelöscht)"
 msgstr[1] "(%d Dateien gelöscht)"
 
-#: src/purging_rmw.c:528
+#: src/purging_rmw.c:501
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
@@ -617,7 +617,7 @@ msgstr[0] "(%d Verzeichnis gelöscht)"
 msgstr[1] "(%d Verzeichnisse gelöscht)"
 
 #. TRANSLATORS: context: "Number of bytes freed"
-#: src/purging_rmw.c:532
+#: src/purging_rmw.c:505
 #, c-format
 msgid "%s freed"
 msgid_plural "%s freed"
@@ -625,12 +625,12 @@ msgstr[0] "%s freigegeben"
 msgstr[1] "%s freigegeben"
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:593
+#: src/purging_rmw.c:566
 #, c-format
 msgid "Created %s\n"
 msgstr "%s angelegt\n"
 
-#: src/purging_rmw.c:599 src/utils_rmw.c:86
+#: src/purging_rmw.c:572 src/utils_rmw.c:86
 #, c-format
 msgid "while creating %s\n"
 msgstr "beim Anlegen von %s\n"
@@ -706,195 +706,57 @@ msgstr "realpath() hat einen Fehler zurückgeliefert.\n"
 msgid "Created directory %s\n"
 msgstr "Verzeichnis %s angelegt\n"
 
-#: src/utils_rmw.c:157
+#: src/utils_rmw.c:160
 msgid "Continue? (y/n): "
 msgstr "Weitermachen (y/n):"
 
-#: src/utils_rmw.c:251 src/utils_rmw.c:262 src/utils_rmw.c:314
-#: src/utils_rmw.c:329
+#: src/utils_rmw.c:236 src/utils_rmw.c:247 src/utils_rmw.c:299
+#: src/utils_rmw.c:314
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
 
-#~ msgid "  -h, --help\n"
-#~ msgstr "  -h, --help\n"
-
-#~ msgid "search complete\n"
-#~ msgstr "Suche abgeschlossen\n"
-
-#, fuzzy
-#~| msgid "  :Error: number %d trying to create a .trashinfo file\n"
-#~ msgid "number %d trying to create a .trashinfo file\n"
-#~ msgstr "  :Fehler: Nr. %d beim Versuch, eine .trashinfo-Datei anzulegen\n"
-
-#~ msgid "invalid option in config\n"
-#~ msgstr "Unzulässige Option in der Konfiguration\n"
-
-#, fuzzy
-#~| msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
-#~ msgid "buffer overrun (segmentation fault) prevented.\n"
+#~ msgid "  -g, --purge               run purge even if it's been run today\n"
 #~ msgstr ""
-#~ "  :Fehler: Pufferüberlauf (Speicherzugriffsverletzung) verhindert.\n"
-
-#~ msgid "Skipped: %s is in a protected directory\n"
-#~ msgstr "Übersprungen: %s befindet sich in einem geschützten Verzeichnis\n"
-
-#~ msgid "Searching using only the basename...\n"
-#~ msgstr "Suche nur nach dem Basisnamen...\n"
-
-#~ msgid ""
-#~ "If you think this may be a bug, please report it to the rmw developers.\n"
-#~ msgstr ""
-#~ "Wenn du denkst, dass es sich dabei um einen Fehler handeln könnte, melde "
-#~ "ihn bitte an die rmw-Entwickler.\n"
-
-#~ msgid "-r / --recurse: not implemented\n"
-#~ msgstr "-r / --recurse: nicht implementiert\n"
-
-#~ msgid "'%s' not found\n"
-#~ msgstr "'%s' nicht gefunden\n"
-
-#~ msgid " :warning: Maximum number of waste folders reached: %d\n"
-#~ msgstr " :Warnung: Maximale Anzahl von Papierkörben erreicht: %d\n"
-
-#~ msgid " :warning: Maximum number of protected folders reached: %d\n"
-#~ msgstr " :Warnung: Maximale Anzahl geschützter Ordner erreicht: %d\n"
-
-#~ msgid ""
-#~ "  :Error: unable to create config and data directory\n"
-#~ "Please check your configuration file and permissions\n"
-#~ "\n"
-#~ "If you need further help, or to report a possible bug,\n"
-#~ "visit the rmw web site at\n"
-#~ "\n"
-#~ "  https://github.com/andy5995/rmw/wiki\n"
-#~ "\n"
-#~ "Unable to continue. Exiting...\n"
-#~ msgstr ""
-#~ "  :Fehler: Konnte Konfigurations- und Datenverzeichnis nicht anlegen\n"
-#~ "Bitte überprüfe deine Konfigurationsdatei und die Berechtigungen\n"
-#~ "\n"
-#~ "Wenn du weitere Hilfe benötigst oder einen Fehler melden willst,\n"
-#~ "besuche die rmw-Webseite unter\n"
-#~ "\n"
-#~ "  https://github.com/andy5995/rmw/wiki\n"
-#~ "\n"
-#~ "Kann nicht fortfahren. Beende...\n"
-
-#~ msgid "  :Error: invalid purge_after value in configuration\n"
-#~ msgstr "  :Fehler: Unzulässiger Wert für purge_after in der Konfiguration\n"
-
-#~ msgid ""
-#~ "  :Error: The number of lines in configuration file must be less than %d\n"
-#~ msgstr ""
-#~ "  :Fehler: Die Konfigurationsdatei darf nicht länger als %d Zeilen sein\n"
-
-#, fuzzy
-#~| msgid "Restore failed: %s\n"
-#~ msgid "  :Error: Restore (rename) failed: %s\n"
-#~ msgstr "Wiederherstellung fehlgeschlagen: %s\n"
-
-#, fuzzy
-#~| msgid ""
-#~| "  :Error: Can not open configuration file\n"
-#~| "%s (or)\n"
-#~| "%s%s\n"
-#~| "\n"
-#~| "A default configuration file can be found at\n"
-#~| "https://github.com/andy5995/rmw/tree/master/etc\n"
-#~| "Terminating...\n"
-#~ msgid ""
-#~ "  :Error: Can not open configuration file\n"
-#~ "%s (or)\n"
-#~ "%s%s\n"
-#~ "\n"
-#~ "A default configuration file can be found at\n"
-#~ "https://github.com/andy5995/rmw/tree/master\n"
-#~ "Terminating...\n"
-#~ msgstr ""
-#~ "  :Fehler: Konfigurationsdatei kann nicht geöffnet werden\n"
-#~ "%s (oder)\n"
-#~ "%s%s\n"
-#~ "\n"
-#~ "Eine Standardkonfigurationsdatei kann unter\n"
-#~ "https://github.com/andy5995/rmw/tree/master/etc\n"
-#~ "heruntergeladen werden.\n"
-#~ "Beende...\n"
-
-#~ msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
-#~ msgstr ""
-#~ "  :Fehler: '%s' kann geöffnet werden, aber ein unbekannter Fehler ist "
-#~ "aufgetreten\n"
-
-#~ msgid "  :Error number %d trying to move %s :\n"
-#~ msgstr "  :Fehler Nr. %d beim Versuch, %s zu verschieben :\n"
-
-#, fuzzy
-#~| msgid ""
-#~| "  \n"
-#~| "\n"
-#~| "  \t===] Restoring [===\n"
-#~| "\n"
-#~| "  -z, --restore <wildcard filename(s) pattern>\n"
-#~| "  -s, --select              select files from list to restore\n"
-#~| "  -u, --undo-last           undo last ReMove\n"
-#~ msgid ""
-#~ "  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
-#~ "files/foo*)\n"
-#~ "  -s, --select              select files from list to restore\n"
-#~ "  -u, --undo-last           undo last ReMove\n"
-#~ "  -m, --most-recent-list    list most recently rmw'ed files\n"
-#~ msgstr ""
-#~ "  -z, --restore <Platzhalter Dateiname(n) Muster>\n"
-#~ "  -s, --select              wähle Dateien aus der Liste für "
-#~ "Wiederherstellung\n"
-#~ "  -u, --undo-last           letzten Entfernvorgang rückgängig machen\n"
-
-#, fuzzy
-#~| msgid ""
-#~| "Usage: rmw [OPTION]... FILE...\n"
-#~| "ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
-#~| "\n"
-#~| "   or: rmw -s\n"
-#~| "   or: rmw -u\n"
-#~| "   or: rmw -z FILE...\n"
-#~| "Restore FILE(s) from a WASTE directory\n"
-#~| "\n"
-#~| "  -h, --help\n"
-#~| "  -t, --translate           display a translation of the configuration "
-#~| "file\n"
-#~| "  -c, --config filename     use an alternate configuration\n"
-#~| "  -l, --list                list waste directories\n"
-#~| "  -g, --purge               run purge even if it's been run today\n"
-#~| "  -o, --orphaned            check for orphaned files (maintenance)\n"
-#~| "  -f, --force               allow rmw to purge files in the background\n"
-#~| "  -e, --empty               completely empty (purge) all waste folders\n"
-#~| "  -v, --verbose             increase output messages\n"
-#~| "  -w, --warranty            display warranty\n"
-#~| "  -V, --version             display version and license information\n"
-#~ msgid ""
-#~ "  -l, --list                list waste directories\n"
-#~ "  -g, --purge               run purge even if it's been run today\n"
-#~ "  -o, --orphaned            check for orphaned files (maintenance)\n"
-#~ "  -f, --force               allow rmw to purge files in the background\n"
-#~ "  -e, --empty               completely empty (purge) all waste folders\n"
-#~ "  -r, -R, --recursive       option used for compatibility with rm\n"
-#~ "                            (recursive operation is enabled by default)\n"
-#~ "  -v, --verbose             increase output messages\n"
-#~ "  -w, --warranty            display warranty\n"
-#~ "  -V, --version             display version and license information\n"
-#~ msgstr ""
-#~ "  -l, --list                Papierkörbe auflisten\n"
 #~ "  -g, --purge               Papierkörbe leeren, selbst wenn dies heute "
 #~ "schon erledigt wurde\n"
-#~ "  -o, --orphaned            auf verwaiste Dateien überprüfen (Wartung)\n"
-#~ "  -f, --force               Leeren von Papierkörben gestatten\n"
-#~ "  -e, --empty               Leere alle Papierkörbe\n"
-#~ "  -r, -R, --recursive       option used for compatibility with rm\n"
-#~ "                            (recursive operation is enabled by default)\n"
-#~ "  -v, --verbose             mehr Meldungen ausgeben\n"
-#~ "  -w, --warranty            Garantie anzeigen\n"
-#~ "  -V, --version             Version und Lizenzinformationen anzeigen\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "# If attempting to rmw files under this directory, they will not be "
+#~ "processed\n"
+#~ "# unless -B --bypass is given as an argument.\n"
+#~ "#\n"
+#~ "# PROTECT = /usr/local/bin\n"
+#~ "# PROTECT = $HOME/src\n"
+#~ msgstr ""
+#~ "\n"
+#~ "# Wenn versucht wird, Dateien in diesem Verzeichnis zu löschen, werden "
+#~ "diese\n"
+#~ "# nicht verarbeitet, esseidenn -B --bypass wird als Argument übergeben.\n"
+#~ "#\n"
+#~ "# PROTECT = /usr/local/bin\n"
+#~ "# PROTECT = $HOME/src\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "# purge will not run unless `--force` is used at the command line. "
+#~ "Uncomment\n"
+#~ "# the line below if you would like purge to check daily for files that\n"
+#~ "# that exceed the days specified in purge_after\n"
+#~ "#\n"
+#~ "#force_not_required\n"
+#~ msgstr ""
+#~ "\n"
+#~ "# purge wird nicht laufen, ohne dass `--force` auf der Kommandozeile "
+#~ "angegeben wird.\n"
+#~ "# Entferne den Kommentar in der Zeile unten, wenn du möchtest, dass purge "
+#~ "täglich\n"
+#~ "# nach Dateien sucht, die vor mehr als der in purge_after angegebenen "
+#~ "Zeitspanne in\n"
+#~ "# Tagen gelöscht wurden\n"
+#~ "#\n"
+#~ "#force_not_required\n"
 
 #~ msgid ""
 #~ "  \n"
@@ -942,44 +804,182 @@ msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
 #~ "andy5995/rmw/wiki\n"
 #~ "\n"
 
+#, fuzzy
+#~| msgid ""
+#~| "Usage: rmw [OPTION]... FILE...\n"
+#~| "ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
+#~| "\n"
+#~| "   or: rmw -s\n"
+#~| "   or: rmw -u\n"
+#~| "   or: rmw -z FILE...\n"
+#~| "Restore FILE(s) from a WASTE directory\n"
+#~| "\n"
+#~| "  -h, --help\n"
+#~| "  -t, --translate           display a translation of the configuration "
+#~| "file\n"
+#~| "  -c, --config filename     use an alternate configuration\n"
+#~| "  -l, --list                list waste directories\n"
+#~| "  -g, --purge               run purge even if it's been run today\n"
+#~| "  -o, --orphaned            check for orphaned files (maintenance)\n"
+#~| "  -f, --force               allow rmw to purge files in the background\n"
+#~| "  -e, --empty               completely empty (purge) all waste folders\n"
+#~| "  -v, --verbose             increase output messages\n"
+#~| "  -w, --warranty            display warranty\n"
+#~| "  -V, --version             display version and license information\n"
 #~ msgid ""
-#~ "\n"
-#~ "# purge will not run unless `--force` is used at the command line. "
-#~ "Uncomment\n"
-#~ "# the line below if you would like purge to check daily for files that\n"
-#~ "# that exceed the days specified in purge_after\n"
-#~ "#\n"
-#~ "#force_not_required\n"
+#~ "  -l, --list                list waste directories\n"
+#~ "  -g, --purge               run purge even if it's been run today\n"
+#~ "  -o, --orphaned            check for orphaned files (maintenance)\n"
+#~ "  -f, --force               allow rmw to purge files in the background\n"
+#~ "  -e, --empty               completely empty (purge) all waste folders\n"
+#~ "  -r, -R, --recursive       option used for compatibility with rm\n"
+#~ "                            (recursive operation is enabled by default)\n"
+#~ "  -v, --verbose             increase output messages\n"
+#~ "  -w, --warranty            display warranty\n"
+#~ "  -V, --version             display version and license information\n"
 #~ msgstr ""
-#~ "\n"
-#~ "# purge wird nicht laufen, ohne dass `--force` auf der Kommandozeile "
-#~ "angegeben wird.\n"
-#~ "# Entferne den Kommentar in der Zeile unten, wenn du möchtest, dass purge "
-#~ "täglich\n"
-#~ "# nach Dateien sucht, die vor mehr als der in purge_after angegebenen "
-#~ "Zeitspanne in\n"
-#~ "# Tagen gelöscht wurden\n"
-#~ "#\n"
-#~ "#force_not_required\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "# If attempting to rmw files under this directory, they will not be "
-#~ "processed\n"
-#~ "# unless -B --bypass is given as an argument.\n"
-#~ "#\n"
-#~ "# PROTECT = /usr/local/bin\n"
-#~ "# PROTECT = $HOME/src\n"
-#~ msgstr ""
-#~ "\n"
-#~ "# Wenn versucht wird, Dateien in diesem Verzeichnis zu löschen, werden "
-#~ "diese\n"
-#~ "# nicht verarbeitet, esseidenn -B --bypass wird als Argument übergeben.\n"
-#~ "#\n"
-#~ "# PROTECT = /usr/local/bin\n"
-#~ "# PROTECT = $HOME/src\n"
-
-#~ msgid "  -g, --purge               run purge even if it's been run today\n"
-#~ msgstr ""
+#~ "  -l, --list                Papierkörbe auflisten\n"
 #~ "  -g, --purge               Papierkörbe leeren, selbst wenn dies heute "
 #~ "schon erledigt wurde\n"
+#~ "  -o, --orphaned            auf verwaiste Dateien überprüfen (Wartung)\n"
+#~ "  -f, --force               Leeren von Papierkörben gestatten\n"
+#~ "  -e, --empty               Leere alle Papierkörbe\n"
+#~ "  -r, -R, --recursive       option used for compatibility with rm\n"
+#~ "                            (recursive operation is enabled by default)\n"
+#~ "  -v, --verbose             mehr Meldungen ausgeben\n"
+#~ "  -w, --warranty            Garantie anzeigen\n"
+#~ "  -V, --version             Version und Lizenzinformationen anzeigen\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "  \n"
+#~| "\n"
+#~| "  \t===] Restoring [===\n"
+#~| "\n"
+#~| "  -z, --restore <wildcard filename(s) pattern>\n"
+#~| "  -s, --select              select files from list to restore\n"
+#~| "  -u, --undo-last           undo last ReMove\n"
+#~ msgid ""
+#~ "  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
+#~ "files/foo*)\n"
+#~ "  -s, --select              select files from list to restore\n"
+#~ "  -u, --undo-last           undo last ReMove\n"
+#~ "  -m, --most-recent-list    list most recently rmw'ed files\n"
+#~ msgstr ""
+#~ "  -z, --restore <Platzhalter Dateiname(n) Muster>\n"
+#~ "  -s, --select              wähle Dateien aus der Liste für "
+#~ "Wiederherstellung\n"
+#~ "  -u, --undo-last           letzten Entfernvorgang rückgängig machen\n"
+
+#~ msgid "  :Error number %d trying to move %s :\n"
+#~ msgstr "  :Fehler Nr. %d beim Versuch, %s zu verschieben :\n"
+
+#~ msgid "  :Error: Able to open '%s' but encountered an unknown error\n"
+#~ msgstr ""
+#~ "  :Fehler: '%s' kann geöffnet werden, aber ein unbekannter Fehler ist "
+#~ "aufgetreten\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "  :Error: Can not open configuration file\n"
+#~| "%s (or)\n"
+#~| "%s%s\n"
+#~| "\n"
+#~| "A default configuration file can be found at\n"
+#~| "https://github.com/andy5995/rmw/tree/master/etc\n"
+#~| "Terminating...\n"
+#~ msgid ""
+#~ "  :Error: Can not open configuration file\n"
+#~ "%s (or)\n"
+#~ "%s%s\n"
+#~ "\n"
+#~ "A default configuration file can be found at\n"
+#~ "https://github.com/andy5995/rmw/tree/master\n"
+#~ "Terminating...\n"
+#~ msgstr ""
+#~ "  :Fehler: Konfigurationsdatei kann nicht geöffnet werden\n"
+#~ "%s (oder)\n"
+#~ "%s%s\n"
+#~ "\n"
+#~ "Eine Standardkonfigurationsdatei kann unter\n"
+#~ "https://github.com/andy5995/rmw/tree/master/etc\n"
+#~ "heruntergeladen werden.\n"
+#~ "Beende...\n"
+
+#, fuzzy
+#~| msgid "Restore failed: %s\n"
+#~ msgid "  :Error: Restore (rename) failed: %s\n"
+#~ msgstr "Wiederherstellung fehlgeschlagen: %s\n"
+
+#~ msgid ""
+#~ "  :Error: The number of lines in configuration file must be less than %d\n"
+#~ msgstr ""
+#~ "  :Fehler: Die Konfigurationsdatei darf nicht länger als %d Zeilen sein\n"
+
+#~ msgid "  :Error: invalid purge_after value in configuration\n"
+#~ msgstr "  :Fehler: Unzulässiger Wert für purge_after in der Konfiguration\n"
+
+#~ msgid ""
+#~ "  :Error: unable to create config and data directory\n"
+#~ "Please check your configuration file and permissions\n"
+#~ "\n"
+#~ "If you need further help, or to report a possible bug,\n"
+#~ "visit the rmw web site at\n"
+#~ "\n"
+#~ "  https://github.com/andy5995/rmw/wiki\n"
+#~ "\n"
+#~ "Unable to continue. Exiting...\n"
+#~ msgstr ""
+#~ "  :Fehler: Konnte Konfigurations- und Datenverzeichnis nicht anlegen\n"
+#~ "Bitte überprüfe deine Konfigurationsdatei und die Berechtigungen\n"
+#~ "\n"
+#~ "Wenn du weitere Hilfe benötigst oder einen Fehler melden willst,\n"
+#~ "besuche die rmw-Webseite unter\n"
+#~ "\n"
+#~ "  https://github.com/andy5995/rmw/wiki\n"
+#~ "\n"
+#~ "Kann nicht fortfahren. Beende...\n"
+
+#~ msgid " :warning: Maximum number of protected folders reached: %d\n"
+#~ msgstr " :Warnung: Maximale Anzahl geschützter Ordner erreicht: %d\n"
+
+#~ msgid " :warning: Maximum number of waste folders reached: %d\n"
+#~ msgstr " :Warnung: Maximale Anzahl von Papierkörben erreicht: %d\n"
+
+#~ msgid "'%s' not found\n"
+#~ msgstr "'%s' nicht gefunden\n"
+
+#~ msgid "-r / --recurse: not implemented\n"
+#~ msgstr "-r / --recurse: nicht implementiert\n"
+
+#~ msgid ""
+#~ "If you think this may be a bug, please report it to the rmw developers.\n"
+#~ msgstr ""
+#~ "Wenn du denkst, dass es sich dabei um einen Fehler handeln könnte, melde "
+#~ "ihn bitte an die rmw-Entwickler.\n"
+
+#~ msgid "Searching using only the basename...\n"
+#~ msgstr "Suche nur nach dem Basisnamen...\n"
+
+#~ msgid "Skipped: %s is in a protected directory\n"
+#~ msgstr "Übersprungen: %s befindet sich in einem geschützten Verzeichnis\n"
+
+#, fuzzy
+#~| msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
+#~ msgid "buffer overrun (segmentation fault) prevented.\n"
+#~ msgstr ""
+#~ "  :Fehler: Pufferüberlauf (Speicherzugriffsverletzung) verhindert.\n"
+
+#~ msgid "invalid option in config\n"
+#~ msgstr "Unzulässige Option in der Konfiguration\n"
+
+#, fuzzy
+#~| msgid "  :Error: number %d trying to create a .trashinfo file\n"
+#~ msgid "number %d trying to create a .trashinfo file\n"
+#~ msgstr "  :Fehler: Nr. %d beim Versuch, eine .trashinfo-Datei anzulegen\n"
+
+#~ msgid "search complete\n"
+#~ msgstr "Suche abgeschlossen\n"
+
+#~ msgid "  -h, --help\n"
+#~ msgstr "  -h, --help\n"
