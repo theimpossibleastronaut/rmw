@@ -71,6 +71,18 @@ matrix:
         - MATRIX_EVAL="CC=gcc-10 && CXX=g++-10"
         - CONFIGURE_OPTS="--enable-release"
     - os: linux
+      dist: bionic
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-11
+      env:
+        - MATRIX_EVAL="CC=gcc-11 && CXX=g++-11"
+        - CONFIGURE_OPTS="--enable-release"
+    - os: linux
       dist: focal
       compiler: gcc
 
