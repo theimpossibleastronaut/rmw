@@ -29,9 +29,6 @@
 #include <stdbool.h>
 
 void
-bufchk (const char *str, int boundary);
-
-void
 bufchk_len (const int len, const int boundary, const char *func, const int line);
 
 int

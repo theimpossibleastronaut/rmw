@@ -48,7 +48,7 @@ char *get_waste_parent (const char *src)
   int req_len = multi_strlen (src_dirname, one_dir_level, NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   char waste_parent_rel_path[req_len];
-  snprintf (waste_parent_rel_path, sizeof waste_parent_rel_path, "%s%s", src_dirname, one_dir_level);
+  sprintf (waste_parent_rel_path, "%s%s", src_dirname, one_dir_level);
 
   char *waste_parent = realpath (waste_parent_rel_path, NULL);
 
@@ -67,7 +67,7 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
 {
   if (exists (src))
   {
-    bufchk (src, LEN_MAX_PATH);
+    bufchk_len (strlen (src) + 1, LEN_MAX_PATH, __func__, __LINE__);
     char *waste_parent = get_waste_parent (src);
 
     st_waste *waste_curr = waste_head;
@@ -96,7 +96,7 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     char src_tinfo[LEN_MAX_PATH];
     int req_len = multi_strlen (waste_parent, "/info/", src_basename, trashinfo_ext, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    snprintf (src_tinfo, req_len, "%s%s%s%s", waste_parent, "/info/",
+    sprintf (src_tinfo, "%s%s%s%s", waste_parent, "/info/",
              src_basename, trashinfo_ext);
 
     char *_dest = parse_trashinfo_file (src_tinfo, path_key);
@@ -115,7 +115,7 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
       req_len = multi_strlen (media_root, "/", _dest, NULL) + 1;
       bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       char tmp[LEN_MAX_PATH];
-      snprintf (tmp, req_len, "%s/%s", media_root, _dest);
+      sprintf (tmp, "%s/%s", media_root, _dest);
       strcpy (dest, tmp);
     }
     free (waste_parent);
@@ -125,7 +125,7 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
      */
     if (exists (dest))
     {
-      bufchk (st_time_var->suffix_added_dup_exists, LEN_MAX_PATH - strlen (dest));
+      bufchk_len (strlen (dest) + LEN_MAX_TIME_STR_SUFFIX, LEN_MAX_PATH, __func__, __LINE__);
       strcat (dest, st_time_var->suffix_added_dup_exists);
 
       if (verbose)
@@ -226,8 +226,8 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
 
       int req_len = multi_strlen (waste_curr->files, entry->d_name, NULL) + 1;
       char full_path[req_len];
-      snprintf (full_path, req_len, "%s%s", waste_curr->files, entry->d_name);
-      bufchk (full_path, LEN_MAX_PATH);
+      sprintf (full_path, "%s%s", waste_curr->files, entry->d_name);
+      bufchk_len (strlen (full_path) + 1, LEN_MAX_PATH, __func__, __LINE__);
 
       struct stat st;
       if (lstat (full_path, &st))
@@ -240,7 +240,8 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
        *
        */
       char formatted_hr_size[LEN_MAX_HUMAN_READABLE_SIZE];
-      snprintf (formatted_hr_size, sizeof formatted_hr_size, "[%s]", hr_size);
+      sprintf (formatted_hr_size, "[%s]", hr_size);
+      free (hr_size);
 
       if (S_ISDIR (st.st_mode))
         strcat (formatted_hr_size, " (D)");
@@ -346,7 +347,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
         if (item_value (items[i]) == TRUE)
         {
           static char recover_file[LEN_MAX_PATH];
-          snprintf (recover_file, sizeof (recover_file), "%s%s", waste_curr->files, item_name (items[i]));
+          sprintf (recover_file, "%s%s", waste_curr->files, item_name (items[i]));
           msg_warn_restore(restore (recover_file, st_time_var, cli_user_options, waste_head));
         }
       }

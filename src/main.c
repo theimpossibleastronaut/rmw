@@ -44,7 +44,7 @@ static const char*
 get_most_recent_list_filename (const char* data_dir)
 {
   const char rel_most_recent_list_filename[] = "mrl";
-  int req_len = multi_strlen (data_dir, "/", rel_most_recent_list_filename, NULL);
+  int req_len = multi_strlen (data_dir, "/", rel_most_recent_list_filename, NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   static char mrl_file[LEN_MAX_PATH];
   sprintf (mrl_file, "%s/%s", data_dir, rel_most_recent_list_filename);
@@ -148,14 +148,10 @@ main (const int argc, char* const argv[])
   if (verbose > 1)
     printf ("PATH_MAX = %d\n", LEN_MAX_PATH - 1);
 
-#ifdef DEBUG
-verbose = 1;
-#endif
-
   HOMEDIR = get_home_dir (STR_ENABLE_TEST);
 
   if (HOMEDIR != NULL)
-    bufchk (HOMEDIR, LEN_MAX_PATH);
+    bufchk_len (strlen (HOMEDIR) + 1, LEN_MAX_PATH, __func__, __LINE__);
   else
   {
     print_msg_error ();
@@ -305,7 +301,7 @@ get_home_dir (const char *alternate_home_dir)
     if (_drive != NULL && _path != NULL)
     {
       static char combined_path[LEN_MAX_PATH];
-      snprintf (combined_path, sizeof combined_path, "%s%s", _drive, _path);
+      sprintf (combined_path, "%s%s", _drive, _path);
       _homedir = &combined_path[0];
     }
     else
@@ -329,13 +325,13 @@ get_data_rmw_home_dir (void)
   if (getenv (STR_ENABLE_TEST) != NULL ||
       (xdg_data_home == NULL && getenv (STR_ENABLE_TEST) == NULL))
   {
-    int req_len = multi_strlen (HOMEDIR, rel_default, NULL);
+    int req_len = multi_strlen (HOMEDIR, rel_default, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     sprintf (data_rmw_home, "%s%s", HOMEDIR, rel_default);
     return ptr;
   }
 
-  int req_len = multi_strlen (xdg_data_home, "/rmw", NULL);
+  int req_len = multi_strlen (xdg_data_home, "/rmw", NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   sprintf (data_rmw_home, "%s/rmw", xdg_data_home);
   ptr = &data_rmw_home[0];
@@ -368,7 +364,7 @@ remove_to_waste (
       continue;
     }
 
-    bufchk (argv[file_arg], LEN_MAX_PATH);
+    bufchk_len (strlen (argv[file_arg]) + 1, LEN_MAX_PATH, __func__, __LINE__);
     st_file_properties.main_argv = argv[file_arg];
 
     static struct stat st_main_argv_statistics;
@@ -424,7 +420,7 @@ remove_to_waste (
       {
         int req_len = multi_strlen (waste_curr->files, st_file_properties.base_name, NULL) + 1;
         bufchk_len (req_len, sizeof st_file_properties.waste_dest_name, __func__, __LINE__);
-        snprintf (st_file_properties.waste_dest_name, req_len, "%s%s",
+        sprintf (st_file_properties.waste_dest_name, "%s%s",
                   waste_curr->files, st_file_properties.base_name);
 
         /* If a duplicate file exists
@@ -432,8 +428,7 @@ remove_to_waste (
         if ((st_file_properties.is_duplicate = exists (st_file_properties.waste_dest_name)))
         {
           // append a time string
-          req_len = multi_strlen (st_file_properties.waste_dest_name, st_time_var->suffix_added_dup_exists, NULL) + 1;
-          bufchk_len (req_len, sizeof st_file_properties.waste_dest_name, __func__, __LINE__);
+          bufchk_len (strlen (st_file_properties.waste_dest_name) + LEN_MAX_TIME_STR_SUFFIX, sizeof st_file_properties.waste_dest_name, __func__, __LINE__);
           strcat (st_file_properties.waste_dest_name, st_time_var->suffix_added_dup_exists);
         }
 
@@ -535,7 +530,7 @@ add_removal (st_removed *removals, const char *file)
     removals = removals->next_node;
   }
   removals->next_node = NULL;
-  bufchk (file, sizeof removals->file);
+  bufchk_len (strlen (file) + 1, sizeof removals->file, __func__, __LINE__);
   strcpy (removals->file, file);
   return removals;
 }

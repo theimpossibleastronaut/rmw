@@ -71,7 +71,7 @@ rmdir_recursive (const char *dirname, short unsigned level,
     if (isdotdir (st_dirname_properties.st_entry_ptr->d_name))
       continue;
 
-    bufchk (dirname, LEN_MAX_PATH);
+    bufchk_len (strlen (dirname) + 1, LEN_MAX_PATH, __func__, __LINE__);
     strncpy (st_dirname_properties.path, dirname, LEN_MAX_PATH - 1);
 
     int pathLen = strlen (st_dirname_properties.path);
@@ -189,7 +189,7 @@ is_time_to_purge (st_time * st_time_var, const char *data_dir)
 {
   const int BUF_TIME = 80;
   const char purge_time_file[] = "purge-time";
-  int req_len = multi_strlen (data_dir, "/", purge_time_file, NULL);
+  int req_len = multi_strlen (data_dir, "/", purge_time_file, NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   char file_lastpurge[req_len + 1];
   sprintf (file_lastpurge, "%s/%s", data_dir, purge_time_file);
@@ -318,8 +318,7 @@ purge (st_config * st_config_data,
                       NULL) + 1;
       bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       char trashinfo_entry_realpath[req_len];
-      snprintf (trashinfo_entry_realpath, sizeof (trashinfo_entry_realpath),
-                "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
+      sprintf (trashinfo_entry_realpath, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
       char *raw_deletion_date = parse_trashinfo_file (trashinfo_entry_realpath, deletion_date_key);
       time_t then = 0;
@@ -349,7 +348,7 @@ purge (st_config * st_config_data,
         truncate_str (temp, len_trashinfo_ext);    /* acquire the (basename - trashinfo extension) */
         req_len = multi_strlen (waste_curr->files, temp, NULL) + 1;
         bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-        snprintf (corresponding_file_to_purge, req_len, "%s%s", waste_curr->files, temp);
+        sprintf (corresponding_file_to_purge, "%s%s", waste_curr->files, temp);
 
         // If the corresponding file wasn't found, either display an error and exit, or remove the
         // (probably) orphaned trashinfo file.
@@ -502,8 +501,9 @@ purge (st_config * st_config_data,
            deleted_dirs_ctr), deleted_dirs_ctr);
   printf ("\n");
   /* TRANSLATORS: context: "Number of bytes freed" */
-  printf (ngettext ("%s freed", "%s freed", bytes_freed),
-          human_readable_size (bytes_freed));
+  char *hr_size = human_readable_size (bytes_freed);
+  printf ("%s freed", hr_size);
+  free (hr_size);
   printf ("\n");
 
   return 0;
@@ -544,7 +544,7 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
         multi_strlen (waste_curr->info, st_file_properties.base_name,
                       trashinfo_ext, NULL) + 1;
       bufchk_len (req_len, sizeof path_to_trashinfo, __func__, __LINE__);
-      snprintf (path_to_trashinfo, req_len, "%s%s%s", waste_curr->info,
+      sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info,
                 st_file_properties.base_name, trashinfo_ext);
 
       if (exists (path_to_trashinfo))
@@ -556,7 +556,7 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
                       st_file_properties.base_name, NULL) + 1;
       bufchk_len (req_len, sizeof st_file_properties.real_path, __func__,
                   __LINE__);
-      snprintf (st_file_properties.real_path, req_len, "%s%s%s",
+      sprintf (st_file_properties.real_path, "%s%s%s",
                 waste_curr->parent, "/orphans/",
                 st_file_properties.base_name);
 

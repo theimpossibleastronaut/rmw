@@ -1,7 +1,7 @@
 /*
  * time_rmw.h
  *
- * Copyright 2019 Andy <andy400-dev@yahoo.com>
+ * Copyright 2019-2021 Andy <andy400-dev@yahoo.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,9 +36,12 @@
 #include <time.h>
 #include <dirent.h>
 
-#define LEN_MAX_DELETION_DATE (19 + 1)
-#define LEN_MAX_TIME_STR_SUFFIX (14 + 1)
+#define LEN_MAX_DELETION_DATE (sizeof "2016-01-01T12:00:00")
+#define LEN_MAX_TIME_STR_SUFFIX (sizeof "_000000-000000")
+#define LEN_TIME_STR_SUFFIX (LEN_MAX_TIME_STR_SUFFIX - 1)
 #define SECONDS_IN_A_DAY (60 * 60 * 24)
+
+extern const int len_date_extension;
 
 /*! Holds variables related to time
  */

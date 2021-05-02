@@ -203,6 +203,7 @@ msg_err_fatal_fprintf (const char *func)
 void
 msg_err_buffer_overrun (const char *func, const int line)
 {
+  print_msg_error ();
   fprintf (stderr, "func = %s:L%d\n", func, line);
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */

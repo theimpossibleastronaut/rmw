@@ -1,7 +1,7 @@
 /*
  * time_rmw.c
  *
- * Copyright 2019 Andy <andy400-dev@yahoo.com>
+ * Copyright 2019-2021 Andy <andy400-dev@yahoo.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@
  *
  */
 
-
 #include "globals.h"
 #include "time_rmw.h"
 #include "strings_rmw.h"
@@ -38,7 +37,6 @@ set_time_string (char *tm_str, const int len, const char *format, time_t time_t_
   time_ptr = localtime (&time_t_now);
   strftime (tm_str, len, format, time_ptr);
   trim_white_space (tm_str);
-  bufchk (tm_str, len);
 }
 
 /*!
@@ -47,7 +45,7 @@ set_time_string (char *tm_str, const int len, const char *format, time_t time_t_
  * the returned string will be based on the local-time of the user's system.
  */
 static void
-set_which_deletion_date (char *format, const int len)
+set_which_deletion_date (char *format)
 {
   char *fake_year = getenv ("RMW_FAKE_YEAR");
   bool valid_value = false;
@@ -56,7 +54,7 @@ set_which_deletion_date (char *format, const int len)
     valid_value = strcasecmp (fake_year, "true") == 0;
     puts ("RMW_FAKE_YEAR:true");
   }
-  snprintf (format, len, "%s", valid_value ? "1999-%m-%dT%T" : "%FT%T");
+  sprintf (format, "%s", valid_value ? "1999-%m-%dT%T" : "%FT%T");
 
   return;
 }
@@ -67,17 +65,17 @@ init_time_vars (st_time *x)
 {
   x->now = time (NULL);
 
-  set_which_deletion_date (x->t_fmt, sizeof x->t_fmt);
+  set_which_deletion_date (x->t_fmt);
 
   set_time_string (
     x->deletion_date,
-    sizeof x->deletion_date,
+    LEN_MAX_DELETION_DATE,
     x->t_fmt,
     x->now);
 
   set_time_string (
     x->suffix_added_dup_exists,
-    sizeof x->suffix_added_dup_exists,
+    LEN_MAX_TIME_STR_SUFFIX,
     "_%H%M%S-%y%m%d",
     x->now);
 

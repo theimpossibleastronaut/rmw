@@ -45,82 +45,21 @@
 static void
 entry_NULL_check (const char *str, const char *func)
 {
-  if (str == NULL || strlen (str) == 0)
-  {
-#ifndef TEST_LIB
-    print_msg_error ();
-    fprintf (stderr,
-             "A NULL string was passed to %s. That should not happen.\n\
+  if (str != NULL && strlen (str) != 0)
+  return;
+
+  print_msg_error ();
+  fprintf (stderr,
+           "A NULL string was passed to %s. That should not happen.\n\
 Please report this bug to the rmw developers.\n", func);
-    exit (EXIT_FAILURE);
+#ifndef TEST_LIB
+  exit (EXIT_FAILURE);
 #else
-    errno = 1;
-#endif
-  }
-}
-
-/*!
- * Verify that *str doesn't exceed boundary, otherwise exit with an error code.
- * Used before putting a string into a fixed length array. The main purpose is
- * to avoid having something like "if string > boundary then..." throughout
- * the program where checking the length of a string is required.
- */
-void
-bufchk (const char *str, int boundary)
-{
-  entry_NULL_check (str, __func__);
-
-  /* STR_PART defines the first n characters of the string to display.
-   * This assumes 10 will never exceed a buffer size. In this program,
-   * there are no buffers that are <= 10 (that I can think of right now)
-   */
-#define STR_PART 10
-
-  int len;
-  len = strlen (str);
-
-  if (len < boundary)
-    return;
-
-#ifdef TEST_LIB
   errno = 1;
   return;
 #endif
-
-  print_msg_error ();
-  /*
-   * For now, using arbitrary arguments instead of changing every call to bufchk
-   */
-  msg_err_buffer_overrun ("unknown", 0);
-
-  /*
-   * This will add a null terminator within the boundary specified by
-   * display_len, making it possible to view part of the strings to help
-   * with debugging or tracing the error.
-   */
-  int display_len;
-  display_len = 0;
-
-  display_len = (boundary > STR_PART) ? STR_PART : boundary;
-
-  char temp[display_len];
-  strncpy (temp, str, display_len);
-  temp[display_len - 1] = '\0';
-
-  /* Though we've set STR_PART to 10, we don't really know what's "safe",
-   * so only display this if verbosity is on
-   */
-  if (verbose)
-  {
-    fprintf (stderr,
-             _
-             (" <--> Displaying part of the string that caused the error <-->\n\n"));
-    fprintf (stderr, "%s\n\n", temp);
-  }
-
-  msg_return_code (EBUF);
-  exit (EBUF);
 }
+
 
 /*!
  * Verify that len doesn't exceed boundary, otherwise exit with an error code.
@@ -135,13 +74,14 @@ bufchk_len (const int len, const int dest_boundary, const char *func,
   if (len <= dest_boundary)
     return;
 
+  print_msg_error ();
+  msg_err_buffer_overrun (func, line);
+
 #ifdef TEST_LIB
   errno = 1;
   return;
 #endif
 
-  print_msg_error ();
-  msg_err_buffer_overrun (func, line);
   exit (EBUF);
 }
 
@@ -261,9 +201,9 @@ resolve_path (const char *src, char *abs_path)
   char src_temp_dirname[LEN_MAX_PATH];
   char src_temp_basename[LEN_MAX_PATH];
 
-  bufchk (src, LEN_MAX_PATH);
-  snprintf (src_temp_dirname, LEN_MAX_PATH, "%s", src);
-  snprintf (src_temp_basename, LEN_MAX_PATH, "%s", src);
+  bufchk_len (strlen (src) + 1, LEN_MAX_PATH, __func__, __LINE__);
+  sprintf (src_temp_dirname, "%s", src);
+  sprintf (src_temp_basename, "%s", src);
 
   if ((realpath (dirname (src_temp_dirname), abs_path)) != NULL)
   {

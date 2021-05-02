@@ -168,8 +168,6 @@ void
 realize_waste_line (char *str)
 {
   trim_char ('/', str);
-  bufchk (str, LEN_MAX_PATH);
-
   /*
    *
    * FIXME: This will need some work in order to be implemented
@@ -189,7 +187,7 @@ realize_waste_line (char *str)
 
   /* What's a good length for this? */
   char UID[40];
-  snprintf (UID, sizeof UID, "%u", pwd->pw_uid);
+  sprintf (UID, "%u", pwd->pw_uid);
 
   /*
    * I'm not sure the best way to check for a problem here. Likely any problem
@@ -202,7 +200,7 @@ realize_waste_line (char *str)
     print_msg_warn ();
     /*
      * If the length of pwd->pw_uid is over 39, it would have been truncated
-     * at the snprintf() statement above.
+     * at the sprintf() statement above.
      */
     printf ("Your UID string most likely got truncated:\n%s\n", UID);
   }
@@ -214,13 +212,14 @@ realize_waste_line (char *str)
     { NULL, NULL }
   };
 
+
   int i = 0;
   while (st_var[i].name != NULL)
   {
     if (strstr (str, st_var[i].name) != NULL)
     {
       char *dest = strrepl (str, st_var[i].name, (char*)st_var[i].value);
-      bufchk (dest, LEN_MAX_PATH);
+      bufchk_len (strlen (dest) + 1, LEN_MAX_PATH, __func__, __LINE__);
       strcpy (str, dest);
       free (dest);
 
@@ -286,6 +285,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   }
 
   raw_line = del_char_shift_left (' ', raw_line);
+  bufchk_len (strlen (raw_line) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
   strcpy (tmp_waste_parent_folder, raw_line);
   realize_waste_line (tmp_waste_parent_folder);
@@ -327,7 +327,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   waste_curr->files = malloc (req_len);
   chk_malloc (waste_curr->files, __func__, __LINE__);
-  snprintf (waste_curr->files, req_len, "%s%s", waste_curr->parent, "/files/");
+  sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
 
   if (! exists (waste_curr->files))
   {
@@ -346,7 +346,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   req_len = multi_strlen (waste_curr->parent, "/info/", NULL) + 1;
   waste_curr->info = malloc (req_len);
   chk_malloc (waste_curr->info, __func__, __LINE__);
-  snprintf (waste_curr->info, req_len, "%s%s", waste_curr->parent, "/info/");
+  sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");
 
   if (! exists (waste_curr->info))
   {
@@ -411,13 +411,13 @@ realize_config_file (st_config * st_config_data, const rmw_options * cli_user_op
   {
     const char rel_default_config[] = "rmwrc";
 
-    int req_len = multi_strlen (st_config_data->dir, "/", rel_default_config, NULL);
+    int req_len = multi_strlen (st_config_data->dir, "/", rel_default_config, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     sprintf (st_config_data->file, "%s/%s", st_config_data->dir, rel_default_config);
   }
   else
   {
-    bufchk (cli_user_options->alt_config, LEN_MAX_PATH);
+    bufchk_len (strlen (cli_user_options->alt_config) + 1, LEN_MAX_PATH, __func__, __LINE__);
     strcpy (st_config_data->file, cli_user_options->alt_config);
   }
 
@@ -478,7 +478,7 @@ get_config_home_dir (void)
   if (getenv (STR_ENABLE_TEST) != NULL ||
       (xdg_config_home == NULL && getenv (STR_ENABLE_TEST) == NULL))
   {
-    int req_len = multi_strlen (HOMEDIR, rel_default, NULL);
+    int req_len = multi_strlen (HOMEDIR, rel_default, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     static char config_home[LEN_MAX_PATH];
     sprintf (config_home, "%s%s", HOMEDIR, rel_default);
@@ -486,7 +486,7 @@ get_config_home_dir (void)
     return ptr;
   }
 
-  bufchk (xdg_config_home, LEN_MAX_PATH);
+  bufchk_len (strlen (xdg_config_home) + 1, LEN_MAX_PATH, __func__, __LINE__);
   return xdg_config_home;
 }
 
@@ -504,7 +504,6 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
   while (fgets (line_from_config, sizeof line_from_config, fd) != NULL)
   {
     char *line_ptr = line_from_config;
-    bufchk (line_ptr, LEN_MAX_CFG_LINE);
     trim_white_space (line_ptr);
     line_ptr = del_char_shift_left (' ', line_ptr);
 

@@ -29,7 +29,7 @@ struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
 const char trashinfo_ext[] = ".trashinfo";
 const int len_trashinfo_ext = (sizeof (trashinfo_ext) - 1); /* Subtract 1 for the terminating NULL */
-const int LEN_MAX_TRASHINFO_PATH_LINE = sizeof ("Path=") + LEN_MAX_ESCAPED_PATH;
+const int LEN_MAX_TRASHINFO_PATH_LINE = (sizeof ("Path=") - 1) + LEN_MAX_ESCAPED_PATH;
 
 const char *path_key = "Path";
 const char *deletion_date_key = "DeletionDate";
@@ -42,30 +42,22 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time
    * there already should have been buffer checking on these 2 when they were
    * initialized
    */
-  int req_len = multi_strlen (waste_curr->info, st_f_props->base_name, NULL) + 1;
+  int req_len = multi_strlen (waste_curr->info, st_f_props->base_name, NULL) + len_trashinfo_ext + LEN_TIME_STR_SUFFIX + 1;
 
   /*
    * Make sure there's enough room in file_info_dest
    */
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char final_info_dest[LEN_MAX_PATH];
-  snprintf (final_info_dest, req_len, "%s%s", waste_curr->info, st_f_props->base_name);
-
-#ifdef DEBUG
-DEBUG_PREFIX
-printf ("st_f_props->real_path = %s in %s line %d\n", st_f_props->real_path, __func__, __LINE__);
-DEBUG_PREFIX
-printf ("st_f_props->base_name = %s in %s line %d\n", st_f_props->base_name, __func__, __LINE__);
-#endif
+  char final_info_dest[req_len];
+  sprintf (final_info_dest, "%s%s", waste_curr->info, st_f_props->base_name);
 
   if (st_f_props->is_duplicate)
   {
-    int req_len = multi_strlen (final_info_dest, st_time_var->suffix_added_dup_exists, NULL);
-    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+    bufchk_len (strlen (final_info_dest) + LEN_MAX_TIME_STR_SUFFIX, LEN_MAX_PATH, __func__, __LINE__);
     strcat (final_info_dest, st_time_var->suffix_added_dup_exists);
   }
 
-  req_len = multi_strlen (final_info_dest, trashinfo_ext, NULL);
+  req_len = multi_strlen (final_info_dest, trashinfo_ext, NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   strcat (final_info_dest, trashinfo_ext);
 

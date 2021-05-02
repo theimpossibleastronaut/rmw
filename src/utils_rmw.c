@@ -42,7 +42,7 @@ int
 make_dir (const char *dir)
 {
   char temp_dir[LEN_MAX_PATH];
-  bufchk (dir, LEN_MAX_PATH);
+  bufchk_len (strlen (dir) + 1, LEN_MAX_PATH, __func__, __LINE__);
   strcpy (temp_dir, dir);
 
   char *tokenPtr;
@@ -61,7 +61,7 @@ make_dir (const char *dir)
     if (strlen (add_to_path) > 1 || *add_to_path == '.')
       snprintf (add_to_path + strlen (add_to_path), LEN_MAX_PATH - strlen (add_to_path), "/");
 
-    bufchk (tokenPtr, LEN_MAX_PATH - strlen (add_to_path));
+    bufchk_len (strlen (tokenPtr) + 1, LEN_MAX_PATH - strlen (add_to_path), __func__, __LINE__);
     snprintf (add_to_path + strlen (add_to_path), LEN_MAX_PATH - strlen (add_to_path), "%s", tokenPtr);
     tokenPtr = strtok (NULL, "/");
 
@@ -124,7 +124,8 @@ char *
 human_readable_size (off_t size)
 {
   /* "xxxx.y GiB" - 10 chars + '\0' */
-  static char buffer[LEN_MAX_HUMAN_READABLE_SIZE];
+  char *buffer = malloc (LEN_MAX_HUMAN_READABLE_SIZE);
+  chk_malloc (buffer, __func__, __LINE__);
 
   /* Store only the first letter; we add "iB" later during snprintf(). */
   const char prefix[] = { 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y' };
@@ -142,10 +143,10 @@ human_readable_size (off_t size)
   }
 
   if (power >= 0)
-    snprintf (buffer, sizeof (buffer), "%ld.%d %ciB", (long) size,
+    sprintf (buffer, "%ld.%d %ciB", (long) size,
               (remainder * 10) / 1024, prefix[power]);
   else
-    snprintf (buffer, sizeof (buffer), "%ld B", (long) size);
+    sprintf (buffer, "%ld B", (long) size);
 
   return buffer;
 }
@@ -262,11 +263,6 @@ bool escape_url (const char *str, char *dest, const int len)
   }
 
   dest[pos_dest] = '\0';
-
-#ifdef DEBUG
-DEBUG_PREFIX
-printf ("dest = %s in %s\n", dest, __func__);
-#endif
 
   return 0;
 }
