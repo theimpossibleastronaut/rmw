@@ -33,9 +33,9 @@
 static void
 set_time_string (char *tm_str, const int len, const char *format, time_t time_t_now)
 {
-  struct tm *time_ptr;
-  time_ptr = localtime (&time_t_now);
-  strftime (tm_str, len, format, time_ptr);
+  struct tm result;
+  localtime_r (&time_t_now, &result);
+  strftime (tm_str, len, format, &result);
   trim_white_space (tm_str);
 }
 
