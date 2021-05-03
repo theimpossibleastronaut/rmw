@@ -121,7 +121,9 @@ matrix:
       env: XCODE="true"
     - os: osx
       osx_image: xcode11.6
-      env: XCODE="true"
+      env:
+        - XCODE="true"
+        - RMW_FAKE_MEDIA_ROOT=true
     - os: osx
       osx_image: xcode12.2
       env: XCODE="true"
