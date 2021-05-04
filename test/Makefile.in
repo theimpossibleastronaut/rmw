@@ -90,7 +90,7 @@ build_triplet = @build@
 host_triplet = @host@
 check_PROGRAMS = test_strings$(EXEEXT) test_config_test$(EXEEXT) \
 	test_multi_strlen$(EXEEXT) test_buffer_overrun$(EXEEXT) \
-	test_url_encoding$(EXEEXT) test_trashinfo$(EXEEXT) \
+	test_utils$(EXEEXT) test_trashinfo$(EXEEXT) \
 	test_rmdir_recursive$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -146,10 +146,10 @@ am_test_trashinfo_OBJECTS = test_trashinfo.$(OBJEXT)
 test_trashinfo_OBJECTS = $(am_test_trashinfo_OBJECTS)
 test_trashinfo_LDADD = $(LDADD)
 test_trashinfo_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_test_url_encoding_OBJECTS = test_url_encoding.$(OBJEXT)
-test_url_encoding_OBJECTS = $(am_test_url_encoding_OBJECTS)
-test_url_encoding_LDADD = $(LDADD)
-test_url_encoding_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+am_test_utils_OBJECTS = test_utils.$(OBJEXT)
+test_utils_OBJECTS = $(am_test_utils_OBJECTS)
+test_utils_LDADD = $(LDADD)
+test_utils_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -180,11 +180,11 @@ am__v_CCLD_1 =
 SOURCES = $(test_buffer_overrun_SOURCES) $(test_config_test_SOURCES) \
 	$(test_multi_strlen_SOURCES) $(test_rmdir_recursive_SOURCES) \
 	$(test_strings_SOURCES) $(test_trashinfo_SOURCES) \
-	$(test_url_encoding_SOURCES)
+	$(test_utils_SOURCES)
 DIST_SOURCES = $(test_buffer_overrun_SOURCES) \
 	$(test_config_test_SOURCES) $(test_multi_strlen_SOURCES) \
 	$(test_rmdir_recursive_SOURCES) $(test_strings_SOURCES) \
-	$(test_trashinfo_SOURCES) $(test_url_encoding_SOURCES)
+	$(test_trashinfo_SOURCES) $(test_utils_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -547,7 +547,7 @@ test_strings_SOURCES = test_strings.c
 test_config_test_SOURCES = test_config.c
 test_multi_strlen_SOURCES = test_multi_strlen.c
 test_buffer_overrun_SOURCES = test_buffer_overrun.c
-test_url_encoding_SOURCES = test_url_encoding.c
+test_utils_SOURCES = test_utils.c
 test_trashinfo_SOURCES = test_trashinfo.c
 test_rmdir_recursive_SOURCES = test_rmdir_recursive.c
 noinst_HEADERS = test.h
@@ -639,9 +639,9 @@ test_trashinfo$(EXEEXT): $(test_trashinfo_OBJECTS) $(test_trashinfo_DEPENDENCIES
 	@rm -f test_trashinfo$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_trashinfo_OBJECTS) $(test_trashinfo_LDADD) $(LIBS)
 
-test_url_encoding$(EXEEXT): $(test_url_encoding_OBJECTS) $(test_url_encoding_DEPENDENCIES) $(EXTRA_test_url_encoding_DEPENDENCIES) 
-	@rm -f test_url_encoding$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(test_url_encoding_OBJECTS) $(test_url_encoding_LDADD) $(LIBS)
+test_utils$(EXEEXT): $(test_utils_OBJECTS) $(test_utils_DEPENDENCIES) $(EXTRA_test_utils_DEPENDENCIES) 
+	@rm -f test_utils$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_utils_OBJECTS) $(test_utils_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -876,9 +876,9 @@ test_buffer_overrun.log: test_buffer_overrun$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test_url_encoding.log: test_url_encoding$(EXEEXT)
-	@p='test_url_encoding$(EXEEXT)'; \
-	b='test_url_encoding'; \
+test_utils.log: test_utils$(EXEEXT)
+	@p='test_utils$(EXEEXT)'; \
+	b='test_utils'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

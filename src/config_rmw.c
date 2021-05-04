@@ -331,8 +331,11 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
 
   if (! exists (waste_curr->files))
   {
-    if (make_dir (waste_curr->files) != 0)
+    if (!rmw_mkdir (waste_curr->files, S_IRWXU))
+      msg_success_mkdir (waste_curr->files);
+    else
     {
+      msg_err_mkdir (waste_curr->files, __func__);
       exit (errno);
     }
   }
@@ -350,9 +353,12 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
 
   if (! exists (waste_curr->info))
   {
-    if (make_dir (waste_curr->info) != 0)
+    if (!rmw_mkdir (waste_curr->info, S_IRWXU))
+      msg_success_mkdir (waste_curr->info);
+    else
     {
-      exit (EXIT_FAILURE);
+      msg_err_mkdir (waste_curr->info, __func__);
+      exit (errno);
     }
   }
 
@@ -367,22 +373,14 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   {
     waste_curr->dev_num = st.st_dev;
 
-    /* We're reusing 'tmp' here after every call to dirname()
-     * An excerpt from the dirname() man page states:
-     *
-     * char *dirname(char *path);
-     *
-     * Both  dirname() and basename() may modify the contents of path, so it may be de‐
-     * sirable to pass a copy when calling one of these functions.
-     */
     char tmp[LEN_MAX_PATH];
     strcpy (tmp, waste_curr->parent);
-    char *media_root_ptr = dirname (tmp);
+    char *media_root_ptr = rmw_dirname (tmp);
     waste_curr->media_root = malloc (strlen (media_root_ptr) + 1);
     chk_malloc (waste_curr->media_root, __func__, __LINE__);
     strcpy (waste_curr->media_root, media_root_ptr);
     strcpy (tmp, waste_curr->media_root);
-    if (!lstat (dirname (tmp), &mp_st))
+    if (!lstat (rmw_dirname (tmp), &mp_st))
     {
       if (mp_st.st_dev == waste_curr->dev_num && !fake_media_root)
       {
@@ -597,8 +595,15 @@ init_config_data (st_config *x)
   x->dir = get_config_home_dir ();
 
   if (! exists (x->dir))
-    if ((make_dir (x->dir) != 0))
+  {
+    if (!rmw_mkdir (x->dir, S_IRWXU))
+      msg_success_mkdir (x->dir);
+    else
+    {
+      msg_err_mkdir (x->dir, __func__);
       exit (errno);
+    }
+  }
 
   x->st_waste_folder_props_head = NULL;
   /*

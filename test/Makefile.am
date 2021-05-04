@@ -5,7 +5,7 @@ check_PROGRAMS = \
 	test_config_test \
 	test_multi_strlen	\
 	test_buffer_overrun	\
-	test_url_encoding	\
+	test_utils	\
 	test_trashinfo	\
 	test_rmdir_recursive
 
@@ -13,7 +13,7 @@ test_strings_SOURCES = test_strings.c
 test_config_test_SOURCES = test_config.c
 test_multi_strlen_SOURCES = test_multi_strlen.c
 test_buffer_overrun_SOURCES = test_buffer_overrun.c
-test_url_encoding_SOURCES = test_url_encoding.c
+test_utils_SOURCES = test_utils.c
 test_trashinfo_SOURCES = test_trashinfo.c
 test_rmdir_recursive_SOURCES = test_rmdir_recursive.c
 

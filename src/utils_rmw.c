@@ -32,60 +32,88 @@
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
+/*
+ * name: rmw_dirname
+ * return a pointer to the parent directory of *path
+ * (mimics the behavior of dirname())
+ *
+ * This function may alter path
+ *
+ * (Using dirname() was causing errors on osx and OpenBSD 6.5
+ * https://travis-ci.com/github/theimpossibleastronaut/rmw/builds/224722056
+ * -andy5995 2021-05-02)
+ */
+char *rmw_dirname (char *path)
+{
+  if (path == NULL || *path == '\0')
+    return NULL;
+
+  int len = strlen (path);
+  if (len > 1 && path[len - 1] == '/')
+  {
+    path[len - 1] = '\0';
+    len--;
+  }
+
+  char *ptr = path + len - 1;
+
+  while (*ptr != '/' && ptr != &path[0])
+    ptr--;
+
+  if (*ptr == '/')
+  {
+    if (len > 1)
+    {
+      if (ptr != &path[0])
+      {
+        *ptr = '\0';
+      }
+      else
+      {
+        path[1] = '\0';
+      }
+    }
+    return path;
+  }
+
+  if (isdotdir (path))
+    if (path[1] == '.')
+      path[1] = '\0';
+
+  // No slashes were found
+  if (ptr == &path[0])
+    strcpy (path, ".");
+
+  return path;
+}
+
+
 /**
- * make_dir()
+ * rmw_mkdir()
  *
  * Check for the existence of a dir, and create it if not found.
  * Also creates parent directories.
  */
-int
-make_dir (const char *dir)
+int rmw_mkdir (const char *dir, mode_t mode)
 {
-  char temp_dir[LEN_MAX_PATH];
-  bufchk_len (strlen (dir) + 1, LEN_MAX_PATH, __func__, __LINE__);
-  strcpy (temp_dir, dir);
-
-  char *tokenPtr;
-  tokenPtr = strtok (temp_dir, "/");
-
-  char add_to_path[LEN_MAX_PATH];
-  if (dir[0] == '/')
-    add_to_path[0] = '/';
-
-  add_to_path[1] = '\0';
-
-  bool res = 0;
-
-  while (tokenPtr != NULL)
+  if (exists (dir))
   {
-    if (strlen (add_to_path) > 1 || *add_to_path == '.')
-      snprintf (add_to_path + strlen (add_to_path), LEN_MAX_PATH - strlen (add_to_path), "/");
-
-    bufchk_len (strlen (tokenPtr) + 1, LEN_MAX_PATH - strlen (add_to_path), __func__, __LINE__);
-    snprintf (add_to_path + strlen (add_to_path), LEN_MAX_PATH - strlen (add_to_path), "%s", tokenPtr);
-    tokenPtr = strtok (NULL, "/");
-
-    if (!exists (add_to_path))
-    {
-      res = (mkdir (add_to_path, S_IRWXU));
-
-      if (!res)
-        continue;
-      else
-        break;
-    }
+    errno = EEXIST;
+    return -1;
   }
 
-  if (!res)
-  {
-    printf (_("Created directory %s\n"), dir);
+  int res = 0;
+
+  char tmp[strlen (dir) + 1];
+  strcpy (tmp, dir);
+  char *parent = rmw_dirname (tmp);
+  if (!exists (parent))
+    res = rmw_mkdir (parent, mode);
+
+  if (res)
     return res;
-  }
 
-  print_msg_error ();
-  printf (_("while creating %s\n"), add_to_path);
-  perror ("make_dir()");
-  return errno;
+  return mkdir (dir, mode);
 }
 
 
@@ -101,7 +129,12 @@ bool exists (const char *filename)
   static struct stat st;
   static int res;
   res = (lstat (filename, &st));
-  return res == 0 ? true : false;
+  if (!res)
+    return true;
+
+  // reset errno since we are only checking for the file existence
+  errno = 0;
+  return false;
 }
 
 void
@@ -321,4 +354,19 @@ unescape_url (const char *str, char *dest, const int len)
   dest[pos_dest] = '\0';
 
   return 0;
+}
+
+
+/*
+ * name: isdotdir
+ * Checks for . and .. directories
+ */
+bool isdotdir (const char *dir)
+{
+  if (dir[0] != '.')
+    return false;
+  if (dir[1] == '\0' || (dir[1] == '.' && dir[2] == '\0'))
+    return true;
+
+  return false;
 }

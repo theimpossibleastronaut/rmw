@@ -236,4 +236,20 @@ msg_err_remove (const char *file, const char *func)
 }
 
 
+void
+msg_err_mkdir (const char *dir, const char *func)
+{
+  perror ("rmw_mkdir()");
+  print_msg_error ();
+  fprintf (stderr, _("while creating %s (%s)\n"), dir, func);
+}
+
+void
+msg_success_mkdir (const char *dir)
+{
+  printf (_("Created directory %s\n"), dir);
+  return;
+}
+
+
 

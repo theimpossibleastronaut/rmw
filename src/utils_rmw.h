@@ -33,6 +33,12 @@
 
 #define LEN_MAX_HUMAN_READABLE_SIZE 20
 
+char
+*rmw_dirname (char *path);
+
+int
+rmw_mkdir (const char *dir, mode_t mode);
+
 int
 make_dir (const char *dir);
 
@@ -53,5 +59,8 @@ escape_url (const char *str, char *dest, const int len);
 
 bool
 unescape_url (const char *str, char *dest, const int len);
+
+bool
+isdotdir (const char *dir);
 
 #endif

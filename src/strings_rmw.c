@@ -31,6 +31,7 @@
 #include <ctype.h>
 #include "strings_rmw.h"
 #include "messages_rmw.h"
+#include "utils_rmw.h"
 
 /*!
  * Called by other functions to make sure a string has a value. Any function
@@ -205,7 +206,7 @@ resolve_path (const char *src, char *abs_path)
   sprintf (src_temp_dirname, "%s", src);
   sprintf (src_temp_basename, "%s", src);
 
-  if ((realpath (dirname (src_temp_dirname), abs_path)) != NULL)
+  if ((realpath (rmw_dirname (src_temp_dirname), abs_path)) != NULL)
   {
     const int req_len = multi_strlen (abs_path, "/", basename (src_temp_basename), NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
@@ -218,18 +219,4 @@ resolve_path (const char *src, char *abs_path)
   print_msg_error ();
   printf (_("realpath() returned an error.\n"));
   return errno;
-}
-
-
-/*
- * Checks for . and .. directories
- */
-bool isdotdir (const char *dir)
-{
-  if (dir[0] != '.')
-    return false;
-  if (dir[1] == '\0' || (dir[1] == '.' && dir[2] == '\0'))
-    return true;
-
-  return false;
 }

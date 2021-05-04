@@ -161,13 +161,17 @@ main (const int argc, char* const argv[])
 
   const char *data_dir = get_data_rmw_home_dir ();
 
-  bool init_data_dir = (! exists (data_dir));
+  bool init_data_dir = !exists (data_dir);
 
   if (init_data_dir)
   {
-    if ((make_dir (data_dir) != 0))
+    if (!rmw_mkdir (data_dir, S_IRWXU))
     {
-      print_msg_error ();
+      msg_success_mkdir (data_dir);
+    }
+    else
+    {
+      msg_err_mkdir (data_dir, __func__);
       printf (_("\
 unable to create config and data directory\n\
 Please check your configuration file and permissions\

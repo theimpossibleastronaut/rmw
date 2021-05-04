@@ -1,8 +1,7 @@
 /*
+ * test.c
  *
- * This file is part of rmw<https://remove-to-waste.info/>
- *
- *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+ * Copyright 2021 Andy <andy400-dev@yahoo.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,26 +21,8 @@
  *
  */
 
-#include <libgen.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <string.h>
-#include <stdbool.h>
 
-void
-bufchk_len (const int len, const int boundary, const char *func, const int line);
 
-int
-multi_strlen (const char *argv, ...);
 
-void
-trim_white_space (char *str);
 
-void
-trim_char (const char c, char *str);
 
-void
-truncate_str (char *str, int pos);
-
-int
-resolve_path (const char *src, char *abs_path);

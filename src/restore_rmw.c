@@ -42,7 +42,7 @@ char *get_waste_parent (const char *src)
 {
   char src_copy[strlen (src) + 1];
   strcpy (src_copy, src);
-  char *src_dirname = dirname (src_copy);
+  char *src_dirname = rmw_dirname (src_copy);
 
   char *one_dir_level = "/..";
   int req_len = multi_strlen (src_dirname, one_dir_level, NULL) + 1;
@@ -111,7 +111,7 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     strcpy (dest, _dest);
     if (*_dest != '/')
     {
-      char *media_root = dirname (waste_parent);
+      char *media_root = rmw_dirname (waste_parent);
       req_len = multi_strlen (media_root, "/", _dest, NULL) + 1;
       bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       char tmp[LEN_MAX_PATH];
@@ -140,8 +140,22 @@ Duplicate filename at destination - appending time string...\n"));
     truncate_str (parent_dir, strlen (basename (dest)));
 
     if (cli_user_options->want_dry_run == false)
+    {
       if (! exists (parent_dir))
-        make_dir (parent_dir);
+      {
+        if (!rmw_mkdir (parent_dir, S_IRWXU))
+        {
+          if (verbose)
+          {
+            msg_success_mkdir (parent_dir);
+          }
+        }
+        else
+        {
+          msg_err_mkdir (waste_curr->files, __func__);
+        }
+      }
+    }
 
     int rename_res = 0;
     if (cli_user_options->want_dry_run == false)
