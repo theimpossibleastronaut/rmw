@@ -17,7 +17,6 @@ AS_IF([test "x$enable_release" = "xyes"], [ax_is_release=yes])
 AX_CHECK_ENABLE_DEBUG([yes])
 
 AC_PROG_CC
-AC_PROG_CC_STDC
 AX_CFLAGS_WARN_ALL
 
 AC_CONFIG_MACRO_DIRS([build-aux/m4])
@@ -44,6 +43,11 @@ fi
 AX_CHECK_COMPILE_FLAG(-Wformat-overflow=2, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no], [-Werror])
 if test "x$ax_gcc_flag_option" = "xyes"; then
         EXTRA_CFLAGS+=" -Wformat-overflow=2"
+fi
+
+AX_CHECK_COMPILE_FLAG(-fanalyzer, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no], [-Werror])
+if test "x$ax_gcc_flag_option" = "xyes"; then
+        EXTRA_CFLAGS+=" -Werror=format-security"
 fi
 
 if test "x$ax_is_release" = "xyes"; then
