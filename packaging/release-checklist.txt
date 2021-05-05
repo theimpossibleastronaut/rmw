@@ -4,13 +4,18 @@ Change version number
   configure.ac (AC_INIT)
   README.md
   packaging/Slackbuild/rmw/rmw.info (also change version numbers in download link)
-  packaging/Slackbuild/rmwrmw.Slackbuild
+  packaging/Slackbuild/rmw/rmw.Slackbuild
   packaging/file_id.diz (filegate.net)
   cd packaging and run 'dch -r' (updates the changelog timestamp in debian/
 
 cp README.md packaging/Slackbuild/rmw/README.Slackware
 
 run autoreconf
+
+Setup build
+  mkdir build
+  cd build
+  ../configure
 
 update po and pot files
   (from the build directory) cd po && make update-po
@@ -26,8 +31,9 @@ Ex:
   * rmw v0.7.07 released
 
 
-Change Month and Year in man/man.1
+Change Month and Year in man/rmw.1
 
+cd ..
 make distcheck
 make dist
 

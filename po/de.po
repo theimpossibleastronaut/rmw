@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-04-28 14:03-0500\n"
+"POT-Creation-Date: 2021-05-05 23:12+0100\n"
 "PO-Revision-Date: 2019-07-07 00:18+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -122,7 +122,7 @@ msgstr ""
 "# '-f' verwenden wollen, kommentieren sie die folgende Zeile aus:\n"
 "#\n"
 
-#: src/config_rmw.c:283
+#: src/config_rmw.c:282
 #, c-format
 msgid "Invalid WASTE option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
@@ -142,12 +142,12 @@ msgstr "Erzeuge standard  Konfigurationsdatei"
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden\n"
 
-#: src/config_rmw.c:568
+#: src/config_rmw.c:567
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
 
-#: src/config_rmw.c:581
+#: src/config_rmw.c:580
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -160,17 +160,17 @@ msgstr ""
 "Wenn du weitere Hilfe brauchst oder einen Fehler melden willst,\n"
 "besuche die rmw-Webseite unter\n"
 
-#: src/config_rmw.c:632
+#: src/config_rmw.c:638
 #, c-format
 msgid "removable, "
 msgstr "löschbar."
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:634
+#: src/config_rmw.c:640
 msgid "attached"
 msgstr "angeschlossen"
 
-#: src/config_rmw.c:634
+#: src/config_rmw.c:640
 msgid "detached"
 msgstr "entfernt"
 
@@ -178,7 +178,7 @@ msgstr "entfernt"
 msgid "Skipping --undo-last because --most-recent-list was requested"
 msgstr ""
 
-#: src/main.c:162
+#: src/main.c:158
 msgid "while getting the path to your home directory\n"
 msgstr "beim Ermitteln des Pfades zu deinem Home-Verzeichnis.\n"
 
@@ -217,7 +217,7 @@ msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:385 src/restore_rmw.c:179
+#: src/main.c:385 src/restore_rmw.c:193
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Datei nicht gefunden: '%s'\n"
@@ -227,12 +227,12 @@ msgstr "Datei nicht gefunden: '%s'\n"
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/main.c:481
+#: src/main.c:480
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr " Kein passendes Dateisystem für \"%s\" gefunden\n"
 
-#: src/main.c:491
+#: src/main.c:490
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -319,10 +319,21 @@ msgstr ""
 "  %s -> %s -- %s:L%d\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/messages_rmw.c:233
+#: src/messages_rmw.c:234
 #, c-format
 msgid "while removing %s\n"
 msgstr "beim Löschen von %s\n"
+
+#: src/messages_rmw.c:244
+#, fuzzy, c-format
+#| msgid "while creating %s\n"
+msgid "while creating %s (%s)\n"
+msgstr "beim Anlegen von %s\n"
+
+#: src/messages_rmw.c:250
+#, c-format
+msgid "Created directory %s\n"
+msgstr "Verzeichnis %s angelegt\n"
 
 #: src/parse_cli_options.c:44
 #, c-format
@@ -562,67 +573,59 @@ msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Lösche Dateien auf Grundlage der Verweildauer in den Papierkörben (%u) ...\n"
 
-#: src/purging_rmw.c:400
+#: src/purging_rmw.c:403
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr ""
 " :Warnung: Verzeichnis wurde nicht gelöscht - es enthält noch Dateien\n"
 
-#: src/purging_rmw.c:402
+#: src/purging_rmw.c:405
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(überprüfe Eigentümer/Schreibberechtigung)\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:410
+#: src/purging_rmw.c:413
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr " :Warnung: Maximale Tiefe von %u erreicht, überspringe ...\n"
 
-#: src/purging_rmw.c:473
+#: src/purging_rmw.c:474
 #, c-format
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr ""
 
-#: src/purging_rmw.c:486
+#: src/purging_rmw.c:487
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d Verzeichnisse übersprungen (RMDIR_MAX_DEPTH erreicht)\n"
 
-#: src/purging_rmw.c:490
+#: src/purging_rmw.c:491
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d Verzeichnisse übersprungen (enthalten schreibgeschützte Dateien)\n"
 
-#: src/purging_rmw.c:493
+#: src/purging_rmw.c:494
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/purging_rmw.c:497
+#: src/purging_rmw.c:498
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] "(%d Datei gelöscht)"
 msgstr[1] "(%d Dateien gelöscht)"
 
-#: src/purging_rmw.c:501
+#: src/purging_rmw.c:502
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] "(%d Verzeichnis gelöscht)"
 msgstr[1] "(%d Verzeichnisse gelöscht)"
-
-#. TRANSLATORS: context: "Number of bytes freed"
-#: src/purging_rmw.c:505
-#, c-format
-msgid "%s freed"
-msgid_plural "%s freed"
-msgstr[0] "%s freigegeben"
-msgstr[1] "%s freigegeben"
 
 #. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:566
@@ -630,7 +633,7 @@ msgstr[1] "%s freigegeben"
 msgid "Created %s\n"
 msgstr "%s angelegt\n"
 
-#: src/purging_rmw.c:572 src/utils_rmw.c:86
+#: src/purging_rmw.c:572
 #, c-format
 msgid "while creating %s\n"
 msgstr "beim Anlegen von %s\n"
@@ -640,22 +643,22 @@ msgstr "beim Anlegen von %s\n"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelter Dateiname im Zielverzeichnis, füge Zeitstempel an...\n"
 
-#: src/restore_rmw.c:161
+#: src/restore_rmw.c:175
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "beim Löschen der .trashinfo-Datei '%s' \n"
 
-#: src/restore_rmw.c:220
+#: src/restore_rmw.c:234
 #, c-format
 msgid "Reading %s...\n"
 msgstr "Lese %s...\n"
 
-#: src/restore_rmw.c:266
+#: src/restore_rmw.c:281
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#: src/restore_rmw.c:288
+#: src/restore_rmw.c:303
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -664,11 +667,11 @@ msgstr[1] "== enthält %d Dateien =="
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:292
+#: src/restore_rmw.c:307
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<PFEIL-RECHTS / PFEIL-LINKS> - zwischen Papierkörben wechseln"
 
-#: src/restore_rmw.c:293
+#: src/restore_rmw.c:308
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
@@ -678,48 +681,29 @@ msgstr ""
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:299
+#: src/restore_rmw.c:314
 msgid "'q' - quit"
 msgstr "'q' - beenden"
 
-#: src/restore_rmw.c:401
+#: src/restore_rmw.c:416
 #, c-format
 msgid "failed to remove %s\n"
 msgstr "Konnte %s nicht entfernen\n"
 
-#: src/strings_rmw.c:117
-#, c-format
-msgid ""
-" <--> Displaying part of the string that caused the error <-->\n"
-"\n"
-msgstr ""
-" <--> Zeige einen Teil der Zeichenkette, die den Fehler verursacht hat <-->\n"
-"\n"
-
-#: src/strings_rmw.c:279
+#: src/strings_rmw.c:220
 #, c-format
 msgid "realpath() returned an error.\n"
 msgstr "realpath() hat einen Fehler zurückgeliefert.\n"
 
-#: src/utils_rmw.c:81
-#, c-format
-msgid "Created directory %s\n"
-msgstr "Verzeichnis %s angelegt\n"
-
-#: src/utils_rmw.c:160
+#: src/utils_rmw.c:194
 msgid "Continue? (y/n): "
 msgstr "Weitermachen (y/n):"
 
-#: src/utils_rmw.c:236 src/utils_rmw.c:247 src/utils_rmw.c:299
-#: src/utils_rmw.c:314
+#: src/utils_rmw.c:270 src/utils_rmw.c:281 src/utils_rmw.c:328
+#: src/utils_rmw.c:343
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
-
-#~ msgid "  -g, --purge               run purge even if it's been run today\n"
-#~ msgstr ""
-#~ "  -g, --purge               Papierkörbe leeren, selbst wenn dies heute "
-#~ "schon erledigt wurde\n"
 
 #~ msgid ""
 #~ "\n"
@@ -803,6 +787,14 @@ msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
 #~ "darüber, wie du Unterstützung bekommen kannst - http://github.com/"
 #~ "andy5995/rmw/wiki\n"
 #~ "\n"
+
+#~ msgid "  -g, --purge               run purge even if it's been run today\n"
+#~ msgstr ""
+#~ "  -g, --purge               Papierkörbe leeren, selbst wenn dies heute "
+#~ "schon erledigt wurde\n"
+
+#~ msgid "  -h, --help\n"
+#~ msgstr "  -h, --help\n"
 
 #, fuzzy
 #~| msgid ""
@@ -946,6 +938,21 @@ msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
 #~ msgid " :warning: Maximum number of waste folders reached: %d\n"
 #~ msgstr " :Warnung: Maximale Anzahl von Papierkörben erreicht: %d\n"
 
+#, c-format
+#~ msgid ""
+#~ " <--> Displaying part of the string that caused the error <-->\n"
+#~ "\n"
+#~ msgstr ""
+#~ " <--> Zeige einen Teil der Zeichenkette, die den Fehler verursacht hat <--"
+#~ ">\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "%s freed"
+#~ msgid_plural "%s freed"
+#~ msgstr[0] "%s freigegeben"
+#~ msgstr[1] "%s freigegeben"
+
 #~ msgid "'%s' not found\n"
 #~ msgstr "'%s' nicht gefunden\n"
 
@@ -980,6 +987,3 @@ msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
 
 #~ msgid "search complete\n"
 #~ msgstr "Suche abgeschlossen\n"
-
-#~ msgid "  -h, --help\n"
-#~ msgstr "  -h, --help\n"

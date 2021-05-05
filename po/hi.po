@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-04-28 14:03-0500\n"
+"POT-Creation-Date: 2021-05-05 23:12+0100\n"
 "PO-Revision-Date: 2020-04-18 12:26+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -121,7 +121,7 @@ msgstr ""
 "# 'f' ka prayog karna hai to niche Rekha par comment karen \n"
 "#\n"
 
-#: src/config_rmw.c:283
+#: src/config_rmw.c:282
 #, c-format
 msgid "Invalid WASTE option: '%s'\n"
 msgstr "Galat apshist option: '%s'\n"
@@ -141,12 +141,12 @@ msgstr "configuration file banate waqt:"
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Nahi padha or likha jaa raha configuration file\n"
 
-#: src/config_rmw.c:568
+#: src/config_rmw.c:567
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unjana ya galat bikalp: '%s'\n"
 
-#: src/config_rmw.c:581
+#: src/config_rmw.c:580
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -159,17 +159,17 @@ msgstr ""
 "agar aapko madad ki ya koi galti batani hai\n"
 "aap rmw web site par karen\n"
 
-#: src/config_rmw.c:632
+#: src/config_rmw.c:638
 #, c-format
 msgid "removable, "
 msgstr "hataya ja sakta hai, "
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:634
+#: src/config_rmw.c:640
 msgid "attached"
 msgstr "jodagaya"
 
-#: src/config_rmw.c:634
+#: src/config_rmw.c:640
 #, fuzzy
 #| msgid "attached"
 msgid "detached"
@@ -179,7 +179,7 @@ msgstr "jodagaya"
 msgid "Skipping --undo-last because --most-recent-list was requested"
 msgstr ""
 
-#: src/main.c:162
+#: src/main.c:158
 msgid "while getting the path to your home directory\n"
 msgstr "home directory ka rasta milte wakht\n"
 
@@ -219,7 +219,7 @@ msgid "The Easter Bunny says, \"Hello, world.\""
 msgstr "Easter Bunny bola, \"Hello, Duniya.\""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:385 src/restore_rmw.c:179
+#: src/main.c:385 src/restore_rmw.c:193
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "File nahi mili: '%s'\n"
@@ -229,12 +229,12 @@ msgstr "File nahi mili: '%s'\n"
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/main.c:481
+#: src/main.c:480
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "koi sahi filesystem nahi mile \"%s\"\n"
 
-#: src/main.c:491
+#: src/main.c:490
 #, c-format
 msgid "%d file was removed to the waste folder"
 msgid_plural "%d files were removed to the waste folder"
@@ -318,10 +318,21 @@ msgstr ""
 "\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/messages_rmw.c:233
+#: src/messages_rmw.c:234
 #, c-format
 msgid "while removing %s\n"
 msgstr "hatate wakht %s\n"
+
+#: src/messages_rmw.c:244
+#, fuzzy, c-format
+#| msgid "while creating %s\n"
+msgid "while creating %s (%s)\n"
+msgstr "banate wakht %s\n"
+
+#: src/messages_rmw.c:250
+#, c-format
+msgid "Created directory %s\n"
+msgstr "Yeh directory banayi gayi %s\n"
 
 #: src/parse_cli_options.c:44
 #, c-format
@@ -520,68 +531,60 @@ msgstr "sari failen ki sudhikaran kiya jayega apshist folders …\n"
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr "sudhikaran files din ginke ke baad apshist folder se hogi (%u) …\n"
 
-#: src/purging_rmw.c:400
+#: src/purging_rmw.c:403
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr "Directory sudhikaran na ho -failen yahan hai \n"
 
-#: src/purging_rmw.c:402
+#: src/purging_rmw.c:405
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(malik ki parikshya/permissions likhen)\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:410
+#: src/purging_rmw.c:413
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "jyada se jyada %u hua, chod dijiye\n"
 
-#: src/purging_rmw.c:473
+#: src/purging_rmw.c:474
 #, fuzzy, c-format
 #| msgid "%d file purged"
 #| msgid_plural "%d files purged"
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr "%d failen sudhikaran ki gayi hai"
 
-#: src/purging_rmw.c:486
+#: src/purging_rmw.c:487
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "% directories ko chodo gaya hai(RMDIR_MAX_DEPTH hogaya)\n"
 
-#: src/purging_rmw.c:490
+#: src/purging_rmw.c:491
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d directories chodi gayi hai (sirf padhne wali files)\n"
 
-#: src/purging_rmw.c:493
+#: src/purging_rmw.c:494
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d failen sudhikaran ki gayi hai"
 msgstr[1] "%d file sudhikaran ki gayi hai"
 
-#: src/purging_rmw.c:497
+#: src/purging_rmw.c:498
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] "(%d failen hatayi gayi)"
 msgstr[1] "(%d file hatayi gayi)"
 
-#: src/purging_rmw.c:501
+#: src/purging_rmw.c:502
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] "(%d directoriyan hatayi gayi)"
 msgstr[1] "(%d directory hatayi gayi)"
-
-#. TRANSLATORS: context: "Number of bytes freed"
-#: src/purging_rmw.c:505
-#, c-format
-msgid "%s freed"
-msgid_plural "%s freed"
-msgstr[0] "%s mukht kiya gaya"
-msgstr[1] "%s mukht kiye gaya"
 
 #. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:566
@@ -589,7 +592,7 @@ msgstr[1] "%s mukht kiye gaya"
 msgid "Created %s\n"
 msgstr "Banaya gaya %s\n"
 
-#: src/purging_rmw.c:572 src/utils_rmw.c:86
+#: src/purging_rmw.c:572
 #, c-format
 msgid "while creating %s\n"
 msgstr "banate wakht %s\n"
@@ -599,22 +602,22 @@ msgstr "banate wakht %s\n"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "behrupi file ka naam hai manzil par - sanlagn wakht par string \n"
 
-#: src/restore_rmw.c:161
+#: src/restore_rmw.c:175
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr ".trashinfo fail hatate wakht:'%s'\n"
 
-#: src/restore_rmw.c:220
+#: src/restore_rmw.c:234
 #, c-format
 msgid "Reading %s...\n"
 msgstr "Padh raha hai %s…\n"
 
-#: src/restore_rmw.c:266
+#: src/restore_rmw.c:281
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#: src/restore_rmw.c:288
+#: src/restore_rmw.c:303
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -623,11 +626,11 @@ msgstr[1] "== failen shamil %d hai =="
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:292
+#: src/restore_rmw.c:307
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RIGHT / CURSOR-LEFT> - svich abhisht folders"
 
-#: src/restore_rmw.c:293
+#: src/restore_rmw.c:308
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
@@ -637,40 +640,26 @@ msgstr ""
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:299
+#: src/restore_rmw.c:314
 msgid "'q' - quit"
 msgstr "'q' -chodna"
 
-#: src/restore_rmw.c:401
+#: src/restore_rmw.c:416
 #, c-format
 msgid "failed to remove %s\n"
 msgstr "hataya nahi jaa saka %s\n"
 
-#: src/strings_rmw.c:117
-#, c-format
-msgid ""
-" <--> Displaying part of the string that caused the error <-->\n"
-"\n"
-msgstr ""
-" <---> galati ke karan bana string <--->\n"
-"\n"
-
-#: src/strings_rmw.c:279
+#: src/strings_rmw.c:220
 #, c-format
 msgid "realpath() returned an error.\n"
 msgstr "realpath() may error mila hai\n"
 
-#: src/utils_rmw.c:81
-#, c-format
-msgid "Created directory %s\n"
-msgstr "Yeh directory banayi gayi %s\n"
-
-#: src/utils_rmw.c:160
+#: src/utils_rmw.c:194
 msgid "Continue? (y/n): "
 msgstr "Jari rakhen? (haan/na): "
 
-#: src/utils_rmw.c:236 src/utils_rmw.c:247 src/utils_rmw.c:299
-#: src/utils_rmw.c:314
+#: src/utils_rmw.c:270 src/utils_rmw.c:281 src/utils_rmw.c:328
+#: src/utils_rmw.c:343
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr "rmw: %s(): buffer bhut chota hai (mila %d, chahiye tha %d)\n"
@@ -753,6 +742,20 @@ msgstr "rmw: %s(): buffer bhut chota hai (mila %d, chahiye tha %d)\n"
 #~ "  -s ,--bahal karneke liye suchi se chuninda         failon ka chayan "
 #~ "karen\n"
 #~ "  -u, --purbith-pichle          purbit pichle ReMove\n"
+
+#, c-format
+#~ msgid ""
+#~ " <--> Displaying part of the string that caused the error <-->\n"
+#~ "\n"
+#~ msgstr ""
+#~ " <---> galati ke karan bana string <--->\n"
+#~ "\n"
+
+#, c-format
+#~ msgid "%s freed"
+#~ msgid_plural "%s freed"
+#~ msgstr[0] "%s mukht kiya gaya"
+#~ msgstr[1] "%s mukht kiye gaya"
 
 #~ msgid "-r / --recurse: not implemented\n"
 #~ msgstr "-r / --recurse: nahi kiya gaya\n"
