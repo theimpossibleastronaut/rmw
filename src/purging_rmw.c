@@ -313,9 +313,7 @@ purge (st_config * st_config_data,
       if (isdotdir (st_trashinfo_dir_entry->d_name))
         continue;
 
-      int req_len =
-        multi_strlen (waste_curr->info, st_trashinfo_dir_entry->d_name,
-                      NULL) + 1;
+      int req_len = strlen (st_trashinfo_dir_entry->d_name) + waste_curr->len_info + 1;
       bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       char trashinfo_entry_realpath[req_len];
       sprintf (trashinfo_entry_realpath, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
@@ -346,7 +344,7 @@ purge (st_config * st_config_data,
         char temp[strlen (st_trashinfo_dir_entry->d_name) + 1];
         strcpy (temp, st_trashinfo_dir_entry->d_name);
         truncate_str (temp, len_trashinfo_ext);    /* acquire the (basename - trashinfo extension) */
-        req_len = multi_strlen (waste_curr->files, temp, NULL) + 1;
+        req_len = strlen (temp) + waste_curr->len_files + 1;
         bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
         sprintf (corresponding_file_to_purge, "%s%s", waste_curr->files, temp);
 
@@ -540,9 +538,7 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
       st_file_properties.base_name = basename (entry->d_name);
 
-      int req_len =
-        multi_strlen (waste_curr->info, st_file_properties.base_name,
-                      trashinfo_ext, NULL) + 1;
+      int req_len = strlen (st_file_properties.base_name) + waste_curr->len_info + len_trashinfo_ext + 1;
       bufchk_len (req_len, sizeof path_to_trashinfo, __func__, __LINE__);
       sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info,
                 st_file_properties.base_name, trashinfo_ext);

@@ -94,7 +94,7 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     char *src_basename = basename (src_copy);
 
     char src_tinfo[LEN_MAX_PATH];
-    int req_len = multi_strlen (waste_parent, "/info/", src_basename, trashinfo_ext, NULL) + 1;
+    int req_len = multi_strlen (waste_parent, "/info/", src_basename, NULL) + len_trashinfo_ext + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     sprintf (src_tinfo, "%s%s%s%s", waste_parent, "/info/",
              src_basename, trashinfo_ext);
@@ -238,7 +238,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
       if (isdotdir (entry->d_name))
         continue;
 
-      int req_len = multi_strlen (waste_curr->files, entry->d_name, NULL) + 1;
+      int req_len = strlen (entry->d_name) + waste_curr->len_files + 1;
       char full_path[req_len];
       sprintf (full_path, "%s%s", waste_curr->files, entry->d_name);
       bufchk_len (strlen (full_path) + 1, LEN_MAX_PATH, __func__, __LINE__);

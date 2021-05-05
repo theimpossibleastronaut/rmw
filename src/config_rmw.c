@@ -325,6 +325,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   /* and the files... */
   int req_len = multi_strlen (waste_curr->parent, "/files/", NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  waste_curr->len_files = req_len - 1;
   waste_curr->files = malloc (req_len);
   chk_malloc (waste_curr->files, __func__, __LINE__);
   sprintf (waste_curr->files, "%s%s", waste_curr->parent, "/files/");
@@ -347,6 +348,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
    *
    */
   req_len = multi_strlen (waste_curr->parent, "/info/", NULL) + 1;
+  waste_curr->len_info = req_len - 1;
   waste_curr->info = malloc (req_len);
   chk_malloc (waste_curr->info, __func__, __LINE__);
   sprintf (waste_curr->info, "%s%s", waste_curr->parent, "/info/");

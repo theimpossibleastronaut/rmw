@@ -422,7 +422,7 @@ remove_to_waste (
     {
       if (waste_curr->dev_num == st_main_argv_statistics.st_dev)
       {
-        int req_len = multi_strlen (waste_curr->files, st_file_properties.base_name, NULL) + 1;
+        int req_len = strlen (st_file_properties.base_name) + waste_curr->len_files + 1;
         bufchk_len (req_len, sizeof st_file_properties.waste_dest_name, __func__, __LINE__);
         sprintf (st_file_properties.waste_dest_name, "%s%s",
                   waste_curr->files, st_file_properties.base_name);

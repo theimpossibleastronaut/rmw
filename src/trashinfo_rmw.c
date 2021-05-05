@@ -38,15 +38,7 @@ const char *deletion_date_key = "DeletionDate";
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
 {
-  /*
-   * there already should have been buffer checking on these 2 when they were
-   * initialized
-   */
-  int req_len = multi_strlen (waste_curr->info, st_f_props->base_name, NULL) + len_trashinfo_ext + LEN_TIME_STR_SUFFIX + 1;
-
-  /*
-   * Make sure there's enough room in file_info_dest
-   */
+  int req_len = strlen (st_f_props->base_name) + waste_curr->len_info + len_trashinfo_ext + LEN_TIME_STR_SUFFIX + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   char final_info_dest[req_len];
   sprintf (final_info_dest, "%s%s", waste_curr->info, st_f_props->base_name);
@@ -57,7 +49,7 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time
     strcat (final_info_dest, st_time_var->suffix_added_dup_exists);
   }
 
-  req_len = multi_strlen (final_info_dest, trashinfo_ext, NULL) + 1;
+  req_len = strlen (final_info_dest) + len_trashinfo_ext + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   strcat (final_info_dest, trashinfo_ext);
 
