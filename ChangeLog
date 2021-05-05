@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2021-05-05
+
+  * bugfix: filenames now display correctly when using '-vvg' (#308)
+
 2021-04-29
 
   * rmw v0.7.08 released

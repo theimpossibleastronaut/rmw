@@ -53,7 +53,7 @@ echo
 echo " == rmw -e command should completely purge the waste folders,"
 echo " == no matter when they were deleted"
 
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles || exit $?
+$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles/* || exit $?
 
 set +x
 echo $SEPARATOR
@@ -82,6 +82,18 @@ test -z $(ls -A $PRIMARY_WASTE_DIR/files)
 test_result_want_fail $?
 test -z $(ls -A $PRIMARY_WASTE_DIR/info)
 test_result_want_fail $?
+
+echo $SEPARATOR
+echo " == Make sure the correct string (filename) is displayed when using -vvg"
+substring="'read_only_file' will be purged in 90."
+output=$($RMW_TEST_CMD_STRING -vvg) || exit $?
+test "${output#*$substring}" != "$output" || exit $?
+
+substring="'topdir' will be purged in 90."
+output=$($RMW_TEST_CMD_STRING -vvg) || exit $?
+test "${output#*$substring}" != "$output" || exit $?
+
+echo $SEPARATOR
 
 echo " == Empty works with force empty (-ffe)"
 echo "y" | $RMW_TEST_CMD_STRING -ffe || exit $?
