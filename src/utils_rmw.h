@@ -31,7 +31,7 @@
 
 #include "trashinfo_rmw.h"
 
-#define LEN_MAX_HUMAN_READABLE_SIZE 20
+#define LEN_MAX_HUMAN_READABLE_SIZE 23
 
 char
 *rmw_dirname (char *path);
