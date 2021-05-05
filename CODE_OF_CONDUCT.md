@@ -59,7 +59,7 @@ GitHub](https://help.github.com/en/articles/reporting-abuse-or-spam).
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor
+This Code of Conduct is a heavily modified version of the [Contributor
 Covenant][homepage], version 1.4, available at
 [http://contributor-covenant.org/version/1/4][version]
 
