@@ -334,140 +334,142 @@ purge (st_config * st_config_data,
       if (!cli_user_options->want_empty_trash && !then)
         continue;
 
-      char temp[strlen (st_trashinfo_dir_entry->d_name) + 1];
-      strcpy (temp, st_trashinfo_dir_entry->d_name);
-      truncate_str (temp, len_trashinfo_ext);    /* acquire the (basename - trashinfo extension) */
-      req_len = waste_curr->len_files + strlen (temp) + 1;
-      bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-      char purge_target[req_len];
-      sprintf (purge_target, "%s%s", waste_curr->files, temp);
-      char pt_tmp[sizeof purge_target];
-      strcpy (pt_tmp, purge_target);
-      char *pt_basename = basename (pt_tmp);
-
       double days_remaining =
         ((double) then + (SECONDS_IN_A_DAY * st_config_data->purge_after) -
          st_time_var->now) / SECONDS_IN_A_DAY;
-      if (days_remaining <= 0 || cli_user_options->want_empty_trash)
+
+      bool do_file_purge = days_remaining <= 0 || cli_user_options->want_empty_trash;
+      if (do_file_purge || verbose >= 2)
       {
-        // If the corresponding file wasn't found, either display an error and exit, or remove the
-        // (probably) orphaned trashinfo file.
-        struct stat st;
-        if (lstat (purge_target, &st))
+        char temp[strlen (st_trashinfo_dir_entry->d_name) + 1];
+        strcpy (temp, st_trashinfo_dir_entry->d_name);
+        truncate_str (temp, len_trashinfo_ext);    /* acquire the (basename - trashinfo extension) */
+        req_len = waste_curr->len_files + strlen (temp) + 1;
+        bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+        char purge_target[req_len];
+        sprintf (purge_target, "%s%s", waste_curr->files, temp);
+        char pt_tmp[sizeof purge_target];
+        strcpy (pt_tmp, purge_target);
+        char *pt_basename = basename (pt_tmp);
+
+        if (do_file_purge)
         {
-          if (cli_user_options->want_orphan_chk
-              && cli_user_options->force >= 2)
+          // If the corresponding file wasn't found, either display an error and exit, or remove the
+          // (probably) orphaned trashinfo file.
+          struct stat st;
+          if (lstat (purge_target, &st))
           {
-            int res = 0;
-            if (cli_user_options->want_dry_run == false)
+            if (cli_user_options->want_orphan_chk
+                && cli_user_options->force >= 2)
             {
-              res = remove (trashinfo_entry_realpath);
-              if (res != 0)
-                msg_err_remove (trashinfo_entry_realpath, __func__);
+              int res = 0;
+              if (cli_user_options->want_dry_run == false)
+              {
+                res = remove (trashinfo_entry_realpath);
+                if (res != 0)
+                  msg_err_remove (trashinfo_entry_realpath, __func__);
+              }
+              if (res == 0)
+                printf ("removed '%s'\n", trashinfo_entry_realpath);
+              (*orphan_ctr)++;
+              continue;
             }
-            if (res == 0)
-              printf ("removed '%s'\n", trashinfo_entry_realpath);
-            (*orphan_ctr)++;
-            continue;
-          }
-          else
-          {
-            printf ("While processing %s:\n", trashinfo_entry_realpath);
-            puts ("You can remove the trashinfo file with '-offg'");
-            // Will exit after error
-            msg_err_lstat (purge_target, __func__, __LINE__);
-          }
-        }
-
-        if (S_ISDIR (st.st_mode))
-        {
-          if (cli_user_options->want_dry_run == false)
-            status =
-              rmdir_recursive (purge_target, 1,
-                               cli_user_options->force);
-          else
-          {
-            /* Not much choice but to
-             * assume there would not be an error if the attempt were actually made */
-            status = 0;
+            else
+            {
+              printf ("While processing %s:\n", trashinfo_entry_realpath);
+              puts ("You can remove the trashinfo file with '-offg'");
+              // Will exit after error
+              msg_err_lstat (purge_target, __func__, __LINE__);
+            }
           }
 
-          switch (status)
+          if (S_ISDIR (st.st_mode))
           {
-          case EACCES:
-            print_msg_warn ();
-            printf (_("Directory not purged - still contains files\n"));
-            printf ("%s\n", purge_target);
-            printf (_("(check owner/write permissions)\n"));
-            dirs_containing_files_ctr++;
-            break;
-
-          case RMDIR_MAX_DEPTH:
-            print_msg_warn ();
-            /* TRANSLATORS:  "depth" refers to the recursion depth in a
-             * directory   */
-            printf (_("Maximum depth of %u reached, skipping\n"),
-                    RMDIR_MAX_DEPTH);
-            printf ("%s\n", purge_target);
-            max_depth_reached_ctr++;
-            break;
-
-          case 0:
             if (cli_user_options->want_dry_run == false)
-              status = rmdir (purge_target);
+              status =
+                rmdir_recursive (purge_target, 1,
+                                 cli_user_options->force);
+            else
+            {
+              /* Not much choice but to
+               * assume there would not be an error if the attempt were actually made */
+              status = 0;
+            }
+
+            switch (status)
+            {
+            case EACCES:
+              print_msg_warn ();
+              printf (_("Directory not purged - still contains files\n"));
+              printf ("%s\n", purge_target);
+              printf (_("(check owner/write permissions)\n"));
+              dirs_containing_files_ctr++;
+              break;
+
+            case RMDIR_MAX_DEPTH:
+              print_msg_warn ();
+              /* TRANSLATORS:  "depth" refers to the recursion depth in a
+               * directory   */
+              printf (_("Maximum depth of %u reached, skipping\n"),
+                      RMDIR_MAX_DEPTH);
+              printf ("%s\n", purge_target);
+              max_depth_reached_ctr++;
+              break;
+
+            case 0:
+              if (cli_user_options->want_dry_run == false)
+                status = rmdir (purge_target);
+              else
+                status = 0;
+
+              if (status == 0)
+              {
+                deleted_dirs_ctr++;
+                bytes_freed += st.st_size;
+              }
+              else
+                msg_err_remove (purge_target, __func__);
+              break;
+
+            default:
+              msg_err_remove (purge_target, __func__);
+              break;
+            }
+
+          }
+          else
+          {
+            if (cli_user_options->want_dry_run == false)
+              status = remove (purge_target);
             else
               status = 0;
-
             if (status == 0)
             {
-              deleted_dirs_ctr++;
+              deleted_files_ctr++;
               bytes_freed += st.st_size;
             }
             else
               msg_err_remove (purge_target, __func__);
-            break;
-
-          default:
-            msg_err_remove (purge_target, __func__);
-            break;
           }
 
-        }
-        else
-        {
-          if (cli_user_options->want_dry_run == false)
-            status = remove (purge_target);
-          else
-            status = 0;
           if (status == 0)
           {
-            deleted_files_ctr++;
-            bytes_freed += st.st_size;
-          }
-          else
-            msg_err_remove (purge_target, __func__);
-        }
+            if (cli_user_options->want_dry_run == false)
+              status = remove (trashinfo_entry_realpath);
+            else
+              status = 0;
 
-        if (status == 0)
-        {
-          if (cli_user_options->want_dry_run == false)
-            status = remove (trashinfo_entry_realpath);
-          else
-            status = 0;
-
-          if (!status)
-          {
-            purge_ctr++;
-            if (verbose)
-              printf ("-%s\n", pt_basename);
+            if (!status)
+            {
+              purge_ctr++;
+              if (verbose)
+                printf ("-%s\n", pt_basename);
+            }
+            else
+              msg_err_remove (purge_target, __func__);
           }
-          else
-            msg_err_remove (purge_target, __func__);
         }
-      }
-      else
-      {
-        if (verbose >= 2)
+        else if (verbose >= 2)
         {
           printf (_("'%s' will be purged in %.2lf days\n"),
                   pt_basename, days_remaining);

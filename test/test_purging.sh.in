@@ -90,7 +90,6 @@ output=$($RMW_TEST_CMD_STRING -vvg) || exit $?
 test "${output#*$substring}" != "$output" || exit $?
 
 substring="'topdir' will be purged in 90."
-output=$($RMW_TEST_CMD_STRING -vvg) || exit $?
 test "${output#*$substring}" != "$output" || exit $?
 
 echo $SEPARATOR
