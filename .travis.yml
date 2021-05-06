@@ -3,7 +3,8 @@ cache: ccache
 matrix:
 # gcc
   include:
-    - os: linux
+    - name: "gcc 5"
+      os: linux
       dist: xenial
       compiler: gcc # defaults to version 5 on xenial
       addons:
@@ -35,9 +36,10 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
         - USE_VALGRIND=true
-    - os: linux
+    - name: "gcc 7"
+      os: linux
       dist: bionic
-      compiler: gcc # defaults to version 7 on bionic
+      compiler: gcc
     - os: linux
       dist: bionic
       compiler: gcc
@@ -82,7 +84,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-11 && CXX=g++-11"
         - CONFIGURE_OPTS="--enable-release"
-    - os: linux
+    - name: "gcc 9"
+      os: linux
       dist: focal
       compiler: gcc
 
@@ -109,11 +112,9 @@ matrix:
       env:
         - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
         - CONFIGURE_OPTS="--enable-release"
-    - os: linux
+    - name: "clang 7"
+      os: linux
       dist: xenial
-      compiler: clang
-    - os: linux
-      dist: focal
       compiler: clang
 
     - os: osx
