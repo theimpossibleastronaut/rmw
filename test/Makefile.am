@@ -1,7 +1,5 @@
 AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -DTEST_LIB -DHOME_TEST_DIR=\"$(HOME_TEST_DIR)\"
 
-include @top_srcdir@/Makefile.include
-
 check_PROGRAMS = \
 	test_strings	\
 	test_config_test \
@@ -28,11 +26,6 @@ test_scripts =	\
 	test_buffer_overrun.sh
 
 TESTS=$(check_PROGRAMS) $(test_scripts)
-
-# static library used by 'make check'
-check_LIBRARIES = librmw_test.a
-librmw_test_a_SOURCES = $(__top_builddir__rmw_SOURCES)
-librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB
 
 LDADD = @LIBINTL@ $(top_builddir)/src/librmw_test.a @MENU_LIBS@ @CURSES_LIBS@
 
