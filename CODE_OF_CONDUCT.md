@@ -11,8 +11,8 @@ project and our community a harassment-free experience for everyone.
 Examples of behavior that contributes to creating a positive environment include:
 
 * Not being disrespectful of differing viewpoints and experiences
-(i.e., keep your mouth shut if you can only think of something negative
-and useless to say).
+(i.e., keep opinions to yourself if you can't discuss in an open and
+friendly way).
 
 * Accept or ignore constructive criticism. The choice is yours. But
 don't attack someone who has given you a respectful opinion of your
@@ -21,7 +21,7 @@ code or doc changes.
 Examples of unacceptable behavior by participants include:
 
 * The use of sexualized language or imagery and unwelcome sexual attention or advances
-* Trolling, insulting/derogatory comments, and personal, political, or religious attacks
+* Trolling, insulting/derogatory comments and personal, political, or religious attacks
 * Public or private harassment
 * Publishing others' private information, such as a physical or electronic address, without explicit permission
 * Other conduct which could reasonably be considered inappropriate in a professional setting
