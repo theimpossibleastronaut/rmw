@@ -12,9 +12,9 @@ cp README.md packaging/Slackbuild/rmw/README.Slackware
 
 run autoreconf
 
-Setup build
-  mkdir build
-  cd build
+Setup build (if not already done)
+  mkdir _build
+  cd _build
   ../configure
 
 update po and pot files
