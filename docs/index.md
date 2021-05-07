@@ -18,9 +18,12 @@ GPLv3 License](https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING
 <span class="fas fa-clipboard-list
 fa-fw"></span>&nbsp;[Authors/Credits](https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md)
 
-
 Build instructions and a detailed list of features and usage are
 documented in the [README](https://github.com/theimpossibleastronaut/rmw/blob/master/README.md).
+
+<a href="https://repology.org/project/rmw/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/rmw.svg" alt="Packaging status" align="right">
+</a>
 
 ## How To:
 <ul class="w3-ul">

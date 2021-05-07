@@ -19,6 +19,14 @@ Web site: <https://remove-to-waste.info/>
 * [![CodeQL](https://github.com/theimpossibleastronaut/rmw/workflows/CodeQL/badge.svg)](https://github.com/theimpossibleastronaut/rmw/actions?query=workflow%3ACodeQL)
 * [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
 
+## Available packages
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/rmw.svg)](https://repology.org/project/rmw/versions)
+
+Maintainer created Debian packages (amd_64) are available in the
+[releases
+section](https://github.com/theimpossibleastronaut/rmw/releases).
+
 ## Screenshots
 
 ![rmw usage output](https://remove-to-waste.info/images/Screenshot_2020-04-11.png)
