@@ -153,7 +153,8 @@ diagnose_leading_hyphen (const int argc, char *const argv[])
 {
   /* OPTIND is unreliable, so iterate through the arguments looking
      for a file name that looks like an option.  */
-  for (int i = 1; i < argc; i++)
+  int i;
+  for (i = 1; i < argc; i++)
   {
     char const *arg = argv[i];
     struct stat st;
@@ -240,7 +241,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       /* Ignore if used twice, but parse it if --purge was given no argument the first time */
       if (options->want_purge > 0)
         break;
-        
+
       if (optarg == NULL)
       {
         options->want_purge = -1;
