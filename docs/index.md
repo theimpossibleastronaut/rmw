@@ -43,7 +43,7 @@ documented in the [README](https://github.com/theimpossibleastronaut/rmw/blob/ma
 
 <h2 id="support">Press and Reviews</h2>
 <ul>
-  <li>rmw was reviewed on page 90 of <a href="https://shop.heise.de/katalog/ct-25-2019">c't 25/2019</a></li>
+  <li>rmw was reviewed on page 90 of <a href="https://shop.heise.de/ct-25-2019/PDF">c't 25/2019</a> (German tech magazine)</li>
   <li><a href="https://linuxreviews.org/Rmw">rmw on LinuxReviews</a></li>
 </ul>
 
