@@ -7,6 +7,36 @@ rmw - remove files, safely
 \fBrmw\fR is a safe-delete utility that sends files to your "Desktop"
 trash (or a completely separate folder). It can also restore files and permanently
 delete files that were rmw'ed more than a certain (configurable) number of days ago.
+
+.SH BASIC USAGE
+.BR '\fBrmw\ <file(s)>\fR'
+
+Items (file or directories) will be moved to a wastebasket in the same
+manner as when using the "move to trash" option from your desktop GUI.
+They will be separated from your desktop trash by default; or if you
+wish for them to share the same "trash" folder, uncomment the line (in
+your config file):
+
+    WASTE = $HOME/.local/share/Trash/
+
+then comment out the line
+
+    WASTE = $HOME/.local/share/Waste
+
+You can reverse which folders are enabled at any time if you ever
+change your mind. If both folders are on the same filesystem, rmw will
+place files in the first one listed.
+
+It can be beneficial to have them both uncommented. If your desktop
+trash folder is uncommented, rmw won't place newly rmw'ed files there,
+but it will purge files that were trashed (or wasted) after the amount
+of days specified by the 'purge_after' value in your config file.
+
+When rmw'ing a file or folder, if it already exists in the waste (or
+trash) folder, it will not be overwritten; instead, the current file
+being rmw'ed will have a time/date string (formatted as
+"_%H%M%S-%y%m%d") appended to it (e.g. \'foo_164353-210508\').
+
 .SH RESTORING FILES
 There are different ways to restore a file, or multiple files.
 
@@ -17,6 +47,12 @@ Use the -u option to restore the file(s) that were last removed by rmw.
 Use the \fB\-z\fR (or \fB\-\-restore\fR) option
 and specify the path to them in in the \fI<WASTE>/files\fR folder (wildcards ok).
 e.g. '\fBrmw \-z ~/.local/share/Waste/files/foo*\fR'.
+
+If a file or directory already exist at the same location and with the
+same name, the item being restored will have a time/date string
+(formatted as "_%H%M%S-%y%m%d") appended to it (e.g.
+\'foo_164353-210508\').
+
 .SH PURGING
 If purging is 'on', \fBrmw\fR will permanently delete files from the folders
 specified in the configuration file after 'x' number of days.

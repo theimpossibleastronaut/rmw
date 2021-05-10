@@ -161,6 +161,36 @@ Restore FILE(s) from a WASTE directory
 -u, --undo-last           undo last ReMove
 -m, --most-recent-list    list most recently rmw'ed files
 
+== Basic usage
+
+'rmw <file(s)>'
+
+Items (file or directories) will be moved to a wastebasket in the same
+manner as when using the "move to trash" option from your desktop GUI.
+They will be separated from your desktop trash by default; or if you
+wish for them to share the same "trash" folder, uncomment the line (in
+your config file):
+
+    "WASTE = $HOME/.local/share/Trash/"
+
+then comment out the line
+
+    "WASTE = $HOME/.local/share/Waste"
+
+You can reverse which folders are enabled at any time if you ever
+change your mind. If both folders are on the same filesystem, rmw will
+place files in the first one listed.
+
+It can be beneficial to have them both uncommented. If your desktop
+trash folder is uncommented, rmw won't place newly rmw'ed files there,
+but it will purge files that were trashed (or wasted) after the amount
+of days specified by the 'purge_after' value in your config file.
+
+When rmw'ing a file or folder, if it already exists in the waste (or
+trash) folder, it will not be overwritten; instead, the current file
+being rmw'ed will have a time/date string (formatted as
+"_%H%M%S-%y%m%d") appended to it (e.g. 'foo_164353-210508').
+
 == Purging ==
 
 If purging is enabled, rmw will permanently delete files from the
@@ -191,6 +221,11 @@ $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
 To restore a file, or multiple files, specify the path to them in the
 <WASTE>/files folder (wildcards ok).
 e.g. 'rmw -z ~/.local/share/Waste/files/foo*'
+
+If a file or directory already exist at the same location and with the
+same name, the item being restored will have a time/date string
+(formatted as "_%H%M%S-%y%m%d") appended to it (e.g.
+'foo_164353-210508').
 
 == -f, --force ==
 
