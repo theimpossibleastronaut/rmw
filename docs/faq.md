@@ -19,7 +19,9 @@ possible.
 
 I don't recommend it. Many other utilities use rm in the background and
 you'd wind up with a very full trash can. Also, rmw doesn't have the
-same command line option as rm.
+same command line option as rm (see also: an <a
+href="https://github.com/theimpossibleastronaut/rmw/discussions/305">extended
+discussion</a>)
 
 **How do I know if rmw is compatible with my Desktop trash?**
 
