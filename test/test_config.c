@@ -88,7 +88,7 @@ main (void)
   chk_malloc (config_line, __func__, __LINE__);
 
   strcpy (config_line, "$HOME/.local/share/Waste/");
-  realize_waste_line (config_line);
+  realize_config_vars (config_line);
   printf ("%s\n", config_line);
   char expected[LEN_MAX_PATH];
   snprintf (expected, LEN_MAX_PATH, "%s/.local/share/Waste", HOMEDIR);
@@ -96,7 +96,7 @@ main (void)
 
   strcpy (config_line, "~/.local/share/Waste/");
   printf ("%s\n", config_line);
-  realize_waste_line (config_line);
+  realize_config_vars (config_line);
   assert (!strcmp (config_line, expected));
 
   // test_del_char_shift_left();

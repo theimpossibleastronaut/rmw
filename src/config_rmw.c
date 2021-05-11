@@ -165,7 +165,7 @@ char
 static
 #endif
 void
-realize_waste_line (char *str)
+realize_config_vars (char *str)
 {
   trim_char ('/', str);
   /*
@@ -288,7 +288,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   bufchk_len (strlen (raw_line) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
   strcpy (tmp_waste_parent_folder, raw_line);
-  realize_waste_line (tmp_waste_parent_folder);
+  realize_config_vars (tmp_waste_parent_folder);
 
   bool is_attached = exists (tmp_waste_parent_folder);
   if (removable && !is_attached)
@@ -559,6 +559,29 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
         printf ("The PROTECT feature has been removed.\n");
       pctr = 1;
     }
+    else if (!strncmp ("logfile", line_ptr, 7))
+    {
+      char *ptr = line_ptr;
+      ptr = strchr (line_ptr, '=');
+      ptr++;
+      if (ptr != NULL)
+      {
+        ptr = del_char_shift_left (' ', ptr);
+        char tmp[LEN_MAX_PATH];
+        strcpy (tmp, ptr);
+        realize_config_vars (tmp);
+        int req_len = strlen (tmp) + 1;
+        bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+        st_config_data->logfile = malloc (req_len);
+        chk_malloc (st_config_data, __func__, __LINE__);
+        strcpy (st_config_data->logfile, tmp);
+      }
+      else
+      {
+          print_msg_warn();
+          puts ("configuration: 'logfile' line must include an '=' sign.");
+      }
+    }
     else if (!strcmp ("force_not_required", line_ptr))
       printf ("The 'force_not_required' option has been replaced with 'force_required'.\n");
     else
@@ -622,6 +645,9 @@ init_config_data (st_config *x)
     x->fake_media_root = false;
   if (verbose)
     printf ("RMW_FAKE_MEDIA_ROOT:%s\n", x->fake_media_root == false ? "false" : "true");
+
+  x->logfile = NULL;
+  x->log_date = NULL;
 }
 
 void

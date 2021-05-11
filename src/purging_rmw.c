@@ -283,6 +283,18 @@ purge (st_config * st_config_data,
             ("Purging files based on number of days in the waste folders (%u) ...\n"),
             st_config_data->purge_after);
 
+  FILE *fp = NULL;
+  if (st_config_data->logfile != NULL)
+  {
+    fp = fopen (st_config_data->logfile, "a");
+    {
+      if (fp == NULL)
+      {
+        open_err (st_config_data->logfile, __func__);
+      }
+    }
+  }
+
   unsigned int purge_ctr = 0;
   unsigned int dirs_containing_files_ctr = 0;
   unsigned int max_depth_reached_ctr = 0;
@@ -463,7 +475,13 @@ purge (st_config * st_config_data,
             {
               purge_ctr++;
               if (verbose)
+              {
                 printf ("-%s\n", pt_basename);
+                if (fp != NULL)
+                {
+                  fprintf (fp, "-%s\n", pt_basename);
+                }
+              }
             }
             else
               msg_err_remove (purge_target, __func__);
@@ -482,6 +500,9 @@ purge (st_config * st_config_data,
 
     waste_curr = waste_curr->next_node;
   }
+
+  if (fp != NULL)
+    close_file (fp, st_config_data->logfile, __func__);
 
   if (max_depth_reached_ctr)
     printf (_("%d directories skipped (RMDIR_MAX_DEPTH reached)\n"),

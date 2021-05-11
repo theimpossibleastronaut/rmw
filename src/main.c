@@ -202,6 +202,25 @@ Please check your configuration file and permissions\
   st_time st_time_var;
   init_time_vars (&st_time_var);
 
+  /* Logging (#297) is an undocumented feature because it's not completed yet
+   * and there are not tests for it.
+   *
+   * Also... it might be a feature that never gets completed and is completely removed
+   */
+  if (st_config_data.logfile != NULL)
+  {
+    st_config_data.log_date = st_time_var.deletion_date;
+    FILE *fp = fopen (st_config_data.logfile, "a");
+    if (fp != NULL)
+    {
+      fprintf (fp, "\n---%s\n\n", st_config_data.log_date);
+      close_file (fp, st_config_data.log_date, __func__);
+    }
+    else
+      open_err (st_config_data.logfile, __func__);
+  }
+
+
   int orphan_ctr = 0;
   if (cli_user_options.want_purge || is_time_to_purge(&st_time_var, data_dir))
   {
@@ -214,6 +233,9 @@ Please check your configuration file and permissions\
   if (cli_user_options.want_orphan_chk)
   {
     orphan_maint(st_config_data.st_waste_folder_props_head, &st_time_var, &orphan_ctr);
+    dispose_waste (st_config_data.st_waste_folder_props_head);
+    if (st_config_data.logfile != NULL)
+      free (st_config_data.logfile);
     return 0;
   }
 
@@ -221,6 +243,8 @@ Please check your configuration file and permissions\
   {
     int result = restore_select (st_config_data.st_waste_folder_props_head, &st_time_var, &cli_user_options);
     dispose_waste (st_config_data.st_waste_folder_props_head);
+    if (st_config_data.logfile != NULL)
+      free (st_config_data.logfile);
     return result;
   }
 
@@ -244,6 +268,8 @@ Please check your configuration file and permissions\
         st_config_data.st_waste_folder_props_head));
 
     dispose_waste (st_config_data.st_waste_folder_props_head);
+    if (st_config_data.logfile != NULL)
+      free (st_config_data.logfile);
 
     return restore_errors;
   }
@@ -260,6 +286,9 @@ Please check your configuration file and permissions\
 
     if (result > 1)
     {
+      if (st_config_data.logfile != NULL)
+        free (st_config_data.logfile);
+      dispose_waste (st_config_data.st_waste_folder_props_head);
       /* Don't need to print any messages here. Any warnings or errors
        * should have been sent to stdout when they happened */
       return result;
@@ -273,6 +302,8 @@ Please check your configuration file and permissions\
 Enter '%s -h' for more information\n"), argv[0]);
   }
 
+  if (st_config_data.logfile != NULL)
+    free (st_config_data.logfile);
   dispose_waste (st_config_data.st_waste_folder_props_head);
 
   return 0;
