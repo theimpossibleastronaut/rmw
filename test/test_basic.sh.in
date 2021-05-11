@@ -32,15 +32,19 @@ mkdir $RMWTEST_HOME/tmp-files && cd $RMWTEST_HOME/tmp-files || exit $?
 echo "\n\n == creating temporary files to be deleted"
 set -x
 for file in 1 2 3; do
-  touch $file
+  touch $file || exit $?
 done
 cd $RMWTEST_HOME/.. || exit $?
 
 echo "\n\n == rmw should be able to operate on multiple files\n"
 $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* || exit $?
 
-test -n "$(ls -A $PRIMARY_WASTE_DIR/files)" || exit $?
-test -n "$(ls -A $PRIMARY_WASTE_DIR/info)" || exit $?
+test -f "${PRIMARY_WASTE_DIR}/files/1" || exit $?
+test -f "${PRIMARY_WASTE_DIR}/files/2" || exit $?
+test -f "${PRIMARY_WASTE_DIR}/files/3" || exit $?
+test -f "${PRIMARY_WASTE_DIR}/info/1.trashinfo" || exit $?
+test -f "${PRIMARY_WASTE_DIR}/info/2.trashinfo" || exit $?
+test -f "${PRIMARY_WASTE_DIR}/info/3.trashinfo" || exit $?
 
 echo $SEPARATOR
 echo "rmw should append a time_string to duplicate files..."
@@ -62,7 +66,7 @@ test "$output" = "6" || exit $?
 echo $SEPARATOR
 echo "  == rmw should refuse to move a waste folder or a file that resides within a waste folder"
 output="$($RMW_TEST_CMD_STRING $PRIMARY_WASTE_DIR/info)"
-test "$output" = " :warning: $PRIMARY_WASTE_DIR/info resides within a waste folder and has been ignored
+test "${output}" = " :warning: $PRIMARY_WASTE_DIR/info resides within a waste folder and has been ignored
 0 items were removed to the waste folder" || exit $?
 
 # If the file gets removed (which it shouldn't), then the test that follows it will fail
@@ -74,7 +78,13 @@ cat $PRIMARY_WASTE_DIR/info/1.trashinfo || exit $?
 
 echo $SEPARATOR
 echo "  == Test -m option"
-$RMW_TEST_CMD_STRING --verbose -m || exit $?
+output=$($RMW_TEST_CMD_STRING --verbose -m) || exit $?
+substring=".Waste/files/1_"
+test "${output}#*${substring}" != "${output}" || exit $?
+substring=".Waste/files/2_"
+test "${output}#*${substring}" != "${output}" || exit $?
+substring=".Waste/files/3_"
+test "${output}#*${substring}" != "${output}" || exit $?
 
 echo $SEPARATOR
 echo "  == test undo/restore feature"
@@ -95,14 +105,9 @@ test -f $RMWTEST_HOME/tmp-files/3 || exit $?
 echo "\n\n == test that the .trashinfo files have been removed"
 
 set -x
-test -f $PRIMARY_WASTE_DIR/info/1.trashinfo
-test_result_want_fail $?
-
-test -f $PRIMARY_WASTE_DIR/info/2.trashinfo
-test_result_want_fail $?
-
-test -f $PRIMARY_WASTE_DIR/info/3.trashinfo
-test_result_want_fail $?
+test ! -f $PRIMARY_WASTE_DIR/info/1.trashinfo || exit $?
+test ! -f $PRIMARY_WASTE_DIR/info/2.trashinfo || exit $?
+test ! -f $PRIMARY_WASTE_DIR/info/3.trashinfo || exit $?
 
 echo "Basic tests passed"
 exit 0

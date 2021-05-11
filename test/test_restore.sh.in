@@ -35,10 +35,10 @@ $RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/* || exit $?
 echo $SEPARATOR
 output=$($RMW_TEST_CMD_STRING -uvv | grep Waste) || exit $?
 echo $SEPARATOR
-test "$output" = "+'$RMWTEST_HOME/.Waste/files/read_only_file' -> '$RMWTEST_HOME/somefiles/read_only_file'
--$RMWTEST_HOME/.Waste/info/read_only_file.trashinfo
-+'$RMWTEST_HOME/.Waste/files/topdir' -> '$RMWTEST_HOME/somefiles/topdir'
--$RMWTEST_HOME/.Waste/info/topdir.trashinfo" || exit $?
+test "$output" = "+'${RMWTEST_HOME}/.Waste/files/read_only_file' -> '${RMWTEST_HOME}/somefiles/read_only_file'
+-${RMWTEST_HOME}/.Waste/info/read_only_file.trashinfo
++'${RMWTEST_HOME}/.Waste/files/topdir' -> '${RMWTEST_HOME}/somefiles/topdir'
+-${RMWTEST_HOME}/.Waste/info/topdir.trashinfo" || exit $?
 
 echo $SEPARATOR
 echo "Show result when no undo file exists..."
@@ -50,8 +50,8 @@ echo "restore using wildcard pattern, but be in the trash directory"
 set -x
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/somefiles/topdir -v || exit $?
 cd $PRIMARY_WASTE_DIR/files
-output=$($RMW_TEST_CMD_STRING -z topd*) || exit $?
-test "$output" = "+'topdir' -> '$RMWTEST_HOME/somefiles/topdir'" || exit $?
+$RMW_TEST_CMD_STRING -z topd* || exit $?
+test -e "${RMWTEST_HOME}/somefiles/topdir" || exit $?
 
 echo $SEPARATOR
 echo "Try restoring a file that doesn't exist"
@@ -73,9 +73,10 @@ ln -s $RMWTEST_HOME $RMWTEST_HOME/link_test || exit $?
 # broken link
 ln -s broken_symlink_test $RMWTEST_HOME/link_test2 || exit $?
 $RMW_TEST_CMD_STRING $RMWTEST_HOME/link_test $RMWTEST_HOME/link_test2 || exit $?
-output=$($RMW_TEST_CMD_STRING -u) || exit $?
-test "$output" = "+'$RMWTEST_HOME/.Waste/files/link_test' -> '$RMWTEST_HOME/link_test'
-+'$RMWTEST_HOME/.Waste/files/link_test2' -> '$RMWTEST_HOME/link_test2'" || exit $?
+test -h "${PRIMARY_WASTE_DIR}/files/link_test" || exit $?
+
+${RMW_TEST_CMD_STRING} -u || exit $?
+test -h "${RMWTEST_HOME}/link_test2" || exit $?
 
 # change permissions back to writable so the dir gets removed before the
 # next test (done in COMMON)
