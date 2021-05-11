@@ -171,6 +171,10 @@ They will be separated from your desktop trash by default; or if you
 wish for them to share the same "trash" folder, uncomment the line (in
 your config file):
 
+(Note that this does not apply to MacOS; while rmw is yet unable to
+integrate with the desktop trash folder, you'll still be able to use
+the default Waste folder.)
+
     "WASTE = $HOME/.local/share/Trash/"
 
 then comment out the line

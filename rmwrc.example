@@ -11,7 +11,7 @@ WASTE = $HOME/.local/share/Waste
 # The line below. Files you move with rmw will go to the folder above by
 # default.
 #
-# Note to OSX and Windows users: sending files to 'Desktop' trash
+# Note to macOS and Windows users: sending files to 'Desktop' trash
 # doesn't work yet
 #
 # WASTE=$HOME/.local/share/Trash

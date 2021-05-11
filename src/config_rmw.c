@@ -60,7 +60,7 @@ print_config (FILE *stream)
 # The line below. Files you move with rmw will go to the folder above by\n\
 # default.\n\
 #\n\
-# Note to OSX and Windows users: sending files to 'Desktop' trash\n\
+# Note to macOS and Windows users: sending files to 'Desktop' trash\n\
 # doesn't work yet\n\
 #\n"), stream);
   fputs ("# WASTE=$HOME/.local/share/Trash\n", stream);
