@@ -474,13 +474,13 @@ purge (st_config * st_config_data,
             if (!status)
             {
               purge_ctr++;
+              if (fp != NULL)
+              {
+                fprintf (fp, "-%s\n", pt_basename);
+              }
               if (verbose)
               {
                 printf ("-%s\n", pt_basename);
-                if (fp != NULL)
-                {
-                  fprintf (fp, "-%s\n", pt_basename);
-                }
               }
             }
             else
