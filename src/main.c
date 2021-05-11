@@ -487,7 +487,7 @@ remove_to_waste (
     dispose_removed (confirmed_removals_list_head);
   }
 
-  printf (ngettext ("%d file was removed to the waste folder", "%d files were removed to the waste folder",
+  printf (ngettext ("%d item was removed to the waste folder", "%d items were removed to the waste folder",
           removed_files_ctr), removed_files_ctr);
   printf ("\n");
 

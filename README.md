@@ -5,10 +5,10 @@
 rmw (ReMove to Waste) is a safe-remove utility for the command line.
 Its goal is to conform to [the FreeDesktop.org Trash
 specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
-and therefore be compatible with KDE, GNOME, XFCE, and others. Desktop
+and therefore be compatible with KDE, GNOME, Xfce, and others. Desktop
 integration is optional however, and by default, rmw will only use a
 waste folder separated from your desktop trash. One of its unique
-features is the ability to purge files from your Waste/Trash
+features is the ability to purge items from your Waste/Trash
 directories after x number of days.
 
 Web site: <https://remove-to-waste.info/>
