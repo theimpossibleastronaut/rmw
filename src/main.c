@@ -69,7 +69,12 @@ get_mrl_contents (const char *mrl_file)
 
     char *contents = calloc (1, f_size + 1);
     chk_malloc (contents, __func__, __LINE__);
-    fread (contents, f_size + 1, 1, fd);
+    int n_items = fread (contents, 1, f_size + 1, fd);
+    if (n_items != f_size)
+    {
+      print_msg_warn ();
+      fprintf (stdout, "ftell() returned %d, but fread() returned %d", f_size, n_items);
+    }
     if (feof (fd) == 0)
     {
       print_msg_error ();
