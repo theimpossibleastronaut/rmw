@@ -53,29 +53,28 @@ same name, the item being restored will have a time/date string
 (formatted as "_%H%M%S-%y%m%d") appended to it (e.g.
 \'foo_164353-210508\').
 
-.SH PURGING
-If purging is 'on', \fBrmw\fR will permanently delete files from the folders
-specified in the configuration file after 'x' number of days.
-Purging can be disabled by using '\fBpurge_after = 0\fR' in configuration file.
-\fBrmw\fR will only check once per day if it's time to purge (use \fB\-g\fR to check more often).
-Add the line '\fBforce_required\fR' in your \fBrmw\fR configuration
-file to require \fB\-f\fR (\fB\-\-force\fR) to enable purge.
-
 .SH OPTIONS
 .TP
 \fB\-c \-\-config\fR \fIfilename\fR
-Use an alternate configuration file.
+Use an alternate configuration file
 .TP
 \fB\-f \-\-force\fR
-Allow rmw to purge files in the background.
+allow purging of expired files
 .TP
 \fB\-g[N_DAYS] \-\-purge[=N_DAYS]\fR
+
 If purging is enabled, rmw will permanently delete files from the
 folders specified in the configuration file after 'x' number of days.
 By default, purging is disabled ('purge_after' is set to '0' in the
 configuration file). To enable, use a value greater than '0' (Example:
-If '45' is specified, rmw will permanently delete files that have been
-in the waste (or trash) for more than 45 days.
+If '45' is specified, rmw will consider files to be expired after they
+have been in the waste folders for 45 days or more, and permanently
+deleted
+
+\fBrmw\fR will only check for expired files once every 24 hours (use
+\fB\-g\fR to check NOW). Add the line '\fBforce_required\fR' in your
+\fBrmw\fR configuration file to require \fB\-f\fR (\fB\-\-force\fR) to
+enable purge.
 
 The value of 'purge_after' can be temporarily overridden by using -g
 [N_DAYS] or --purge[=NDAYS] (Examples: -g90, --purge=90).

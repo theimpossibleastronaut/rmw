@@ -104,64 +104,9 @@ After rmw is installed, running `rmw` will create a configuration file
 (rmwrc) in $HOME/.config (or $XDG_CONFIG_HOME). Edit the file as
 desired.
 
-== Configuration File ==
-
-Documentation explaining the configuration can be found in your config
-file.
-
-Waste folders will be created automatically; e.g. if '$HOME/.local/share/Waste'
-is uncommented in the config file, these 3 directories will be created:
-$HOME/.local/share/Waste
-$HOME/.local/share/Waste/files
-$HOME/.local/share/Waste/info
-
-If one of the WASTE folders is on removable media, then the user has the
-option of appending ',removable'.
-
-If a folder has ',removable' appended to it, rmw will not try to create
-it; it must be initially created manually. If  the folder exists when
-rmw is run, it will be used; if not, it will be skipped. Once you
-create "example_waste", rmw will automatically create
-example_waste/info and example_waste/files
-
-    e.g.: WASTE=/mnt/sda10000/example_waste, removable
-
 == Features and Options ==
 
-Usage: rmw [OPTION]... FILE...
-ReMove the FILE(s) to a WASTE directory listed in configuration file
-
-   or: rmw -s
-   or: rmw -u
-   or: rmw -z FILE...
-Restore FILE(s) from a WASTE directory
-
--h, --help
--c, --config filename     use an alternate configuration
--l, --list                list waste directories
--g[N_DAYS], --purge[=N_DAYS]
-                          run purge even if it's been run today;
-                          optional argument 'N_DAYS' overrides 'purge_after'
-                          value from the configuration file
-                          (Examples: -g90, --purge=90)
--o, --orphaned            check for orphaned files (maintenance)
--f, --force               allow purge to run
--e, --empty               completely empty (purge) all waste folders
--r, -R, --recursive       option used for compatibility with rm
-                          (recursive operation is enabled by default)
--v, --verbose             increase output messages
--w, --warranty            display warranty
--V, --version             display version and license information
-
-
-    ===] Restoring [===
-
--z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)
--s, --select              select files from list to restore
--u, --undo-last           undo last ReMove
--m, --most-recent-list    list most recently rmw'ed files
-
-== Basic usage
+=== Basic usage ===
 
 'rmw <file(s)>'
 
@@ -175,11 +120,11 @@ your config file):
 integrate with the desktop trash folder, you'll still be able to use
 the default Waste folder.)
 
-    "WASTE = $HOME/.local/share/Trash/"
+    WASTE = $HOME/.local/share/Trash
 
 then comment out the line
 
-    "WASTE = $HOME/.local/share/Waste"
+    WASTE = $HOME/.local/share/Waste
 
 You can reverse which folders are enabled at any time if you ever
 change your mind. If both folders are on the same filesystem, rmw will
@@ -195,7 +140,15 @@ trash) folder, it will not be overwritten; instead, the current file
 being rmw'ed will have a time/date string (formatted as
 "_%H%M%S-%y%m%d") appended to it (e.g. 'foo_164353-210508').
 
-== Purging ==
+
+-h, --help
+-c, --config filename     use an alternate configuration
+-l, --list                list waste directories
+-g[N_DAYS], --purge[=N_DAYS]
+                          purge expired files;
+                          optional argument 'N_DAYS' overrides 'purge_after'
+                          value from the configuration file
+                          (Examples: -g90, --purge=90)
 
 If purging is enabled, rmw will permanently delete files from the
 folders specified in the configuration file after 'x' number of days.
@@ -210,31 +163,87 @@ The value of 'purge_after' can be temporarily overridden by using -g
 The time of the last automatic purge check is stored in `purge-time`,
 located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
 
-== -e, --empty ==
+You can use '-vvg' to see when the remaining files will expire.
 
-Completely empty (purge) all waste folders
 
-== -u, --undo ==
+-o, --orphaned            check for orphaned files (maintenance)
 
-Restores files that were last rmw'ed. No arguments for `-u` are
-necessary. The list of files that were last rmw'ed is stored in `mrl`, located in
-$HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
+This option is intended primarily for devlopers. Orphans should only
+happen while testing code changes, or if there's a bug released with
+rmw or another program that interfaces with your waste folders.
 
-== -z, --restore ==
+
+-f, --force               allow purging of expired files
+
+rmw will refuse to purge files or directories if they contain
+non-writable subdirectories. You can use -f 2 times if you ever see a
+message that tells you "permission denied; directory still contains
+files" (e.g. rwm -ffg).
+
+
+-e, --empty               completely empty (purge) all waste folders
+-r, -R, --recursive       option used for compatibility with rm
+                          (recursive operation is enabled by default)
+-v, --verbose             increase output messages
+-w, --warranty            display warranty
+-V, --version             display version and license information
+
+
+=== Restoring ===
+
+-z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)
 
 To restore a file, or multiple files, specify the path to them in the
 <WASTE>/files folder (wildcards ok).
-e.g. 'rmw -z ~/.local/share/Waste/files/foo*'
+
+    rmw -z ~/.local/share/Waste/files/foo*
 
 If a file or directory already exist at the same location and with the
 same name, the item being restored will have a time/date string
 (formatted as "_%H%M%S-%y%m%d") appended to it (e.g.
 'foo_164353-210508').
 
-== -f, --force ==
+-s, --select              select files from list to restore
 
-rmw will refuse to purge directories if they contain non-writable
-subdirectories. You can use -f 2 times if you ever see a message that tells
-you "permission denied; directory still contains files" (e.g. rwm -ffg).
+This will bring up an interactive list of files in your waste folders.
+You can use the left/right cursor keys to switch between one waste
+folder and another. You can select multiple files to restore at once,
+then press enter to restore them.
+
+-u, --undo-last           undo last ReMove
+
+Restores files that were last rmw'ed. No arguments for `-u` are
+necessary. The list of files that were last rmw'ed is stored in `mrl`,
+located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
+
+-m, --most-recent-list    list most recently rmw'ed files
+
+== Configuration File ==
+
+Waste folders will be created automatically (Except for when the ',removable' option is used; see below) e.g., if
+'$HOME/.local/share/Waste' is uncommented in the config file, these 3
+directories will be created:
+
+    $HOME/.local/share/Waste
+    $HOME/.local/share/Waste/files
+    $HOME/.local/share/Waste/info
+
+If one of the WASTE folders is on removable media, then the user has the
+option of appending ',removable'.
+
+If a folder has ',removable' appended to it, rmw will not try to create
+it; it must be initially created manually. When rmw runs, it will check
+to see if the folder exists (which means the removable media containing
+the folder is currently mounted). If rmw can't find the folder, it is
+assumed the media containing the folder isn't mounted and that folder
+will not be used for the current run of rmw.
+
+With the media mounted, once you manually create the waster folder for
+that device (e.g. ".Trash-$UID") and run rmw, it will automatically
+create the two required sub-directories "Trash-$UID/info" and
+".Trash-$UID/files". The directory you create must match what's
+included in your config file:
+
+    e.g.: WASTE=/mnt/flash/.Trash-$UID, removable
 
 ```

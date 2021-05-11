@@ -62,7 +62,7 @@ Restore FILE(s) from a WASTE directory\n\n\
 "), stdout);
   fputs (_("\
   -g[N_DAYS], --purge[=N_DAYS]\n\
-                            run purge even if it's been run today;\n\
+                            purge expired files;\n\
                             optional argument 'N_DAYS' overrides 'purge_after'\n\
                             value from the configuration file\n\
                             (Examples: -g90, --purge=90)\n\
@@ -71,7 +71,7 @@ Restore FILE(s) from a WASTE directory\n\n\
   -o, --orphaned            check for orphaned files (maintenance)\n\
 "), stdout);
   fputs (_("\
-  -f, --force               allow rmw to purge files in the background\n\
+  -f, --force               allow purging of expired files\n\
 "), stdout);
   fputs (_("\
   -e, --empty               completely empty (purge) all waste folders\n\
