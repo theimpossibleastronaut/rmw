@@ -21,7 +21,7 @@ clean-local:
 
 make check-selectrestore:
 	if test $$(command -v valgrind); then	\
-		echo q | RMWTEST_HOME=@HOME_TEST_DIR@ valgrind --leak-check=full --error-exitcode=1 @top_builddir@/rmw -s -c @top_srcdir@/test/rmw.testrc;	\
+		echo q | RMWTEST_HOME=@HOME_TEST_DIR@ valgrind --leak-check=full -v --error-exitcode=1 @top_builddir@/rmw -s -c @top_srcdir@/test/rmw.testrc;	\
 	else	\
 		echo "Valgrind not installed";	\
 	fi

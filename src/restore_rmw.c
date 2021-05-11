@@ -214,6 +214,17 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
 
   do
   {
+    const int start_line_bottom = 7;
+    const int min_lines_required = start_line_bottom + 3;
+    /* Initialize curses */
+    initscr ();
+    if (LINES < min_lines_required)
+    {
+      endwin();
+      printf (_("Your terminal only has %d lines. A minimum of %d lines is required.\n"), LINES, min_lines_required);
+      dispose_waste (waste_head);
+      exit (EXIT_FAILURE);
+    }
     st_node *root = NULL;
     int n_choices = 0;
 
@@ -271,16 +282,6 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     if (closedir (waste_dir))
       msg_err_close_dir (waste_curr->files, __func__, __LINE__);
 
-    const int start_line_bottom = 7;
-    const int min_lines_required = start_line_bottom + 3;
-    /* Initialize curses */
-    initscr ();
-    if (LINES < min_lines_required)
-    {
-      endwin();
-      printf (_("Your terminal only has %d lines. A minimum of %d lines is required.\n"), LINES, min_lines_required);
-      exit (EXIT_FAILURE);
-    }
     clear ();
     cbreak ();
     noecho ();
