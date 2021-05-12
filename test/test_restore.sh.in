@@ -82,6 +82,32 @@ test -h "${RMWTEST_HOME}/link_test2" || exit $?
 # next test (done in COMMON)
 chmod +w -R $RMWTEST_HOME/no_write_perms
 
+# test using relative path and dotfiles
+cd ${RMWTEST_HOME}
+mkdir tmpfoo
+for t in "foo" "bar" ".boo" ".far"; do
+  touch tmpfoo/$t
+  ${RMW_TEST_CMD_STRING} tmpfoo/$t || exit $?
+  cat ${PRIMARY_WASTE_DIR}/info/$t.trashinfo || exit $?
+  cd ${PRIMARY_WASTE_DIR}
+  ${RMW_TEST_CMD_STRING} -z files/$t || exit $?
+  cd ${RMWTEST_HOME}
+  test -f tmpfoo/$t || exit $?
+done
+
+# Now try dotfiles with wildcards
+for t in ".boo" ".far"; do
+  touch tmpfoo/$t
+  ${RMW_TEST_CMD_STRING} tmpfoo/.* || exit $?
+  ${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/$t || exit $?
+  test -f tmpfoo/$t || exit $?
+done
+
+# a dot dir
+substring="refusing to process"
+output="$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/.)"
+test "${output#*$substring}" != "${output}" || exit $?
+
 # This test will only work on Andy's workstation.
 # The media root, /home/andy/src is on a different partition than /home/andy
 # It's mounted with 'bind' and therefore has a different device id

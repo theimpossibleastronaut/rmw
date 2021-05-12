@@ -92,6 +92,11 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     char src_copy[strlen (src) + 1];
     strcpy (src_copy, src);
     char *src_basename = basename (src_copy);
+    if (isdotdir (src_basename))
+    {
+      printf ("refusing to process '.' or '..' directory: skipping '%s'", src_basename);
+      return 1;
+    }
 
     char src_tinfo[LEN_MAX_PATH];
     int req_len = multi_strlen (waste_parent, "/info/", src_basename, NULL) + len_trashinfo_ext + 1;
