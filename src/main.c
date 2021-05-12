@@ -358,7 +358,7 @@ remove_to_waste (
   const char *mrl_file,
   const rmw_options * cli_user_options)
 {
-  rmw_target st_file_properties;
+  rmw_target st_target;
 
   st_removed *confirmed_removals_list = NULL;
   st_removed *confirmed_removals_list_head = NULL;
@@ -376,12 +376,12 @@ remove_to_waste (
     }
 
     bufchk_len (strlen (argv[file_arg]) + 1, LEN_MAX_PATH, __func__, __LINE__);
-    st_file_properties.main_argv = argv[file_arg];
+    st_target.orig = argv[file_arg];
 
-    static struct stat st_main_argv_statistics;
-    if (!lstat (st_file_properties.main_argv, &st_main_argv_statistics))
+    struct stat st_orig;
+    if (!lstat (st_target.orig, &st_orig))
     {
-      main_error_ctr = resolve_path (st_file_properties.main_argv, st_file_properties.real_path);
+      main_error_ctr = resolve_path (st_target.orig, st_target.real_path);
       if (main_error_ctr == 1)
         continue;
       else if (main_error_ctr > 1)
@@ -389,7 +389,7 @@ remove_to_waste (
     }
     else
     {
-      printf (_("File not found: '%s'\n"), st_file_properties.main_argv);
+      printf (_("File not found: '%s'\n"), st_target.orig);
       continue;
     }
 
@@ -398,10 +398,10 @@ remove_to_waste (
     st_waste *waste_curr = waste_head;
     while (waste_curr != NULL)
     {
-      if (strncmp (waste_curr->parent, st_file_properties.real_path, strlen (waste_curr->parent)) == 0)
+      if (strncmp (waste_curr->parent, st_target.real_path, strlen (waste_curr->parent)) == 0)
       {
         print_msg_warn ();
-        printf (_("%s resides within a waste folder and has been ignored\n"), st_file_properties.main_argv);
+        printf (_("%s resides within a waste folder and has been ignored\n"), st_target.orig);
         is_protected = 1;
         break;
       }
@@ -417,59 +417,69 @@ remove_to_waste (
 
     bool waste_folder_on_same_filesystem = 0;
 
-    st_file_properties.base_name = basename ((char*)st_file_properties.main_argv);
+    int req_len = strlen (st_target.orig) + 1;
+    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+    char tmp[req_len];
+    strcpy (tmp, st_target.orig);
+
+    st_target.base_name = basename (tmp);
+    if (isdotdir (st_target.base_name))
+    {
+      printf ("refusing to ReMove '.' or '..' directory: skipping '%s'\n", argv[file_arg]);
+      continue;
+    }
 
     /**
      * cycle through wasteDirs to see which one matches
-     * device number of file.main_argv. Once found, the ReMoval
+     * device number of file.orig. Once found, the ReMoval
      * happens (provided all the tests are passed.
      */
     waste_curr = waste_head;
     while (waste_curr != NULL)
     {
-      if (waste_curr->dev_num == st_main_argv_statistics.st_dev)
+      if (waste_curr->dev_num == st_orig.st_dev)
       {
-        int req_len = strlen (st_file_properties.base_name) + waste_curr->len_files + 1;
-        bufchk_len (req_len, sizeof st_file_properties.waste_dest_name, __func__, __LINE__);
-        sprintf (st_file_properties.waste_dest_name, "%s%s",
-                  waste_curr->files, st_file_properties.base_name);
+        int req_len = strlen (st_target.base_name) + waste_curr->len_files + 1;
+        bufchk_len (req_len, sizeof st_target.waste_dest_name, __func__, __LINE__);
+        sprintf (st_target.waste_dest_name, "%s%s",
+                  waste_curr->files, st_target.base_name);
 
         /* If a duplicate file exists
          */
-        if ((st_file_properties.is_duplicate = exists (st_file_properties.waste_dest_name)))
+        if ((st_target.is_duplicate = exists (st_target.waste_dest_name)))
         {
           // append a time string
-          bufchk_len (strlen (st_file_properties.waste_dest_name) + LEN_MAX_TIME_STR_SUFFIX, sizeof st_file_properties.waste_dest_name, __func__, __LINE__);
-          strcat (st_file_properties.waste_dest_name, st_time_var->suffix_added_dup_exists);
+          bufchk_len (strlen (st_target.waste_dest_name) + LEN_MAX_TIME_STR_SUFFIX, sizeof st_target.waste_dest_name, __func__, __LINE__);
+          strcat (st_target.waste_dest_name, st_time_var->suffix_added_dup_exists);
         }
 
         int r_result = 0;
         if (cli_user_options->want_dry_run == false)
-          r_result = rename (st_file_properties.main_argv, st_file_properties.waste_dest_name);
+          r_result = rename (st_target.orig, st_target.waste_dest_name);
 
         if (r_result == 0)
         {
           if (verbose)
-            printf ("'%s' -> '%s'\n", st_file_properties.main_argv, st_file_properties.waste_dest_name);
+            printf ("'%s' -> '%s'\n", st_target.orig, st_target.waste_dest_name);
 
           removed_files_ctr++;
 
           if (cli_user_options->want_dry_run == false)
-            if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))
+            if (!create_trashinfo (&st_target, waste_curr, st_time_var))
             {
-              confirmed_removals_list = add_removal (confirmed_removals_list, st_file_properties.waste_dest_name);
+              confirmed_removals_list = add_removal (confirmed_removals_list, st_target.waste_dest_name);
               if (confirmed_removals_list_head == NULL)
                 confirmed_removals_list_head = confirmed_removals_list;
             }
         }
         else
-          msg_err_rename (st_file_properties.main_argv,
-                          st_file_properties.waste_dest_name,
+          msg_err_rename (st_target.orig,
+                          st_target.waste_dest_name,
                           __func__, __LINE__);
 
     /**
      * If we get to this point, it means a WASTE folder was found
-     * that matches the file system that file->main_argv was on.
+     * that matches the file system that file->orig was on.
      * Setting match to 1 and breaking from the for loop
      */
         waste_folder_on_same_filesystem = 1;
@@ -484,7 +494,7 @@ remove_to_waste (
     if (!waste_folder_on_same_filesystem)
     {
       print_msg_warn ();
-      printf (_("No suitable filesystem found for \"%s\"\n"), st_file_properties.main_argv);
+      printf (_("No suitable filesystem found for \"%s\"\n"), st_target.orig);
     }
   }
 

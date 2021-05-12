@@ -87,7 +87,7 @@ struct st_waste
 typedef struct
 {
   /** Replaced by the filename to be rmw'ed, usually specified on the command line */
-  const char *main_argv;
+  const char *orig;
 
   /** The absolute path to the file, stored later in a .trashinfo file */
   char real_path[LEN_MAX_PATH];

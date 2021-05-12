@@ -109,5 +109,15 @@ test ! -f $PRIMARY_WASTE_DIR/info/1.trashinfo || exit $?
 test ! -f $PRIMARY_WASTE_DIR/info/2.trashinfo || exit $?
 test ! -f $PRIMARY_WASTE_DIR/info/3.trashinfo || exit $?
 
+# Ignore dot directories
+mkdir tmpdot || exit $?
+touch "tmpdot/.hello world"
+touch "tmpdot/.hello earth"
+
+output="$($RMW_TEST_CMD_STRING tmpdot/.*)" || exit $?
+test "${output}" = "refusing to ReMove '.' or '..' directory: skipping 'tmpdot/.'
+refusing to ReMove '.' or '..' directory: skipping 'tmpdot/..'
+2 items were removed to the waste folder" || exit $?
+
 echo "Basic tests passed"
 exit 0
