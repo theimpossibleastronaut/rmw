@@ -550,22 +550,10 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
       else
         continue;
     }
-    else if (!strncmp ("PROTECT", line_ptr, 7))
-    {
-      /* pctr just prevents this message from being repeated each time
-       * "PROTECT" is encountered" */
-      static bool pctr = 0;
-      if (!pctr)
-        printf ("The PROTECT feature has been removed.\n");
-      pctr = 1;
-    }
-    else if (!strcmp ("force_not_required", line_ptr))
-      printf ("The 'force_not_required' option has been replaced with 'force_required'.\n");
     else
     {
       print_msg_warn ();
-      fprintf (stderr, _("Unknown or invalid option: '%s'\n"),
-               line_ptr);
+      printf (_("Unknown or invalid option: '%s'\n"), line_ptr);
     }
 
     if (waste_curr != NULL && st_config_data->st_waste_folder_props_head == NULL)
