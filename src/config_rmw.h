@@ -46,8 +46,6 @@ typedef struct {
   int purge_after;
   bool force_required;
   bool fake_media_root;
-  char *logfile;
-  char *log_date;
 } st_config;
 
 struct st_vars_to_check {
@@ -75,7 +73,7 @@ char
 *strrepl (char *src, const char *str, char *repl);
 
 void
-realize_config_vars (char *str);
+realize_waste_line (char *str);
 
 st_waste *
 parse_line_waste (st_waste * waste_curr, const char * line_ptr,
