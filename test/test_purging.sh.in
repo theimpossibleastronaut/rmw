@@ -179,4 +179,6 @@ echo " == Show that the files are really gone"
 test ! -e $PRIMARY_WASTE_DIR/files/somefiles || exit $?
 test ! -e $PRIMARY_WASTE_DIR/info/somefiles.trashinfo || exit $?
 
+$RMW_TEST_CMD_STRING -o || exit $?
+
 exit 0

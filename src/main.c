@@ -214,6 +214,7 @@ Please check your configuration file and permissions\
   if (cli_user_options.want_orphan_chk)
   {
     orphan_maint(st_config_data.st_waste_folder_props_head, &st_time_var, &orphan_ctr);
+    dispose_waste (st_config_data.st_waste_folder_props_head);
     return 0;
   }
 
@@ -260,6 +261,7 @@ Please check your configuration file and permissions\
 
     if (result > 1)
     {
+      dispose_waste (st_config_data.st_waste_folder_props_head);
       /* Don't need to print any messages here. Any warnings or errors
        * should have been sent to stdout when they happened */
       return result;
