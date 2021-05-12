@@ -184,38 +184,3 @@ truncate_str (char *str, int pos)
 {
   str[strlen (str) - pos] = '\0';
 }
-
-
-/*
- * name: resolve_path()
- *
- * Gets the absolute path + filename
- *
- * realpath() by itself doesn't give the desired result if basename is
- * a dangling  * symlink; this function is designed to do that.
- *
- */
-char
-*resolve_path (const char *file, const char *b)
-{
-  int req_len = strlen (file) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char tmp[req_len];
-  strcpy (tmp, file);
-
-  char *orig_dirname = realpath (rmw_dirname (tmp), NULL);
-  if (orig_dirname == NULL)
-  {
-    print_msg_error ();
-    perror ("realpath()");
-    return NULL;
-  }
-
-  req_len = multi_strlen (orig_dirname, "/", b, NULL) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char *abspath = malloc (req_len);
-  chk_malloc (abspath, __func__, __LINE__);
-  sprintf (abspath, "%s/%s", orig_dirname, b);
-  free (orig_dirname);
-  return abspath;
-}

@@ -42,6 +42,3 @@ trim_char (const char c, char *str);
 
 void
 truncate_str (char *str, int pos);
-
-char
-*resolve_path (const char *file, const char *b);
