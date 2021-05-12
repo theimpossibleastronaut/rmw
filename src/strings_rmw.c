@@ -185,38 +185,37 @@ truncate_str (char *str, int pos)
   str[strlen (str) - pos] = '\0';
 }
 
-/*!
- * use realpath() to find the absolute path to a file
- * @param[in] src The file or dir that needs resolving
- * @param[out] abs_path The absolute path of src
- * @return 0 if real
+
+/*
+ * name: resolve_path()
  *
- * returns 0 if successful
+ * Gets the absolute path + filename
+ *
+ * realpath() by itself doesn't give the desired result if basename is
+ * a dangling  * symlink; this function is designed to do that.
+ *
  */
-int
-resolve_path (const char *src, char *abs_path)
+char
+*resolve_path (const char *file, const char *b)
 {
-  /*
-   * dirname() and basename() alters the src string, so making a copy
-   */
-  char src_temp_dirname[LEN_MAX_PATH];
-  char src_temp_basename[LEN_MAX_PATH];
+  int req_len = strlen (file) + 1;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  char tmp[req_len];
+  strcpy (tmp, file);
 
-  bufchk_len (strlen (src) + 1, LEN_MAX_PATH, __func__, __LINE__);
-  sprintf (src_temp_dirname, "%s", src);
-  sprintf (src_temp_basename, "%s", src);
-
-  if ((realpath (rmw_dirname (src_temp_dirname), abs_path)) != NULL)
+  char *orig_dirname = realpath (rmw_dirname (tmp), NULL);
+  if (orig_dirname == NULL)
   {
-    const int req_len = multi_strlen (abs_path, "/", basename (src_temp_basename), NULL) + 1;
-    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    char tmp[req_len];
-    sprintf (tmp, "%s/%s", abs_path, basename (src_temp_basename));
-    strcpy (abs_path, tmp);
-    return 0;
+    print_msg_error ();
+    perror ("realpath()");
+    return NULL;
   }
 
-  print_msg_error ();
-  printf (_("realpath() returned an error.\n"));
-  return errno;
+  req_len = multi_strlen (orig_dirname, "/", b, NULL) + 1;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  char *abspath = malloc (req_len);
+  chk_malloc (abspath, __func__, __LINE__);
+  sprintf (abspath, "%s/%s", orig_dirname, b);
+  free (orig_dirname);
+  return abspath;
 }

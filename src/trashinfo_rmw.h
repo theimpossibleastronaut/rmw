@@ -90,7 +90,7 @@ typedef struct
   const char *orig;
 
   /** The absolute path to the file, stored later in a .trashinfo file */
-  char real_path[LEN_MAX_PATH];
+  char *real_path;
 
   /** The basename of the target file, and used for the basename of it's corresponding
    * .trashinfo file */

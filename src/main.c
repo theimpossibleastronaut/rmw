@@ -363,11 +363,26 @@ remove_to_waste (
   st_removed *confirmed_removals_list = NULL;
   st_removed *confirmed_removals_list_head = NULL;
 
-  int main_error_ctr = 0;
+  int n_err = 0;
   int removed_files_ctr = 0;
   int file_arg;
   for (file_arg = optind; file_arg < argc; file_arg++)
   {
+    int orig_req_len = strlen (argv[file_arg]) + 1;
+    bufchk_len (orig_req_len, LEN_MAX_PATH, __func__, __LINE__);
+    st_target.orig = argv[file_arg];
+
+    bufchk_len (orig_req_len, LEN_MAX_PATH, __func__, __LINE__);
+    char tmp[orig_req_len];
+    strcpy (tmp, st_target.orig);
+    st_target.base_name = basename (tmp);
+
+    if (isdotdir (st_target.base_name))
+    {
+      printf ("refusing to ReMove '.' or '..' directory: skipping '%s'\n", argv[file_arg]);
+      continue;
+    }
+
     /* leave "/" or "\" alone */
     if (strcmp (argv[file_arg], "/") == 0 || strcmp (argv[file_arg], "/") == 0)
     {
@@ -375,17 +390,16 @@ remove_to_waste (
       continue;
     }
 
-    bufchk_len (strlen (argv[file_arg]) + 1, LEN_MAX_PATH, __func__, __LINE__);
-    st_target.orig = argv[file_arg];
-
     struct stat st_orig;
     if (!lstat (st_target.orig, &st_orig))
     {
-      main_error_ctr = resolve_path (st_target.orig, st_target.real_path);
-      if (main_error_ctr == 1)
-        continue;
-      else if (main_error_ctr > 1)
-        break;
+      st_target.real_path = resolve_path (st_target.orig, st_target.base_name);
+      if (st_target.real_path == NULL)
+      {
+        n_err++;
+        if (n_err > 1)
+          continue;
+      }
     }
     else
     {
@@ -408,7 +422,10 @@ remove_to_waste (
       waste_curr = waste_curr->next_node;
     }
     if (is_protected)
+    {
+      free (st_target.real_path);
       continue;
+    }
 
     /**
      * Make some variables -
@@ -416,18 +433,6 @@ remove_to_waste (
      */
 
     bool waste_folder_on_same_filesystem = 0;
-
-    int req_len = strlen (st_target.orig) + 1;
-    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    char tmp[req_len];
-    strcpy (tmp, st_target.orig);
-
-    st_target.base_name = basename (tmp);
-    if (isdotdir (st_target.base_name))
-    {
-      printf ("refusing to ReMove '.' or '..' directory: skipping '%s'\n", argv[file_arg]);
-      continue;
-    }
 
     /**
      * cycle through wasteDirs to see which one matches
@@ -467,6 +472,7 @@ remove_to_waste (
           if (cli_user_options->want_dry_run == false)
             if (!create_trashinfo (&st_target, waste_curr, st_time_var))
             {
+              free (st_target.real_path);
               confirmed_removals_list = add_removal (confirmed_removals_list, st_target.waste_dest_name);
               if (confirmed_removals_list_head == NULL)
                 confirmed_removals_list_head = confirmed_removals_list;
@@ -508,7 +514,7 @@ remove_to_waste (
           removed_files_ctr), removed_files_ctr);
   printf ("\n");
 
-  return main_error_ctr;
+  return n_err;
 }
 
 
