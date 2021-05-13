@@ -40,6 +40,8 @@
  */
 #ifndef TEST_LIB
 
+const char *mrl_is_empty = "[Empty]\n";
+
 static const char*
 get_most_recent_list_filename (const char* data_dir)
 {
@@ -94,49 +96,32 @@ get_mrl_contents (const char *mrl_file)
   return NULL;
 }
 
-static void
+static int
 process_mrl (st_waste *waste_head,
     st_time *st_time_var,
     const char *mrl_file,
     rmw_options *cli_user_options)
 {
   char *mrl_contents = get_mrl_contents (mrl_file);
-
+  int res = 0;
   if (mrl_contents != NULL)
   {
-    if (cli_user_options->most_recent_list)
+    if (!strcmp (mrl_contents, mrl_is_empty))
+      printf ("There are no items in the list - please check back later.\n");
+    else if (cli_user_options->most_recent_list)
     {
       printf ("%s", mrl_contents);
-      free (mrl_contents);
       if (cli_user_options->want_undo)
         puts (_("Skipping --undo-last because --most-recent-list was requested"));
     }
     else
-    {
-      int res = undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents, waste_head);
-      if (res)
-      {
-        dispose_waste (waste_head);
-        exit (res);
-      }
-    }
+      res = undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents, waste_head);
+
+    free (mrl_contents);
+    return res;
   }
-  else
-  {
-    /* If NULL was returned by get_mrl_contents(), it should already have displayed an error message;
-     * but probably need something more user-friendly. One or the other but not
-     * both. It's not really an error if there's no mrl file; under normal circumstances, that just
-     * means 1 of 2 things: no files have been rmw'ed since the last undo, or rmw hasn't been
-     * used yet.
-     *
-      puts ("Most recent list not found"); */
-      exit (-1);
-  }
-  /* We can exit the program here, which means rmw will effectively ignore any other
-   * options or filenames passed on the command line; there isn't any good reason to use
-   * either -u or -m with other options. */
-  dispose_waste (waste_head);
-  exit (0);
+  fprintf (stderr, "A 'NULL' was returned when trying to read the list\n");
+  return -1;
 }
 
 int
@@ -228,7 +213,12 @@ Please check your configuration file and permissions\
   const char *mrl_file = get_most_recent_list_filename (data_dir);
 
   if (cli_user_options.most_recent_list || cli_user_options.want_undo)
-    process_mrl (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file, &cli_user_options);
+  {
+    int res = process_mrl (st_config_data.st_waste_folder_props_head, &st_time_var, mrl_file, &cli_user_options);
+    dispose_waste (st_config_data.st_waste_folder_props_head);
+    return res;
+  }
+
 
   if (cli_user_options.want_restore)
   {

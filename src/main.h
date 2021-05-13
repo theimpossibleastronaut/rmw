@@ -35,6 +35,8 @@
 
 #define STR_ENABLE_TEST "RMWTEST_HOME"
 
+extern const char *mrl_is_empty;
+
 /*!
  * Holds a list of files that rmw will be ReMoving.
  */

@@ -2,6 +2,12 @@
 
 2021-05-12
 
+  * When '-u' is used, the mrl file will no longer be removed, but
+  emptied instead. If a user gives the '-u' option when the mrl file is
+  empty, they will get a friendlier message stating that there are no
+  items in the list (instead of an error message about the file not
+  being found).
+
   * bugfix: fixed handling of dot dirs ('.' and '..'). Instead of
   giving an error message and quitting, rmw will print a message
   stating that they'll be skipped.

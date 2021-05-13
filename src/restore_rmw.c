@@ -27,6 +27,7 @@
   #include "globals.h"
 #endif
 
+#include "main.h"
 #include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "trashinfo_rmw.h"
@@ -409,21 +410,19 @@ undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
       err_ctr += result;
     }
 
-    free (mrl_contents);
-
     if (err_ctr == 0)
     {
-      int result = 0;
       if (cli_user_options->want_dry_run == false)
-        result = remove (mrl_file);
-      if (result)
       {
-        print_msg_error ();
-        printf (_("failed to remove %s\n"), mrl_file);
-        perror (__func__);
+        FILE *fd = fopen (mrl_file, "w");
+        if (fd != NULL)
+        {
+          fprintf (fd, "%s", mrl_is_empty);
+          close_file (fd, mrl_file, __func__);
+        }
+        else
+          open_err (mrl_file, __func__);
       }
-
-      return result;
     }
   return err_ctr;
 }
