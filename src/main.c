@@ -138,7 +138,7 @@ main (const int argc, char* const argv[])
   if (verbose > 1)
     printf ("PATH_MAX = %d\n", LEN_MAX_PATH - 1);
 
-  HOMEDIR = get_home_dir (STR_ENABLE_TEST);
+  HOMEDIR = get_home_dir ();
 
   if (HOMEDIR != NULL)
     bufchk_len (strlen (HOMEDIR) + 1, LEN_MAX_PATH, __func__, __LINE__);
@@ -278,17 +278,25 @@ Enter '%s -h' for more information\n"), argv[0]);
  * can be NULL instead of a string.
  */
 const char *
-get_home_dir (const char *alternate_home_dir)
+get_home_dir (void)
 {
+  const char *alternate_home_dir = NULL;
+  const char *deprecated_env = getenv (ENV_TEST_HOME);
+  if (deprecated_env != NULL)
+  {
+    print_msg_warn ();
+    printf ("'%s' will be deprecated, use '%s' instead\n", ENV_TEST_HOME, ENV_RMW_FAKE_HOME);
+    alternate_home_dir = deprecated_env;
+  }
+
+  if (alternate_home_dir == NULL)
+    alternate_home_dir = getenv (ENV_RMW_FAKE_HOME);
+
   if (alternate_home_dir != NULL)
   {
-    char *enable_test = getenv (alternate_home_dir);
-    if (enable_test != NULL)
-    {
-      if (verbose)
-        printf ("RMWTEST_HOME:%s\n", enable_test);
-      return enable_test;
-    }
+    if (verbose)
+      printf ("%s:%s\n", ENV_RMW_FAKE_HOME, alternate_home_dir);
+    return alternate_home_dir;
   }
 
   char *_homedir;
@@ -322,9 +330,10 @@ get_data_rmw_home_dir (void)
 
   static char data_rmw_home[LEN_MAX_PATH];
   static const char *ptr = &data_rmw_home[0];
+  const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
 
-  if (getenv (STR_ENABLE_TEST) != NULL ||
-      (xdg_data_home == NULL && getenv (STR_ENABLE_TEST) == NULL))
+  if (enable_test != NULL ||
+      (xdg_data_home == NULL && enable_test == NULL))
   {
     int req_len = multi_strlen (HOMEDIR, rel_default, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);

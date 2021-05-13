@@ -23,7 +23,7 @@ include some tests for resource leaks. To bypass using `valgrind`, use
 <h2 id="testing_home">Specify different home directory</h2>
 
 As of v0.7.03, you can provide a "fake" home directory by setting the
-environmental variable RMWTEST_HOME.
+environmental variable RMW_FAKE_HOME.
 
 <!-- This section probably would be better on a separate "Debugging" page (not yet created) -->
 <h2 id="profiling">Profiling</h2>

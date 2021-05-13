@@ -1,5 +1,11 @@
 === rmw ChangeLog ===
 
+2021-05-13
+
+  * The environmental variable RMWTEST_HOME has been replaced with
+  RMW_FAKE_HOME (Trying to use RMWTEST_HOME will give a deprecation
+  warning and still work).
+
 2021-05-12
 
   * When '-u' is used, the mrl file will no longer be removed, but

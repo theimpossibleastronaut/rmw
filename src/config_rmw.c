@@ -474,9 +474,10 @@ get_config_home_dir (void)
   const char *xdg_config_home = getenv ("XDG_CONFIG_HOME");
 
   static const char *ptr;
+  const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
 
-  if (getenv (STR_ENABLE_TEST) != NULL ||
-      (xdg_config_home == NULL && getenv (STR_ENABLE_TEST) == NULL))
+  if ( enable_test != NULL ||
+      (xdg_config_home == NULL && enable_test == NULL))
   {
     int req_len = multi_strlen (HOMEDIR, rel_default, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);

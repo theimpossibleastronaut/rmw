@@ -27,17 +27,17 @@ test "$output" = "/mnt/fs/Trash-$(id -u)
 echo $SEPARATOR
 
 # Make some temporary files
-mkdir $RMWTEST_HOME/tmp-files && cd $RMWTEST_HOME/tmp-files || exit $?
+mkdir ${RMW_FAKE_HOME}/tmp-files && cd ${RMW_FAKE_HOME}/tmp-files || exit $?
 
 echo "\n\n == creating temporary files to be deleted"
 set -x
 for file in 1 2 3; do
   touch $file || exit $?
 done
-cd $RMWTEST_HOME/.. || exit $?
+cd ${RMW_FAKE_HOME}/.. || exit $?
 
 echo "\n\n == rmw should be able to operate on multiple files\n"
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* || exit $?
+$RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/* || exit $?
 
 test -f "${PRIMARY_WASTE_DIR}/files/1" || exit $?
 test -f "${PRIMARY_WASTE_DIR}/files/2" || exit $?
@@ -48,7 +48,7 @@ test -f "${PRIMARY_WASTE_DIR}/info/3.trashinfo" || exit $?
 
 echo $SEPARATOR
 echo "rmw should append a time_string to duplicate files..."
-cd $RMWTEST_HOME/tmp-files
+cd ${RMW_FAKE_HOME}/tmp-files
 for file in 1 2 3; do
   touch $file
 done
@@ -98,9 +98,9 @@ $RMW_TEST_CMD_STRING --verbose -z $PRIMARY_WASTE_DIR/files/3 || exit $?
 echo "\n\n == test that the files are restored to their previous locations"
 
 set -x
-test -f $RMWTEST_HOME/tmp-files/1 || exit $?
-test -f $RMWTEST_HOME/tmp-files/2 || exit $?
-test -f $RMWTEST_HOME/tmp-files/3 || exit $?
+test -f ${RMW_FAKE_HOME}/tmp-files/1 || exit $?
+test -f ${RMW_FAKE_HOME}/tmp-files/2 || exit $?
+test -f ${RMW_FAKE_HOME}/tmp-files/3 || exit $?
 
 echo "\n\n == test that the .trashinfo files have been removed"
 

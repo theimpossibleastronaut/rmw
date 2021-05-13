@@ -22,12 +22,12 @@ echo "== On first run, directories should get created"
 $RMW_TEST_CMD_STRING || exit $?
 
 # Make some temporary files using a fake-year
-mkdir $RMWTEST_HOME/tmp-files
-cd $RMWTEST_HOME/tmp-files
+mkdir ${RMW_FAKE_HOME}/tmp-files
+cd ${RMW_FAKE_HOME}/tmp-files
 
 
 create_temp_files() {
-  cd $RMWTEST_HOME/tmp-files
+  cd ${RMW_FAKE_HOME}/tmp-files
   set +x
   echo "\n\n == creating temporary files to be rmw'ed"
 
@@ -45,7 +45,7 @@ create_temp_files() {
 echo
 echo
 echo " Creating some files for testing..."
-cd $RMWTEST_HOME
+cd ${RMW_FAKE_HOME}
 @abs_builddir@/create-some-files.sh || exit $?
 
 echo
@@ -53,7 +53,7 @@ echo
 echo " == rmw -e command should completely purge the waste folders,"
 echo " == no matter when they were deleted"
 
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles/* || exit $?
+$RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/somefiles/* || exit $?
 
 set +x
 echo $SEPARATOR
@@ -101,10 +101,10 @@ test ! -e $PRIMARY_WASTE_DIR/info/topdir.trashinfo || exit $?
 
 echo " == Should work with 'Y' or 'y'"
 create_temp_files
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* && echo "y" | $RMW_TEST_CMD_STRING -e || exit $?
+$RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/* && echo "y" | $RMW_TEST_CMD_STRING -e || exit $?
 
 create_temp_files
-$RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* || exit $?
+$RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/* || exit $?
 test -e $PRIMARY_WASTE_DIR/files/abc || exit $?
 test -e $PRIMARY_WASTE_DIR/files/123 || exit $?
 test -e $PRIMARY_WASTE_DIR/files/xyz || exit $?
@@ -123,12 +123,12 @@ test ! -e $PRIMARY_WASTE_DIR/info/xyz.trashinfo || exit $?
 
 create_temp_files
 
-cd $RMWTEST_HOME/..
+cd ${RMW_FAKE_HOME}/..
 echo "\n\n == use a built-in environmental variable to write a"
 echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
-RMW_FAKE_YEAR=true $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/tmp-files/* || exit $?
+RMW_FAKE_YEAR=true $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/* || exit $?
 output=$(cat $PRIMARY_WASTE_DIR/info/abc.trashinfo) || exit $?
 substring="DeletionDate=1999"
 test "${output#*$substring}" != "${output}" || exit $?
@@ -148,7 +148,7 @@ test ! -e $PRIMARY_WASTE_DIR/info/xyz.trashinfo || exit $?
 echo
 echo
 echo " Creating some files for testing..."
-cd $RMWTEST_HOME
+cd ${RMW_FAKE_HOME}
 @abs_builddir@/create-some-files.sh || exit $?
 
 echo $SEPARATOR
@@ -157,7 +157,7 @@ echo " == even if some of the dirs are read-only"
 
 echo $SEPARATOR
 
-RMW_FAKE_YEAR=True $RMW_TEST_CMD_STRING --verbose $RMWTEST_HOME/somefiles || exit $?
+RMW_FAKE_YEAR=True $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/somefiles || exit $?
 
 echo $SEPARATOR
 echo " == only one f, should fail"

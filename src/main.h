@@ -33,7 +33,8 @@
 #include "trashinfo_rmw.h"
 #include "parse_cli_options.h"
 
-#define STR_ENABLE_TEST "RMWTEST_HOME"
+#define ENV_RMW_FAKE_HOME "RMW_FAKE_HOME"
+#define ENV_TEST_HOME "RMWTEST_HOME"
 
 extern const char *mrl_is_empty;
 
@@ -52,7 +53,7 @@ struct st_removed {
  * want to experiment. */
 
 const char *
-get_home_dir (const char *alternate_home_dir);
+get_home_dir (void);
 
 const char *
 get_data_rmw_home_dir (void);
