@@ -156,7 +156,6 @@ dispose_waste (st_waste *node)
 char *
 human_readable_size (off_t size)
 {
-  /* "xxxx.y GiB" - 10 chars + '\0' */
   char *buffer = malloc (LEN_MAX_HUMAN_READABLE_SIZE);
   chk_malloc (buffer, __func__, __LINE__);
 
@@ -164,7 +163,7 @@ human_readable_size (off_t size)
   const char prefix[] = { 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y' };
   short power = -1;
 
-  static short remainder;
+  short remainder;
   remainder = 0;
 
   while (size >= 1024)
@@ -175,11 +174,13 @@ human_readable_size (off_t size)
     ++power;
   }
 
+  char a_size[LEN_MAX_HUMAN_READABLE_SIZE];
+  sprintf (a_size, "%d", (short)size);
   if (power >= 0)
-    sprintf (buffer, "%ld.%d %ciB", (long) size,
+    sprintf (buffer, "%s.%d %ciB", a_size,
               (remainder * 10) / 1024, prefix[power]);
   else
-    sprintf (buffer, "%ld B", (long) size);
+    sprintf (buffer, "%s B", a_size);
 
   return buffer;
 }

@@ -84,6 +84,31 @@ void test_rmw_dirname (void)
   return;
 }
 
+void test_human_readable_size (void)
+{
+  char *hr = human_readable_size (1024);
+  assert (strcmp (hr, "1.0 KiB") == 0);
+  free (hr);
+
+  hr = human_readable_size (12000);
+  assert (strcmp (hr, "11.7 KiB") == 0);
+  free (hr);
+
+  hr = human_readable_size (32000000000);
+  assert (strcmp (hr, "29.8 GiB") == 0);
+  free (hr);
+
+  hr = human_readable_size (62000000000000);
+  assert (strcmp (hr, "56.3 TiB") == 0);
+  free (hr);
+
+  hr = human_readable_size (82000300000000000);
+  assert (strcmp (hr, "72.8 PiB") == 0);
+  free (hr);
+
+  return;
+}
+
 int
 main ()
 {
@@ -94,6 +119,7 @@ main ()
   test_isdotdir ();
   test_rmw_mkdir ();
   test_rmw_dirname ();
+  test_human_readable_size ();
 
   char str[BUF_SIZE * 3];
   char escaped_path[BUF_SIZE * 3];

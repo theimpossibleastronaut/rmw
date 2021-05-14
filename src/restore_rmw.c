@@ -270,7 +270,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
        * below) holds the description.
        *
        */
-      char formatted_hr_size[LEN_MAX_HUMAN_READABLE_SIZE];
+      char formatted_hr_size[LEN_MAX_HUMAN_READABLE_SIZE + (sizeof " (D)" - 1) + (sizeof "[]" - 1)];
       sprintf (formatted_hr_size, "[%s]", hr_size);
       free (hr_size);
 
