@@ -28,7 +28,7 @@ struct st_node
   char *file;
 
   /*! Holds the human readable size of the file */
-  char size_str[LEN_MAX_FORMATTED_HR_SIZE * 2];
+  char size_str[LEN_MAX_FORMATTED_HR_SIZE];
 
   /*! Left node of the binary search tree */
   st_node *left;

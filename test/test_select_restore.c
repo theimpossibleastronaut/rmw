@@ -14,8 +14,7 @@ typedef struct entries {
   mode_t mode;
 }entries;
 
-int
-main ()
+void test_human_readable_size (void)
 {
   const struct entries test_entries[] = {
     { "foo", 1204, S_IFDIR },
@@ -51,6 +50,11 @@ main ()
         break;
       }
   }
+}
 
+int
+main ()
+{
+  test_human_readable_size ();
   return 0;
 }
