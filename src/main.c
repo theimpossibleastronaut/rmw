@@ -27,20 +27,20 @@
 #include "globals.h"
 #include "main.h"
 #include "utils_rmw.h"
+#include "bst.h"
 #include "restore_rmw.h"
 #include "config_rmw.h"
 #include "purging_rmw.h"
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
+const char *mrl_is_empty = "[Empty]\n";
 /*
  * Defined when `make check` is used to build rmw as a library for unit testing,
  * or if built as a library
  * main() will not be built into the library.
  */
 #ifndef TEST_LIB
-
-const char *mrl_is_empty = "[Empty]\n";
 
 static const char*
 get_most_recent_list_filename (const char* data_dir)

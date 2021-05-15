@@ -25,11 +25,10 @@ typedef int (*comparer) (const char *, const char *);
 typedef struct st_node st_node;
 struct st_node
 {
-  /*! Holds the filename */
-  char data[LEN_MAX_PATH];
+  char *file;
 
   /*! Holds the human readable size of the file */
-  char size_str[LEN_MAX_HUMAN_READABLE_SIZE];
+  char size_str[LEN_MAX_FORMATTED_HR_SIZE * 2];
 
   /*! Left node of the binary search tree */
   st_node *left;
@@ -38,7 +37,7 @@ struct st_node
   st_node *right;
 };
 
-st_node *insert_node (st_node * root, comparer compare, char *data,
+st_node *insert_node (st_node * root, comparer compare, char *file,
                       char *size_str);
 
 void populate_menu (st_node * node, ITEM ** my_items, bool level_one);

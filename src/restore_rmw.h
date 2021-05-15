@@ -51,11 +51,19 @@
 #endif
 
 #include "trashinfo_rmw.h"
+#include "parse_cli_options.h"
 
 #define CTRLD 4
 
 int
 restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_options, st_waste *waste_head);
+
+char *
+create_formatted_str (const off_t size, const mode_t mode, const char *dir_entry,
+                      const int len, char *formatted_hr_size);
+
+st_node *
+add_entry (st_node *node, st_waste *waste_curr_node, const char *dir_entry);
 
 int
 restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);

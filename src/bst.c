@@ -19,10 +19,12 @@
  * create a new node
  */
 static st_node *
-create_node (char *data, char *size_str)
+create_node (char *file, char *size_str)
 {
   st_node *new_node = (st_node *) malloc (sizeof (st_node));
-  strcpy (new_node->data, data);
+  new_node->file = file;
+  bufchk_len (strlen (size_str) + 1, LEN_MAX_FORMATTED_HR_SIZE, __func__,
+              __LINE__);
   strcpy (new_node->size_str, size_str);
   new_node->left = NULL;
   new_node->right = NULL;
@@ -34,12 +36,12 @@ create_node (char *data, char *size_str)
  * Insert a new node into the binary search tree; used in
  */
 st_node *
-insert_node (st_node * root, comparer strcasecmp, char *data, char *size_str)
+insert_node (st_node * root, comparer strcasecmp, char *file, char *size_str)
 {
 
   if (root == NULL)
   {
-    root = create_node (data, size_str);
+    root = create_node (file, size_str);
   }
   else
   {
@@ -50,7 +52,7 @@ insert_node (st_node * root, comparer strcasecmp, char *data, char *size_str)
 
     while (cursor != NULL)
     {
-      r = strcasecmp (data, cursor->data);
+      r = strcasecmp (file, cursor->file);
       prev = cursor;
       /* creating the tree will hang if 0 isn't accounted for.
        * An example of an equal string would be "Makefile" and "makefile"
@@ -69,9 +71,9 @@ insert_node (st_node * root, comparer strcasecmp, char *data, char *size_str)
       }
     }
     if (is_left)
-      prev->left = create_node (data, size_str);
+      prev->left = create_node (file, size_str);
     else
-      prev->right = create_node (data, size_str);
+      prev->right = create_node (file, size_str);
 
   }
   return root;
@@ -94,7 +96,7 @@ populate_menu (st_node * node, ITEM ** my_items, bool level_one)
   /* first recur on left child */
   populate_menu (node->left, my_items, false);
 
-  my_items[i] = new_item (node->data, node->size_str);
+  my_items[i] = new_item (node->file, node->size_str);
   i++;
 
   /* now recur on right child */
@@ -113,6 +115,7 @@ dispose (st_node * root)
   {
     dispose (root->left);
     dispose (root->right);
+    free (root->file);
     free (root);
   }
   return;

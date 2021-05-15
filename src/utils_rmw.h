@@ -32,6 +32,7 @@
 #include "trashinfo_rmw.h"
 
 #define LEN_MAX_HUMAN_READABLE_SIZE (sizeof "xxxx.y GiB")
+#define LEN_MAX_FORMATTED_HR_SIZE (LEN_MAX_HUMAN_READABLE_SIZE + (sizeof " (D)" - 1 + sizeof "[]" - 1))
 
 char
 *rmw_dirname (char *path);

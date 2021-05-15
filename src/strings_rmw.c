@@ -75,7 +75,6 @@ bufchk_len (const int len, const int dest_boundary, const char *func,
   if (len <= dest_boundary)
     return;
 
-  print_msg_error ();
   msg_err_buffer_overrun (func, line);
 
 #ifdef TEST_LIB

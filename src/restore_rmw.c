@@ -30,11 +30,10 @@
 #include "main.h"
 #include "parse_cli_options.h"
 #include "config_rmw.h"
-#include "trashinfo_rmw.h"
+#include "bst.h"
 #include "restore_rmw.h"
 #include "utils_rmw.h"
 #include "messages_rmw.h"
-#include "bst.h"
 
 #ifndef TEST_LIB
 static
@@ -204,6 +203,52 @@ Duplicate filename at destination - appending time string...\n"));
   return 0;
 }
 
+char *
+create_formatted_str (const off_t size, const mode_t mode, const char *dir_entry,
+                      const int len, char *formatted_hr_size)
+{
+  char *hr_size = human_readable_size (size);
+
+  /*
+   * The 2nd argument of new_item() (from the curses library, and used
+   * below) holds the description.
+   *
+   */
+  sprintf (formatted_hr_size, "[%s]", hr_size);
+  free (hr_size);
+
+  if (S_ISDIR (mode))
+    strcat (formatted_hr_size, " (D)");
+  else if (S_ISLNK (mode))
+    strcat (formatted_hr_size, " (L)");
+
+  char *m_dir_entry = malloc (len + 1);
+  chk_malloc (m_dir_entry, __func__, __LINE__);
+  strcpy (m_dir_entry, dir_entry);
+  return m_dir_entry;
+}
+
+st_node *
+add_entry (st_node *node, st_waste *waste_curr_node, const char *dir_entry)
+{
+  int len_dir_entry = strlen (dir_entry);
+  int req_len = len_dir_entry + waste_curr_node->len_files + 1;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  char full_path[req_len];
+  sprintf (full_path, "%s%s", waste_curr_node->files, dir_entry);
+
+  struct stat st;
+  if (lstat (full_path, &st))
+    msg_err_lstat (full_path, __func__, __LINE__);
+
+  char formatted_hr_size[LEN_MAX_FORMATTED_HR_SIZE];
+  *formatted_hr_size = '\0';
+  char *m_dir_entry = create_formatted_str (st.st_size, st.st_mode, dir_entry, len_dir_entry, formatted_hr_size);
+
+  comparer int_cmp = strcasecmp;
+  return insert_node(node, int_cmp, m_dir_entry, formatted_hr_size);
+}
+
 /*!
  * Displays a list of files that can be restored, user can select multiple
  * files using a curses-bases interface.
@@ -231,7 +276,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
       dispose_waste (waste_head);
       exit (EXIT_FAILURE);
     }
-    st_node *root = NULL;
+    st_node *dir_entry_list = NULL;
     int n_choices = 0;
 
     struct dirent *entry = NULL;
@@ -255,32 +300,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
       if (isdotdir (entry->d_name))
         continue;
 
-      int req_len = strlen (entry->d_name) + waste_curr->len_files + 1;
-      char full_path[req_len];
-      sprintf (full_path, "%s%s", waste_curr->files, entry->d_name);
-      bufchk_len (strlen (full_path) + 1, LEN_MAX_PATH, __func__, __LINE__);
-
-      struct stat st;
-      if (lstat (full_path, &st))
-        msg_err_lstat (full_path, __func__, __LINE__);
-      char *hr_size = human_readable_size (st.st_size);
-
-      /*
-       * The 2nd argument of new_item() (from the curses library, and used
-       * below) holds the description.
-       *
-       */
-      char formatted_hr_size[LEN_MAX_HUMAN_READABLE_SIZE + (sizeof " (D)" - 1) + (sizeof "[]" - 1)];
-      sprintf (formatted_hr_size, "[%s]", hr_size);
-      free (hr_size);
-
-      if (S_ISDIR (st.st_mode))
-        strcat (formatted_hr_size, " (D)");
-      else if (S_ISLNK (st.st_mode))
-        strcat (formatted_hr_size, " (L)");
-
-      comparer int_cmp = strcasecmp;
-      root = insert_node(root, int_cmp, entry->d_name, formatted_hr_size);
+      dir_entry_list = add_entry (dir_entry_list, waste_curr, entry->d_name);
 
       n_choices++;
     }
@@ -299,7 +319,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     // Why is the '+1' needed here? (rmw segfaults without it)
     my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
     chk_malloc (my_items, __func__, __LINE__);
-    populate_menu (root, my_items, true);
+    populate_menu (dir_entry_list, my_items, true);
 
     my_menu = new_menu ((ITEM **) my_items);
     set_menu_format(my_menu, LINES - start_line_bottom - 1, 1);
@@ -384,7 +404,7 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
       free_item(my_items[i]);
 
     free (my_items);
-    dispose (root);
+    dispose (dir_entry_list);
 
   }while (c != 'q' && c != 10);
 

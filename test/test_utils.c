@@ -86,7 +86,11 @@ void test_rmw_dirname (void)
 
 void test_human_readable_size (void)
 {
-  char *hr = human_readable_size (1024);
+  char *hr = human_readable_size (256);
+  assert (strcmp (hr, "256 B") == 0);
+  free (hr);
+
+  hr = human_readable_size (1024);
   assert (strcmp (hr, "1.0 KiB") == 0);
   free (hr);
 
