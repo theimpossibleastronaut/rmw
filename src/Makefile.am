@@ -35,4 +35,6 @@ check_LIBRARIES = librmw_test.a
 librmw_test_a_SOURCES = $(__top_builddir__rmw_SOURCES)
 librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB
 
+# The build fails on OpenBSD if NLS is requested and LIBINTL is not
+# included here.
 __top_builddir__rmw_LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@

@@ -127,9 +127,11 @@ process_mrl (st_waste *waste_head,
 int
 main (const int argc, char* const argv[])
 {
+  #ifdef ENABLE_NLS
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
+  #endif
 
   rmw_options cli_user_options;
   init_rmw_options (&cli_user_options);
