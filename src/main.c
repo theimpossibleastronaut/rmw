@@ -60,41 +60,38 @@ get_most_recent_list_filename (const char* data_dir)
 static char*
 get_mrl_contents (const char *mrl_file)
 {
+  char *contents = NULL;
   FILE *fd;
   fd = fopen (mrl_file, "r");
 
-  if (fd)
+  if (fd == NULL)
   {
-    fseek (fd, 0, SEEK_END); // move to the end of the file so we can use ftell()
-    const int f_size = ftell (fd); // Get the size of the file
-    fseek(fd, 0, SEEK_SET); // Go back to the the beginning of the file
-
-    char *contents = calloc (1, f_size + 1);
-    chk_malloc (contents, __func__, __LINE__);
-    int n_items = fread (contents, 1, f_size + 1, fd);
-    if (n_items != f_size)
-    {
-      print_msg_warn ();
-      fprintf (stdout, "ftell() returned %d, but fread() returned %d", f_size, n_items);
-    }
-    if (feof (fd) == 0)
-    {
-      print_msg_error ();
-      /* I think the only time there'd be an error at this point is if the user
-       * was having a hard drive failure. Not going to do any more error-handling than
-       * just to print a message */
-      fprintf (stderr, "while reading %s\n", mrl_file);
-      clearerr (fd);
-    }
-
-    close_file (fd, mrl_file, __func__);
-
+    contents = (char*)&mrl_is_empty[0];
     return contents;
   }
 
-  open_err (mrl_file, __func__);
-  return NULL;
+  fseek (fd, 0, SEEK_END); // move to the end of the file so we can use ftell()
+  const int f_size = ftell (fd); // Get the size of the file
+  rewind (fd);
+
+  contents = calloc (1, f_size + 1);
+  chk_malloc (contents, __func__, __LINE__);
+  int n_items = fread (contents, 1, f_size + 1, fd);
+  if (n_items != f_size)
+  {
+    print_msg_warn ();
+    fprintf (stdout, "ftell() returned %d, but fread() returned %d", f_size, n_items);
+  }
+  if (feof (fd) == 0)
+  {
+    print_msg_error ();
+    fprintf (stderr, "while reading %s\n", mrl_file);
+    clearerr (fd);
+  }
+  close_file (fd, mrl_file, __func__);
+  return contents;
 }
+
 
 static int
 process_mrl (st_waste *waste_head,
@@ -117,7 +114,10 @@ process_mrl (st_waste *waste_head,
     else
       res = undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents, waste_head);
 
-    free (mrl_contents);
+    if (mrl_contents != NULL && mrl_contents != &mrl_is_empty[0])
+    {
+      free (mrl_contents);
+    }
     return res;
   }
   fprintf (stderr, "A 'NULL' was returned when trying to read the list\n");

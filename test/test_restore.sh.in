@@ -18,6 +18,13 @@ echo "Initialize"
 $RMW_TEST_CMD_STRING || exit $?
 
 echo $SEPARATOR
+echo "If the mrl file doesn't exist yet..."
+expected="no items in the list"
+output=$($RMW_TEST_CMD_STRING -u) || exit $?
+test "${output}#*${substring}" != "${output}" || exit $?
+echo $output
+
+echo $SEPARATOR
 echo " Creating some files for testing..."
 cd ${RMW_FAKE_HOME}
 @abs_builddir@/create-some-files.sh || exit $?

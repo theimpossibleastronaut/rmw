@@ -420,7 +420,9 @@ undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
   *waste_head)
 {
     int err_ctr = 0;
-    char *line = strtok (mrl_contents, "\n");
+    char contents_copy[strlen (mrl_contents) + 1];
+    strcpy (contents_copy, mrl_contents);
+    char *line = strtok (contents_copy, "\n");
     while (line != NULL)
     {
       trim_white_space (line);
