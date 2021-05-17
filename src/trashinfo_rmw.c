@@ -31,11 +31,7 @@ const char trashinfo_ext[] = ".trashinfo";
 const int len_trashinfo_ext = sizeof trashinfo_ext - 1; /* Subtract 1 for the terminating NULL */
 const int LEN_MAX_TRASHINFO_PATH_LINE = (sizeof "Path=" - 1) + LEN_MAX_ESCAPED_PATH;
 
-const char *lit_files = "files";
 const char *lit_info = "info";
-const int len_lit_files = sizeof lit_files - 1;
-const int len_lit_info = sizeof lit_info - 1;
-
 const char *path_key = "Path";
 const char *deletion_date_key = "DeletionDate";
 

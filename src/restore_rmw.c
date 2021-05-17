@@ -99,7 +99,7 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     }
 
     char src_tinfo[LEN_MAX_PATH];
-    int req_len = multi_strlen (waste_parent, "//", src_basename, NULL) + len_lit_info + len_trashinfo_ext + 1;
+    int req_len = multi_strlen (waste_parent, "//", lit_info, src_basename, NULL) + len_trashinfo_ext + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
     sprintf (src_tinfo, "%s/%s/%s%s", waste_parent, lit_info,
              src_basename, trashinfo_ext);

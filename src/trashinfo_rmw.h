@@ -107,11 +107,7 @@ typedef struct
   bool is_duplicate;
 } rmw_target;
 
-extern const char *lit_files;
 extern const char *lit_info;
-extern const int len_lit_files;
-extern const int len_lit_info;
-
 extern const char *path_key;
 extern const char *deletion_date_key;
 

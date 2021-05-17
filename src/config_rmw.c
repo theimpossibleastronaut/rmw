@@ -34,7 +34,7 @@
 #include "strings_rmw.h"
 
 static const int DEFAULT_PURGE_AFTER = 0;
-
+static const char *lit_files = "files";
 
 /*!
  * Prints a copy of the default config file to the specified stream.
@@ -323,7 +323,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   strcpy (waste_curr->parent, tmp_waste_parent_folder);
 
   /* and the files... */
-  int req_len = multi_strlen (waste_curr->parent, "/", NULL) + len_lit_files + 1;
+  int req_len = multi_strlen (waste_curr->parent, "/", lit_files, NULL) +  + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   waste_curr->len_files = req_len - 1;
   waste_curr->files = malloc (req_len);
@@ -341,7 +341,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
     }
   }
 
-  req_len = multi_strlen (waste_curr->parent, "/", NULL) + len_lit_info + 1;
+  req_len = multi_strlen (waste_curr->parent, "/", lit_info, NULL) + 1;
   waste_curr->len_info = req_len - 1;
   waste_curr->info = malloc (req_len);
   chk_malloc (waste_curr->info, __func__, __LINE__);
