@@ -35,7 +35,7 @@ WASTE = /mnt/sda10000/example_waste, removable
 #
 # use '0' to disable purging
 #
-purge_after = 90
+expire_age = 90
 #
 
 # purge is allowed to run without the '-f' option. If you'd rather

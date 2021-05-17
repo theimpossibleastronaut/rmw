@@ -241,7 +241,7 @@ is_time_to_purge (st_time * st_time_var, const char *data_dir)
 
 
 /*!
- * Purges files older than x number of days, unless purge_after is set to
+ * Purges files older than x number of days, unless expire_age is set to
  * 0 in the config file.
  */
 int
@@ -249,17 +249,14 @@ purge (st_config * st_config_data,
        const rmw_options * cli_user_options,
        st_time * st_time_var, int *orphan_ctr)
 {
-  if (!st_config_data->purge_after)
+  if (!st_config_data->expire_age)
   {
     /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
      * directory  */
-    printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
+    printf (_("purging is disabled ('%s' is set to '0')\n\n"), expire_age_str);
 
-    /* purge_after is kind of a "fail-safe". If someone sets it to "0", don't
+    /* expire_age is kind of a "fail-safe". If someone sets it to "0", don't
      * allow any exceptions */
-
-    /* return codes from purge() aren't actually used by main() yet. (Maybe they
-     * never will be and the function will become of type (void)) */
     return 0;
   }
 
@@ -281,7 +278,7 @@ purge (st_config * st_config_data,
   else
     printf (_
             ("Purging files based on number of days in the waste folders (%u) ...\n"),
-            st_config_data->purge_after);
+            st_config_data->expire_age);
 
   unsigned int purge_ctr = 0;
   unsigned int dirs_containing_files_ctr = 0;
@@ -335,7 +332,7 @@ purge (st_config * st_config_data,
         continue;
 
       double days_remaining =
-        ((double) then + (SECONDS_IN_A_DAY * st_config_data->purge_after) -
+        ((double) then + (SECONDS_IN_A_DAY * st_config_data->expire_age) -
          st_time_var->now) / SECONDS_IN_A_DAY;
 
       bool do_file_purge = days_remaining <= 0 || cli_user_options->want_empty_trash;

@@ -30,7 +30,7 @@ WASTE = $HOME/.local/share/Waste
 #
 # use '0' to disable purging
 #
-purge_after = 0
+expire_age = 0
 
 # purge is allowed to run without the '-f' option. If you'd rather
 # require the use of '-f', you may uncomment the line below.

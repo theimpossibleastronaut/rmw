@@ -7,7 +7,7 @@ Its goal is to conform to [the FreeDesktop.org Trash
 specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
 and therefore be compatible with KDE, GNOME, Xfce, and others. Desktop
 integration is optional however, and by default, rmw will only use a
-waste folder separated from your desktop trash. One of its unique
+waste directory separated from your desktop trash. One of its unique
 features is the ability to purge items from your Waste/Trash
 directories after x number of days.
 
@@ -23,7 +23,7 @@ Web site: <https://remove-to-waste.info/>
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/rmw.svg)](https://repology.org/project/rmw/versions)
 
-Maintainer created Debian packages (amd_64) are available in the
+Maintainer-created Debian packages (amd64) are available in the
 [releases
 section](https://github.com/theimpossibleastronaut/rmw/releases).
 
@@ -113,12 +113,12 @@ desired.
 Items (file or directories) will be moved to a wastebasket in the same
 manner as when using the "move to trash" option from your desktop GUI.
 They will be separated from your desktop trash by default; or if you
-wish for them to share the same "trash" folder, uncomment the line (in
+wish for them to share the same "trash" directory, uncomment the line (in
 your config file):
 
 (Note that this does not apply to MacOS; while rmw is yet unable to
-integrate with the desktop trash folder, you'll still be able to use
-the default Waste folder.)
+integrate with the desktop trash directory, you'll still be able to use
+the default Waste directory.)
 
     WASTE = $HOME/.local/share/Trash
 
@@ -126,17 +126,17 @@ then comment out the line
 
     WASTE = $HOME/.local/share/Waste
 
-You can reverse which folders are enabled at any time if you ever
-change your mind. If both folders are on the same filesystem, rmw will
+You can reverse which directories are enabled at any time if you ever
+change your mind. If both directories are on the same filesystem, rmw will
 place files in the first one listed.
 
 It can be beneficial to have them both uncommented. If your desktop
-trash folder is uncommented, rmw won't place newly rmw'ed files there,
+trash directory is uncommented, rmw won't place newly rmw'ed files there,
 but it will purge files that were trashed (or wasted) after the amount
 of days specified by the 'purge_after' value in your config file.
 
-When rmw'ing a file or folder, if it already exists in the waste (or
-trash) folder, it will not be overwritten; instead, the current file
+When rmw'ing a file or directory, if it already exists in the waste (or
+trash) directory, it will not be overwritten; instead, the current file
 being rmw'ed will have a time/date string (formatted as
 "_%H%M%S-%y%m%d") appended to it (e.g. 'foo_164353-210508').
 
@@ -144,6 +144,10 @@ being rmw'ed will have a time/date string (formatted as
 -h, --help
 -c, --config filename     use an alternate configuration
 -l, --list                list waste directories
+
+If -v is added, this option will also show whether or not the waste directory
+is marked as removable and if its current "attached" or "detached".
+
 -g[N_DAYS], --purge[=N_DAYS]
                           purge expired files;
                           optional argument 'N_DAYS' overrides 'purge_after'
@@ -151,7 +155,7 @@ being rmw'ed will have a time/date string (formatted as
                           (Examples: -g90, --purge=90)
 
 If purging is enabled, rmw will permanently delete files from the
-folders specified in the configuration file after 'x' number of days.
+directories specified in the configuration file after 'x' number of days.
 By default, purging is disabled ('purge_after' is set to '0' in the
 configuration file). To enable, use a value greater than '0' (Example:
 If '45' is specified, rmw will permanently delete files that have been
@@ -170,7 +174,7 @@ You can use '-vvg' to see when the remaining files will expire.
 
 This option is intended primarily for devlopers. Orphans should only
 happen while testing code changes, or if there's a bug released with
-rmw or another program that interfaces with your waste folders.
+rmw or another program that interfaces with your waste directories.
 
 
 -f, --force               allow purging of expired files
@@ -181,7 +185,7 @@ message that tells you "permission denied; directory still contains
 files" (e.g. rwm -ffg).
 
 
--e, --empty               completely empty (purge) all waste folders
+-e, --empty               completely empty (purge) all waste directories
 -r, -R, --recursive       option used for compatibility with rm
                           (recursive operation is enabled by default)
 -v, --verbose             increase output messages
@@ -194,7 +198,7 @@ files" (e.g. rwm -ffg).
 -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)
 
 To restore a file, or multiple files, specify the path to them in the
-<WASTE>/files folder (wildcards ok).
+<WASTE>/files directory (wildcards ok).
 
     rmw -z ~/.local/share/Waste/files/foo*
 
@@ -205,9 +209,9 @@ same name, the item being restored will have a time/date string
 
 -s, --select              select files from list to restore
 
-This will bring up an interactive list of files in your waste folders.
+This will bring up an interactive list of files in your waste directories.
 You can use the left/right cursor keys to switch between one waste
-folder and another. You can select multiple files to restore at once,
+directory and another. You can select multiple files to restore at once,
 then press enter to restore them.
 
 -u, --undo-last           undo last ReMove
@@ -220,7 +224,7 @@ located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
 
 == Configuration File ==
 
-Waste folders will be created automatically (Except for when the ',removable' option is used; see below) e.g., if
+Waste directories will be created automatically (Except for when the ',removable' option is used; see below) e.g., if
 '$HOME/.local/share/Waste' is uncommented in the config file, these 3
 directories will be created:
 
@@ -228,17 +232,17 @@ directories will be created:
     $HOME/.local/share/Waste/files
     $HOME/.local/share/Waste/info
 
-If one of the WASTE folders is on removable media, then the user has the
+If one of the WASTE directories is on removable media, then the user has the
 option of appending ',removable'.
 
-If a folder has ',removable' appended to it, rmw will not try to create
+If a directory has ',removable' appended to it, rmw will not try to create
 it; it must be initially created manually. When rmw runs, it will check
-to see if the folder exists (which means the removable media containing
-the folder is currently mounted). If rmw can't find the folder, it is
-assumed the media containing the folder isn't mounted and that folder
+to see if the directory exists (which means the removable media containing
+the directory is currently mounted). If rmw can't find the directory, it is
+assumed the media containing the directory isn't mounted and that directory
 will not be used for the current run of rmw.
 
-With the media mounted, once you manually create the waster folder for
+With the media mounted, once you manually create the waster directory for
 that device (e.g. ".Trash-$UID") and run rmw, it will automatically
 create the two required sub-directories "Trash-$UID/info" and
 ".Trash-$UID/files". The directory you create must match what's

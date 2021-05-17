@@ -35,6 +35,8 @@
 
 #define LEN_MAX_CFG_LINE (LEN_MAX_PATH * 2 + 1)
 
+extern const char *expire_age_str;
+
 /* Not currently used
  * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
  */
@@ -43,9 +45,9 @@ typedef struct {
   const char *dir;
   char file[LEN_MAX_PATH];
   st_waste *st_waste_folder_props_head;
-  int purge_after;
   bool force_required;
   bool fake_media_root;
+  int expire_age;
 } st_config;
 
 struct st_vars_to_check {

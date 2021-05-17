@@ -31,6 +31,7 @@
 #include <ctype.h>
 
 #include "parse_cli_options.h"
+#include "config_rmw.h"
 /* GIT_REV can defined during build-time with -D */
 #ifdef GIT_REV
 #define RMW_VERSION_STRING VERSION "." GIT_REV
@@ -60,13 +61,13 @@ Restore FILE(s) from a WASTE directory\n\n\
   fputs (_("\
   -l, --list                list waste directories\n\
 "), stdout);
-  fputs (_("\
+  fprintf (stdout, _("\
   -g[N_DAYS], --purge[=N_DAYS]\n\
                             purge expired files;\n\
-                            optional argument 'N_DAYS' overrides 'purge_after'\n\
+                            optional argument 'N_DAYS' overrides '%s'\n\
                             value from the configuration file\n\
                             (Examples: -g90, --purge=90)\n\
-"), stdout);
+"), expire_age_str);
   fputs (_("\
   -o, --orphaned            check for orphaned files (maintenance)\n\
 "), stdout);
@@ -74,7 +75,7 @@ Restore FILE(s) from a WASTE directory\n\n\
   -f, --force               allow purging of expired files\n\
 "), stdout);
   fputs (_("\
-  -e, --empty               completely empty (purge) all waste folders\n\
+  -e, --empty               completely empty (purge) all waste directories\n\
 "), stdout);
   fputs (_("\
   -r, -R, --recursive       option used for compatibility with rm\n\

@@ -33,8 +33,10 @@
 #include "utils_rmw.h"
 #include "strings_rmw.h"
 
-static const int DEFAULT_PURGE_AFTER = 0;
+static const int DEFAULT_EXPIRE_AGE = 0;
 static const char *lit_files = "files";
+
+const char *expire_age_str = "expire_age";
 
 /*!
  * Prints a copy of the default config file to the specified stream.
@@ -68,13 +70,14 @@ print_config (FILE *stream)
   fputs (_("\n# A folder can use the $UID variable.\n"), stream);
   fputs ("# WASTE=/mnt/fs/Trash-$UID\n", stream);
 
+// # hello world
   fputs (_("\n\
 # Removable media: If a folder has ',removable' appended to it, rmw\n\
 # will not try to create it; it must be initially created manually. If\n\
 # the folder exists when rmw is run, it will be used; if not, it will be\n\
 # skipped Once you create \"example_waste\", rmw will automatically create\n\
 # example_waste/info and example_waste/files\n"), stream);
-  fputs ("# WASTE=/mnt/sda10000/example_waste, removable", stream);
+  fputs ("# WASTE=/mnt/flash/.Trash-$UID, removable", stream);
 
   fputs (_("\n\
 # How many days should files be allowed to stay in the waste folders before\n\
@@ -82,7 +85,7 @@ print_config (FILE *stream)
 #\n\
 # use '0' to disable purging\n\
 #\n"), stream);
-  fprintf (stream, "purge_after = %d\n", DEFAULT_PURGE_AFTER);
+  fprintf (stream, "%s = %d\n", expire_age_str, DEFAULT_EXPIRE_AGE);
 
   fputs (_("\n\
 # purge is allowed to run without the '-f' option. If you'd rather\n\
@@ -510,9 +513,10 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
       continue;
     }
     /**
-     * assign purge_after the value from config file unless set by --purge
+     * assign expire_age the value from config file unless set by -gN_DAYS, --purge=N_DAYS
      */
-    if (strncmp (line_ptr, "purge_after", 11) == 0)
+    bool deprecated_purge_after = strncmp (line_ptr, "purge_after", 11) == 0;
+    if (strncmp (line_ptr, expire_age_str, sizeof expire_age_str - 1) == 0 || deprecated_purge_after)
     {
       if (cli_user_options->want_purge <= 0)
       {
@@ -521,17 +525,25 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
         {
           value++;
           value = del_char_shift_left (' ', value);
-          st_config_data->purge_after = atoi (value);
+          st_config_data->expire_age = atoi (value);
+          if (deprecated_purge_after)
+          {
+            puts ("");
+            print_msg_warn ();
+            printf ("\
+The configuration option 'purge_after' will be deprecated.\n\
+Please replace it with '%s' instead.\n\n", expire_age_str);
+          }
         }
         else
         {
           print_msg_warn();
-          puts ("configuration: 'purge_after' line must include an '=' sign.");
+          printf ("configuration: '%s' line must include an '=' sign.", expire_age_str);
         }
       }
       else
       {
-        st_config_data->purge_after = cli_user_options->want_purge;
+        st_config_data->expire_age = cli_user_options->want_purge;
       }
     }
     else if (!strcmp (line_ptr, "force_required"))
@@ -592,10 +604,10 @@ init_config_data (st_config *x)
 
   x->st_waste_folder_props_head = NULL;
   /*
-   * The default value for purge_after is only used as a last resort,
-   * if for some reason purge_after isn't specified in the config file.
+   * The default value is only used as a last resort,
+   * if for some reason unspecified in the config file.
    */
-  x->purge_after = DEFAULT_PURGE_AFTER;
+  x->expire_age = DEFAULT_EXPIRE_AGE;
   x->force_required = 0;
 
   const char *f = getenv ("RMW_FAKE_MEDIA_ROOT");
