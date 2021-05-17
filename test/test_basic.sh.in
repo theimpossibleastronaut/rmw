@@ -119,5 +119,9 @@ test "${output}" = "refusing to ReMove '.' or '..' directory: skipping 'tmpdot/.
 refusing to ReMove '.' or '..' directory: skipping 'tmpdot/..'
 2 items were removed to the waste folder" || exit $?
 
+expected="0 orphans found"
+output="$($RMW_TEST_CMD_STRING -o)" || exit $?
+test "${output}" = "${expected}" || exit $?
+
 echo "Basic tests passed"
 exit 0

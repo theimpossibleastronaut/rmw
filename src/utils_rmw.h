@@ -55,11 +55,11 @@ human_readable_size (off_t size);
 bool
 user_verify (void);
 
-bool
-escape_url (const char *str, char *dest, const int len);
+char *
+escape_url (const char *str, const int boundary);
 
-bool
-unescape_url (const char *str, char *dest, const int len);
+char *
+unescape_url (const char *str, const int boundary);
 
 bool
 isdotdir (const char *dir);

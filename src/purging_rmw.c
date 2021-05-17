@@ -554,8 +554,10 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
       req_len =
         multi_strlen (waste_curr->parent, "/orphans/",
                       st_file_properties.base_name, NULL) + 1;
-      bufchk_len (req_len, sizeof st_file_properties.real_path, __func__,
+      bufchk_len (req_len, LEN_MAX_PATH, __func__,
                   __LINE__);
+      st_file_properties.real_path = malloc (req_len);
+      chk_malloc (st_file_properties.real_path, __func__, __LINE__);
       sprintf (st_file_properties.real_path, "%s%s%s",
                 waste_curr->parent, "/orphans/",
                 st_file_properties.base_name);
@@ -571,6 +573,7 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
         print_msg_error ();
         printf (_("while creating %s\n"), path_to_trashinfo);
       }
+      free (st_file_properties.real_path);
 
     }
     if (closedir (files))

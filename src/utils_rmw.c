@@ -249,16 +249,16 @@ static bool is_unreserved (char c)
 
 /*!
  * Convert str into a URL valid string, escaping when necessary
- * @returns 0 on success, 1 on failure
- * @see is_unreserved
- * @see unescape_url
+ * returns an allocated string which must be freed later
  */
-bool escape_url (const char *str, char *dest, const int len)
+char *
+escape_url (const char *str, const int boundary)
 {
-  int pos_str;
-  int pos_dest;
-  pos_str = 0;
-  pos_dest = 0;
+  int pos_str = 0;
+  int pos_dest = 0;
+
+  char *dest = malloc (LEN_MAX_ESCAPED_PATH);
+  chk_malloc (dest, __func__, __LINE__);
 
   while (str[pos_str])
   {
@@ -266,10 +266,10 @@ bool escape_url (const char *str, char *dest, const int len)
     {
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
-      if (pos_dest + 2 > len)
+      if (pos_dest + 2 > boundary)
       {
-        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, len, pos_dest+2);
-        return 1;
+        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, boundary, pos_dest+2);
+        return NULL;
       }
 
       dest[pos_dest] = str[pos_str];
@@ -277,10 +277,10 @@ bool escape_url (const char *str, char *dest, const int len)
     }
     else {
       /* Again, check for overflow (3 chars + '\0') */
-      if (pos_dest + 4 > len)
+      if (pos_dest + 4 > boundary)
       {
-        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, len, pos_dest+4);
-        return 1;
+        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, boundary, pos_dest+4);
+        return NULL;
       }
 
       /* A quick explanation to this printf
@@ -298,22 +298,23 @@ bool escape_url (const char *str, char *dest, const int len)
 
   dest[pos_dest] = '\0';
 
-  return 0;
+  return dest;
 }
 
 
 /**
  * Convert a URL valid string into a regular string, unescaping any '%'s
  * that appear.
- * returns 0 on succes, 1 on failure
+ * returns an allocated string which must be freed later
  */
-bool
-unescape_url (const char *str, char *dest, const int len)
+char *
+unescape_url (const char *str, const int boundary)
 {
-  int pos_str;
-  int pos_dest;
-  pos_str = 0;
-  pos_dest = 0;
+  int pos_str = 0;
+  int pos_dest = 0;
+
+  char *dest = malloc (LEN_MAX_ESCAPED_PATH);
+  chk_malloc (dest, __func__, __LINE__);
 
   while (str[pos_str])
   {
@@ -323,12 +324,12 @@ unescape_url (const char *str, char *dest, const int len)
       pos_str += 1;
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
-      if (pos_dest + 2 > len)
+      if (pos_dest + 2 > boundary)
       {
         printf (_
                 ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, len, pos_dest + 2);
-        return 1;
+                __func__, boundary, pos_dest + 2);
+        return NULL;
       }
 
       sscanf (str + pos_str, "%2hhx", dest + pos_dest);
@@ -338,12 +339,12 @@ unescape_url (const char *str, char *dest, const int len)
     {
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
-      if (pos_dest + 2 > len)
+      if (pos_dest + 2 > boundary)
       {
         printf (_
                 ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, len, pos_dest + 2);
-        return 1;
+                __func__, boundary, pos_dest + 2);
+        return NULL;
       }
 
       dest[pos_dest] = str[pos_str];
@@ -354,7 +355,7 @@ unescape_url (const char *str, char *dest, const int len)
 
   dest[pos_dest] = '\0';
 
-  return 0;
+  return dest;
 }
 
 

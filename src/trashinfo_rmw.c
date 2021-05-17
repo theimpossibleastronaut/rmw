@@ -59,9 +59,8 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time
     /* Worst case scenario: whole path is escaped, so 3 chars per
      * actual character
      **/
-    static char escaped_path[LEN_MAX_ESCAPED_PATH];
-
-    if (escape_url (st_f_props->real_path, escaped_path, LEN_MAX_ESCAPED_PATH) )
+    char *escaped_path = escape_url (st_f_props->real_path, LEN_MAX_ESCAPED_PATH);
+    if (escaped_path == NULL)
       return close_file (fp, final_info_dest, __func__);
 
     char *escaped_path_ptr = escaped_path;
@@ -74,12 +73,14 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time
       {
         print_msg_error ();
         fprintf (stderr, "Expected a leading '/' in the pathname '%s'\n", escaped_path_ptr);
+        free (escaped_path);
         exit (EXIT_FAILURE);
       }
     }
 
     fprintf (fp, "%s\n", st_trashinfo_spec[TI_HEADER].str);
     fprintf (fp, "%s%s\n", st_trashinfo_spec[TI_PATH_LINE].str, escaped_path_ptr);
+    free (escaped_path);
     fprintf (fp, "%s%s\n", st_trashinfo_spec[TI_DATE_LINE].str, st_time_var->deletion_date);
 
     return close_file (fp, final_info_dest, __func__);
@@ -113,8 +114,7 @@ char
   FILE *fp = fopen (file, "r");
   if (fp != NULL)
   {
-    char *value = malloc (LEN_MAX_ESCAPED_PATH);
-    chk_malloc (value, __func__, __LINE__);
+    char *value = NULL;
     bool res = true;
     char fp_line[LEN_MAX_TRASHINFO_PATH_LINE];
     while (fgets (fp_line, LEN_MAX_TRASHINFO_PATH_LINE, fp) != NULL && res == true)
@@ -131,8 +131,8 @@ char
           {
             char *path_ptr = strchr (fp_line, '=');
             path_ptr++; /* move past the '=' sign */
-            unescape_url (path_ptr, value, LEN_MAX_PATH);
-            trim_white_space (value);
+            char *unescaped_path = unescape_url (path_ptr, LEN_MAX_PATH);
+            value = unescaped_path;
           }
           break;
         case TI_DATE_LINE:
@@ -143,9 +143,9 @@ char
           {
             char *date_str_ptr = strchr (fp_line, '=');
             date_str_ptr++;
-            strcpy (value, date_str_ptr);
-            value = realloc (value, strlen (date_str_ptr) + 1);
+            value = malloc (strlen (date_str_ptr) + 1);
             chk_malloc (value, __func__, __LINE__);
+            strcpy (value, date_str_ptr);
           }
           break;
         default:
@@ -159,7 +159,8 @@ char
     if (res && line_no == TI_LINE_COUNT)
       return value;
 
-    free (value);
+    if (value != NULL)
+      free (value);
     display_dot_trashinfo_error (file);
     return NULL;
   }

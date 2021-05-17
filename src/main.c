@@ -66,7 +66,7 @@ get_mrl_contents (const char *mrl_file)
 
   if (fd == NULL)
   {
-    contents = (char*)&mrl_is_empty[0];
+    contents = (char*)mrl_is_empty;
     return contents;
   }
 
@@ -114,7 +114,7 @@ process_mrl (st_waste *waste_head,
     else
       res = undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents, waste_head);
 
-    if (mrl_contents != NULL && mrl_contents != &mrl_is_empty[0])
+    if (mrl_contents != NULL && mrl_contents != mrl_is_empty)
     {
       free (mrl_contents);
     }
@@ -387,7 +387,11 @@ remove_to_waste (
     /* leave "/" or "\" alone */
     if (strcmp (argv[file_arg], "/") == 0 || strcmp (argv[file_arg], "/") == 0)
     {
-      puts (_("The Easter Bunny says, \"Hello, world.\""));
+      puts (_("\n\
+Your single slash has been ignored. You walk to the market\n\
+in the town square and purchase a Spear of Destiny. You walk to\n\
+the edge of the forest and find your enemy. You attack, causing\n\
+damage of 5000 hp. You feel satisfied.\n"));
       continue;
     }
 
