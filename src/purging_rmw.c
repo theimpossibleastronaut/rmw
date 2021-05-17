@@ -313,10 +313,10 @@ purge (st_config * st_config_data,
       if (isdotdir (st_trashinfo_dir_entry->d_name))
         continue;
 
-      int req_len = strlen (st_trashinfo_dir_entry->d_name) + waste_curr->len_info + 1;
+      int req_len = multi_strlen (st_trashinfo_dir_entry->d_name, "/", NULL) + waste_curr->len_info + 1;
       bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       char trashinfo_entry_realpath[req_len];
-      sprintf (trashinfo_entry_realpath, "%s%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
+      sprintf (trashinfo_entry_realpath, "%s/%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
 
       char *raw_deletion_date = parse_trashinfo_file (trashinfo_entry_realpath, deletion_date_key);
       time_t then = 0;
@@ -344,10 +344,10 @@ purge (st_config * st_config_data,
         char temp[strlen (st_trashinfo_dir_entry->d_name) + 1];
         strcpy (temp, st_trashinfo_dir_entry->d_name);
         truncate_str (temp, len_trashinfo_ext);    /* acquire the (basename - trashinfo extension) */
-        req_len = waste_curr->len_files + strlen (temp) + 1;
+        req_len = strlen ("/") + waste_curr->len_files + strlen (temp) + 1;
         bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
         char purge_target[req_len];
-        sprintf (purge_target, "%s%s", waste_curr->files, temp);
+        sprintf (purge_target, "%s/%s", waste_curr->files, temp);
         char pt_tmp[sizeof purge_target];
         strcpy (pt_tmp, purge_target);
         char *pt_basename = basename (pt_tmp);
@@ -542,9 +542,9 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
       st_file_properties.base_name = basename (entry->d_name);
 
-      int req_len = strlen (st_file_properties.base_name) + waste_curr->len_info + len_trashinfo_ext + 1;
+      int req_len = multi_strlen (st_file_properties.base_name, "/", NULL) + waste_curr->len_info + len_trashinfo_ext + 1;
       bufchk_len (req_len, sizeof path_to_trashinfo, __func__, __LINE__);
-      sprintf (path_to_trashinfo, "%s%s%s", waste_curr->info,
+      sprintf (path_to_trashinfo, "%s/%s%s", waste_curr->info,
                 st_file_properties.base_name, trashinfo_ext);
 
       if (exists (path_to_trashinfo))

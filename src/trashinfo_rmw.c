@@ -28,8 +28,13 @@
 struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
 const char trashinfo_ext[] = ".trashinfo";
-const int len_trashinfo_ext = (sizeof (trashinfo_ext) - 1); /* Subtract 1 for the terminating NULL */
-const int LEN_MAX_TRASHINFO_PATH_LINE = (sizeof ("Path=") - 1) + LEN_MAX_ESCAPED_PATH;
+const int len_trashinfo_ext = sizeof trashinfo_ext - 1; /* Subtract 1 for the terminating NULL */
+const int LEN_MAX_TRASHINFO_PATH_LINE = (sizeof "Path=" - 1) + LEN_MAX_ESCAPED_PATH;
+
+const char *lit_files = "files";
+const char *lit_info = "info";
+const int len_lit_files = sizeof lit_files - 1;
+const int len_lit_info = sizeof lit_info - 1;
 
 const char *path_key = "Path";
 const char *deletion_date_key = "DeletionDate";
@@ -38,10 +43,10 @@ const char *deletion_date_key = "DeletionDate";
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
 {
-  int req_len = strlen (st_f_props->base_name) + waste_curr->len_info + len_trashinfo_ext + LEN_TIME_STR_SUFFIX + 1;
+  int req_len = multi_strlen (st_f_props->base_name, "/", NULL) + waste_curr->len_info + len_trashinfo_ext + LEN_TIME_STR_SUFFIX + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   char final_info_dest[req_len];
-  sprintf (final_info_dest, "%s%s", waste_curr->info, st_f_props->base_name);
+  sprintf (final_info_dest, "%s/%s", waste_curr->info, st_f_props->base_name);
 
   if (st_f_props->is_duplicate)
   {

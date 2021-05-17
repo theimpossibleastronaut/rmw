@@ -449,9 +449,9 @@ damage of 5000 hp. You feel satisfied.\n"));
     {
       if (waste_curr->dev_num == st_orig.st_dev)
       {
-        int req_len = strlen (st_target.base_name) + waste_curr->len_files + 1;
+        int req_len = multi_strlen (st_target.base_name, "/", NULL) + waste_curr->len_files + 1;
         bufchk_len (req_len, sizeof st_target.waste_dest_name, __func__, __LINE__);
-        sprintf (st_target.waste_dest_name, "%s%s",
+        sprintf (st_target.waste_dest_name, "%s/%s",
                   waste_curr->files, st_target.base_name);
 
         /* If a duplicate file exists
