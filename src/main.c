@@ -104,7 +104,7 @@ process_mrl (st_waste *waste_head,
   if (mrl_contents != NULL)
   {
     if (!strcmp (mrl_contents, mrl_is_empty))
-      printf ("There are no items in the list - please check back later.\n");
+      puts (_("There are no items in the list - please check back later.\n"));
     else if (cli_user_options->most_recent_list)
     {
       printf ("%s", mrl_contents);

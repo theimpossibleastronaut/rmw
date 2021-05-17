@@ -269,6 +269,7 @@ escape_url (const char *str, const int boundary)
       if (pos_dest + 2 > boundary)
       {
         fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, boundary, pos_dest+2);
+        free (dest);
         return NULL;
       }
 
@@ -280,6 +281,7 @@ escape_url (const char *str, const int boundary)
       if (pos_dest + 4 > boundary)
       {
         fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, boundary, pos_dest+4);
+        free (dest);
         return NULL;
       }
 
@@ -329,6 +331,7 @@ unescape_url (const char *str, const int boundary)
         printf (_
                 ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
                 __func__, boundary, pos_dest + 2);
+        free (dest);
         return NULL;
       }
 
@@ -344,6 +347,7 @@ unescape_url (const char *str, const int boundary)
         printf (_
                 ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
                 __func__, boundary, pos_dest + 2);
+        free (dest);
         return NULL;
       }
 
