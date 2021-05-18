@@ -73,3 +73,14 @@ Yes. For example:
 Some complex regex expressions won't work. If you'd like support
 for a particular pattern that doesn't already work, please open a
 ticket.
+
+**Can rmw be run as a scheduled job to purge expired files?**
+
+I wouldn't recommend it. It's never been tested that way, but more
+importantly, it could cause a <a
+href="https://devopedia.org/race-condition-software">race
+condition</a>. For example, if you manually run rmw at the same time
+it's being run by a task scheduler, rmw could have unpredictable
+results as it tries to read files that are in the process of being
+removed (the rare possibility of collision exists even though rmw
+usually only takes a few seconds or less to run).

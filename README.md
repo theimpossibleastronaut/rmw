@@ -3,15 +3,20 @@
 ## Description
 
 rmw (ReMove to Waste) is a safe-remove utility for the command line.
-Its goal is to conform to [the FreeDesktop.org Trash
-specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
-and therefore be compatible with KDE, GNOME, Xfce, and others. Desktop
-integration is optional however, and by default, rmw will only use a
-waste directory separated from your desktop trash. One of its unique
-features is the ability to purge items from your Waste/Trash
-directories after x number of days.
+Its goal is compliance with the [the FreeDesktop.org Trash
+specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html),
+which is used by environments such as KDE, GNOME, and Xfce. By default,
+rmw will only use a waste directory separated from your desktop trash,
+though it can also be integrated with your normal desktop trash folder.
+One of its unique features is the ability to purge items from your
+Waste/Trash directories after x number of days.
 
 Web site: <https://remove-to-waste.info/>
+
+rmw is for people who sometimes use rm or rmdir at the command line and
+would occasionally like an alternative choice. It's not intended or
+designed to act as a replacement for rm, as it's more closely related
+to how the desktop trash system functions.
 
 ## Build Status
 
@@ -19,26 +24,31 @@ Web site: <https://remove-to-waste.info/>
 * [![CodeQL](https://github.com/theimpossibleastronaut/rmw/workflows/CodeQL/badge.svg)](https://github.com/theimpossibleastronaut/rmw/actions?query=workflow%3ACodeQL)
 * [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
 
-## Available packages
-
-[![Packaging status](https://repology.org/badge/vertical-allrepos/rmw.svg)](https://repology.org/project/rmw/versions)
-
-Maintainer-created Debian packages (amd64) are available in the
-[releases
-section](https://github.com/theimpossibleastronaut/rmw/releases).
-
 ## Screenshots
 
-![rmw usage output](https://remove-to-waste.info/images/Screenshot_2020-04-11.png)
-
-[More Screenshots](https://remove-to-waste.info/screenshots.html)
+[Screenshots](https://remove-to-waste.info/screenshots.html)
 
 ## Contact / Support
 
 * [Bug Reports and Feature Requests](https://github.com/theimpossibleastronaut/rmw/blob/master/CONTRIBUTING.md#bug-reports-and-feature-requests)
 * [General Help, Support, Discussion](https://remove-to-waste.info/#support)
 
-## Required libraries
+## Installation
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/rmw.svg)](https://repology.org/project/rmw/versions)
+
+rmw is available in the homebrew and linuxbrew repositories; or there
+may may be a binary package available for your OS. You can view a list
+at [Repology](https://repology.org/project/rmw/versions) to see in
+which repositories rmw is included.
+
+Maintainer-created Debian packages (amd64) are available in the
+[releases
+section](https://github.com/theimpossibleastronaut/rmw/releases).
+
+## Installing from source
+
+### Required libraries
 
 * libncursesw (ncurses-devel on some systems, such as CentOS)
 * gettext (or use --disable-nls if you only need English language support)
@@ -47,18 +57,23 @@ If you are building from source, you will need the libncursesw(5 or
 6)-dev package from your operating system distribution. On some systems
 just the ncurses packages is needed, and it's often already installed.
 
-## Compiling
+### Compiling
 
-### As a normal user:
+#### As a normal user:
+
+(This examples places the generated files to a separate folder, but you can
+run 'configure' from any directory you like.)
 
 Use `../configure --help` to view available compile-time options.
 
-    mkdir build
-    cd build
+```
+    mkdir _build
+    cd _build
     ../configure
     make
+```
 
-### Installing without superuser privileges
+#### Installing without superuser privileges
 
 If you would like to install rmw without superuser privileges, use a prefix
 that you have write access to. Example:
@@ -72,25 +87,17 @@ The rmw binary will be installed to `$HOME/.local/bin` and documentation to
 
 ### If configure fails
 
-On **OSX**, ncursesw isn't provided by default but can be installed
-using `brew install ncurses`. Then precede `./configure` with
-`PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"` Example:
+On **macOS**, you may get a message during 'configure' that the menu
+library can't be found. The ncurses menu library isn't provided by
+default but can be installed using `brew install ncurses`. Then run
+'configure' like this:
 
     PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig" ../configure
 
-If you can't use [brew](https://brew.sh/), or install libncursesw or
-libmenuw some other way, rmw will use `ncurses` but you may experience
-[this minor
-bug](https://github.com/theimpossibleastronaut/rmw/issues/205).
+Or you can install [rmw using
+brew](https://formulae.brew.sh/formula/rmw).
 
-Note: rmw was built on **Windows** 2 years ago using Cygwin but it
-didn't use the proper directories. We have no Windows developers
-working on this project and are hoping that some will join soon!. As
-stated in the description, the goal of this project is a
-"cross-platform" utility; so getting rmw to work on Windows is
-still on the TODO list.
-
-## Uninstall / Cleaning up
+### Uninstall / Cleaning up
 
 * make uninstall (uninstalls the program if installed with 'make install`)
 * make distclean (removes files in the build directory created by
@@ -101,12 +108,9 @@ still on the TODO list.
 == First-time use ==
 
 After rmw is installed, running `rmw` will create a configuration file
-(rmwrc) in $HOME/.config (or $XDG_CONFIG_HOME). Edit the file as
-desired.
+(rmwrc) in $HOME/.config (or $XDG_CONFIG_HOME).
 
-== Features and Options ==
-
-=== Basic usage ===
+== Basic usage ==
 
 'rmw <file(s)>'
 
@@ -224,7 +228,8 @@ located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
 
 == Configuration File ==
 
-Waste directories will be created automatically (Except for when the ',removable' option is used; see below) e.g., if
+Waste directories will be created automatically (Except for when the
+',removable' option is used; see below) e.g., if
 '$HOME/.local/share/Waste' is uncommented in the config file, these 3
 directories will be created:
 
