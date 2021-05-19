@@ -25,17 +25,17 @@ discussion</a>)
 
 **How do I know if rmw is compatible with my Desktop trash?**
 
-When rmw moves a file to a waste or trash folder, it also writes a
+When rmw moves a file to a waste or trash directory, it also writes a
 *.trashinfo* file to the corresponding trash directory. The default
-waste folder rmw uses is *~/.local/share/Waste*, therefore <code
-class="w3-codespan">rmw foo</code> would result in
+waste directory that rmw uses is *~/.local/share/Waste*, therefore
+<code class="w3-codespan">rmw foo</code> would result in
 
 <p class="w3-code">
   ~/.local/share/Waste/files/foo<br />
   ~/.local/share/Waste/info/foo.trashinfo
 </p>
 
-The contents of *foo.trashinfo* would look like this:
+<a name="dot_trashinfo">The contents of *foo.trashinfo* would look like this:</a>
 
 <p class="w3-code">
   [Trash Info]<br />

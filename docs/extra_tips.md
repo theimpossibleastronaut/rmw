@@ -7,11 +7,12 @@ layout: default
 
 make V=1
 
-**To view the days remaining until a file is purged**
+**To view disk usage used by the files in the Waste directories**
 
-Use -vv (with -fg)
+Warning: this could take a long time to run if you have a lot of items in your waste directories.
 
-**To view disk usage used by the files in the Waste folders**
+You can use the <a href="https://www.man7.org/linux/man-pages/man1/du.1.html">du</a> command:
+
 <p class="w3-code">
 du -sh `rmw -l`
 </p>
