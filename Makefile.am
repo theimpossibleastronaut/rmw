@@ -1,7 +1,6 @@
 packextrasdir=@docdir@
 SUBDIRS = src man test po
 EXTRA_DIST =	\
-	ABOUT-NLS	\
 	README.md	\
 	ChangeLog	\
 	AUTHORS.md	\
