@@ -240,7 +240,7 @@ located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
 
 Waste directories will be created automatically (Except for when the
 ',removable' option is used; see below) e.g., if
-'$HOME/.local/share/Waste' is uncommented in the config file, these 2
+'$HOME/.local/share/Waste' is uncommented in the config file, these two
 directories will be created:
 
     $HOME/.local/share/Waste/files

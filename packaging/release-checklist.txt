@@ -3,6 +3,7 @@ Remove "development version" notice from README
 Change version number
   configure.ac (AC_INIT)
   README.md
+  man/rmw.1
   packaging/Slackbuild/rmw/rmw.info (also change version numbers in download link)
   packaging/Slackbuild/rmw/rmw.Slackbuild
   packaging/file_id.diz (filegate.net)
