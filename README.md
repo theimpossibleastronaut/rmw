@@ -108,9 +108,9 @@ brew](https://formulae.brew.sh/formula/rmw).
 * make uninstall (uninstalls the program if installed with 'make install`)
 * make distclean (removes files in the build directory created by `configure` and 'make')
 
-## Basic Usage <!-- Don't make changes to this file, but to
-src/man/rmw.1 instead. This is generated with 'man ./rmw.1 | col -b >
-plaintext' -->
+## Basic Usage
+<!-- Don't make changes below this line, but to src/man/rmw.1 instead. -->
+<!-- This is generated with 'man ./rmw.1 | col -b > plaintext' -->
 ```
        Items will be moved to a waste basket in the same manner as when using the "move
        to trash" option from your desktop GUI. They will be separated from your desktop
