@@ -43,50 +43,36 @@ static void
 print_config (FILE *stream)
 {
   fputs (_("\
-# NOTE: If two WASTE folders are on the same file system, rmw will move files\n\
-# to the first WASTE folder listed, ignoring the second one.\n\
-#\n"), stream);
-  fputs ("WASTE = $HOME/.local/share/Waste\n", stream);
-
+# rmw default waste directory, separate from the desktop trash\n"), stream);
+  fputs ("\
+WASTE = $HOME/.local/share/Waste\n", stream);
   fputs (_("\n\
-# If you would like this to be your primary trash folder (which usually means\n\
-# that it will be the same as your Desktop Trash folder) be sure it precedes\n\
-# any other WASTE folders listed in the config file\n\
-#\n\
-# If you want it checked for files that need purging, simply uncomment\n\
-# The line below. Files you move with rmw will go to the folder above by\n\
-# default.\n\
-#\n\
-# Note to macOS and Windows users: sending files to 'Desktop' trash\n\
-# doesn't work yet\n\
-#\n"), stream);
-  fputs ("# WASTE=$HOME/.local/share/Trash\n", stream);
-
-  fputs (_("\n# A folder can use the $UID variable.\n"), stream);
-  fputs ("# WASTE=/mnt/fs/Trash-$UID\n", stream);
-
-// # hello world
+# The directory used by the FreeDesktop.org Trash spec\n\
+# Note to macOS and Windows users: moving files to 'Desktop' trash\n\
+# doesn't work yet\n"), stream);
+  fputs ("\
+# WASTE=$HOME/.local/share/Trash\n", stream);
+  fputs ("\n", stream);
+  fputs (_("\
+# A folder can use the $UID variable.\n"), stream);
+  fputs (_("\
+# See the README or man page for details about using the 'removable' attribute\n"), stream);
+  fputs ("\
+# WASTE=/mnt/flash/.Trash-$UID, removable\n", stream);
   fputs (_("\n\
-# Removable media: If a folder has ',removable' appended to it, rmw\n\
-# will not try to create it; it must be initially created manually. If\n\
-# the folder exists when rmw is run, it will be used; if not, it will be\n\
-# skipped Once you create \"example_waste\", rmw will automatically create\n\
-# example_waste/info and example_waste/files\n"), stream);
-  fputs ("# WASTE=/mnt/flash/.Trash-$UID, removable", stream);
-
-  fputs (_("\n\
-# How many days should files be allowed to stay in the waste folders before\n\
-# they are permanently deleted\n\
+# How many days should items be allowed to stay in the waste\n\
+# directories before they are permanently deleted\n\
 #\n\
-# use '0' to disable purging\n\
+# use '0' to disable purging (can be overridden by using --purge=N_DAYS)\n\
 #\n"), stream);
-  fprintf (stream, "%s = %d\n", expire_age_str, DEFAULT_EXPIRE_AGE);
-
+  fprintf (stream, "\
+%s = %d\n", expire_age_str, DEFAULT_EXPIRE_AGE);
   fputs (_("\n\
 # purge is allowed to run without the '-f' option. If you'd rather\n\
 # require the use of '-f', you may uncomment the line below.\n\
 #\n"), stream);
-  fputs ("# force_required\n", stream);
+  fputs ("\
+# force_required\n", stream);
 }
 
 
@@ -490,6 +476,7 @@ get_config_home_dir (void)
 void
 parse_config_file (const rmw_options * cli_user_options, st_config *st_config_data)
 {
+  int len_expire_age_str = strlen (expire_age_str);
   FILE *fd = realize_config_file (st_config_data, cli_user_options);
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
@@ -511,7 +498,7 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
      * assign expire_age the value from config file unless set by -gN_DAYS, --purge=N_DAYS
      */
     bool deprecated_purge_after = strncmp (line_ptr, "purge_after", 11) == 0;
-    if (strncmp (line_ptr, expire_age_str, sizeof expire_age_str - 1) == 0 || deprecated_purge_after)
+    if (strncmp (line_ptr, expire_age_str, len_expire_age_str) == 0 || deprecated_purge_after)
     {
       if (cli_user_options->want_purge <= 0)
       {

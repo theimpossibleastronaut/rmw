@@ -39,7 +39,7 @@ static void
 print_usage (const char *prog_name)
 {
   printf (_("Usage: %s [OPTION]... FILE...\n\
-ReMove the FILE(s) to a WASTE directory listed in configuration file\n\
+Move FILE(s) to a WASTE directory listed in configuration file\n\
 \n\
    or: %s -s\n\
    or: %s -u\n\
@@ -52,7 +52,7 @@ Restore FILE(s) from a WASTE directory\n\n\
   -h, --help                show help for command line options\n\
 "), stdout);
   fputs (_("\
-  -c, --config filename     use an alternate configuration\n\
+  -c, --config FILE         use an alternate configuration\n\
 "), stdout);
   fputs (_("\
   -l, --list                list waste directories\n\
@@ -90,13 +90,13 @@ Restore FILE(s) from a WASTE directory\n\n\
   \n\n\
   \t===] Restoring [===\n\n"), stdout);
   fputs (_("\
-  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)\n\
+  -z, --restore FILE(s)     restore FILE(s) (see man page example)\n\
 "), stdout);
   fputs (_("\
   -s, --select              select files from list to restore\n\
 "), stdout);
   fputs (_("\
-  -u, --undo-last           undo last ReMove\n\
+  -u, --undo-last           undo last move\n\
 "), stdout);
   fputs (_("\
   -m, --most-recent-list    list most recently rmw'ed files\n\

@@ -249,9 +249,6 @@ purge (st_config * st_config_data,
     /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
      * directory  */
     printf (_("purging is disabled ('%s' is set to '0')\n\n"), expire_age_str);
-
-    /* expire_age is kind of a "fail-safe". If someone sets it to "0", don't
-     * allow any exceptions */
     return 0;
   }
 

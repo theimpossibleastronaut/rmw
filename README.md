@@ -2,21 +2,22 @@
 
 ## Description
 
-rmw (ReMove to Waste) is a safe-remove utility for the command line.
-Its goal is compliance with the [the FreeDesktop.org Trash
-specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html),
-which is used by environments such as KDE, GNOME, and Xfce. By default,
-rmw will only use a waste directory separated from your desktop trash,
-though it can also be integrated with your normal desktop trash folder.
-One of its unique features is the ability to purge items from your
-Waste/Trash directories after x number of days.
+rmw (ReMove to Waste) is a safe-remove utility for the command line. It
+can move and restore files to and from directories specified in a
+configuration file, and can also be integrated with your regular
+desktop trash folder (if your desktop environment uses the
+FreeDesktop.org Trash specification). One of the unique features of rmw
+is the ability to purge items from your waste (or trash) directories
+after x number of days.
 
 Web site: <https://remove-to-waste.info/>
 
 rmw is for people who sometimes use rm or rmdir at the command line and
 would occasionally like an alternative choice. It's not intended or
 designed to act as a replacement for rm, as it's more closely related
-to how the desktop trash system functions.
+to how the [FreeDesktop.org trash
+system](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)
+functions.
 
 rmw will not move items from one file system to another. If you try to
 rmw a file but don't have a waste directory configured that matches the
@@ -58,7 +59,7 @@ section](https://github.com/theimpossibleastronaut/rmw/releases).
 * libncursesw (ncurses-devel on some systems, such as CentOS)
 * gettext (or use --disable-nls if you only need English language support)
 
-If you are building from source, you will need the libncursesw(5 or
+If you're building from source, you will need the libncursesw(5 or
 6)-dev package from your operating system distribution. On some systems
 just the ncurses packages is needed, and it's often already installed.
 
@@ -107,159 +108,184 @@ brew](https://formulae.brew.sh/formula/rmw).
 * make uninstall (uninstalls the program if installed with 'make install`)
 * make distclean (removes files in the build directory created by `configure` and 'make')
 
-## Usage
+## Basic Usage <!-- Don't make changes to this file, but to
+src/man/rmw.1 instead. This is generated with 'man ./rmw.1 | col -b >
+plaintext' -->
 ```
-== First-time use ==
+       Items will be moved to a waste basket in the same manner as when using the "move
+       to trash" option from your desktop GUI. They will be separated from your desktop
+       trash by default; or if you wish for them to share the same  "trash"  directory,
+       uncomment the line (in your config file):
 
-After rmw is installed, running `rmw` will create a configuration file
-(rmwrc) in $HOME/.config (or $XDG_CONFIG_HOME).
+       (Note  that  this  does not apply to MacOS; while rmw is yet unable to integrate
+       with the desktop trash directory, you'll still be able to use the default  Waste
+       directory.)
 
-== Basic usage ==
+	   WASTE = $HOME/.local/share/Trash
 
-'rmw <file(s)>'
+       then comment out the line
 
-Items (files or directories) will be moved to a waste basket in the
-same manner as when using the "move to trash" option from your desktop
-GUI. They will be separated from your desktop trash by default; or if
-you wish for them to share the same "trash" directory, uncomment the
-line (in your config file):
+	   WASTE = $HOME/.local/share/Waste
 
-(Note that this does not apply to MacOS; while rmw is yet unable to
-integrate with the desktop trash directory, you'll still be able to use
-the default Waste directory.)
+       You  can  reverse  which  directories are enabled at any time if you ever change
+       your mind. If both directories are on the same filesystem, rmw will use the  di‐
+       rectory listed first in your config file.
 
-    WASTE = $HOME/.local/share/Trash
+       It can be beneficial to have them both uncommented. If your desktop trash direc‐
+       tory  (~/.local/share/Trash)  is  listed   after   the	rmw   default	(~/.lo‐
+       cal/share/Waste) and uncommented, rmw will place newly rmw'ed items into the de‐
+       fault, and it will purge expired files from both.
 
-then comment out the line
+       When rmw'ing an item, if a file or directory with the same name	already  exists
+       in the waste (or trash) directory, it will not be overwritten; instead, the cur‐
+       rent  file  being  rmw'ed  will	have   a   time/date   string	(formatted   as
+       "_%H%M%S-%y%m%d") appended to it (e.g. 'foo_164353-210508').
 
-    WASTE = $HOME/.local/share/Waste
+OPTIONS
+       -h, --help
+	      show help for command line options
 
-You can reverse which directories are enabled at any time if you ever
-change your mind. If both directories are on the same filesystem, rmw will
-use the directory listed first in your config file.
+       -c, --config FILE
+	      use an alternate configuration
 
-It can be beneficial to have them both uncommented. If your desktop
-trash directory (~/.local/share/Trash) is listed after the rmw default
-(~/.local/share/Waste) and uncommented, rmw will place newly rmw'ed
-items into the default, and it will purge expired files from both.
+       -l, --list
+	      list waste directories
 
-When rmw'ing an item, if a file or directory with the same name already
-exists in the waste (or trash) directory, it will not be overwritten;
-instead, the current file being rmw'ed will have a time/date string
-(formatted as "_%H%M%S-%y%m%d") appended to it (e.g.
-'foo_164353-210508').
+       -g[N_DAYS], --purge[=N_DAYS]
+	      purge  expired  files;  optional argument 'N_DAYS' overrides 'expire_age'
+	      value from the configuration file (Examples: -g90, --purge=90)
 
+	      By default, purging is disabled ('expire_age' is set to '0' in  the  con‐
+	      figuration  file).  To  enable, set the 'expire_age' value in your config
+	      file to a value greater than '0'
 
--h, --help
--c, --config filename     use an alternate configuration
--l, --list                list waste directories
+	      You can use '-vvg' to see when the remaining files in the waste  directo‐
+	      ries will expire.
 
-If -v is added, this option will also show whether or not the waste directory
-is marked as removable and if its current "attached" or "detached".
+       -o, --orphaned
+	      check for orphaned files (maintenance)
 
--g[N_DAYS], --purge[=N_DAYS]
-                          purge expired files;
-                          optional argument 'N_DAYS' overrides 'expire_age'
-                          value from the configuration file
-                          (Examples: -g90, --purge=90)
+	      An  orphan  is  an  item	in  a waste directory that has no corresponding
+	      .trashinfo  file	(see  <https://remove-to-waste.info/faq.html#dot_trash‐
+	      info>),  or vice versa. This option is intended primarily for developers.
+	      Orphans should only happen while testing code changes, if there's  a  bug
+	      released	with rmw or another program that interfaces with your waste di‐
+	      rectories.
 
-By default, purging is disabled ('expire_age' is set to '0' in the
-configuration file). To enable, set the 'expire_age' value in your
-config file to a value greater than '0' (Example: If '45' is specified,
-rmw will permanently delete files that have been in the waste (or
-trash) for more than 45 days.
+       -f, --force
+	      allow purging of expired files
 
-The value of 'purge_after' can be temporarily overridden by using
--g[N_DAYS] or --purge[=NDAYS].
+	      By default, force is not required to enable the  purge  feature.	If  you
+	      would like to require it, add 'force_required' to your config file.
 
-The time of the last check for expired items is stored in `purge-time`,
-located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
+	      rmw  will  refuse to purge directories if they contain non-writable files
+	      or subdirectories. rmw will show a message that tells you "permission de‐
+	      nied;  directory	still  contains files". To override, you can re-run rmw
+	      using '-ffg'.
 
-You can use '-vvg' to see when the remaining files in the waste
-directories will expire.
+       -e, --empty
+	      completely empty (purge) all waste directories
 
+       -r, -R, --recursive
+	      option used for compatibility with rm (recursive operation is enabled  by
+	      default)
 
--o, --orphaned            check for orphaned files (maintenance)
+       -v, --verbose
+	      increase output messages
 
-An orphan is an item in a waste directory that has no corresponding
-.trashinfo file<https://remove-to-waste.info/faq.html#dot_trashinfo>,
-or vice versa. This option is intended primarily for developers.
-Orphans should only happen while testing code changes, if there's a bug
-released with rmw or another program that interfaces with your waste
-directories.
+       -w, --warranty
+	      display warranty
 
+       -V, --version
+	      display version and license information
 
--f, --force               allow purging of expired files
+   RESTORING
+       -z, --restore FILE(s)
 
-rmw will refuse to purge directories if they contain non-writable files
-or subdirectories. rmw will show a message that tells you "permission
-denied; directory still contains files". To override, you can re-run
-rmw using '-ffg'.
+	      To restore items, specify the path to them in the <WASTE>/files directory
+	      (wildcards ok).
 
+	      When restoring an item, if a file or directory with the same name already
+	      exists  at the destination, the item being restored will have a time/date
+	      string   (formatted   as	 "_%H%M%S-%y%m%d")   appended	to   it   (e.g.
+	      'foo_164353-210508').
 
--e, --empty               completely empty (purge) all waste directories
--r, -R, --recursive       option used for compatibility with rm
-                          (recursive operation is enabled by default)
--v, --verbose             increase output messages
--w, --warranty            display warranty
--V, --version             display version and license information
+       -s, --select
+	      select files from list to restore
 
+	      Displays	a  list  of  items  in	your waste directories. You can use the
+	      left/right cursor keys to switch between waste directories. Use the space
+	      bar  to select the items you wish to restore, then press enter to restore
+	      all selected items.
 
-=== Restoring ===
+       -u, --undo-last
+	      undo last move
 
--z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)
+	      Restores files that were last rmw'ed. No arguments for  `-u`  are  neces‐
+	      sary.
 
-To restore items, specify the path to them in the <WASTE>/files
-directory (wildcards ok).
+       -m, --most-recent-list
+	      list most recently rmw'ed files
 
-    rmw -z ~/.local/share/Waste/files/foo
-    rmw -z ~/.local/share/Waste/files/bars*
+CONFIGURATION FILE
+       The  first time rmw is run, it will create a configuration file.  Waste directo‐
+       ries will be created automatically (Except for when the ',removable'  option  is
+       used;  see below) e.g., if '$HOME/.local/share/Waste' is uncommented in the con‐
+       fig file, these two directories will be created:
 
-When restoring an item, if a file or directory with the same name
-already exists at the destination, the item being restored will have a
-time/date string (formatted as "_%H%M%S-%y%m%d") appended to it (e.g.
-'foo_164353-210508').
+	   $HOME/.local/share/Waste/files
+	   $HOME/.local/share/Waste/info
 
--s, --select              select files from list to restore
+       If one of the WASTE directories is on removable media, you may  append  ',remov‐
+       able'.	In  that case, rmw will not try to create it; it must be initially cre‐
+       ated manually. When rmw runs, it will check  to	see  if  the  directory  exists
+       (which means the removable media containing the directory is currently mounted).
+       If rmw can't find the directory, it is assumed the media containing  the  direc‐
+       tory  isn't  mounted  and that directory will not be used for the current run of
+       rmw.
 
-Displays a list of items in your waste directories. You can use the
-left/right cursor keys to switch between waste directories. Use the
-space bar to select the items you wish to restore, then press enter to
-restore all selected items.
+       With the media mounted, once you manually create the waste  directory  for  that
+       device  (e.g.  ".Trash-$UID")  and run rmw, it will automatically create the two
+       required sub-directories "Trash-$UID/info" and ".Trash-$UID/files".
 
--u, --undo-last           undo last ReMove
+EXAMPLES
+   RESTORING
+       rmw -z ~/.local/share/Waste/files/foo
+       rmw -z ~/.local/share/Waste/files/bars*
 
-Restores files that were last rmw'ed. No arguments for `-u` are
-necessary. The list of files that were last rmw'ed is stored in `mrl`,
-located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
+   CONFIGURATION
+       WASTE=/mnt/flash/.Trash-$UID, removable
+	      When using the removable attribute, you must also manually create the di‐
+	      rectory
 
--m, --most-recent-list    list most recently rmw'ed files
+       expire_age = 45
+	      rmw  will permanently delete files that have been in the waste (or trash)
+	      for more than 45 days.
 
+FILES
+       On some systems, $HOME/.config  and  $HOME/.local/share	may  be  replaced  with
+       $XDG_CONFIG_HOME and $XDG_DATA_HOME
 
-== Configuration File ==
+       $HOME/.config/rmwrc
+	      configuration file
 
-Waste directories will be created automatically (Except for when the
-',removable' option is used; see below) e.g., if
-'$HOME/.local/share/Waste' is uncommented in the config file, these two
-directories will be created:
+       $HOME/.local/share/rmw/purge-time
+	      text file that stores the time of the last purge
 
-    $HOME/.local/share/Waste/files
-    $HOME/.local/share/Waste/info
+       $HOME/.local/share/rmw/mrl
+	      text file containing a list of items that were last rmw'ed
 
-If one of the WASTE directories is on removable media, you may append
-',removable'. In that case, rmw will not try to create it; it must be
-initially created manually. When rmw runs, it will check to see if the
-directory exists (which means the removable media containing the
-directory is currently mounted). If rmw can't find the directory, it is
-assumed the media containing the directory isn't mounted and that
-directory will not be used for the current run of rmw.
+REPORTING BUGS
+       Report bugs to <https://github.com/theimpossibleastronaut/rmw/issues>.
 
-With the media mounted, once you manually create the waste directory
-for that device (e.g. ".Trash-$UID") and run rmw, it will automatically
-create the two required sub-directories "Trash-$UID/info" and
-".Trash-$UID/files". The directory you create must match what's
-included in your config file:
+       Author: Andy Alt (andy400-dev@yahoo.com)
+       The RMW team: see AUTHORS file
 
-    e.g.: WASTE=/mnt/flash/.Trash-$UID, removable
+COPYRIGHT
+       Copyright © 2021 Andy Alt
+
+       License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+       This  is free software: you are free to change and redistribute it.  There is NO
+       WARRANTY, to the extent permitted by law.
 
 ```

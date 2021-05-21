@@ -3,14 +3,13 @@ title: Home
 layout: default
 ---
 
-rmw (ReMove to Waste) is a safe-remove utility for the command line.
-Its goal is compliance with the [the FreeDesktop.org Trash
-specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html),
-which is used by environments such as KDE, GNOME, and Xfce. By default,
-rmw will only use a waste directory separated from your desktop trash,
-though it can also be integrated with your normal desktop trash folder.
-One of its unique features is the ability to purge items from your
-Waste/Trash directories after x number of days.
+rmw (ReMove to Waste) is a safe-remove utility for the command line. It
+can move and restore files to and from directories specified in a
+configuration file, and can also be integrated with your regular
+desktop trash folder (if your desktop environment uses the
+FreeDesktop.org Trash specification). One of the unique features of rmw
+is the ability to purge items from your waste (or trash) directories
+after x number of days.
 
 rmw is written in C, open source, and has a [GNU
 GPLv3 License](https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING).
@@ -18,9 +17,10 @@ GPLv3 License](https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING
 <span class="fas fa-clipboard-list
 fa-fw"></span>&nbsp;[Authors/Credits](https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md)
 
-Build, install, and basic usage instructions are documented in the
-[README](https://github.com/theimpossibleastronaut/rmw/blob/master/README.md).
-This website contains extra details on the the inner workings of rmw.
+Instructions for building, installing, and basic usage are documented
+in the
+[README](https://github.com/theimpossibleastronaut/rmw/blob/master/README.md)
+and man page. More detailed information is contained on this website.
 
 <a href="https://repology.org/project/rmw/versions">
     <img src="https://repology.org/badge/vertical-allrepos/rmw.svg" alt="Packaging status" align="right">

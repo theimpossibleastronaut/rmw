@@ -389,7 +389,6 @@ EXTRA_DIST = \
 	AUTHORS.md	\
 	COPYING	\
 	ReleaseNotes	\
-	rmwrc.example	\
 	CODE_OF_CONDUCT.md
 
 packextras_DATA = $(EXTRA_DIST)

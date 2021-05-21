@@ -49,9 +49,7 @@ and is located in **~/.local/share/Trash**. You can verify that the
 trashinfo format and directory layout is the same.
 
 If you're sure that your Desktop trash is compatible, you can add the
-appropriate line to your [rmw configuration
-file](https://github.com/theimpossibleastronaut/rmw/blob/master/rmwrc.example),
-if desired (a config file is created in ~/.config when rmw is first run).
+appropriate line to your rmw configuration file.
 
 **Does rmw work on Windows?**
 
