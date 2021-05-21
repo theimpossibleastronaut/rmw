@@ -1,5 +1,4 @@
 # rmw-0.8.0-dev
-
 ## Description
 
 rmw (ReMove to Waste) is a safe-remove utility for the command line. It
@@ -12,6 +11,15 @@ after x number of days.
 
 Web site: <https://remove-to-waste.info/>
 
+[![travis-badge]][travis-url][![codeql-badge]][codeql-url][![semaphore-badge]][semaphore-url]
+
+[travis-badge]: https://api.travis-ci.com/theimpossibleastronaut/rmw.svg?branch=master
+[travis-url]: https://travis-ci.com/github/theimpossibleastronaut/rmw
+[codeql-badge]: https://github.com/theimpossibleastronaut/rmw/workflows/CodeQL/badge.svg
+[codeql-url]: https://github.com/theimpossibleastronaut/rmw/actions?query=workflow%3ACodeQL
+[semaphore-badge]: https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg
+[semaphore-url]: https://semaphoreci.com/andy5995/rmw-3
+
 rmw is for people who sometimes use rm or rmdir at the command line and
 would occasionally like an alternative choice. It's not intended or
 designed to act as a replacement for rm, as it's more closely related
@@ -23,12 +31,6 @@ rmw will not move items from one file system to another. If you try to
 rmw a file but don't have a waste directory configured that matches the
 file system on which it resides, rmw will refuse to do anything with
 it.
-
-## Build Status
-
-* [![Build Status](https://api.travis-ci.com/theimpossibleastronaut/rmw.svg?branch=master)](https://travis-ci.com/github/theimpossibleastronaut/rmw)
-* [![CodeQL](https://github.com/theimpossibleastronaut/rmw/workflows/CodeQL/badge.svg)](https://github.com/theimpossibleastronaut/rmw/actions?query=workflow%3ACodeQL)
-* [![Build Status](https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg)](https://semaphoreci.com/andy5995/rmw-3)
 
 ## Screenshots
 
