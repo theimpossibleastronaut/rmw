@@ -11,7 +11,9 @@ after x number of days.
 
 Web site: <https://remove-to-waste.info/>
 
-[![travis-badge]][travis-url][![codeql-badge]][codeql-url][![semaphore-badge]][semaphore-url]
+[![travis-badge]][travis-url]
+[![codeql-badge]][codeql-url]
+[![semaphore-badge]][semaphore-url]
 
 [travis-badge]: https://api.travis-ci.com/theimpossibleastronaut/rmw.svg?branch=master
 [travis-url]: https://travis-ci.com/github/theimpossibleastronaut/rmw
