@@ -1,6 +1,6 @@
 === rmw ChangeLog ===
 
-2021-05-21
+2021-05-23
 
   * The config option 'purge_after' has been deprecated and replaced
   with 'expire_age' ('purge_after' will still be accepted, but the user
