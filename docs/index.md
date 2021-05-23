@@ -17,8 +17,8 @@ GPLv3 License](https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING
 <span class="fas fa-clipboard-list
 fa-fw"></span>&nbsp;[Authors/Credits](https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md)
 
-Instructions for building, installing, and basic usage are documented
-in the
+A list of features and instructions for usage, building, and installing
+are documented in the
 [README](https://github.com/theimpossibleastronaut/rmw/blob/master/README.md)
 and man page. More detailed information is contained on this website.
 

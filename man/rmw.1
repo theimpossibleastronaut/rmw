@@ -7,7 +7,14 @@ rmw \- safe-remove utility for the command line
 
 Move FILE(s) to a WASTE directory listed in configuration file
 
-.B rmw \fB\-z\fR FILE...
+.B rmw
+\fB\-s\fR
+.br
+.B rmw
+\fB\-u\fR
+.br
+.B rmw
+\fB\-z\fR FILE...
 
 Restore FILE(s) from a WASTE directory
 .SH DESCRIPTION
@@ -29,11 +36,15 @@ file):
 integrate with the desktop trash directory, you'll still be able to use
 the default Waste directory.)
 
-    WASTE = $HOME/.local/share/Trash
+.RS
+WASTE = $HOME/.local/share/Trash
+.RE
 
 then comment out the line
 
-    WASTE = $HOME/.local/share/Waste
+.RS
+WASTE = $HOME/.local/share/Waste
+.RE
 
 You can reverse which directories are enabled at any time if you ever
 change your mind. If both directories are on the same filesystem, rmw will
@@ -78,20 +89,19 @@ check for orphaned files (maintenance)
 .IP
 An orphan is an item in a waste directory that has no corresponding
 \fB.trashinfo\fR file, or vice versa. This option is intended primarily
-for developers. Orphans should only happen while testing code changes,
-if there's a bug released with rmw or another program that interfaces
-with your waste directories.
+for developers. Orphans may happen while testing code changes or if rmw
+is unintentionally released with a bug.
 .TP
 \fB\-f\fR, \fB\-\-force\fR
 allow purging of expired files
 .IP
-By default, force is not required to enable the purge feature. If you would
-like to require it, add 'force_required' to your config file.
-
 rmw will refuse to purge directories if they contain non-writable files
 or subdirectories. rmw will show a message that tells you "permission
 denied; directory still contains files". To override, you can re-run
 rmw using '-ffg'.
+
+By default, force is not required to enable the purge feature. If you would
+like to require it, add 'force_required' to your config file.
 .TP
 \fB\-e\fR, \fB\-\-empty\fR
 completely empty (purge) all waste directories
@@ -131,8 +141,7 @@ restore all selected items.
 \fB\-u\fR, \fB\-\-undo\-last\fR
 undo last move
 .IP
-Restores files that were last rmw'ed. No arguments for `-u` are
-necessary.
+Restores files that were last rmw'ed
 .TP
 \fB\-m\fR, \fB\-\-most\-recent\-list\fR
 list most recently rmw'ed files
@@ -142,10 +151,13 @@ Waste directories will be created automatically (Except for when the ',removable
 option is used; see below) e.g., if '$HOME/.local/share/Waste' is uncommented in
 the config file, these two directories will be created:
 
-    $HOME/.local/share/Waste/files
-    $HOME/.local/share/Waste/info
+.RS
+$HOME/.local/share/Waste/files
+.br
+$HOME/.local/share/Waste/info
+.RE
 
-If one of the WASTE directories is on removable media, you may append ',removable'.
+If a WASTE directory is on removable media, you may append ',removable'.
 In that case, rmw will not try to create it; it must be
 initially created manually. When rmw runs, it will check to see if the
 directory exists (which means the removable media containing the
@@ -154,9 +166,8 @@ assumed the media containing the directory isn't mounted and that
 directory will not be used for the current run of rmw.
 
 With the media mounted, once you manually create the waste directory
-for that device (e.g. ".Trash-$UID") and run rmw, it will automatically
-create the two required sub-directories "Trash-$UID/info" and
-".Trash-$UID/files".
+for that device (e.g. "/mnt/flash/.Trash-$UID") and run rmw, it will
+automatically create the two required child directories "files" and "info".
 .SH EXAMPLES
 .SS RESTORING
 rmw -z ~/.local/share/Waste/files/foo
@@ -170,6 +181,15 @@ When using the removable attribute, you must also manually create the directory
 expire_age = 45
 rmw will permanently delete files that have been in the waste (or
 trash) for more than 45 days.
+.SH ENVIRONMENT
+These variables are intended only to be used for testing. See the
+code-testing page on the rmw website for more details.
+.TP
+.B RMW_FAKE_HOME
+.TP
+.B RMW_FAKE_YEAR
+.TP
+.B RMW_FAKE_MEDIA_ROOT
 .SH FILES
 On some systems, $HOME/.config and $HOME/.local/share may be replaced
 with $XDG_CONFIG_HOME and $XDG_DATA_HOME
