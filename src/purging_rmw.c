@@ -1,27 +1,22 @@
 /*
- * purging_rmw.c
- *
- * This file is part of rmw<https://remove-to-waste.info/>
- *
- *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
+This file is part of rmw<https://remove-to-waste.info/>
+
+Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include "globals.h"
 #include "main.h"
@@ -241,7 +236,7 @@ is_time_to_purge (st_time * st_time_var, const char *data_dir)
 
 
 /*!
- * Purges files older than x number of days, unless purge_after is set to
+ * Purges files older than x number of days, unless expire_age is set to
  * 0 in the config file.
  */
 int
@@ -249,17 +244,11 @@ purge (st_config * st_config_data,
        const rmw_options * cli_user_options,
        st_time * st_time_var, int *orphan_ctr)
 {
-  if (!st_config_data->purge_after)
+  if (!st_config_data->expire_age)
   {
     /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
      * directory  */
-    printf (_("purging is disabled ('purge_after' is set to '0')\n\n"));
-
-    /* purge_after is kind of a "fail-safe". If someone sets it to "0", don't
-     * allow any exceptions */
-
-    /* return codes from purge() aren't actually used by main() yet. (Maybe they
-     * never will be and the function will become of type (void)) */
+    printf (_("purging is disabled ('%s' is set to '0')\n\n"), expire_age_str);
     return 0;
   }
 
@@ -281,7 +270,7 @@ purge (st_config * st_config_data,
   else
     printf (_
             ("Purging files based on number of days in the waste folders (%u) ...\n"),
-            st_config_data->purge_after);
+            st_config_data->expire_age);
 
   unsigned int purge_ctr = 0;
   unsigned int dirs_containing_files_ctr = 0;
@@ -335,7 +324,7 @@ purge (st_config * st_config_data,
         continue;
 
       double days_remaining =
-        ((double) then + (SECONDS_IN_A_DAY * st_config_data->purge_after) -
+        ((double) then + (SECONDS_IN_A_DAY * st_config_data->expire_age) -
          st_time_var->now) / SECONDS_IN_A_DAY;
 
       bool do_file_purge = days_remaining <= 0 || cli_user_options->want_empty_trash;

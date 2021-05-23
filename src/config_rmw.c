@@ -1,27 +1,22 @@
 /*
- * config_rmw.c
- *
- * This file is part of rmw<https://remove-to-waste.info/>
- *
- *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
+This file is part of rmw<https://remove-to-waste.info/>
+
+Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
@@ -33,8 +28,10 @@
 #include "utils_rmw.h"
 #include "strings_rmw.h"
 
-static const int DEFAULT_PURGE_AFTER = 0;
+static const int DEFAULT_EXPIRE_AGE = 0;
 static const char *lit_files = "files";
+
+const char *expire_age_str = "expire_age";
 
 /*!
  * Prints a copy of the default config file to the specified stream.
@@ -46,49 +43,36 @@ static void
 print_config (FILE *stream)
 {
   fputs (_("\
-# NOTE: If two WASTE folders are on the same file system, rmw will move files\n\
-# to the first WASTE folder listed, ignoring the second one.\n\
-#\n"), stream);
-  fputs ("WASTE = $HOME/.local/share/Waste\n", stream);
-
+# rmw default waste directory, separate from the desktop trash\n"), stream);
+  fputs ("\
+WASTE = $HOME/.local/share/Waste\n", stream);
   fputs (_("\n\
-# If you would like this to be your primary trash folder (which usually means\n\
-# that it will be the same as your Desktop Trash folder) be sure it precedes\n\
-# any other WASTE folders listed in the config file\n\
-#\n\
-# If you want it checked for files that need purging, simply uncomment\n\
-# The line below. Files you move with rmw will go to the folder above by\n\
-# default.\n\
-#\n\
-# Note to macOS and Windows users: sending files to 'Desktop' trash\n\
-# doesn't work yet\n\
-#\n"), stream);
-  fputs ("# WASTE=$HOME/.local/share/Trash\n", stream);
-
-  fputs (_("\n# A folder can use the $UID variable.\n"), stream);
-  fputs ("# WASTE=/mnt/fs/Trash-$UID\n", stream);
-
+# The directory used by the FreeDesktop.org Trash spec\n\
+# Note to macOS and Windows users: moving files to 'Desktop' trash\n\
+# doesn't work yet\n"), stream);
+  fputs ("\
+# WASTE=$HOME/.local/share/Trash\n", stream);
+  fputs ("\n", stream);
+  fputs (_("\
+# A folder can use the $UID variable.\n"), stream);
+  fputs (_("\
+# See the README or man page for details about using the 'removable' attribute\n"), stream);
+  fputs ("\
+# WASTE=/mnt/flash/.Trash-$UID, removable\n", stream);
   fputs (_("\n\
-# Removable media: If a folder has ',removable' appended to it, rmw\n\
-# will not try to create it; it must be initially created manually. If\n\
-# the folder exists when rmw is run, it will be used; if not, it will be\n\
-# skipped Once you create \"example_waste\", rmw will automatically create\n\
-# example_waste/info and example_waste/files\n"), stream);
-  fputs ("# WASTE=/mnt/sda10000/example_waste, removable", stream);
-
-  fputs (_("\n\
-# How many days should files be allowed to stay in the waste folders before\n\
-# they are permanently deleted\n\
+# How many days should items be allowed to stay in the waste\n\
+# directories before they are permanently deleted\n\
 #\n\
-# use '0' to disable purging\n\
+# use '0' to disable purging (can be overridden by using --purge=N_DAYS)\n\
 #\n"), stream);
-  fprintf (stream, "purge_after = %d\n", DEFAULT_PURGE_AFTER);
-
+  fprintf (stream, "\
+%s = %d\n", expire_age_str, DEFAULT_EXPIRE_AGE);
   fputs (_("\n\
 # purge is allowed to run without the '-f' option. If you'd rather\n\
 # require the use of '-f', you may uncomment the line below.\n\
 #\n"), stream);
-  fputs ("# force_required\n", stream);
+  fputs ("\
+# force_required\n", stream);
 }
 
 
@@ -492,6 +476,7 @@ get_config_home_dir (void)
 void
 parse_config_file (const rmw_options * cli_user_options, st_config *st_config_data)
 {
+  int len_expire_age_str = strlen (expire_age_str);
   FILE *fd = realize_config_file (st_config_data, cli_user_options);
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
@@ -510,9 +495,10 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
       continue;
     }
     /**
-     * assign purge_after the value from config file unless set by --purge
+     * assign expire_age the value from config file unless set by -gN_DAYS, --purge=N_DAYS
      */
-    if (strncmp (line_ptr, "purge_after", 11) == 0)
+    bool deprecated_purge_after = strncmp (line_ptr, "purge_after", 11) == 0;
+    if (strncmp (line_ptr, expire_age_str, len_expire_age_str) == 0 || deprecated_purge_after)
     {
       if (cli_user_options->want_purge <= 0)
       {
@@ -521,17 +507,25 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
         {
           value++;
           value = del_char_shift_left (' ', value);
-          st_config_data->purge_after = atoi (value);
+          st_config_data->expire_age = atoi (value);
+          if (deprecated_purge_after)
+          {
+            puts ("");
+            print_msg_warn ();
+            printf ("\
+The configuration option 'purge_after' will be deprecated.\n\
+Please replace it with '%s' instead.\n\n", expire_age_str);
+          }
         }
         else
         {
           print_msg_warn();
-          puts ("configuration: 'purge_after' line must include an '=' sign.");
+          printf ("configuration: '%s' line must include an '=' sign.", expire_age_str);
         }
       }
       else
       {
-        st_config_data->purge_after = cli_user_options->want_purge;
+        st_config_data->expire_age = cli_user_options->want_purge;
       }
     }
     else if (!strcmp (line_ptr, "force_required"))
@@ -592,10 +586,10 @@ init_config_data (st_config *x)
 
   x->st_waste_folder_props_head = NULL;
   /*
-   * The default value for purge_after is only used as a last resort,
-   * if for some reason purge_after isn't specified in the config file.
+   * The default value is only used as a last resort,
+   * if for some reason unspecified in the config file.
    */
-  x->purge_after = DEFAULT_PURGE_AFTER;
+  x->expire_age = DEFAULT_EXPIRE_AGE;
   x->force_required = 0;
 
   const char *f = getenv ("RMW_FAKE_MEDIA_ROOT");

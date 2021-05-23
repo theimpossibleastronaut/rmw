@@ -213,7 +213,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/build-aux/ar-lib \
 	$(top_srcdir)/build-aux/config.rpath \
 	$(top_srcdir)/build-aux/config.sub \
 	$(top_srcdir)/build-aux/install-sh \
-	$(top_srcdir)/build-aux/missing ABOUT-NLS COPYING ChangeLog \
+	$(top_srcdir)/build-aux/missing COPYING ChangeLog \
 	build-aux/ar-lib build-aux/compile build-aux/config.guess \
 	build-aux/config.rpath build-aux/config.sub \
 	build-aux/install-sh build-aux/missing
@@ -384,13 +384,11 @@ top_srcdir = @top_srcdir@
 packextrasdir = @docdir@
 SUBDIRS = src man test po
 EXTRA_DIST = \
-	ABOUT-NLS	\
 	README.md	\
 	ChangeLog	\
 	AUTHORS.md	\
 	COPYING	\
 	ReleaseNotes	\
-	rmwrc.example	\
 	CODE_OF_CONDUCT.md
 
 packextras_DATA = $(EXTRA_DIST)

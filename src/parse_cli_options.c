@@ -1,26 +1,22 @@
 /*
- *
- * This file is part of rmw<https://remove-to-waste.info/>
- *
- *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
+This file is part of rmw<https://remove-to-waste.info/>
+
+Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
@@ -31,6 +27,7 @@
 #include <ctype.h>
 
 #include "parse_cli_options.h"
+#include "config_rmw.h"
 /* GIT_REV can defined during build-time with -D */
 #ifdef GIT_REV
 #define RMW_VERSION_STRING VERSION "." GIT_REV
@@ -42,7 +39,7 @@ static void
 print_usage (const char *prog_name)
 {
   printf (_("Usage: %s [OPTION]... FILE...\n\
-ReMove the FILE(s) to a WASTE directory listed in configuration file\n\
+Move FILE(s) to a WASTE directory listed in configuration file\n\
 \n\
    or: %s -s\n\
    or: %s -u\n\
@@ -55,26 +52,26 @@ Restore FILE(s) from a WASTE directory\n\n\
   -h, --help                show help for command line options\n\
 "), stdout);
   fputs (_("\
-  -c, --config filename     use an alternate configuration\n\
+  -c, --config FILE         use an alternate configuration\n\
 "), stdout);
   fputs (_("\
   -l, --list                list waste directories\n\
 "), stdout);
-  fputs (_("\
+  fprintf (stdout, _("\
   -g[N_DAYS], --purge[=N_DAYS]\n\
-                            run purge even if it's been run today;\n\
-                            optional argument 'N_DAYS' overrides 'purge_after'\n\
+                            purge expired files;\n\
+                            optional argument 'N_DAYS' overrides '%s'\n\
                             value from the configuration file\n\
                             (Examples: -g90, --purge=90)\n\
-"), stdout);
+"), expire_age_str);
   fputs (_("\
   -o, --orphaned            check for orphaned files (maintenance)\n\
 "), stdout);
   fputs (_("\
-  -f, --force               allow rmw to purge files in the background\n\
+  -f, --force               allow purging of expired files\n\
 "), stdout);
   fputs (_("\
-  -e, --empty               completely empty (purge) all waste folders\n\
+  -e, --empty               completely empty (purge) all waste directories\n\
 "), stdout);
   fputs (_("\
   -r, -R, --recursive       option used for compatibility with rm\n\
@@ -93,13 +90,13 @@ Restore FILE(s) from a WASTE directory\n\n\
   \n\n\
   \t===] Restoring [===\n\n"), stdout);
   fputs (_("\
-  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/files/foo*)\n\
+  -z, --restore FILE(s)     restore FILE(s) (see man page example)\n\
 "), stdout);
   fputs (_("\
   -s, --select              select files from list to restore\n\
 "), stdout);
   fputs (_("\
-  -u, --undo-last           undo last ReMove\n\
+  -u, --undo-last           undo last move\n\
 "), stdout);
   fputs (_("\
   -m, --most-recent-list    list most recently rmw'ed files\n\

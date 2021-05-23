@@ -4,10 +4,9 @@ layout: default
 ---
 <ul>
   <li><a href="#general_testing">General Testing</a></li>
-  <li><a href="#testing_home">Specify different home directory</a></li>
   <li><a href="#profiling">Profiling</a></li>
   <li><a href="#create_test">How to Create a Unit Test</a></li>
-  <li><a href="#env_vars">Influential Environmental Variables</a></li>
+  <li><a href="#env_vars">Environmental Variables</a></li>
 </ul>
 
 <h2 id="general_testing">General Testing</h2>
@@ -19,11 +18,6 @@ missing, please open a ticket.
 If [valgrind](https://www.valgrind.org/) is installed, the check will
 include some tests for resource leaks. To bypass using `valgrind`, use
 <code class="w3-codespan">USE_VALGRIND=0 make check</code>
-
-<h2 id="testing_home">Specify different home directory</h2>
-
-As of v0.7.03, you can provide a "fake" home directory by setting the
-environmental variable RMW_FAKE_HOME.
 
 <!-- This section probably would be better on a separate "Debugging" page (not yet created) -->
 <h2 id="profiling">Profiling</h2>
@@ -65,31 +59,51 @@ then I've added the test to
 [test/Makefile.am](https://github.com/theimpossibleastronaut/rmw/commit/edaf560929e8589bac8874b93ae3520962ffab39#diff-7d1a3afeff4f7c00c95d6be6f2847e6e)
 and re-ran 'automake'.
 
-<h2 id="env_vars">Influential Environmental Variables</h2>
-
-* RMW_FAKE_YEAR=true will write the year 1999 to the DeletionDate string
-in the .trashinfo file (to test the purge feature).
-
-<p class="w3-code">
-  RMW_FAKE_YEAR=true rmw some.txt temp.asc files.doc
-</p>
-
-Then run rmw with the purge option
+<h2 id="env_vars">Environmental Variables</h2>
+<div class="w3-panel w3-border">
+  <p><b>RMW_FAKE_HOME</b></p>
+Instead of using $HOME, rmw will use $RMW_FAKE_HOME. The configuration
+file and default waste directory will be written relative to
+$RMW_FAKE_HOME.
 
 <p class="w3-code">
-  rmw -fg
+  RMW_FAKE_HOME=$PWD/footest
 </p>
 
-* RMW_FAKE_MEDIA_ROOT** (used only for code testing) when rmw-ing files,
-relative paths are written to the Path key of a trashinfo file. rmw is
-faked into believing that all waste directories are at the top level of
-a device or removable medium (see <a
+While set, using rmw to move any files that reside on the same file
+system as *$PWD/footest* will be moved to the waste directories under
+*$PWD/footest* and rmw will use the configuration file under
+*$PWD/footest*.
+</div>
+
+<div class="w3-panel w3-border">
+<p><b>RMW_FAKE_YEAR</b></p>
+
+If set to *true* when rmw'ing a file, the year 1999 will be written to
+the DeletionDate value in the .trashinfo file (for testing the purge
+feature).
+
+<p class="w3-code">
+  RMW_FAKE_YEAR=true rmw FILE(s)
+</p>
+
+Then running rmw with the purge option will find the items expired and
+permanently delete them.
+</div>
+
+<div class="w3-panel w3-border">
+<p><b>RMW_FAKE_MEDIA_ROOT</b></p>
+
+If set to **true** when rmw-ing a file, relative paths will be written
+to the Path key of a .trashinfo file. rmw is faked into believing that
+all waste directories are at the top level of a device or removable
+medium (see also: <a
 href="https://github.com/theimpossibleastronaut/rmw/issues/299">issue
-299</a> for more information). Only accepts "true" as an argument; any
-other value will register as "false".
+299</a>).
 
 <p class="w3-code">
-ex: RMW_FAKE_MEDIA_ROOT=true rmw [file(s) to be removed]
+RMW_FAKE_MEDIA_ROOT=true rmw FILE(s)
 </p>
+</div>
 
 

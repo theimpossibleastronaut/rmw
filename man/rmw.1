@@ -1,129 +1,228 @@
-.TH RMW "1" "May 2021"
+.TH RMW "1" "May 2021" "rmw 0.8.0-dev" "User Commands"
 .SH NAME
-rmw - remove files, safely
+rmw \- safe-remove utility for the command line
 .SH SYNOPSIS
-\fBrmw\fR \fI[OPTION]\fR... FILE...
+.B rmw
+[\fI\,OPTION\/\fR]... \fI\,FILE\/\fR...
+
+Move FILE(s) to a WASTE directory listed in configuration file
+
+.B rmw
+\fB\-s\fR
+.br
+.B rmw
+\fB\-u\fR
+.br
+.B rmw
+\fB\-z\fR FILE...
+
+Restore FILE(s) from a WASTE directory
 .SH DESCRIPTION
-\fBrmw\fR is a safe-delete utility that sends files to your "Desktop"
-trash (or a completely separate folder). It can also restore files and permanently
-delete files that were rmw'ed more than a certain (configurable) number of days ago.
+rmw (ReMove to Waste) is a safe-remove utility for the command line. It
+can move and restore files to and from directories specified in a
+configuration file, and can also be integrated with your regular
+desktop trash folder (if your desktop environment uses the
+FreeDesktop.org Trash specification). One of the unique features of rmw
+is the ability to purge items from your waste (or trash) directories
+after x number of days.
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+show help for command line options
+.TP
+\fB\-c\fR, \fB\-\-config\fR FILE
+use an alternate configuration
+.TP
+\fB\-l\fR, \fB\-\-list\fR
+list waste directories
+.TP
+\fB\-g[N_DAYS]\fR, \fB\-\-purge\fR[=\fI\,N_DAYS\/\fR]
+purge expired files;
+optional argument 'N_DAYS' overrides 'expire_age'
+value from the configuration file
+(Examples: \fB\-g90\fR, \fB\-\-purge\fR=\fI\,90\/\fR)
+.IP
+By default, purging is disabled ('expire_age' is set to '0' in the
+configuration file). To enable, set the 'expire_age' value in your
+config file to a value greater than '0'
 
-.SH BASIC USAGE
-.BR '\fBrmw\ <file(s)>\fR'
+You can use '-vvg' to see when the remaining files in the waste
+directories will expire.
+.TP
+\fB\-o\fR, \fB\-\-orphaned\fR
+check for orphaned files (maintenance)
+.IP
+An orphan is an item in a waste directory that has no corresponding
+\fB.trashinfo\fR file, or vice versa. This option is intended primarily
+for developers. Orphans may happen while testing code changes or if rmw
+is unintentionally released with a bug.
+.br
+(see also: <https://remove-to-waste.info/faq.html#dot_trashinfo>)
+.TP
+\fB\-f\fR, \fB\-\-force\fR
+allow purging of expired files
+.IP
+rmw will refuse to purge directories if they contain non-writable files
+or subdirectories. rmw will show a message that tells you "permission
+denied; directory still contains files". To override, you can re-run
+rmw using '-ffg'.
 
-Items (file or directories) will be moved to a wastebasket in the same
-manner as when using the "move to trash" option from your desktop GUI.
-They will be separated from your desktop trash by default; or if you
-wish for them to share the same "trash" folder, uncomment the line (in
-your config file):
+By default, force is not required to enable the purge feature. If you would
+like to require it, add 'force_required' to your config file.
+.TP
+\fB\-e\fR, \fB\-\-empty\fR
+completely empty (purge) all waste directories
+.TP
+\fB\-r\fR, \fB\-R\fR, \fB\-\-recursive\fR
+option used for compatibility with rm
+(recursive operation is enabled by default)
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+increase output messages
+.TP
+\fB\-w\fR, \fB\-\-warranty\fR
+display warranty
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+display version and license information
+.IP
+.SS RESTORING
+.HP
+\fB\-z\fR, \fB\-\-restore\fR FILE(s)
+.IP
+To restore items, specify the path to them in the <WASTE>/files
+directory (wildcards ok).
 
-    WASTE = $HOME/.local/share/Trash/
+When restoring an item, if a file or directory with the same name
+already exists at the destination, the item being restored will have a
+time/date string (formatted as "_%H%M%S-%y%m%d") appended to it (e.g. 'foo_164353-210508').
+.TP
+\fB\-s\fR, \fB\-\-select\fR
+select files from list to restore
+.IP
+Displays a list of items in your waste directories. You can use the
+left/right cursor keys to switch between waste directories. Use the
+space bar to select the items you wish to restore, then press enter to
+restore all selected items.
+.TP
+\fB\-u\fR, \fB\-\-undo\-last\fR
+undo last move
+.IP
+Restores files that were last rmw'ed
+.TP
+\fB\-m\fR, \fB\-\-most\-recent\-list\fR
+list most recently rmw'ed files
+.SH ENVIRONMENT
+These variables are intended only to be used for testing. See the
+code-testing page on the rmw website for more details.
+.TP
+.B RMW_FAKE_HOME
+.TP
+.B RMW_FAKE_YEAR
+.TP
+.B RMW_FAKE_MEDIA_ROOT
+.SH FILES
+On some systems, $HOME/.config and $HOME/.local/share may be replaced
+with $XDG_CONFIG_HOME and $XDG_DATA_HOME
+.TP
+.I $HOME/.config/rmwrc
+configuration file
+.TP
+.I $HOME/.local/share/rmw/purge-time
+text file that stores the time of the last purge
+.TP
+.I $HOME/.local/share/rmw/mrl
+text file containing a list of items that were last rmw'ed
+.SH NOTES
+rmw will not move items from one file system to another. If you try to
+rmw a file but don't have a waste directory configured that matches the
+file system on which it resides, rmw will refuse to do anything with
+it.
+.SS DESKTOP INTEGRATION
+Items will be moved to a waste basket in the same manner as when using
+the "move to trash" option from your desktop GUI. They will be
+separated from your desktop trash by default; or if you wish for them
+to share the same "trash" directory, uncomment the line (in your config
+file):
+
+(Note that this does not apply to MacOS; while rmw is yet unable to
+integrate with the desktop trash directory, you'll still be able to use
+the default Waste directory.)
+
+.RS
+WASTE = $HOME/.local/share/Trash
+.RE
 
 then comment out the line
 
-    WASTE = $HOME/.local/share/Waste
+.RS
+WASTE = $HOME/.local/share/Waste
+.RE
 
-You can reverse which folders are enabled at any time if you ever
-change your mind. If both folders are on the same filesystem, rmw will
-place files in the first one listed.
+You can reverse which directories are enabled at any time if you ever
+change your mind. If both directories are on the same filesystem, rmw will
+use the directory listed first in your config file.
 
 It can be beneficial to have them both uncommented. If your desktop
-trash folder is uncommented, rmw won't place newly rmw'ed files there,
-but it will purge files that were trashed (or wasted) after the amount
-of days specified by the 'purge_after' value in your config file.
+trash directory (~/.local/share/Trash) is listed after the rmw default
+(~/.local/share/Waste) and uncommented, rmw will place newly rmw'ed
+items into the default, and it will purge expired files from both.
 
-When rmw'ing a file or folder, if it already exists in the waste (or
-trash) folder, it will not be overwritten; instead, the current file
-being rmw'ed will have a time/date string (formatted as
-"_%H%M%S-%y%m%d") appended to it (e.g. \'foo_164353-210508\').
+When rmw'ing an item, if a file or directory with the same name already
+exists in the waste (or trash) directory, it will not be overwritten;
+instead, the current file being rmw'ed will have a time/date string
+(formatted as "_%H%M%S-%y%m%d") appended to it (e.g. 'foo_164353-210508').
+.SS REMOVABLE MEDIA
+The first time rmw is run, it will create a configuration file.
+Waste directories will be created automatically (Except for when the ',removable'
+option is used; see below) e.g., if '$HOME/.local/share/Waste' is uncommented in
+the config file, these two directories will be created:
 
-.SH RESTORING FILES
-There are different ways to restore a file, or multiple files.
+.RS
+$HOME/.local/share/Waste/files
+.br
+$HOME/.local/share/Waste/info
+.RE
 
-Use the -s option to show a list of files that can be restored.
+If a WASTE directory is on removable media, you may append ',removable'.
+In that case, rmw will not try to create it; it must be
+initially created manually. When rmw runs, it will check to see if the
+directory exists (which means the removable media containing the
+directory is currently mounted). If rmw can't find the directory, it is
+assumed the media containing the directory isn't mounted and that
+directory will not be used for the current run of rmw.
 
-Use the -u option to restore the file(s) that were last removed by rmw.
+With the media mounted, once you manually create the waste directory
+for that device (e.g. "/mnt/flash/.Trash-$UID") and run rmw, it will
+automatically create the two required child directories "files" and "info".
+.SH EXAMPLES
+.SS RESTORING
+rmw -z ~/.local/share/Waste/files/foo
+.br
+rmw -z ~/.local/share/Waste/files/bars*
+.SS CONFIGURATION
+.TP
+WASTE=/mnt/flash/.Trash-$UID, removable
+When using the removable attribute, you must also manually create the directory
+.TP
+expire_age = 45
+rmw will permanently delete files that have been in the waste (or
+trash) for more than 45 days.
+.SH AUTHORS
+Project Manager: Andy Alt
+.br
+The RMW team: see AUTHORS.md
+.SH REPORTING BUGS
+Report bugs to <https://github.com/theimpossibleastronaut/rmw/issues>.
+.SH "COPYRIGHT"
+Copyright \(co 2012-2021 Andy Alt
 
-Use the \fB\-z\fR (or \fB\-\-restore\fR) option
-and specify the path to them in in the \fI<WASTE>/files\fR folder (wildcards ok).
-e.g. '\fBrmw \-z ~/.local/share/Waste/files/foo*\fR'.
-
-If a file or directory already exist at the same location and with the
-same name, the item being restored will have a time/date string
-(formatted as "_%H%M%S-%y%m%d") appended to it (e.g.
-\'foo_164353-210508\').
-
-.SH PURGING
-If purging is 'on', \fBrmw\fR will permanently delete files from the folders
-specified in the configuration file after 'x' number of days.
-Purging can be disabled by using '\fBpurge_after = 0\fR' in configuration file.
-\fBrmw\fR will only check once per day if it's time to purge (use \fB\-g\fR to check more often).
-Add the line '\fBforce_required\fR' in your \fBrmw\fR configuration
-file to require \fB\-f\fR (\fB\-\-force\fR) to enable purge.
-
-.SH OPTIONS
-.TP
-\fB\-c \-\-config\fR \fIfilename\fR
-Use an alternate configuration file.
-.TP
-\fB\-f \-\-force\fR
-Allow rmw to purge files in the background.
-.TP
-\fB\-g[N_DAYS] \-\-purge[=N_DAYS]\fR
-If purging is enabled, rmw will permanently delete files from the
-folders specified in the configuration file after 'x' number of days.
-By default, purging is disabled ('purge_after' is set to '0' in the
-configuration file). To enable, use a value greater than '0' (Example:
-If '45' is specified, rmw will permanently delete files that have been
-in the waste (or trash) for more than 45 days.
-
-The value of 'purge_after' can be temporarily overridden by using -g
-[N_DAYS] or --purge[=NDAYS] (Examples: -g90, --purge=90).
-
-The time of the last automatic purge check is stored in `purge-time`,
-located in $HOME/.local/share/rmw (or $XDG_DATA_HOME/rmw).
-.TP
-\fB\-e \-\-empty\fR
-completely empty (purge) all waste folders.
-.TP
-\fB\-r, \-R, \-\-recursive\fR
-option used for compatibility with rm (recursive operation is enabled by default)
-.TP
-\fB\-h \-\-help\fR
-Display a help screen and exit.
-.TP
-\fB\-l \-\-list\fR
-List waste directories.
-.TP
-\fB\-o \-\-orphaned\fR
-Check for orphaned files (for maintenance tasks).
-.TP
-\fB\-s \-\-select\fR
-Displays a list to select files to restore.
-.TP
-\fB\-u \-\-undo-last\fR
-Undo last safe removal.
-.TP
-\fB\-m \-\-most-recent-list\fR
-list most recently rmw'ed files
-.TP
-\fB\-v \-\-verbose\fR
-Print extra information on the output.
-.TP
-\fB\-w \-\-warranty\fR
-Display warranty information and exit.
-.TP
-\fB\-V \-\-version\fR
-Display version and licensing information and exit.
-.TP
-\fB\-z \-\-restore\fR \fIpattern\fR
-Restore files matching \fIpattern\fR.
-.SH DIRECTORIES
-The program's configuration file is stored in \fB~/.config/\fR.
-The data files are written to \fB~/.local/share/rmw/\fR.
-By default, the safe-removed files are stored in \fB~/.local/share/Waste/\fR.
-.SH LICENCE
-This program is published under the terms of the GNU General Public License,
-version 2 or any later version, as published by the Free Software Foundation.
-.SH AUTHOR
-Written by Andy Alt, with contributions from others.
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+.br
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+.SH "SEE ALSO"
+mv(1), rm(1), rmdir(1)
+.PP
+.br
+Full documentation at: <https://remove-to-waste.info/>

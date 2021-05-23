@@ -1,26 +1,22 @@
 /*
- *
- * This file is part of rmw<https://remove-to-waste.info/>
- *
- *  Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- *
- *
- */
+This file is part of rmw<https://remove-to-waste.info/>
+
+Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #ifndef _INC_CONFIG_H
 #define _INC_CONFIG_H
@@ -35,6 +31,8 @@
 
 #define LEN_MAX_CFG_LINE (LEN_MAX_PATH * 2 + 1)
 
+extern const char *expire_age_str;
+
 /* Not currently used
  * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
  */
@@ -43,9 +41,9 @@ typedef struct {
   const char *dir;
   char file[LEN_MAX_PATH];
   st_waste *st_waste_folder_props_head;
-  int purge_after;
   bool force_required;
   bool fake_media_root;
+  int expire_age;
 } st_config;
 
 struct st_vars_to_check {

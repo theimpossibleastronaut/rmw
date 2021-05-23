@@ -60,7 +60,7 @@ echo $SEPARATOR
 echo '  == purging disabled should output a message that purging is disabled'
 set -x
 output=`$RMW_PURGE_DISABLED_CMD -eff`
-expected=`echo "purging is disabled ('purge_after' is set to '0')" | cut -b1-20`
+expected=`echo "purging is disabled ('expire_age' is set to '0')" | cut -b1-20`
 output=`echo $output | cut -b1-20`
 test "${output}" = "${expected}" || exit $?
 

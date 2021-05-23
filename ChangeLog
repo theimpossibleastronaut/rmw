@@ -1,5 +1,13 @@
 === rmw ChangeLog ===
 
+2021-05-23
+
+  * The config option 'purge_after' has been deprecated and replaced
+  with 'expire_age' ('purge_after' will still be accepted, but the user
+  will be given a deprecation warning).
+
+  * Expanded the man page and updated the README (improved documentation)
+
 2021-05-13
 
   * The environmental variable RMWTEST_HOME has been replaced with

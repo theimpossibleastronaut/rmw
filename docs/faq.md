@@ -25,17 +25,17 @@ discussion</a>)
 
 **How do I know if rmw is compatible with my Desktop trash?**
 
-When rmw moves a file to a waste or trash folder, it also writes a
+When rmw moves a file to a waste or trash directory, it also writes a
 *.trashinfo* file to the corresponding trash directory. The default
-waste folder rmw uses is *~/.local/share/Waste*, therefore <code
-class="w3-codespan">rmw foo</code> would result in
+waste directory that rmw uses is *~/.local/share/Waste*, therefore
+<code class="w3-codespan">rmw foo</code> would result in
 
 <p class="w3-code">
   ~/.local/share/Waste/files/foo<br />
   ~/.local/share/Waste/info/foo.trashinfo
 </p>
 
-The contents of *foo.trashinfo* would look like this:
+<a name="dot_trashinfo">The contents of *foo.trashinfo* would look like this:</a>
 
 <p class="w3-code">
   [Trash Info]<br />
@@ -49,9 +49,7 @@ and is located in **~/.local/share/Trash**. You can verify that the
 trashinfo format and directory layout is the same.
 
 If you're sure that your Desktop trash is compatible, you can add the
-appropriate line to your [rmw configuration
-file](https://github.com/theimpossibleastronaut/rmw/blob/master/rmwrc.example),
-if desired (a config file is created in ~/.config when rmw is first run).
+appropriate line to your rmw configuration file.
 
 **Does rmw work on Windows?**
 
@@ -73,3 +71,14 @@ Yes. For example:
 Some complex regex expressions won't work. If you'd like support
 for a particular pattern that doesn't already work, please open a
 ticket.
+
+**Can rmw be run as a scheduled job to purge expired files?**
+
+I wouldn't recommend it. It's never been tested that way, but more
+importantly, it could cause a <a
+href="https://devopedia.org/race-condition-software">race
+condition</a>. For example, if you manually run rmw at the same time
+it's being run by a task scheduler, rmw could have unpredictable
+results as it tries to read files that are in the process of being
+removed (the rare possibility of collision exists even though rmw
+usually only takes a few seconds or less to run).
