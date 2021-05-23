@@ -108,7 +108,16 @@ int rmw_mkdir (const char *dir, mode_t mode)
   if (res)
     return res;
 
-  return mkdir (dir, mode);
+  res = mkdir (dir, mode);
+
+  //
+  // Will this fix https://github.com/theimpossibleastronaut/rmw/issues/316
+  // ?
+  #ifdef __APPLE__
+  sync ();
+  #endif
+
+  return res;
 }
 
 
