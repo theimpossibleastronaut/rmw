@@ -8,6 +8,9 @@
 
   * Expanded the man page and updated the README (improved documentation)
 
+  * disabled a restore test that failed when 'make check' is run with
+  superuser privileges
+
 2021-05-13
 
   * The environmental variable RMWTEST_HOME has been replaced with

@@ -65,14 +65,16 @@ echo "Try restoring a file that doesn't exist"
 $RMW_TEST_CMD_STRING -z nonexistent_fil*
 test_result_want_fail $?
 
-echo $SEPARATOR
-echo "What happens when trying to ReMove file inside dir with no write permissions..."
-set -x
-mkdir ${RMW_FAKE_HOME}/no_write_perms
-touch ${RMW_FAKE_HOME}/no_write_perms/test.tmp
-chmod -R -w ${RMW_FAKE_HOME}/no_write_perms
-$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/no_write_perms
-test_result_want_fail $?
+# This test is inaccurate when run with superuser privileges.
+
+#echo $SEPARATOR
+#echo "What happens when trying to ReMove file inside dir with no write permissions..."
+#set -x
+#mkdir ${RMW_FAKE_HOME}/no_write_perms
+#touch ${RMW_FAKE_HOME}/no_write_perms/test.tmp
+#chmod -R -w ${RMW_FAKE_HOME}/no_write_perms
+#$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/no_write_perms
+#test_result_want_fail $?
 
 echo $SEPARATOR
 echo "Symlinks"
