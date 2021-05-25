@@ -53,7 +53,7 @@ echo
 echo " == rmw -e command should completely purge the waste folders,"
 echo " == no matter when they were deleted"
 
-$RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/somefiles/* || exit $?
+$VALGRIND $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/somefiles/* || exit $?
 
 set +x
 echo $SEPARATOR
@@ -69,7 +69,7 @@ output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
 test "${output}" = "purge has been skipped: use -f or --force" || exit $?
 
 echo " == Should not work if 'Y' or 'y' is not supplied."
-echo "yfw" | $RMW_TEST_CMD_STRING --purge -e || exit $?
+echo "yfw" | $VALGRIND $RMW_TEST_CMD_STRING --purge -e || exit $?
 
 echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e || exit $?
 
@@ -84,7 +84,7 @@ test -e $PRIMARY_WASTE_DIR/files/topdir || exit $?
 echo $SEPARATOR
 echo " == Make sure the correct string (filename) is displayed when using -vvg"
 substring="'read_only_file' will be purged in 90."
-output=$($RMW_TEST_CMD_STRING -vvg) || exit $?
+output=$($VALGRIND $RMW_TEST_CMD_STRING -vvg) || exit $?
 test "${output#*$substring}" != "${output}" || exit $?
 
 substring="'topdir' will be purged in 90."
@@ -93,7 +93,7 @@ test "${output#*$substring}" != "${output}" || exit $?
 echo $SEPARATOR
 
 echo " == Empty works with force empty (-ffe)"
-echo "y" | $RMW_TEST_CMD_STRING -ffe || exit $?
+echo "y" | $VALGRIND $RMW_TEST_CMD_STRING -ffe || exit $?
 test ! -e $PRIMARY_WASTE_DIR/files/read_only_file || exit $?
 test ! -e $PRIMARY_WASTE_DIR/files/topdir || exit $?
 test ! -e $PRIMARY_WASTE_DIR/info/read_only_file.trashinfo || exit $?
@@ -128,7 +128,7 @@ echo "\n\n == use a built-in environmental variable to write a"
 echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
-RMW_FAKE_YEAR=true $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/* || exit $?
+RMW_FAKE_YEAR=true $VALGRIND $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/* || exit $?
 output=$(cat $PRIMARY_WASTE_DIR/info/abc.trashinfo) || exit $?
 substring="DeletionDate=1999"
 test "${output#*$substring}" != "${output}" || exit $?

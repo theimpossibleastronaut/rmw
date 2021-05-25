@@ -3,7 +3,7 @@
 #include "utils_rmw.h"
 #include "purging_rmw.h"
 
-#define BUF_SIZE 80
+#define BUF_SIZE 1024
 
 void
 test_isdotdir (void)
@@ -127,13 +127,12 @@ main ()
 
   char str[BUF_SIZE * 3];
   strcpy (str, "string to encode \n\t\v  \f\r");
-  char *escaped_path = escape_url (str, BUF_SIZE * 3);
+  char *escaped_path = escape_url (str, BUF_SIZE * 3 + 1);
   printf ("'%s'\n", escaped_path);
-  assert (!strcmp
-	  (escaped_path, "string%20to%20encode%20%0A%09%0B%20%20%0C%0D"));
+  assert (!strcmp (escaped_path, "string%20to%20encode%20%0A%09%0B%20%20%0C%0D"));
   free (escaped_path);
 
-  char *unescaped_path = unescape_url (escaped_path, BUF_SIZE);
+  char *unescaped_path = unescape_url (escaped_path, BUF_SIZE * 3 + 1);
   assert (!strcmp (unescaped_path, "string to encode \n\t\v  \f\r"));
   free (unescaped_path);
   return 0;

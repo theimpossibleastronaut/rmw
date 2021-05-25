@@ -13,26 +13,26 @@ on:
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
+    env:
+      TERM: xterm
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: sudo apt-get install -y gettext
     - run: ./configure
     - run: make
-    - run: USE_VALGRIND=0 make check
-    - run: USE_VALGRIND=0 make distcheck
+    - run: make check
+    - run: make distcheck
   macos:
     runs-on: macos-latest
+    env:
+      PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig"
+      TERM: xterm
     steps:
     - uses: actions/checkout@v2
     - run: brew install ncurses
     - name: Configure
       run: ./configure --disable-nls
-      env:
-        PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig"
     - run: make
     - name: Make distcheck
       run:  make distcheck
-      env:
-        USE_VALGRIND: 0
-        PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig"

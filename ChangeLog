@@ -1,5 +1,13 @@
 === rmw ChangeLog ===
 
+2021-05-25
+
+  * Implemented the AX_VALGRIND_CHECK autoconf macro, which adds the
+  '--enable-valgrind' option to the configure script. If enabled, when
+  'make check' is run, valgrind checks the compiled tests and is also
+  used in the script tests (The 'USE_VALGRIND' environmental variable
+  to disable valgrind is now deprecated).
+
 2021-05-23
 
   * The config option 'purge_after' has been deprecated and replaced

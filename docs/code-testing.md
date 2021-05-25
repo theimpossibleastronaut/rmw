@@ -15,9 +15,9 @@ If you're writing a patch, using <code class="w3-codespan">make
 check</code> will cover most of rmw's operations. If there's a test
 missing, please open a ticket.
 
-If [valgrind](https://www.valgrind.org/) is installed, the check will
-include some tests for resource leaks. To bypass using `valgrind`, use
-<code class="w3-codespan">USE_VALGRIND=0 make check</code>
+To enable tests with [valgrind](https://www.valgrind.org/), give the
+<code class="w3-codespan">--enable-valgrind</code> option to the
+configure script.
 
 <!-- This section probably would be better on a separate "Debugging" page (not yet created) -->
 <h2 id="profiling">Profiling</h2>

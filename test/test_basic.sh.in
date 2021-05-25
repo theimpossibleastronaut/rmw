@@ -11,7 +11,7 @@ fi
 echo "== On first run, directories should get created"
 # show commands that are run
 set -x
-$RMW_TEST_CMD_STRING || exit $?
+$VALGRIND $RMW_TEST_CMD_STRING || exit $?
 
 echo $SEPARATOR
 echo "List the waste folders..."

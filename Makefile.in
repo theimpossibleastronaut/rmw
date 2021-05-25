@@ -96,6 +96,7 @@ am__aclocal_m4_deps = $(top_srcdir)/build-aux/m4/ax_append_flag.m4 \
 	$(top_srcdir)/build-aux/m4/ax_check_enable_debug.m4 \
 	$(top_srcdir)/build-aux/m4/ax_is_release.m4 \
 	$(top_srcdir)/build-aux/m4/ax_require_defined.m4 \
+	$(top_srcdir)/build-aux/m4/ax_valgrind_check.m4 \
 	$(top_srcdir)/build-aux/m4/ax_with_curses.m4 \
 	$(top_srcdir)/build-aux/m4/ax_with_curses_extra.m4 \
 	$(top_srcdir)/build-aux/m4/gettext.m4 \
@@ -185,6 +186,10 @@ am__recursive_targets = \
   $(am__extra_recursive_targets)
 AM_RECURSIVE_TARGETS = $(am__recursive_targets:-recursive=) TAGS CTAGS \
 	cscope distdir distdir-am dist dist-all distcheck
+am__extra_recursive_targets = check-valgrind-recursive \
+	check-valgrind-memcheck-recursive \
+	check-valgrind-helgrind-recursive check-valgrind-drd-recursive \
+	check-valgrind-sgcheck-recursive
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
 	$(LISP)config.in
 # Read a list of newline-separated strings from the standard input,
@@ -279,6 +284,10 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
+ENABLE_VALGRIND_drd = @ENABLE_VALGRIND_drd@
+ENABLE_VALGRIND_helgrind = @ENABLE_VALGRIND_helgrind@
+ENABLE_VALGRIND_memcheck = @ENABLE_VALGRIND_memcheck@
+ENABLE_VALGRIND_sgcheck = @ENABLE_VALGRIND_sgcheck@
 EXEEXT = @EXEEXT@
 EXTRA_CFLAGS = @EXTRA_CFLAGS@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
@@ -327,6 +336,8 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
+VALGRIND = @VALGRIND@
+VALGRIND_ENABLED = @VALGRIND_ENABLED@
 VERSION = @VERSION@
 XGETTEXT = @XGETTEXT@
 XGETTEXT_015 = @XGETTEXT_015@
@@ -381,6 +392,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+valgrind_enabled_tools = @valgrind_enabled_tools@
+valgrind_tools = @valgrind_tools@
 packextrasdir = @docdir@
 SUBDIRS = src man test po
 EXTRA_DIST = \
@@ -484,6 +497,11 @@ $(am__recursive_targets):
 	if test "$$dot_seen" = "no"; then \
 	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
 	fi; test -z "$$fail"
+check-valgrind-local: 
+check-valgrind-memcheck-local: 
+check-valgrind-helgrind-local: 
+check-valgrind-drd-local: 
+check-valgrind-sgcheck-local: 
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -786,6 +804,26 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+check-valgrind: check-valgrind-recursive
+
+check-valgrind-am: check-valgrind-local
+
+check-valgrind-drd: check-valgrind-drd-recursive
+
+check-valgrind-drd-am: check-valgrind-drd-local
+
+check-valgrind-helgrind: check-valgrind-helgrind-recursive
+
+check-valgrind-helgrind-am: check-valgrind-helgrind-local
+
+check-valgrind-memcheck: check-valgrind-memcheck-recursive
+
+check-valgrind-memcheck-am: check-valgrind-memcheck-local
+
+check-valgrind-sgcheck: check-valgrind-sgcheck-recursive
+
+check-valgrind-sgcheck-am: check-valgrind-sgcheck-local
+
 clean: clean-recursive
 
 clean-am: clean-generic clean-local mostlyclean-am
@@ -858,7 +896,12 @@ uninstall-am: uninstall-packextrasDATA
 .MAKE: $(am__recursive_targets) install-am install-strip
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
-	am--refresh check check-am clean clean-cscope clean-generic \
+	am--refresh check check-am check-valgrind-am \
+	check-valgrind-drd-am check-valgrind-drd-local \
+	check-valgrind-helgrind-am check-valgrind-helgrind-local \
+	check-valgrind-local check-valgrind-memcheck-am \
+	check-valgrind-memcheck-local check-valgrind-sgcheck-am \
+	check-valgrind-sgcheck-local clean clean-cscope clean-generic \
 	clean-local cscope cscopelist-am ctags ctags-am dist dist-all \
 	dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ dist-xz \
 	dist-zip distcheck distclean distclean-generic distclean-tags \
@@ -879,13 +922,6 @@ uninstall-am: uninstall-packextrasDATA
 clean-local:
 	if test -f @builddir@/po/stamp-po; then	\
 		rm @builddir@/po/stamp-po;	\
-	fi
-
-make check-selectrestore:
-	if test $$(command -v valgrind); then	\
-		echo q | RMW_FAKE_HOME=@HOME_TEST_DIR@ valgrind --leak-check=full --show-leak-kinds=all -v --error-exitcode=1 @top_builddir@/rmw -s -c @top_srcdir@/test/rmw.testrc;	\
-	else	\
-		echo "Valgrind not installed";	\
 	fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

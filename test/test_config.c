@@ -18,7 +18,7 @@ test_waste (void)
 
   struct st_waste *st_new_waste_ptr =
     parse_line_waste (waste_curr, line, &cli_user_options,
-		      st_config_data.fake_media_root);
+                      st_config_data.fake_media_root);
 
   char expected[LEN_MAX_PATH];
   snprintf (expected, LEN_MAX_PATH, "%s/foo/bar/Waste", HOMEDIR);

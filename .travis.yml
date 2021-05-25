@@ -7,13 +7,10 @@ matrix:
       os: linux
       dist: xenial
       compiler: gcc # defaults to version 5 on xenial
-      addons:
-        apt:
-          packages:
-            - valgrind
       env:
         - DISTCHECK_ONLY="true" COMPILER="default"
         - CONFIGURE_OPTS="--enable-release"
+        - USE_VALGRIND="true"
     - os: linux
       dist: bionic
       compiler: gcc
@@ -140,29 +137,15 @@ before_install:
         sudo apt-get install -y $CC;
       fi;
       if [ "$USE_VALGRIND" = "true" ]; then
+        CONFIGURE_OPTS="${CONFIGURE_OPTS} --enable-valgrind";
         sudo apt-get install -y valgrind;
       fi;
     else
       brew install ncurses &&
       export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig";
     fi
+  - export CONFIGURE_OPTS
+  - export DISTCHECK_ONLY
+  - export COVERITY_SCAN_TOKEN
 
-script:
-  - if [ -n "$COVERITY_SCAN_TOKEN" ]; then
-      exit 0;
-    fi
-  - mkdir build && cd build
-  - ../configure ${CONFIGURE_OPTS}
-  - if [ -z "$DISTCHECK_ONLY" ]; then
-      make V=1 &&
-      make check-selectrestore || exit $?;
-      make V=1 check -j5;
-      r=$?;
-      if test "x$r" != x0; then
-        cat test/test-suite.log;
-      fi;
-      exit $r;
-    else
-      make V=1 distcheck &&
-      make distclean;
-    fi
+script: ./.github/scripts/travis_script.sh

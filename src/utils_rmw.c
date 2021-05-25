@@ -252,7 +252,7 @@ escape_url (const char *str, const int boundary)
   int pos_str = 0;
   int pos_dest = 0;
 
-  char *dest = malloc (LEN_MAX_ESCAPED_PATH);
+  char *dest = malloc (boundary);
   chk_malloc (dest, __func__, __LINE__);
 
   while (str[pos_str])
@@ -310,7 +310,7 @@ unescape_url (const char *str, const int boundary)
   int pos_str = 0;
   int pos_dest = 0;
 
-  char *dest = malloc (LEN_MAX_ESCAPED_PATH);
+  char *dest = malloc (boundary);
   chk_malloc (dest, __func__, __LINE__);
 
   while (str[pos_str])

@@ -4,11 +4,8 @@ From the build directory:
 
     make check
 
-to run the tests. Some of them will use valgrind<http://valgrind.org/>
-(if it's installed) and will be very slow. To disable the use of
-valgrind:
-
-    USE_VALGRIND=0 make check
+to run the tests. To enable tests with valgrind<http://valgrind.org/>,
+give the `--enable-valgrind` option to the configure script.
 
 Detailed logs for each test will be created in `test/`.
 

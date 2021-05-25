@@ -27,7 +27,17 @@ test_scripts =	\
 	test_restore.sh	\
 	test_buffer_overrun.sh
 
+@VALGRIND_CHECK_RULES@
+#VALGRIND_SUPPRESSIONS_FILES = @srcdir@/default.supp
+
+AUTOMAKE_OPTIONS = parallel-tests
+TEST_EXTENSIONS = .sh
+LOG_COMPILER = $(VALGRIND)
+
 TESTS=$(check_PROGRAMS) $(test_scripts)
+TESTS_ENVIRONMENT = VALGRIND='$(VALGRIND)'
+
+@top_builddir@/src/librmw_test.a: subsystem
 
 LDADD = @LIBINTL@ $(top_builddir)/src/librmw_test.a @MENU_LIBS@ @CURSES_LIBS@
 
@@ -46,3 +56,7 @@ clean-local:
 	if test -d $(top_builddir)/test/rmdir_test; then	\
 		rm -rf $(top_builddir)/test/rmdir_test;	\
 	fi
+
+subsystem:
+	$(MAKE) librmw_test.a -C @top_builddir@/src;	\
+	$(MAKE) @top_builddir@/rmw -C @top_builddir@/src;

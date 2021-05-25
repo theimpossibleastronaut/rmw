@@ -93,6 +93,9 @@ fi
 AM_GNU_GETTEXT([external], [need-formatstring-macros])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
+AX_VALGRIND_DFLT([memcheck], [on])
+AX_VALGRIND_CHECK([off])
+
 if test "x$ac_pwd" = x; then
         AC_MSG_ERROR(while determining top build directory)
 fi
@@ -117,4 +120,5 @@ echo "    ==[ Options ]=="
 echo "Installation prefix:                  $prefix"
 echo "Debug enabled:                        $enable_debug"
 echo "Build for release:                    $ax_is_release"
+echo "valgrind enabled:                     $enable_valgrind"
 echo ""

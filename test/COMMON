@@ -19,15 +19,6 @@ fi
 
 RMW_TEST_CMD_STRING="${BIN_DIR}/rmw -c $CONFIG"
 
-if [ "$USE_VALGRIND" != "0" ]; then
-  if [ -z `which valgrind` ]; then
-    echo "Valgrind isn't installed"
-  else
-    USE_VALGRIND=`which valgrind`
-    RMW_TEST_CMD_STRING="$USE_VALGRIND --leak-check=full --show-leak-kinds=all --error-exitcode=1 $RMW_TEST_CMD_STRING"
-  fi
-fi
-
 PRIMARY_WASTE_DIR=${RMW_FAKE_HOME}/.Waste
 
 RMW_ALT_TEST_CMD_STRING="${BIN_DIR}/rmw -c ${ALT_CONFIG}"

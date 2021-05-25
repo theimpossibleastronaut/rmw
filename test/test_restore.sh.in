@@ -20,7 +20,7 @@ $RMW_TEST_CMD_STRING || exit $?
 echo $SEPARATOR
 echo "If the mrl file doesn't exist yet..."
 expected="no items in the list"
-output=$($RMW_TEST_CMD_STRING -u) || exit $?
+output=$($VALGRIND $RMW_TEST_CMD_STRING -u) || exit $?
 test "${output}#*${substring}" != "${output}" || exit $?
 echo $output
 
@@ -32,7 +32,7 @@ cd ${RMW_FAKE_HOME}
 echo $SEPARATOR
 echo "Try to restore files that aren't in a Waste/files folder"
 substring="not in a Waste directory"
-output=$($RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1) || test_result_want_fail $?
+output=$($VALGRIND $RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1) || test_result_want_fail $?
 test "${output#*$substring}" != "$output" || exit $?
 
 echo $SEPARATOR
@@ -40,7 +40,7 @@ echo "ReMove files and then restore them by using -u"
 set -x
 $RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/somefiles/* || exit $?
 echo $SEPARATOR
-output=$($RMW_TEST_CMD_STRING -uvv | grep Waste) || exit $?
+output=$($VALGRIND $RMW_TEST_CMD_STRING -uvv | grep Waste) || exit $?
 echo $SEPARATOR
 test "$output" = "+'${RMW_FAKE_HOME}/.Waste/files/read_only_file' -> '${RMW_FAKE_HOME}/somefiles/read_only_file'
 -${RMW_FAKE_HOME}/.Waste/info/read_only_file.trashinfo
@@ -49,7 +49,7 @@ test "$output" = "+'${RMW_FAKE_HOME}/.Waste/files/read_only_file' -> '${RMW_FAKE
 
 echo $SEPARATOR
 echo "Show result when no undo file exists..."
-output=$(${RMW_TEST_CMD_STRING} -u) || exit $?
+output=$($VALGRIND ${RMW_TEST_CMD_STRING} -u) || exit $?
 test "${output}" = "There are no items in the list - please check back later."
 
 echo $SEPARATOR
@@ -57,12 +57,12 @@ echo "restore using wildcard pattern, but be in the trash directory"
 set -x
 $RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/somefiles/topdir -v || exit $?
 cd $PRIMARY_WASTE_DIR/files
-$RMW_TEST_CMD_STRING -z topd* || exit $?
+$VALGRIND $RMW_TEST_CMD_STRING -z topd* || exit $?
 test -e "${RMW_FAKE_HOME}/somefiles/topdir" || exit $?
 
 echo $SEPARATOR
 echo "Try restoring a file that doesn't exist"
-$RMW_TEST_CMD_STRING -z nonexistent_fil*
+$VALGRIND $RMW_TEST_CMD_STRING -z nonexistent_fil*
 test_result_want_fail $?
 
 # This test is inaccurate when run with superuser privileges.
@@ -81,7 +81,7 @@ echo "Symlinks"
 ln -s ${RMW_FAKE_HOME} ${RMW_FAKE_HOME}/link_test || exit $?
 # broken link
 ln -s broken_symlink_test ${RMW_FAKE_HOME}/link_test2 || exit $?
-$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/link_test ${RMW_FAKE_HOME}/link_test2 || exit $?
+$VALGRIND $RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/link_test ${RMW_FAKE_HOME}/link_test2 || exit $?
 test -h "${PRIMARY_WASTE_DIR}/files/link_test" || exit $?
 
 ${RMW_TEST_CMD_STRING} -u || exit $?
@@ -116,6 +116,10 @@ done
 substring="refusing to process"
 output="$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/.)"
 test "${output#*$substring}" != "${output}" || exit $?
+
+if -n "${TERM}"; then
+  echo q | ${VALGRIND} ${RMW_TEST_CMD_STRING} -s || exit $?
+fi
 
 # This test will only work on Andy's workstation.
 # The media root, /home/andy/src is on a different partition than /home/andy
