@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-05-05 23:12+0100\n"
+"POT-Creation-Date: 2021-05-25 01:17-0500\n"
 "PO-Revision-Date: 2020-04-18 12:26+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,87 +18,50 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
 "X-Generator: Poedit 2.3\n"
 
-#: src/config_rmw.c:48
-msgid ""
-"# NOTE: If two WASTE folders are on the same file system, rmw will move "
-"files\n"
-"# to the first WASTE folder listed, ignoring the second one.\n"
-"#\n"
+#: src/config_rmw.c:45
+msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr ""
-"# Dhyan de :Agar do aphsist folder ek file system may hai, rmw unko hata "
-"dega\n"
-"# pehle aphsist folder ko likhke, dusre ko nazarandaz kiya jayega\n"
 
-#: src/config_rmw.c:54
+#: src/config_rmw.c:49
 msgid ""
 "\n"
-"# If you would like this to be your primary trash folder (which usually "
-"means\n"
-"# that it will be the same as your Desktop Trash folder) be sure it "
-"precedes\n"
-"# any other WASTE folders listed in the config file\n"
-"#\n"
-"# If you want it checked for files that need purging, simply uncomment\n"
-"# The line below. Files you move with rmw will go to the folder above by\n"
-"# default.\n"
-"#\n"
-"# Note to OSX and Windows users: sending files to 'Desktop' trash\n"
+"# The directory used by the FreeDesktop.org Trash spec\n"
+"# Note to macOS and Windows users: moving files to 'Desktop' trash\n"
 "# doesn't work yet\n"
-"#\n"
 msgstr ""
-"\n"
-"# yadi aap chahte hai ki yeh aapka prathamik kachra folder ho(jiska aamtor "
-"par matlab hota hai\n"
-"# ki yeh aapko desktop trash folder ke saamna hoga) sunischit karen ki yeh "
-"pehle\n"
-"# config file may suchibandh bhi anya apshist folder\n"
-"#\n"
-"# yadi aap chahte hai k yeh unn failon ke liye jaanch kiya jaye jinhe mitane "
-"ki abyasakta hai, toh bas tipanni na kare \n"
-"# niche ki rekha| failen jo aap rmw hatayega to woh upar wale folder ko "
-"jayega   \n"
-"# default।\n"
-"#\n"
-"# OSX aur Windows upyogi hai to dhyan de: 'Desktop' kachre keliye folder "
-"bhejna  \n"
-"# abhi tak kaam nahi karta hai\n"
-"#\n"
 
-#: src/config_rmw.c:68
-msgid ""
-"\n"
-"# A folder can use the $UID variable.\n"
+#: src/config_rmw.c:56
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "# A folder can use the $UID variable.\n"
+msgid "# A folder can use the $UID variable.\n"
 msgstr ""
 "\n"
 "# folder $UID variable ka istemal karta hai\n"
 
-#: src/config_rmw.c:71
+#: src/config_rmw.c:58
 msgid ""
-"\n"
-"# Removable media: If a folder has ',removable' appended to it, rmw\n"
-"# will not try to create it; it must be initially created manually. If\n"
-"# the folder exists when rmw is run, it will be used; if not, it will be\n"
-"# skipped Once you create \"example_waste\", rmw will automatically create\n"
-"# example_waste/info and example_waste/files\n"
+"# See the README or man page for details about using the 'removable' "
+"attribute\n"
 msgstr ""
-"\n"
-"# hatane yogya media: agar ek folder hai hatane yogya, yeh karne ke liye "
-"sanlagn hai, rmw\n"
-"# isse banana ki kosish nahi karega, yeh suru se manually roop se banaya "
-"jana chahiye, yadi\n"
-"# woh folder rehte rmw ko chalaya toh woh folder upyog kiya jayega, yadi "
-"nahi hoga\n"
-"# ek baar jab 'example_waste\" banate hai, toh woh khudh ban jayega\n"
-"# example_waste/info aur example_waste/files may\n"
-"\n"
 
-#: src/config_rmw.c:79
+#: src/config_rmw.c:62
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "# How many days should files be allowed to stay in the waste folders "
+#| "before\n"
+#| "# they are permanently deleted\n"
+#| "#\n"
+#| "# use '0' to disable purging\n"
+#| "#\n"
 msgid ""
 "\n"
-"# How many days should files be allowed to stay in the waste folders before\n"
-"# they are permanently deleted\n"
+"# How many days should items be allowed to stay in the waste\n"
+"# directories before they are permanently deleted\n"
 "#\n"
-"# use '0' to disable purging\n"
+"# use '0' to disable purging (can be overridden by using --purge=N_DAYS)\n"
 "#\n"
 msgstr ""
 "\n"
@@ -109,7 +72,7 @@ msgstr ""
 "# mitane ke liye '0' ka upyog karen\n"
 "#\n"
 
-#: src/config_rmw.c:87
+#: src/config_rmw.c:70
 msgid ""
 "\n"
 "# purge is allowed to run without the '-f' option. If you'd rather\n"
@@ -121,32 +84,32 @@ msgstr ""
 "# 'f' ka prayog karna hai to niche Rekha par comment karen \n"
 "#\n"
 
-#: src/config_rmw.c:282
+#: src/config_rmw.c:266
 #, c-format
 msgid "Invalid WASTE option: '%s'\n"
 msgstr "Galat apshist option: '%s'\n"
 
-#: src/config_rmw.c:424
+#: src/config_rmw.c:402
 #, c-format
 msgid "config file: %s\n"
 msgstr "config file: %s\n"
 
-#: src/config_rmw.c:438
+#: src/config_rmw.c:416
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "configuration file banate waqt:"
 
-#: src/config_rmw.c:464
+#: src/config_rmw.c:442
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Nahi padha or likha jaa raha configuration file\n"
 
-#: src/config_rmw.c:567
+#: src/config_rmw.c:545
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unjana ya galat bikalp: '%s'\n"
 
-#: src/config_rmw.c:580
+#: src/config_rmw.c:557
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -159,31 +122,35 @@ msgstr ""
 "agar aapko madad ki ya koi galti batani hai\n"
 "aap rmw web site par karen\n"
 
-#: src/config_rmw.c:638
+#: src/config_rmw.c:615
 #, c-format
 msgid "removable, "
 msgstr "hataya ja sakta hai, "
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:640
+#: src/config_rmw.c:617
 msgid "attached"
 msgstr "jodagaya"
 
-#: src/config_rmw.c:640
+#: src/config_rmw.c:617
 #, fuzzy
 #| msgid "attached"
 msgid "detached"
 msgstr "jodagaya"
 
-#: src/main.c:107
+#: src/main.c:101
+msgid "There are no items in the list - please check back later.\n"
+msgstr ""
+
+#: src/main.c:106
 msgid "Skipping --undo-last because --most-recent-list was requested"
 msgstr ""
 
-#: src/main.c:158
+#: src/main.c:144
 msgid "while getting the path to your home directory\n"
 msgstr "home directory ka rasta milte wakht\n"
 
-#: src/main.c:175
+#: src/main.c:161
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -194,17 +161,17 @@ msgstr ""
 "configuration file and permissions ko dekhe\n"
 "\n"
 
-#: src/main.c:180
+#: src/main.c:166
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Jaari nahi rakh saka. Bahar jaa raha hai….\n"
 
-#: src/main.c:206
+#: src/main.c:192
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "sudhikaran nahi kiya gaya: -f or --force ka istemal karen\n"
 
-#: src/main.c:267
+#: src/main.c:260
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -214,58 +181,65 @@ msgstr ""
 "Dabaye '%s -h' adhik jankari ke liye\n"
 " \n"
 
-#: src/main.c:367
-msgid "The Easter Bunny says, \"Hello, world.\""
-msgstr "Easter Bunny bola, \"Hello, Duniya.\""
+#: src/main.c:384
+msgid ""
+"\n"
+"Your single slash has been ignored. You walk to the market\n"
+"in the town square and purchase a Spear of Destiny. You walk to\n"
+"the edge of the forest and find your enemy. You attack, causing\n"
+"damage of 5000 hp. You feel satisfied.\n"
+msgstr ""
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:385 src/restore_rmw.c:193
+#: src/main.c:405 src/restore_rmw.c:194
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "File nahi mili: '%s'\n"
 
-#: src/main.c:397
+#: src/main.c:417
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/main.c:480
+#: src/main.c:502
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "koi sahi filesystem nahi mile \"%s\"\n"
 
-#: src/main.c:490
-#, c-format
-msgid "%d file was removed to the waste folder"
-msgid_plural "%d files were removed to the waste folder"
+#: src/main.c:512
+#, fuzzy, c-format
+#| msgid "%d file was removed to the waste folder"
+#| msgid_plural "%d files were removed to the waste folder"
+msgid "%d item was removed to the waste folder"
+msgid_plural "%d items were removed to the waste folder"
 msgstr[0] "%d failen hatayi gayi hai waste folder ko"
 msgstr[1] "%d files were removed to the waste folder"
 
 #. TRANSLATORS: this precedes a string which informs the user of a more
 #. * serious error, sometimes a fatal one
-#: src/messages_rmw.c:32
+#: src/messages_rmw.c:27
 msgid "  :error: "
 msgstr "   :galati: "
 
 #. TRANSLATORS: this precedes a string which warns the user of some minor
 #. * but not fatal problem
-#: src/messages_rmw.c:39
+#: src/messages_rmw.c:34
 msgid " :warning: "
 msgstr " :chetawani: "
 
 #. TRANSLATORS:  "opening" refers to a file
-#: src/messages_rmw.c:54
+#: src/messages_rmw.c:49
 #, c-format
 msgid "while opening %s\n"
 msgstr "kholte wakt %s\n"
 
 #. TRANSLATORS:  "function" refers to a C function
-#: src/messages_rmw.c:58 src/messages_rmw.c:90
+#: src/messages_rmw.c:53 src/messages_rmw.c:85
 #, c-format
 msgid "function: <%s>"
 msgstr "samrooh <%s>"
 
-#: src/messages_rmw.c:87
+#: src/messages_rmw.c:82
 #, c-format
 msgid "while closing %s\n"
 msgstr "band karte waqt %s\n"
@@ -275,7 +249,7 @@ msgstr "band karte waqt %s\n"
 #. *               "format" refers to the layout of the file
 #. *                contents
 #.
-#: src/messages_rmw.c:106
+#: src/messages_rmw.c:101
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "praroop .trashinfo file ki 'file %s' galat hai"
@@ -283,31 +257,31 @@ msgstr "praroop .trashinfo file ki 'file %s' galat hai"
 #. TRANSLATORS: ignore "restore()"
 #. * "returned" refers to an error code (number) that was returned by
 #. * an operation
-#: src/messages_rmw.c:124
+#: src/messages_rmw.c:119
 #, fuzzy, c-format
 #| msgid "Restore() returned %d\n"
 msgid "restore() returned %d\n"
 msgstr "Restore() aaya %d\n"
 
-#: src/messages_rmw.c:136
+#: src/messages_rmw.c:131
 #, c-format
 msgid "while attempting to allocate memory -- %s:L%d\n"
 msgstr "memory avantit prayas karte wakht -- %s:L%d\n"
 
 #. TRANSLATORS: "return" code refers to a number returned by an operation
 #. * or function
-#: src/messages_rmw.c:150
+#: src/messages_rmw.c:145
 #, fuzzy, c-format
 #| msgid "  :return code: %d -- %s\n"
 msgid "  :return code: %d\n"
 msgstr "  :return code: %d -- %s\n"
 
-#: src/messages_rmw.c:167
+#: src/messages_rmw.c:162
 #, c-format
 msgid "while opening %s -- %s:L%d\n"
 msgstr "kholte wakht %s -- %sL%d\n"
 
-#: src/messages_rmw.c:176
+#: src/messages_rmw.c:171
 #, c-format
 msgid ""
 "while trying to move (rename)\n"
@@ -318,94 +292,93 @@ msgstr ""
 "\n"
 
 #. TRANSLATORS:  "removing" refers to a file or folder
-#: src/messages_rmw.c:234
+#: src/messages_rmw.c:229
 #, c-format
 msgid "while removing %s\n"
 msgstr "hatate wakht %s\n"
 
-#: src/messages_rmw.c:244
+#: src/messages_rmw.c:239
 #, fuzzy, c-format
 #| msgid "while creating %s\n"
 msgid "while creating %s (%s)\n"
 msgstr "banate wakht %s\n"
 
-#: src/messages_rmw.c:250
+#: src/messages_rmw.c:245
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Yeh directory banayi gayi %s\n"
 
-#: src/parse_cli_options.c:44
+#: src/parse_cli_options.c:41
 #, c-format
 msgid ""
 "Usage: %s [OPTION]... FILE...\n"
-"ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
+"Move FILE(s) to a WASTE directory listed in configuration file\n"
 "\n"
 "   or: %s -s\n"
 "   or: %s -u\n"
 "   or: %s -z FILE...\n"
 msgstr ""
 
-#: src/parse_cli_options.c:51
+#: src/parse_cli_options.c:48
 msgid ""
 "Restore FILE(s) from a WASTE directory\n"
 "\n"
 msgstr ""
 
-#: src/parse_cli_options.c:54
+#: src/parse_cli_options.c:51
 msgid "  -h, --help                show help for command line options\n"
 msgstr ""
 
-#: src/parse_cli_options.c:57
-msgid "  -c, --config filename     use an alternate configuration\n"
+#: src/parse_cli_options.c:54
+msgid "  -c, --config FILE         use an alternate configuration\n"
 msgstr ""
 
-#: src/parse_cli_options.c:60
+#: src/parse_cli_options.c:57
 msgid "  -l, --list                list waste directories\n"
 msgstr ""
 
-#: src/parse_cli_options.c:63
+#: src/parse_cli_options.c:60
+#, c-format
 msgid ""
 "  -g[N_DAYS], --purge[=N_DAYS]\n"
-"                            run purge even if it's been run today;\n"
-"                            optional argument 'N_DAYS' overrides "
-"'purge_after'\n"
+"                            purge expired files;\n"
+"                            optional argument 'N_DAYS' overrides '%s'\n"
 "                            value from the configuration file\n"
 "                            (Examples: -g90, --purge=90)\n"
 msgstr ""
 
-#: src/parse_cli_options.c:70
+#: src/parse_cli_options.c:67
 msgid "  -o, --orphaned            check for orphaned files (maintenance)\n"
+msgstr ""
+
+#: src/parse_cli_options.c:70
+msgid "  -f, --force               allow purging of expired files\n"
 msgstr ""
 
 #: src/parse_cli_options.c:73
 msgid ""
-"  -f, --force               allow rmw to purge files in the background\n"
+"  -e, --empty               completely empty (purge) all waste directories\n"
 msgstr ""
 
 #: src/parse_cli_options.c:76
-msgid ""
-"  -e, --empty               completely empty (purge) all waste folders\n"
-msgstr ""
-
-#: src/parse_cli_options.c:79
 msgid ""
 "  -r, -R, --recursive       option used for compatibility with rm\n"
 "                            (recursive operation is enabled by default)\n"
 msgstr ""
 
-#: src/parse_cli_options.c:83
+#: src/parse_cli_options.c:80
 msgid "  -v, --verbose             increase output messages\n"
 msgstr ""
 
-#: src/parse_cli_options.c:86
+#: src/parse_cli_options.c:83
 msgid "  -w, --warranty            display warranty\n"
 msgstr ""
 
-#: src/parse_cli_options.c:89
+#: src/parse_cli_options.c:86
 msgid "  -V, --version             display version and license information\n"
 msgstr ""
 
-#: src/parse_cli_options.c:92
+#: src/parse_cli_options.c:89
 msgid ""
 "  \n"
 "\n"
@@ -413,25 +386,23 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/parse_cli_options.c:95
-msgid ""
-"  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
-"files/foo*)\n"
+#: src/parse_cli_options.c:92
+msgid "  -z, --restore FILE(s)     restore FILE(s) (see man page example)\n"
 msgstr ""
 
-#: src/parse_cli_options.c:98
+#: src/parse_cli_options.c:95
 msgid "  -s, --select              select files from list to restore\n"
 msgstr ""
 
-#: src/parse_cli_options.c:101
-msgid "  -u, --undo-last           undo last ReMove\n"
+#: src/parse_cli_options.c:98
+msgid "  -u, --undo-last           undo last move\n"
 msgstr ""
 
-#: src/parse_cli_options.c:104
+#: src/parse_cli_options.c:101
 msgid "  -m, --most-recent-list    list most recently rmw'ed files\n"
 msgstr ""
 
-#: src/parse_cli_options.c:107
+#: src/parse_cli_options.c:104
 msgid ""
 "  \n"
 "\n"
@@ -441,12 +412,12 @@ msgstr ""
 "adhik madad aur jankari ke liye rmw homepage jaaye\n"
 "aur samtharna prapt karen"
 
-#: src/parse_cli_options.c:113
+#: src/parse_cli_options.c:110
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Galti yahan kare <%s>.\n"
 
-#: src/parse_cli_options.c:119
+#: src/parse_cli_options.c:116
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -459,7 +430,7 @@ msgid ""
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 msgstr ""
 
-#: src/parse_cli_options.c:135
+#: src/parse_cli_options.c:132
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -471,115 +442,118 @@ msgid ""
 "for details.\n"
 msgstr ""
 
-#: src/parse_cli_options.c:164
+#: src/parse_cli_options.c:162
 #, c-format
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr ""
 
-#: src/parse_cli_options.c:231
+#: src/parse_cli_options.c:229
 msgid "dry-run mode enabled."
 msgstr "dry-run mode hai"
 
-#: src/parse_cli_options.c:254
+#: src/parse_cli_options.c:252
 msgid "Arguments given to --purge must be numeric only"
 msgstr ""
 
-#: src/parse_cli_options.c:283
+#: src/parse_cli_options.c:281
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: abhi tak kiya nahi gaya\n"
 
-#: src/parse_cli_options.c:288
+#: src/parse_cli_options.c:286
 #, c-format
 msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr ""
 
-#: src/parse_cli_options.c:300
+#: src/parse_cli_options.c:298
 #, c-format
 msgid "Try '%s --help' for more information.\n"
 msgstr ""
 
-#: src/purging_rmw.c:107
+#: src/purging_rmw.c:102
 #, c-format
 msgid "while changing permissions of %s\n"
 msgstr "badalte wakht anumati %s\n"
 
 #. TRANSLATORS:  "purging" refers to permanently deleting a file or a
 #. * directory
-#: src/purging_rmw.c:256
-#, c-format
+#: src/purging_rmw.c:251
+#, fuzzy, c-format
+#| msgid ""
+#| "purging is disabled ('purge_after' is set to '0')\n"
+#| "\n"
 msgid ""
-"purging is disabled ('purge_after' is set to '0')\n"
+"purging is disabled ('%s' is set to '0')\n"
 "\n"
 msgstr "sudhikaran nahi kiya jaa sakta('purge_after' ko '0' karen)\n"
 
-#: src/purging_rmw.c:270
+#: src/purging_rmw.c:259
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Apshist folder may jo hai abhi hataya jayega"
 
-#: src/purging_rmw.c:273
+#: src/purging_rmw.c:262
 msgid "Action cancelled."
 msgstr "karya band kiya gaya."
 
-#: src/purging_rmw.c:280
+#: src/purging_rmw.c:269
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "sari failen ki sudhikaran kiya jayega apshist folders …\n"
 
-#: src/purging_rmw.c:283
+#: src/purging_rmw.c:272
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr "sudhikaran files din ginke ke baad apshist folder se hogi (%u) …\n"
 
-#: src/purging_rmw.c:403
+#: src/purging_rmw.c:392
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr "Directory sudhikaran na ho -failen yahan hai \n"
 
-#: src/purging_rmw.c:405
+#: src/purging_rmw.c:394
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(malik ki parikshya/permissions likhen)\n"
 
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
-#: src/purging_rmw.c:413
+#: src/purging_rmw.c:402
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "jyada se jyada %u hua, chod dijiye\n"
 
-#: src/purging_rmw.c:474
+#: src/purging_rmw.c:463
 #, fuzzy, c-format
 #| msgid "%d file purged"
 #| msgid_plural "%d files purged"
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr "%d failen sudhikaran ki gayi hai"
 
-#: src/purging_rmw.c:487
+#: src/purging_rmw.c:476
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "% directories ko chodo gaya hai(RMDIR_MAX_DEPTH hogaya)\n"
 
-#: src/purging_rmw.c:491
+#: src/purging_rmw.c:480
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d directories chodi gayi hai (sirf padhne wali files)\n"
 
-#: src/purging_rmw.c:494
+#: src/purging_rmw.c:483
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%d failen sudhikaran ki gayi hai"
 msgstr[1] "%d file sudhikaran ki gayi hai"
 
-#: src/purging_rmw.c:498
+#: src/purging_rmw.c:487
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] "(%d failen hatayi gayi)"
 msgstr[1] "(%d file hatayi gayi)"
 
-#: src/purging_rmw.c:502
+#: src/purging_rmw.c:491
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
@@ -587,37 +561,37 @@ msgstr[0] "(%d directoriyan hatayi gayi)"
 msgstr[1] "(%d directory hatayi gayi)"
 
 #. TRANSLATORS:  "created" refers to a file
-#: src/purging_rmw.c:566
+#: src/purging_rmw.c:557
 #, c-format
 msgid "Created %s\n"
 msgstr "Banaya gaya %s\n"
 
-#: src/purging_rmw.c:572
+#: src/purging_rmw.c:563
 #, c-format
 msgid "while creating %s\n"
 msgstr "banate wakht %s\n"
 
-#: src/restore_rmw.c:132
+#: src/restore_rmw.c:133
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "behrupi file ka naam hai manzil par - sanlagn wakht par string \n"
 
-#: src/restore_rmw.c:175
+#: src/restore_rmw.c:176
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr ".trashinfo fail hatate wakht:'%s'\n"
 
-#: src/restore_rmw.c:234
-#, c-format
-msgid "Reading %s...\n"
-msgstr "Padh raha hai %s…\n"
-
-#: src/restore_rmw.c:281
+#: src/restore_rmw.c:271
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#: src/restore_rmw.c:303
+#: src/restore_rmw.c:292
+#, c-format
+msgid "Reading %s...\n"
+msgstr "Padh raha hai %s…\n"
+
+#: src/restore_rmw.c:326
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -626,11 +600,11 @@ msgstr[1] "== failen shamil %d hai =="
 
 #. TRANSLATORS: I believe the words between the < and > can be translated
 #.
-#: src/restore_rmw.c:307
+#: src/restore_rmw.c:330
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RIGHT / CURSOR-LEFT> - svich abhisht folders"
 
-#: src/restore_rmw.c:308
+#: src/restore_rmw.c:331
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
@@ -640,29 +614,65 @@ msgstr ""
 #. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
 #. * for input in this case.
 #.
-#: src/restore_rmw.c:314
+#: src/restore_rmw.c:337
 msgid "'q' - quit"
 msgstr "'q' -chodna"
 
-#: src/restore_rmw.c:416
-#, c-format
-msgid "failed to remove %s\n"
-msgstr "hataya nahi jaa saka %s\n"
-
-#: src/strings_rmw.c:220
-#, c-format
-msgid "realpath() returned an error.\n"
-msgstr "realpath() may error mila hai\n"
-
-#: src/utils_rmw.c:194
+#: src/utils_rmw.c:190
 msgid "Continue? (y/n): "
 msgstr "Jari rakhen? (haan/na): "
 
-#: src/utils_rmw.c:270 src/utils_rmw.c:281 src/utils_rmw.c:328
+#: src/utils_rmw.c:266 src/utils_rmw.c:278 src/utils_rmw.c:327
 #: src/utils_rmw.c:343
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr "rmw: %s(): buffer bhut chota hai (mila %d, chahiye tha %d)\n"
+
+#~ msgid "search complete\n"
+#~ msgstr "dhundhna purna hua\n"
+
+#~ msgid "Searching using only the basename...\n"
+#~ msgstr "Khoja jaa raha hai basefile naam istemal karke…\n"
+
+#~ msgid "-r / --recurse: not implemented\n"
+#~ msgstr "-r / --recurse: nahi kiya gaya\n"
+
+#~ msgid "%s freed"
+#~ msgid_plural "%s freed"
+#~ msgstr[0] "%s mukht kiya gaya"
+#~ msgstr[1] "%s mukht kiye gaya"
+
+#~ msgid ""
+#~ " <--> Displaying part of the string that caused the error <-->\n"
+#~ "\n"
+#~ msgstr ""
+#~ " <---> galati ke karan bana string <--->\n"
+#~ "\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "  \n"
+#~| "\n"
+#~| "  \t===] Restoring [===\n"
+#~| "\n"
+#~| "  -z, --restore <wildcard filename(s) pattern>\n"
+#~| "  -s, --select              select files from list to restore\n"
+#~| "  -u, --undo-last           undo last ReMove\n"
+#~ msgid ""
+#~ "  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
+#~ "files/foo*)\n"
+#~ "  -s, --select              select files from list to restore\n"
+#~ "  -u, --undo-last           undo last ReMove\n"
+#~ "  -m, --most-recent-list    list most recently rmw'ed files\n"
+#~ msgstr ""
+#~ "  \n"
+#~ "  \n"
+#~ "  \t ===] Bahal [===\n"
+#~ "\n"
+#~ "  -z, --bahal <wildcard filename(s) pattern>\n"
+#~ "  -s ,--bahal karneke liye suchi se chuninda         failon ka chayan "
+#~ "karen\n"
+#~ "  -u, --purbith-pichle          purbit pichle ReMove\n"
 
 #, fuzzy
 #~| msgid ""
@@ -718,50 +728,75 @@ msgstr "rmw: %s(): buffer bhut chota hai (mila %d, chahiye tha %d)\n"
 #~ "  -w, --warranty         dikhaye warranty\n"
 #~ "  -V, --sanskaran        dikhaye sanskaran aur licence ki jankari\n"
 
-#, fuzzy
-#~| msgid ""
-#~| "  \n"
-#~| "\n"
-#~| "  \t===] Restoring [===\n"
-#~| "\n"
-#~| "  -z, --restore <wildcard filename(s) pattern>\n"
-#~| "  -s, --select              select files from list to restore\n"
-#~| "  -u, --undo-last           undo last ReMove\n"
+#~ msgid "realpath() returned an error.\n"
+#~ msgstr "realpath() may error mila hai\n"
+
+#~ msgid "failed to remove %s\n"
+#~ msgstr "hataya nahi jaa saka %s\n"
+
+#~ msgid "The Easter Bunny says, \"Hello, world.\""
+#~ msgstr "Easter Bunny bola, \"Hello, Duniya.\""
+
 #~ msgid ""
-#~ "  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
-#~ "files/foo*)\n"
-#~ "  -s, --select              select files from list to restore\n"
-#~ "  -u, --undo-last           undo last ReMove\n"
-#~ "  -m, --most-recent-list    list most recently rmw'ed files\n"
-#~ msgstr ""
-#~ "  \n"
-#~ "  \n"
-#~ "  \t ===] Bahal [===\n"
 #~ "\n"
-#~ "  -z, --bahal <wildcard filename(s) pattern>\n"
-#~ "  -s ,--bahal karneke liye suchi se chuninda         failon ka chayan "
-#~ "karen\n"
-#~ "  -u, --purbith-pichle          purbit pichle ReMove\n"
+#~ "# Removable media: If a folder has ',removable' appended to it, rmw\n"
+#~ "# will not try to create it; it must be initially created manually. If\n"
+#~ "# the folder exists when rmw is run, it will be used; if not, it will be\n"
+#~ "# skipped Once you create \"example_waste\", rmw will automatically "
+#~ "create\n"
+#~ "# example_waste/info and example_waste/files\n"
+#~ msgstr ""
+#~ "\n"
+#~ "# hatane yogya media: agar ek folder hai hatane yogya, yeh karne ke liye "
+#~ "sanlagn hai, rmw\n"
+#~ "# isse banana ki kosish nahi karega, yeh suru se manually roop se banaya "
+#~ "jana chahiye, yadi\n"
+#~ "# woh folder rehte rmw ko chalaya toh woh folder upyog kiya jayega, yadi "
+#~ "nahi hoga\n"
+#~ "# ek baar jab 'example_waste\" banate hai, toh woh khudh ban jayega\n"
+#~ "# example_waste/info aur example_waste/files may\n"
+#~ "\n"
 
-#, c-format
 #~ msgid ""
-#~ " <--> Displaying part of the string that caused the error <-->\n"
 #~ "\n"
+#~ "# If you would like this to be your primary trash folder (which usually "
+#~ "means\n"
+#~ "# that it will be the same as your Desktop Trash folder) be sure it "
+#~ "precedes\n"
+#~ "# any other WASTE folders listed in the config file\n"
+#~ "#\n"
+#~ "# If you want it checked for files that need purging, simply uncomment\n"
+#~ "# The line below. Files you move with rmw will go to the folder above by\n"
+#~ "# default.\n"
+#~ "#\n"
+#~ "# Note to OSX and Windows users: sending files to 'Desktop' trash\n"
+#~ "# doesn't work yet\n"
+#~ "#\n"
 #~ msgstr ""
-#~ " <---> galati ke karan bana string <--->\n"
 #~ "\n"
+#~ "# yadi aap chahte hai ki yeh aapka prathamik kachra folder ho(jiska "
+#~ "aamtor par matlab hota hai\n"
+#~ "# ki yeh aapko desktop trash folder ke saamna hoga) sunischit karen ki "
+#~ "yeh pehle\n"
+#~ "# config file may suchibandh bhi anya apshist folder\n"
+#~ "#\n"
+#~ "# yadi aap chahte hai k yeh unn failon ke liye jaanch kiya jaye jinhe "
+#~ "mitane ki abyasakta hai, toh bas tipanni na kare \n"
+#~ "# niche ki rekha| failen jo aap rmw hatayega to woh upar wale folder ko "
+#~ "jayega   \n"
+#~ "# default।\n"
+#~ "#\n"
+#~ "# OSX aur Windows upyogi hai to dhyan de: 'Desktop' kachre keliye folder "
+#~ "bhejna  \n"
+#~ "# abhi tak kaam nahi karta hai\n"
+#~ "#\n"
 
-#, c-format
-#~ msgid "%s freed"
-#~ msgid_plural "%s freed"
-#~ msgstr[0] "%s mukht kiya gaya"
-#~ msgstr[1] "%s mukht kiye gaya"
-
-#~ msgid "-r / --recurse: not implemented\n"
-#~ msgstr "-r / --recurse: nahi kiya gaya\n"
-
-#~ msgid "Searching using only the basename...\n"
-#~ msgstr "Khoja jaa raha hai basefile naam istemal karke…\n"
-
-#~ msgid "search complete\n"
-#~ msgstr "dhundhna purna hua\n"
+#~ msgid ""
+#~ "# NOTE: If two WASTE folders are on the same file system, rmw will move "
+#~ "files\n"
+#~ "# to the first WASTE folder listed, ignoring the second one.\n"
+#~ "#\n"
+#~ msgstr ""
+#~ "# Dhyan de :Agar do aphsist folder ek file system may hai, rmw unko hata "
+#~ "dega\n"
+#~ "# pehle aphsist folder ko likhke, dusre ko nazarandaz kiya jayega\n"
