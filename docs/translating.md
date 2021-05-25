@@ -3,7 +3,7 @@ title: Translating
 layout: default
 ---
 
-The rmw project uses [Transifex](https://www.transifex.com/na-309/rmw/)
+The rmw project uses [Transifex](https://www.transifex.com/aalt/rmw/)
 or [GNU
 gettext](https://www.gnu.org/software/gettext/manual/html_node/index.html)
 for translations. If you're not using Transifex, you can check if a po
