@@ -1,16 +1,5 @@
 # included by tests scripts
 
-test_result_want_fail() {
-  set +x
-  if [ $1 = 0 ]; then
-    echo "\n  --:Test failure:--"
-    exit 1
-  fi
-
-  echo "  -:Test passed:-"
-  set -x
-}
-
 export RMW_FAKE_HOME
 
 if [ -e ${RMW_FAKE_HOME} ]; then
@@ -24,3 +13,5 @@ PRIMARY_WASTE_DIR=${RMW_FAKE_HOME}/.Waste
 RMW_ALT_TEST_CMD_STRING="${BIN_DIR}/rmw -c ${ALT_CONFIG}"
 RMW_PURGE_DISABLED_CMD="${BIN_DIR}/rmw -c ${PURGE_DISABLED_CONFIG}"
 SEPARATOR="\n\n--- "
+
+set -ve
