@@ -169,13 +169,14 @@ human_readable_size (off_t size)
     ++power;
   }
 
-  char a_size[LEN_MAX_HUMAN_READABLE_SIZE];
+  char a_size[7];
   sprintf (a_size, "%d", (short)size);
+
   if (power >= 0)
-    sprintf (buffer, "%s.%d %ciB", a_size,
+    snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB", (short)size,
               (remainder * 10) / 1024, prefix[power]);
   else
-    sprintf (buffer, "%s B", a_size);
+    snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d B", (short)size);
 
   return buffer;
 }
@@ -433,7 +434,9 @@ test_isdotdir (void)
 static void test_rmw_mkdir (void)
 {
   const char *subdirs = "foo/bar/21/42";
-  char dir[LEN_MAX_PATH];
+  int req_len = multi_strlen (HOMEDIR, subdirs, NULL) + 1;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  char dir[req_len];
   sprintf (dir, "%s/%s", HOMEDIR, subdirs);
   assert (rmw_mkdir (dir, S_IRWXU) == 0);
   printf  ("%s\n", dir);

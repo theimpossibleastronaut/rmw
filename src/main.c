@@ -83,27 +83,25 @@ get_home_dir (void)
 static const char *
 get_data_rmw_home_dir (void)
 {
-  const char rel_default[] = "/.local/share/rmw";
+  const char rel_default[] = ".local/share/rmw";
 
   const char *xdg_data_home = getenv ("XDG_DATA_HOME");
 
   static char data_rmw_home[LEN_MAX_PATH];
-  static const char *ptr = &data_rmw_home[0];
   const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
 
   if (enable_test != NULL || (xdg_data_home == NULL && enable_test == NULL))
   {
-    int req_len = multi_strlen (HOMEDIR, rel_default, NULL) + 1;
+    int req_len = multi_strlen (HOMEDIR, "/", rel_default, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    sprintf (data_rmw_home, "%s%s", HOMEDIR, rel_default);
-    return ptr;
+    snprintf (data_rmw_home, req_len, "%s/%s", HOMEDIR, rel_default);
+    return data_rmw_home;
   }
 
-  int req_len = multi_strlen (xdg_data_home, "/rmw", NULL) + 1;
+  int req_len = multi_strlen (xdg_data_home, "/", "rmw", NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  sprintf (data_rmw_home, "%s/rmw", xdg_data_home);
-  ptr = &data_rmw_home[0];
-  return ptr;
+  snprintf (data_rmw_home, req_len, "%s/rmw", xdg_data_home);
+  return data_rmw_home;
 }
 
 
@@ -114,13 +112,12 @@ get_most_recent_list_filename (const char *data_dir)
   int req_len =
     multi_strlen (data_dir, "/", rel_most_recent_list_filename, NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  static char mrl_file[LEN_MAX_PATH];
-  sprintf (mrl_file, "%s/%s", data_dir, rel_most_recent_list_filename);
-  static const char *ptr;
-  ptr = &mrl_file[0];
+  char *mrl_file = malloc (req_len);
+  chk_malloc (mrl_file, __func__, __LINE__);
+  snprintf (mrl_file, req_len, "%s/%s", data_dir, rel_most_recent_list_filename);
   if (verbose)
     printf ("most recent list (mrl file): %s\n", mrl_file);
-  return ptr;
+  return mrl_file;
 }
 
 static char *
