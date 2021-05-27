@@ -423,7 +423,7 @@ undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
     char *line = strtok (contents_copy, "\n");
     while (line != NULL)
     {
-      trim_white_space (line);
+      trim_whitespace (line);
       int result = restore (line, st_time_var, cli_user_options, waste_head);
       line = strtok (NULL, "\n");
       msg_warn_restore (result);

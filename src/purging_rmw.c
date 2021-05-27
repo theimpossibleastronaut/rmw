@@ -205,7 +205,7 @@ is_time_to_purge (st_time * st_time_var, const char *data_dir)
       exit (EXIT_FAILURE);
     }
 
-    trim_white_space (time_prev);
+    trim_whitespace (time_prev);
     close_file (fp, file_lastpurge, __func__);
 
     if ((st_time_var->now - atoi (time_prev)) < SECONDS_IN_A_DAY)

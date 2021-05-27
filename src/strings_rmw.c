@@ -85,8 +85,20 @@ multi_strlen (const char *argv, ...)
  * @return void
  */
 void
-trim_white_space (char *str)
+trim_whitespace (char *str)
 {
+  if (str == NULL)
+  {
+#ifndef TEST_LIB
+    print_msg_error ();
+    fprintf (stderr, "%s received a NULL", __func__);
+    exit (EXIT_FAILURE);
+#else
+    errno = 1;
+    return;
+#endif
+  }
+
   char *pos_0 = str;
   /* Advance pointer until NULL terminator is found */
   while (*str != '\0')
@@ -119,7 +131,7 @@ trim_white_space (char *str)
 void
 trim_char (const char c, char *str)
 {
-  trim_white_space (str);
+  trim_whitespace (str);
   while (*str != '\0')
     str++;
 
@@ -151,13 +163,16 @@ truncate_str (char *str, int pos)
 
 #define BUF_SIZE 80
 
-void test_multi_strlen (void)
+void
+test_multi_strlen (void)
 {
-  assert (multi_strlen ("this", " is", " a", " test string", NULL) == strlen ("this is a test string"));
+  assert (multi_strlen ("this", " is", " a", " test string", NULL) ==
+          strlen ("this is a test string"));
   return;
 }
 
-void test_bufchk_len(void)
+void
+test_bufchk_len (void)
 {
   int req_len = LEN_MAX_PATH;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
@@ -171,22 +186,36 @@ void test_bufchk_len(void)
   errno = 0;
 }
 
-void test_trim_white_space ()
+void
+test_trim_whitespace ()
 {
-  char *test = calloc (1, BUF_SIZE + 1);
+  // handle strings that are NULL
+  errno = 0;
+  char *test = NULL;
+  trim_whitespace (test);
+  assert (errno == 1);
+  errno = 0;
+
+  test = calloc (1, BUF_SIZE + 1);
   chk_malloc (test, __func__, __LINE__);
+
+  // handle strings that are empty
+  test[0] = '\0';
+  trim_whitespace (test);
+  assert (strcmp (test, "") == 0);
+
   strcpy (test, " \n\t\v\f\r ");
-  trim_white_space (test);
+  trim_whitespace (test);
   assert (!strcmp (test, ""));
 
   /* fails if \b is present */
   strcpy (test, "Hello World\n\t\v\f\r ");
-  trim_white_space (test);
+  trim_whitespace (test);
   printf ("'%s'\n", test);
   assert (!strcmp (test, "Hello World"));
 
   strcpy (test, "Hello World\n\t\v stop\f\r ");
-  trim_white_space (test);
+  trim_whitespace (test);
   assert (!strcmp (test, "Hello World\n\t\v stop"));
 
   free (test);
@@ -196,7 +225,7 @@ void test_trim_white_space ()
 int
 main ()
 {
-  test_trim_white_space ();
+  test_trim_whitespace ();
   test_bufchk_len ();
   test_multi_strlen ();
 

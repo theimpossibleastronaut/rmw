@@ -117,7 +117,7 @@ char
     char fp_line[LEN_MAX_TRASHINFO_PATH_LINE];
     while (fgets (fp_line, LEN_MAX_TRASHINFO_PATH_LINE, fp) != NULL && res == true)
     {
-      trim_white_space (fp_line);
+      trim_whitespace (fp_line);
 
       switch (line_no) {
         case TI_HEADER:

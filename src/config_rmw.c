@@ -244,7 +244,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
     comma_val++;
     comma_val = del_char_shift_left (' ', comma_val);
 
-    trim_white_space (comma_val);
+    trim_whitespace (comma_val);
     if (strcmp ("removable", comma_val) == 0)
       removable = 1;
     else
@@ -471,7 +471,7 @@ parse_config_file (const rmw_options * cli_user_options, st_config *st_config_da
   while (fgets (line_from_config, sizeof line_from_config, fd) != NULL)
   {
     char *line_ptr = line_from_config;
-    trim_white_space (line_ptr);
+    trim_whitespace (line_ptr);
     line_ptr = del_char_shift_left (' ', line_ptr);
 
     switch (*line_ptr)

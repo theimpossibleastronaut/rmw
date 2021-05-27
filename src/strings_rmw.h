@@ -31,7 +31,7 @@ int
 multi_strlen (const char *argv, ...);
 
 void
-trim_white_space (char *str);
+trim_whitespace (char *str);
 
 void
 trim_char (const char c, char *str);
