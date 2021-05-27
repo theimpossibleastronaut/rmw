@@ -35,7 +35,7 @@ waste directory that rmw uses is *~/.local/share/Waste*, therefore
   ~/.local/share/Waste/info/foo.trashinfo
 </p>
 
-<a name="dot_trashinfo">The contents of *foo.trashinfo* would look like this:</a>
+<a id="dot_trashinfo">The contents of *foo.trashinfo* would look like this:</a>
 
 <p class="w3-code">
   [Trash Info]<br />

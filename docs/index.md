@@ -3,29 +3,39 @@ title: Home
 layout: default
 ---
 
-rmw (ReMove to Waste) is a safe-remove utility for the command line. It
-can move and restore files to and from directories specified in a
-configuration file, and can also be integrated with your regular
-desktop trash folder (if your desktop environment uses the
-[FreeDesktop.org Trash
-specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html)).
-One of the unique features of rmw is the ability to purge items from
-your waste (or trash) directories after x number of days.
+<div class="w3-container">
 
-rmw is written in C, open source, and has a [GNU
-GPLv3 License](https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING).
+  <p>rmw (ReMove to Waste) is a safe-remove utility for the command line.
+  It can move and restore files to and from directories specified in a
+  configuration file, and can also be integrated with your regular
+  desktop trash folder (if your desktop environment uses the (<a
+  href="https://specifications.freedesktop.org/trash-spec/trashspec-latest.html">FreeDesktop.org
+  Trash specification</a>). One of the unique features of rmw is the
+  ability to purge items from your waste (or trash) directories after x
+  number of days.</p>
 
-<span class="fas fa-clipboard-list
-fa-fw"></span>&nbsp;[Authors/Credits](https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md)
+  <p class="w3-right">
+    <a href="https://repology.org/project/rmw/versions">
+      <img src="https://repology.org/badge/vertical-allrepos/rmw.svg" alt="Packaging status">
+    </a>
+  </p>
 
-A list of features and instructions for usage, building, and installing
-are documented in the
-[README](https://github.com/theimpossibleastronaut/rmw/blob/master/README.md)
-and man page. More detailed information is contained on this website.
+  <p>
+  rmw is written in C, open source, and has a <a href="https://github.com/theimpossibleastronaut/rmw/blob/master/COPYING">GNU
+  GPLv3 License</a>.
+  </p>
 
-<a href="https://repology.org/project/rmw/versions">
-    <img src="https://repology.org/badge/vertical-allrepos/rmw.svg" alt="Packaging status" align="right">
-</a>
+  <p>
+  <span class="fas fa-clipboard-list
+  fa-fw"></span>&nbsp;<a href="https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md">Authors/Credits</a>
+  </p>
+
+  <p>A list of features and instructions for usage, building, and
+  installing are documented in the <a
+  href="https://github.com/theimpossibleastronaut/rmw/blob/master/README.md">README</a>
+  and man page. More detailed information is contained on this
+  website.</p>
+</div>
 
 ## How To:
 <ul class="w3-ul">
@@ -43,7 +53,7 @@ and man page. More detailed information is contained on this website.
   <li><span class="fas fa-at fa-fw"></span>&nbsp;Maintainer: <a href="https://github.com/andy5995/">Andy Alt</a> (andy400-dev [at] yahoo.com)</li>
 </ul>
 
-<h2 id="support">Press and Reviews</h2>
+<h2>Press and Reviews</h2>
 <ul>
   <li>rmw was reviewed on page 90 of <a href="https://shop.heise.de/ct-25-2019/PDF">c't 25/2019</a> (German tech magazine)</li>
   <li><a href="https://linuxreviews.org/Rmw">rmw on LinuxReviews</a></li>
