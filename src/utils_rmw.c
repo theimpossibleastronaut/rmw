@@ -416,7 +416,7 @@ char
 #define BUF_SIZE 1024
 
 
-void
+static void
 test_isdotdir (void)
 {
   assert (isdotdir (".") == true);
@@ -430,7 +430,7 @@ test_isdotdir (void)
 }
 
 
-void test_rmw_mkdir (void)
+static void test_rmw_mkdir (void)
 {
   const char *subdirs = "foo/bar/21/42";
   char dir[LEN_MAX_PATH];
@@ -450,7 +450,7 @@ void test_rmw_mkdir (void)
   return;
 }
 
-void test_rmw_dirname (void)
+static void test_rmw_dirname (void)
 {
   char dir[BUF_SIZE];
   strcpy (dir, "/");
@@ -495,7 +495,7 @@ void test_rmw_dirname (void)
   return;
 }
 
-void test_human_readable_size (void)
+static void test_human_readable_size (void)
 {
   char *hr = human_readable_size (256);
   assert (strcmp (hr, "256 B") == 0);

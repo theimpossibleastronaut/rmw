@@ -615,7 +615,7 @@ show_folder_line (const char *folder, const bool is_r, const bool is_attached)
 
 const char *UID = "1000";
 
-void
+static void
 test_waste (void)
 {
   rmw_options cli_user_options;
@@ -650,7 +650,7 @@ test_waste (void)
   return;
 }
 
-void
+static void
 test_strrepl (void)
 {
   char path[LEN_MAX_PATH];

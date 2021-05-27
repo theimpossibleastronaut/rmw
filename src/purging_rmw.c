@@ -587,7 +587,7 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
 #include "test.h"
 
-void
+static void
 test_rmdir_recursive (void)
 {
   char cur_dir[LEN_MAX_PATH];

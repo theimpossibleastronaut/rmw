@@ -163,7 +163,7 @@ truncate_str (char *str, int pos)
 
 #define BUF_SIZE 80
 
-void
+static void
 test_multi_strlen (void)
 {
   assert (multi_strlen ("this", " is", " a", " test string", NULL) ==
@@ -171,7 +171,7 @@ test_multi_strlen (void)
   return;
 }
 
-void
+static void
 test_bufchk_len (void)
 {
   int req_len = LEN_MAX_PATH;
@@ -186,7 +186,7 @@ test_bufchk_len (void)
   errno = 0;
 }
 
-void
+static void
 test_trim_whitespace ()
 {
   // handle strings that are NULL

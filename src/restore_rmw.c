@@ -462,7 +462,7 @@ typedef struct entries {
   mode_t mode;
 }entries;
 
-void test_human_readable_size (void)
+static void test_human_readable_size (void)
 {
   const struct entries test_entries[] = {
     { "foo", 1204, S_IFDIR },
