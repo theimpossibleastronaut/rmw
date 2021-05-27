@@ -27,12 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "time_rmw.h"
 #include "config_rmw.h"
 
-#ifndef TEST_LIB
-  #define RMDIR_MAX_DEPTH 128
-#else
-  #define RMDIR_MAX_DEPTH 32
-#endif
-
 bool is_time_to_purge (st_time * st_time_var, const char *data_dir);
 
 int
@@ -40,13 +34,10 @@ purge (st_config * st_config_data,
        const rmw_options * cli_user_options,
        st_time * st_time_var, int *orphan_ctr);
 
-#ifndef TEST_LIB
 short orphan_maint (st_waste * waste_head, st_time * st_time_var,
                     int *orphan_ctr);
-#else
+
 int
 rmdir_recursive (const char *dirname, short unsigned level,
                  const int force);
-#endif
-
 #endif

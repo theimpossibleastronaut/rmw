@@ -1,9 +1,9 @@
-bin_PROGRAMS = $(top_builddir)/rmw
-AM_CFLAGS = @CURSES_CFLAGS@ @EXTRA_CFLAGS@
+include $(srcdir)/include.mk
 
-__top_builddir__rmw_SOURCES=	\
+noinst_LIBRARIES = librmw.a
+librmw_a_CFLAGS = $(AM_CFLAGS)
+librmw_a_SOURCES =	\
 	globals.c	\
-	main.c	\
 	restore_rmw.c	\
 	config_rmw.c	\
 	parse_cli_options.c	\
@@ -15,7 +15,6 @@ __top_builddir__rmw_SOURCES=	\
 	utils_rmw.c	\
 	bst.c	\
 	globals.h	\
-	main.h	\
 	restore_rmw.h 	\
 	config_rmw.h	\
 	parse_cli_options.h	\
@@ -28,13 +27,11 @@ __top_builddir__rmw_SOURCES=	\
 	bst.h	\
 	gettext.h
 
+bin_PROGRAMS = $(top_builddir)/rmw
 DEFS = -DLOCALEDIR=\"$(localedir)\"
+__top_builddir__rmw_SOURCES=	\
+	main.c	\
+	main.h	\
+	gettext.h
 
-# static library used by 'make check'
-check_LIBRARIES = librmw_test.a
-librmw_test_a_SOURCES = $(__top_builddir__rmw_SOURCES)
-librmw_test_a_CFLAGS = $(AM_CFLAGS) -DTEST_LIB
-
-# The build fails on OpenBSD if NLS is requested and LIBINTL is not
-# included here.
-__top_builddir__rmw_LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@
+__top_builddir__rmw_LDADD = librmw.a @LIBS@

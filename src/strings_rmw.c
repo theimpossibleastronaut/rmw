@@ -29,35 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 
 /*!
- * Called by other functions to make sure a string has a value. Any function
- * that calls this should have received a string with a value. If the
- * string is NULL or has a length of 0, the code needs to be reviewed to
- * determine why the calling function received an incorrect string.
- *
- * @param[in] str The string to check
- * @param[in] func The name of the calling function
- * @return void
- */
-static void
-entry_NULL_check (const char *str, const char *func)
-{
-  if (str != NULL && strlen (str) != 0)
-  return;
-
-  print_msg_error ();
-  fprintf (stderr,
-           "A NULL string was passed to %s. That should not happen.\n\
-Please report this bug to the rmw developers.\n", func);
-#ifndef TEST_LIB
-  exit (EXIT_FAILURE);
-#else
-  errno = 1;
-  return;
-#endif
-}
-
-
-/*!
  * Verify that len doesn't exceed boundary, otherwise exit with an error code.
  * Usually used before concatenating 2 or more strings. Program will exit
  * with an error code if len exceeds boundary. len should already have space
@@ -72,10 +43,11 @@ bufchk_len (const int len, const int dest_boundary, const char *func,
 
   msg_err_buffer_overrun (func, line);
 
-#ifdef TEST_LIB
-  errno = 1;
-  return;
-#endif
+  if (strcmp (func, "test_bufchk_len") == 0)
+  {
+    errno = 1;
+    return;
+  }
 
   exit (EBUF);
 }
@@ -115,13 +87,6 @@ multi_strlen (const char *argv, ...)
 void
 trim_white_space (char *str)
 {
-  entry_NULL_check (str, __func__);
-
-#ifdef TEST_LIB
-  if (errno)
-    return;
-#endif
-
   char *pos_0 = str;
   /* Advance pointer until NULL terminator is found */
   while (*str != '\0')
@@ -178,3 +143,64 @@ truncate_str (char *str, int pos)
 {
   str[strlen (str) - pos] = '\0';
 }
+
+///////////////////////////////////////////////////////////////////////
+#ifdef TEST_LIB
+
+#include "test.h"
+
+#define BUF_SIZE 80
+
+void test_multi_strlen (void)
+{
+  assert (multi_strlen ("this", " is", " a", " test string", NULL) == strlen ("this is a test string"));
+  return;
+}
+
+void test_bufchk_len(void)
+{
+  int req_len = LEN_MAX_PATH;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+
+  req_len = LEN_MAX_PATH - 1;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+
+  req_len = LEN_MAX_PATH + 1;
+  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  assert (errno);
+  errno = 0;
+}
+
+void test_trim_white_space ()
+{
+  char *test = calloc (1, BUF_SIZE + 1);
+  chk_malloc (test, __func__, __LINE__);
+  strcpy (test, " \n\t\v\f\r ");
+  trim_white_space (test);
+  assert (!strcmp (test, ""));
+
+  /* fails if \b is present */
+  strcpy (test, "Hello World\n\t\v\f\r ");
+  trim_white_space (test);
+  printf ("'%s'\n", test);
+  assert (!strcmp (test, "Hello World"));
+
+  strcpy (test, "Hello World\n\t\v stop\f\r ");
+  trim_white_space (test);
+  assert (!strcmp (test, "Hello World\n\t\v stop"));
+
+  free (test);
+}
+
+
+int
+main ()
+{
+  test_trim_white_space ();
+  test_bufchk_len ();
+  test_multi_strlen ();
+
+  return 0;
+}
+
+#endif

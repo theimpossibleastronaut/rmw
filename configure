@@ -9379,6 +9379,10 @@ fi
 HOME_TEST_DIR=$ac_pwd/test/rmw-tests-home
 
 
+# The build fails on OpenBSD if NLS is requested and LIBINTL is not
+# included here.
+LIBS="$LIBS $LIBINTL $MENU_LIBS $CURSES_LIBS"
+
 ac_config_files="$ac_config_files Makefile src/Makefile man/Makefile test/Makefile po/Makefile.in test/VARS"
 
 
@@ -9387,8 +9391,6 @@ ac_config_files="$ac_config_files test/test_basic.sh"
 ac_config_files="$ac_config_files test/test_purging.sh"
 
 ac_config_files="$ac_config_files test/test_restore.sh"
-
-ac_config_files="$ac_config_files test/test_buffer_overrun.sh"
 
 ac_config_files="$ac_config_files test/create-some-files.sh"
 
@@ -10136,7 +10138,6 @@ do
     "test/test_basic.sh") CONFIG_FILES="$CONFIG_FILES test/test_basic.sh" ;;
     "test/test_purging.sh") CONFIG_FILES="$CONFIG_FILES test/test_purging.sh" ;;
     "test/test_restore.sh") CONFIG_FILES="$CONFIG_FILES test/test_restore.sh" ;;
-    "test/test_buffer_overrun.sh") CONFIG_FILES="$CONFIG_FILES test/test_buffer_overrun.sh" ;;
     "test/create-some-files.sh") CONFIG_FILES="$CONFIG_FILES test/create-some-files.sh" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
@@ -10850,7 +10851,6 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
     "test/test_basic.sh":F) chmod +x test/test_basic.sh ;;
     "test/test_purging.sh":F) chmod +x test/test_purging.sh ;;
     "test/test_restore.sh":F) chmod +x test/test_restore.sh ;;
-    "test/test_buffer_overrun.sh":F) chmod +x test/test_buffer_overrun.sh ;;
     "test/create-some-files.sh":F) chmod +x test/create-some-files.sh ;;
 
   esac

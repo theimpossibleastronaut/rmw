@@ -52,15 +52,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define CTRLD 4
 
+extern const char *mrl_is_empty;
+
 int
 restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_options, st_waste *waste_head);
-
-char *
-create_formatted_str (const off_t size, const mode_t mode, const char *dir_entry,
-                      const int len, char *formatted_hr_size);
-
-st_node *
-add_entry (st_node *node, st_waste *waste_curr_node, const char *dir_entry);
 
 int
 restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);
@@ -69,7 +64,3 @@ int
 undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
   rmw_options * cli_user_options, char *mrl_contents, st_waste
   *waste_head);
-
-#ifdef TEST_LIB
-char *waste_parent (const char *src);
-#endif

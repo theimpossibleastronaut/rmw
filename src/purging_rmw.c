@@ -19,13 +19,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "globals.h"
-#include "main.h"
 #include "parse_cli_options.h"
 #include "purging_rmw.h"
 #include "messages_rmw.h"
 #include "strings_rmw.h"
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
+
+#ifndef TEST_LIB
+#define RMDIR_MAX_DEPTH 128
+#else
+#define RMDIR_MAX_DEPTH 32
+#endif
 
 static unsigned int deleted_files_ctr = 0;
 static unsigned int deleted_dirs_ctr = 0;
@@ -37,12 +42,8 @@ static off_t bytes_freed = 0;
  * @param[out] level keeps track of the number of times recursion has happened
  * @return error number
  */
-#ifndef TEST_LIB
-static
-#endif
 int
-rmdir_recursive (const char *dirname, short unsigned level,
-                 const int force)
+rmdir_recursive (const char *dirname, short unsigned level, const int force)
 {
   if (level > RMDIR_MAX_DEPTH)
     return RMDIR_MAX_DEPTH;
@@ -248,7 +249,8 @@ purge (st_config * st_config_data,
   {
     /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
      * directory  */
-    printf (_("purging is disabled ('%s' is set to '0')\n\n"), expire_age_str);
+    printf (_("purging is disabled ('%s' is set to '0')\n\n"),
+            expire_age_str);
     return 0;
   }
 
@@ -302,12 +304,16 @@ purge (st_config * st_config_data,
       if (isdotdir (st_trashinfo_dir_entry->d_name))
         continue;
 
-      int req_len = multi_strlen (st_trashinfo_dir_entry->d_name, "/", NULL) + waste_curr->len_info + 1;
+      int req_len =
+        multi_strlen (st_trashinfo_dir_entry->d_name, "/",
+                      NULL) + waste_curr->len_info + 1;
       bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       char trashinfo_entry_realpath[req_len];
-      sprintf (trashinfo_entry_realpath, "%s/%s", waste_curr->info, st_trashinfo_dir_entry->d_name);
+      sprintf (trashinfo_entry_realpath, "%s/%s", waste_curr->info,
+               st_trashinfo_dir_entry->d_name);
 
-      char *raw_deletion_date = parse_trashinfo_file (trashinfo_entry_realpath, deletion_date_key);
+      char *raw_deletion_date =
+        parse_trashinfo_file (trashinfo_entry_realpath, deletion_date_key);
       time_t then = 0;
       if (raw_deletion_date != NULL)
       {
@@ -317,7 +323,8 @@ purge (st_config * st_config_data,
       else
       {
         print_msg_error ();
-        fprintf (stderr, "while getting deletion date from %s.\n", trashinfo_entry_realpath);
+        fprintf (stderr, "while getting deletion date from %s.\n",
+                 trashinfo_entry_realpath);
       }
 
       if (!cli_user_options->want_empty_trash && !then)
@@ -327,12 +334,13 @@ purge (st_config * st_config_data,
         ((double) then + (SECONDS_IN_A_DAY * st_config_data->expire_age) -
          st_time_var->now) / SECONDS_IN_A_DAY;
 
-      bool do_file_purge = days_remaining <= 0 || cli_user_options->want_empty_trash;
+      bool do_file_purge = days_remaining <= 0
+        || cli_user_options->want_empty_trash;
       if (do_file_purge || verbose >= 2)
       {
         char temp[strlen (st_trashinfo_dir_entry->d_name) + 1];
         strcpy (temp, st_trashinfo_dir_entry->d_name);
-        truncate_str (temp, len_trashinfo_ext);    /* acquire the (basename - trashinfo extension) */
+        truncate_str (temp, len_trashinfo_ext); /* acquire the (basename - trashinfo extension) */
         req_len = strlen ("/") + waste_curr->len_files + strlen (temp) + 1;
         bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
         char purge_target[req_len];
@@ -376,8 +384,7 @@ purge (st_config * st_config_data,
           {
             if (cli_user_options->want_dry_run == false)
               status =
-                rmdir_recursive (purge_target, 1,
-                                 cli_user_options->force);
+                rmdir_recursive (purge_target, 1, cli_user_options->force);
             else
             {
               /* Not much choice but to
@@ -501,8 +508,6 @@ purge (st_config * st_config_data,
 
 }
 
-#ifndef TEST_LIB
-
 short
 orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 {
@@ -526,15 +531,17 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
     while ((entry = readdir (files)) != NULL)
     {
-      if (isdotdir(entry->d_name))
+      if (isdotdir (entry->d_name))
         continue;
 
       st_file_properties.base_name = basename (entry->d_name);
 
-      int req_len = multi_strlen (st_file_properties.base_name, "/", NULL) + waste_curr->len_info + len_trashinfo_ext + 1;
+      int req_len =
+        multi_strlen (st_file_properties.base_name, "/",
+                      NULL) + waste_curr->len_info + len_trashinfo_ext + 1;
       bufchk_len (req_len, sizeof path_to_trashinfo, __func__, __LINE__);
       sprintf (path_to_trashinfo, "%s/%s%s", waste_curr->info,
-                st_file_properties.base_name, trashinfo_ext);
+               st_file_properties.base_name, trashinfo_ext);
 
       if (exists (path_to_trashinfo))
         continue;
@@ -543,13 +550,11 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
       req_len =
         multi_strlen (waste_curr->parent, "/orphans/",
                       st_file_properties.base_name, NULL) + 1;
-      bufchk_len (req_len, LEN_MAX_PATH, __func__,
-                  __LINE__);
+      bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
       st_file_properties.real_path = malloc (req_len);
       chk_malloc (st_file_properties.real_path, __func__, __LINE__);
       sprintf (st_file_properties.real_path, "%s%s%s",
-                waste_curr->parent, "/orphans/",
-                st_file_properties.base_name);
+               waste_curr->parent, "/orphans/", st_file_properties.base_name);
 
       if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))
       {
@@ -576,4 +581,98 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
   return 0;
 }
-#endif /* TEST_LIB */
+
+///////////////////////////////////////////////////////////////////////
+#ifdef TEST_LIB
+
+#include "test.h"
+
+void
+test_rmdir_recursive (void)
+{
+  char cur_dir[LEN_MAX_PATH];
+  assert (getcwd (cur_dir, LEN_MAX_PATH) != NULL);
+
+  // Just an extra trivial check to make sure that the number used for
+  // the test matches with what's defined in purging_rmw.h
+  assert (RMDIR_MAX_DEPTH == 32);
+
+  char dir_rmdir_test[LEN_MAX_PATH];
+  strcpy (dir_rmdir_test, "rmdir_test");
+
+  FILE *fd1;
+  FILE *fd2;
+
+  int i;
+  for (i = 0; i < RMDIR_MAX_DEPTH; i++)
+  {
+    assert (mkdir (dir_rmdir_test, S_IRWXU) == 0);
+
+    if (i == RMDIR_MAX_DEPTH - 1)
+    {
+      // Make the last directory non-writable
+      assert (chmod (dir_rmdir_test, 00500) == 0);
+    }
+
+    // These files can't get created after a dir has permissions set to
+    // 00500, so making it conditional
+    if (i != RMDIR_MAX_DEPTH - 1)
+    {
+      assert (chdir (dir_rmdir_test) == 0);
+      assert ((fd1 = fopen ("test_file1", "w+")) != NULL);
+      assert (fclose (fd1) == 0);
+      assert ((fd2 = fopen ("test file2", "w+")) != NULL);
+      assert (chmod ("test file2", 00400) == 0);
+      assert (fclose (fd2) == 0);
+    }
+    printf ("%d\n", i);
+  }
+
+  // Go back to the original cwd
+  assert (chdir (cur_dir) == 0);
+
+  int force = 1;
+  int level = 1;
+
+  // Because some of the created files don't have write permission, this
+  // should fail the first time when force isn't set to 2
+  assert (rmdir_recursive (dir_rmdir_test, level, force) == EACCES);
+
+  force = 2;
+  // Now it should pass
+  assert (rmdir_recursive (dir_rmdir_test, level, force) == 0);
+  assert (rmdir (dir_rmdir_test) == 0);
+
+  // Now try the test again, but creating a number of dirs that exceed MAX_DEPTH
+  for (i = 0; i < RMDIR_MAX_DEPTH + 1; i++)
+  {
+    assert (mkdir (dir_rmdir_test, S_IRWXU) == 0);
+    assert (chdir (dir_rmdir_test) == 0);
+  }
+
+  // Go back to the original cwd
+  assert (chdir (cur_dir) == 0);
+
+  // should return an error because MAX_DEPTH was reached
+  assert (rmdir_recursive (dir_rmdir_test, level, force) == RMDIR_MAX_DEPTH);
+
+  // Change the 'level' argument so it will go one level further down
+  level = 0;
+  assert (rmdir_recursive (dir_rmdir_test, level, force) == 0);
+
+  level = 1;
+  assert (rmdir_recursive (dir_rmdir_test, level, force) == 0);
+
+  // remove the top directory, which should now be empty
+  assert (rmdir (dir_rmdir_test) == 0);
+
+  return;
+}
+
+int
+main (void)
+{
+  test_rmdir_recursive ();
+  return 0;
+}
+#endif

@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   #include "globals.h"
 #endif
 
-#include "main.h"
 #include "parse_cli_options.h"
 #include "config_rmw.h"
 #include "bst.h"
@@ -31,9 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 #include "messages_rmw.h"
 
-#ifndef TEST_LIB
+const char *mrl_is_empty = "[Empty]\n";
+
+
 static
-#endif
 char *get_waste_parent (const char *src)
 {
   char src_copy[strlen (src) + 1];
@@ -199,7 +199,7 @@ Duplicate filename at destination - appending time string...\n"));
   return 0;
 }
 
-char *
+static char *
 create_formatted_str (const off_t size, const mode_t mode, const char *dir_entry,
                       const int len, char *formatted_hr_size)
 {
@@ -224,7 +224,7 @@ create_formatted_str (const off_t size, const mode_t mode, const char *dir_entry
   return m_dir_entry;
 }
 
-st_node *
+static st_node *
 add_entry (st_node *node, st_waste *waste_curr_node, const char *dir_entry)
 {
   int len_dir_entry = strlen (dir_entry);
@@ -446,3 +446,64 @@ undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
     }
   return err_ctr;
 }
+
+///////////////////////////////////////////////////////////////////////
+#ifdef TEST_LIB
+
+#include "test.h"
+
+#define BUF_SIZE 80
+
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+
+typedef struct entries {
+  char *name;
+  off_t size;
+  mode_t mode;
+}entries;
+
+void test_human_readable_size (void)
+{
+  const struct entries test_entries[] = {
+    { "foo", 1204, S_IFDIR },
+    { "bar", 10000, S_IFLNK },
+    { "Hello", 28000000000000, S_IFREG },
+    { "World On A String", 4096, S_IFDIR },
+  };
+
+  int entries_size = ARRAY_SIZE(test_entries);
+  int i;
+
+  for (i = 0; i < entries_size; i++)
+  {
+    int len = strlen (test_entries[i].name);
+    char formatted_hr_size[LEN_MAX_FORMATTED_HR_SIZE];
+    char *m_dir_entry = create_formatted_str (test_entries[i].size, test_entries[i].mode, test_entries[i].name, len, formatted_hr_size);
+    printf ("%s\n", formatted_hr_size);
+    free (m_dir_entry);
+    switch (i) {
+      case 0:
+        assert (strcmp (formatted_hr_size, "[1.1 KiB] (D)") == 0);
+        break;
+      case 1:
+        assert (strcmp (formatted_hr_size, "[9.7 KiB] (L)") == 0);
+        break;
+      case 2:
+        assert (strcmp (formatted_hr_size, "[25.4 TiB]") == 0);
+        break;
+      case 3:
+        assert (strcmp (formatted_hr_size, "[4.0 KiB] (D)") == 0);
+        break;
+      default:
+        break;
+      }
+  }
+}
+
+int
+main ()
+{
+  test_human_readable_size ();
+  return 0;
+}
+#endif

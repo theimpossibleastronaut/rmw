@@ -21,16 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _INC_MAIN_H
 #define _INC_MAIN_H
 
-#include <sys/stat.h>
-
-#include "time_rmw.h"
-#include "trashinfo_rmw.h"
-#include "parse_cli_options.h"
-
-#define ENV_RMW_FAKE_HOME "RMW_FAKE_HOME"
-#define ENV_TEST_HOME "RMWTEST_HOME"
-
-extern const char *mrl_is_empty;
 
 /*!
  * Holds a list of files that rmw will be ReMoving.
@@ -40,37 +30,5 @@ struct st_removed {
   char file[LEN_MAX_PATH];
   st_removed *next_node;
 };
-
-/* function prototypes for main.c
- * These are only used in main.c but prototyping them here to enable
- * using rmw as a library (which is optional but just for people who
- * want to experiment. */
-
-const char *
-get_home_dir (void);
-
-const char *
-get_data_rmw_home_dir (void);
-
-int
-remove_to_waste (
-  const int argc,
-  char* const argv[],
-  st_waste *waste_head,
-  st_time *st_time_var,
-  const char *mrl_file,
-  const rmw_options * cli_user_options);
-
-void
-list_waste_folders (st_waste *waste_head);
-
-st_removed*
-add_removal (st_removed *removals, const char *file);
-
-void
-create_undo_file (st_removed *removals_head, const char *mrl);
-
-void
-dispose_removed (st_removed *node);
 
 #endif

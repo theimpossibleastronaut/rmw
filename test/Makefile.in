@@ -89,7 +89,6 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 check_PROGRAMS = test_strings$(EXEEXT) test_config_test$(EXEEXT) \
-	test_multi_strlen$(EXEEXT) test_buffer_overrun$(EXEEXT) \
 	test_utils$(EXEEXT) test_trashinfo$(EXEEXT) \
 	test_rmdir_recursive$(EXEEXT) test_select_restore$(EXEEXT)
 subdir = test
@@ -121,40 +120,37 @@ DIST_COMMON = $(srcdir)/Makefile.am $(noinst_HEADERS) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES = VARS test_basic.sh test_purging.sh \
-	test_restore.sh test_buffer_overrun.sh create-some-files.sh
+	test_restore.sh create-some-files.sh
 CONFIG_CLEAN_VPATH_FILES =
-am_test_buffer_overrun_OBJECTS = test_buffer_overrun.$(OBJEXT)
-test_buffer_overrun_OBJECTS = $(am_test_buffer_overrun_OBJECTS)
-test_buffer_overrun_LDADD = $(LDADD)
-test_buffer_overrun_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_test_config_test_OBJECTS = test_config.$(OBJEXT)
+am__dirstamp = $(am__leading_dot)dirstamp
+am_test_config_test_OBJECTS =  \
+	$(top_builddir)/src/config_rmw.$(OBJEXT)
 test_config_test_OBJECTS = $(am_test_config_test_OBJECTS)
 test_config_test_LDADD = $(LDADD)
-test_config_test_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_test_multi_strlen_OBJECTS = test_multi_strlen.$(OBJEXT)
-test_multi_strlen_OBJECTS = $(am_test_multi_strlen_OBJECTS)
-test_multi_strlen_LDADD = $(LDADD)
-test_multi_strlen_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_test_rmdir_recursive_OBJECTS = test_rmdir_recursive.$(OBJEXT)
+test_config_test_DEPENDENCIES = $(top_builddir)/src/librmw.a
+am_test_rmdir_recursive_OBJECTS =  \
+	$(top_builddir)/src/purging_rmw.$(OBJEXT)
 test_rmdir_recursive_OBJECTS = $(am_test_rmdir_recursive_OBJECTS)
 test_rmdir_recursive_LDADD = $(LDADD)
-test_rmdir_recursive_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_test_select_restore_OBJECTS = test_select_restore.$(OBJEXT)
+test_rmdir_recursive_DEPENDENCIES = $(top_builddir)/src/librmw.a
+am_test_select_restore_OBJECTS =  \
+	$(top_builddir)/src/restore_rmw.$(OBJEXT)
 test_select_restore_OBJECTS = $(am_test_select_restore_OBJECTS)
 test_select_restore_LDADD = $(LDADD)
-test_select_restore_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_test_strings_OBJECTS = test_strings.$(OBJEXT)
+test_select_restore_DEPENDENCIES = $(top_builddir)/src/librmw.a
+am_test_strings_OBJECTS = $(top_builddir)/src/strings_rmw.$(OBJEXT)
 test_strings_OBJECTS = $(am_test_strings_OBJECTS)
 test_strings_LDADD = $(LDADD)
-test_strings_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_test_trashinfo_OBJECTS = test_trashinfo.$(OBJEXT)
+test_strings_DEPENDENCIES = $(top_builddir)/src/librmw.a
+am_test_trashinfo_OBJECTS =  \
+	$(top_builddir)/src/trashinfo_rmw.$(OBJEXT)
 test_trashinfo_OBJECTS = $(am_test_trashinfo_OBJECTS)
 test_trashinfo_LDADD = $(LDADD)
-test_trashinfo_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
-am_test_utils_OBJECTS = test_utils.$(OBJEXT)
+test_trashinfo_DEPENDENCIES = $(top_builddir)/src/librmw.a
+am_test_utils_OBJECTS = $(top_builddir)/src/utils_rmw.$(OBJEXT)
 test_utils_OBJECTS = $(am_test_utils_OBJECTS)
 test_utils_LDADD = $(LDADD)
-test_utils_DEPENDENCIES = $(top_builddir)/src/librmw_test.a
+test_utils_DEPENDENCIES = $(top_builddir)/src/librmw.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -182,12 +178,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(test_buffer_overrun_SOURCES) $(test_config_test_SOURCES) \
-	$(test_multi_strlen_SOURCES) $(test_rmdir_recursive_SOURCES) \
+SOURCES = $(test_config_test_SOURCES) $(test_rmdir_recursive_SOURCES) \
 	$(test_select_restore_SOURCES) $(test_strings_SOURCES) \
 	$(test_trashinfo_SOURCES) $(test_utils_SOURCES)
-DIST_SOURCES = $(test_buffer_overrun_SOURCES) \
-	$(test_config_test_SOURCES) $(test_multi_strlen_SOURCES) \
+DIST_SOURCES = $(test_config_test_SOURCES) \
 	$(test_rmdir_recursive_SOURCES) $(test_select_restore_SOURCES) \
 	$(test_strings_SOURCES) $(test_trashinfo_SOURCES) \
 	$(test_utils_SOURCES)
@@ -422,10 +416,10 @@ am__test_logs2 = $(am__test_logs1:@EXEEXT@.log=.log)
 TEST_LOGS = $(am__test_logs2:.sh.log=.log)
 SH_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
 SH_LOG_COMPILE = $(SH_LOG_COMPILER) $(AM_SH_LOG_FLAGS) $(SH_LOG_FLAGS)
-am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/VARS.in \
-	$(srcdir)/create-some-files.sh.in $(srcdir)/test_basic.sh.in \
-	$(srcdir)/test_buffer_overrun.sh.in \
-	$(srcdir)/test_purging.sh.in $(srcdir)/test_restore.sh.in \
+am__DIST_COMMON = $(srcdir)/../src/include.mk $(srcdir)/Makefile.in \
+	$(srcdir)/VARS.in $(srcdir)/create-some-files.sh.in \
+	$(srcdir)/test_basic.sh.in $(srcdir)/test_purging.sh.in \
+	$(srcdir)/test_restore.sh.in \
 	$(top_srcdir)/build-aux/test-driver README
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
@@ -443,7 +437,7 @@ CPPFLAGS = @CPPFLAGS@
 CURSES_CFLAGS = @CURSES_CFLAGS@
 CURSES_LIBS = @CURSES_LIBS@
 CYGPATH_W = @CYGPATH_W@
-DEFS = @DEFS@
+DEFS = -DTEST_LIB -DHOME_TEST_DIR=\"$(HOME_TEST_DIR)\"
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -558,21 +552,18 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 valgrind_enabled_tools = @valgrind_enabled_tools@
 valgrind_tools = @valgrind_tools@
-AM_CFLAGS = -I$(top_srcdir)/src @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -DTEST_LIB -DHOME_TEST_DIR=\"$(HOME_TEST_DIR)\"
-test_strings_SOURCES = test_strings.c
-test_config_test_SOURCES = test_config.c
-test_multi_strlen_SOURCES = test_multi_strlen.c
-test_buffer_overrun_SOURCES = test_buffer_overrun.c
-test_utils_SOURCES = test_utils.c
-test_trashinfo_SOURCES = test_trashinfo.c
-test_rmdir_recursive_SOURCES = test_rmdir_recursive.c
-test_select_restore_SOURCES = test_select_restore.c
+AM_CFLAGS = @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -I$(top_srcdir)/src
+test_strings_SOURCES = $(top_srcdir)/src/strings_rmw.c
+test_config_test_SOURCES = $(top_srcdir)/src/config_rmw.c
+test_utils_SOURCES = $(top_srcdir)/src/utils_rmw.c
+test_trashinfo_SOURCES = $(top_srcdir)/src/trashinfo_rmw.c
+test_rmdir_recursive_SOURCES = $(top_srcdir)/src/purging_rmw.c
+test_select_restore_SOURCES = $(top_srcdir)/src/restore_rmw.c
 noinst_HEADERS = test.h
 test_scripts = \
 	test_basic.sh	\
 	test_purging.sh	\
-	test_restore.sh	\
-	test_buffer_overrun.sh
+	test_restore.sh
 
 #VALGRIND_SUPPRESSIONS_FILES = @srcdir@/default.supp
 AUTOMAKE_OPTIONS = parallel-tests
@@ -580,7 +571,7 @@ TEST_EXTENSIONS = .sh
 LOG_COMPILER = $(VALGRIND)
 TESTS = $(check_PROGRAMS) $(test_scripts)
 TESTS_ENVIRONMENT = VALGRIND='$(VALGRIND)'
-LDADD = @LIBINTL@ $(top_builddir)/src/librmw_test.a @MENU_LIBS@ @CURSES_LIBS@
+LDADD = $(top_builddir)/src/librmw.a @LIBS@
 EXTRA_DIST = \
 	README	\
 	COMMON \
@@ -592,7 +583,7 @@ all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .log .o .obj .sh .sh$(EXEEXT) .trs
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../src/include.mk $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -612,6 +603,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__maybe_remake_depfiles)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__maybe_remake_depfiles);; \
 	esac;
+$(srcdir)/../src/include.mk $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
@@ -629,41 +621,46 @@ test_purging.sh: $(top_builddir)/config.status $(srcdir)/test_purging.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 test_restore.sh: $(top_builddir)/config.status $(srcdir)/test_restore.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-test_buffer_overrun.sh: $(top_builddir)/config.status $(srcdir)/test_buffer_overrun.sh.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 create-some-files.sh: $(top_builddir)/config.status $(srcdir)/create-some-files.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 clean-checkPROGRAMS:
 	-test -z "$(check_PROGRAMS)" || rm -f $(check_PROGRAMS)
-
-test_buffer_overrun$(EXEEXT): $(test_buffer_overrun_OBJECTS) $(test_buffer_overrun_DEPENDENCIES) $(EXTRA_test_buffer_overrun_DEPENDENCIES) 
-	@rm -f test_buffer_overrun$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(test_buffer_overrun_OBJECTS) $(test_buffer_overrun_LDADD) $(LIBS)
+$(top_builddir)/src/$(am__dirstamp):
+	@$(MKDIR_P) $(top_builddir)/src
+	@: > $(top_builddir)/src/$(am__dirstamp)
+$(top_builddir)/src/config_rmw.$(OBJEXT):  \
+	$(top_builddir)/src/$(am__dirstamp)
 
 test_config_test$(EXEEXT): $(test_config_test_OBJECTS) $(test_config_test_DEPENDENCIES) $(EXTRA_test_config_test_DEPENDENCIES) 
 	@rm -f test_config_test$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_config_test_OBJECTS) $(test_config_test_LDADD) $(LIBS)
-
-test_multi_strlen$(EXEEXT): $(test_multi_strlen_OBJECTS) $(test_multi_strlen_DEPENDENCIES) $(EXTRA_test_multi_strlen_DEPENDENCIES) 
-	@rm -f test_multi_strlen$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(test_multi_strlen_OBJECTS) $(test_multi_strlen_LDADD) $(LIBS)
+$(top_builddir)/src/purging_rmw.$(OBJEXT):  \
+	$(top_builddir)/src/$(am__dirstamp)
 
 test_rmdir_recursive$(EXEEXT): $(test_rmdir_recursive_OBJECTS) $(test_rmdir_recursive_DEPENDENCIES) $(EXTRA_test_rmdir_recursive_DEPENDENCIES) 
 	@rm -f test_rmdir_recursive$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_rmdir_recursive_OBJECTS) $(test_rmdir_recursive_LDADD) $(LIBS)
+$(top_builddir)/src/restore_rmw.$(OBJEXT):  \
+	$(top_builddir)/src/$(am__dirstamp)
 
 test_select_restore$(EXEEXT): $(test_select_restore_OBJECTS) $(test_select_restore_DEPENDENCIES) $(EXTRA_test_select_restore_DEPENDENCIES) 
 	@rm -f test_select_restore$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_select_restore_OBJECTS) $(test_select_restore_LDADD) $(LIBS)
+$(top_builddir)/src/strings_rmw.$(OBJEXT):  \
+	$(top_builddir)/src/$(am__dirstamp)
 
 test_strings$(EXEEXT): $(test_strings_OBJECTS) $(test_strings_DEPENDENCIES) $(EXTRA_test_strings_DEPENDENCIES) 
 	@rm -f test_strings$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_strings_OBJECTS) $(test_strings_LDADD) $(LIBS)
+$(top_builddir)/src/trashinfo_rmw.$(OBJEXT):  \
+	$(top_builddir)/src/$(am__dirstamp)
 
 test_trashinfo$(EXEEXT): $(test_trashinfo_OBJECTS) $(test_trashinfo_DEPENDENCIES) $(EXTRA_test_trashinfo_DEPENDENCIES) 
 	@rm -f test_trashinfo$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_trashinfo_OBJECTS) $(test_trashinfo_LDADD) $(LIBS)
+$(top_builddir)/src/utils_rmw.$(OBJEXT):  \
+	$(top_builddir)/src/$(am__dirstamp)
 
 test_utils$(EXEEXT): $(test_utils_OBJECTS) $(test_utils_DEPENDENCIES) $(EXTRA_test_utils_DEPENDENCIES) 
 	@rm -f test_utils$(EXEEXT)
@@ -671,6 +668,7 @@ test_utils$(EXEEXT): $(test_utils_OBJECTS) $(test_utils_DEPENDENCIES) $(EXTRA_te
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f $(top_builddir)/src/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -893,20 +891,6 @@ test_config_test.log: test_config_test$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test_multi_strlen.log: test_multi_strlen$(EXEEXT)
-	@p='test_multi_strlen$(EXEEXT)'; \
-	b='test_multi_strlen'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test_buffer_overrun.log: test_buffer_overrun$(EXEEXT)
-	@p='test_buffer_overrun$(EXEEXT)'; \
-	b='test_buffer_overrun'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
 test_utils.log: test_utils$(EXEEXT)
 	@p='test_utils$(EXEEXT)'; \
 	b='test_utils'; \
@@ -985,7 +969,7 @@ distdir-am: $(DISTFILES)
 	done
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
-	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
+	$(MAKE) $(AM_MAKEFLAGS) check-TESTS check-local
 check: check-am
 all-am: Makefile $(HEADERS)
 installdirs:
@@ -1018,6 +1002,7 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-test -z "$(top_builddir)/src/$(am__dirstamp)" || rm -f $(top_builddir)/src/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -1112,7 +1097,7 @@ uninstall-am:
 .MAKE: check-am install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-TESTS check-am \
-	check-valgrind-am check-valgrind-drd-am \
+	check-local check-valgrind-am check-valgrind-drd-am \
 	check-valgrind-drd-local check-valgrind-helgrind-am \
 	check-valgrind-helgrind-local check-valgrind-local \
 	check-valgrind-memcheck-am check-valgrind-memcheck-local \
@@ -1132,9 +1117,18 @@ uninstall-am:
 .PRECIOUS: Makefile
 
 
+# The build fails on OpenBSD if NLS is requested and LIBINTL is not
+# included here.
+#LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@
+
 @VALGRIND_CHECK_RULES@
 
-@top_builddir@/src/librmw_test.a: subsystem
+@top_builddir@/src/librmw.a: subsystem
+
+check-local:
+	if test -e $(builddir)/rmdir_test; then	\
+		$(RM) -rf $(builddir)/rmdir_test;	\
+	fi
 
 clean-local:
 	dir=$(top_builddir)/test/rmw-tests-home; \
@@ -1146,7 +1140,7 @@ clean-local:
 	fi
 
 subsystem:
-	$(MAKE) librmw_test.a -C @top_builddir@/src;	\
+	$(MAKE) librmw.a -C @top_builddir@/src;	\
 	$(MAKE) @top_builddir@/rmw -C @top_builddir@/src;
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

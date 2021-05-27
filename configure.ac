@@ -101,6 +101,10 @@ if test "x$ac_pwd" = x; then
 fi
 AC_SUBST(HOME_TEST_DIR, [$ac_pwd/test/rmw-tests-home])
 
+# The build fails on OpenBSD if NLS is requested and LIBINTL is not
+# included here.
+LIBS="$LIBS $LIBINTL $MENU_LIBS $CURSES_LIBS"
+
 AC_CONFIG_FILES([       Makefile
                         src/Makefile
                         man/Makefile
@@ -111,7 +115,6 @@ AC_CONFIG_FILES([       Makefile
 AC_CONFIG_FILES([test/test_basic.sh], [chmod +x test/test_basic.sh])
 AC_CONFIG_FILES([test/test_purging.sh], [chmod +x test/test_purging.sh])
 AC_CONFIG_FILES([test/test_restore.sh], [chmod +x test/test_restore.sh])
-AC_CONFIG_FILES([test/test_buffer_overrun.sh], [chmod +x test/test_buffer_overrun.sh])
 AC_CONFIG_FILES([test/create-some-files.sh], [chmod +x test/create-some-files.sh])
 
 AC_OUTPUT

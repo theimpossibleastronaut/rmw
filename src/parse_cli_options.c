@@ -28,12 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "parse_cli_options.h"
 #include "config_rmw.h"
-/* GIT_REV can defined during build-time with -D */
-#ifdef GIT_REV
-#define RMW_VERSION_STRING VERSION "." GIT_REV
-#else
+
 #define RMW_VERSION_STRING VERSION
-#endif
 
 static void
 print_usage (const char *prog_name)

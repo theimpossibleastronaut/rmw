@@ -29,6 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "parse_cli_options.h"
 #include "messages_rmw.h"
 
+#define ENV_RMW_FAKE_HOME "RMW_FAKE_HOME"
+#define ENV_TEST_HOME "RMWTEST_HOME"
+
 #define LEN_MAX_CFG_LINE (LEN_MAX_PATH * 2 + 1)
 
 extern const char *expire_age_str;
@@ -63,19 +66,7 @@ init_config_data (st_config *st_config_data);
 void
 show_folder_line (const char *folder, const bool is_r, const bool is_attached);
 
-#ifdef TEST_LIB
-char *
-del_char_shift_left (const char needle, char *haystack);
-
-char
-*strrepl (char *src, const char *str, char *repl);
-
 void
 realize_waste_line (char *str);
-
-st_waste *
-parse_line_waste (st_waste * waste_curr, const char * line_ptr,
-                 const rmw_options * cli_user_options, bool fake_media_root);
-#endif
 
 #endif
