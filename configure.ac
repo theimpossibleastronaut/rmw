@@ -47,7 +47,7 @@ fi
 
 AX_CHECK_COMPILE_FLAG(-fanalyzer, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no], [-Werror])
 if test "x$ax_gcc_flag_option" = "xyes"; then
-        EXTRA_CFLAGS+=" -Werror=format-security"
+        EXTRA_CFLAGS+=" -fanalyzer"
 fi
 
 if test "x$ax_is_release" = "xyes"; then
