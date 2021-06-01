@@ -36,13 +36,13 @@ AM_PROG_AR
 EXTRA_CFLAGS="-Wextra -fno-common -D_FORTIFY_SOURCE=2"
 
 AX_CHECK_COMPILE_FLAG(-Werror=format-security,
-        [EXTRA_CFLAGS = "$EXTRA_CFLAGS -Werror=format-security"],, [-Werror])
+        [EXTRA_CFLAGS="$EXTRA_CFLAGS -Werror=format-security"],, [-Werror])
 AX_CHECK_COMPILE_FLAG(-Wformat-overflow=2,
-        [EXTRA_CFLAGS = "$EXTRA_CFLAGS -Wformat-overflow=2"],, [-Werror])
+        [EXTRA_CFLAGS="$EXTRA_CFLAGS -Wformat-overflow=2"],, [-Werror])
 AX_CHECK_COMPILE_FLAG(-fanalyzer,
-        [EXTRA_CFLAGS = "$EXTRA_CFLAGS -fanalyzer"],, [-Werror])
+        [EXTRA_CFLAGS="$EXTRA_CFLAGS -fanalyzer"],, [-Werror])
 AX_CHECK_COMPILE_FLAG(-fstack-protector-strong,
-                [EXTRA_CFLAGS = "$EXTRA_CFLAGS -fstack-protector-strong"],, [-Werror])
+                [EXTRA_CFLAGS="$EXTRA_CFLAGS -fstack-protector-strong"],, [-Werror])
 
 AC_SUBST([EXTRA_CFLAGS])
 
