@@ -33,33 +33,16 @@ AM_MAINTAINER_MODE
 AC_PROG_RANLIB
 AM_PROG_AR
 
-EXTRA_CFLAGS="-Wextra -fno-common"
+EXTRA_CFLAGS="-Wextra -fno-common -D_FORTIFY_SOURCE=2"
 
-AX_CHECK_COMPILE_FLAG(-Werror=format-security, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no], [-Werror])
-if test "x$ax_gcc_flag_option" = "xyes"; then
-        EXTRA_CFLAGS+=" -Werror=format-security"
-fi
-
-AX_CHECK_COMPILE_FLAG(-Wformat-overflow=2, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no], [-Werror])
-if test "x$ax_gcc_flag_option" = "xyes"; then
-        EXTRA_CFLAGS+=" -Wformat-overflow=2"
-fi
-
-AX_CHECK_COMPILE_FLAG(-fanalyzer, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no], [-Werror])
-if test "x$ax_gcc_flag_option" = "xyes"; then
-        EXTRA_CFLAGS+=" -fanalyzer"
-fi
-
-if test "x$ax_is_release" = "xyes"; then
-        AX_CHECK_COMPILE_FLAG(-fstack-protector-strong, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no], [-Werror])
-        if test "x$ax_gcc_flag_option" = "xyes"; then
-                EXTRA_CFLAGS+=" -fstack-protector-strong"
-        fi
-        AX_CHECK_COMPILE_FLAG(-D_FORTIFY_SOURCE=2, [ax_gcc_flag_option=yes], [ax_gcc_flag_option=no], [-Werror])
-        if test "x$ax_gcc_flag_option" = "xyes"; then
-                EXTRA_CFLAGS+=" -D_FORTIFY_SOURCE=2 -O2"
-        fi
-fi
+AX_CHECK_COMPILE_FLAG(-Werror=format-security,
+        [EXTRA_CFLAGS = "$EXTRA_CFLAGS -Werror=format-security"],, [-Werror])
+AX_CHECK_COMPILE_FLAG(-Wformat-overflow=2,
+        [EXTRA_CFLAGS = "$EXTRA_CFLAGS -Wformat-overflow=2"],, [-Werror])
+AX_CHECK_COMPILE_FLAG(-fanalyzer,
+        [EXTRA_CFLAGS = "$EXTRA_CFLAGS -fanalyzer"],, [-Werror])
+AX_CHECK_COMPILE_FLAG(-fstack-protector-strong,
+                [EXTRA_CFLAGS = "$EXTRA_CFLAGS -fstack-protector-strong"],, [-Werror])
 
 AC_SUBST([EXTRA_CFLAGS])
 

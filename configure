@@ -4928,7 +4928,7 @@ unknown)
 esac
 
 
-EXTRA_CFLAGS="-Wextra -fno-common"
+EXTRA_CFLAGS="-Wextra -fno-common -D_FORTIFY_SOURCE=2"
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -Werror=format-security" >&5
 $as_echo_n "checking whether C compiler accepts -Werror=format-security... " >&6; }
@@ -4960,13 +4960,9 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__Werror_format_security" >&5
 $as_echo "$ax_cv_check_cflags__Werror__Werror_format_security" >&6; }
 if test "x$ax_cv_check_cflags__Werror__Werror_format_security" = xyes; then :
-  ax_gcc_flag_option=yes
+  EXTRA_CFLAGS = "$EXTRA_CFLAGS -Werror=format-security"
 else
-  ax_gcc_flag_option=no
-fi
-
-if test "x$ax_gcc_flag_option" = "xyes"; then
-        EXTRA_CFLAGS+=" -Werror=format-security"
+  :
 fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -Wformat-overflow=2" >&5
@@ -4999,13 +4995,9 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__Wformat_overflow_2" >&5
 $as_echo "$ax_cv_check_cflags__Werror__Wformat_overflow_2" >&6; }
 if test "x$ax_cv_check_cflags__Werror__Wformat_overflow_2" = xyes; then :
-  ax_gcc_flag_option=yes
+  EXTRA_CFLAGS = "$EXTRA_CFLAGS -Wformat-overflow=2"
 else
-  ax_gcc_flag_option=no
-fi
-
-if test "x$ax_gcc_flag_option" = "xyes"; then
-        EXTRA_CFLAGS+=" -Wformat-overflow=2"
+  :
 fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fanalyzer" >&5
@@ -5038,17 +5030,12 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fanalyzer" >&5
 $as_echo "$ax_cv_check_cflags__Werror__fanalyzer" >&6; }
 if test "x$ax_cv_check_cflags__Werror__fanalyzer" = xyes; then :
-  ax_gcc_flag_option=yes
+  EXTRA_CFLAGS = "$EXTRA_CFLAGS -fanalyzer"
 else
-  ax_gcc_flag_option=no
+  :
 fi
 
-if test "x$ax_gcc_flag_option" = "xyes"; then
-        EXTRA_CFLAGS+=" -fanalyzer"
-fi
-
-if test "x$ax_is_release" = "xyes"; then
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fstack-protector-strong" >&5
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -fstack-protector-strong" >&5
 $as_echo_n "checking whether C compiler accepts -fstack-protector-strong... " >&6; }
 if ${ax_cv_check_cflags__Werror__fstack_protector_strong+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -5078,53 +5065,11 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__fstack_protector_strong" >&5
 $as_echo "$ax_cv_check_cflags__Werror__fstack_protector_strong" >&6; }
 if test "x$ax_cv_check_cflags__Werror__fstack_protector_strong" = xyes; then :
-  ax_gcc_flag_option=yes
+  EXTRA_CFLAGS = "$EXTRA_CFLAGS -fstack-protector-strong"
 else
-  ax_gcc_flag_option=no
+  :
 fi
 
-        if test "x$ax_gcc_flag_option" = "xyes"; then
-                EXTRA_CFLAGS+=" -fstack-protector-strong"
-        fi
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C compiler accepts -D_FORTIFY_SOURCE=2" >&5
-$as_echo_n "checking whether C compiler accepts -D_FORTIFY_SOURCE=2... " >&6; }
-if ${ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  ax_check_save_flags=$CFLAGS
-  CFLAGS="$CFLAGS -Werror -D_FORTIFY_SOURCE=2"
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"; then :
-  ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2=yes
-else
-  ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2=no
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-  CFLAGS=$ax_check_save_flags
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2" >&5
-$as_echo "$ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2" >&6; }
-if test "x$ax_cv_check_cflags__Werror__D_FORTIFY_SOURCE_2" = xyes; then :
-  ax_gcc_flag_option=yes
-else
-  ax_gcc_flag_option=no
-fi
-
-        if test "x$ax_gcc_flag_option" = "xyes"; then
-                EXTRA_CFLAGS+=" -D_FORTIFY_SOURCE=2 -O2"
-        fi
-fi
 
 
 
