@@ -88,9 +88,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = test_strings$(EXEEXT) test_config_test$(EXEEXT) \
-	test_utils$(EXEEXT) test_trashinfo$(EXEEXT) \
-	test_rmdir_recursive$(EXEEXT) test_select_restore$(EXEEXT)
+check_PROGRAMS = test_strings$(EXEEXT) test_utils$(EXEEXT) \
+	test_trashinfo$(EXEEXT) test_rmdir_recursive$(EXEEXT) \
+	test_select_restore$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/build-aux/m4/ax_append_flag.m4 \
@@ -123,34 +123,34 @@ CONFIG_CLEAN_FILES = VARS test_basic.sh test_purging.sh \
 	test_restore.sh create-some-files.sh
 CONFIG_CLEAN_VPATH_FILES =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_test_config_test_OBJECTS =  \
-	$(top_builddir)/src/config_rmw.$(OBJEXT)
-test_config_test_OBJECTS = $(am_test_config_test_OBJECTS)
-test_config_test_LDADD = $(LDADD)
-test_config_test_DEPENDENCIES = $(top_builddir)/src/librmw.a
 am_test_rmdir_recursive_OBJECTS =  \
 	$(top_builddir)/src/purging_rmw.$(OBJEXT)
 test_rmdir_recursive_OBJECTS = $(am_test_rmdir_recursive_OBJECTS)
 test_rmdir_recursive_LDADD = $(LDADD)
-test_rmdir_recursive_DEPENDENCIES = $(top_builddir)/src/librmw.a
+test_rmdir_recursive_DEPENDENCIES = $(top_builddir)/src/librmw.a \
+	$(top_builddir)/external/canfigger/libcanfigger.a
 am_test_select_restore_OBJECTS =  \
 	$(top_builddir)/src/restore_rmw.$(OBJEXT)
 test_select_restore_OBJECTS = $(am_test_select_restore_OBJECTS)
 test_select_restore_LDADD = $(LDADD)
-test_select_restore_DEPENDENCIES = $(top_builddir)/src/librmw.a
+test_select_restore_DEPENDENCIES = $(top_builddir)/src/librmw.a \
+	$(top_builddir)/external/canfigger/libcanfigger.a
 am_test_strings_OBJECTS = $(top_builddir)/src/strings_rmw.$(OBJEXT)
 test_strings_OBJECTS = $(am_test_strings_OBJECTS)
 test_strings_LDADD = $(LDADD)
-test_strings_DEPENDENCIES = $(top_builddir)/src/librmw.a
+test_strings_DEPENDENCIES = $(top_builddir)/src/librmw.a \
+	$(top_builddir)/external/canfigger/libcanfigger.a
 am_test_trashinfo_OBJECTS =  \
 	$(top_builddir)/src/trashinfo_rmw.$(OBJEXT)
 test_trashinfo_OBJECTS = $(am_test_trashinfo_OBJECTS)
 test_trashinfo_LDADD = $(LDADD)
-test_trashinfo_DEPENDENCIES = $(top_builddir)/src/librmw.a
+test_trashinfo_DEPENDENCIES = $(top_builddir)/src/librmw.a \
+	$(top_builddir)/external/canfigger/libcanfigger.a
 am_test_utils_OBJECTS = $(top_builddir)/src/utils_rmw.$(OBJEXT)
 test_utils_OBJECTS = $(am_test_utils_OBJECTS)
 test_utils_LDADD = $(LDADD)
-test_utils_DEPENDENCIES = $(top_builddir)/src/librmw.a
+test_utils_DEPENDENCIES = $(top_builddir)/src/librmw.a \
+	$(top_builddir)/external/canfigger/libcanfigger.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -178,13 +178,12 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(test_config_test_SOURCES) $(test_rmdir_recursive_SOURCES) \
+SOURCES = $(test_rmdir_recursive_SOURCES) \
 	$(test_select_restore_SOURCES) $(test_strings_SOURCES) \
 	$(test_trashinfo_SOURCES) $(test_utils_SOURCES)
-DIST_SOURCES = $(test_config_test_SOURCES) \
-	$(test_rmdir_recursive_SOURCES) $(test_select_restore_SOURCES) \
-	$(test_strings_SOURCES) $(test_trashinfo_SOURCES) \
-	$(test_utils_SOURCES)
+DIST_SOURCES = $(test_rmdir_recursive_SOURCES) \
+	$(test_select_restore_SOURCES) $(test_strings_SOURCES) \
+	$(test_trashinfo_SOURCES) $(test_utils_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -552,9 +551,9 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 valgrind_enabled_tools = @valgrind_enabled_tools@
 valgrind_tools = @valgrind_tools@
-AM_CFLAGS = @CURSES_CFLAGS@ @EXTRA_CFLAGS@ -I$(top_srcdir)/src
+AM_CFLAGS = @CURSES_CFLAGS@ @EXTRA_CFLAGS@ \
+	-I$(top_srcdir)/external/canfigger -I$(top_srcdir)/src
 test_strings_SOURCES = $(top_srcdir)/src/strings_rmw.c
-test_config_test_SOURCES = $(top_srcdir)/src/config_rmw.c
 test_utils_SOURCES = $(top_srcdir)/src/utils_rmw.c
 test_trashinfo_SOURCES = $(top_srcdir)/src/trashinfo_rmw.c
 test_rmdir_recursive_SOURCES = $(top_srcdir)/src/purging_rmw.c
@@ -571,7 +570,8 @@ TEST_EXTENSIONS = .sh
 LOG_COMPILER = $(VALGRIND)
 TESTS = $(check_PROGRAMS) $(test_scripts)
 TESTS_ENVIRONMENT = VALGRIND='$(VALGRIND)'
-LDADD = $(top_builddir)/src/librmw.a @LIBS@
+LDADD = $(top_builddir)/src/librmw.a \
+	$(top_builddir)/external/canfigger/libcanfigger.a @LIBS@
 EXTRA_DIST = \
 	README	\
 	COMMON \
@@ -629,12 +629,6 @@ clean-checkPROGRAMS:
 $(top_builddir)/src/$(am__dirstamp):
 	@$(MKDIR_P) $(top_builddir)/src
 	@: > $(top_builddir)/src/$(am__dirstamp)
-$(top_builddir)/src/config_rmw.$(OBJEXT):  \
-	$(top_builddir)/src/$(am__dirstamp)
-
-test_config_test$(EXEEXT): $(test_config_test_OBJECTS) $(test_config_test_DEPENDENCIES) $(EXTRA_test_config_test_DEPENDENCIES) 
-	@rm -f test_config_test$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(test_config_test_OBJECTS) $(test_config_test_LDADD) $(LIBS)
 $(top_builddir)/src/purging_rmw.$(OBJEXT):  \
 	$(top_builddir)/src/$(am__dirstamp)
 
@@ -880,13 +874,6 @@ recheck: all $(check_PROGRAMS)
 test_strings.log: test_strings$(EXEEXT)
 	@p='test_strings$(EXEEXT)'; \
 	b='test_strings'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test_config_test.log: test_config_test$(EXEEXT)
-	@p='test_config_test$(EXEEXT)'; \
-	b='test_config_test'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

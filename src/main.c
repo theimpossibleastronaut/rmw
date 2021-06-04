@@ -335,6 +335,8 @@ damage of 5000 hp. You feel satisfied.\n"));
     }
     else
     {
+      // TODO: There is a duplicate string in restore.c; there should be
+      // a single function in messages.c instead.
       printf (_("File not found: '%s'\n"), st_target.orig);
       continue;
     }

@@ -34,4 +34,7 @@ __top_builddir__rmw_SOURCES=	\
 	main.h	\
 	gettext.h
 
-__top_builddir__rmw_LDADD = librmw.a @LIBS@
+__top_builddir__rmw_LDADD = librmw.a $(top_builddir)/external/canfigger/libcanfigger.a @LIBS@
+
+@top_builddir@/external/canfigger/libcanfigger.a:
+	make -C $(top_srcdir)/external/canfigger

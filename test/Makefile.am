@@ -3,14 +3,12 @@ AM_CFLAGS += -I$(top_srcdir)/src
 
 check_PROGRAMS = \
 	test_strings	\
-	test_config_test \
 	test_utils	\
 	test_trashinfo	\
 	test_rmdir_recursive	\
 	test_select_restore
 
 test_strings_SOURCES = $(top_srcdir)/src/strings_rmw.c
-test_config_test_SOURCES = $(top_srcdir)/src/config_rmw.c
 test_utils_SOURCES = $(top_srcdir)/src/utils_rmw.c
 test_trashinfo_SOURCES = $(top_srcdir)/src/trashinfo_rmw.c
 test_rmdir_recursive_SOURCES = $(top_srcdir)/src/purging_rmw.c
@@ -36,7 +34,9 @@ TESTS_ENVIRONMENT = VALGRIND='$(VALGRIND)'
 @top_builddir@/src/librmw.a: subsystem
 
 DEFS = -DTEST_LIB -DHOME_TEST_DIR=\"$(HOME_TEST_DIR)\"
-LDADD = $(top_builddir)/src/librmw.a @LIBS@
+LDADD = $(top_builddir)/src/librmw.a
+LDADD +=  $(top_builddir)/external/canfigger/libcanfigger.a
+LDADD +=  @LIBS@
 
 EXTRA_DIST=	\
 	README	\

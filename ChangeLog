@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2021-06-04
+
+  * rmw now uses the canfigger library for parsing the configuration file.
+
 2021-05-25
 
   * Implemented the AX_VALGRIND_CHECK autoconf macro, which adds the

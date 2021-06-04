@@ -395,7 +395,7 @@ top_srcdir = @top_srcdir@
 valgrind_enabled_tools = @valgrind_enabled_tools@
 valgrind_tools = @valgrind_tools@
 packextrasdir = @docdir@
-SUBDIRS = src man test po
+SUBDIRS = external/canfigger src man test po
 EXTRA_DIST = \
 	README.md	\
 	ChangeLog	\

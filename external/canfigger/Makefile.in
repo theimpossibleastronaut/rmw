@@ -14,7 +14,6 @@
 
 @SET_MAKE@
 
-
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -89,8 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = $(top_builddir)/rmw$(EXEEXT)
-subdir = src
+subdir = external/canfigger
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/build-aux/m4/ax_append_flag.m4 \
 	$(top_srcdir)/build-aux/m4/ax_cflags_warn_all.m4 \
@@ -116,32 +114,19 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
-CONFIG_HEADER = config.h
+CONFIG_HEADER = $(top_builddir)/src/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)"
-PROGRAMS = $(bin_PROGRAMS)
 LIBRARIES = $(noinst_LIBRARIES)
 ARFLAGS = cru
 AM_V_AR = $(am__v_AR_@AM_V@)
 am__v_AR_ = $(am__v_AR_@AM_DEFAULT_V@)
 am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
-librmw_a_AR = $(AR) $(ARFLAGS)
-librmw_a_LIBADD =
-am_librmw_a_OBJECTS = librmw_a-globals.$(OBJEXT) \
-	librmw_a-restore_rmw.$(OBJEXT) librmw_a-config_rmw.$(OBJEXT) \
-	librmw_a-parse_cli_options.$(OBJEXT) \
-	librmw_a-strings_rmw.$(OBJEXT) librmw_a-purging_rmw.$(OBJEXT) \
-	librmw_a-messages_rmw.$(OBJEXT) librmw_a-time_rmw.$(OBJEXT) \
-	librmw_a-trashinfo_rmw.$(OBJEXT) librmw_a-utils_rmw.$(OBJEXT) \
-	librmw_a-bst.$(OBJEXT)
-librmw_a_OBJECTS = $(am_librmw_a_OBJECTS)
-am___top_builddir__rmw_OBJECTS = main.$(OBJEXT)
-__top_builddir__rmw_OBJECTS = $(am___top_builddir__rmw_OBJECTS)
-__top_builddir__rmw_DEPENDENCIES = librmw.a \
-	$(top_builddir)/external/canfigger/libcanfigger.a
-am__dirstamp = $(am__leading_dot)dirstamp
+libcanfigger_a_AR = $(AR) $(ARFLAGS)
+libcanfigger_a_LIBADD =
+am_libcanfigger_a_OBJECTS = libcanfigger_a-canfigger.$(OBJEXT)
+libcanfigger_a_OBJECTS = $(am_libcanfigger_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -154,7 +139,7 @@ AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
-DEFAULT_INCLUDES = -I.@am__isrc@
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/src
 depcomp =
 am__maybe_remake_depfiles =
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -173,8 +158,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(librmw_a_SOURCES) $(__top_builddir__rmw_SOURCES)
-DIST_SOURCES = $(librmw_a_SOURCES) $(__top_builddir__rmw_SOURCES)
+SOURCES = $(libcanfigger_a_SOURCES)
+DIST_SOURCES = $(libcanfigger_a_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -203,8 +188,7 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/include.mk \
-	$(top_srcdir)/config.in
+am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/src/include.mk
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -221,7 +205,7 @@ CPPFLAGS = @CPPFLAGS@
 CURSES_CFLAGS = @CURSES_CFLAGS@
 CURSES_LIBS = @CURSES_LIBS@
 CYGPATH_W = @CYGPATH_W@
-DEFS = -DLOCALEDIR=\"$(localedir)\"
+DEFS = @DEFS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -338,45 +322,15 @@ valgrind_enabled_tools = @valgrind_enabled_tools@
 valgrind_tools = @valgrind_tools@
 AM_CFLAGS = @CURSES_CFLAGS@ @EXTRA_CFLAGS@ \
 	-I$(top_srcdir)/external/canfigger
-noinst_LIBRARIES = librmw.a
-librmw_a_CFLAGS = $(AM_CFLAGS)
-librmw_a_SOURCES = \
-	globals.c	\
-	restore_rmw.c	\
-	config_rmw.c	\
-	parse_cli_options.c	\
-	strings_rmw.c	\
-	purging_rmw.c	\
-	messages_rmw.c	\
-	time_rmw.c	\
-	trashinfo_rmw.c	\
-	utils_rmw.c	\
-	bst.c	\
-	globals.h	\
-	restore_rmw.h 	\
-	config_rmw.h	\
-	parse_cli_options.h	\
-	strings_rmw.h	\
-	purging_rmw.h	\
-	messages_rmw.h	\
-	time_rmw.h	\
-	trashinfo_rmw.h	\
-	utils_rmw.h	\
-	bst.h	\
-	gettext.h
-
-__top_builddir__rmw_SOURCES = \
-	main.c	\
-	main.h	\
-	gettext.h
-
-__top_builddir__rmw_LDADD = librmw.a $(top_builddir)/external/canfigger/libcanfigger.a @LIBS@
-all: config.h
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+noinst_LIBRARIES = libcanfigger.a
+libcanfigger_a_CFLAGS = $(AM_CFLAGS)
+libcanfigger_a_SOURCES = canfigger.c canfigger.h
+EXTRA_DIST = LICENSE
+all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .o .obj
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/include.mk $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(top_srcdir)/src/include.mk $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -385,9 +339,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/in
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign --ignore-deps src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign --ignore-deps external/canfigger/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign --ignore-deps src/Makefile
+	  $(AUTOMAKE) --foreign --ignore-deps external/canfigger/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -396,7 +350,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__maybe_remake_depfiles)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__maybe_remake_depfiles);; \
 	esac;
-$(srcdir)/include.mk $(am__empty):
+$(top_srcdir)/src/include.mk $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
@@ -407,77 +361,13 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 
-config.h: stamp-h1
-	@test -f $@ || rm -f stamp-h1
-	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) stamp-h1
-
-stamp-h1: $(top_srcdir)/config.in $(top_builddir)/config.status
-	@rm -f stamp-h1
-	cd $(top_builddir) && $(SHELL) ./config.status src/config.h
-$(top_srcdir)/config.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
-	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
-	rm -f stamp-h1
-	touch $@
-
-distclean-hdr:
-	-rm -f config.h stamp-h1
-install-binPROGRAMS: $(bin_PROGRAMS)
-	@$(NORMAL_INSTALL)
-	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(bindir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(bindir)" || exit 1; \
-	fi; \
-	for p in $$list; do echo "$$p $$p"; done | \
-	sed 's/$(EXEEXT)$$//' | \
-	while read p p1; do if test -f $$p \
-	  ; then echo "$$p"; echo "$$p"; else :; fi; \
-	done | \
-	sed -e 'p;s,.*/,,;n;h' \
-	    -e 's|.*|.|' \
-	    -e 'p;x;s,.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/' | \
-	sed 'N;N;N;s,\n, ,g' | \
-	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1 } \
-	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
-	    if ($$2 == $$4) files[d] = files[d] " " $$1; \
-	    else { print "f", $$3 "/" $$4, $$1; } } \
-	  END { for (d in files) print "f", d, files[d] }' | \
-	while read type dir files; do \
-	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
-	    test -z "$$files" || { \
-	      echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
-	      $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
-	    } \
-	; done
-
-uninstall-binPROGRAMS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
-	files=`for p in $$list; do echo "$$p"; done | \
-	  sed -e 'h;s,^.*/,,;s/$(EXEEXT)$$//;$(transform)' \
-	      -e 's/$$/$(EXEEXT)/' \
-	`; \
-	test -n "$$list" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(bindir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(bindir)" && rm -f $$files
-
-clean-binPROGRAMS:
-	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 
-librmw.a: $(librmw_a_OBJECTS) $(librmw_a_DEPENDENCIES) $(EXTRA_librmw_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f librmw.a
-	$(AM_V_AR)$(librmw_a_AR) librmw.a $(librmw_a_OBJECTS) $(librmw_a_LIBADD)
-	$(AM_V_at)$(RANLIB) librmw.a
-$(top_builddir)/$(am__dirstamp):
-	@$(MKDIR_P) $(top_builddir)
-	@: > $(top_builddir)/$(am__dirstamp)
-
-$(top_builddir)/rmw$(EXEEXT): $(__top_builddir__rmw_OBJECTS) $(__top_builddir__rmw_DEPENDENCIES) $(EXTRA___top_builddir__rmw_DEPENDENCIES) $(top_builddir)/$(am__dirstamp)
-	@rm -f $(top_builddir)/rmw$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(__top_builddir__rmw_OBJECTS) $(__top_builddir__rmw_LDADD) $(LIBS)
+libcanfigger.a: $(libcanfigger_a_OBJECTS) $(libcanfigger_a_DEPENDENCIES) $(EXTRA_libcanfigger_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libcanfigger.a
+	$(AM_V_AR)$(libcanfigger_a_AR) libcanfigger.a $(libcanfigger_a_OBJECTS) $(libcanfigger_a_LIBADD)
+	$(AM_V_at)$(RANLIB) libcanfigger.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -491,71 +381,11 @@ distclean-compile:
 .c.obj:
 	$(AM_V_CC)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-librmw_a-globals.o: globals.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-globals.o `test -f 'globals.c' || echo '$(srcdir)/'`globals.c
+libcanfigger_a-canfigger.o: canfigger.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcanfigger_a_CFLAGS) $(CFLAGS) -c -o libcanfigger_a-canfigger.o `test -f 'canfigger.c' || echo '$(srcdir)/'`canfigger.c
 
-librmw_a-globals.obj: globals.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-globals.obj `if test -f 'globals.c'; then $(CYGPATH_W) 'globals.c'; else $(CYGPATH_W) '$(srcdir)/globals.c'; fi`
-
-librmw_a-restore_rmw.o: restore_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-restore_rmw.o `test -f 'restore_rmw.c' || echo '$(srcdir)/'`restore_rmw.c
-
-librmw_a-restore_rmw.obj: restore_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-restore_rmw.obj `if test -f 'restore_rmw.c'; then $(CYGPATH_W) 'restore_rmw.c'; else $(CYGPATH_W) '$(srcdir)/restore_rmw.c'; fi`
-
-librmw_a-config_rmw.o: config_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-config_rmw.o `test -f 'config_rmw.c' || echo '$(srcdir)/'`config_rmw.c
-
-librmw_a-config_rmw.obj: config_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-config_rmw.obj `if test -f 'config_rmw.c'; then $(CYGPATH_W) 'config_rmw.c'; else $(CYGPATH_W) '$(srcdir)/config_rmw.c'; fi`
-
-librmw_a-parse_cli_options.o: parse_cli_options.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-parse_cli_options.o `test -f 'parse_cli_options.c' || echo '$(srcdir)/'`parse_cli_options.c
-
-librmw_a-parse_cli_options.obj: parse_cli_options.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-parse_cli_options.obj `if test -f 'parse_cli_options.c'; then $(CYGPATH_W) 'parse_cli_options.c'; else $(CYGPATH_W) '$(srcdir)/parse_cli_options.c'; fi`
-
-librmw_a-strings_rmw.o: strings_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-strings_rmw.o `test -f 'strings_rmw.c' || echo '$(srcdir)/'`strings_rmw.c
-
-librmw_a-strings_rmw.obj: strings_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-strings_rmw.obj `if test -f 'strings_rmw.c'; then $(CYGPATH_W) 'strings_rmw.c'; else $(CYGPATH_W) '$(srcdir)/strings_rmw.c'; fi`
-
-librmw_a-purging_rmw.o: purging_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-purging_rmw.o `test -f 'purging_rmw.c' || echo '$(srcdir)/'`purging_rmw.c
-
-librmw_a-purging_rmw.obj: purging_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-purging_rmw.obj `if test -f 'purging_rmw.c'; then $(CYGPATH_W) 'purging_rmw.c'; else $(CYGPATH_W) '$(srcdir)/purging_rmw.c'; fi`
-
-librmw_a-messages_rmw.o: messages_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-messages_rmw.o `test -f 'messages_rmw.c' || echo '$(srcdir)/'`messages_rmw.c
-
-librmw_a-messages_rmw.obj: messages_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-messages_rmw.obj `if test -f 'messages_rmw.c'; then $(CYGPATH_W) 'messages_rmw.c'; else $(CYGPATH_W) '$(srcdir)/messages_rmw.c'; fi`
-
-librmw_a-time_rmw.o: time_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-time_rmw.o `test -f 'time_rmw.c' || echo '$(srcdir)/'`time_rmw.c
-
-librmw_a-time_rmw.obj: time_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-time_rmw.obj `if test -f 'time_rmw.c'; then $(CYGPATH_W) 'time_rmw.c'; else $(CYGPATH_W) '$(srcdir)/time_rmw.c'; fi`
-
-librmw_a-trashinfo_rmw.o: trashinfo_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trashinfo_rmw.o `test -f 'trashinfo_rmw.c' || echo '$(srcdir)/'`trashinfo_rmw.c
-
-librmw_a-trashinfo_rmw.obj: trashinfo_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-trashinfo_rmw.obj `if test -f 'trashinfo_rmw.c'; then $(CYGPATH_W) 'trashinfo_rmw.c'; else $(CYGPATH_W) '$(srcdir)/trashinfo_rmw.c'; fi`
-
-librmw_a-utils_rmw.o: utils_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-utils_rmw.o `test -f 'utils_rmw.c' || echo '$(srcdir)/'`utils_rmw.c
-
-librmw_a-utils_rmw.obj: utils_rmw.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-utils_rmw.obj `if test -f 'utils_rmw.c'; then $(CYGPATH_W) 'utils_rmw.c'; else $(CYGPATH_W) '$(srcdir)/utils_rmw.c'; fi`
-
-librmw_a-bst.o: bst.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-bst.o `test -f 'bst.c' || echo '$(srcdir)/'`bst.c
-
-librmw_a-bst.obj: bst.c
-	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(librmw_a_CFLAGS) $(CFLAGS) -c -o librmw_a-bst.obj `if test -f 'bst.c'; then $(CYGPATH_W) 'bst.c'; else $(CYGPATH_W) '$(srcdir)/bst.c'; fi`
+libcanfigger_a-canfigger.obj: canfigger.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libcanfigger_a_CFLAGS) $(CFLAGS) -c -o libcanfigger_a-canfigger.obj `if test -f 'canfigger.c'; then $(CYGPATH_W) 'canfigger.c'; else $(CYGPATH_W) '$(srcdir)/canfigger.c'; fi`
 check-valgrind-local: 
 check-valgrind-memcheck-local: 
 check-valgrind-helgrind-local: 
@@ -649,11 +479,8 @@ distdir-am: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS) $(LIBRARIES) config.h
+all-am: Makefile $(LIBRARIES)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
-	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
-	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -680,7 +507,6 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
-	-test -z "$(top_builddir)/$(am__dirstamp)" || rm -f $(top_builddir)/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -707,13 +533,12 @@ check-valgrind-sgcheck-am: check-valgrind-sgcheck-local
 
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
-	mostlyclean-am
+clean-am: clean-generic clean-noinstLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-hdr distclean-tags
+	distclean-tags
 
 dvi: dvi-am
 
@@ -733,7 +558,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS
+install-exec-am:
 
 install-html: install-html-am
 
@@ -771,20 +596,19 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am:
 
-.MAKE: all install-am install-strip
+.MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am check-valgrind-am \
 	check-valgrind-drd-am check-valgrind-drd-local \
 	check-valgrind-helgrind-am check-valgrind-helgrind-local \
 	check-valgrind-local check-valgrind-memcheck-am \
 	check-valgrind-memcheck-local check-valgrind-sgcheck-am \
-	check-valgrind-sgcheck-local clean clean-binPROGRAMS \
-	clean-generic clean-noinstLIBRARIES cscopelist-am ctags \
-	ctags-am distclean distclean-compile distclean-generic \
-	distclean-hdr distclean-tags distdir dvi dvi-am html html-am \
-	info info-am install install-am install-binPROGRAMS \
+	check-valgrind-sgcheck-local clean clean-generic \
+	clean-noinstLIBRARIES cscopelist-am ctags ctags-am distclean \
+	distclean-compile distclean-generic distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
 	install-data install-data-am install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-man install-pdf \
@@ -792,7 +616,7 @@ uninstall-am: uninstall-binPROGRAMS
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS
+	uninstall-am
 
 .PRECIOUS: Makefile
 
@@ -800,9 +624,6 @@ uninstall-am: uninstall-binPROGRAMS
 # The build fails on OpenBSD if NLS is requested and LIBINTL is not
 # included here.
 #LDADD = @LIBINTL@ @MENU_LIBS@ @CURSES_LIBS@
-
-@top_builddir@/external/canfigger/libcanfigger.a:
-	make -C $(top_srcdir)/external/canfigger
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

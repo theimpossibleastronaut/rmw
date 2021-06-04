@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_rmw.h"
 #include "utils_rmw.h"
 #include "strings_rmw.h"
+#include "canfigger.h"
 
 static const int DEFAULT_EXPIRE_AGE = 0;
 static const char *lit_files = "files";
@@ -39,7 +40,7 @@ const char *expire_age_str = "expire_age";
  * to match
  */
 static void
-print_config (FILE *stream)
+print_config (FILE * stream)
 {
   fputs (_("\
 # rmw default waste directory, separate from the desktop trash\n"), stream);
@@ -75,35 +76,12 @@ WASTE = $HOME/.local/share/Waste\n", stream);
 }
 
 
-/*!
- * If haystack begins with 'needle', returns a pointer to the first occurrence
- * in the string after 'needle'.
- * ex1: char *ptr = del_char_shift ('/', string);
- * '*string' will still point to 'string[0]'
- *
- * ex2: string = del_char_shift ('/', string);
- * '*string' may change
- */
-static char *
-del_char_shift_left (const char needle, char *haystack)
-{
-  char *ptr = haystack;
-  if (*ptr != needle)
-    return ptr;
-
-  while (*ptr == needle)
-    ptr++;
-
-  return ptr;
-}
-
-
 /*
  * replace part of a string, adapted from code by Gazl
  * https://www.linuxquestions.org/questions/showthread.php?&p=5794938#post5794938
 */
-static char
-*strrepl (char *src, const char *str, char *repl)
+static char *
+strrepl (char *src, const char *str, char *repl)
 {
   // The replacement text may make the returned string shorter or
   // longer than src, so just add the length of all three for the
@@ -117,17 +95,17 @@ static char
   s = strstr (src, str);
   if (s && *str != '\0')
   {
-    d = dest ;
-    for (p = src ; p < s ; p++, d++)
-        *d = *p ;
-    for (p = repl ; *p != '\0' ; p++, d++)
-        *d = *p ;
-    for (p = s + strlen(str) ; *p != '\0' ; p++, d++)
-        *d = *p ;
-    *d = '\0' ;
+    d = dest;
+    for (p = src; p < s; p++, d++)
+      *d = *p;
+    for (p = repl; *p != '\0'; p++, d++)
+      *d = *p;
+    for (p = s + strlen (str); *p != '\0'; p++, d++)
+      *d = *p;
+    *d = '\0';
   }
   else
-    strcpy(dest, src);
+    strcpy (dest, src);
 
   dest = realloc (dest, strlen (dest) + 1);
   chk_malloc (dest, __func__, __LINE__);
@@ -150,7 +128,7 @@ realize_waste_line (char *str)
    */
 
   uid_t uid = geteuid ();
-  struct passwd *pwd = getpwuid(uid); /* don't free, see getpwnam() for details */
+  struct passwd *pwd = getpwuid (uid);  /* don't free, see getpwnam() for details */
 
   if (pwd == NULL)
   {
@@ -180,10 +158,10 @@ realize_waste_line (char *str)
   }
 
   struct st_vars_to_check st_var[] = {
-    { "~", HOMEDIR },
-    { "$HOME", HOMEDIR },
-    { "$UID", UID },
-    { NULL, NULL }
+    {"~", HOMEDIR},
+    {"$HOME", HOMEDIR},
+    {"$UID", UID},
+    {NULL, NULL}
   };
 
 
@@ -192,7 +170,7 @@ realize_waste_line (char *str)
   {
     if (strstr (str, st_var[i].name) != NULL)
     {
-      char *dest = strrepl (str, st_var[i].name, (char*)st_var[i].value);
+      char *dest = strrepl (str, st_var[i].name, (char *) st_var[i].value);
       bufchk_len (strlen (dest) + 1, LEN_MAX_PATH, __func__, __LINE__);
       strcpy (str, dest);
       free (dest);
@@ -215,50 +193,21 @@ realize_waste_line (char *str)
  * folders.
  */
 static st_waste *
-parse_line_waste (st_waste * waste_curr, const char * line_ptr,
-                 const rmw_options * cli_user_options, bool fake_media_root)
+parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
+                  const rmw_options * cli_user_options, bool fake_media_root)
 {
   bool removable = 0;
-
-  char *raw_line = strchr (line_ptr, '=');
-  if (raw_line != NULL)
-    raw_line++; /* move past the '=' sign */
-  else
+  if (strcmp ("removable", node->attribute) == 0)
+    removable = 1;
+  else if (*node->attribute != '\0')
   {
-    print_msg_warn();
-    puts ("configuration: A WASTE line must include an '=' sign.");
-    return NULL;
+    print_msg_warn ();
+    printf ("ignoring invalid attribute: '%s'\n", node->attribute);
   }
 
-  char rem_opt[LEN_MAX_CFG_LINE];
-  strcpy (rem_opt, raw_line);
-
-  char *comma_val = strchr (rem_opt, ',');
-  if (comma_val != NULL)
-  {
-    // the first part of raw_line before it gets truncated is
-    // the waste folder parent
-    char *comma_pos = strchr (raw_line, ',');
-    *comma_pos = '\0';
-
-    comma_val++;
-    comma_val = del_char_shift_left (' ', comma_val);
-
-    trim_whitespace (comma_val);
-    if (strcmp ("removable", comma_val) == 0)
-      removable = 1;
-    else
-    {
-      print_msg_warn ();
-      printf (_("Invalid WASTE option: '%s'\n"), comma_val);
-      return NULL;
-    }
-  }
-
-  raw_line = del_char_shift_left (' ', raw_line);
-  bufchk_len (strlen (raw_line) + 1, LEN_MAX_PATH, __func__, __LINE__);
+  bufchk_len (strlen (node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
-  strcpy (tmp_waste_parent_folder, raw_line);
+  strcpy (tmp_waste_parent_folder, node->value);
   realize_waste_line (tmp_waste_parent_folder);
 
   bool is_attached = exists (tmp_waste_parent_folder);
@@ -294,14 +243,14 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   strcpy (waste_curr->parent, tmp_waste_parent_folder);
 
   /* and the files... */
-  int req_len = multi_strlen (waste_curr->parent, "/", lit_files, NULL) +  + 1;
+  int req_len = multi_strlen (waste_curr->parent, "/", lit_files, NULL) + +1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   waste_curr->len_files = req_len - 1;
   waste_curr->files = malloc (req_len);
   chk_malloc (waste_curr->files, __func__, __LINE__);
   sprintf (waste_curr->files, "%s/%s", waste_curr->parent, lit_files);
 
-  if (! exists (waste_curr->files))
+  if (!exists (waste_curr->files))
   {
     if (!rmw_mkdir (waste_curr->files, S_IRWXU))
       msg_success_mkdir (waste_curr->files);
@@ -318,7 +267,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
   chk_malloc (waste_curr->info, __func__, __LINE__);
   sprintf (waste_curr->info, "%s/%s", waste_curr->parent, lit_info);
 
-  if (! exists (waste_curr->info))
+  if (!exists (waste_curr->info))
   {
     if (!rmw_mkdir (waste_curr->info, S_IRWXU))
       msg_success_mkdir (waste_curr->info);
@@ -329,12 +278,7 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
     }
   }
 
-  /* get device number to use later for rename
-   *
-   * coverity complains if the return value of lstat isn't checked.
-   * Really, if we get to this point, lstat shouldn't have any problem,
-   * checking return values is good practice so we'll do it.
-   */
+  // get device number to use later for rename
   struct stat st, mp_st;
   if (!lstat (waste_curr->parent, &st))
   {
@@ -356,82 +300,16 @@ parse_line_waste (st_waste * waste_curr, const char * line_ptr,
       }
     }
     else
-      msg_err_lstat(waste_curr->parent, __func__, __LINE__);
+      msg_err_lstat (waste_curr->parent, __func__, __LINE__);
   }
   else
-    msg_err_lstat(waste_curr->parent, __func__, __LINE__);
+    msg_err_lstat (waste_curr->parent, __func__, __LINE__);
 
   return waste_curr;
 }
 
 
-/*!
- * Determine the exact name of the config file to use, and return a file descriptor.
- */
-static FILE *
-realize_config_file (st_config * st_config_data, const rmw_options * cli_user_options)
-{
-  /* If no alternate configuration was specifed (-c) */
-  if (cli_user_options->alt_config == NULL)
-  {
-    const char rel_default_config[] = "rmwrc";
-
-    int req_len = multi_strlen (st_config_data->dir, "/", rel_default_config, NULL) + 1;
-    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    sprintf (st_config_data->file, "%s/%s", st_config_data->dir, rel_default_config);
-  }
-  else
-  {
-    bufchk_len (strlen (cli_user_options->alt_config) + 1, LEN_MAX_PATH, __func__, __LINE__);
-    strcpy (st_config_data->file, cli_user_options->alt_config);
-  }
-
-#define MSG_USING_CONFIG if (verbose) printf (_("config file: %s\n"), st_config_data->file)
-
-  FILE *fd;
-
-  fd = fopen (st_config_data->file, "r");
-  if (fd)
-  {
-    MSG_USING_CONFIG;
-    return fd;
-  }
-
-  fd = fopen (st_config_data->file, "w");
-  if (fd)
-  {
-    printf (_("Creating default configuration file:"));
-    printf ("\n  %s\n\n", st_config_data->file);
-
-    print_config (fd);
-    close_file (fd, st_config_data->file, __func__);
-
-    fd = fopen (st_config_data->file, "r");
-    if (fd)
-    {
-      MSG_USING_CONFIG;
-      return fd;
-    }
-  }
-
-  /*
-   * There are only 3 reasons this may happen:
-   *
-   * 1. a bug in the program
-   * 2. the user has insufficient permissions to write to his HOME directory
-   * 3. a bad hard drive
-   *
-   * Therefore, no extra info will be output in the message below until
-   * such a time as it seems necessary.
-   *
-   */
-  open_err (st_config_data->file, __func__);
-  printf (_("Unable to read or write a configuration file.\n"));
-  exit (errno);
-}
-
-
-const char*
+const char *
 get_config_home_dir (void)
 {
   const char rel_default[] = "/.config";
@@ -441,8 +319,7 @@ get_config_home_dir (void)
   static const char *ptr;
   const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
 
-  if ( enable_test != NULL ||
-      (xdg_config_home == NULL && enable_test == NULL))
+  if (enable_test != NULL || (xdg_config_home == NULL && enable_test == NULL))
   {
     int req_len = multi_strlen (HOMEDIR, rel_default, NULL) + 1;
     bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
@@ -461,82 +338,135 @@ get_config_home_dir (void)
  * Get configuration data (parse the config file)
  */
 void
-parse_config_file (const rmw_options * cli_user_options, st_config *st_config_data)
+parse_config_file (const rmw_options * cli_user_options,
+                   st_config * st_config_data)
 {
-  int len_expire_age_str = strlen (expire_age_str);
-  FILE *fd = realize_config_file (st_config_data, cli_user_options);
+  /* If no alternate configuration was specifed (-c) */
+  if (cli_user_options->alt_config == NULL)
+  {
+    const char rel_default_config[] = "rmwrc";
+
+    int req_len =
+      multi_strlen (st_config_data->dir, "/", rel_default_config, NULL) + 1;
+    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+    sprintf (st_config_data->file, "%s/%s", st_config_data->dir,
+             rel_default_config);
+  }
+  else
+  {
+    bufchk_len (strlen (cli_user_options->alt_config) + 1, LEN_MAX_PATH,
+                __func__, __LINE__);
+    strcpy (st_config_data->file, cli_user_options->alt_config);
+  }
+
+#define MSG_USING_CONFIG if (verbose) printf (_("config file: %s\n"), st_config_data->file)
+
+  if (!exists (st_config_data->file))
+  {
+    FILE *fd = fopen (st_config_data->file, "w");
+    if (fd)
+    {
+      printf (_("Creating default configuration file:"));
+      printf ("\n  %s\n\n", st_config_data->file);
+
+      print_config (fd);
+      close_file (fd, st_config_data->file, __func__);
+    }
+    else
+    {
+      open_err (st_config_data->file, __func__);
+      printf (_("Unable to read or write a configuration file.\n"));
+      exit (errno);
+    }
+  }
+
+  st_canfigger_list *cfg_node =
+    canfigger_parse_file (st_config_data->file, ',');
+  st_canfigger_list *root = cfg_node;
+
+  if (cfg_node == NULL)
+  {
+    perror (__func__);
+    exit (errno);
+  }
+
+  enum
+  {
+    EXPIRE_AGE,
+    WASTE,
+    FORCE_REQUIRED,
+    PURGE_AFTER
+  };
+
+  struct opt
+  {
+    const char *opt;
+    const unsigned short int e_opt;
+  };
+
+  struct opt st_opt[] = {
+    {"WASTE", WASTE},
+    {expire_age_str, EXPIRE_AGE},
+    {"force_required", FORCE_REQUIRED},
+    {"purge_after", PURGE_AFTER},
+    {NULL, 0}
+  };
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
-  char line_from_config[LEN_MAX_CFG_LINE];
-  while (fgets (line_from_config, sizeof line_from_config, fd) != NULL)
+  st_waste *st_new_waste_ptr = NULL;
+  while (cfg_node != NULL)
   {
-    char *line_ptr = line_from_config;
-    trim_whitespace (line_ptr);
-    line_ptr = del_char_shift_left (' ', line_ptr);
-
-    switch (*line_ptr)
+    int i = 0;
+    while (st_opt[i].opt != NULL)
     {
-    case '#':
-      continue;
-    case '\0':
-      continue;
+      if (strcasecmp (st_opt[i].opt, cfg_node->key) == 0)
+        break;
+      i++;
     }
-    /**
-     * assign expire_age the value from config file unless set by -gN_DAYS, --purge=N_DAYS
-     */
-    bool deprecated_purge_after = strncmp (line_ptr, "purge_after", 11) == 0;
-    if (strncmp (line_ptr, expire_age_str, len_expire_age_str) == 0 || deprecated_purge_after)
+
+    switch (st_opt[i].e_opt)
     {
+    case EXPIRE_AGE:
+    case PURGE_AFTER:
       if (cli_user_options->want_purge <= 0)
       {
-        char *value = strchr (line_ptr, '=');
-        if (value != NULL)
+        st_config_data->expire_age = atoi (cfg_node->value);
+        if (i == PURGE_AFTER)
         {
-          value++;
-          value = del_char_shift_left (' ', value);
-          st_config_data->expire_age = atoi (value);
-          if (deprecated_purge_after)
-          {
-            puts ("");
-            print_msg_warn ();
-            printf ("\
-The configuration option 'purge_after' will be deprecated.\n\
-Please replace it with '%s' instead.\n\n", expire_age_str);
-          }
-        }
-        else
-        {
-          print_msg_warn();
-          printf ("configuration: '%s' line must include an '=' sign.", expire_age_str);
+          puts ("");
+          print_msg_warn ();
+          printf ("\
+  The configuration option 'purge_after' will be deprecated.\n\
+  Please replace it with '%s' instead.\n\n", expire_age_str);
         }
       }
       else
       {
         st_config_data->expire_age = cli_user_options->want_purge;
       }
-    }
-    else if (!strcmp (line_ptr, "force_required"))
+      break;
+    case FORCE_REQUIRED:
       st_config_data->force_required = 1;
-    else if (strncmp ("WASTE", line_ptr, 5) == 0)
-    {
-      st_waste *st_new_waste_ptr =
-        parse_line_waste (waste_curr, line_ptr, cli_user_options, st_config_data->fake_media_root);
+      break;
+    case WASTE:
+      st_new_waste_ptr =
+        parse_line_waste (waste_curr, cfg_node, cli_user_options,
+                          st_config_data->fake_media_root);
       if (st_new_waste_ptr != NULL)
+      {
         waste_curr = st_new_waste_ptr;
-      else
-        continue;
-    }
-    else
-    {
+        if (st_config_data->st_waste_folder_props_head == NULL)
+          st_config_data->st_waste_folder_props_head = waste_curr;
+      }
+      break;
+    default:
       print_msg_warn ();
-      printf (_("Unknown or invalid option: '%s'\n"), line_ptr);
+      printf (_("Unknown or invalid option: '%s'\n"), cfg_node->key);
     }
-
-    if (waste_curr != NULL && st_config_data->st_waste_folder_props_head == NULL)
-      st_config_data->st_waste_folder_props_head = waste_curr;
+    cfg_node = cfg_node->next;
   }
 
-  close_file (fd, st_config_data->file, __func__);
+  canfigger_free (root);
 
   if (waste_curr == NULL)
   {
@@ -556,11 +486,11 @@ visit the rmw web site at\n"));
 
 
 void
-init_config_data (st_config *x)
+init_config_data (st_config * x)
 {
   x->dir = get_config_home_dir ();
 
-  if (! exists (x->dir))
+  if (!exists (x->dir))
   {
     if (!rmw_mkdir (x->dir, S_IRWXU))
       msg_success_mkdir (x->dir);
@@ -585,7 +515,8 @@ init_config_data (st_config *x)
   else
     x->fake_media_root = false;
   if (verbose)
-    printf ("RMW_FAKE_MEDIA_ROOT:%s\n", x->fake_media_root == false ? "false" : "true");
+    printf ("RMW_FAKE_MEDIA_ROOT:%s\n",
+            x->fake_media_root == false ? "false" : "true");
 }
 
 void
@@ -606,129 +537,3 @@ show_folder_line (const char *folder, const bool is_r, const bool is_attached)
 
   printf ("\n");
 }
-
-///////////////////////////////////////////////////////////////////////
-#ifdef TEST_LIB
-
-#include "test.h"
-#include <purging_rmw.h>
-
-const char *UID = "1000";
-
-static void
-test_waste (void)
-{
-  rmw_options cli_user_options;
-  init_rmw_options (&cli_user_options);
-  st_config st_config_data;
-  init_config_data (&st_config_data);
-
-  char line[] = "WASTE = $HOME/foo/bar/Waste";
-
-  st_waste *waste_curr = st_config_data.st_waste_folder_props_head;
-
-  struct st_waste *st_new_waste_ptr =
-    parse_line_waste (waste_curr, line, &cli_user_options,
-                      st_config_data.fake_media_root);
-
-  char expected[LEN_MAX_PATH];
-  snprintf (expected, LEN_MAX_PATH, "%s/foo/bar/Waste", HOMEDIR);
-  assert (strcmp (st_new_waste_ptr->parent, expected) == 0);
-
-  if (!st_config_data.fake_media_root)
-    assert (st_new_waste_ptr->media_root == NULL);
-  else
-    {
-      char tmp[LEN_MAX_PATH];
-      snprintf (tmp, sizeof tmp, "%s/foo/bar", HOMEDIR);
-      // puts (tmp);
-      assert (strcmp (st_new_waste_ptr->media_root, tmp) == 0);
-    }
-
-  free (st_new_waste_ptr);
-
-  return;
-}
-
-static void
-test_strrepl (void)
-{
-  char path[LEN_MAX_PATH];
-  char *static_path = "/home/foo/bar";
-  strcpy (path, static_path);
-
-  char *new_string = strrepl (path, "/foo/bar", "/foo");
-  assert (strcmp (new_string, "/home/foo") == 0);
-  free (new_string);
-
-  new_string = strrepl (path, "/foo/bar", "/foo/BAR");
-  assert (strcmp (new_string, "/home/foo/BAR") == 0);
-  free (new_string);
-
-  new_string = strrepl (path, "/foo/bar", "");
-  assert (strcmp (new_string, "/home") == 0);
-  free (new_string);
-
-  new_string = strrepl (path, "abc", "/home");
-  assert (strcmp (new_string, path) == 0);
-  free (new_string);
-
-  new_string = strrepl (path, "", "/home");
-  puts (new_string);
-  assert (strcmp (new_string, path) == 0);
-  free (new_string);
-
-  new_string = strrepl (path, "f", "/home/foo/bar");
-  assert (strcmp (new_string, "/home//home/foo/baroo/bar") == 0);
-  free (new_string);
-
-  assert (strcmp (static_path, path) == 0);
-
-  return;
-}
-
-int
-main (void)
-{
-  char tmp[LEN_MAX_PATH];
-  snprintf (tmp, LEN_MAX_PATH, "%s/%s", HOME_TEST_DIR, "test_config_dir");
-  HOMEDIR = tmp;
-  test_waste ();
-  test_strrepl ();
-  char *config_line = malloc (LEN_MAX_PATH);
-  chk_malloc (config_line, __func__, __LINE__);
-
-  strcpy (config_line, "$HOME/.local/share/Waste/");
-  realize_waste_line (config_line);
-  printf ("%s\n", config_line);
-  char expected[LEN_MAX_PATH];
-  snprintf (expected, LEN_MAX_PATH, "%s/.local/share/Waste", HOMEDIR);
-  assert (!strcmp (config_line, expected));
-
-  strcpy (config_line, "~/.local/share/Waste/");
-  printf ("%s\n", config_line);
-  realize_waste_line (config_line);
-  assert (!strcmp (config_line, expected));
-
-  // test_del_char_shift_left();
-  strcpy (config_line, "    Hello, World");
-  char *l_ptr = config_line;
-  l_ptr = del_char_shift_left (' ', l_ptr);
-  assert (!strcmp (l_ptr, "Hello, World"));
-
-  l_ptr = del_char_shift_left (' ', l_ptr);
-  assert (!strcmp (l_ptr, "Hello, World"));
-
-  l_ptr = del_char_shift_left ('H', l_ptr);
-  assert (!strcmp (l_ptr, "ello, World"));
-
-  free (config_line);
-
-  assert (rmdir_recursive (HOMEDIR, 1, 1) == 0);
-
-  // remove the top directory, which should now be empty
-  assert (rmdir (HOMEDIR) == 0);
-  return 0;
-}
-#endif
-

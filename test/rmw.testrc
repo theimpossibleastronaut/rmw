@@ -7,7 +7,7 @@
 WASTE = $HOME/.Waste
 # The additional folders are just to show multiples in the listing
 WASTE = $HOME/.local/share/Waste-2
-WASTE = ~/.local/share/Waste-3
+waste = ~/.local/share/Waste-3
 #
 WASTE = /mnt/fs/Trash-$UID, removable
 #

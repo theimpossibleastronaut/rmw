@@ -89,6 +89,7 @@ AC_SUBST(HOME_TEST_DIR, [$ac_pwd/test/rmw-tests-home])
 LIBS="$LIBS $LIBINTL $MENU_LIBS $CURSES_LIBS"
 
 AC_CONFIG_FILES([       Makefile
+                        external/canfigger/Makefile
                         src/Makefile
                         man/Makefile
                         test/Makefile

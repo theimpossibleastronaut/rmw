@@ -1,5 +1,5 @@
 packextrasdir=@docdir@
-SUBDIRS = src man test po
+SUBDIRS = external/canfigger src man test po
 EXTRA_DIST =	\
 	README.md	\
 	ChangeLog	\

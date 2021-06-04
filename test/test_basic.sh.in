@@ -16,7 +16,8 @@ echo "List the waste folders..."
 echo "rmw should display folders on removable devices that are not mounted"
 echo $SEPARATOR
 output="$($RMW_TEST_CMD_STRING -l)"
-test "$output" = "/mnt/fs/Trash-$(id -u)
+echo "${output}"
+test "${output}" = "/mnt/fs/Trash-$(id -u)
 /mnt/sda10000/example_waste
 @abs_top_builddir@/test/rmw-tests-home/test_basic.sh_dir/.Waste
 @abs_top_builddir@/test/rmw-tests-home/test_basic.sh_dir/.local/share/Waste-2

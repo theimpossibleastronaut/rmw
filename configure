@@ -9328,7 +9328,7 @@ HOME_TEST_DIR=$ac_pwd/test/rmw-tests-home
 # included here.
 LIBS="$LIBS $LIBINTL $MENU_LIBS $CURSES_LIBS"
 
-ac_config_files="$ac_config_files Makefile src/Makefile man/Makefile test/Makefile po/Makefile.in test/VARS"
+ac_config_files="$ac_config_files Makefile external/canfigger/Makefile src/Makefile man/Makefile test/Makefile po/Makefile.in test/VARS"
 
 
 ac_config_files="$ac_config_files test/test_basic.sh"
@@ -10075,6 +10075,7 @@ do
     "src/config.h") CONFIG_HEADERS="$CONFIG_HEADERS src/config.h:config.in" ;;
     "po-directories") CONFIG_COMMANDS="$CONFIG_COMMANDS po-directories" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "external/canfigger/Makefile") CONFIG_FILES="$CONFIG_FILES external/canfigger/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
     "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;

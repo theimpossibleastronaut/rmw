@@ -27,7 +27,7 @@ WASTE = $HOME/.local/share/Waste-3
 # skipped. Once you create "example_waste", rmw will automatically create
 # example_waste/info and example_waste/files
 #
-WASTE = /mnt/sda10000/example_waste, removable
+WAsTE = /mnt/sda10000/example_waste, removable
 #
 
 # How many days should files be allowed to stay in the waste folders before
