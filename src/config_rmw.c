@@ -413,7 +413,6 @@ parse_config_file (const rmw_options * cli_user_options,
   };
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
-  st_waste *st_new_waste_ptr = NULL;
   while (cfg_node != NULL)
   {
     int i = 0;
@@ -449,14 +448,16 @@ parse_config_file (const rmw_options * cli_user_options,
       st_config_data->force_required = 1;
       break;
     case WASTE:
-      st_new_waste_ptr =
-        parse_line_waste (waste_curr, cfg_node, cli_user_options,
-                          st_config_data->fake_media_root);
-      if (st_new_waste_ptr != NULL)
       {
-        waste_curr = st_new_waste_ptr;
-        if (st_config_data->st_waste_folder_props_head == NULL)
-          st_config_data->st_waste_folder_props_head = waste_curr;
+        st_waste *st_new_waste_ptr =
+          parse_line_waste (waste_curr, cfg_node, cli_user_options,
+                            st_config_data->fake_media_root);
+        if (st_new_waste_ptr != NULL)
+        {
+          waste_curr = st_new_waste_ptr;
+          if (st_config_data->st_waste_folder_props_head == NULL)
+            st_config_data->st_waste_folder_props_head = waste_curr;
+        }
       }
       break;
     default:
