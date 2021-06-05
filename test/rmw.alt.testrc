@@ -44,4 +44,4 @@ expire_age = 90
 force_required
 #
 
-# test_for_invalid_or_unknown_option
+invalid_or_unknown_option

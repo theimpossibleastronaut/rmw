@@ -395,7 +395,8 @@ parse_config_file (const rmw_options * cli_user_options,
     EXPIRE_AGE,
     WASTE,
     FORCE_REQUIRED,
-    PURGE_AFTER
+    PURGE_AFTER,
+    INVALID_OPTION
   };
 
   struct opt
@@ -409,7 +410,7 @@ parse_config_file (const rmw_options * cli_user_options,
     {expire_age_str, EXPIRE_AGE},
     {"force_required", FORCE_REQUIRED},
     {"purge_after", PURGE_AFTER},
-    {NULL, 0}
+    {NULL, INVALID_OPTION}
   };
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;

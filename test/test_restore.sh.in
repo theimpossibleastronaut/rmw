@@ -33,7 +33,7 @@ echo $SEPARATOR
 echo "Try to restore files that aren't in a Waste/files folder"
 substring="not in a Waste directory"
 output=$($VALGRIND $RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1) && exit 1
-test "${output#*$substring}" != "$output"
+test "${output}#*${substring}" != "$output"
 
 echo $SEPARATOR
 echo "ReMove files and then restore them by using -u"
@@ -107,7 +107,7 @@ done
 # a dot dir
 substring="refusing to process"
 output="$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/.)" && exit 1
-test "${output#*$substring}" != "${output}"
+test "${output}#*${substring}" != "${output}"
 
 if -n "${TERM}"; then
   echo q | ${VALGRIND} ${RMW_TEST_CMD_STRING} -s

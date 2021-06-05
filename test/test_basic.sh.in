@@ -116,5 +116,9 @@ expected="0 orphans found"
 output="$($RMW_TEST_CMD_STRING -o)"
 test "${output}" = "${expected}"
 
+substring="invalid option"
+output="$($RMW_ALT_TEST_CMD_STRING -l)"
+test "${output}#*${substring}" != "${output}"
+
 echo "Basic tests passed"
 exit 0
