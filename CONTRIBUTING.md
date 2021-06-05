@@ -43,7 +43,8 @@ flow](https://guides.github.com/introduction/flow/), which mostly just
 involves creating a separate branch for each patch you're working on.
 Using that method helps prevent merge conflicts later. *Note* that you
 should never need to work on the master branch or merge your patches
-into the master branch (See "syncing" below).
+into the master branch (don't forget to periodically [sync your
+repo](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork).)
 
 Source code patches should only contain changes related to a single
 issue. This helps speed up the review and discussion process. However,
@@ -65,12 +66,69 @@ If you submit a pull request, please add yourself (along with your
 personal link) to
 [AUTHORS.md](https://github.com/theimpossibleastronaut.com/rmw/blob/master/AUTHORS.md)
 
-## Syncing
+## Code of Conduct
 
-Periodically, you'll need to sync your repo with the upstream.
-GitHub has instructions for doing this
+In the interest of fostering an open and welcoming environment, we as
+contributors and maintainers would like to making participation in our
+project and our community a harassment-free experience for everyone.
 
-* [Configuring a remote for a fork](https://help.github.com/articles/configuring-a-remote-for-a-fork/)
-  * For step 3 on that page, use https://github.com/theimpossibleastronaut.com/rmw.git for the URL.
-* [Syncing a Fork](https://help.github.com/articles/syncing-a-fork/)
-  * On that page, it shows how to merge the **master** branch (steps 4 & 5).
+### Our Standards
+
+Examples of behavior that contributes to creating a positive
+environment include:
+
+* Not being disrespectful of differing viewpoints and experiences
+(i.e., keep opinions to yourself if you can't discuss in an open and
+friendly way).
+
+* Accept or ignore constructive criticism. The choice is yours. But
+don't attack someone who has given you a reasonable opinion of your
+code or doc changes.
+
+Examples of unacceptable behavior by participants include:
+
+* The use of sexualized language or imagery and unwelcome sexual attention or advances
+* Trolling, insulting/derogatory comments and personal, political, or religious attacks
+* Public or private harassment
+* Other conduct which could reasonably be considered inappropriate in a professional setting
+
+## Our Responsibilities
+
+Project maintainers are responsible for clarifying the standards of
+acceptable behavior and are expected to take appropriate and fair
+corrective action in response to any instances of unacceptable
+behavior.
+
+Project maintainers have the right and responsibility to remove, edit,
+or reject comments, commits, code, wiki edits, issues, and other
+contributions that are not aligned to this Code of Conduct, or to ban
+temporarily or permanently any contributor for other behaviors that
+they deem inappropriate, threatening, offensive, or harmful.
+
+## Enforcement
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may
+be reported by contacting the project maintainer, [Andy
+Alt](https://github.com/andy5995) at andy400-dev@yahoo.com. He will
+review and investigate all complaints, and will respond in a way that
+he deems appropriate to the circumstances. He is obligated to maintain
+confidentiality with regard to the reporter of an incident. Further
+details of specific enforcement policies may be posted separately.
+
+Ultimately, Mr. Alt can not be held responsible for the actions of
+other members, but he will do his best to deal with any reported
+incidents.
+
+Furthermore, if you feel that the project maintainer has violated the
+Code of Conduct and don't feel comfortable contacting him about it,
+please [report him to
+GitHub](https://help.github.com/en/articles/reporting-abuse-or-spam).
+
+## Attribution
+
+This Code of Conduct is a heavily modified version of the [Contributor
+Covenant][homepage], version 1.4, available at
+[http://contributor-covenant.org/version/1/4][version]
+
+[homepage]: http://contributor-covenant.org
+[version]: http://contributor-covenant.org/version/1/4/
