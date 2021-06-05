@@ -66,7 +66,7 @@ If you submit a pull request, please add yourself (along with your
 personal link) to
 [AUTHORS.md](https://github.com/theimpossibleastronaut.com/rmw/blob/master/AUTHORS.md)
 
-## Contributor Covenant Code of Conduct
+## Code of Conduct
 
 In the interest of fostering an open and welcoming environment, we as
 contributors and maintainers would like to making participation in our
