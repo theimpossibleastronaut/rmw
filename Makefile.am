@@ -5,8 +5,7 @@ EXTRA_DIST =	\
 	ChangeLog	\
 	AUTHORS.md	\
 	COPYING	\
-	ReleaseNotes	\
-	CODE_OF_CONDUCT.md
+	ReleaseNotes
 
 packextras_DATA=$(EXTRA_DIST)
 
