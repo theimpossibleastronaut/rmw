@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-05-27 18:14-0500\n"
+"POT-Creation-Date: 2021-06-05 15:32-0500\n"
 "PO-Revision-Date: 2019-08-04 16:21+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.2.3\n"
 
-#: src/config_rmw.c:61
+#: src/config_rmw.c:62
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -44,7 +44,7 @@ msgstr ""
 "# gebruik '0' om purging uit te schakelen\n"
 "#\n"
 
-#: src/config_rmw.c:48
+#: src/config_rmw.c:49
 msgid ""
 "\n"
 "# The directory used by the FreeDesktop.org Trash spec\n"
@@ -52,7 +52,7 @@ msgid ""
 "# doesn't work yet\n"
 msgstr ""
 
-#: src/config_rmw.c:69
+#: src/config_rmw.c:70
 msgid ""
 "\n"
 "# purge is allowed to run without the '-f' option. If you'd rather\n"
@@ -183,7 +183,7 @@ msgstr " :retour code: %d - %s\n"
 msgid " :warning: "
 msgstr " :waarschuwing: "
 
-#: src/config_rmw.c:55
+#: src/config_rmw.c:56
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -193,13 +193,13 @@ msgstr ""
 "\n"
 "# Een map kan de $UID variabele gebruiken.\n"
 
-#: src/config_rmw.c:57
+#: src/config_rmw.c:58
 msgid ""
 "# See the README or man page for details about using the 'removable' "
 "attribute\n"
 msgstr ""
 
-#: src/config_rmw.c:44
+#: src/config_rmw.c:45
 msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr ""
 
@@ -220,7 +220,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%dbestand gepurged"
 msgstr[1] "%dbestanden gepurged"
 
-#: src/main.c:457
+#: src/main.c:459
 #, fuzzy, c-format
 #| msgid "%d file was removed to the waste folder"
 #| msgid_plural "%d files were removed to the waste folder"
@@ -229,7 +229,7 @@ msgid_plural "%d items were removed to the waste folder"
 msgstr[0] "%dbestand was verwijdert naar de afval map"
 msgstr[1] "%dbestanden zijn gepurged naar de afval map"
 
-#: src/main.c:352
+#: src/main.c:354
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
@@ -320,7 +320,7 @@ msgstr "Aangemaakt %s\n"
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/config_rmw.c:403
+#: src/config_rmw.c:369
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "Aanmaken van standaard configuratie bestand:"
@@ -336,12 +336,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:338 src/restore_rmw.c:194
+#: src/main.c:340 src/restore_rmw.c:194
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
 
-#: src/main.c:609
+#: src/main.c:611
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -350,11 +350,6 @@ msgstr ""
 "Geen bestandsnamen of commando lijn opties werden gegeven;\n"
 "Geef '%s -h' op voor meer informatie\n"
 
-#: src/config_rmw.c:253
-#, c-format
-msgid "Invalid WASTE option: '%s'\n"
-msgstr "Invalide optie: '%s'\n"
-
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
 #: src/purging_rmw.c:409
@@ -362,7 +357,7 @@ msgstr "Invalide optie: '%s'\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "Maximale diepte van %u bereikt, overslaan\n"
 
-#: src/main.c:446
+#: src/main.c:448
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
@@ -437,17 +432,17 @@ msgstr ""
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr ""
 
-#: src/main.c:511
+#: src/main.c:513
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Kan niet doorgaan. Afsluiten...\n"
 
-#: src/config_rmw.c:429
+#: src/config_rmw.c:378
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Kan een configuratie bestand niet lezen of schrijven.\n"
 
-#: src/config_rmw.c:532
+#: src/config_rmw.c:466
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
@@ -469,16 +464,16 @@ msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:604
+#: src/config_rmw.c:537
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:389
+#: src/config_rmw.c:362
 #, c-format
 msgid "config file: %s\n"
 msgstr "configuratie bestand: %s\n"
 
-#: src/config_rmw.c:604
+#: src/config_rmw.c:537
 msgid "detached"
 msgstr "ontkoppeld"
 
@@ -502,7 +497,7 @@ msgstr "formaat van .trashinfo `bestand %s` is incorrect"
 msgid "function: <%s>"
 msgstr "functie: <%s>"
 
-#: src/config_rmw.c:544
+#: src/config_rmw.c:476
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -515,7 +510,7 @@ msgstr ""
 "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
 "rapporteren, bezoek de website van rmw op\n"
 
-#: src/main.c:538
+#: src/main.c:540
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of force\n"
@@ -534,7 +529,7 @@ msgstr ""
 "verwijderen is uitgeschakeld, 'purge_after' is ingesteld op 0\n"
 "\n"
 
-#: src/config_rmw.c:602
+#: src/config_rmw.c:535
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
@@ -575,7 +570,7 @@ msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr ""
 "rmw: %s(): buffer te klein (wou %d hebben, had een minimum nodig van %d)\n"
 
-#: src/main.c:506
+#: src/main.c:508
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -612,7 +607,7 @@ msgstr "bij het maken van %s\n"
 msgid "while creating %s (%s)\n"
 msgstr "bij het maken van %s\n"
 
-#: src/main.c:489
+#: src/main.c:491
 msgid "while getting the path to your home directory\n"
 msgstr "bij het ophalen van het pad naar je thuismap\n"
 
@@ -904,6 +899,9 @@ msgstr ""
 #~ msgstr ""
 #~ "Als je denkt dat dit een fout is, rapporteer dit aan de rmw "
 #~ "ontwikkelaars.\n"
+
+#~ msgid "Invalid WASTE option: '%s'\n"
+#~ msgstr "Invalide optie: '%s'\n"
 
 #~ msgid "Searching using only the basename...\n"
 #~ msgstr "Zoeken enkel op de basis naam\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-05-27 18:14-0500\n"
+"POT-Creation-Date: 2021-06-05 15:32-0500\n"
 "PO-Revision-Date: 2020-04-18 12:26+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
 "X-Generator: Poedit 2.3\n"
 
-#: src/config_rmw.c:61
+#: src/config_rmw.c:62
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -44,7 +44,7 @@ msgstr ""
 "# mitane ke liye '0' ka upyog karen\n"
 "#\n"
 
-#: src/config_rmw.c:48
+#: src/config_rmw.c:49
 msgid ""
 "\n"
 "# The directory used by the FreeDesktop.org Trash spec\n"
@@ -52,7 +52,7 @@ msgid ""
 "# doesn't work yet\n"
 msgstr ""
 
-#: src/config_rmw.c:69
+#: src/config_rmw.c:70
 msgid ""
 "\n"
 "# purge is allowed to run without the '-f' option. If you'd rather\n"
@@ -180,7 +180,7 @@ msgstr "  :return code: %d -- %s\n"
 msgid " :warning: "
 msgstr " :chetawani: "
 
-#: src/config_rmw.c:55
+#: src/config_rmw.c:56
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -190,13 +190,13 @@ msgstr ""
 "\n"
 "# folder $UID variable ka istemal karta hai\n"
 
-#: src/config_rmw.c:57
+#: src/config_rmw.c:58
 msgid ""
 "# See the README or man page for details about using the 'removable' "
 "attribute\n"
 msgstr ""
 
-#: src/config_rmw.c:44
+#: src/config_rmw.c:45
 msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr ""
 
@@ -217,7 +217,7 @@ msgid_plural "%d files purged"
 msgstr[0] "%d failen sudhikaran ki gayi hai"
 msgstr[1] "%d file sudhikaran ki gayi hai"
 
-#: src/main.c:457
+#: src/main.c:459
 #, fuzzy, c-format
 #| msgid "%d file was removed to the waste folder"
 #| msgid_plural "%d files were removed to the waste folder"
@@ -226,7 +226,7 @@ msgid_plural "%d items were removed to the waste folder"
 msgstr[0] "%d failen hatayi gayi hai waste folder ko"
 msgstr[1] "%d files were removed to the waste folder"
 
-#: src/main.c:352
+#: src/main.c:354
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
@@ -317,7 +317,7 @@ msgstr "Banaya gaya %s\n"
 msgid "Created directory %s\n"
 msgstr "Yeh directory banayi gayi %s\n"
 
-#: src/config_rmw.c:403
+#: src/config_rmw.c:369
 #, c-format
 msgid "Creating default configuration file:"
 msgstr "configuration file banate waqt:"
@@ -333,12 +333,12 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "behrupi file ka naam hai manzil par - sanlagn wakht par string \n"
 
 #. TRANSLATORS:  "%s" refers to a file or directory
-#: src/main.c:338 src/restore_rmw.c:194
+#: src/main.c:340 src/restore_rmw.c:194
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "File nahi mili: '%s'\n"
 
-#: src/main.c:609
+#: src/main.c:611
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -348,11 +348,6 @@ msgstr ""
 "Dabaye '%s -h' adhik jankari ke liye\n"
 " \n"
 
-#: src/config_rmw.c:253
-#, c-format
-msgid "Invalid WASTE option: '%s'\n"
-msgstr "Galat apshist option: '%s'\n"
-
 #. TRANSLATORS:  "depth" refers to the recursion depth in a
 #. * directory
 #: src/purging_rmw.c:409
@@ -360,7 +355,7 @@ msgstr "Galat apshist option: '%s'\n"
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "jyada se jyada %u hua, chod dijiye\n"
 
-#: src/main.c:446
+#: src/main.c:448
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "koi sahi filesystem nahi mile \"%s\"\n"
@@ -426,17 +421,17 @@ msgstr ""
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr ""
 
-#: src/main.c:511
+#: src/main.c:513
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Jaari nahi rakh saka. Bahar jaa raha hai….\n"
 
-#: src/config_rmw.c:429
+#: src/config_rmw.c:378
 #, c-format
 msgid "Unable to read or write a configuration file.\n"
 msgstr "Nahi padha or likha jaa raha configuration file\n"
 
-#: src/config_rmw.c:532
+#: src/config_rmw.c:466
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unjana ya galat bikalp: '%s'\n"
@@ -458,16 +453,16 @@ msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
 #. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
-#: src/config_rmw.c:604
+#: src/config_rmw.c:537
 msgid "attached"
 msgstr "jodagaya"
 
-#: src/config_rmw.c:389
+#: src/config_rmw.c:362
 #, c-format
 msgid "config file: %s\n"
 msgstr "config file: %s\n"
 
-#: src/config_rmw.c:604
+#: src/config_rmw.c:537
 #, fuzzy
 #| msgid "attached"
 msgid "detached"
@@ -493,7 +488,7 @@ msgstr "praroop .trashinfo file ki 'file %s' galat hai"
 msgid "function: <%s>"
 msgstr "samrooh <%s>"
 
-#: src/config_rmw.c:544
+#: src/config_rmw.c:476
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -506,7 +501,7 @@ msgstr ""
 "agar aapko madad ki ya koi galti batani hai\n"
 "aap rmw web site par karen\n"
 
-#: src/main.c:538
+#: src/main.c:540
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "sudhikaran nahi kiya gaya: -f or --force ka istemal karen\n"
@@ -523,7 +518,7 @@ msgid ""
 "\n"
 msgstr "sudhikaran nahi kiya jaa sakta('purge_after' ko '0' karen)\n"
 
-#: src/config_rmw.c:602
+#: src/config_rmw.c:535
 #, c-format
 msgid "removable, "
 msgstr "hataya ja sakta hai, "
@@ -555,7 +550,7 @@ msgstr ""
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr "rmw: %s(): buffer bhut chota hai (mila %d, chahiye tha %d)\n"
 
-#: src/main.c:506
+#: src/main.c:508
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -592,7 +587,7 @@ msgstr "banate wakht %s\n"
 msgid "while creating %s (%s)\n"
 msgstr "banate wakht %s\n"
 
-#: src/main.c:489
+#: src/main.c:491
 msgid "while getting the path to your home directory\n"
 msgstr "home directory ka rasta milte wakht\n"
 
@@ -785,6 +780,9 @@ msgstr ""
 
 #~ msgid "-r / --recurse: not implemented\n"
 #~ msgstr "-r / --recurse: nahi kiya gaya\n"
+
+#~ msgid "Invalid WASTE option: '%s'\n"
+#~ msgstr "Galat apshist option: '%s'\n"
 
 #~ msgid "Searching using only the basename...\n"
 #~ msgstr "Khoja jaa raha hai basefile naam istemal karke…\n"
