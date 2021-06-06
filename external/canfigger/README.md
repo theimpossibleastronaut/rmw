@@ -16,11 +16,15 @@ This library contains a function that parses simple configuration files
 that use a key/value pair with an optional attribute.
 
 ```
-foo = bar
-blue = green, color
-# Commented line
+foo=bar
+blue=color,shiny
 
-FeatureFoo-enabled
+# Spaces adjacent to the '=' or the attribute delimiter ',' will be ignored.
+# Leading tabs will be ignored.
+		statement = hello world , obvious
+
+# An option with no value or attributes
+FeatureFooEnabled
 ```
 
 `canfigger_parse_file()` returns a [linked
@@ -30,17 +34,24 @@ corresponds to a parsed line in your configuration file.
 ## Example usage
 
 ```c
-  st_canfigger_list *list = canfigger_parse_file ("../test_canfigger.conf", ',');
+#include <stdio.h>
+#include "canfigger.h"
 
-  // create a pointer to the first node in the list before moving through the list
+int
+main (void)
+{
+  // call the primary library function to read your config file
+  st_canfigger_list *list = canfigger_parse_file ("test_file.conf", ',');
+
+  // create a pointer to the head of the list before examining the list.
   st_canfigger_list *root = list;
-
   if (list == NULL)
   {
     fprintf (stderr, "Error");
     return -1;
   }
 
+  int i = 0;
   while (list != NULL)
   {
     printf ("\n\
@@ -48,20 +59,55 @@ Key: %s\n\
 Value: %s\n\
 Attribute: %s\n", list->key, list->value, list->attribute);
 
+    i++;
+
     list = list->next;
   }
 
-  // pass the root pointer to canfigger_free when done
+  // free the list
   canfigger_free (root);
+
+  return 0;
+}
 ```
 
 ## API
 
-**CANFIGGER_VERSION** String containing the version of the library
+```c
+//
+// Opens a config file and returns a memory-allocated linked list
+// that must be freed later (see canfiggerfree())
+//
+// Each node is of type st_canfigger_node.
+st_canfigger_list *canfigger_parse_file (const char *file,
+                                         const char delimiter);
 
-`st_canfigger_list *canfigger_parse_file (const char *file, const char delimiter)`
 
-`void canfigger_free (st_canfigger_node *node)`
+//
+// Frees the list returned by canfigger_parse_file()
+void canfigger_free (st_canfigger_node * node);
+
+
+typedef struct st_canfigger_node st_canfigger_node;
+struct st_canfigger_node
+{
+  // Contains the string that precedes the '=' sign
+  char *key;
+
+  // Contains the string between the '=' sign and the delimiter
+  char *value;
+
+  // Contains the string following the delimiter
+  char *attribute;
+
+  // A pointer to the next node in the list
+  st_canfigger_node *next;
+};
+
+
+String containing the version of the library
+CANFIGGER_VERSION
+```
 
 ## Building
 

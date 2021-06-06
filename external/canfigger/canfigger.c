@@ -25,15 +25,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "canfigger.h"
 
+
 void
 canfigger_free (st_canfigger_node * node)
 {
   if (node != NULL)
   {
     canfigger_free (node->next);
-    free (node->key);
-    free (node->value);
-    free (node->attribute);
+    if (node->key)
+      free (node->key);
+    if (node->value)
+      free (node->value);
+    if (node->attribute)
+      free (node->attribute);
     free (node);
   }
   return;
@@ -164,6 +168,13 @@ canfigger_parse_file (const char *file, const char delimiter)
     {
       if (list != NULL)
         list->next = tmp_node;
+
+      // If the function returns early due to error, it frees the list, but
+      // first checks each field for !NULL before freeing. This makes sure
+      // that the fields are at least initialized.
+      tmp_node->key = NULL;
+      tmp_node->value = NULL;
+      tmp_node->attribute = NULL;
 
       char *tmp_key = strchr (line_ptr, '=');
       if (tmp_key == NULL)
