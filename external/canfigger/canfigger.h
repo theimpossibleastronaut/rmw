@@ -20,7 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __CANFIGGER_H
 #define __CANFIGGER_H
 
-#define CANFIGGER_VERSION "0.1.0-dev"
+#ifndef CANFIGGER_VERSION
+#define CANFIGGER_VERSION "0.1.0"
+#endif
 
 typedef struct st_canfigger_node st_canfigger_node;
 struct st_canfigger_node

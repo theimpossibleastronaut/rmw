@@ -1,6 +1,6 @@
-# canfigger-0.1.0-dev
+# canfigger v0.1.0
 
-Library for parsing config files
+Simple configuration file parser library
 
 [![codeql-badge]][codeql-url]
 [![actions-c-badge]][actions-c-url]
@@ -10,10 +10,10 @@ Library for parsing config files
 [actions-c-badge]: https://github.com/andy5995/canfigger/actions/workflows/c-cpp.yml/badge.svg
 [actions-c-url]: https://github.com/andy5995/canfigger/actions/workflows/c-cpp.yml
 
-This library will parse simple configuration files, using a key/value
-pair with an optional attribute.
-
 website: https://github.com/andy5995/canfigger
+
+This library contains a function that parses simple configuration files
+that use a key/value pair with an optional attribute.
 
 ```
 foo = bar
@@ -57,7 +57,7 @@ Attribute: %s\n", list->key, list->value, list->attribute);
 
 ## API
 
-**CANFIGGER_VERSION** String containing the the version of the library
+**CANFIGGER_VERSION** String containing the version of the library
 
 `st_canfigger_list *canfigger_parse_file (const char *file, const char delimiter)`
 
@@ -67,19 +67,21 @@ Attribute: %s\n", list->key, list->value, list->attribute);
 
 ```
 meson _build
-ninja -C _build
+cd _build
+ninja
 ```
 
 ## Run the tests
 
 ```
-ninja -C _build test
+ninja test
+meson test --setup=valgrind (requires valgrind to be installed)
 ```
 
 ## Install/Uninstall
 
 ```
-ninja -C _build install
+ninja install
 ```
 
 Or if you want to install without superuser privileges, first run
@@ -87,5 +89,5 @@ Or if you want to install without superuser privileges, first run
     meson -Dprefix=$HOME/.local _build
 
 ```
-ninja -C _build uninstall
+ninja uninstall
 ```
