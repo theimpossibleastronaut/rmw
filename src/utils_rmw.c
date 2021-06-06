@@ -102,6 +102,8 @@ int rmw_mkdir (const char *dir, mode_t mode)
   char tmp[strlen (dir) + 1];
   strcpy (tmp, dir);
   char *parent = rmw_dirname (tmp);
+  if (!parent)
+    return -1;
   if (!exists (parent))
     res = rmw_mkdir (parent, mode);
 
@@ -117,6 +119,8 @@ int rmw_mkdir (const char *dir, mode_t mode)
  */
 bool exists (const char *filename)
 {
+  if (!filename)
+    return false;
   /* access() always dereferences symbolic links, and therefore doesn't
    * recognized broken links. */
   // return ! access (filename, F_OK);
