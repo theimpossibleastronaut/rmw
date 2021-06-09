@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __CANFIGGER_H
 
 #ifndef CANFIGGER_VERSION
-#define CANFIGGER_VERSION "0.1.0"
+#define CANFIGGER_VERSION "0.1.1"
 #endif
 
 

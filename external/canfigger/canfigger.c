@@ -184,14 +184,20 @@ canfigger_parse_file (const char *file, const char delimiter)
 
         tmp_node->key = alloc_chk (tmp_node->key, req_len, root);
         if (!tmp_node->key)
+        {
+          fclose (fd);
           return NULL;
+        }
 
         strcpy (tmp_node->key, line_ptr);
 
         tmp_node->value = alloc_chk (tmp_node->value, 1, root);
         tmp_node->attribute = alloc_chk (tmp_node->attribute, 1, root);
         if (!tmp_node->value || !tmp_node->attribute)
+        {
+          fclose (fd);
           return NULL;
+        }
 
         *tmp_node->value = '\0';
         *tmp_node->attribute = '\0';
@@ -205,7 +211,10 @@ canfigger_parse_file (const char *file, const char delimiter)
 
         tmp_node->key = alloc_chk (tmp_node->key, req_len, root);
         if (!tmp_node->key)
+        {
+          fclose (fd);
           return NULL;
+        }
 
         strcpy (tmp_node->key, key);
         tmp_key++;
@@ -218,13 +227,20 @@ canfigger_parse_file (const char *file, const char delimiter)
           req_len = strlen (r_value) + 1;
           tmp_node->value = alloc_chk (tmp_node->value, req_len, root);
           if (!tmp_node->value)
+          {
+            fclose (fd);
             return NULL;
+          }
 
           strcpy (tmp_node->value, r_value);
 
           tmp_node->attribute = alloc_chk (tmp_node->attribute, 1, root);
           if (!tmp_node->attribute)
+          {
+            fclose (fd);
             return NULL;
+          }
+
           *tmp_node->attribute = '\0';
         }
         else
@@ -236,7 +252,10 @@ canfigger_parse_file (const char *file, const char delimiter)
           req_len = strlen (value) + 1;
           tmp_node->value = alloc_chk (tmp_node->value, req_len, root);
           if (!tmp_node->value)
+          {
+            fclose (fd);
             return NULL;
+          }
 
           strcpy (tmp_node->value, value);
           tmp_value++;
@@ -246,7 +265,10 @@ canfigger_parse_file (const char *file, const char delimiter)
           req_len = strlen (tmp_attribute) + 1;
           tmp_node->attribute = alloc_chk (tmp_node->attribute, req_len, root);
           if (!tmp_node->attribute)
+          {
+            fclose (fd);
             return NULL;
+          }
 
           strcpy (tmp_node->attribute, tmp_attribute);
         }
@@ -261,7 +283,8 @@ canfigger_parse_file (const char *file, const char delimiter)
     {
       if (root != NULL)
         canfigger_free (root);
-      errno = ENOMEM;
+
+      fclose (fd);
       return NULL;
     }
   }
