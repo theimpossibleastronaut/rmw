@@ -9,13 +9,11 @@ on:
   push:
     paths-ignore:
     - '**/*.md'
-    - 'docs/**'
   pull_request:
     paths-ignore:
     - '**/*.md'
-    - 'docs/**'
-#  schedule:
-#    - cron: '0 6 * * 6'
+  schedule:
+    - cron: '0 6 * * 6'
 
 jobs:
   analyze:
