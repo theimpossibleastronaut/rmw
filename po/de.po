@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
-"Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-06-05 15:32-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-15 00:12-0500\n"
 "PO-Revision-Date: 2019-07-07 00:18+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -21,14 +21,6 @@ msgstr ""
 
 #: src/config_rmw.c:62
 #, fuzzy
-#| msgid ""
-#| "\n"
-#| "# How many days should files be allowed to stay in the waste folders "
-#| "before\n"
-#| "# they are permanently deleted\n"
-#| "#\n"
-#| "# use '0' to disable purging\n"
-#| "#\n"
 msgid ""
 "\n"
 "# How many days should items be allowed to stay in the waste\n"
@@ -103,22 +95,17 @@ msgstr "  -V, --version             Version und Lizenzinformationen anzeigen\n"
 
 #: src/parse_cli_options.c:50
 #, fuzzy
-#| msgid "  -c, --config filename     use an alternate configuration\n"
 msgid "  -c, --config FILE         use an alternate configuration\n"
 msgstr "  -c, --config Dateiname    eine andere Konfiguration verwenden\n"
 
 #: src/parse_cli_options.c:69
 #, fuzzy
-#| msgid ""
-#| "  -e, --empty               completely empty (purge) all waste folders\n"
 msgid ""
 "  -e, --empty               completely empty (purge) all waste directories\n"
 msgstr "  -e, --empty               Leere alle Papierkörbe\n"
 
 #: src/parse_cli_options.c:66
 #, fuzzy
-#| msgid ""
-#| "  -f, --force               allow rmw to purge files in the background\n"
 msgid "  -f, --force               allow purging of expired files\n"
 msgstr "  -f, --force               Leeren von Papierkörben gestatten\n"
 
@@ -134,8 +121,6 @@ msgstr ""
 
 #: src/parse_cli_options.c:47
 #, fuzzy
-#| msgid ""
-#| "  -V, --version             display version and license information\n"
 msgid "  -h, --help                show help for command line options\n"
 msgstr "  -V, --version             Version und Lizenzinformationen anzeigen\n"
 
@@ -166,7 +151,6 @@ msgstr ""
 
 #: src/parse_cli_options.c:94
 #, fuzzy
-#| msgid "  -u, --undo-last           undo last ReMove\n"
 msgid "  -u, --undo-last           undo last move\n"
 msgstr "  -u, --undo-last           letzten Entfernvorgang rückgängig machen\n"
 
@@ -182,21 +166,15 @@ msgstr "  -w, --warranty            Garantie anzeigen\n"
 msgid "  -z, --restore FILE(s)     restore FILE(s) (see man page example)\n"
 msgstr ""
 
-#. TRANSLATORS: this precedes a string which informs the user of a more
-#. * serious error, sometimes a fatal one
 #: src/messages_rmw.c:27
 msgid "  :error: "
 msgstr ""
 
-#. TRANSLATORS: "return" code refers to a number returned by an operation
-#. * or function
 #: src/messages_rmw.c:145
 #, c-format
 msgid "  :return code: %d\n"
 msgstr ""
 
-#. TRANSLATORS: this precedes a string which warns the user of some minor
-#. * but not fatal problem
 #: src/messages_rmw.c:34
 msgid " :warning: "
 msgstr ""
@@ -234,8 +212,6 @@ msgstr[1] "%d Dateien gelöscht"
 
 #: src/main.c:459
 #, fuzzy, c-format
-#| msgid "%d file was removed to the waste folder"
-#| msgid_plural "%d files were removed to the waste folder"
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
 msgstr[0] "%d Datei wurde in den Papierkorb verschoben"
@@ -251,9 +227,6 @@ msgstr ""
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr ""
 
-#. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
-#. * for input in this case.
-#.
 #: src/restore_rmw.c:337
 msgid "'q' - quit"
 msgstr "'q' - beenden"
@@ -287,8 +260,6 @@ msgstr "-i / --interactive: nicht implementiert\n"
 msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr ""
 
-#. TRANSLATORS: I believe the words between the < and > can be translated
-#.
 #: src/restore_rmw.c:330
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<PFEIL-RECHTS / PFEIL-LINKS> - zwischen Papierkörben wechseln"
@@ -315,11 +286,10 @@ msgstr "Ausführung abgebrochen."
 msgid "Arguments given to --purge must be numeric only"
 msgstr ""
 
-#: src/utils_rmw.c:191
+#: src/utils_rmw.c:195
 msgid "Continue? (y/n): "
 msgstr "Weitermachen (y/n):"
 
-#. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:562
 #, c-format
 msgid "Created %s\n"
@@ -346,7 +316,6 @@ msgstr ""
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelter Dateiname im Zielverzeichnis, füge Zeitstempel an...\n"
 
-#. TRANSLATORS:  "%s" refers to a file or directory
 #: src/main.c:340 src/restore_rmw.c:194
 #, c-format
 msgid "File not found: '%s'\n"
@@ -361,8 +330,6 @@ msgstr ""
 "Fehlende Kommandozeilenoptionen \n"
 "Gib '%s -h' ein, um mehr Informationen zu erhalten\n"
 
-#. TRANSLATORS:  "depth" refers to the recursion depth in a
-#. * directory
 #: src/purging_rmw.c:409
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
@@ -463,13 +430,6 @@ msgstr "Unbekannte oder ungültige Option: '%s'\n"
 
 #: src/parse_cli_options.c:37
 #, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [OPTION]... FILE...\n"
-#| "ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
-#| "\n"
-#| "   or: %s -s\n"
-#| "   or: %s -u\n"
-#| "   or: %s -z FILE...\n"
 msgid ""
 "Usage: %s [OPTION]... FILE...\n"
 "Move FILE(s) to a WASTE directory listed in configuration file\n"
@@ -491,7 +451,6 @@ msgstr ""
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
 #: src/config_rmw.c:537
 msgid "attached"
 msgstr "angeschlossen"
@@ -509,17 +468,11 @@ msgstr "entfernt"
 msgid "dry-run mode enabled."
 msgstr ""
 
-#. TRANSLATORS:  ".trashinfo" should remain untranslated
-#. *
-#. *               "format" refers to the layout of the file
-#. *                contents
-#.
 #: src/messages_rmw.c:101
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "Format von .trashinfo `Datei %s` ist fehlerhaft)"
 
-#. TRANSLATORS:  "function" refers to a C function
 #: src/messages_rmw.c:53 src/messages_rmw.c:85
 #, c-format
 msgid "function: <%s>"
@@ -543,13 +496,8 @@ msgstr ""
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "Papierkorbleerung wurde übersprungen: verwende -f oder --force\n"
 
-#. TRANSLATORS:  "purging" refers to permanently deleting a file or a
-#. * directory
 #: src/purging_rmw.c:252
 #, fuzzy, c-format
-#| msgid ""
-#| "purging is disabled ('purge_after' is set to '0')\n"
-#| "\n"
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
 "\n"
@@ -562,9 +510,6 @@ msgstr ""
 msgid "removable, "
 msgstr "löschbar."
 
-#. TRANSLATORS: ignore "restore()"
-#. * "returned" refers to an error code (number) that was returned by
-#. * an operation
 #: src/messages_rmw.c:119
 #, c-format
 msgid "restore() returned %d\n"
@@ -591,8 +536,8 @@ msgstr ""
 "weiterverbreiten; siehe <http://www.gnu.org/licenses/gpl.html>\n"
 "für Details.\n"
 
-#: src/utils_rmw.c:267 src/utils_rmw.c:279 src/utils_rmw.c:328
-#: src/utils_rmw.c:344
+#: src/utils_rmw.c:271 src/utils_rmw.c:283 src/utils_rmw.c:332
+#: src/utils_rmw.c:348
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr "rmw: %s(): Puffer zu klein (habe %d erhalten, brauche mindestens %d)\n"
@@ -632,7 +577,6 @@ msgstr "beim Anlegen von %s\n"
 
 #: src/messages_rmw.c:239
 #, fuzzy, c-format
-#| msgid "while creating %s\n"
 msgid "while creating %s (%s)\n"
 msgstr "beim Anlegen von %s\n"
 
@@ -640,7 +584,6 @@ msgstr "beim Anlegen von %s\n"
 msgid "while getting the path to your home directory\n"
 msgstr "beim Ermitteln des Pfades zu deinem Home-Verzeichnis.\n"
 
-#. TRANSLATORS:  "opening" refers to a file
 #: src/messages_rmw.c:49
 #, c-format
 msgid "while opening %s\n"
@@ -655,7 +598,6 @@ msgstr ""
 "beim Öffnen %s -- %s:L%d\n"
 "\n"
 
-#. TRANSLATORS:  "removing" refers to a file or folder
 #: src/messages_rmw.c:229
 #, c-format
 msgid "while removing %s\n"

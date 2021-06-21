@@ -1,7 +1,0 @@
-# This file was automatically generated. DO NOT EDIT
-RMW_FAKE_HOME=@HOME_TEST_DIR@/$(basename $0)_dir
-TESTS_DIR=@abs_top_srcdir@/test
-CONFIG=@abs_top_srcdir@/test/rmw.testrc
-ALT_CONFIG=@abs_top_srcdir@/test/rmw.alt.testrc
-PURGE_DISABLED_CONFIG=@abs_top_srcdir@/test/rmw.purge_disabled.testrc
-BIN_DIR=@abs_top_builddir@

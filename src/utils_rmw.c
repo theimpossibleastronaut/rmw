@@ -535,7 +535,7 @@ int
 main ()
 {
   char tmp[LEN_MAX_PATH];
-  snprintf (tmp, LEN_MAX_PATH, "%s/%s", HOME_TEST_DIR, "test_utils_dir");
+  snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
   HOMEDIR = tmp;
 
   test_isdotdir ();
@@ -548,11 +548,11 @@ main ()
   char *escaped_path = escape_url (str, BUF_SIZE * 3 + 1);
   printf ("'%s'\n", escaped_path);
   assert (!strcmp (escaped_path, "string%20to%20encode%20%0A%09%0B%20%20%0C%0D"));
-  free (escaped_path);
 
-  char *unescaped_path = unescape_url (escaped_path, BUF_SIZE * 3 + 1);
+  char *unescaped_path = unescape_url (escaped_path, strlen (escaped_path) + 1);
   assert (!strcmp (unescaped_path, "string to encode \n\t\v  \f\r"));
   free (unescaped_path);
+  free (escaped_path);
   return 0;
 }
 #endif

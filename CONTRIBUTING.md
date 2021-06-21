@@ -54,14 +54,6 @@ documentation patches on this project is 5 unrelated changes or fewer
 to a PR. But if they are only one-word or letter changes, I can be
 flexible and more than 5 will still be gratefully accepted for review.
 
-If you're submitting a documentation-only PR, please add `[skip ci]` to
-the commit message; it will prevent automatic code testing on
-[Travis](https://travis-ci.org/theimpossibleastronaut/rmw).
-
-Alternatively, if you've contributed code that doesn't have anything to
-do with files in the docs/ directory, add `[skip jekyll]` to the commit
-message.
-
 If you submit a pull request, please add yourself (along with your
 personal link) to
 [AUTHORS.md](https://github.com/theimpossibleastronaut.com/rmw/blob/master/AUTHORS.md)

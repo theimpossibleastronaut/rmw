@@ -105,7 +105,7 @@ get_data_rmw_home_dir (void)
 }
 
 
-static const char *
+static char *
 get_most_recent_list_filename (const char *data_dir)
 {
   const char rel_most_recent_list_filename[] = "mrl";
@@ -121,7 +121,7 @@ get_most_recent_list_filename (const char *data_dir)
 }
 
 static char *
-get_mrl_contents (const char *mrl_file)
+get_mrl_contents (char *mrl_file)
 {
   char *contents = NULL;
   FILE *fd;
@@ -160,7 +160,7 @@ get_mrl_contents (const char *mrl_file)
 static int
 process_mrl (st_waste * waste_head,
              st_time * st_time_var,
-             const char *mrl_file, rmw_options * cli_user_options)
+             char *mrl_file, rmw_options * cli_user_options)
 {
   char *mrl_contents = get_mrl_contents (mrl_file);
   int res = 0;
@@ -181,9 +181,8 @@ process_mrl (st_waste * waste_head,
                        waste_head);
 
     if (mrl_contents != NULL && mrl_contents != mrl_is_empty)
-    {
       free (mrl_contents);
-    }
+
     return res;
   }
   fprintf (stderr, "A 'NULL' was returned when trying to read the list\n");
@@ -470,8 +469,8 @@ main (const int argc, char *const argv[])
 {
 #ifdef ENABLE_NLS
   setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain (PACKAGE);
+  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+  textdomain (GETTEXT_PACKAGE);
 #endif
 
   rmw_options cli_user_options;
@@ -557,7 +556,7 @@ Please check your configuration file and permissions\
     return result;
   }
 
-  const char *mrl_file = get_most_recent_list_filename (data_dir);
+  char *mrl_file = get_most_recent_list_filename (data_dir);
 
   if (cli_user_options.most_recent_list || cli_user_options.want_undo)
   {
@@ -565,9 +564,9 @@ Please check your configuration file and permissions\
       process_mrl (st_config_data.st_waste_folder_props_head, &st_time_var,
                    mrl_file, &cli_user_options);
     dispose_waste (st_config_data.st_waste_folder_props_head);
+    free (mrl_file);
     return res;
   }
-
 
   if (cli_user_options.want_restore)
   {
@@ -585,6 +584,7 @@ Please check your configuration file and permissions\
 
     dispose_waste (st_config_data.st_waste_folder_props_head);
 
+    free (mrl_file);
     return restore_errors;
   }
 
@@ -613,6 +613,7 @@ Enter '%s -h' for more information\n"), argv[0]);
   }
 
   dispose_waste (st_config_data.st_waste_folder_props_head);
+  free (mrl_file);
 
   return 0;
 }

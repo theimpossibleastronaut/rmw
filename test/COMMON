@@ -1,5 +1,32 @@
 # included by tests scripts
 
+create_some_files() {
+mkdir -p somefiles/topdir/dir1/dir2/dir3
+
+c=1
+while [ $c -lt 25 ]
+do
+   touch somefiles/topdir/dir1/dir2/dir3/$c
+   c=`expr $c + 1`
+done
+
+touch somefiles/read_only_file
+chmod ugo-w somefiles/read_only_file
+}
+
+if test -z "${MESON_BUILD_ROOT}" || test -z "${RMW_FAKE_HOME}"; then
+  echo "This script is used by the build system. Use 'ninja test' or
+  echo 'meson test --setup=valgrind' from the builddir."
+  exit 1
+fi
+
+RMW_FAKE_HOME=${RMW_FAKE_HOME}/$(basename $0)_dir
+TESTS_DIR="${MESON_SOURCE_ROOT}/test"
+CONFIG="${MESON_SOURCE_ROOT}/test/rmw.testrc"
+ALT_CONFIG="${MESON_SOURCE_ROOT}/test/rmw.alt.testrc"
+PURGE_DISABLED_CONFIG="${MESON_SOURCE_ROOT}/test/rmw.purge_disabled.testrc"
+BIN_DIR="${MESON_BUILD_ROOT}"
+
 export RMW_FAKE_HOME
 
 if [ -e ${RMW_FAKE_HOME} ]; then
@@ -13,5 +40,3 @@ PRIMARY_WASTE_DIR=${RMW_FAKE_HOME}/.Waste
 RMW_ALT_TEST_CMD_STRING="${BIN_DIR}/rmw -c ${ALT_CONFIG}"
 RMW_PURGE_DISABLED_CMD="${BIN_DIR}/rmw -c ${PURGE_DISABLED_CONFIG}"
 SEPARATOR="\n\n--- "
-
-set -ve

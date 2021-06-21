@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
-"Report-Msgid-Bugs-To: andy400-dev@yahoo.com\n"
-"POT-Creation-Date: 2021-06-05 15:32-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-15 00:12-0500\n"
 "PO-Revision-Date: 2019-08-04 16:21+0200\n"
 "Last-Translator: Martijn de Boer, 2018\n"
 "Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
@@ -21,14 +21,6 @@ msgstr ""
 
 #: src/config_rmw.c:62
 #, fuzzy
-#| msgid ""
-#| "\n"
-#| "# How many days should files be allowed to stay in the waste folders "
-#| "before\n"
-#| "# they are permanently deleted\n"
-#| "#\n"
-#| "# use '0' to disable purging\n"
-#| "#\n"
 msgid ""
 "\n"
 "# How many days should items be allowed to stay in the waste\n"
@@ -163,31 +155,21 @@ msgstr ""
 msgid "  -z, --restore FILE(s)     restore FILE(s) (see man page example)\n"
 msgstr ""
 
-#. TRANSLATORS: this precedes a string which informs the user of a more
-#. * serious error, sometimes a fatal one
 #: src/messages_rmw.c:27
 msgid "  :error: "
 msgstr " :fout: "
 
-#. TRANSLATORS: "return" code refers to a number returned by an operation
-#. * or function
 #: src/messages_rmw.c:145
 #, fuzzy, c-format
-#| msgid "  :return code: %d -- %s\n"
 msgid "  :return code: %d\n"
 msgstr " :retour code: %d - %s\n"
 
-#. TRANSLATORS: this precedes a string which warns the user of some minor
-#. * but not fatal problem
 #: src/messages_rmw.c:34
 msgid " :warning: "
 msgstr " :waarschuwing: "
 
 #: src/config_rmw.c:56
 #, fuzzy
-#| msgid ""
-#| "\n"
-#| "# A folder can use the $UID variable.\n"
 msgid "# A folder can use the $UID variable.\n"
 msgstr ""
 "\n"
@@ -222,8 +204,6 @@ msgstr[1] "%dbestanden gepurged"
 
 #: src/main.c:459
 #, fuzzy, c-format
-#| msgid "%d file was removed to the waste folder"
-#| msgid_plural "%d files were removed to the waste folder"
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
 msgstr[0] "%dbestand was verwijdert naar de afval map"
@@ -236,14 +216,9 @@ msgstr ""
 
 #: src/purging_rmw.c:470
 #, fuzzy, c-format
-#| msgid "%d file purged"
-#| msgid_plural "%d files purged"
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr "%dbestand gepurged"
 
-#. TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
-#. * for input in this case.
-#.
 #: src/restore_rmw.c:337
 msgid "'q' - quit"
 msgstr "'q' - afsluiten"
@@ -277,8 +252,6 @@ msgstr "-i / --interactive: nog niet beschikbaar\n"
 msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr ""
 
-#. TRANSLATORS: I believe the words between the < and > can be translated
-#.
 #: src/restore_rmw.c:330
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RECHTS / CURSOR-LINKS> - wissel afval mappen"
@@ -305,11 +278,10 @@ msgstr "Actie geannuleerd."
 msgid "Arguments given to --purge must be numeric only"
 msgstr ""
 
-#: src/utils_rmw.c:191
+#: src/utils_rmw.c:195
 msgid "Continue? (y/n): "
 msgstr "Doorgaan? (y/n): "
 
-#. TRANSLATORS:  "created" refers to a file
 #: src/purging_rmw.c:562
 #, c-format
 msgid "Created %s\n"
@@ -335,7 +307,6 @@ msgstr "Directory niet gepurged - bevat nog steeds bestanden\n"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 
-#. TRANSLATORS:  "%s" refers to a file or directory
 #: src/main.c:340 src/restore_rmw.c:194
 #, c-format
 msgid "File not found: '%s'\n"
@@ -350,8 +321,6 @@ msgstr ""
 "Geen bestandsnamen of commando lijn opties werden gegeven;\n"
 "Geef '%s -h' op voor meer informatie\n"
 
-#. TRANSLATORS:  "depth" refers to the recursion depth in a
-#. * directory
 #: src/purging_rmw.c:409
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
@@ -463,7 +432,6 @@ msgstr ""
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
 #: src/config_rmw.c:537
 msgid "attached"
 msgstr "gekoppeld"
@@ -481,17 +449,11 @@ msgstr "ontkoppeld"
 msgid "dry-run mode enabled."
 msgstr ""
 
-#. TRANSLATORS:  ".trashinfo" should remain untranslated
-#. *
-#. *               "format" refers to the layout of the file
-#. *                contents
-#.
 #: src/messages_rmw.c:101
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "formaat van .trashinfo `bestand %s` is incorrect"
 
-#. TRANSLATORS:  "function" refers to a C function
 #: src/messages_rmw.c:53 src/messages_rmw.c:85
 #, c-format
 msgid "function: <%s>"
@@ -515,13 +477,8 @@ msgstr ""
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of force\n"
 
-#. TRANSLATORS:  "purging" refers to permanently deleting a file or a
-#. * directory
 #: src/purging_rmw.c:252
 #, fuzzy, c-format
-#| msgid ""
-#| "purging is disabled ('purge_after' is set to '0')\n"
-#| "\n"
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
 "\n"
@@ -534,12 +491,8 @@ msgstr ""
 msgid "removable, "
 msgstr "verwijderbaar, "
 
-#. TRANSLATORS: ignore "restore()"
-#. * "returned" refers to an error code (number) that was returned by
-#. * an operation
 #: src/messages_rmw.c:119
 #, fuzzy, c-format
-#| msgid "Restore() returned %d\n"
 msgid "restore() returned %d\n"
 msgstr "Restore() gaf %d terug\n"
 
@@ -563,8 +516,8 @@ msgstr ""
 "bepaalde condities;\n"
 "zie <http://www.gnu.org/licenses/gpl.html> voor details.\n"
 
-#: src/utils_rmw.c:267 src/utils_rmw.c:279 src/utils_rmw.c:328
-#: src/utils_rmw.c:344
+#: src/utils_rmw.c:271 src/utils_rmw.c:283 src/utils_rmw.c:332
+#: src/utils_rmw.c:348
 #, c-format
 msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
 msgstr ""
@@ -603,7 +556,6 @@ msgstr "bij het maken van %s\n"
 
 #: src/messages_rmw.c:239
 #, fuzzy, c-format
-#| msgid "while creating %s\n"
 msgid "while creating %s (%s)\n"
 msgstr "bij het maken van %s\n"
 
@@ -611,7 +563,6 @@ msgstr "bij het maken van %s\n"
 msgid "while getting the path to your home directory\n"
 msgstr "bij het ophalen van het pad naar je thuismap\n"
 
-#. TRANSLATORS:  "opening" refers to a file
 #: src/messages_rmw.c:49
 #, c-format
 msgid "while opening %s\n"
@@ -622,7 +573,6 @@ msgstr "bij het openen van %s\n"
 msgid "while opening %s -- %s:L%d\n"
 msgstr "bij het openen van %s - %s:L%d\n"
 
-#. TRANSLATORS:  "removing" refers to a file or folder
 #: src/messages_rmw.c:229
 #, c-format
 msgid "while removing %s\n"

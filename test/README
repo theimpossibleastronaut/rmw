@@ -2,12 +2,11 @@
 
 From the build directory:
 
-    make check
+    ninja test
 
-to run the tests. To enable tests with valgrind<http://valgrind.org/>,
-give the `--enable-valgrind` option to the configure script.
+To test with valgrind<http://valgrind.org/> (from the build dir):
 
-Detailed logs for each test will be created in `test/`.
+    meson test --setup=valgrind
 
 For more information about testing, see the Code Testing
 page<https://remove-to-waste.info/code-testing.html> on the rmw

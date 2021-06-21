@@ -1,0 +1,5 @@
+option('nls', type : 'boolean', value : true,
+       description : 'include native language support (install translations)')
+
+option('docdir', type : 'string', value : 'share/doc/rmw',
+       description : 'directory where the documentation should be installed to')

@@ -1,4 +1,4 @@
-# rmw-0.8.0-dev
+# rmw-0.7.09.555
 ## Description
 
 rmw (ReMove to Waste) is a safe-remove utility for the command line. It
@@ -11,12 +11,9 @@ after x number of days.
 
 Web site: <https://remove-to-waste.info/>
 
-[![travis-badge]][travis-url]
 [![codeql-badge]][codeql-url]
 [![semaphore-badge]][semaphore-url]
 
-[travis-badge]: https://api.travis-ci.com/theimpossibleastronaut/rmw.svg?branch=master
-[travis-url]: https://travis-ci.com/github/theimpossibleastronaut/rmw
 [codeql-badge]: https://github.com/theimpossibleastronaut/rmw/workflows/CodeQL/badge.svg
 [codeql-url]: https://github.com/theimpossibleastronaut/rmw/actions?query=workflow%3ACodeQL
 [semaphore-badge]: https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg
@@ -260,7 +257,7 @@ section](https://github.com/theimpossibleastronaut/rmw/releases).
 ### Required libraries
 
 * libncursesw (ncurses-devel on some systems, such as CentOS)
-* gettext (or use --disable-nls if you only need English language support)
+* gettext (or use '-Dnls=false' if you only need English language support)
 
 If you're building from source, you will need the libncursesw(5 or
 6)-dev package from your operating system distribution. On some systems
@@ -273,40 +270,48 @@ just the ncurses packages is needed, and it's often already installed.
 (This examples places the generated files to a separate folder, but you can
 run 'configure' from any directory you like.)
 
-Use `../configure --help` to view available compile-time options.
+```
+    meson builddir
+    cd builddir
+    ninja
+```
 
-```
-    mkdir _build
-    cd _build
-    ../configure
-    make
-```
+Use `meson configure` in the build dir to view available options.
 
 #### Installing without superuser privileges
 
 If you would like to install rmw without superuser privileges, use a prefix
 that you have write access to. Example:
 
-    ../configure --prefix=$HOME/.local
-    make
-    make install
+    meson -Dprefix=$HOME/.local builddir
 
-The rmw binary will be installed to `$HOME/.local/bin` and documentation to
-`$HOME/.local/doc`.
+or while in the build dir
 
-### If configure fails
+    meson configure -Dprefix=$HOME/.local
+
+To install:
+
+    ninja install
+
+In the example above, the rmw binary will be installed to
+`$HOME/.local/bin` and documentation to `$HOME/.local/doc`.
+
+### If ncurses can't be found
 
 On **macOS**, you may get a message during 'configure' that the menu
 library can't be found. The ncurses menu library isn't provided by
 default but can be installed using `brew install ncurses`. Then run
 'configure' like this:
 
-    PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig" ../configure
+    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/ncurses/lib/pkgconfig
 
 Or you can install [rmw using
 brew](https://formulae.brew.sh/formula/rmw).
 
-### Uninstall / Cleaning up
+### Uninstall
 
-* make uninstall (uninstalls the program if installed with 'make install`)
-* make distclean (removes files in the build directory created by `configure` and 'make')
+    ninja uninstall (uninstalls the program if installed with 'ninja install`)
+
+Note that the uninstall does not remove any language files that were installed. To remove them:
+
+    sh uninstall_langs.sh

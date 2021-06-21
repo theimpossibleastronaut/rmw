@@ -4,7 +4,6 @@ layout: default
 ---
 <ul>
   <li><a href="#general_testing">General Testing</a></li>
-  <li><a href="#profiling">Profiling</a></li>
   <li><a href="#env_vars">Environmental Variables</a></li>
 </ul>
 
@@ -14,36 +13,9 @@ If you're writing a patch, using <code class="w3-codespan">make
 check</code> will cover most of rmw's operations. If there's a test
 missing, please open a ticket.
 
-To enable tests with [valgrind](https://www.valgrind.org/), give the
-<code class="w3-codespan">--enable-valgrind</code> option to the
-configure script.
+To test using [valgrind](https://www.valgrind.org/) (from the build dir):
 
-<!-- This section probably would be better on a separate "Debugging" page (not yet created) -->
-<h2 id="profiling">Profiling</h2>
-
-To get [a profile of rmw](/profile.example.txt) using [GNU
-gprof](https://sourceware.org/binutils/docs/gprof/), first you'll need
-to rebuild rmw with different [compiler
-flags](https://sourceware.org/binutils/docs/gprof/Compiling.html#Compiling).
-The easiest way to do that is
-
-<p class="w3-code">
-  make distclean<br />
-  ../configure --enable-debug=profile<br />
-  make
-</p>
-
-Then run rmw with any parameters you like.
-
-<p class="w3-code">
-  ex: ./rmw -l
-</p>
-
-That will produce a file called <code
-class="w3-codespan">gmon.out</code>. To view the results, run
-<p class="w3-code">gprof ./rmw gmon.out</p>
-(To learn about runtime options for gprof, check the documentation on
-its website.)
+<code class="w3-codespan">meson test --setup=valgrind</code>
 
 <h2 id="env_vars">Environmental Variables</h2>
 <div class="w3-panel w3-border">

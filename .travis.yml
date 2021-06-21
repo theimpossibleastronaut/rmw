@@ -1,16 +1,8 @@
+version: ~> 1.0
 language: c
-cache: ccache
 matrix:
 # gcc
   include:
-    - name: "gcc 5"
-      os: linux
-      dist: xenial
-      compiler: gcc # defaults to version 5 on xenial
-      env:
-        - DISTCHECK_ONLY="true" COMPILER="default"
-        - CONFIGURE_OPTS="--enable-release"
-        - USE_VALGRIND="true"
     - os: linux
       dist: bionic
       compiler: gcc
@@ -24,128 +16,12 @@ matrix:
             name: "theimpossibleastronaut/rmw"
             description: "Console recycle bin written in C"
           notification_email: "andy400-dev@yahoo.com"
-          build_command_prepend: "./configure"
-          build_command: "make"
+          build_command_prepend: "meson builddir && cd builddir"
+          build_command: "ninja"
           branch_pattern: coverity_scan
-    - os: linux
-      dist: bionic
-      compiler: gcc
-      env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
-        - USE_VALGRIND=true
-    - name: "gcc 7"
-      os: linux
-      dist: bionic
-      compiler: gcc
-    - os: linux
-      dist: bionic
-      compiler: gcc
-      env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-        - CONFIGURE_OPTS="--enable-release"
-        - RMW_FAKE_MEDIA_ROOT=true
-    - os: linux
-      dist: bionic
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-9
-      env:
-        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
-        - RMW_FAKE_MEDIA_ROOT=true
-        - USE_VALGRIND=true
-    - os: linux
-      dist: bionic
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-10
-      env:
-        - MATRIX_EVAL="CC=gcc-10 && CXX=g++-10"
-        - CONFIGURE_OPTS="--enable-release"
-    - os: linux
-      dist: bionic
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-11
-      env:
-        - MATRIX_EVAL="CC=gcc-11 && CXX=g++-11"
-        - CONFIGURE_OPTS="--enable-release"
-    - name: "gcc 9"
-      os: linux
-      dist: focal
-      compiler: gcc
-
-# clang
-    - os: linux
-      dist: xenial
-      compiler: clang
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-xenial-5.0
-          packages:
-            - clang-5.0
-      env: MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
-    - os: linux
-      dist: xenial
-      compiler: clang
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-xenial-6.0
-          packages:
-            - clang-6.0
-      env:
-        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
-        - CONFIGURE_OPTS="--enable-release"
-    - name: "clang 7"
-      os: linux
-      dist: xenial
-      compiler: clang
-
-    - os: osx
-      osx_image: xcode10.3
-      env: XCODE="true"
-    - os: osx
-      osx_image: xcode11.6
-      env:
-        - XCODE="true"
-        - RMW_FAKE_MEDIA_ROOT=true
-    - os: osx
-      osx_image: xcode12.2
-      env: XCODE="true"
-
-#  allow_failures:
-#    - os: osx
 
 before_install:
   - echo $CC
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      eval "${MATRIX_EVAL}";
-      if [ -n "$MATRIX_EVAL" ] && [ "$TRAVIS_COMPILER" != "clang" ] && [ "$CC" != "gcc-9" ] && [ "$CC" != "gcc-10" ]; then
-        sudo apt-get install -y $CC;
-      fi;
-      if [ "$USE_VALGRIND" = "true" ]; then
-        CONFIGURE_OPTS="${CONFIGURE_OPTS} --enable-valgrind";
-        sudo apt-get install -y valgrind;
-      fi;
-    else
-      brew install ncurses &&
-      export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig";
-    fi
-  - export CONFIGURE_OPTS
-  - export DISTCHECK_ONLY
-  - export COVERITY_SCAN_TOKEN
-
-script: ./.github/scripts/travis_script.sh
+  - eval "${MATRIX_EVAL}";
+  - sudo apt install python3-pip;
+  - python3 -m pip install --user meson ninja;

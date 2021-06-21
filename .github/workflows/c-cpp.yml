@@ -19,20 +19,25 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: sudo apt-get install -y gettext
-    - run: ./configure
-    - run: make
-    - run: make check
-    - run: make distcheck
+    - run: sudo python3 -m pip install meson ninja
+    - run: |
+        meson builddir
+        ninja -v -C builddir
+        ninja -C builddir dist
+        meson --reconfigure builddir -Dnls=false
+        ninja -v -C builddir
+
   macos:
     runs-on: macos-latest
     env:
-      PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig"
+      PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig:$PKG_CONFIG_PATH"
       TERM: xterm
     steps:
     - uses: actions/checkout@v2
-    - run: brew install ncurses
-    - name: Configure
-      run: ./configure --disable-nls
-    - run: make
-    - name: Make distcheck
-      run:  make distcheck
+    - run: |
+        brew update
+        brew install ncurses meson
+    - run: |
+        meson builddir
+        ninja -v -C builddir
+        ninja -C builddir dist

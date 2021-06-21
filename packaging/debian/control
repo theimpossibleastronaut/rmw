@@ -2,7 +2,10 @@ Source: rmw
 Section: utils
 Priority: optional
 Maintainer: Andy Alt <andy400-dev@yahoo.com>
-Build-Depends: debhelper (>= 12~), libncursesw5-dev, libtinfo-dev
+Build-Depends:  debhelper (>= 12~),
+                libncursesw5-dev,
+                libtinfo-dev,
+                meson
 Standards-Version: 4.3.0
 Homepage: https://remove-to-waste.info/
 

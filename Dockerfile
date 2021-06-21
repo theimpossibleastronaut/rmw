@@ -1,7 +1,9 @@
-FROM gcc
+FROM andy5995/meson
 COPY . /usr/src/rmw
-WORKDIR /usr/src/_build_rmw
-RUN ../rmw/configure
-RUN make check
-RUN make install
-RUN make distclean
+WORKDIR /usr/src/rmw
+RUN meson builddir
+WORKDIR /usr/src/rmw/builddir
+RUN ninja -v
+RUN ninja dist
+RUN meson configure -Dnls=false
+RUN ninja
