@@ -12,12 +12,12 @@ after x number of days.
 Web site: <https://remove-to-waste.info/>
 
 [![codeql-badge]][codeql-url]
-[![semaphore-badge]][semaphore-url]
+[![c-cpp-badge]][c-cpp-url]
 
+[c-cpp-badge]: https://github.com/theimpossibleastronaut/rmw/actions/workflows/c-cpp.yml/badge.svg
+[c-cpp-url]: https://github.com/theimpossibleastronaut/rmw/actions/workflows/c-cpp.yml
 [codeql-badge]: https://github.com/theimpossibleastronaut/rmw/workflows/CodeQL/badge.svg
 [codeql-url]: https://github.com/theimpossibleastronaut/rmw/actions?query=workflow%3ACodeQL
-[semaphore-badge]: https://semaphoreci.com/api/v1/andy5995/rmw-3/branches/master/badge.svg
-[semaphore-url]: https://semaphoreci.com/andy5995/rmw-3
 
 rmw is for people who sometimes use rm or rmdir at the command line and
 would occasionally like an alternative choice. It's not intended or
