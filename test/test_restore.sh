@@ -108,7 +108,7 @@ substring="refusing to process"
 output="$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/.)" && exit 1
 test "${output}#*${substring}" != "${output}"
 
-if [ -n "${TERM}" ]; then
+if [ -n "${TERM}" || "${TERM}" != "dumb" ]; then
   echo q | ${VALGRIND} ${RMW_TEST_CMD_STRING} -s
 fi
 
