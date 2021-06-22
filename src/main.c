@@ -105,83 +105,73 @@ get_data_rmw_home_dir (void)
 }
 
 
-static char *
+static const char *
 get_most_recent_list_filename (const char *data_dir)
 {
   const char rel_most_recent_list_filename[] = "mrl";
   int req_len =
     multi_strlen (data_dir, "/", rel_most_recent_list_filename, NULL) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char *mrl_file = malloc (req_len);
-  chk_malloc (mrl_file, __func__, __LINE__);
+  static char mrl_file[LEN_MAX_PATH];
   snprintf (mrl_file, req_len, "%s/%s", data_dir, rel_most_recent_list_filename);
   if (verbose)
     printf ("most recent list (mrl file): %s\n", mrl_file);
   return mrl_file;
 }
 
-static char *
-get_mrl_contents (char *mrl_file)
-{
-  char *contents = NULL;
-  FILE *fd;
-  fd = fopen (mrl_file, "r");
-
-  if (fd == NULL)
-  {
-    contents = (char *) mrl_is_empty;
-    return contents;
-  }
-
-  fseek (fd, 0, SEEK_END);      // move to the end of the file so we can use ftell()
-  const int f_size = ftell (fd);        // Get the size of the file
-  rewind (fd);
-
-  contents = calloc (1, f_size + 1);
-  chk_malloc (contents, __func__, __LINE__);
-  int n_items = fread (contents, 1, f_size + 1, fd);
-  if (n_items != f_size)
-  {
-    print_msg_warn ();
-    fprintf (stdout, "ftell() returned %d, but fread() returned %d", f_size,
-             n_items);
-  }
-  if (feof (fd) == 0)
-  {
-    print_msg_error ();
-    fprintf (stderr, "while reading %s\n", mrl_file);
-    clearerr (fd);
-  }
-  close_file (fd, mrl_file, __func__);
-  return contents;
-}
-
 
 static int
 process_mrl (st_waste * waste_head,
              st_time * st_time_var,
-             char *mrl_file, rmw_options * cli_user_options)
+             const char *mrl_file, rmw_options * cli_user_options)
 {
-  char *mrl_contents = get_mrl_contents (mrl_file);
-  int res = 0;
-  if (mrl_contents != NULL)
+  char *contents = NULL;
+  FILE *fd = fopen (mrl_file, "r");
+  if (fd != NULL)
   {
-    if (!strcmp (mrl_contents, mrl_is_empty))
+    fseek (fd, 0, SEEK_END);      // move to the end of the file so we can use ftell()
+    const int f_size = ftell (fd);        // Get the size of the file
+    rewind (fd);
+
+    contents = calloc (1, f_size + 1);
+    chk_malloc (contents, __func__, __LINE__);
+    int n_items = fread (contents, 1, f_size + 1, fd);
+    if (n_items != f_size)
+    {
+      print_msg_warn ();
+      fprintf (stdout, "ftell() returned %d, but fread() returned %d", f_size,
+               n_items);
+    }
+    if (feof (fd) == 0)
+    {
+      print_msg_error ();
+      fprintf (stderr, "while reading %s\n", mrl_file);
+      clearerr (fd);
+    }
+    close_file (fd, mrl_file, __func__);
+  }
+  else
+    contents = (char *) mrl_is_empty;
+
+  int res = 0;
+  if (contents != NULL)
+  {
+    if (!strcmp (contents, mrl_is_empty))
       puts (_("There are no items in the list - please check back later.\n"));
     else if (cli_user_options->most_recent_list)
     {
-      printf ("%s", mrl_contents);
+      printf ("%s", contents);
       if (cli_user_options->want_undo)
         puts (_
               ("Skipping --undo-last because --most-recent-list was requested"));
     }
     else
       res =
-        undo_last_rmw (st_time_var, mrl_file, cli_user_options, mrl_contents,
+        undo_last_rmw (st_time_var, mrl_file, cli_user_options, contents,
                        waste_head);
 
-    if (mrl_contents != NULL && mrl_contents != mrl_is_empty)
-      free (mrl_contents);
+    if (contents != NULL && contents != mrl_is_empty)
+      free (contents);
 
     return res;
   }
@@ -556,7 +546,7 @@ Please check your configuration file and permissions\
     return result;
   }
 
-  char *mrl_file = get_most_recent_list_filename (data_dir);
+  const char *mrl_file = get_most_recent_list_filename (data_dir);
 
   if (cli_user_options.most_recent_list || cli_user_options.want_undo)
   {
@@ -564,7 +554,6 @@ Please check your configuration file and permissions\
       process_mrl (st_config_data.st_waste_folder_props_head, &st_time_var,
                    mrl_file, &cli_user_options);
     dispose_waste (st_config_data.st_waste_folder_props_head);
-    free (mrl_file);
     return res;
   }
 
@@ -584,7 +573,6 @@ Please check your configuration file and permissions\
 
     dispose_waste (st_config_data.st_waste_folder_props_head);
 
-    free (mrl_file);
     return restore_errors;
   }
 
@@ -613,7 +601,6 @@ Enter '%s -h' for more information\n"), argv[0]);
   }
 
   dispose_waste (st_config_data.st_waste_folder_props_head);
-  free (mrl_file);
 
   return 0;
 }
