@@ -6,4 +6,5 @@ WORKDIR /usr/src/rmw/builddir
 RUN ninja -v
 RUN ninja dist
 RUN meson configure -Dnls=false
-RUN ninja
+RUN meson test --setup=valgrind
+
