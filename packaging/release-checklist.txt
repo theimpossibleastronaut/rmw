@@ -1,7 +1,7 @@
 Remove "development version" notice from README
 
 Change version number
-  configure.ac (AC_INIT)
+  ./meson.build
   README.md
   man/rmw.1
   packaging/Slackbuild/rmw/rmw.info (also change version numbers in download link)
@@ -11,15 +11,10 @@ Change version number
 
 cp README.md packaging/Slackbuild/rmw/README.Slackware
 
-run autoreconf
-
-Setup build (if not already done)
-  mkdir _build
-  cd _build
-  ../configure
 
 update po and pot files
-  (from the build directory) cd po && make update-po
+  ninja rmw-pot
+  ninja rmw-update-po
 
 Copy ChangeLog entries that apply to current release to ReleaseNotes
 (remove dates and reorder entries in in order of important or interest)
@@ -35,8 +30,9 @@ Ex:
 Change Month and Year in man/rmw.1
 
 cd ..
-make distcheck
-make dist
+ninja dist
+
+Remove packaging directory from the resulting xz file
 
 md5sum the tarball and paste into packaging/Slackbuild/rmw/rmw.info
 
@@ -45,7 +41,7 @@ Check copyright date/year
   packaging/Slackbuild/rmw/rmw.Slackbuild
 
 Make Debian package
-  tar xf rmw-<version>.tar.gz
+  tar xf rmw-<version>.tar.xz
   cd rmw-<version>
   cp -a <rmwsrcdir>/packaging/debian .
   dpkg-buildpackage -us -uc -tc (The resulting package will be one level up)
@@ -55,7 +51,7 @@ Make Debian package
 
 push all changes
 
-Get the md5sum and sha256sum of the source tarball and Debian package
+Get the sha256sum of the source tarball and Debian package
 
 Publish the release
   paste in the ReleaseNotes file and the 'sums of the two files listed above.
