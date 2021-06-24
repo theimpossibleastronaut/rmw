@@ -7,6 +7,11 @@ if vg.found()
     )
 endif
 
+add_test_setup(
+  'fake_media_root',
+  env: 'RMW_FAKE_MEDIA_ROOT=true'
+  )
+
 test_cases = [
   'strings_rmw',
   'utils_rmw',
