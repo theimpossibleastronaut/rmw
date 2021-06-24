@@ -7,5 +7,3 @@ RUN ninja -v
 RUN ninja dist
 RUN meson configure -Dnls=false
 RUN meson test --setup=valgrind
-RUN ninja install
-
