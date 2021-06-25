@@ -12,18 +12,19 @@ add_global_arguments(
   )
 
 cc = meson.get_compiler('c')
-if cc.has_argument('-fstack-protector-strong')
-  add_project_arguments('-fstack-protector-strong', language: 'c')
-endif
-if cc.has_argument('-fanalyzer')
-  add_project_arguments('-fanalyzer', language: 'c')
-endif
-if cc.has_argument('-Wformat-security')
-  add_project_arguments('-Wformat-security', language: 'c')
-endif
-if cc.has_argument('-Wformat-overflow=2')
-  add_project_arguments('-Wformat-overflow=2', language: 'c')
-endif
+
+extra_flags = [
+  ['-fstack-protector-strong'],
+  ['-fanalyzer'],
+  ['-Wformat-security'],
+  ['-Wformat-overflow=2']
+]
+
+foreach cflag : extra_flags
+  if cc.has_argument(cflag)
+    add_project_arguments(cflag, language: 'c')
+  endif
+endforeach
 
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
