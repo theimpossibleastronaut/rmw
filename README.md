@@ -247,7 +247,8 @@ rmw is available in the [homebrew and
 linuxbrew](https://github.com/Homebrew/) repositories; or there may may
 be a binary package available for your OS. You can view a list at
 [Repology](https://repology.org/project/rmw/versions) to see in which
-repositories rmw is included.
+repositories rmw is included. Since v0.7.09, x86_64 AppImages are
+available.
 
 Maintainer-created amd64 Debian packages are available in the [releases
 section](https://github.com/theimpossibleastronaut/rmw/releases).
