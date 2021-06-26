@@ -18,9 +18,11 @@ src = [
   'bst.c'
   ]
 
-dep_librmw = static_library(
+lib_rmw = static_library(
   'rmw',
   src,
-  include_directories : ['..', '../external/canfigger'],
-  dependencies: [gettext_deps, dep_menu, dep_curses]
+  include_directories : '..',
+  dependencies: [gettext_deps, dep_canfigger, dep_menu, dep_curses]
   )
+
+dep_rmw = declare_dependency(link_with: lib_rmw, include_directories : '..')

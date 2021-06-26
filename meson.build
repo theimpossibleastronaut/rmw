@@ -53,6 +53,7 @@ localedir = join_paths(get_option('prefix'), get_option('localedir'))
 subdir('po')
 
 config_h = configure_file(output : 'config.h', configuration : conf)
+
 subdir('external/canfigger')
 
 subdir('src')
@@ -60,7 +61,7 @@ subdir('src')
 executable(
   'rmw',
   'src/main.c',
-  link_with : [dep_canfigger, dep_librmw],
+  dependencies: dep_rmw,
   install : true
   )
 
