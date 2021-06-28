@@ -1,26 +1,28 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Andy Alt
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the rmw package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Translators:
+# Andy Alt, 2020
+# Martijn de Boer, 2021
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: rmw 0.4.05-dev\n"
+"Project-Id-Version: rmw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-23 22:52-0500\n"
-"PO-Revision-Date: 2019-08-04 16:21+0200\n"
-"Last-Translator: Martijn de Boer, 2018\n"
-"Language-Team: Dutch (Netherlands) (https://www.transifex.com/na-309/"
-"teams/92532/nl_NL/)\n"
+"POT-Creation-Date: 2021-06-28 14:18-0500\n"
+"PO-Revision-Date: 2021-06-28 20:48+0000\n"
+"Last-Translator: Martijn de Boer, 2021\n"
+"Language-Team: Dutch (https://www.transifex.com/aalt/teams/92532/nl/)\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.3\n"
 
 #: src/config_rmw.c:62
-#, fuzzy
 msgid ""
 "\n"
 "# How many days should items be allowed to stay in the waste\n"
@@ -30,10 +32,11 @@ msgid ""
 "#\n"
 msgstr ""
 "\n"
-"# Hoeveel dagen zouden bestanden mogen blijven staan in de afval map\n"
-"# voordat ze permanent worden verwijderd\n"
+"# Hoeveel dagen zouden bestanden in de afval map mogen staan\n"
+"# voordat ze permanent verwijdert worden\n"
 "#\n"
-"# gebruik '0' om purging uit te schakelen\n"
+"# Gebruik '0' om opruimen uit te schakelen (kan overschreven worden met --"
+"purge=N_DAYS)\n"
 "#\n"
 
 #: src/config_rmw.c:49
@@ -43,6 +46,10 @@ msgid ""
 "# Note to macOS and Windows users: moving files to 'Desktop' trash\n"
 "# doesn't work yet\n"
 msgstr ""
+"\n"
+"# De map gebruikt door de FreeDesktop.org Trash spec\n"
+"# Let op macOS en Windows gebruikers: bestanden naar de 'bureaublad'\n"
+"# afvalemmer verplaatsen werkt nog niet\n"
 
 #: src/config_rmw.c:70
 msgid ""
@@ -65,6 +72,11 @@ msgid ""
 "the edge of the forest and find your enemy. You attack, causing\n"
 "damage of 5000 hp. You feel satisfied.\n"
 msgstr ""
+"\n"
+"Je enkele slash is genegeerd. Je loopt naar de markt in het\n"
+"centrum en koopt een Speer van het Lot. Je loopt naar de rand van\n"
+"het bos en treft je vijand aan. Je valt aan, en deelt 5000 hp schade.\n"
+"Je voelt je voldaan.\n"
 
 #: src/parse_cli_options.c:85
 msgid ""
@@ -73,6 +85,10 @@ msgid ""
 "  \t===] Restoring [===\n"
 "\n"
 msgstr ""
+"  \n"
+"\n"
+"  \t===] Terugzetten [===\n"
+"\n"
 
 #: src/parse_cli_options.c:100
 msgid ""
@@ -88,20 +104,21 @@ msgstr ""
 
 #: src/parse_cli_options.c:82
 msgid "  -V, --version             display version and license information\n"
-msgstr ""
+msgstr "  -V, --version             toon versie en licentie informatie\n"
 
 #: src/parse_cli_options.c:50
 msgid "  -c, --config FILE         use an alternate configuration\n"
-msgstr ""
+msgstr "  -c, --config BESTAND         gebruik een alternatieve configuratie\n"
 
 #: src/parse_cli_options.c:69
 msgid ""
 "  -e, --empty               completely empty (purge) all waste directories\n"
 msgstr ""
+"  -e, --empty               leeg alle afval mappen, in haar volledigheid\n"
 
 #: src/parse_cli_options.c:66
 msgid "  -f, --force               allow purging of expired files\n"
-msgstr ""
+msgstr "  -f, --force               sta weggooien van verlopen bestanden toe\n"
 
 #: src/parse_cli_options.c:56
 #, c-format
@@ -112,78 +129,90 @@ msgid ""
 "                            value from the configuration file\n"
 "                            (Examples: -g90, --purge=90)\n"
 msgstr ""
+"  -g[N_DAYS], --purge[=N_DAYS]\n"
+"                            verwijder verlopen bestanden;\n"
+"                            optioneel argument 'N_DAYS' overschrijft '%s'\n"
+"                            waarde van het configuration bestand\n"
+"                            (Bijvoorbeeld: -g90, --purge=90)\n"
 
 #: src/parse_cli_options.c:47
 msgid "  -h, --help                show help for command line options\n"
 msgstr ""
+"  -h, --help                toon help voor de commandolijn argumenten\n"
 
 #: src/parse_cli_options.c:53
 msgid "  -l, --list                list waste directories\n"
-msgstr ""
+msgstr "  -l, --list                toon lijst van afval mappen\n"
 
 #: src/parse_cli_options.c:97
 msgid "  -m, --most-recent-list    list most recently rmw'ed files\n"
 msgstr ""
+"  -m, --most-recent-list    toont de meest recente germw-de bestanden\n"
 
 #: src/parse_cli_options.c:63
 msgid "  -o, --orphaned            check for orphaned files (maintenance)\n"
-msgstr ""
+msgstr "  -o, --orphaned            controleer op wees bestanden (onderhoud)\n"
 
 #: src/parse_cli_options.c:72
 msgid ""
 "  -r, -R, --recursive       option used for compatibility with rm\n"
 "                            (recursive operation is enabled by default)\n"
 msgstr ""
+"  -r, -R, --recursive       optie gebruikt voor compatabiliteit met rm\n"
+"                            (recursieve operatie staat standaard aan)\n"
 
 #: src/parse_cli_options.c:91
 msgid "  -s, --select              select files from list to restore\n"
 msgstr ""
+"  -s, --select              selecteer bestanden uit een lijst om terug te "
+"zetten\n"
 
 #: src/parse_cli_options.c:94
 msgid "  -u, --undo-last           undo last move\n"
-msgstr ""
+msgstr "  -u, --undo-last           laatste verplaatsing ongedaan maken\n"
 
 #: src/parse_cli_options.c:76
 msgid "  -v, --verbose             increase output messages\n"
-msgstr ""
+msgstr "  -v, --verbose             verhoog verbositeit\n"
 
 #: src/parse_cli_options.c:79
 msgid "  -w, --warranty            display warranty\n"
-msgstr ""
+msgstr "  -w, --warranty            toon garantie\n"
 
 #: src/parse_cli_options.c:88
 msgid "  -z, --restore FILE(s)     restore FILE(s) (see man page example)\n"
 msgstr ""
+"  -z, --restore FILE(s)     zet BESTAND(en) terug (bekijk man pagina voor "
+"een voorbeeld)\n"
 
 #: src/messages_rmw.c:27
 msgid "  :error: "
 msgstr " :fout: "
 
 #: src/messages_rmw.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "  :return code: %d\n"
-msgstr " :retour code: %d - %s\n"
+msgstr "  :return code: %d\n"
 
 #: src/messages_rmw.c:34
 msgid " :warning: "
 msgstr " :waarschuwing: "
 
 #: src/config_rmw.c:56
-#, fuzzy
 msgid "# A folder can use the $UID variable.\n"
-msgstr ""
-"\n"
-"# Een map kan de $UID variabele gebruiken.\n"
+msgstr "# Een map kan de $UID variable gebruiken.\n"
 
 #: src/config_rmw.c:58
 msgid ""
 "# See the README or man page for details about using the 'removable' "
 "attribute\n"
 msgstr ""
+"# Bekijk de README of man pagina voor details over het 'removable' "
+"attribuut\n"
 
 #: src/config_rmw.c:45
 msgid "# rmw default waste directory, separate from the desktop trash\n"
-msgstr ""
+msgstr "# rmw standaard afval map, separaat van de desktop afvalemmer\n"
 
 #: src/purging_rmw.c:483
 #, c-format
@@ -203,21 +232,21 @@ msgstr[0] "%dbestand gepurged"
 msgstr[1] "%dbestanden gepurged"
 
 #: src/main.c:448
-#, fuzzy, c-format
+#, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
-msgstr[0] "%dbestand was verwijdert naar de afval map"
-msgstr[1] "%dbestanden zijn gepurged naar de afval map"
+msgstr[0] "%d item is verplaatst naar de afval map"
+msgstr[1] "%d items zijn verplaatst naar de afval map"
 
 #: src/main.c:343
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
-msgstr ""
+msgstr "%s staat in een afval map en is genegeerd\n"
 
 #: src/purging_rmw.c:470
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' will be purged in %.2lf days\n"
-msgstr "%dbestand gepurged"
+msgstr "'%s' zal worden weggegooid over %.2lf dagen\n"
 
 #: src/restore_rmw.c:337
 msgid "'q' - quit"
@@ -251,6 +280,7 @@ msgstr "-i / --interactive: nog niet beschikbaar\n"
 #, c-format
 msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr ""
+"-r, -R, --recursive: optie is niet vereist (staat standaard ingeschakeld)\n"
 
 #: src/restore_rmw.c:330
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
@@ -277,6 +307,7 @@ msgstr "Actie geannuleerd."
 #: src/parse_cli_options.c:248
 msgid "Arguments given to --purge must be numeric only"
 msgstr ""
+"Argumenten gegeven aan --purge kunnen enkel uit numerieke waarden bestaan"
 
 #: src/utils_rmw.c:195
 msgid "Continue? (y/n): "
@@ -357,10 +388,12 @@ msgid ""
 "Restore FILE(s) from a WASTE directory\n"
 "\n"
 msgstr ""
+"Zet BESTAND(en) terug uit een AFVAL map\n"
+"\n"
 
 #: src/main.c:166
 msgid "Skipping --undo-last because --most-recent-list was requested"
-msgstr ""
+msgstr "Sla --undo-last over omdat --most-recent-list meegegeven is"
 
 #: src/parse_cli_options.c:112
 #, c-format
@@ -389,17 +422,17 @@ msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 
 #: src/main.c:160
 msgid "There are no items in the list - please check back later.\n"
-msgstr ""
+msgstr "Er staan geen items in de lijst - kom later terug.\n"
 
 #: src/parse_cli_options.c:294
 #, c-format
 msgid "Try '%s --help' for more information.\n"
-msgstr ""
+msgstr "Probeer '%s --help' voor meer informatie.\n"
 
 #: src/parse_cli_options.c:158
 #, c-format
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
-msgstr ""
+msgstr "Probeer '%s ./%s' voor het verwijderen van bestand '%s'.\n"
 
 #: src/main.c:502
 #, c-format
@@ -426,11 +459,19 @@ msgid ""
 "   or: %s -u\n"
 "   or: %s -z FILE...\n"
 msgstr ""
+"Gebruik: %s [OPTIE]... BESTAND...\n"
+"Verplaats BESTAND(en) naar een AFVAL map opgegeven in het configuratie "
+"bestand\n"
+"\n"
+"   of: %s -s\n"
+"   of: %s -u\n"
+"   of: %s -z BESTAND...\n"
 
 #: src/restore_rmw.c:271
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
+"Je terminal heeft enkel %d regels. Een minimum van %d regels is vereist.\n"
 
 #: src/config_rmw.c:537
 msgid "attached"
@@ -447,7 +488,7 @@ msgstr "ontkoppeld"
 
 #: src/parse_cli_options.c:225
 msgid "dry-run mode enabled."
-msgstr ""
+msgstr "droogloop modus ingeschakeld."
 
 #: src/messages_rmw.c:101
 #, c-format
@@ -478,12 +519,12 @@ msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of force\n"
 
 #: src/purging_rmw.c:252
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
 "\n"
 msgstr ""
-"verwijderen is uitgeschakeld, 'purge_after' is ingesteld op 0\n"
+"verwijderen is uitgeschakeld ('%s' is ingesteld op '0')\n"
 "\n"
 
 #: src/config_rmw.c:535
@@ -492,9 +533,9 @@ msgid "removable, "
 msgstr "verwijderbaar, "
 
 #: src/messages_rmw.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "restore() returned %d\n"
-msgstr "Restore() gaf %d terug\n"
+msgstr "restore() gaf %d\n"
 
 #: src/parse_cli_options.c:128
 #, c-format
@@ -555,9 +596,9 @@ msgid "while creating %s\n"
 msgstr "bij het maken van %s\n"
 
 #: src/messages_rmw.c:239
-#, fuzzy, c-format
+#, c-format
 msgid "while creating %s (%s)\n"
-msgstr "bij het maken van %s\n"
+msgstr "tijdens maken %s (%s)\n"
 
 #: src/main.c:480
 msgid "while getting the path to your home directory\n"
@@ -591,295 +632,3 @@ msgid ""
 msgstr ""
 "tijdens het verplaatsen (hernoemen)\n"
 " %s -> %s - %s:L%d\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "# If attempting to rmw files under this directory, they will not be "
-#~ "processed\n"
-#~ "# unless -B --bypass is given as an argument.\n"
-#~ "#\n"
-#~ "# PROTECT = /usr/local/bin\n"
-#~ "# PROTECT = $HOME/src\n"
-#~ msgstr ""
-#~ "\n"
-#~ "# Indien je probeert met rmw bestanden te verwijderen in deze map zullen "
-#~ "ze niet\n"
-#~ "# mee worden genomen tenzij -B --bypass is gegeven als argument.\n"
-#~ "#\n"
-#~ "# PROTECT = /usr/local/bin\n"
-#~ "# PROTECT = $HOME/src\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "# If you would like this to be your primary trash folder (which usually "
-#~ "means\n"
-#~ "# that it will be the same as your Desktop Trash folder) be sure it "
-#~ "precedes\n"
-#~ "# any other WASTE folders listed in the config file\n"
-#~ "#\n"
-#~ "# If you want it checked for files that need purging, simply uncomment\n"
-#~ "# The line below. Files you move with rmw will go to the folder above by\n"
-#~ "# default.\n"
-#~ "#\n"
-#~ "# Note to OSX and Windows users: sending files to 'Desktop' trash\n"
-#~ "# doesn't work yet\n"
-#~ "#\n"
-#~ msgstr ""
-#~ "\n"
-#~ "# Als je wilt dat dit je primaire prullenbak wordt (meestal hetzelfde als "
-#~ "de\n"
-#~ "# Desktop prullenbak) draag je er zorg voor dat het de eerste AFVAL map "
-#~ "is\n"
-#~ "# voor andere mappen die in je configuratie zijn opgenomen\n"
-#~ "#\n"
-#~ "# Als je wilt dat bestanden worden gecontroleerd om te purgen, haal je "
-#~ "het\n"
-#~ "# commentaar hekje weg op de onderstaande reges. Bestanden die je "
-#~ "verplaatst\n"
-#~ "# met rmw gaan standaard naar de bovenstaande map.\n"
-#~ "#\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "# Removable media: If a folder has ',removable' appended to it, rmw\n"
-#~ "# will not try to create it; it must be initially created manually. If\n"
-#~ "# the folder exists when rmw is run, it will be used; if not, it will be\n"
-#~ "# skipped Once you create \"example_waste\", rmw will automatically "
-#~ "create\n"
-#~ "# example_waste/info and example_waste/files\n"
-#~ msgstr ""
-#~ "\n"
-#~ "# Verwijderbare opslag: Indien een map ',removable' als suffix heeft dan "
-#~ "zal rmw\n"
-#~ "# het niet proberen aan te maken; initieel zal het zelf aangemaakt moeten "
-#~ "worden. Als\n"
-#~ "# de map bestaat als rmw gestart word, zal het niet worden gebruikt; "
-#~ "anders zal\n"
-#~ "# het worden overgeslagen. Zodra je \"example_waste\" aanmaakt, zal rmw "
-#~ "automatisch\n"
-#~ "# example_waste/info en example_waste/files aanmaken\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "# purge will not run unless `--force` is used at the command line. "
-#~ "Uncomment\n"
-#~ "# the line below if you would like purge to check daily for files that\n"
-#~ "# that exceed the days specified in purge_after\n"
-#~ "#\n"
-#~ "#force_not_required\n"
-#~ msgstr ""
-#~ "\n"
-#~ "# purge zal niet starten tenzij `--force` wordt gebruikt bij het "
-#~ "aanroepen. Comment\n"
-#~ "# de regel hieronder uit als je dagelijks wilt controleren op bestanden "
-#~ "die het aantal\n"
-#~ "# dagen overschrijden opgegeven bij purge_after\n"
-#~ "#\n"
-#~ "#force_not_required\n"
-
-#, fuzzy
-#~| msgid ""
-#~| "Usage: rmw [OPTION]... FILE...\n"
-#~| "ReMove the FILE(s) to a WASTE directory listed in configuration file\n"
-#~| "\n"
-#~| "   or: rmw -s\n"
-#~| "   or: rmw -u\n"
-#~| "   or: rmw -z FILE...\n"
-#~| "Restore FILE(s) from a WASTE directory\n"
-#~| "\n"
-#~| "  -h, --help\n"
-#~| "  -c, --config filename     use an alternate configuration\n"
-#~| "  -l, --list                list waste directories\n"
-#~| "  -g, --purge               run purge even if it's been run today\n"
-#~| "  -o, --orphaned            check for orphaned files (maintenance)\n"
-#~| "  -f, --force               allow rmw to purge files in the background\n"
-#~| "  -e, --empty               completely empty (purge) all waste folders\n"
-#~| "  -v, --verbose             increase output messages\n"
-#~| "  -w, --warranty            display warranty\n"
-#~| "  -V, --version             display version and license information\n"
-#~ msgid ""
-#~ "  -l, --list                list waste directories\n"
-#~ "  -g, --purge               run purge even if it's been run today\n"
-#~ "  -o, --orphaned            check for orphaned files (maintenance)\n"
-#~ "  -f, --force               allow rmw to purge files in the background\n"
-#~ "  -e, --empty               completely empty (purge) all waste folders\n"
-#~ "  -r, -R, --recursive       option used for compatibility with rm\n"
-#~ "                            (recursive operation is enabled by default)\n"
-#~ "  -v, --verbose             increase output messages\n"
-#~ "  -w, --warranty            display warranty\n"
-#~ "  -V, --version             display version and license information\n"
-#~ msgstr ""
-#~ "Gebruik: rmw [OPTIE] BESTAND\n"
-#~ "Verwijder het/de BESTAND(en) naar een AFVAL directory opgegeven in "
-#~ "configuratie bestand\n"
-#~ "\n"
-#~ "   of: rmw -s\n"
-#~ "   of: rmw -u\n"
-#~ "   of: rmw -z BESTAND\n"
-#~ "Zet BESTAND(en) terug uit een AFVAL directory\n"
-#~ "\n"
-#~ "  -h, --help\n"
-#~ "  -c, --config bestandsnaam     gebruik een alternatieve configuratie\n"
-#~ "  -l, --list                geef afval mappen weer\n"
-#~ "  -g, --purge               voer purge uit ookal is dat vandaag nog niet "
-#~ "gebeurd\n"
-#~ "  -o, --orphaned            controleer op wees bestanden (onderhoud)\n"
-#~ "  -f, --force               sta toe om purge uit te voeren\n"
-#~ "  -e, --empty               alle afval mappen legen (purgen)\n"
-#~ "  -r, -R, --recursive       option used for compatibility with rm\n"
-#~ "                            (recursive operation is enabled by default)\n"
-#~ "  -v, --verbose             toon meer uitvoer\n"
-#~ "  -w, --warranty            toon garantie\n"
-#~ "  -V, --version             toon versie en licentie informatie\n"
-
-#, fuzzy
-#~| msgid ""
-#~| "  \n"
-#~| "\n"
-#~| "  \t===] Restoring [===\n"
-#~| "\n"
-#~| "  -z, --restore <wildcard filename(s) pattern>\n"
-#~| "  -s, --select              select files from list to restore\n"
-#~| "  -u, --undo-last           undo last ReMove\n"
-#~ msgid ""
-#~ "  -z, --restore <wildcard filename(s) pattern> (e.g. ~/.local/share/Waste/"
-#~ "files/foo*)\n"
-#~ "  -s, --select              select files from list to restore\n"
-#~ "  -u, --undo-last           undo last ReMove\n"
-#~ "  -m, --most-recent-list    list most recently rmw'ed files\n"
-#~ msgstr ""
-#~ "  \n"
-#~ "\n"
-#~ "  \t===] Terugzetten [===\n"
-#~ "\n"
-#~ "  -z, --restore <joker teken bestandsna(a)m(en) patroon>\n"
-#~ "  -s, --select              selecteer bestand(en) uit een lijst\n"
-#~ "  -u, --undo-last           maak laatste verwijdering ongedaan\n"
-
-#~ msgid "  :Error number %d trying to move %s :\n"
-#~ msgstr " :Fout nummer %d bij verplaatsen van %s:\n"
-
-#~ msgid ""
-#~ "  :Error: Can not open configuration file\n"
-#~ "%s (or)\n"
-#~ "%s%s\n"
-#~ "\n"
-#~ "A default configuration file can be found at\n"
-#~ "https://github.com/andy5995/rmw/tree/master\n"
-#~ "Terminating...\n"
-#~ msgstr ""
-#~ ":Fout: Kan het configuratiebestand\n"
-#~ "%s (of)\n"
-#~ "%s%s\n"
-#~ "\n"
-#~ "Een standaard configuratie bestand kan worden gevonden op\n"
-#~ "https://github.com/andy5995/rmw/tree/master\n"
-#~ "Afsluiten...\n"
-
-#~ msgid "  :Error: Restore (rename) failed: %s\n"
-#~ msgstr ":Fout: Terugzetten (rename) mislukt: %s\n"
-
-#~ msgid "  :Error: invalid purge_after value in configuration\n"
-#~ msgstr "  :Fout: onjuiste waarde voor purge_after in configuratie\n"
-
-#~ msgid ""
-#~ "  :Error: unable to create config and data directory\n"
-#~ "Please check your configuration file and permissions\n"
-#~ "\n"
-#~ "If you need further help, or to report a possible bug,\n"
-#~ "visit the rmw web site at\n"
-#~ "\n"
-#~ "  https://github.com/andy5995/rmw/wiki\n"
-#~ "\n"
-#~ "Unable to continue. Exiting...\n"
-#~ msgstr ""
-#~ "  :Fout: kan configuratie en data map niet aanmaken\n"
-#~ "Controleer je configuratie bestand en bestandspermissies\n"
-#~ "\n"
-#~ "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
-#~ "rapporteren, bezoek de website van rmw op\n"
-#~ "\n"
-#~ "  https://github.com/andy5995/rmw/wiki\n"
-#~ "\n"
-#~ "Kan niet doorgaan. Afsluiten\n"
-
-#~ msgid " :warning: Maximum number of protected folders reached: %d\n"
-#~ msgstr ""
-#~ " :waarschuwing: Het maximaal aantal beschermde mappen is bereikt: %d\n"
-
-#~ msgid " :warning: Maximum number of waste folders reached: %d\n"
-#~ msgstr " :waarschuwing: Het maximum aantal afval mappen is bereikt: %d\n"
-
-#~ msgid ""
-#~ " <--> Displaying part of the string that caused the error <-->\n"
-#~ "\n"
-#~ msgstr ""
-#~ " <--> Deel van de tekenreeks waarin de fout op trad <-->\n"
-#~ "\n"
-
-#, fuzzy
-#~| msgid ""
-#~| "# NOTE: If two WASTE folders are on the same file system, rmw will move "
-#~| "files\n"
-#~| "# to the first WASTE folder listed, ignoring the second one.\n"
-#~| "#\n"
-#~| "WASTE = $HOME/.trash.rmw\n"
-#~ msgid ""
-#~ "# NOTE: If two WASTE folders are on the same file system, rmw will move "
-#~ "files\n"
-#~ "# to the first WASTE folder listed, ignoring the second one.\n"
-#~ "#\n"
-#~ msgstr ""
-#~ "# LET OP: Indien twee AFVAL mappen op het zelfde bestandssysteem staan, "
-#~ "dan zal rmw\n"
-#~ "# de bestanden naar de eerste AFVAL map verplaatsen, de tweede negerend.\n"
-#~ "#\n"
-#~ "WASTE = $HOME/.trash.rmw\n"
-
-#~ msgid "%s freed"
-#~ msgid_plural "%s freed"
-#~ msgstr[0] "%s vrij gemaakt"
-#~ msgstr[1] "%s vrij gemaakt"
-
-#~ msgid "-r / --recurse: not implemented\n"
-#~ msgstr "-r / --recurse: nog niet beschikbaar\n"
-
-#~ msgid ""
-#~ "If you think this may be a bug, please report it to the rmw developers.\n"
-#~ msgstr ""
-#~ "Als je denkt dat dit een fout is, rapporteer dit aan de rmw "
-#~ "ontwikkelaars.\n"
-
-#~ msgid "Invalid WASTE option: '%s'\n"
-#~ msgstr "Invalide optie: '%s'\n"
-
-#~ msgid "Searching using only the basename...\n"
-#~ msgstr "Zoeken enkel op de basis naam\n"
-
-#~ msgid "Skipped: %s is in a protected directory\n"
-#~ msgstr "Overgeslagen: %s is in een beveiligde map\n"
-
-#~ msgid "The Easter Bunny says, \"Hello, world.\""
-#~ msgstr "De paashaas zegt, \"Hallo, wereld.\""
-
-#, fuzzy
-#~| msgid "  :Error: buffer overrun (segmentation fault) prevented.\n"
-#~ msgid "buffer overrun (segmentation fault) prevented.\n"
-#~ msgstr "  :Error: buffer overrun (segmentatie fout) voorkomen.\n"
-
-#~ msgid "failed to remove %s\n"
-#~ msgstr "kon %s niet verwijderen\n"
-
-#~ msgid "invalid option in config\n"
-#~ msgstr "onjuiste optie in configuratie\n"
-
-#, fuzzy
-#~| msgid "  :Error: number %d trying to create a .trashinfo file\n"
-#~ msgid "number %d trying to create a .trashinfo file\n"
-#~ msgstr " :Fout: nummer %d bij maken van een .trashinfo bestand\n"
-
-#~ msgid "realpath() returned an error.\n"
-#~ msgstr "realpath() gaf een fout terug.\n"
-
-#~ msgid "search complete\n"
-#~ msgstr "zoeken voltooid\n"
