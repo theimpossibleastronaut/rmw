@@ -5,7 +5,7 @@ Maintainer: Andy Alt <andy400-dev@yahoo.com>
 Build-Depends:  debhelper (>= 12~),
                 libncursesw5-dev,
                 libtinfo-dev,
-                meson
+                meson (>= 0.5.4)
 Standards-Version: 4.3.0
 Homepage: https://remove-to-waste.info/
 

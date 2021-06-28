@@ -1,4 +1,4 @@
-# rmw-0.7.999
+# rmw-0.8.0
 ## Description
 
 rmw (ReMove to Waste) is a safe-remove utility for the command line. It
@@ -250,8 +250,10 @@ be a binary package available for your OS. You can view a list at
 repositories rmw is included. Since v0.7.09, x86_64 AppImages are
 available.
 
-Maintainer-created amd64 Debian packages are available in the [releases
-section](https://github.com/theimpossibleastronaut/rmw/releases).
+AppImages and maintainer-created amd64 Debian packages are available in
+the [releases section][releases-url].
+
+[releases-url]: https://github.com/theimpossibleastronaut/rmw/releases
 
 ## Installing from source
 

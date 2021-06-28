@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Categories=Utility;System;
+Icon=rmw
+Name=rmw
+GenericName=Safe-remove utility for the command line
+Type=Application
+MimeType=application/octet-stream
+Exec=rmw
+Keywords=trashcan;system;utilities;file-management;cli;

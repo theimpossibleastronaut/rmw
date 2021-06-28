@@ -1,4 +1,4 @@
-rmw v0.7.09
+rmw v0.8.0
 ReMove to Waste is a safe-remove utility for
 the command line. It can move and restore
 files to and from directories specified in a
@@ -9,3 +9,5 @@ FreeDesktop.org Trash specification). One of
 the unique features of rmw is the ability to
 purge items from your waste (or trash)
 directories after x number of days.
+
+https://remove-to-waste.info
