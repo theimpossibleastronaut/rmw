@@ -68,8 +68,17 @@ executable(
 subdir ('man')
 subdir ('test')
 
-install_data(files('README.md', 'COPYING', 'AUTHORS.md', 'ChangeLog', 'ReleaseNotes'),
-        install_dir : get_option('docdir'))
+install_data(
+  files(
+    'README.md',
+    'COPYING',
+    'AUTHORS.md',
+    'ChangeLog',
+    'ReleaseNotes',
+    'rmwrc.example'
+    ),
+  install_dir : get_option('docdir')
+  )
 
 if get_option('nls')
   ul = configuration_data()

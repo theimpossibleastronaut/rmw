@@ -1,0 +1,23 @@
+# rmw default waste directory, separate from the desktop trash
+WASTE = $HOME/.local/share/Waste
+
+# The directory used by the FreeDesktop.org Trash spec
+# Note to macOS and Windows users: moving files to 'Desktop' trash
+# doesn't work yet
+# WASTE=$HOME/.local/share/Trash
+
+# A folder can use the $UID variable.
+# See the README or man page for details about using the 'removable' attribute
+# WASTE=/mnt/flash/.Trash-$UID, removable
+
+# How many days should items be allowed to stay in the waste
+# directories before they are permanently deleted
+#
+# use '0' to disable purging (can be overridden by using --purge=N_DAYS)
+#
+expire_age = 0
+
+# purge is allowed to run without the '-f' option. If you'd rather
+# require the use of '-f', you may uncomment the line below.
+#
+# force_required
