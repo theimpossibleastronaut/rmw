@@ -34,9 +34,9 @@ ninja dist
 
 Remove packaging directory from the resulting xz file
 
-	Decompress
-		xz -d ....
-	tar --delete -f rmw-0.8.0.tar rmw-0.8.0/packaging
+  Decompress
+    xz -d ....
+  tar --delete -f rmw-0.8.0.tar rmw-0.8.0/packaging
 
   gzip rmw-0.8.0.tar
 
@@ -44,12 +44,15 @@ Remove packaging directory from the resulting xz file
 md5sum the tarball and paste into packaging/Slackbuild/rmw/rmw.info
 
 Make the AppImage
-	meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
-	DESTDIR=AppDir ninja install
+  meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
+  DESTDIR=AppDir ninja install
 
-	linuxdeploy-x86_64.AppImage -d ../rmw/packaging/rmw.desktop \
-	--icon-file=/home/andy/src/rmw-project/rmw/packaging/rmw_icon_32x32.png \
-	 --icon-filename=rmw --executable /usr/bin/rmw --appdir AppDir --output appimage
+  linuxdeploy-x86_64.AppImage -d ../rmw/packaging/rmw.desktop \
+  --icon-file=/home/andy/src/rmw-project/rmw/packaging/rmw_icon_32x32.png \
+   --icon-filename=rmw --executable AppDir/usr/bin/rmw --appdir AppDir --output appimage
+
+  Rename the appimage so it contains the version...
+    rmw-0.8.0-x86_64.AppImage
 
 
 Check copyright date/year
