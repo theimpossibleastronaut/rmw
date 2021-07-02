@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2021-06-28
+
+  * rmw v0.8.0 released
+
 2021-06-21
 
   * Replaced autotools build system with meson
