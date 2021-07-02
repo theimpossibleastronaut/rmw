@@ -187,11 +187,7 @@ Duplicate filename at destination - appending time string...\n"));
   }
   else
   {
-    /* This printf statement is on a separate line to leave the translated
-     * string below it unchanged */
-    printf (" :");
-    /* TRANSLATORS:  "%s" refers to a file or directory  */
-    printf (_("File not found: '%s'\n"), src);
+    msg_warn_file_not_found (src);
     msg_return_code (ENOENT);
     return ENOENT;
   }

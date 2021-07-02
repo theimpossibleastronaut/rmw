@@ -247,4 +247,15 @@ msg_success_mkdir (const char *dir)
 }
 
 
+void
+msg_warn_file_not_found (const char *file)
+{
+  /* TRANSLATORS:  "%s" refers to a file or directory  */
+  print_msg_warn ();
+  printf (_("File not found: '%s'\n"), file);
+}
+
+
+
+
 

@@ -67,3 +67,6 @@ msg_err_mkdir (const char *dir, const char *func);
 
 void
 msg_success_mkdir (const char *dir);
+
+void
+msg_warn_file_not_found (const char *file);
