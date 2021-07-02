@@ -318,8 +318,7 @@ damage of 5000 hp. You feel satisfied.\n"));
       if (st_target.real_path == NULL)
       {
         n_err++;
-        if (n_err > 1)
-          continue;
+        continue;
       }
     }
     else
