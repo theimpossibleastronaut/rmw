@@ -113,6 +113,16 @@ struct st__trashinfo {
   int len;
 };
 
+typedef struct
+{
+  char *value;
+  union
+  {
+    char *path_ptr;
+    char *date_str_ptr;
+  } f;
+} trashinfo_field;
+
 extern struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
 
 enum {

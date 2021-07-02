@@ -101,6 +101,7 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time
 char
 *parse_trashinfo_file (const char *file, const char* req_value)
 {
+  trashinfo_field trashinfo_field;
   if (strcmp (req_value, path_key) != 0 && strcmp (req_value, deletion_date_key) != 0)
   {
     print_msg_error ();
@@ -112,7 +113,7 @@ char
   FILE *fp = fopen (file, "r");
   if (fp != NULL)
   {
-    char *value = NULL;
+    trashinfo_field.value = NULL;
     bool res = true;
     char fp_line[LEN_MAX_TRASHINFO_PATH_LINE];
     while (fgets (fp_line, LEN_MAX_TRASHINFO_PATH_LINE, fp) != NULL && res == true)
@@ -127,10 +128,10 @@ char
           res = strncmp (fp_line, st_trashinfo_spec[TI_PATH_LINE].str, st_trashinfo_spec[TI_PATH_LINE].len) == 0;
           if (res && strcmp (req_value, path_key) == 0)
           {
-            char *path_ptr = strchr (fp_line, '=');
-            path_ptr++; /* move past the '=' sign */
-            char *unescaped_path = unescape_url (path_ptr, LEN_MAX_PATH);
-            value = unescaped_path;
+            trashinfo_field.f.path_ptr = strchr (fp_line, '=');
+            trashinfo_field.f.path_ptr++; /* move past the '=' sign */
+            char *unescaped_path = unescape_url (trashinfo_field.f.path_ptr, LEN_MAX_PATH);
+            trashinfo_field.value = unescaped_path;
           }
           break;
         case TI_DATE_LINE:
@@ -139,11 +140,11 @@ char
 
           if (res && strcmp (req_value, deletion_date_key) == 0)
           {
-            char *date_str_ptr = strchr (fp_line, '=');
-            date_str_ptr++;
-            value = malloc (strlen (date_str_ptr) + 1);
-            chk_malloc (value, __func__, __LINE__);
-            strcpy (value, date_str_ptr);
+            trashinfo_field.f.date_str_ptr = strchr (fp_line, '=');
+            trashinfo_field.f.date_str_ptr++;
+            trashinfo_field.value = malloc (strlen (trashinfo_field.f.date_str_ptr) + 1);
+            chk_malloc (trashinfo_field.value, __func__, __LINE__);
+            strcpy (trashinfo_field.value, trashinfo_field.f.date_str_ptr);
           }
           break;
         default:
@@ -155,10 +156,10 @@ char
     close_file (fp, file, __func__);
 
     if (res && line_no == TI_LINE_COUNT)
-      return value;
+      return trashinfo_field.value;
 
-    if (value != NULL)
-      free (value);
+    if (trashinfo_field.value != NULL)
+      free (trashinfo_field.value);
     display_dot_trashinfo_error (file);
     return NULL;
   }
