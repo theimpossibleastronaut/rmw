@@ -1,7 +1,6 @@
 [Desktop Entry]
-Encoding=UTF-8
 Version=1.0
-Categories=Utility;System;
+Categories=Utility;
 Icon=rmw
 Name=rmw
 GenericName=Safe-remove utility for the command line

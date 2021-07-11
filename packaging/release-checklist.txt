@@ -41,9 +41,15 @@ Remove packaging directory from the resulting xz file
   gzip rmw-0.8.0.tar
 
 
-md5sum the tarball and paste into packaging/Slackbuild/rmw/rmw.info
+sha256 the tarball and paste into packaging/Slackbuild/rmw/rmw.info
+
+
 
 Make the AppImage
+
+  To pass the test on https://github.com/AppImage/appimage.github.io, the image must be
+  built on an older system, such Ubuntu bionic. I do that in a docker image.
+
   meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
   DESTDIR=AppDir ninja install
 
