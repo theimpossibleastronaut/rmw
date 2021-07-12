@@ -7,4 +7,5 @@ GenericName=Safe-remove utility for the command line
 Type=Application
 MimeType=application/octet-stream
 Exec=rmw
+Terminal=true
 Keywords=trashcan;system;utilities;file-management;cli;

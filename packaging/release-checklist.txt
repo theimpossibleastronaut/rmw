@@ -53,8 +53,8 @@ Make the AppImage
   meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
   DESTDIR=AppDir ninja install
 
-  linuxdeploy-x86_64.AppImage -d ../rmw/packaging/rmw.desktop \
-  --icon-file=/home/andy/src/rmw-project/rmw/packaging/rmw_icon_32x32.png \
+  linuxdeploy-x86_64.AppImage -d /rmw/packaging/rmw.desktop \
+  --icon-file=/rmw/packaging/rmw_icon_32x32.png \
    --icon-filename=rmw --executable AppDir/usr/bin/rmw --appdir AppDir --output appimage
 
   Rename the appimage so it contains the version...
