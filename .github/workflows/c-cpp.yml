@@ -24,12 +24,6 @@ jobs:
       MAXTRIX_ARCH: ${{ matrix.arch }}
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        sudo apt-get install -y gettext python3-pip
-        if [ "$MATRIX_OS" = "ubuntu-18.04" ]; then sudo apt-get install -y python3-pip; fi
-        if [ "$MATRIX_OS" = "ubuntu-latest" && "$MATRIX_ARCH" = "x64" ]; then sudo apt-get install -y valgrind; fi
-        sudo python3 -m pip install meson ninja
     - run: sh ./.github/scripts/all_tests.sh
 
   clang:
@@ -45,12 +39,6 @@ jobs:
       MAXTRIX_ARCH: ${{ matrix.arch }}
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        sudo apt-get install -y gettext
-        if [ "$MATRIX_OS" = "ubuntu-18.04" ]; then sudo apt-get install -y python3-pip; fi
-        if [ "$MATRIX_OS" = "ubuntu-latest" && "$MATRIX_ARCH" = "x86" ]; then sudo apt-get install -y valgrind; fi
-        sudo python3 -m pip install meson ninja
     - run: sh ./.github/scripts/all_tests.sh
 
 
