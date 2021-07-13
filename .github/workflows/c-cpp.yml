@@ -9,31 +9,51 @@ on:
     - '**/*.md'
 
 jobs:
-  ubuntu:
+  gcc:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x64, ppc64le, armv7, aarch64]
+        arch: [x64, x86, ppc64le, armv7, aarch64]
         os: [ubuntu-18.04, ubuntu-latest]
-        compiler: [gcc, clang]
     runs-on: ${{ matrix.os }}
     env:
       TERM: xterm
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt-get install -y gettext valgrind
+      run: sudo apt-get install -y gettext
+    - name Install python3-pip
+      if ${{ matrix.os == 'ubuntu-18.04' }}
+      run: sudo apt-get install -y python3-pip
+    - name valgrind
+      if ${{ matrix.arch == 'ubuntu-latest' && matrix.arch == 'x64' }}
+      run: sudo apt-get install -y valgrind
     - run: sudo python3 -m pip install meson ninja
-    - name: gcc
-      if: ${{ matrix.compiler == 'gcc' }}
-      env:
-        CC: gcc
-      run: sh ./.github/scripts/all_tests.sh
-    - name: clang
-      if: ${{ matrix.compiler == 'clang' }}
-      env:
-        CC: clang
-      run: sh ./.github/scripts/all_tests.sh
+    - run: sh ./.github/scripts/all_tests.sh
+
+  clang:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, x86]
+        os: [ubuntu-18.04, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      TERM: xterm
+      CC: clang
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: sudo apt-get install -y gettext valgrind
+    - name Install python3-pip
+      if ${{ matrix.os == 'ubuntu-18.04' }}
+      run: sudo apt-get install -y python3-pip
+    - name valgrind
+      if ${{ matrix.arch == 'ubuntu-latest' && matrix.arch == 'x86' }}
+      run: sudo apt-get install -y valgrind
+    - run: sudo python3 -m pip install meson ninja
+    - run: sh ./.github/scripts/all_tests.sh
+
 
   macos:
     runs-on: macos-latest
