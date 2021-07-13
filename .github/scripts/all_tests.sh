@@ -13,7 +13,7 @@ if [ "$MATRIX_OS" = "ubuntu-18.04" ]; then
   sudo apt-get install -y python3-pip python3-setuptools
 fi
 
-sudo python3 -m pip install meson ninja
+sudo -H python3 -m pip install meson ninja
 
 meson builddir
 cd builddir
