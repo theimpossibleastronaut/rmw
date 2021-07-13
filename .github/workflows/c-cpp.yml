@@ -8,10 +8,11 @@ on:
     paths-ignore:
     - '**/*.md'
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
-  concurrency:
-    group: ${{ github.head_ref }}
-    cancel-in-progress: true
   ubuntu:
     strategy:
       fail-fast: false
