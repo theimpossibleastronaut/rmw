@@ -8,10 +8,6 @@ on:
     paths-ignore:
     - '**/*.md'
 
-concurrency:
-  group: ${{ github.head_ref }}
-  cancel-in-progress: true
-
 jobs:
   ubuntu:
     strategy:
@@ -23,6 +19,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       TERM: xterm
+    concurrency:
+      group: ${{ github.head_ref }}
+      cancel-in-progress: true
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
