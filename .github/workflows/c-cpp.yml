@@ -28,14 +28,14 @@ jobs:
       run: sudo apt-get install -y gettext valgrind
     - run: sudo python3 -m pip install meson ninja
     - name: gcc
-            if: ${{ matrix.compiler == 'gcc' }}
-            env:
-              CC: gcc
+      if: ${{ matrix.compiler == 'gcc' }}
+      env:
+        CC: gcc
       run: sh ./.github/scripts/all_tests.sh
     - name: clang
-            if: ${{ matrix.compiler == 'clang' }}
-            env:
-              CC: clang
+      if: ${{ matrix.compiler == 'clang' }}
+      env:
+        CC: clang
       run: sh ./.github/scripts/all_tests.sh
 
   macos:
@@ -43,6 +43,9 @@ jobs:
     env:
       PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig:$PKG_CONFIG_PATH"
       TERM: xterm
+    concurrency:
+      group: ${{ github.head_ref }}
+      cancel-in-progress: true
     steps:
     - uses: actions/checkout@v2
     - run: |
