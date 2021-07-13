@@ -19,9 +19,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       TERM: xterm
-    concurrency:
-      group: ${{ github.head_ref }}
-      cancel-in-progress: true
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
@@ -43,9 +40,6 @@ jobs:
     env:
       PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig:$PKG_CONFIG_PATH"
       TERM: xterm
-    concurrency:
-      group: ${{ github.head_ref }}
-      cancel-in-progress: true
     steps:
     - uses: actions/checkout@v2
     - run: |
