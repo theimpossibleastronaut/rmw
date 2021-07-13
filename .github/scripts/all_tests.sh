@@ -22,7 +22,7 @@ cd builddir
 ninja -v
 ninja dist
 
-if [ -n USE_VALGRIND ]; then
+if [ -n "$USE_VALGRIND" ]; then
   meson test --setup=valgrind
 fi
 
