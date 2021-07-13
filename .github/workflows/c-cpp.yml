@@ -19,13 +19,16 @@ jobs:
         arch: [x64, x86, ppc64le, armv7, aarch64]
         os: [ubuntu-18.04, ubuntu-latest]
     runs-on: ${{ matrix.os }}
+    env:
+      MAXTRIX_OS: ${{ matrix.os }}
+      MAXTRIX_ARCH: ${{ matrix.arch }}
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt-get install -y gettext python3-pip
-    - name: valgrind
-      if ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 'x64' }}
-      run: sudo apt-get install -y valgrind
+      run: |
+        sudo apt-get install -y gettext python3-pip
+        if [ "$MATRIX_OS" == "ubuntu-18.04" ]; then sudo apt-get install -y python3-pip; fi
+        if [ "$MATRIX_OS" == "ubuntu-latest" && "$MATRIX_ARCH" == "x64" ]; then sudo apt-get install -y valgrind; fi
     - run: sudo python3 -m pip install meson ninja
     - run: sh ./.github/scripts/all_tests.sh
 
@@ -37,13 +40,16 @@ jobs:
         os: [ubuntu-18.04, ubuntu-latest]
         compiler: clang
     runs-on: ${{ matrix.os }}
+    env:
+      MAXTRIX_OS: ${{ matrix.os }}
+      MAXTRIX_ARCH: ${{ matrix.arch }}
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt-get install -y gettext python3-pip
-    - name: valgrind
-      if ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 'x86' }}
-      run: sudo apt-get install -y valgrind
+      run: |
+        sudo apt-get install -y gettext
+        if [ "$MATRIX_OS" == "ubuntu-18.04" ]; then sudo apt-get install -y python3-pip; fi
+        if [ "$MATRIX_OS" == "ubuntu-latest" && "$MATRIX_ARCH" == "x86" ]; then sudo apt-get install -y valgrind; fi
     - run: sudo python3 -m pip install meson ninja
     - run: sh ./.github/scripts/all_tests.sh
 
