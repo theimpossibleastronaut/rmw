@@ -9,7 +9,18 @@ on:
     - '**/*.md'
 
 jobs:
+  concurrency:
+    group: ${{ github.head_ref }}
+    cancel-in-progress: true
   ubuntu:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, ppc64le, armv7, aarch64]
+        os: [ubuntu-18.04, ubuntu-latest]
+        compiler: [gcc, clang]
+    runs-on: ${{ matrix.os }}
+
     runs-on: ubuntu-latest
     env:
       TERM: xterm
