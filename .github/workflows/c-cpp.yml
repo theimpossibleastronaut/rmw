@@ -27,7 +27,16 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get install -y gettext valgrind
     - run: sudo python3 -m pip install meson ninja
-    - run: sh ./.github/scripts/all_tests.sh
+    - name: gcc
+            if: ${{ matrix.compiler == 'gcc' }}
+            env:
+              CC: gcc
+      run: sh ./.github/scripts/all_tests.sh
+    - name: clang
+            if: ${{ matrix.compiler == 'clang' }}
+            env:
+              CC: clang
+      run: sh ./.github/scripts/all_tests.sh
 
   macos:
     runs-on: macos-latest
