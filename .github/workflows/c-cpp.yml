@@ -32,9 +32,9 @@ jobs:
       matrix:
         arch: [x64, x86]
         os: [ubuntu-18.04, ubuntu-latest]
-        compiler: clang
     runs-on: ${{ matrix.os }}
     env:
+      CC: clang
       MAXTRIX_OS: ${{ matrix.os }}
       MAXTRIX_ARCH: ${{ matrix.arch }}
     steps:
