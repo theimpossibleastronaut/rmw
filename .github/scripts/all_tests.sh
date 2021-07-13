@@ -10,7 +10,7 @@ if [ "$MATRIX_OS" = "ubuntu-latest" && "$MATRIX_ARCH" = "x86" ]; then
 fi
 
 if [ "$MATRIX_OS" = "ubuntu-18.04" ]; then
-  sudo apt-get install -y python3-pip
+  sudo apt-get install -y python3-pip python3-setuptools
 fi
 
 sudo python3 -m pip install meson ninja
