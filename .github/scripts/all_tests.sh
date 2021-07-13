@@ -9,8 +9,6 @@ if [ "$MATRIX_OS" = "ubuntu-latest" && "$MATRIX_ARCH" = "x86" ]; then
   sudo apt-get install -y valgrind
 fi
 
-fi
-
 if [ "$MATRIX_OS" = "ubuntu-18.04" ]; then
   sudo apt-get install -y python3-pip
 fi
