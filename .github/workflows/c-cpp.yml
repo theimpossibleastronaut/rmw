@@ -21,8 +21,6 @@ jobs:
         os: [ubuntu-18.04, ubuntu-latest]
         compiler: [gcc, clang]
     runs-on: ${{ matrix.os }}
-
-    runs-on: ubuntu-latest
     env:
       TERM: xterm
     steps:
