@@ -8,6 +8,9 @@ on:
     paths-ignore:
     - '**/*.md'
 
+env:
+  TERM: xterm
+
 jobs:
   gcc:
     strategy:
@@ -16,8 +19,6 @@ jobs:
         arch: [x64, x86, ppc64le, armv7, aarch64]
         os: [ubuntu-18.04, ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    env:
-      TERM: xterm
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
@@ -39,8 +40,6 @@ jobs:
         os: [ubuntu-18.04, ubuntu-latest]
         compiler: clang
     runs-on: ${{ matrix.os }}
-    env:
-      TERM: xterm
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
@@ -59,7 +58,6 @@ jobs:
     runs-on: macos-latest
     env:
       PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig:$PKG_CONFIG_PATH"
-      TERM: xterm
     steps:
     - uses: actions/checkout@v2
     - run: |
