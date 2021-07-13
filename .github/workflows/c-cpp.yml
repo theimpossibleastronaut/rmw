@@ -8,23 +8,44 @@ on:
     paths-ignore:
     - '**/*.md'
 
+env:
+  TERM: xterm
+
 jobs:
-  ubuntu:
-    runs-on: ubuntu-latest
+  gcc:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, x86, ppc64le, armv7, aarch64]
+        os: [ubuntu-18.04, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     env:
-      TERM: xterm
+      MATRIX_OS: ${{ matrix.os }}
+      MATRIX_ARCH: ${{ matrix.arch }}
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: sudo apt-get install -y gettext valgrind
-    - run: sudo python3 -m pip install meson ninja
     - run: sh ./.github/scripts/all_tests.sh
+
+  clang:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, x86]
+        os: [ubuntu-18.04, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      CC: clang
+      MAXTRIX_OS: ${{ matrix.os }}
+      MAXTRIX_ARCH: ${{ matrix.arch }}
+    steps:
+    - uses: actions/checkout@v2
+    - run: sh ./.github/scripts/all_tests.sh
+
 
   macos:
     runs-on: macos-latest
     env:
       PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig:$PKG_CONFIG_PATH"
-      TERM: xterm
     steps:
     - uses: actions/checkout@v2
     - run: |
