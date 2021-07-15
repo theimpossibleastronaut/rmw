@@ -35,8 +35,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       CC: clang
-      MAXTRIX_OS: ${{ matrix.os }}
-      MAXTRIX_ARCH: ${{ matrix.arch }}
+      MATRIX_OS: ${{ matrix.os }}
+      MATRIX_ARCH: ${{ matrix.arch }}
     steps:
     - uses: actions/checkout@v2
     - run: sh ./.github/scripts/all_tests.sh
