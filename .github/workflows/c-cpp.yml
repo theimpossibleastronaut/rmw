@@ -12,12 +12,12 @@ env:
   TERM: xterm
 
 jobs:
-  gcc:
+  ubuntu-latest:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x64, x86, ppc64le, armv7, aarch64]
-        os: [ubuntu-18.04, ubuntu-latest]
+        arch: [x86, x64, ppc64le, armv7, aarch64]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
       MATRIX_OS: ${{ matrix.os }}
@@ -26,21 +26,52 @@ jobs:
     - uses: actions/checkout@v2
     - run: sh ./.github/scripts/all_tests.sh
 
-  clang:
+  ubuntu-18_04:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x64, x86]
-        os: [ubuntu-18.04, ubuntu-latest]
+        arch: [x64]
+        os: [ubuntu-18.04]
+        compiler: [gcc, clang]
     runs-on: ${{ matrix.os }}
     env:
-      CC: clang
       MATRIX_OS: ${{ matrix.os }}
       MATRIX_ARCH: ${{ matrix.arch }}
+      CC: ${{ matrix.compiler }}
     steps:
     - uses: actions/checkout@v2
     - run: sh ./.github/scripts/all_tests.sh
 
+  gcc10_11_clang_10:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64]
+        os: [ubuntu-latest]
+        compiler: [gcc-10, gcc-11, clang-10]
+    runs-on: ${{ matrix.os }}
+    env:
+      MATRIX_OS: ${{ matrix.os }}
+      MATRIX_ARCH: ${{ matrix.arch }}
+      CC: ${{ matrix.compiler }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        if [ -z "${CC##*$clang*}" ]; then
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main"
+          sudo apt-get update -qq
+          sudo apt-get install -y $CC
+        else
+          if  [ "$CC" = "gcc-11" ]; then
+            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6B05F25D762E3157;
+            sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
+          fi
+          sudo apt-get update -qq;
+          sudo apt-get install -y $CC
+        fi
+    - run: sh ./.github/scripts/all_tests.sh
 
   macos:
     runs-on: macos-latest
