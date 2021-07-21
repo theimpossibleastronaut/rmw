@@ -61,7 +61,7 @@ test "${output}" = "${expected}"
 # Should not work if '-f' isn't used"
 substring="purge has been skipped"
 output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 
 echo " == Should not work if 'Y' or 'y' is not supplied."
 echo "yfw" | $VALGRIND $RMW_TEST_CMD_STRING --purge -e
@@ -80,10 +80,10 @@ echo $SEPARATOR
 echo " == Make sure the correct string (filename) is displayed when using -vvg"
 substring="'read_only_file' will be purged in 90."
 output=$($VALGRIND $RMW_TEST_CMD_STRING -vvg)
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 
 substring="'topdir' will be purged in 90."
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 
 echo $SEPARATOR
 
@@ -126,7 +126,7 @@ echo "-----------------------------------------------------\n"
 RMW_FAKE_YEAR=true $VALGRIND $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/*
 output=$(cat $PRIMARY_WASTE_DIR/info/abc.trashinfo)
 substring="DeletionDate=1999"
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 
 echo
 echo

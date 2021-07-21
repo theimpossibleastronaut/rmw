@@ -75,11 +75,11 @@ echo $SEPARATOR
 echo "  == Test -m option"
 output=$($RMW_TEST_CMD_STRING --verbose -m)
 substring=".Waste/files/1_"
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 substring=".Waste/files/2_"
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 substring=".Waste/files/3_"
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 
 echo $SEPARATOR
 echo "  == test undo/restore feature"
@@ -117,7 +117,7 @@ test "${output}" = "${expected}"
 
 substring="invalid option"
 output="$($RMW_ALT_TEST_CMD_STRING -l)"
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 
 echo "Basic tests passed"
 exit 0

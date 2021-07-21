@@ -20,7 +20,7 @@ echo $SEPARATOR
 echo "If the mrl file doesn't exist yet..."
 expected="no items in the list"
 output=$($VALGRIND $RMW_TEST_CMD_STRING -u)
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 echo $output
 
 echo $SEPARATOR
@@ -32,7 +32,7 @@ echo $SEPARATOR
 echo "Try to restore files that aren't in a Waste/files folder"
 substring="not in a Waste directory"
 output=$($VALGRIND $RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1) && exit 1
-test "${output}#*${substring}" != "$output"
+test -z "${output##*$substring*}"
 
 echo $SEPARATOR
 echo "ReMove files and then restore them by using -u"
@@ -40,6 +40,10 @@ $RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/somefiles/*
 echo $SEPARATOR
 output=$($VALGRIND $RMW_TEST_CMD_STRING -uvv | grep Waste)
 echo $SEPARATOR
+echo "OUTPUT:"
+echo "---"
+echo "$output"
+echo "---"
 test "$output" = "+'${RMW_FAKE_HOME}/.Waste/files/read_only_file' -> '${RMW_FAKE_HOME}/somefiles/read_only_file'
 -${RMW_FAKE_HOME}/.Waste/info/read_only_file.trashinfo
 +'${RMW_FAKE_HOME}/.Waste/files/topdir' -> '${RMW_FAKE_HOME}/somefiles/topdir'
@@ -106,7 +110,7 @@ done
 # a dot dir
 substring="refusing to process"
 output="$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/.)" && exit 1
-test "${output}#*${substring}" != "${output}"
+test -z "${output##*$substring*}"
 
 if [ -n "${TERM}" || "${TERM}" != "dumb" ]; then
   echo q | ${VALGRIND} ${RMW_TEST_CMD_STRING} -s
