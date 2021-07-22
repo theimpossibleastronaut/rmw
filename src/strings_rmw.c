@@ -68,12 +68,12 @@ multi_strlen (const char *argv, ...)
 
   str = (char *) argv;
   va_start (vlist, argv);
-  do
+  while (str != NULL)
   {
     len += strlen (str);
     str = va_arg (vlist, char *);
   }
-  while (str != NULL);
+
   va_end (vlist);
   return len;
 }
@@ -137,8 +137,11 @@ trim_char (const char c, char *str)
 
   str--;
 
-  if (*str == c)
+  while (*str == c)
+  {
     *str = '\0';
+    str--;
+  }
 
   return;
 }

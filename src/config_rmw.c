@@ -243,12 +243,8 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
   strcpy (waste_curr->parent, tmp_waste_parent_folder);
 
   /* and the files... */
-  int req_len = multi_strlen (waste_curr->parent, "/", lit_files, NULL) + +1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  waste_curr->len_files = req_len - 1;
-  waste_curr->files = malloc (req_len);
-  chk_malloc (waste_curr->files, __func__, __LINE__);
-  sprintf (waste_curr->files, "%s/%s", waste_curr->parent, lit_files);
+  waste_curr->files = join_paths (waste_curr->parent, lit_files, NULL);
+  waste_curr->len_files = strlen (waste_curr->files);
 
   if (!exists (waste_curr->files))
   {
@@ -261,11 +257,8 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
     }
   }
 
-  req_len = multi_strlen (waste_curr->parent, "/", lit_info, NULL) + 1;
-  waste_curr->len_info = req_len - 1;
-  waste_curr->info = malloc (req_len);
-  chk_malloc (waste_curr->info, __func__, __LINE__);
-  sprintf (waste_curr->info, "%s/%s", waste_curr->parent, lit_info);
+  waste_curr->info = join_paths (waste_curr->parent, lit_info, NULL);
+  waste_curr->len_info = strlen (waste_curr->info);
 
   if (!exists (waste_curr->info))
   {
@@ -321,10 +314,10 @@ get_config_home_dir (void)
 
   if (enable_test != NULL || (xdg_config_home == NULL && enable_test == NULL))
   {
-    int req_len = multi_strlen (HOMEDIR, rel_default, NULL) + 1;
-    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+    char *_config_home = join_paths (HOMEDIR, rel_default, NULL);
     static char config_home[LEN_MAX_PATH];
-    sprintf (config_home, "%s%s", HOMEDIR, rel_default);
+    strcpy (config_home, _config_home);
+    free (_config_home);
     ptr = &config_home[0];
     return ptr;
   }
@@ -345,12 +338,9 @@ parse_config_file (const rmw_options * cli_user_options,
   if (cli_user_options->alt_config == NULL)
   {
     const char rel_default_config[] = "rmwrc";
-
-    int req_len =
-      multi_strlen (st_config_data->dir, "/", rel_default_config, NULL) + 1;
-    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    sprintf (st_config_data->file, "%s/%s", st_config_data->dir,
-             rel_default_config);
+    char *tmp_str = join_paths (st_config_data->dir, rel_default_config, NULL);
+    strcpy (st_config_data->file, tmp_str);
+    free (tmp_str);
   }
   else
   {
@@ -358,8 +348,6 @@ parse_config_file (const rmw_options * cli_user_options,
                 __func__, __LINE__);
     strcpy (st_config_data->file, cli_user_options->alt_config);
   }
-
-#define MSG_USING_CONFIG if (verbose) printf (_("config file: %s\n"), st_config_data->file)
 
   if (!exists (st_config_data->file))
   {

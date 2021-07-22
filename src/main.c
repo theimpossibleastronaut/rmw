@@ -92,15 +92,16 @@ get_data_rmw_home_dir (void)
 
   if (enable_test != NULL || (xdg_data_home == NULL && enable_test == NULL))
   {
-    int req_len = multi_strlen (HOMEDIR, "/", rel_default, NULL) + 1;
-    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    snprintf (data_rmw_home, req_len, "%s/%s", HOMEDIR, rel_default);
+    char *tmp_str = join_paths (HOMEDIR, rel_default, NULL);
+    strcpy (data_rmw_home, tmp_str);
+    free (tmp_str);
     return data_rmw_home;
   }
 
-  int req_len = multi_strlen (xdg_data_home, "/", "rmw", NULL) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  snprintf (data_rmw_home, req_len, "%s/rmw", xdg_data_home);
+  char *tmp_str = join_paths (xdg_data_home, "rmw", NULL);
+  strcpy (data_rmw_home, tmp_str);
+  free (tmp_str);
+
   return data_rmw_home;
 }
 
@@ -109,11 +110,11 @@ static const char *
 get_most_recent_list_filename (const char *data_dir)
 {
   const char rel_most_recent_list_filename[] = "mrl";
-  int req_len =
-    multi_strlen (data_dir, "/", rel_most_recent_list_filename, NULL) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+
   static char mrl_file[LEN_MAX_PATH];
-  snprintf (mrl_file, req_len, "%s/%s", data_dir, rel_most_recent_list_filename);
+  char *tmp_str = join_paths (data_dir, rel_most_recent_list_filename, NULL);
+  strcpy (mrl_file, tmp_str);
+  free (tmp_str);
   if (verbose)
     printf ("most recent list (mrl file): %s\n", mrl_file);
   return mrl_file;
@@ -367,13 +368,10 @@ damage of 5000 hp. You feel satisfied.\n"));
     {
       if (waste_curr->dev_num == st_orig.st_dev)
       {
-        int req_len =
-          multi_strlen (st_target.base_name, "/",
-                        NULL) + waste_curr->len_files + 1;
-        bufchk_len (req_len, sizeof st_target.waste_dest_name, __func__,
-                    __LINE__);
-        sprintf (st_target.waste_dest_name, "%s/%s", waste_curr->files,
-                 st_target.base_name);
+        char *tmp_str = join_paths (waste_curr->files, st_target.base_name, NULL);
+        strcpy (st_target.waste_dest_name, tmp_str);
+        free (tmp_str);
+        tmp_str = NULL;
 
         /* If a duplicate file exists
          */

@@ -41,12 +41,9 @@ char *get_waste_parent (const char *src)
   char *src_dirname = rmw_dirname (src_copy);
 
   char *one_dir_level = "/..";
-  int req_len = multi_strlen (src_dirname, one_dir_level, NULL) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char waste_parent_rel_path[req_len];
-  sprintf (waste_parent_rel_path, "%s%s", src_dirname, one_dir_level);
-
+  char *waste_parent_rel_path = join_paths (src_dirname, one_dir_level, NULL);
   char *waste_parent = realpath (waste_parent_rel_path, NULL);
+  free (waste_parent_rel_path);
 
   if (waste_parent == NULL)
   {
@@ -95,10 +92,11 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     }
 
     char src_tinfo[LEN_MAX_PATH];
-    int req_len = multi_strlen (waste_parent, "//", lit_info, src_basename, NULL) + len_trashinfo_ext + 1;
-    bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-    sprintf (src_tinfo, "%s/%s/%s%s", waste_parent, lit_info,
-             src_basename, trashinfo_ext);
+    char *tmp_str = join_paths (waste_parent, lit_info, src_basename, NULL);
+    int r = snprintf (src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
+    free (tmp_str);
+    tmp_str = NULL;
+    bufchk_len (r, LEN_MAX_PATH, __func__, __LINE__);
 
     char *_dest = parse_trashinfo_file (src_tinfo, path_key);
     if (_dest == NULL)
@@ -113,11 +111,9 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     if (*_dest != '/')
     {
       char *media_root = rmw_dirname (waste_parent);
-      req_len = multi_strlen (media_root, "/", _dest, NULL) + 1;
-      bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-      char tmp[req_len];
-      sprintf (tmp, "%s/%s", media_root, _dest);
-      strcpy (dest, tmp);
+      char *tmp_str = join_paths (media_root, _dest, NULL);
+      strcpy (dest, tmp_str);
+      free (tmp_str);
     }
     free (waste_parent);
     free (_dest);
@@ -379,11 +375,9 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
       {
         if (item_value (items[i]) == TRUE)
         {
-          int req_len = multi_strlen (waste_curr->files, "/", item_name (items[i]), NULL) + 1;
-          bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-          char recover_file[req_len];
-          sprintf (recover_file, "%s/%s", waste_curr->files, item_name (items[i]));
+          char *recover_file = join_paths (waste_curr->files, item_name (items[i]), NULL);
           msg_warn_restore(restore (recover_file, st_time_var, cli_user_options, waste_head));
+          free (recover_file);
         }
       }
     }

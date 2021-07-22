@@ -36,20 +36,20 @@ const char *deletion_date_key = "DeletionDate";
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var)
 {
-  int req_len = multi_strlen (st_f_props->base_name, "/", NULL) + waste_curr->len_info + len_trashinfo_ext + LEN_TIME_STR_SUFFIX + 1;
+  char *tmp_final_info_dest = join_paths (waste_curr->info, st_f_props->base_name, NULL);
+
+  int req_len = strlen (tmp_final_info_dest) + len_trashinfo_ext + (st_f_props->is_duplicate ? (LEN_MAX_TIME_STR_SUFFIX - 1) : 0) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  tmp_final_info_dest = realloc (tmp_final_info_dest, req_len);
+  chk_malloc (tmp_final_info_dest, __func__, __LINE__);
   char final_info_dest[req_len];
-  sprintf (final_info_dest, "%s/%s", waste_curr->info, st_f_props->base_name);
 
   if (st_f_props->is_duplicate)
-  {
-    bufchk_len (strlen (final_info_dest) + LEN_MAX_TIME_STR_SUFFIX, LEN_MAX_PATH, __func__, __LINE__);
-    strcat (final_info_dest, st_time_var->suffix_added_dup_exists);
-  }
+    strcat (tmp_final_info_dest, st_time_var->suffix_added_dup_exists);
 
-  req_len = strlen (final_info_dest) + len_trashinfo_ext + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  strcat (final_info_dest, trashinfo_ext);
+  strcat (tmp_final_info_dest, trashinfo_ext);
+  strcpy (final_info_dest, tmp_final_info_dest);
+  free (tmp_final_info_dest);
 
   FILE *fp = fopen (final_info_dest, "w");
   if (fp != NULL)

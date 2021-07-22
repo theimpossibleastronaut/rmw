@@ -59,7 +59,10 @@ unescape_url (const char *str, const int boundary);
 bool
 isdotdir (const char *dir);
 
-char
-*resolve_path (const char *file, const char *b);
+char *
+resolve_path (const char *file, const char *b);
+
+char *
+join_paths (const char *argv, ...);
 
 #endif

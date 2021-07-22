@@ -403,14 +403,43 @@ char
     return NULL;
   }
 
-  req_len = multi_strlen (orig_dirname, "/", b, NULL) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char *abspath = malloc (req_len);
-  chk_malloc (abspath, __func__, __LINE__);
-  sprintf (abspath, "%s/%s", orig_dirname, b);
+  char *abspath = join_paths (orig_dirname, b, NULL);
   free (orig_dirname);
   return abspath;
 }
+
+
+char *
+join_paths (const char *argv, ...)
+{
+  char *path = calloc (1, LEN_MAX_PATH);
+  chk_malloc (path, __func__, __LINE__);
+
+  va_list ap;
+  char *str = (char *) argv;
+  va_start (ap, argv);
+
+  while (str != NULL)
+  {
+    static int len = 0;
+    char *dup_str = strdup (str);
+    chk_malloc (dup_str, __func__, __LINE__);
+    trim_char ('/', dup_str);
+    len = strlen (path);
+    int max_len = LEN_MAX_PATH - len;
+    int r = snprintf (path + len, max_len, "%s/", dup_str);
+    free (dup_str);
+    bufchk_len (r, max_len, __func__, __LINE__);
+    str = va_arg (ap, char *);
+  }
+
+  va_end (ap);
+  trim_char ('/', path);
+  path = realloc (path, strlen (path) + 1);
+  chk_malloc (path, __func__, __LINE__);
+  return path;
+}
+
 
 ///////////////////////////////////////////////////////////////////////
 #ifdef TEST_LIB
@@ -438,13 +467,11 @@ test_isdotdir (void)
 static void test_rmw_mkdir (void)
 {
   const char *subdirs = "foo/bar/21/42";
-  int req_len = multi_strlen (HOMEDIR, subdirs, NULL) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char dir[req_len];
-  sprintf (dir, "%s/%s", HOMEDIR, subdirs);
+  char *dir = join_paths (HOMEDIR, subdirs, NULL);
   assert (rmw_mkdir (dir, S_IRWXU) == 0);
   printf  ("%s\n", dir);
   assert (exists (dir) == true);
+  free (dir);
 
   assert (rmw_mkdir (HOMEDIR, S_IRWXU) != 0);
   errno = 0;
@@ -531,6 +558,24 @@ static void test_human_readable_size (void)
   return;
 }
 
+
+void
+test_join_paths (void)
+{
+  char *path = join_paths ("home", "foo//", "bar", NULL);
+  assert (path != NULL);
+  assert (strcmp (path, "home/foo/bar") == 0);
+  free (path);
+
+  path = join_paths ("/home/foo", "bar", "world/", NULL);
+  assert (path != NULL);
+  assert (strcmp (path, "/home/foo/bar/world") == 0);
+  free (path);
+
+  return;
+}
+
+
 int
 main ()
 {
@@ -542,6 +587,7 @@ main ()
   test_rmw_mkdir ();
   test_rmw_dirname ();
   test_human_readable_size ();
+  test_join_paths ();
 
   char str[BUF_SIZE * 3];
   strcpy (str, "string to encode \n\t\v  \f\r");
