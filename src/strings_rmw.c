@@ -42,32 +42,27 @@ bufchk_len (const int len, const int dest_boundary, const char *func,
     return;
 
   msg_err_buffer_overrun (func, line);
-
-  if (strcmp (func, "test_bufchk_len") == 0)
-  {
-    errno = 1;
-    return;
-  }
-
+#ifndef TEST_LIB
   exit (EBUF);
+#endif
+  errno = 1;
+  return;
 }
 
 void
 sn_check (const int len, const int dest_boundary, const char *func,
-            const int line)
+          const int line)
 {
   if (len < dest_boundary)
     return;
 
   msg_err_buffer_overrun (func, line);
 
-  if (strcmp (func, "test_sn_check") == 0)
-  {
-    errno = 1;
-    return;
-  }
-
+#ifndef TEST_LIB
   exit (EBUF);
+#endif
+  errno = 1;
+  return;
 }
 
 /*!
@@ -196,10 +191,10 @@ static void
 test_bufchk_len (void)
 {
   errno = 0;
-  bufchk_len (12, 12,  __func__, __LINE__);
+  bufchk_len (12, 12, __func__, __LINE__);
   assert (!errno);
 
-  bufchk_len (12, 11,  __func__, __LINE__);
+  bufchk_len (12, 11, __func__, __LINE__);
   assert (errno);
   errno = 0;
   return;
@@ -209,7 +204,7 @@ static void
 test_sn_check (void)
 {
   errno = 0;
-  sn_check (24, 24 , __func__, __LINE__);
+  sn_check (24, 24, __func__, __LINE__);
   assert (errno);
   errno = 0;
 
