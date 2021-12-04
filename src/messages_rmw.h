@@ -21,7 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 #include "strings_rmw.h"
 
-#define MAX_MSG_SIZE 512
+#ifndef BUFSIZ
+#define BUFSIZ 8192
+#endif
 
 void print_msg_error (void);
 

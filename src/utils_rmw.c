@@ -179,13 +179,13 @@ human_readable_size (off_t size)
   }
 
   char a_size[7];
-  sprintf (a_size, "%d", (short)size);
+  sn_check (snprintf (a_size, sizeof a_size, "%d", (short)size), sizeof a_size, __func__, __LINE__);
 
   if (power >= 0)
-    snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB", (short)size,
-              (remainder * 10) / 1024, prefix[power]);
+    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB", (short)size,
+              (remainder * 10) / 1024, prefix[power]), LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
   else
-    snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d B", (short)size);
+    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d B", (short)size), LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
 
   return buffer;
 }
@@ -434,7 +434,7 @@ join_paths (const char *argv, ...)
     int max_len = LEN_MAX_PATH - len;
     int r = snprintf (path + len, max_len, "%s/", dup_str);
     free (dup_str);
-    bufchk_len (r, max_len, __func__, __LINE__);
+    sn_check (r, max_len, __func__, __LINE__);
     str = va_arg (ap, char *);
   }
 
@@ -585,7 +585,8 @@ int
 main ()
 {
   char tmp[LEN_MAX_PATH];
-  snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
+  int r = snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
+  assert (r < LEN_MAX_PATH);
   HOMEDIR = tmp;
 
   test_isdotdir ();

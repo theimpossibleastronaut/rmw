@@ -139,7 +139,7 @@ realize_waste_line (char *str)
 
   /* What's a good length for this? */
   char UID[40];
-  sprintf (UID, "%u", pwd->pw_uid);
+  sn_check (snprintf (UID, sizeof UID, "%u", pwd->pw_uid), sizeof UID, __func__, __LINE__);
 
   /*
    * I'm not sure the best way to check for a problem here. Likely any problem

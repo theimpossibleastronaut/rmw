@@ -52,6 +52,24 @@ bufchk_len (const int len, const int dest_boundary, const char *func,
   exit (EBUF);
 }
 
+void
+sn_check (const int len, const int dest_boundary, const char *func,
+            const int line)
+{
+  if (len < dest_boundary)
+    return;
+
+  msg_err_buffer_overrun (func, line);
+
+  if (strcmp (func, "test_sn_check") == 0)
+  {
+    errno = 1;
+    return;
+  }
+
+  exit (EBUF);
+}
+
 /*!
  * Get the combined length of multiple strings. Last argument MUST be "NULL".
  *
@@ -177,16 +195,27 @@ test_multi_strlen (void)
 static void
 test_bufchk_len (void)
 {
-  int req_len = LEN_MAX_PATH;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  errno = 0;
+  bufchk_len (12, 12,  __func__, __LINE__);
+  assert (!errno);
 
-  req_len = LEN_MAX_PATH - 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-
-  req_len = LEN_MAX_PATH + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  bufchk_len (12, 11,  __func__, __LINE__);
   assert (errno);
   errno = 0;
+  return;
+}
+
+static void
+test_sn_check (void)
+{
+  errno = 0;
+  sn_check (24, 24 , __func__, __LINE__);
+  assert (errno);
+  errno = 0;
+
+  sn_check (33, 34, __func__, __LINE__);
+  assert (!errno);
+  return;
 }
 
 static void
@@ -230,6 +259,7 @@ main ()
 {
   test_trim_whitespace ();
   test_bufchk_len ();
+  test_sn_check ();
   test_multi_strlen ();
 
   return 0;

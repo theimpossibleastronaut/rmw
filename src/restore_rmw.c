@@ -96,7 +96,7 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     int r = snprintf (src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
     free (tmp_str);
     tmp_str = NULL;
-    bufchk_len (r, LEN_MAX_PATH, __func__, __LINE__);
+    sn_check (r, LEN_MAX_PATH, __func__, __LINE__);
 
     char *_dest = parse_trashinfo_file (src_tinfo, path_key);
     if (_dest == NULL)

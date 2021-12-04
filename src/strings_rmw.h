@@ -27,6 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void
 bufchk_len (const int len, const int boundary, const char *func, const int line);
 
+void
+sn_check (const int len, const int dest_boundary, const char *func,
+            const int line);
+
 int
 multi_strlen (const char *argv, ...);
 
