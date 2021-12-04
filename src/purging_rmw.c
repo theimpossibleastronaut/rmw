@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <fcntl.h>
+
 #include "globals.h"
 #include "parse_cli_options.h"
 #include "purging_rmw.h"
@@ -78,7 +80,28 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
 
     if (force >= 2 && ~st.st_mode & S_IWUSR)
     {
-      if (!chmod (st_dirname_properties.path, 00700))
+      // using fchmod instead of chmod to hopefully prevent codeql
+      // from complaining about TOCTOU warnings
+      // https://github.com/theimpossibleastronaut/rmw/security/code-scanning/4?query=ref%3Arefs%2Fheads%2Fmaster
+      int fp = open (st_dirname_properties.path, O_RDONLY);
+      if (fp == -1)
+      {
+        print_msg_error ();
+        fprintf (stderr, _("while opening %s\n"), st_dirname_properties.path);
+        perror ("");
+
+        int e = errno;
+        errno = 0;
+        return e;
+      }
+      int r = fchmod (fp, 00700);
+      if (close (fp) == -1)
+      {
+        print_msg_error ();
+        fprintf (stderr, _("while closing %s\n"), st_dirname_properties.path);
+        perror ("");
+      }
+      if (r == 0)
       {
         /* Now that the mode has changed, lstat must be run again */
         if (lstat (st_dirname_properties.path, &st))
