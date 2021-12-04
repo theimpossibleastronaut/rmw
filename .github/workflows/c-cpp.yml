@@ -4,9 +4,11 @@ on:
   push:
     paths-ignore:
     - '**/*.md'
+    - codeql-analysis.yml
   pull_request:
     paths-ignore:
     - '**/*.md'
+    - codeql-analysis.yml
 
 env:
   TERM: xterm
