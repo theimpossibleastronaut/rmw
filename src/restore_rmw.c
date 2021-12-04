@@ -202,7 +202,8 @@ create_formatted_str (const off_t size, const mode_t mode, const char *dir_entry
    * below) holds the description.
    *
    */
-  sprintf (formatted_hr_size, "[%s]", hr_size);
+  sn_check (snprintf (formatted_hr_size, LEN_MAX_FORMATTED_HR_SIZE, "[%s]", hr_size),
+                LEN_MAX_FORMATTED_HR_SIZE, __func__, __LINE__);
   free (hr_size);
 
   if (S_ISDIR (mode))
@@ -223,7 +224,8 @@ add_entry (st_node *node, st_waste *waste_curr_node, const char *dir_entry)
   int req_len = strlen ("/") + len_dir_entry + waste_curr_node->len_files + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   char full_path[req_len];
-  sprintf (full_path, "%s/%s", waste_curr_node->files, dir_entry);
+  sn_check (snprintf (full_path, sizeof full_path, "%s/%s", waste_curr_node->files, dir_entry),
+                    sizeof full_path, __func__, __LINE__);
 
   struct stat st;
   if (lstat (full_path, &st))

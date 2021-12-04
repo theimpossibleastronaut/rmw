@@ -141,29 +141,12 @@ realize_waste_line (char *str)
   char UID[40];
   sn_check (snprintf (UID, sizeof UID, "%u", pwd->pw_uid), sizeof UID, __func__, __LINE__);
 
-  /*
-   * I'm not sure the best way to check for a problem here. Likely any problem
-   * would be very rare, but I'm inserting a crude error check here just in case
-   *
-   * -andy5995 2019-07-31
-   */
-  if (strlen (UID) == sizeof (UID) - 1)
-  {
-    print_msg_warn ();
-    /*
-     * If the length of pwd->pw_uid is over 39, it would have been truncated
-     * at the sprintf() statement above.
-     */
-    printf ("Your UID string most likely got truncated:\n%s\n", UID);
-  }
-
   struct st_vars_to_check st_var[] = {
     {"~", HOMEDIR},
     {"$HOME", HOMEDIR},
     {"$UID", UID},
     {NULL, NULL}
   };
-
 
   int i = 0;
   while (st_var[i].name != NULL)

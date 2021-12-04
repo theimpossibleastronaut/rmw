@@ -297,7 +297,9 @@ escape_url (const char *str, const int boundary)
        * hh - this is a byte
        * X  - print hexadecimal form with uppercase letters
        */
-      sprintf(dest + pos_dest, "%%%02hhX", str[pos_str]);
+      int max_len = boundary - 1; // -1 for character pointed to by pos_dest;
+      sn_check (snprintf(dest + pos_dest, max_len, "%%%02hhX", str[pos_str]),
+                        max_len, __func__, __LINE__);
       pos_dest += 3;
     }
     pos_str++;
