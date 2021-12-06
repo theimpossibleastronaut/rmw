@@ -257,39 +257,24 @@ static bool is_unreserved (char c)
  * returns an allocated string which must be freed later
  */
 char *
-escape_url (const char *str, const int boundary)
+escape_url (const char *str)
 {
-  int pos_str = 0;
-  int pos_dest = 0;
-
-  char *dest = malloc (boundary);
+  int pos_str = 0, pos_dest = 0;
+  char *dest = malloc (LEN_MAX_ESCAPED_PATH);
   chk_malloc (dest, __func__, __LINE__);
+  *dest = '\0';
+  int cur_len = 0, max_len = 0;
 
   while (str[pos_str])
   {
     if (is_unreserved (str[pos_str]))
     {
-      /* Check for buffer overflow (there should be enough space for 1
-       * character + '\0') */
-      if (pos_dest + 2 > boundary)
-      {
-        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, boundary, pos_dest+2);
-        free (dest);
-        return NULL;
-      }
-
-      dest[pos_dest] = str[pos_str];
+      max_len = LEN_MAX_ESCAPED_PATH - cur_len;
+      sn_check (snprintf(dest + cur_len, max_len, "%c", str[pos_str]),
+                        max_len, __func__, __LINE__);
       pos_dest += 1;
     }
     else {
-      /* Again, check for overflow (3 chars + '\0') */
-      if (pos_dest + 4 > boundary)
-      {
-        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, boundary, pos_dest+4);
-        free (dest);
-        return NULL;
-      }
-
       /* A quick explanation to this printf
        * %% - print a '%'
        * 0  - pad with left '0'
@@ -297,15 +282,14 @@ escape_url (const char *str, const int boundary)
        * hh - this is a byte
        * X  - print hexadecimal form with uppercase letters
        */
-      int max_len = boundary - 1; // -1 for character pointed to by pos_dest;
+      max_len = LEN_MAX_ESCAPED_PATH - cur_len;
       sn_check (snprintf(dest + pos_dest, max_len, "%%%02hhX", str[pos_str]),
                         max_len, __func__, __LINE__);
       pos_dest += 3;
     }
+    cur_len = strlen (dest);
     pos_str++;
   }
-
-  dest[pos_dest] = '\0';
 
   return dest;
 }
@@ -317,12 +301,12 @@ escape_url (const char *str, const int boundary)
  * returns an allocated string which must be freed later
  */
 char *
-unescape_url (const char *str, const int boundary)
+unescape_url (const char *str)
 {
   int pos_str = 0;
   int pos_dest = 0;
 
-  char *dest = malloc (boundary);
+  char *dest = malloc (LEN_MAX_PATH);
   chk_malloc (dest, __func__, __LINE__);
 
   while (str[pos_str])
@@ -333,11 +317,11 @@ unescape_url (const char *str, const int boundary)
       pos_str += 1;
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
-      if (pos_dest + 2 > boundary)
+      if (pos_dest + 2 > LEN_MAX_PATH)
       {
         printf (_
                 ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, boundary, pos_dest + 2);
+                __func__, LEN_MAX_PATH, pos_dest + 2);
         free (dest);
         return NULL;
       }
@@ -349,11 +333,11 @@ unescape_url (const char *str, const int boundary)
     {
       /* Check for buffer overflow (there should be enough space for 1
        * character + '\0') */
-      if (pos_dest + 2 > boundary)
+      if (pos_dest + 2 > LEN_MAX_PATH)
       {
         printf (_
                 ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, boundary, pos_dest + 2);
+                __func__, LEN_MAX_PATH, pos_dest + 2);
         free (dest);
         return NULL;
       }
@@ -599,11 +583,11 @@ main ()
 
   char str[BUF_SIZE * 3];
   strcpy (str, "string to encode \n\t\v  \f\r");
-  char *escaped_path = escape_url (str, BUF_SIZE * 3 + 1);
+  char *escaped_path = escape_url (str);
   printf ("'%s'\n", escaped_path);
   assert (!strcmp (escaped_path, "string%20to%20encode%20%0A%09%0B%20%20%0C%0D"));
 
-  char *unescaped_path = unescape_url (escaped_path, strlen (escaped_path) + 1);
+  char *unescaped_path = unescape_url (escaped_path);
   assert (!strcmp (unescaped_path, "string to encode \n\t\v  \f\r"));
   free (unescaped_path);
   free (escaped_path);
