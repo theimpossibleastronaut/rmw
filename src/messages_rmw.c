@@ -46,7 +46,7 @@ open_err (const char *filename, const char *function_name)
 {
     print_msg_error ();
     /* TRANSLATORS:  "opening" refers to a file  */
-    printf (_("while opening %s\n"), filename);
+    fprintf (stderr, _("while opening %s\n"), filename);
 
     static char combined_msg[MAX_MSG_SIZE];
      /* TRANSLATORS:  "function" refers to a C function  */
@@ -79,7 +79,7 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
   {
     /* TRANSLATORS:  "closing" refers to a file  */
     print_msg_error ();
-    printf (_("while closing %s\n"), filename);
+    fprintf (stderr, _("while closing %s\n"), filename);
 
     static char combined_msg[MAX_MSG_SIZE];
     sprintf (combined_msg, _("function: <%s>"), function_name);

@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <fcntl.h>
+
 #include "globals.h"
 #include "parse_cli_options.h"
 #include "purging_rmw.h"
@@ -78,7 +80,18 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
 
     if (force >= 2 && ~st.st_mode & S_IWUSR)
     {
-      if (!chmod (st_dirname_properties.path, 00700))
+      // using fchmod instead of chmod to hopefully prevent codeql
+      // from complaining about TOCTOU warnings
+      // https://github.com/theimpossibleastronaut/rmw/security/code-scanning/4?query=ref%3Arefs%2Fheads%2Fmaster
+      int fd = open (st_dirname_properties.path, O_RDONLY);
+      if (fd == -1)
+      {
+        print_msg_error ();
+        fprintf (stderr, _("while opening %s\n"), st_dirname_properties.path);
+        perror ("");
+        return fd;
+      }
+      if (fchmod (fd, 00700) == 0)
       {
         /* Now that the mode has changed, lstat must be run again */
         if (lstat (st_dirname_properties.path, &st))
@@ -87,8 +100,8 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
       else
       {
         print_msg_error ();
-        printf (_("while changing permissions of %s\n"), dirname);
-        perror ("chmod: ");
+        fprintf (stderr, _("while changing permissions of %s\n"), dirname);
+        perror ("fchmod: ");
         printf ("\n");
         /* if permissions aren't changed, the directory is still
          * not writable. This error shouldn't really happen. I don't
@@ -96,6 +109,12 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
          * will continue as normal, with the warning message about
          * permissions
          */
+      }
+      if (close (fd) == -1)
+      {
+        print_msg_error ();
+        fprintf (stderr, _("while closing %s\n"), st_dirname_properties.path);
+        perror ("");
       }
     }
 
