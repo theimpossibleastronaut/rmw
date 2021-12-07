@@ -125,6 +125,11 @@ bool exists (const char *filename)
    * recognized broken links. */
   // return ! access (filename, F_OK);
 
+  /* And we don't use fopen() because sometimes we want to know if the
+  file exists, not just if it can be read. If a file or directory
+  can be opened read-only, that doesn't guarantee whether or not it
+  exists */
+
   static struct stat st;
   static int res;
   res = (lstat (filename, &st));
