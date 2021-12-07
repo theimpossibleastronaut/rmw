@@ -263,18 +263,17 @@ escape_url (const char *str)
   char *dest = malloc (LEN_MAX_ESCAPED_PATH);
   chk_malloc (dest, __func__, __LINE__);
   *dest = '\0';
-  int cur_len = 0, max_len = 0;
 
   while (str[pos_str])
   {
     if (is_unreserved (str[pos_str]))
     {
-      max_len = LEN_MAX_ESCAPED_PATH - cur_len;
-      sn_check (snprintf(dest + cur_len, max_len, "%c", str[pos_str]),
-                        max_len, __func__, __LINE__);
+      bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
+      dest[pos_dest] = str[pos_str];
       pos_dest += 1;
     }
     else {
+      bufchk_len (pos_dest + 4, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       /* A quick explanation to this printf
        * %% - print a '%'
        * 0  - pad with left '0'
@@ -282,15 +281,12 @@ escape_url (const char *str)
        * hh - this is a byte
        * X  - print hexadecimal form with uppercase letters
        */
-      max_len = LEN_MAX_ESCAPED_PATH - cur_len;
-      sn_check (snprintf(dest + pos_dest, max_len, "%%%02hhX", str[pos_str]),
-                        max_len, __func__, __LINE__);
+      sprintf(dest + pos_dest, "%%%02hhX", str[pos_str]);
       pos_dest += 3;
     }
-    cur_len = strlen (dest);
     pos_str++;
   }
-
+  dest[pos_dest] = '\0';
   return dest;
 }
 
@@ -303,9 +299,7 @@ escape_url (const char *str)
 char *
 unescape_url (const char *str)
 {
-  int pos_str = 0;
-  int pos_dest = 0;
-
+  int pos_str = 0, pos_dest = 0;
   char *dest = malloc (LEN_MAX_PATH);
   chk_malloc (dest, __func__, __LINE__);
 
@@ -315,41 +309,19 @@ unescape_url (const char *str)
     {
       /* skip the '%' */
       pos_str += 1;
-      /* Check for buffer overflow (there should be enough space for 1
-       * character + '\0') */
-      if (pos_dest + 2 > LEN_MAX_PATH)
-      {
-        printf (_
-                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, LEN_MAX_PATH, pos_dest + 2);
-        free (dest);
-        return NULL;
-      }
-
+      bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       sscanf (str + pos_str, "%2hhx", dest + pos_dest);
       pos_str += 2;
     }
     else
     {
-      /* Check for buffer overflow (there should be enough space for 1
-       * character + '\0') */
-      if (pos_dest + 2 > LEN_MAX_PATH)
-      {
-        printf (_
-                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, LEN_MAX_PATH, pos_dest + 2);
-        free (dest);
-        return NULL;
-      }
-
+      bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       dest[pos_dest] = str[pos_str];
       pos_str += 1;
     }
     pos_dest++;
   }
-
   dest[pos_dest] = '\0';
-
   return dest;
 }
 
