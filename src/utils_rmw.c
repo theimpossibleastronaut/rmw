@@ -310,7 +310,9 @@ unescape_url (const char *str)
       /* skip the '%' */
       pos_str += 1;
       bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
-      sscanf (str + pos_str, "%2hhx", dest + pos_dest);
+      // Is casting dest to unsigned char* ok here? Is there a better way to
+      // do the conversion?
+      sscanf (str + pos_str, "%2hhx", (unsigned char*)dest + pos_dest);
       pos_str += 2;
     }
     else
@@ -553,14 +555,15 @@ main ()
   test_human_readable_size ();
   test_join_paths ();
 
-  char str[BUF_SIZE * 3];
-  strcpy (str, "string to encode \n\t\v  \f\r");
+  char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";
   char *escaped_path = escape_url (str);
-  printf ("'%s'\n", escaped_path);
-  assert (!strcmp (escaped_path, "string%20to%20encode%20%0A%09%0B%20%20%0C%0D"));
+  fprintf (stderr, "'%s'\n", escaped_path);
+  assert (!strcmp (escaped_path, "reserved%20%20%20%20%3D%20%3B%20%7C%20/%20%7C%20%3F%20%7C%20%3A%20%7C%20%40%20%7C%20%26%20%7C%20%3D%20%7C%20%2B%20%7C%20%24%20%0A%09%0B%20%20%0C%0D"));
 
   char *unescaped_path = unescape_url (escaped_path);
-  assert (!strcmp (unescaped_path, "string to encode \n\t\v  \f\r"));
+  fprintf (stderr, "'%s'\n", unescaped_path);
+  assert (!strcmp (unescaped_path, str));
+
   free (unescaped_path);
   free (escaped_path);
   return 0;
