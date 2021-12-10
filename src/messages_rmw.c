@@ -48,9 +48,9 @@ open_err (const char *filename, const char *function_name)
     /* TRANSLATORS:  "opening" refers to a file  */
     fprintf (stderr, _("while opening %s\n"), filename);
 
-    static char combined_msg[MAX_MSG_SIZE];
+    static char combined_msg[BUFSIZ];
      /* TRANSLATORS:  "function" refers to a C function  */
-    sprintf (combined_msg, _("function: <%s>"), function_name);
+    sn_check (snprintf (combined_msg, BUFSIZ, _("function: <%s>"), function_name), BUFSIZ, __func__, __LINE__);
     perror (combined_msg);
 
     return;
@@ -81,8 +81,8 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
     print_msg_error ();
     fprintf (stderr, _("while closing %s\n"), filename);
 
-    static char combined_msg[MAX_MSG_SIZE];
-    sprintf (combined_msg, _("function: <%s>"), function_name);
+    static char combined_msg[BUFSIZ];
+    sn_check (snprintf (combined_msg, BUFSIZ, _("function: <%s>"), function_name), BUFSIZ, __func__, __LINE__);
     perror (combined_msg);
 
     msg_return_code (errno);
@@ -202,7 +202,7 @@ msg_err_buffer_overrun (const char *func, const int line)
   fprintf (stderr, "func = %s:L%d\n", func, line);
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */
-  fputs ("buffer overrun (segmentation fault) prevented.\n", stderr);
+  fputs ("Buffer length exceeded.\n", stderr);
   fputs ("If you think this may be a bug, please report it to the rmw developers.\n", stderr);
 }
 

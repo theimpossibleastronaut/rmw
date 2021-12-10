@@ -51,7 +51,8 @@ set_which_deletion_date (char *format)
     valid_value = strcasecmp (fake_year, "true") == 0;
     puts ("RMW_FAKE_YEAR:true");
   }
-  sprintf (format, "%s", valid_value ? "1999-%m-%dT%T" : "%FT%T");
+  sn_check (snprintf (format, LEN_MAX_DELETION_DATE, "%s", valid_value ? "1999-%m-%dT%T" : "%FT%T"),
+                        LEN_MAX_DELETION_DATE, __func__, __LINE__);
 
   return;
 }

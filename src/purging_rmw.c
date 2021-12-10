@@ -543,7 +543,7 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
       char *tmp_str = join_paths (waste_curr->info, st_file_properties.base_name, NULL);
       int r = snprintf (path_to_trashinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
-      bufchk_len (r, LEN_MAX_PATH, __func__, __LINE__);
+      sn_check (r, LEN_MAX_PATH, __func__, __LINE__);
 
       free (tmp_str);
 

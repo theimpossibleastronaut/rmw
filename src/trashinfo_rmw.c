@@ -57,7 +57,7 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time
     /* Worst case scenario: whole path is escaped, so 3 chars per
      * actual character
      **/
-    char *escaped_path = escape_url (st_f_props->real_path, LEN_MAX_ESCAPED_PATH);
+    char *escaped_path = escape_url (st_f_props->real_path);
     if (escaped_path == NULL)
       return close_file (fp, final_info_dest, __func__);
 
@@ -130,7 +130,7 @@ char
           {
             trashinfo_field.f.path_ptr = strchr (fp_line, '=');
             trashinfo_field.f.path_ptr++; /* move past the '=' sign */
-            char *unescaped_path = unescape_url (trashinfo_field.f.path_ptr, LEN_MAX_PATH);
+            char *unescaped_path = unescape_url (trashinfo_field.f.path_ptr);
             trashinfo_field.value = unescaped_path;
           }
           break;

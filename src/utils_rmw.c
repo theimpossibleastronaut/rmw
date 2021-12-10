@@ -179,13 +179,13 @@ human_readable_size (off_t size)
   }
 
   char a_size[7];
-  sprintf (a_size, "%d", (short)size);
+  sn_check (snprintf (a_size, sizeof a_size, "%d", (short)size), sizeof a_size, __func__, __LINE__);
 
   if (power >= 0)
-    snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB", (short)size,
-              (remainder * 10) / 1024, prefix[power]);
+    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB", (short)size,
+              (remainder * 10) / 1024, prefix[power]), LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
   else
-    snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d B", (short)size);
+    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d B", (short)size), LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
 
   return buffer;
 }
@@ -257,39 +257,23 @@ static bool is_unreserved (char c)
  * returns an allocated string which must be freed later
  */
 char *
-escape_url (const char *str, const int boundary)
+escape_url (const char *str)
 {
-  int pos_str = 0;
-  int pos_dest = 0;
-
-  char *dest = malloc (boundary);
+  int pos_str = 0, pos_dest = 0;
+  char *dest = malloc (LEN_MAX_ESCAPED_PATH);
   chk_malloc (dest, __func__, __LINE__);
+  *dest = '\0';
 
   while (str[pos_str])
   {
     if (is_unreserved (str[pos_str]))
     {
-      /* Check for buffer overflow (there should be enough space for 1
-       * character + '\0') */
-      if (pos_dest + 2 > boundary)
-      {
-        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, boundary, pos_dest+2);
-        free (dest);
-        return NULL;
-      }
-
+      bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       dest[pos_dest] = str[pos_str];
       pos_dest += 1;
     }
     else {
-      /* Again, check for overflow (3 chars + '\0') */
-      if (pos_dest + 4 > boundary)
-      {
-        fprintf (stderr, _("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"), __func__, boundary, pos_dest+4);
-        free (dest);
-        return NULL;
-      }
-
+      bufchk_len (pos_dest + 4, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       /* A quick explanation to this printf
        * %% - print a '%'
        * 0  - pad with left '0'
@@ -302,9 +286,7 @@ escape_url (const char *str, const int boundary)
     }
     pos_str++;
   }
-
   dest[pos_dest] = '\0';
-
   return dest;
 }
 
@@ -315,12 +297,10 @@ escape_url (const char *str, const int boundary)
  * returns an allocated string which must be freed later
  */
 char *
-unescape_url (const char *str, const int boundary)
+unescape_url (const char *str)
 {
-  int pos_str = 0;
-  int pos_dest = 0;
-
-  char *dest = malloc (boundary);
+  int pos_str = 0, pos_dest = 0;
+  char *dest = malloc (LEN_MAX_PATH);
   chk_malloc (dest, __func__, __LINE__);
 
   while (str[pos_str])
@@ -329,41 +309,21 @@ unescape_url (const char *str, const int boundary)
     {
       /* skip the '%' */
       pos_str += 1;
-      /* Check for buffer overflow (there should be enough space for 1
-       * character + '\0') */
-      if (pos_dest + 2 > boundary)
-      {
-        printf (_
-                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, boundary, pos_dest + 2);
-        free (dest);
-        return NULL;
-      }
-
-      sscanf (str + pos_str, "%2hhx", dest + pos_dest);
+      bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
+      // Is casting dest to unsigned char* ok here? Is there a better way to
+      // do the conversion?
+      sscanf (str + pos_str, "%2hhx", (unsigned char*)dest + pos_dest);
       pos_str += 2;
     }
     else
     {
-      /* Check for buffer overflow (there should be enough space for 1
-       * character + '\0') */
-      if (pos_dest + 2 > boundary)
-      {
-        printf (_
-                ("rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"),
-                __func__, boundary, pos_dest + 2);
-        free (dest);
-        return NULL;
-      }
-
+      bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       dest[pos_dest] = str[pos_str];
       pos_str += 1;
     }
     pos_dest++;
   }
-
   dest[pos_dest] = '\0';
-
   return dest;
 }
 
@@ -434,7 +394,7 @@ join_paths (const char *argv, ...)
     int max_len = LEN_MAX_PATH - len;
     int r = snprintf (path + len, max_len, "%s/", dup_str);
     free (dup_str);
-    bufchk_len (r, max_len, __func__, __LINE__);
+    sn_check (r, max_len, __func__, __LINE__);
     str = va_arg (ap, char *);
   }
 
@@ -585,7 +545,8 @@ int
 main ()
 {
   char tmp[LEN_MAX_PATH];
-  snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
+  int r = snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
+  assert (r < LEN_MAX_PATH);
   HOMEDIR = tmp;
 
   test_isdotdir ();
@@ -594,14 +555,15 @@ main ()
   test_human_readable_size ();
   test_join_paths ();
 
-  char str[BUF_SIZE * 3];
-  strcpy (str, "string to encode \n\t\v  \f\r");
-  char *escaped_path = escape_url (str, BUF_SIZE * 3 + 1);
-  printf ("'%s'\n", escaped_path);
-  assert (!strcmp (escaped_path, "string%20to%20encode%20%0A%09%0B%20%20%0C%0D"));
+  char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";
+  char *escaped_path = escape_url (str);
+  fprintf (stderr, "'%s'\n", escaped_path);
+  assert (!strcmp (escaped_path, "reserved%20%20%20%20%3D%20%3B%20%7C%20/%20%7C%20%3F%20%7C%20%3A%20%7C%20%40%20%7C%20%26%20%7C%20%3D%20%7C%20%2B%20%7C%20%24%20%0A%09%0B%20%20%0C%0D"));
 
-  char *unescaped_path = unescape_url (escaped_path, strlen (escaped_path) + 1);
-  assert (!strcmp (unescaped_path, "string to encode \n\t\v  \f\r"));
+  char *unescaped_path = unescape_url (escaped_path);
+  fprintf (stderr, "'%s'\n", unescaped_path);
+  assert (!strcmp (unescaped_path, str));
+
   free (unescaped_path);
   free (escaped_path);
   return 0;

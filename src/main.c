@@ -69,7 +69,8 @@ get_home_dir (void)
   if (_drive != NULL && _path != NULL)
   {
     static char combined_path[LEN_MAX_PATH];
-    sprintf (combined_path, "%s%s", _drive, _path);
+    sn_check (snprintf (combined_path, sizeof combined_path, "%s%s", _drive, _path),
+                      __func__, __LINE__);
     _homedir = &combined_path[0];
   }
   else

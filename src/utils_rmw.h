@@ -51,10 +51,10 @@ bool
 user_verify (void);
 
 char *
-escape_url (const char *str, const int boundary);
+escape_url (const char *str);
 
 char *
-unescape_url (const char *str, const int boundary);
+unescape_url (const char *str);
 
 bool
 isdotdir (const char *dir);
