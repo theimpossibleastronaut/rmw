@@ -158,7 +158,7 @@ dispose_waste (st_waste *node)
 }
 
 char *
-human_readable_size (off_t size)
+human_readable_size (const off_t size)
 {
   char *buffer = malloc (LEN_MAX_HUMAN_READABLE_SIZE);
   chk_malloc (buffer, __func__, __LINE__);
@@ -170,22 +170,24 @@ human_readable_size (off_t size)
   short remainder;
   remainder = 0;
 
-  while (size >= 1024)
+  off_t hr_size = size;
+
+  while (hr_size >= 1024)
   {
-    remainder = size % 1024;
-    size /= 1024;
+    remainder = hr_size % 1024;
+    hr_size /= 1024;
 
     ++power;
   }
 
   char a_size[7];
-  sn_check (snprintf (a_size, sizeof a_size, "%d", (short)size), sizeof a_size, __func__, __LINE__);
+  sn_check (snprintf (a_size, sizeof a_size, "%ld", hr_size), sizeof a_size, __func__, __LINE__);
 
   if (power >= 0)
-    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB", (short)size,
+    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%ld.%d %ciB", hr_size,
               (remainder * 10) / 1024, prefix[power]), LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
   else
-    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%d B", (short)size), LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
+    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%ld B", hr_size), LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
 
   return buffer;
 }
