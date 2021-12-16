@@ -44,7 +44,7 @@ static const struct st__trashinfo st_trashinfo_template[] = {
 const char trashinfo_ext[] = ".trashinfo";
 const int len_trashinfo_ext = sizeof trashinfo_ext - 1; /* Subtract 1 for the terminating NULL */
 const int LEN_MAX_TRASHINFO_PATH_LINE =
-  (sizeof "Path=" - 1) + LEN_MAX_ESCAPED_PATH;
+  (sizeof ti_path - 1) + LEN_MAX_ESCAPED_PATH;
 
 const char *lit_info = "info";
 const char *path_key = "Path";
