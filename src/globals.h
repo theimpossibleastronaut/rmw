@@ -37,12 +37,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define N_(String) gettext_noop (String)
 
 #ifdef DEBUG
-# define DEBUG_PREFIX printf ("[DEBUG] ");
+#define DEBUG_PREFIX printf ("[DEBUG] ");
 #endif
 
 /* This is always defined when 'configure' is used */
 #ifndef VERSION
-  #define VERSION "unversioned"
+#define VERSION "unversioned"
 #endif
 
 /*!
@@ -50,8 +50,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Some systems may not define PATH_MAX so it's defined here if it's
  * not found in limits.h
  */
-#ifndef PATH_MAX /* for portability */
-#  define PATH_MAX 256
+#ifndef PATH_MAX                /* for portability */
+#define PATH_MAX 256
 #endif
 
 /*! The LEN_MAX_PATH macro is used as a shortcut throughout the program. */

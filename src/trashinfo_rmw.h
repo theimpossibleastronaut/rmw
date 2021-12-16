@@ -107,7 +107,8 @@ extern const char *lit_info;
 extern const char *path_key;
 extern const char *deletion_date_key;
 
-struct st__trashinfo {
+struct st__trashinfo
+{
   const char *str;
   const unsigned short int len;
 };
@@ -124,7 +125,7 @@ typedef struct
 } trashinfo_field;
 
 int
-create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var);
+create_trashinfo (rmw_target * st_f_props, st_waste * waste_curr,
+                  st_time * st_time_var);
 
-char
-*parse_trashinfo_file (const char *file, const char* req_value);
+char *parse_trashinfo_file (const char *file, const char *req_value);

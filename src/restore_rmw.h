@@ -24,27 +24,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <dirent.h>
 
 #if defined HAVE_NCURSESW_MENU_H
-#  include <ncursesw/menu.h>
+#include <ncursesw/menu.h>
 #elif defined HAVE_NCURSES_MENU_H
-#  include <ncurses/menu.h>
+#include <ncurses/menu.h>
 #elif defined HAVE_MENU_H
-#  include <menu.h>
+#include <menu.h>
 #else
-#  error "SysV-compatible Curses Menu header file required"
+#error "SysV-compatible Curses Menu header file required"
 #endif
 
 #if defined HAVE_NCURSESW_CURSES_H
-#  include <ncursesw/curses.h>
+#include <ncursesw/curses.h>
 #elif defined HAVE_NCURSESW_H
-#  include <ncursesw.h>
+#include <ncursesw.h>
 #elif defined HAVE_NCURSES_CURSES_H
-#  include <ncurses/curses.h>
+#include <ncurses/curses.h>
 #elif defined HAVE_NCURSES_H
-#  include <ncurses.h>
+#include <ncurses.h>
 #elif defined HAVE_CURSES_H
-#  include <curses.h>
+#include <curses.h>
 #else
-#  error "SysV or X/Open-compatible Curses header file required"
+#error "SysV or X/Open-compatible Curses header file required"
 #endif
 
 #include "trashinfo_rmw.h"
@@ -55,12 +55,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 extern const char *mrl_is_empty;
 
 int
-restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_options, st_waste *waste_head);
+restore (const char *src, st_time * st_time_var,
+         const rmw_options * cli_user_options, st_waste * waste_head);
 
 int
-restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options);
+restore_select (st_waste * waste_head, st_time * st_time_var,
+                const rmw_options * cli_user_options);
 
 int
-undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
-  rmw_options * cli_user_options, char *mrl_contents, st_waste
-  *waste_head);
+undo_last_rmw (st_time * st_time_var, const char *mrl_file, const
+               rmw_options * cli_user_options, char *mrl_contents, st_waste
+               * waste_head);

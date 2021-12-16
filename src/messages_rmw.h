@@ -29,11 +29,10 @@ void print_msg_error (void);
 
 void print_msg_warn (void);
 
-void
-open_err (const char *filename, const char *function_name);
+void open_err (const char *filename, const char *function_name);
 
 short
-close_file (FILE *file_ptr, const char *filename, const char *function_name);
+close_file (FILE * file_ptr, const char *filename, const char *function_name);
 
 void display_dot_trashinfo_error (const char *dti);
 
@@ -41,34 +40,26 @@ void msg_warn_restore (int result);
 
 void chk_malloc (void *state, const char *func, const int line);
 
-void
-msg_return_code (const int code);
+void msg_return_code (const int code);
+
+void msg_err_close_dir (const char *dir, const char *func, const int line);
+
+void msg_err_open_dir (const char *dir, const char *func, const int line);
 
 void
-msg_err_close_dir (const char *dir, const char *func, const int line);
-
-void
-msg_err_open_dir (const char *dir, const char *func, const int line);
-
-void
-msg_err_rename (const char *src_file, const char *dest_file, const char *func, const int line);
+msg_err_rename (const char *src_file, const char *dest_file, const char *func,
+                const int line);
 
 void msg_err_fatal_fprintf (const char *func);
 
-void
-msg_err_buffer_overrun (const char *func, const int line);
+void msg_err_buffer_overrun (const char *func, const int line);
 
-void
-msg_err_lstat (const char *file, const char *func, const int LINE);
+void msg_err_lstat (const char *file, const char *func, const int LINE);
 
-void
-msg_err_remove (const char *file, const char *func);
+void msg_err_remove (const char *file, const char *func);
 
-void
-msg_err_mkdir (const char *dir, const char *func);
+void msg_err_mkdir (const char *dir, const char *func);
 
-void
-msg_success_mkdir (const char *dir);
+void msg_success_mkdir (const char *dir);
 
-void
-msg_warn_file_not_found (const char *file);
+void msg_warn_file_not_found (const char *file);

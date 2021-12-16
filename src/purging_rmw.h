@@ -38,6 +38,5 @@ short orphan_maint (st_waste * waste_head, st_time * st_time_var,
                     int *orphan_ctr);
 
 int
-rmdir_recursive (const char *dirname, short unsigned level,
-                 const int force);
+rmdir_recursive (const char *dirname, short unsigned level, const int force);
 #endif

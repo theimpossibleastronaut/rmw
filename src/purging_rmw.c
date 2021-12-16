@@ -69,7 +69,8 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
     if (isdotdir (st_dirname_properties.st_entry_ptr->d_name))
       continue;
 
-    char *path_tmp = join_paths (dirname, st_dirname_properties.st_entry_ptr->d_name, NULL);
+    char *path_tmp =
+      join_paths (dirname, st_dirname_properties.st_entry_ptr->d_name, NULL);
     strcpy (st_dirname_properties.path, path_tmp);
     free (path_tmp);
     path_tmp = NULL;
@@ -310,7 +311,8 @@ purge (st_config * st_config_data,
       if (isdotdir (st_trashinfo_dir_entry->d_name))
         continue;
 
-      char *tmp_str = join_paths (waste_curr->info, st_trashinfo_dir_entry->d_name, NULL);
+      char *tmp_str =
+        join_paths (waste_curr->info, st_trashinfo_dir_entry->d_name, NULL);
       char trashinfo_entry_realpath[strlen (tmp_str) + 1];
       strcpy (trashinfo_entry_realpath, tmp_str);
       free (tmp_str);
@@ -541,8 +543,10 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
       st_file_properties.base_name = basename (entry->d_name);
 
-      char *tmp_str = join_paths (waste_curr->info, st_file_properties.base_name, NULL);
-      int r = snprintf (path_to_trashinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
+      char *tmp_str =
+        join_paths (waste_curr->info, st_file_properties.base_name, NULL);
+      int r = snprintf (path_to_trashinfo, LEN_MAX_PATH, "%s%s", tmp_str,
+                        trashinfo_ext);
       sn_check (r, LEN_MAX_PATH, __func__, __LINE__);
 
       free (tmp_str);
@@ -551,8 +555,9 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
         continue;
 
       /* destination if restored */
-      st_file_properties.real_path = join_paths (waste_curr->parent, "orphans",
-                  st_file_properties.base_name, NULL);
+      st_file_properties.real_path =
+        join_paths (waste_curr->parent, "orphans",
+                    st_file_properties.base_name, NULL);
 
       if (!create_trashinfo (&st_file_properties, waste_curr, st_time_var))
       {

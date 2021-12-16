@@ -26,7 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Holds a list of files that rmw will be ReMoving.
  */
 typedef struct st_removed st_removed;
-struct st_removed {
+struct st_removed
+{
   char file[LEN_MAX_PATH];
   st_removed *next_node;
 };

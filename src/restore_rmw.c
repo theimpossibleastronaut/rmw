@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
-  #include "globals.h"
+#include "globals.h"
 #endif
 
 #include "parse_cli_options.h"
@@ -33,8 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const char *mrl_is_empty = "[Empty]\n";
 
 
-static
-char *get_waste_parent (const char *src)
+static char *
+get_waste_parent (const char *src)
 {
   char src_copy[strlen (src) + 1];
   strcpy (src_copy, src);
@@ -56,7 +56,8 @@ char *get_waste_parent (const char *src)
 
 
 int
-restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_options, st_waste *waste_head)
+restore (const char *src, st_time * st_time_var,
+         const rmw_options * cli_user_options, st_waste * waste_head)
 {
   if (exists (src))
   {
@@ -87,13 +88,15 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
     char *src_basename = basename (src_copy);
     if (isdotdir (src_basename))
     {
-      printf ("refusing to process '.' or '..' directory: skipping '%s'", src_basename);
+      printf ("refusing to process '.' or '..' directory: skipping '%s'",
+              src_basename);
       return 1;
     }
 
     char src_tinfo[LEN_MAX_PATH];
     char *tmp_str = join_paths (waste_parent, lit_info, src_basename, NULL);
-    int r = snprintf (src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
+    int r =
+      snprintf (src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
     free (tmp_str);
     tmp_str = NULL;
     sn_check (r, LEN_MAX_PATH, __func__, __LINE__);
@@ -122,7 +125,8 @@ restore (const char *src, st_time *st_time_var, const rmw_options * cli_user_opt
      */
     if (exists (dest))
     {
-      bufchk_len (strlen (dest) + LEN_MAX_TIME_STR_SUFFIX, LEN_MAX_PATH, __func__, __LINE__);
+      bufchk_len (strlen (dest) + LEN_MAX_TIME_STR_SUFFIX, LEN_MAX_PATH,
+                  __func__, __LINE__);
       strcat (dest, st_time_var->suffix_added_dup_exists);
 
       if (verbose)
@@ -138,7 +142,7 @@ Duplicate filename at destination - appending time string...\n"));
 
     if (cli_user_options->want_dry_run == false)
     {
-      if (! exists (parent_dir))
+      if (!exists (parent_dir))
       {
         if (!rmw_mkdir (parent_dir, S_IRWXU))
         {
@@ -169,8 +173,7 @@ Duplicate filename at destination - appending time string...\n"));
       if (result != 0)
       {
         print_msg_error ();
-        printf (_("while removing .trashinfo file: '%s'\n"),
-                src_tinfo);
+        printf (_("while removing .trashinfo file: '%s'\n"), src_tinfo);
       }
       else if (verbose >= 2)
         printf ("-%s\n", src_tinfo);
@@ -192,8 +195,9 @@ Duplicate filename at destination - appending time string...\n"));
 }
 
 static char *
-create_formatted_str (const off_t size, const mode_t mode, const char *dir_entry,
-                      const int len, char *formatted_hr_size)
+create_formatted_str (const off_t size, const mode_t mode,
+                      const char *dir_entry, const int len,
+                      char *formatted_hr_size)
 {
   char *hr_size = human_readable_size (size);
 
@@ -202,8 +206,9 @@ create_formatted_str (const off_t size, const mode_t mode, const char *dir_entry
    * below) holds the description.
    *
    */
-  sn_check (snprintf (formatted_hr_size, LEN_MAX_FORMATTED_HR_SIZE, "[%s]", hr_size),
-                LEN_MAX_FORMATTED_HR_SIZE, __func__, __LINE__);
+  sn_check (snprintf
+            (formatted_hr_size, LEN_MAX_FORMATTED_HR_SIZE, "[%s]", hr_size),
+            LEN_MAX_FORMATTED_HR_SIZE, __func__, __LINE__);
   free (hr_size);
 
   if (S_ISDIR (mode))
@@ -218,14 +223,15 @@ create_formatted_str (const off_t size, const mode_t mode, const char *dir_entry
 }
 
 static st_node *
-add_entry (st_node *node, st_waste *waste_curr_node, const char *dir_entry)
+add_entry (st_node * node, st_waste * waste_curr_node, const char *dir_entry)
 {
   int len_dir_entry = strlen (dir_entry);
   int req_len = strlen ("/") + len_dir_entry + waste_curr_node->len_files + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
   char full_path[req_len];
-  sn_check (snprintf (full_path, sizeof full_path, "%s/%s", waste_curr_node->files, dir_entry),
-                    sizeof full_path, __func__, __LINE__);
+  sn_check (snprintf
+            (full_path, sizeof full_path, "%s/%s", waste_curr_node->files,
+             dir_entry), sizeof full_path, __func__, __LINE__);
 
   struct stat st;
   if (lstat (full_path, &st))
@@ -233,10 +239,12 @@ add_entry (st_node *node, st_waste *waste_curr_node, const char *dir_entry)
 
   char formatted_hr_size[LEN_MAX_FORMATTED_HR_SIZE];
   *formatted_hr_size = '\0';
-  char *m_dir_entry = create_formatted_str (st.st_size, st.st_mode, dir_entry, len_dir_entry, formatted_hr_size);
+  char *m_dir_entry =
+    create_formatted_str (st.st_size, st.st_mode, dir_entry, len_dir_entry,
+                          formatted_hr_size);
 
   comparer int_cmp = strcasecmp;
-  return insert_node(node, int_cmp, m_dir_entry, formatted_hr_size);
+  return insert_node (node, int_cmp, m_dir_entry, formatted_hr_size);
 }
 
 /*!
@@ -248,7 +256,8 @@ add_entry (st_node *node, st_waste *waste_curr_node, const char *dir_entry)
  * @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/205">In some cases, not all files are displayed when using '-s'</a>
  */
 int
-restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * cli_user_options)
+restore_select (st_waste * waste_head, st_time * st_time_var,
+                const rmw_options * cli_user_options)
 {
   st_waste *waste_curr = waste_head;
   int c = 0;
@@ -261,8 +270,10 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     initscr ();
     if (LINES < min_lines_required)
     {
-      endwin();
-      printf (_("Your terminal only has %d lines. A minimum of %d lines is required.\n"), LINES, min_lines_required);
+      endwin ();
+      printf (_
+              ("Your terminal only has %d lines. A minimum of %d lines is required.\n"),
+              LINES, min_lines_required);
       dispose_waste (waste_head);
       exit (EXIT_FAILURE);
     }
@@ -312,29 +323,31 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     populate_menu (dir_entry_list, my_items, true);
 
     my_menu = new_menu ((ITEM **) my_items);
-    set_menu_format(my_menu, LINES - start_line_bottom - 1, 1);
+    set_menu_format (my_menu, LINES - start_line_bottom - 1, 1);
     menu_opts_off (my_menu, O_ONEVALUE);
 
     mvprintw (LINES - start_line_bottom, 0, "== %s ==", waste_curr->files);
     mvprintw (LINES - (start_line_bottom - 1), 0,
-          ngettext ("== contains %d file ==", "== contains %d files ==", n_choices), n_choices);
+              ngettext ("== contains %d file ==", "== contains %d files ==",
+                        n_choices), n_choices);
 
     /* TRANSLATORS: I believe the words between the < and > can be translated
      */
-    mvprintw (LINES - (start_line_bottom - 3), 0, _("<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"));
+    mvprintw (LINES - (start_line_bottom - 3), 0,
+              _("<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"));
     mvprintw (LINES - (start_line_bottom - 4), 0, _("\
 <SPACE> - select or unselect an item. / <ENTER> - restore selected items"));
 
     /* TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
      * for input in this case.
-    */
+     */
     mvprintw (LINES - (start_line_bottom - 5), 0, _("'q' - quit"));
     post_menu (my_menu);
     refresh ();
 
     do
     {
-      c = getch();
+      c = getch ();
       switch (c)
       {
       case KEY_DOWN:
@@ -346,12 +359,14 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
       case KEY_LEFT:
         if (waste_curr->prev_node != NULL)
           waste_curr = waste_curr->prev_node;
-        else c = 0;
+        else
+          c = 0;
         break;
       case KEY_RIGHT:
         if (waste_curr->next_node != NULL)
           waste_curr = waste_curr->next_node;
-        else c = 0;
+        else
+          c = 0;
         break;
       case KEY_NPAGE:
         menu_driver (my_menu, REQ_SCR_DPAGE);
@@ -363,7 +378,8 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
         menu_driver (my_menu, REQ_TOGGLE_ITEM);
         break;
       }
-    } while (c != KEY_RIGHT && c != KEY_LEFT && c != 10 && c != 'q');
+    }
+    while (c != KEY_RIGHT && c != KEY_LEFT && c != 10 && c != 'q');
 
     if (c == 10)
     {
@@ -377,8 +393,11 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
       {
         if (item_value (items[i]) == TRUE)
         {
-          char *recover_file = join_paths (waste_curr->files, item_name (items[i]), NULL);
-          msg_warn_restore(restore (recover_file, st_time_var, cli_user_options, waste_head));
+          char *recover_file =
+            join_paths (waste_curr->files, item_name (items[i]), NULL);
+          msg_warn_restore (restore
+                            (recover_file, st_time_var, cli_user_options,
+                             waste_head));
           free (recover_file);
         }
       }
@@ -390,13 +409,14 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
     free_menu (my_menu);
 
     int i;
-    for(i = 0; i < n_choices; ++i)
-      free_item(my_items[i]);
+    for (i = 0; i < n_choices; ++i)
+      free_item (my_items[i]);
 
     free (my_items);
     dispose (dir_entry_list);
 
-  }while (c != 'q' && c != 10);
+  }
+  while (c != 'q' && c != 10);
 
   return 0;
 }
@@ -405,37 +425,37 @@ restore_select (st_waste *waste_head, st_time *st_time_var, const rmw_options * 
  * Restores files from the mrl
  */
 int
-undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
-  rmw_options * cli_user_options, char *mrl_contents, st_waste
-  *waste_head)
+undo_last_rmw (st_time * st_time_var, const char *mrl_file, const
+               rmw_options * cli_user_options, char *mrl_contents, st_waste
+               * waste_head)
 {
-    int err_ctr = 0;
-    char contents_copy[strlen (mrl_contents) + 1];
-    strcpy (contents_copy, mrl_contents);
-    char *line = strtok (contents_copy, "\n");
-    while (line != NULL)
-    {
-      trim_whitespace (line);
-      int result = restore (line, st_time_var, cli_user_options, waste_head);
-      line = strtok (NULL, "\n");
-      msg_warn_restore (result);
-      err_ctr += result;
-    }
+  int err_ctr = 0;
+  char contents_copy[strlen (mrl_contents) + 1];
+  strcpy (contents_copy, mrl_contents);
+  char *line = strtok (contents_copy, "\n");
+  while (line != NULL)
+  {
+    trim_whitespace (line);
+    int result = restore (line, st_time_var, cli_user_options, waste_head);
+    line = strtok (NULL, "\n");
+    msg_warn_restore (result);
+    err_ctr += result;
+  }
 
-    if (err_ctr == 0)
+  if (err_ctr == 0)
+  {
+    if (cli_user_options->want_dry_run == false)
     {
-      if (cli_user_options->want_dry_run == false)
+      FILE *fd = fopen (mrl_file, "w");
+      if (fd != NULL)
       {
-        FILE *fd = fopen (mrl_file, "w");
-        if (fd != NULL)
-        {
-          fprintf (fd, "%s", mrl_is_empty);
-          close_file (fd, mrl_file, __func__);
-        }
-        else
-          open_err (mrl_file, __func__);
+        fprintf (fd, "%s", mrl_is_empty);
+        close_file (fd, mrl_file, __func__);
       }
+      else
+        open_err (mrl_file, __func__);
     }
+  }
   return err_ctr;
 }
 
@@ -448,47 +468,52 @@ undo_last_rmw (st_time *st_time_var, const char *mrl_file, const
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
-typedef struct entries {
+typedef struct entries
+{
   char *name;
   off_t size;
   mode_t mode;
-}entries;
+} entries;
 
-static void test_human_readable_size (void)
+static void
+test_human_readable_size (void)
 {
   const struct entries test_entries[] = {
-    { "foo", 1204, S_IFDIR },
-    { "bar", 10000, S_IFLNK },
-    { "Hello", 28000000000000, S_IFREG },
-    { "World On A String", 4096, S_IFDIR },
+    {"foo", 1204, S_IFDIR},
+    {"bar", 10000, S_IFLNK},
+    {"Hello", 28000000000000, S_IFREG},
+    {"World On A String", 4096, S_IFDIR},
   };
 
-  int entries_size = ARRAY_SIZE(test_entries);
+  int entries_size = ARRAY_SIZE (test_entries);
   int i;
 
   for (i = 0; i < entries_size; i++)
   {
     int len = strlen (test_entries[i].name);
     char formatted_hr_size[LEN_MAX_FORMATTED_HR_SIZE];
-    char *m_dir_entry = create_formatted_str (test_entries[i].size, test_entries[i].mode, test_entries[i].name, len, formatted_hr_size);
+    char *m_dir_entry =
+      create_formatted_str (test_entries[i].size, test_entries[i].mode,
+                            test_entries[i].name, len, formatted_hr_size);
     printf ("%s\n", formatted_hr_size);
     free (m_dir_entry);
-    switch (i) {
-      case 0:
-        assert (strcmp (formatted_hr_size, "[1.1 KiB] (D)") == 0);
-        break;
-      case 1:
-        assert (strcmp (formatted_hr_size, "[9.7 KiB] (L)") == 0);
-        break;
-      case 2:
-        assert (strcmp (formatted_hr_size, "[25.4 TiB]") == 0);
-        break;
-      case 3:
-        assert (strcmp (formatted_hr_size, "[4.0 KiB] (D)") == 0);
-        break;
-      default:
-        break;
-      }
+    switch (i)
+    {
+    case 0:
+      assert (strcmp (formatted_hr_size, "[1.1 KiB] (D)") == 0);
+      break;
+    case 1:
+      assert (strcmp (formatted_hr_size, "[9.7 KiB] (L)") == 0);
+      break;
+    case 2:
+      assert (strcmp (formatted_hr_size, "[25.4 TiB]") == 0);
+      break;
+    case 3:
+      assert (strcmp (formatted_hr_size, "[4.0 KiB] (D)") == 0);
+      break;
+    default:
+      break;
+    }
   }
 }
 

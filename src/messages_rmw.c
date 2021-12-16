@@ -20,14 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "messages_rmw.h"
 
-void print_msg_error (void)
+void
+print_msg_error (void)
 {
   /* TRANSLATORS: this precedes a string which informs the user of a more
    * serious error, sometimes a fatal one */
   fputs (_("  :error: "), stderr);
 }
 
-void print_msg_warn (void)
+void
+print_msg_warn (void)
 {
   /* TRANSLATORS: this precedes a string which warns the user of some minor
    * but not fatal problem */
@@ -44,16 +46,18 @@ void print_msg_warn (void)
 void
 open_err (const char *filename, const char *function_name)
 {
-    print_msg_error ();
-    /* TRANSLATORS:  "opening" refers to a file  */
-    fprintf (stderr, _("while opening %s\n"), filename);
+  print_msg_error ();
+  /* TRANSLATORS:  "opening" refers to a file  */
+  fprintf (stderr, _("while opening %s\n"), filename);
 
-    static char combined_msg[BUFSIZ];
-     /* TRANSLATORS:  "function" refers to a C function  */
-    sn_check (snprintf (combined_msg, BUFSIZ, _("function: <%s>"), function_name), BUFSIZ, __func__, __LINE__);
-    perror (combined_msg);
+  static char combined_msg[BUFSIZ];
+  /* TRANSLATORS:  "function" refers to a C function  */
+  sn_check (snprintf
+            (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
+            BUFSIZ, __func__, __LINE__);
+  perror (combined_msg);
 
-    return;
+  return;
 }
 
 /**
@@ -65,7 +69,8 @@ open_err (const char *filename, const char *function_name)
  * @param[in] function_name the name of the calling function
  * @return an error number, 0 if no error
  */
-short close_file (FILE *file_ptr, const char *filename, const char *function_name)
+short
+close_file (FILE * file_ptr, const char *filename, const char *function_name)
 {
   /* fclose() shouldn't be used on file pointers that are NULL.
    * https://stackoverflow.com/questions/16922871/why-glibcs-fclosenull-cause-segmentation-fault-instead-of-returning-error
@@ -82,7 +87,9 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
     fprintf (stderr, _("while closing %s\n"), filename);
 
     static char combined_msg[BUFSIZ];
-    sn_check (snprintf (combined_msg, BUFSIZ, _("function: <%s>"), function_name), BUFSIZ, __func__, __LINE__);
+    sn_check (snprintf
+              (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
+              BUFSIZ, __func__, __LINE__);
     perror (combined_msg);
 
     msg_return_code (errno);
@@ -90,7 +97,8 @@ short close_file (FILE *file_ptr, const char *filename, const char *function_nam
   }
 }
 
-void display_dot_trashinfo_error (const char *dti)
+void
+display_dot_trashinfo_error (const char *dti)
 {
   print_msg_error ();
   /* TRANSLATORS:  ".trashinfo" should remain untranslated
@@ -103,7 +111,8 @@ void display_dot_trashinfo_error (const char *dti)
   return;
 }
 
-void msg_warn_restore (int result)
+void
+msg_warn_restore (int result)
 {
   if (result == 0)
     return;
@@ -123,7 +132,8 @@ void msg_warn_restore (int result)
   return;
 }
 
-void chk_malloc (void *state, const char *func, const int line)
+void
+chk_malloc (void *state, const char *func, const int line)
 {
   if (state == NULL)
   {
@@ -165,7 +175,8 @@ msg_err_open_dir (const char *dir, const char *func, const int line)
 }
 
 void
-msg_err_rename (const char *src_file, const char *dest_file, const char *func, const int line)
+msg_err_rename (const char *src_file, const char *dest_file, const char *func,
+                const int line)
 {
   print_msg_error ();
   printf (_("while trying to move (rename)\n\
@@ -203,7 +214,9 @@ msg_err_buffer_overrun (const char *func, const int line)
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */
   fputs ("Buffer length exceeded.\n", stderr);
-  fputs ("If you think this may be a bug, please report it to the rmw developers.\n", stderr);
+  fputs
+    ("If you think this may be a bug, please report it to the rmw developers.\n",
+     stderr);
 }
 
 /*!
@@ -215,7 +228,7 @@ msg_err_buffer_overrun (const char *func, const int line)
 void
 msg_err_lstat (const char *file, const char *func, const int line)
 {
-  print_msg_error();
+  print_msg_error ();
   perror ("lstat()");
   fprintf (stderr, "%s in %s:L%d\n", file, func, line);
   exit (errno);
@@ -254,8 +267,3 @@ msg_warn_file_not_found (const char *file)
   print_msg_warn ();
   printf (_("File not found: '%s'\n"), file);
 }
-
-
-
-
-

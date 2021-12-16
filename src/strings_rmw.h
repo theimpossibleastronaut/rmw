@@ -25,20 +25,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdbool.h>
 
 void
-bufchk_len (const int len, const int boundary, const char *func, const int line);
+bufchk_len (const int len, const int boundary, const char *func,
+            const int line);
 
 void
 sn_check (const int len, const int dest_boundary, const char *func,
-            const int line);
+          const int line);
 
-int
-multi_strlen (const char *argv, ...);
+int multi_strlen (const char *argv, ...);
 
-void
-trim_whitespace (char *str);
+void trim_whitespace (char *str);
 
-void
-trim_char (const char c, char *str);
+void trim_char (const char c, char *str);
 
-void
-truncate_str (char *str, int pos);
+void truncate_str (char *str, int pos);

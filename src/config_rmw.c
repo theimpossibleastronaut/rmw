@@ -139,7 +139,8 @@ realize_waste_line (char *str)
 
   /* What's a good length for this? */
   char UID[40];
-  sn_check (snprintf (UID, sizeof UID, "%u", pwd->pw_uid), sizeof UID, __func__, __LINE__);
+  sn_check (snprintf (UID, sizeof UID, "%u", pwd->pw_uid), sizeof UID,
+            __func__, __LINE__);
 
   struct st_vars_to_check st_var[] = {
     {"~", HOMEDIR},
@@ -321,7 +322,8 @@ parse_config_file (const rmw_options * cli_user_options,
   if (cli_user_options->alt_config == NULL)
   {
     const char rel_default_config[] = "rmwrc";
-    char *tmp_str = join_paths (st_config_data->dir, rel_default_config, NULL);
+    char *tmp_str =
+      join_paths (st_config_data->dir, rel_default_config, NULL);
     strcpy (st_config_data->file, tmp_str);
     free (tmp_str);
   }

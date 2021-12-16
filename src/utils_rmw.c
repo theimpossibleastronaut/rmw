@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
-  #include "globals.h"
+#include "globals.h"
 #endif
 
 #include "utils_rmw.h"
@@ -38,7 +38,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * https://travis-ci.com/github/theimpossibleastronaut/rmw/builds/224722056
  * -andy5995 2021-05-02)
  */
-char *rmw_dirname (char *path)
+char *
+rmw_dirname (char *path)
 {
   if (path == NULL || *path == '\0')
     return NULL;
@@ -89,7 +90,8 @@ char *rmw_dirname (char *path)
  * Check for the existence of a dir, and create it if not found.
  * Also creates parent directories.
  */
-int rmw_mkdir (const char *dir, mode_t mode)
+int
+rmw_mkdir (const char *dir, mode_t mode)
 {
   if (exists (dir))
   {
@@ -117,7 +119,8 @@ int rmw_mkdir (const char *dir, mode_t mode)
 /*!
  * Determine whether or not a file or directory exists.
  */
-bool exists (const char *filename)
+bool
+exists (const char *filename)
 {
   if (!filename)
     return false;
@@ -126,9 +129,9 @@ bool exists (const char *filename)
   // return ! access (filename, F_OK);
 
   /* And we don't use fopen() because sometimes we want to know if the
-  file exists, not just if it can be read. If a file or directory
-  can be opened read-only, that doesn't guarantee whether or not it
-  exists */
+     file exists, not just if it can be read. If a file or directory
+     can be opened read-only, that doesn't guarantee whether or not it
+     exists */
 
   static struct stat st;
   static int res;
@@ -142,7 +145,7 @@ bool exists (const char *filename)
 }
 
 void
-dispose_waste (st_waste *node)
+dispose_waste (st_waste * node)
 {
   if (node != NULL)
   {
@@ -181,13 +184,18 @@ human_readable_size (const off_t size)
   }
 
   char a_size[7];
-  sn_check (snprintf (a_size, sizeof a_size, "%ld", hr_size), sizeof a_size, __func__, __LINE__);
+  sn_check (snprintf (a_size, sizeof a_size, "%ld", hr_size), sizeof a_size,
+            __func__, __LINE__);
 
   if (power >= 0)
-    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%ld.%d %ciB", hr_size,
-              (remainder * 10) / 1024, prefix[power]), LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
+    sn_check (snprintf
+              (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%ld.%d %ciB", hr_size,
+               (remainder * 10) / 1024, prefix[power]),
+              LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
   else
-    sn_check (snprintf (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%ld B", hr_size), LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
+    sn_check (snprintf
+              (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%ld B", hr_size),
+              LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
 
   return buffer;
 }
@@ -199,20 +207,21 @@ human_readable_size (const off_t size)
 bool
 user_verify (void)
 {
-  fputs(_("Continue? (y/n): "), stdout);
-  int answer = getchar();
-  bool want_continue = (answer == (int)'Y') || (answer == (int)'y');
+  fputs (_("Continue? (y/n): "), stdout);
+  int answer = getchar ();
+  bool want_continue = (answer == (int) 'Y') || (answer == (int) 'y');
   int char_count = 0;
 
   /* Check if there's any more chars */
   while (answer != '\n' && answer != EOF)
   {
     char_count++;
-    if (char_count>1024) {
-      fputs("Too many chars in stdin!!\n", stderr);
-      exit(EXIT_FAILURE);
+    if (char_count > 1024)
+    {
+      fputs ("Too many chars in stdin!!\n", stderr);
+      exit (EXIT_FAILURE);
     }
-    answer = getchar();
+    answer = getchar ();
   }
 
   return (want_continue && (char_count <= 1));
@@ -236,20 +245,24 @@ user_verify (void)
   * @see escape_url
   * @see unescape_url
  */
-static bool is_unreserved (char c)
+static bool
+is_unreserved (char c)
 {
-  if ( ('A' <= c && c <= 'Z') ||
-       ('a' <= c && c <= 'z') ||
-       ('0' <= c && c <= '9') )
+  if (('A' <= c && c <= 'Z') ||
+      ('a' <= c && c <= 'z') || ('0' <= c && c <= '9'))
     return 1;
 
   switch (c)
   {
-    case '-': case '_': case '~': case '.': case '/':
-      return 1;
+  case '-':
+  case '_':
+  case '~':
+  case '.':
+  case '/':
+    return 1;
 
-    default:
-      return 0;
+  default:
+    return 0;
   }
 }
 
@@ -274,7 +287,8 @@ escape_url (const char *str)
       dest[pos_dest] = str[pos_str];
       pos_dest += 1;
     }
-    else {
+    else
+    {
       bufchk_len (pos_dest + 4, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       /* A quick explanation to this printf
        * %% - print a '%'
@@ -283,7 +297,7 @@ escape_url (const char *str)
        * hh - this is a byte
        * X  - print hexadecimal form with uppercase letters
        */
-      sprintf(dest + pos_dest, "%%%02hhX", str[pos_str]);
+      sprintf (dest + pos_dest, "%%%02hhX", str[pos_str]);
       pos_dest += 3;
     }
     pos_str++;
@@ -314,7 +328,7 @@ unescape_url (const char *str)
       bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       // Is casting dest to unsigned char* ok here? Is there a better way to
       // do the conversion?
-      sscanf (str + pos_str, "%2hhx", (unsigned char*)dest + pos_dest);
+      sscanf (str + pos_str, "%2hhx", (unsigned char *) dest + pos_dest);
       pos_str += 2;
     }
     else
@@ -334,7 +348,8 @@ unescape_url (const char *str)
  * name: isdotdir
  * Checks for . and .. directories
  */
-bool isdotdir (const char *dir)
+bool
+isdotdir (const char *dir)
 {
   if (dir[0] != '.')
     return false;
@@ -354,8 +369,8 @@ bool isdotdir (const char *dir)
  * a dangling  * symlink; this function is designed to do that.
  *
  */
-char
-*resolve_path (const char *file, const char *b)
+char *
+resolve_path (const char *file, const char *b)
 {
   int req_len = strlen (file) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
@@ -431,12 +446,13 @@ test_isdotdir (void)
 }
 
 
-static void test_rmw_mkdir (void)
+static void
+test_rmw_mkdir (void)
 {
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths (HOMEDIR, subdirs, NULL);
   assert (rmw_mkdir (dir, S_IRWXU) == 0);
-  printf  ("%s\n", dir);
+  printf ("%s\n", dir);
   assert (exists (dir) == true);
   free (dir);
 
@@ -451,7 +467,8 @@ static void test_rmw_mkdir (void)
   return;
 }
 
-static void test_rmw_dirname (void)
+static void
+test_rmw_dirname (void)
 {
   char dir[BUF_SIZE];
   strcpy (dir, "/");
@@ -496,7 +513,8 @@ static void test_rmw_dirname (void)
   return;
 }
 
-static void test_human_readable_size (void)
+static void
+test_human_readable_size (void)
 {
   char *hr = human_readable_size (256);
   assert (strcmp (hr, "256 B") == 0);
@@ -547,7 +565,8 @@ int
 main ()
 {
   char tmp[LEN_MAX_PATH];
-  int r = snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
+  int r =
+    snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
   assert (r < LEN_MAX_PATH);
   HOMEDIR = tmp;
 
@@ -560,7 +579,9 @@ main ()
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";
   char *escaped_path = escape_url (str);
   fprintf (stderr, "'%s'\n", escaped_path);
-  assert (!strcmp (escaped_path, "reserved%20%20%20%20%3D%20%3B%20%7C%20/%20%7C%20%3F%20%7C%20%3A%20%7C%20%40%20%7C%20%26%20%7C%20%3D%20%7C%20%2B%20%7C%20%24%20%0A%09%0B%20%20%0C%0D"));
+  assert (!strcmp
+          (escaped_path,
+           "reserved%20%20%20%20%3D%20%3B%20%7C%20/%20%7C%20%3F%20%7C%20%3A%20%7C%20%40%20%7C%20%26%20%7C%20%3D%20%7C%20%2B%20%7C%20%24%20%0A%09%0B%20%20%0C%0D"));
 
   char *unescaped_path = unescape_url (escaped_path);
   fprintf (stderr, "'%s'\n", unescaped_path);

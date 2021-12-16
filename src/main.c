@@ -69,8 +69,9 @@ get_home_dir (void)
   if (_drive != NULL && _path != NULL)
   {
     static char combined_path[LEN_MAX_PATH];
-    sn_check (snprintf (combined_path, sizeof combined_path, "%s%s", _drive, _path),
-                      __func__, __LINE__);
+    sn_check (snprintf
+              (combined_path, sizeof combined_path, "%s%s", _drive, _path),
+              __func__, __LINE__);
     _homedir = &combined_path[0];
   }
   else
@@ -131,8 +132,8 @@ process_mrl (st_waste * waste_head,
   FILE *fd = fopen (mrl_file, "r");
   if (fd != NULL)
   {
-    fseek (fd, 0, SEEK_END);      // move to the end of the file so we can use ftell()
-    const int f_size = ftell (fd);        // Get the size of the file
+    fseek (fd, 0, SEEK_END);    // move to the end of the file so we can use ftell()
+    const int f_size = ftell (fd);      // Get the size of the file
     rewind (fd);
 
     contents = calloc (1, f_size + 1);
@@ -369,7 +370,8 @@ damage of 5000 hp. You feel satisfied.\n"));
     {
       if (waste_curr->dev_num == st_orig.st_dev)
       {
-        char *tmp_str = join_paths (waste_curr->files, st_target.base_name, NULL);
+        char *tmp_str =
+          join_paths (waste_curr->files, st_target.base_name, NULL);
         strcpy (st_target.waste_dest_name, tmp_str);
         free (tmp_str);
         tmp_str = NULL;

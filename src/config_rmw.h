@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <sys/stat.h>
 #include <pwd.h>
-#include <unistd.h> /* for geteuid() */
+#include <unistd.h>             /* for geteuid() */
 
 #include "trashinfo_rmw.h"
 #include "parse_cli_options.h"
@@ -40,7 +40,8 @@ extern const char *expire_age_str;
  * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
  */
 
-typedef struct {
+typedef struct
+{
   const char *dir;
   char file[LEN_MAX_PATH];
   st_waste *st_waste_folder_props_head;
@@ -49,24 +50,24 @@ typedef struct {
   int expire_age;
 } st_config;
 
-struct st_vars_to_check {
+struct st_vars_to_check
+{
   const char *name;
   const char *value;
 };
 
-const char*
-get_config_home_dir (void);
+const char *get_config_home_dir (void);
 
 void
-parse_config_file (const rmw_options * cli_user_options, st_config *st_config_data);
+parse_config_file (const rmw_options * cli_user_options,
+                   st_config * st_config_data);
+
+void init_config_data (st_config * st_config_data);
 
 void
-init_config_data (st_config *st_config_data);
+show_folder_line (const char *folder, const bool is_r,
+                  const bool is_attached);
 
-void
-show_folder_line (const char *folder, const bool is_r, const bool is_attached);
-
-void
-realize_waste_line (char *str);
+void realize_waste_line (char *str);
 
 #endif

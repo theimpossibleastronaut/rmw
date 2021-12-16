@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * -andy5995 2019-07-30 */
 #ifndef __USE_XOPEN
-# define __USE_XOPEN
+#define __USE_XOPEN
 #endif
 #include <time.h>
 #include <dirent.h>
@@ -42,17 +42,16 @@ extern const int len_date_extension;
 
 /*! Holds variables related to time
  */
-typedef struct {
+typedef struct
+{
   char suffix_added_dup_exists[LEN_MAX_TIME_STR_SUFFIX];
   char t_fmt[LEN_MAX_DELETION_DATE];
   char deletion_date[LEN_MAX_DELETION_DATE];
   time_t now;
 } st_time;
 
-void
-init_time_vars (st_time *st_time_var);
+void init_time_vars (st_time * st_time_var);
 
-time_t
-get_then_time(const char *raw_deletion_date);
+time_t get_then_time (const char *raw_deletion_date);
 
 #endif

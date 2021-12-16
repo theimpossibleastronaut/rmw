@@ -29,40 +29,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LEN_MAX_HUMAN_READABLE_SIZE (sizeof "xxxx.y GiB")
 #define LEN_MAX_FORMATTED_HR_SIZE (LEN_MAX_HUMAN_READABLE_SIZE + (sizeof " (D)" - 1 + sizeof "[]" - 1))
 
-char
-*rmw_dirname (char *path);
+char *rmw_dirname (char *path);
 
-int
-rmw_mkdir (const char *dir, mode_t mode);
+int rmw_mkdir (const char *dir, mode_t mode);
 
-int
-make_dir (const char *dir);
+int make_dir (const char *dir);
 
-bool
-exists (const char *filename);
+bool exists (const char *filename);
 
-void
-dispose_waste (st_waste *node);
+void dispose_waste (st_waste * node);
 
-char *
-human_readable_size (off_t size);
+char *human_readable_size (off_t size);
 
-bool
-user_verify (void);
+bool user_verify (void);
 
-char *
-escape_url (const char *str);
+char *escape_url (const char *str);
 
-char *
-unescape_url (const char *str);
+char *unescape_url (const char *str);
 
-bool
-isdotdir (const char *dir);
+bool isdotdir (const char *dir);
 
-char *
-resolve_path (const char *file, const char *b);
+char *resolve_path (const char *file, const char *b);
 
-char *
-join_paths (const char *argv, ...);
+char *join_paths (const char *argv, ...);
 
 #endif
