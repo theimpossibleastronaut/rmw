@@ -126,7 +126,7 @@ create_trashinfo (rmw_target * st_f_props, st_waste * waste_curr,
 char *
 parse_trashinfo_file (const char *file, const char *req_value)
 {
-  trashinfo_field trashinfo_field;
+  struct trashinfo_field trashinfo_field;
   if (strcmp (req_value, path_key) != 0
       && strcmp (req_value, deletion_date_key) != 0)
   {

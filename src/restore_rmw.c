@@ -114,9 +114,9 @@ restore (const char *src, st_time * st_time_var,
     if (*_dest != '/')
     {
       char *media_root = rmw_dirname (waste_parent);
-      char *tmp_str = join_paths (media_root, _dest, NULL);
-      strcpy (dest, tmp_str);
-      free (tmp_str);
+      char *_tmp_str = join_paths (media_root, _dest, NULL);
+      strcpy (dest, _tmp_str);
+      free (_tmp_str);
     }
     free (waste_parent);
     free (_dest);

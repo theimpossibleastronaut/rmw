@@ -13,7 +13,8 @@ extra_flags = [
   '-fstack-protector-strong',
   '-fanalyzer',
   '-Wformat-security',
-  '-Wformat-overflow=2'
+  '-Wformat-overflow=2',
+  '-Wshadow'
 ]
 
 foreach cflag : extra_flags

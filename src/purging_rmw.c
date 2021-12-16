@@ -347,10 +347,10 @@ purge (st_config * st_config_data,
         strcpy (temp, st_trashinfo_dir_entry->d_name);
         truncate_str (temp, len_trashinfo_ext); /* acquire the (basename - trashinfo extension) */
 
-        char *tmp_str = join_paths (waste_curr->files, temp, NULL);
-        char purge_target[strlen (tmp_str) + 1];
-        strcpy (purge_target, tmp_str);
-        free (tmp_str);
+        char *_tmp_str = join_paths (waste_curr->files, temp, NULL);
+        char purge_target[strlen (_tmp_str) + 1];
+        strcpy (purge_target, _tmp_str);
+        free (_tmp_str);
 
         char pt_tmp[sizeof purge_target];
         strcpy (pt_tmp, purge_target);

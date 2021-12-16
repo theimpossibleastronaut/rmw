@@ -114,7 +114,7 @@ struct st__trashinfo
 };
 
 
-typedef struct
+struct trashinfo_field
 {
   char *value;
   union
@@ -122,7 +122,7 @@ typedef struct
     char *path_ptr;
     char *date_str_ptr;
   } f;
-} trashinfo_field;
+};
 
 int
 create_trashinfo (rmw_target * st_f_props, st_waste * waste_curr,
