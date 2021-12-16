@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * for the null terminator when this function is called.
  */
 void
-bufchk_len (const int len, const int dest_boundary, const char *func,
+bufchk_len (const size_t len, const size_t dest_boundary, const char *func,
             const int line)
 {
   if (len <= dest_boundary)
@@ -50,7 +50,7 @@ bufchk_len (const int len, const int dest_boundary, const char *func,
 }
 
 void
-sn_check (const int len, const int dest_boundary, const char *func,
+sn_check (const size_t len, const size_t dest_boundary, const char *func,
           const int line)
 {
   if (len < dest_boundary)
@@ -72,12 +72,12 @@ sn_check (const int len, const int dest_boundary, const char *func,
  * @param[in] ... variable argument list, each argument must be a string.
  * @return the combined length of each string
  */
-int
+size_t
 multi_strlen (const char *argv, ...)
 {
   va_list vlist;
   char *str;
-  int len = 0;
+  size_t len = 0;
 
   str = (char *) argv;
   va_start (vlist, argv);
@@ -167,7 +167,7 @@ trim_char (const char c, char *str)
  * @return void
  */
 void
-truncate_str (char *str, int pos)
+truncate_str (char *str, const size_t pos)
 {
   str[strlen (str) - pos] = '\0';
 }

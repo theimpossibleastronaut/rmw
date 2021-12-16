@@ -261,7 +261,7 @@ purge (st_config * st_config_data,
     return 0;
   }
 
-  short status = 0;
+  int status = 0;
 
   if (cli_user_options->want_empty_trash)
   {

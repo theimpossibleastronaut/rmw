@@ -69,7 +69,7 @@ open_err (const char *filename, const char *function_name)
  * @param[in] function_name the name of the calling function
  * @return an error number, 0 if no error
  */
-short
+int
 close_file (FILE * file_ptr, const char *filename, const char *function_name)
 {
   /* fclose() shouldn't be used on file pointers that are NULL.

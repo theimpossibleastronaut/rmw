@@ -403,7 +403,7 @@ join_paths (const char *argv, ...)
 
   while (str != NULL)
   {
-    static int len = 0;
+    size_t len = 0;
     char *dup_str = strdup (str);
     chk_malloc (dup_str, __func__, __LINE__);
     trim_char ('/', dup_str);

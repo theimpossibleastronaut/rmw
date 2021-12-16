@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Assigns a time string to *tm_str based on the format requested
  */
 static void
-set_time_string (char *tm_str, const int len, const char *format,
+set_time_string (char *tm_str, const size_t len, const char *format,
                  time_t time_t_now)
 {
   struct tm result;

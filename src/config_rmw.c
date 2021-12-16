@@ -86,7 +86,7 @@ strrepl (char *src, const char *str, char *repl)
   // The replacement text may make the returned string shorter or
   // longer than src, so just add the length of all three for the
   // mallocation.
-  int req_len = multi_strlen (src, str, repl, NULL) + 1;
+  size_t req_len = multi_strlen (src, str, repl, NULL) + 1;
   char *dest = malloc (req_len);
   chk_malloc (dest, __func__, __LINE__);
 

@@ -58,7 +58,7 @@ create_trashinfo (rmw_target * st_f_props, st_waste * waste_curr,
   char *tmp_final_info_dest =
     join_paths (waste_curr->info, st_f_props->base_name, NULL);
 
-  int req_len =
+  size_t req_len =
     strlen (tmp_final_info_dest) + len_trashinfo_ext +
     (st_f_props->is_duplicate ? (LEN_MAX_TIME_STR_SUFFIX - 1) : 0) + 1;
   bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
