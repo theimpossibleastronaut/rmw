@@ -14,7 +14,8 @@ extra_flags = [
   '-fanalyzer',
   '-Wformat-security',
   '-Wformat-overflow=2',
-  '-Wshadow'
+  '-Wshadow',
+  '-Wstrict-overflow=5'
 ]
 
 foreach cflag : extra_flags
