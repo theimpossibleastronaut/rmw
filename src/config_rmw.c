@@ -40,7 +40,7 @@ const char *expire_age_str = "expire_age";
  * to match
  */
 static void
-print_config (FILE * stream)
+print_config (FILE * restrict stream)
 {
   fputs (_("\
 # rmw default waste directory, separate from the desktop trash\n"), stream);
