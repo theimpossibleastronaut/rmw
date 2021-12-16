@@ -22,7 +22,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 #include "messages_rmw.h"
 
-struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
+#define TI_LINE_COUNT 3
+
+enum {
+  TI_HEADER,
+  TI_PATH_LINE,
+  TI_DATE_LINE
+};
+
+static const char ti_header[] = "[Trash Info]";
+static const char ti_path[] = "Path=";
+static const char ti_date[] = "DeletionDate=";
+
+static const struct st__trashinfo st_trashinfo_template[] = {
+  { ti_header, sizeof ti_header - 1 },
+  { ti_path, sizeof ti_path - 1 },
+  { ti_date, sizeof ti_date - 1},
+};
 
 const char trashinfo_ext[] = ".trashinfo";
 const int len_trashinfo_ext = sizeof trashinfo_ext - 1; /* Subtract 1 for the terminating NULL */
@@ -76,10 +92,10 @@ create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time
       }
     }
 
-    fprintf (fp, "%s\n", st_trashinfo_spec[TI_HEADER].str);
-    fprintf (fp, "%s%s\n", st_trashinfo_spec[TI_PATH_LINE].str, escaped_path_ptr);
+    fprintf (fp, "%s\n", st_trashinfo_template[TI_HEADER].str);
+    fprintf (fp, "%s%s\n", st_trashinfo_template[TI_PATH_LINE].str, escaped_path_ptr);
     free (escaped_path);
-    fprintf (fp, "%s%s\n", st_trashinfo_spec[TI_DATE_LINE].str, st_time_var->deletion_date);
+    fprintf (fp, "%s%s\n", st_trashinfo_template[TI_DATE_LINE].str, st_time_var->deletion_date);
 
     return close_file (fp, final_info_dest, __func__);
   }
@@ -122,10 +138,10 @@ char
 
       switch (line_no) {
         case TI_HEADER:
-          res = strncmp (fp_line, st_trashinfo_spec[TI_HEADER].str, st_trashinfo_spec[TI_HEADER].len) == 0;
+          res = strncmp (fp_line, st_trashinfo_template[TI_HEADER].str, st_trashinfo_template[TI_HEADER].len) == 0;
           break;
         case TI_PATH_LINE:
-          res = strncmp (fp_line, st_trashinfo_spec[TI_PATH_LINE].str, st_trashinfo_spec[TI_PATH_LINE].len) == 0;
+          res = strncmp (fp_line, st_trashinfo_template[TI_PATH_LINE].str, st_trashinfo_template[TI_PATH_LINE].len) == 0;
           if (res && strcmp (req_value, path_key) == 0)
           {
             trashinfo_field.f.path_ptr = strchr (fp_line, '=');
@@ -135,7 +151,7 @@ char
           }
           break;
         case TI_DATE_LINE:
-          res = strncmp (fp_line, st_trashinfo_spec[TI_DATE_LINE].str, st_trashinfo_spec[TI_DATE_LINE].len) == 0
+          res = strncmp (fp_line, st_trashinfo_template[TI_DATE_LINE].str, st_trashinfo_template[TI_DATE_LINE].len) == 0
                 && strlen (fp_line) == 32;
 
           if (res && strcmp (req_value, deletion_date_key) == 0)
@@ -170,26 +186,6 @@ char
   }
 }
 
-
-void
-init_trashinfo_spec (void)
-{
-  const char *ti_line[] = {
-    "[Trash Info]",
-    "Path=",
-    "DeletionDate="
-  };
-
-  int i = 0;
-
-  while (i < TI_LINE_COUNT)
-  {
-    st_trashinfo_spec[i].str = ti_line[i];
-    st_trashinfo_spec[i].len = strlen (ti_line[i]);
-    i++;
-  };
-}
-
 ///////////////////////////////////////////////////////////////////////
 #ifdef TEST_LIB
 
@@ -198,11 +194,9 @@ init_trashinfo_spec (void)
 int
 main ()
 {
-  init_trashinfo_spec ();
-
-  assert (strcmp (st_trashinfo_spec[TI_HEADER].str, "[Trash Info]") == 0);
-  assert (strcmp (st_trashinfo_spec[TI_PATH_LINE].str, "Path=") == 0);
-  assert (strcmp (st_trashinfo_spec[TI_DATE_LINE].str, "DeletionDate=") == 0);
+  assert (strcmp (st_trashinfo_template[TI_HEADER].str, "[Trash Info]") == 0);
+  assert (strcmp (st_trashinfo_template[TI_PATH_LINE].str, "Path=") == 0);
+  assert (strcmp (st_trashinfo_template[TI_DATE_LINE].str, "DeletionDate=") == 0);
 
   return 0;
 }

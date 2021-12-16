@@ -18,8 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _INC_TRASHINFO_H
-#define _INC_TRASHINFO_H
+#pragma once
 
 #include "globals.h"
 #include <sys/stat.h>
@@ -29,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 extern const char trashinfo_ext[];
 extern const int len_trashinfo_ext;
 
-#define TI_LINE_COUNT 3
+extern const int TI_LINE_COUNT;
 
 extern const int LEN_MAX_TRASHINFO_PATH_LINE;
 
@@ -110,8 +109,9 @@ extern const char *deletion_date_key;
 
 struct st__trashinfo {
   const char *str;
-  int len;
+  const unsigned short int len;
 };
+
 
 typedef struct
 {
@@ -123,21 +123,8 @@ typedef struct
   } f;
 } trashinfo_field;
 
-extern struct st__trashinfo st_trashinfo_spec[TI_LINE_COUNT];
-
-enum {
-  TI_HEADER,
-  TI_PATH_LINE,
-  TI_DATE_LINE
-};
-
 int
 create_trashinfo (rmw_target *st_f_props, st_waste *waste_curr, st_time *st_time_var);
 
 char
 *parse_trashinfo_file (const char *file, const char* req_value);
-
-void
-init_trashinfo_spec (void);
-
-#endif

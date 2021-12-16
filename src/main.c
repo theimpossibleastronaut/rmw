@@ -510,8 +510,6 @@ Please check your configuration file and permissions\
     return 0;
   }
 
-  init_trashinfo_spec ();
-
   st_time st_time_var;
   init_time_vars (&st_time_var);
 
