@@ -36,7 +36,19 @@ static const struct cli_opt cli_opt[] = {
   {VERBOSE, "verbose"},
   {CONFIG, "config"},
   {DRY_RUN, "dry-run"},
-  {LIST, "list"}
+  {LIST, "list"},
+  {PURGE, "purge"},
+  {ORPHANED, "orphaned"},
+  {RESTORE, "restore"},
+  {SELECT, "select"},
+  {UNDO_LAST, "undo-last"},
+  {MOST_RECENT_LIST, "most-recent-list"},
+  {WARRANTY, "warranty"},
+  {_VERSION, "version"},
+  {INTERACTIVE, "interactive"},
+  {RECURSIVE, "recursive"},
+  {FORCE, "force"},
+  {EMPTY, "empty"}
 };
 
 
@@ -50,9 +62,9 @@ Move FILE(s) to a WASTE directory listed in configuration file\n\
    or: %s -u\n\
    or: %s -z FILE...\n\
 "), prog_name, prog_name, prog_name, prog_name);
-  fputs (_("\
-Restore FILE(s) from a WASTE directory\n\n\
-"), stdout);
+  puts (_("\
+Restore FILE(s) from a WASTE directory"));
+puts ("");
   printf (_("\
   -h, --%s                show help for command line options\n\
 "), cli_opt[HELP].str);
@@ -62,56 +74,55 @@ Restore FILE(s) from a WASTE directory\n\n\
   printf (_("\
   -l, --%s                list waste directories\n\
 "), cli_opt[LIST].str);
-  fprintf (stdout, _("\
-  -g[N_DAYS], --purge[=N_DAYS]\n\
+  printf (_("\
+  -g[N_DAYS], --%s[=N_DAYS]\n\
                             purge expired files;\n\
                             optional argument 'N_DAYS' overrides '%s'\n\
                             value from the configuration file\n\
                             (Examples: -g90, --purge=90)\n\
-"), expire_age_str);
-  fputs (_("\
-  -o, --orphaned            check for orphaned files (maintenance)\n\
-"), stdout);
-  fputs (_("\
-  -f, --force               allow purging of expired files\n\
-"), stdout);
-  fputs (_("\
-  -e, --empty               completely empty (purge) all waste directories\n\
-"), stdout);
-  fputs (_("\
-  -r, -R, --recursive       option used for compatibility with rm\n\
+"), cli_opt[PURGE].str, expire_age_str);
+  printf (_("\
+  -o, --%s            check for orphaned files (maintenance)\n\
+"), cli_opt[ORPHANED].str);
+  printf (_("\
+  -f, --%s               allow purging of expired files\n\
+"), cli_opt[FORCE].str);
+  printf (_("\
+  -e, --%s               completely empty (purge) all waste directories\n\
+"), cli_opt[EMPTY].str);
+  printf (_("\
+  -r, -R, --%s       option used for compatibility with rm\n\
                             (recursive operation is enabled by default)\n\
-"), stdout);
+"), cli_opt[RECURSIVE].str);
   printf (_("\
   -v, --%s             increase output messages\n\
 "), cli_opt[VERBOSE].str);
-  fputs (_("\
-  -w, --warranty            display warranty\n\
-"), stdout);
-  fputs (_("\
-  -V, --version             display version and license information\n\
-"), stdout);
-  fputs (_("\
-  \n\n\
-  \t===] Restoring [===\n\n"), stdout);
-  fputs (_("\
-  -z, --restore FILE(s)     restore FILE(s) (see man page example)\n\
-"), stdout);
-  fputs (_("\
-  -s, --select              select files from list to restore\n\
-"), stdout);
-  fputs (_("\
-  -u, --undo-last           undo last move\n\
-"), stdout);
-  fputs (_("\
-  -m, --most-recent-list    list most recently rmw'ed files\n\
-"), stdout);
-  fputs (_("\
+  printf (_("\
+  -w, --%s            display warranty\n\
+"), cli_opt[WARRANTY].str);
+  printf (_("\
+  -V, --%s             display version and license information\n\
+"), cli_opt[_VERSION].str);
+  puts (_("\
+\n\
+\n\
+  \t===] Restoring [===\n"));
+  printf (_("\
+  -z, --%s FILE(s)     restore FILE(s) (see man page example)\n\
+"), cli_opt[RESTORE].str);
+  printf (_("\
+  -s, --%s              select files from list to restore\n\
+"), cli_opt[SELECT].str);
+  printf (_("\
+  -u, --%s           undo last move\n\
+"), cli_opt[UNDO_LAST].str);
+  printf (_("\
+  -m, --%s    list most recently rmw'ed files\n\
+"), cli_opt[MOST_RECENT_LIST].str);
+  puts (_("\
   \n\n\
 Visit the rmw home page for more help, and information about\n\
-how to obtain support - \
-"), stdout);
-  printf ("<" PACKAGE_URL ">\n\n");
+how to obtain support - <" PACKAGE_URL ">\n"));
   printf (_("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
 }
 
@@ -198,18 +209,18 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
     {cli_opt[CONFIG].str, 1, NULL, 'c'},
     {cli_opt[DRY_RUN].str, 0, NULL, 'n'},
     {cli_opt[LIST].str, 0, NULL, 'l'},
-    {"purge", 2, NULL, 'g'},
-    {"orphaned", 0, NULL, 'o'},
-    {"restore", 1, NULL, 'z'},
-    {"select", 0, NULL, 's'},
-    {"undo-last", 0, NULL, 'u'},
-    {"most-recent-list", 0, NULL, 'm'},
-    {"warranty", 0, NULL, 'w'},
-    {"version", 0, NULL, 'V'},
-    {"interactive", 0, NULL, 'i'},
-    {"recursive", 0, NULL, 'r'},
-    {"force", 0, NULL, 'f'},
-    {"empty", 0, NULL, 'e'},
+    {cli_opt[PURGE].str, 2, NULL, 'g'},
+    {cli_opt[ORPHANED].str, 0, NULL, 'o'},
+    {cli_opt[RESTORE].str, 1, NULL, 'z'},
+    {cli_opt[SELECT].str, 0, NULL, 's'},
+    {cli_opt[UNDO_LAST].str, 0, NULL, 'u'},
+    {cli_opt[MOST_RECENT_LIST].str, 0, NULL, 'm'},
+    {cli_opt[WARRANTY].str, 0, NULL, 'w'},
+    {cli_opt[_VERSION].str, 0, NULL, 'V'},
+    {cli_opt[INTERACTIVE].str, 0, NULL, 'i'},
+    {cli_opt[RECURSIVE].str, 0, NULL, 'r'},
+    {cli_opt[FORCE].str, 0, NULL, 'f'},
+    {cli_opt[EMPTY].str, 0, NULL, 'e'},
     {NULL, 0, NULL, 0}
   };
 
