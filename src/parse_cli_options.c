@@ -31,6 +31,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define RMW_VERSION_STRING VERSION
 
+static const struct cli_opt cli_opt[] = {
+  {HELP, "help"},
+  {VERBOSE, "verbose"},
+  {CONFIG, "config"},
+  {DRY_RUN, "dry-run"},
+  {LIST, "list"}
+};
+
+
 static void
 print_usage (const char *prog_name)
 {
@@ -44,15 +53,15 @@ Move FILE(s) to a WASTE directory listed in configuration file\n\
   fputs (_("\
 Restore FILE(s) from a WASTE directory\n\n\
 "), stdout);
-  fputs (_("\
-  -h, --help                show help for command line options\n\
-"), stdout);
-  fputs (_("\
-  -c, --config FILE         use an alternate configuration\n\
-"), stdout);
-  fputs (_("\
-  -l, --list                list waste directories\n\
-"), stdout);
+  printf (_("\
+  -h, --%s                show help for command line options\n\
+"), cli_opt[HELP].str);
+  printf (_("\
+  -c, --%s FILE         use an alternate configuration\n\
+"), cli_opt[CONFIG].str);
+  printf (_("\
+  -l, --%s                list waste directories\n\
+"), cli_opt[LIST].str);
   fprintf (stdout, _("\
   -g[N_DAYS], --purge[=N_DAYS]\n\
                             purge expired files;\n\
@@ -73,9 +82,9 @@ Restore FILE(s) from a WASTE directory\n\n\
   -r, -R, --recursive       option used for compatibility with rm\n\
                             (recursive operation is enabled by default)\n\
 "), stdout);
-  fputs (_("\
-  -v, --verbose             increase output messages\n\
-"), stdout);
+  printf (_("\
+  -v, --%s             increase output messages\n\
+"), cli_opt[VERBOSE].str);
   fputs (_("\
   -w, --warranty            display warranty\n\
 "), stdout);
@@ -184,11 +193,11 @@ void
 parse_cli_options (const int argc, char *const argv[], rmw_options * options)
 {
   const struct option long_options[] = {
-    {"help", 0, NULL, 'h'},
-    {"verbose", 0, NULL, 'v'},
-    {"config", 1, NULL, 'c'},
-    {"dry-run", 0, NULL, 'n'},
-    {"list", 0, NULL, 'l'},
+    {cli_opt[HELP].str, 0, NULL, 'h'},
+    {cli_opt[VERBOSE].str, 0, NULL, 'v'},
+    {cli_opt[CONFIG].str, 1, NULL, 'c'},
+    {cli_opt[DRY_RUN].str, 0, NULL, 'n'},
+    {cli_opt[LIST].str, 0, NULL, 'l'},
     {"purge", 2, NULL, 'g'},
     {"orphaned", 0, NULL, 'o'},
     {"restore", 1, NULL, 'z'},
