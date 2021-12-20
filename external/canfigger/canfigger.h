@@ -17,25 +17,25 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __CANFIGGER_H
-#define __CANFIGGER_H
+#pragma once
 
 #ifndef CANFIGGER_VERSION
-#define CANFIGGER_VERSION "0.1.1"
+#define CANFIGGER_VERSION "0.1.1999"
 #endif
 
+#define __CFG_LEN_MAX_LINE (512 + 1)
 
 typedef struct st_canfigger_node st_canfigger_node;
 struct st_canfigger_node
 {
   // Contains the string that precedes the '=' sign
-  char *key;
+  char key[__CFG_LEN_MAX_LINE];
 
   // Contains the string between the '=' sign and the delimiter
-  char *value;
+  char value[__CFG_LEN_MAX_LINE];
 
   // Contains the string following the delimiter
-  char *attribute;
+  char attribute[__CFG_LEN_MAX_LINE];
 
   // A pointer to the next node in the list
   st_canfigger_node *next;
@@ -57,5 +57,3 @@ st_canfigger_list *canfigger_parse_file (const char *file,
 //
 // Frees the list returned by canfigger_parse_file()
 void canfigger_free (st_canfigger_node * node);
-
-#endif // header guard
