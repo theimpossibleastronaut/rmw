@@ -18,39 +18,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x86, x64, ppc64le, armv7, aarch64]
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
-    env:
-      MATRIX_OS: ${{ matrix.os }}
-      MATRIX_ARCH: ${{ matrix.arch }}
-    steps:
-    - uses: actions/checkout@v2
-    - run: sh ./.github/scripts/all_tests.sh
-
-  ubuntu-18_04:
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: [x64]
-        os: [ubuntu-18.04]
-        compiler: [gcc, clang]
-    runs-on: ${{ matrix.os }}
-    env:
-      MATRIX_OS: ${{ matrix.os }}
-      MATRIX_ARCH: ${{ matrix.arch }}
-      CC: ${{ matrix.compiler }}
-    steps:
-    - uses: actions/checkout@v2
-    - run: sh ./.github/scripts/all_tests.sh
-
-  gcc10_11_clang_10:
-    strategy:
-      fail-fast: false
-      matrix:
         arch: [x64]
         os: [ubuntu-latest]
-        compiler: [gcc-10, gcc-11, clang-10]
+        compiler: [gcc-9, gcc-11, clang-10]
     runs-on: ${{ matrix.os }}
     env:
       MATRIX_OS: ${{ matrix.os }}

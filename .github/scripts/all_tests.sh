@@ -7,7 +7,7 @@ sudo apt-get install -y gettext
 USE_VALGRIND=""
 
 if [ "$MATRIX_OS" = "ubuntu-latest" ] && [ "$MATRIX_ARCH" = "x64" ] ; then
-  if [ "$CC" = "gcc-10" ] || [ "$CC" = "clang-10" ];then
+  if [ "$CC" = "gcc-10" ]; then
     USE_VALGRIND=1
     sudo apt-get install -y valgrind
   fi
