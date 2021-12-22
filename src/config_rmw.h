@@ -56,6 +56,9 @@ struct st_vars_to_check
 const char *get_config_home_dir (st_real_directory *st_real_dir);
 
 void
+print_config (FILE * restrict stream);
+
+void
 parse_config_file (const rmw_options * cli_user_options,
                    st_config * st_config_data, const char *homedir);
 

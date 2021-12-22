@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "purging_rmw.h"
 #include "strings_rmw.h"
 #include "messages_rmw.h"
-#include "canfigger.h"
+
 
 /*
  * Returns a pointer to the home directory, or optionally sets an
@@ -450,6 +450,95 @@ damage of 5000 hp. You feel satisfied.\n"));
 }
 
 
+static st_loc *
+get_locations (const char *alt_config)
+{
+  static st_loc st_location;
+  st_location.st_directory = canfigger_get_directories ();
+  const char *enable_test = getenv (ENV_TEST_HOME);
+  if (enable_test != NULL)
+  {
+    if (verbose)
+      printf ("%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
+    st_location.home = enable_test;
+  }
+  else
+    st_location.home = st_location.st_directory->home;
+
+  /* get the rmw data dir */
+  static char data_rmw_home[LEN_MAX_PATH];
+  char *tmp_str = NULL;
+  if (enable_test == NULL)
+    tmp_str = join_paths (st_location.data_dir, "rmw", NULL);
+  else
+    tmp_str = join_paths (st_location.home, ".local/share/rmw", NULL);
+
+  strcpy (data_rmw_home, tmp_str);
+  free (tmp_str);
+  tmp_str = NULL;
+  st_location.data_dir = data_rmw_home;
+
+  // get the config dir and file path
+
+  static char config_home[LEN_MAX_PATH];
+
+  if (enable_test == NULL)
+    st_location.config_dir = st_location.st_directory->configroot;
+  else
+  {
+    tmp_str = join_paths (st_location.home, ".config", NULL);
+    strcpy (config_home, tmp_str);
+    free (tmp_str);
+    tmp_str = NULL;
+    st_location.config_dir = config_home;
+  }
+
+  if (!exists (st_location.config_dir))
+  {
+    if (!rmw_mkdir (st_location.config_dir, S_IRWXU))
+      msg_success_mkdir (st_location.config_dir);
+    else
+    {
+      msg_err_mkdir (st_location.config_dir, __func__);
+      exit (errno);
+    }
+  }
+
+  /* If no alternate configuration was specifed (-c) */
+  if (alt_config == NULL)
+  {
+    tmp_str = join_paths (st_location.config_dir, "rmwrc", NULL);
+    strcpy (config_home, tmp_str);
+    free (tmp_str);
+    tmp_str = NULL;
+    st_location.config_file = config_home;
+  }
+  else
+    st_location.config_file = alt_config;
+
+  if (!exists (st_location.config_file))
+  {
+    FILE *fd = fopen (st_location.config_file, "w");
+    if (fd)
+    {
+      printf (_("Creating default configuration file:"));
+      printf ("\n  %s\n\n", st_location.config_file);
+
+      print_config (fd);
+      close_file (fd, st_location.config_file, __func__);
+    }
+    else
+    {
+      open_err (st_location.config_file, __func__);
+      printf (_("Unable to read or write a configuration file.\n"));
+      exit (errno);
+    }
+  }
+
+  return &st_location;
+
+}
+
 int
 main (const int argc, char *const argv[])
 {
@@ -465,6 +554,9 @@ main (const int argc, char *const argv[])
 
   if (verbose > 1)
     printf ("PATH_MAX = %d\n", LEN_MAX_PATH - 1);
+
+
+  st_loc *st_location = get_locations (cli_user_options.alt_config);
 
   const st_canfigger_directory *st_directory = canfigger_get_directories ();
 

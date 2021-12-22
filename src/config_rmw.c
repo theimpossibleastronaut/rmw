@@ -39,7 +39,7 @@ const char *expire_age_str = "expire_age";
  * If any changes are made to rmwrc.example, the text here will need to be updated
  * to match
  */
-static void
+void
 print_config (FILE * restrict stream)
 {
   fputs (_("\
