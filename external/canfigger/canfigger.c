@@ -23,6 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <errno.h>
 #include <string.h>
 
+// for canfigger_realize_str()
+#include <pwd.h>
+#include <unistd.h>
+#include <sys/types.h>
+
 #include "canfigger.h"
 
 
@@ -183,7 +188,8 @@ canfigger_parse_file (const char *file, const char delimiter)
 
           tmp_value++;
           char *tmp_attribute = erase_lead_char (' ', tmp_value);
-          snprintf (tmp_node->attribute, sizeof tmp_node->attribute, "%s", tmp_attribute);
+          snprintf (tmp_node->attribute, sizeof tmp_node->attribute,
+                    "%s", tmp_attribute);
         }
       }
       tmp_node->next = NULL;
@@ -210,4 +216,153 @@ canfigger_parse_file (const char *file, const char delimiter)
 
   list = root;
   return list;
+}
+
+
+const st_canfigger_directory *
+canfigger_get_directories (void)
+{
+  static st_canfigger_directory st_directory;
+  st_directory.home = getenv ("HOME");
+  if (st_directory.home == NULL)
+    return NULL;
+
+  const char *xdg_configroot = getenv ("XDG_CONFIG_HOME");
+  if (xdg_configroot == NULL)
+    snprintf (st_directory.configroot,
+              sizeof st_directory.configroot,
+              "%s/.config", st_directory.home);
+  else
+    snprintf (st_directory.configroot,
+              sizeof st_directory.configroot, "%s", xdg_configroot);
+
+  const char *xdg_dataroot = getenv ("XDG_DATA_HOME");
+  if (xdg_dataroot == NULL)
+    snprintf (st_directory.dataroot,
+              sizeof st_directory.dataroot,
+              "%s/.local/share", st_directory.home);
+  else
+    snprintf (st_directory.dataroot,
+              sizeof st_directory.dataroot, "%s", xdg_dataroot);
+
+  return &st_directory;
+}
+
+/*!
+ * Trim a trailing character of a string
+ * @param[in] c The character to erase
+ * @param[out] str The string to alter
+ * @return void
+ */
+static void
+trim_char (const char c, char *str)
+{
+  trim_whitespace (str);
+  while (*str != '\0')
+    str++;
+
+  str--;
+
+  while (*str == c)
+  {
+    *str = '\0';
+    str--;
+  }
+
+  return;
+}
+
+
+/*
+ * replace part of a string, adapted from code by Gazl
+ * https://www.linuxquestions.org/questions/showthread.php?&p=5794938#post5794938
+*/
+static char *
+strrepl (char *src, const char *str, char *repl)
+{
+  // The replacement text may make the returned string shorter or
+  // longer than src, so just add the length of all three for the
+  // mallocation.
+  size_t req_len = strlen (src) + strlen (str) + strlen (repl) + 1;
+  char *dest = malloc (req_len);
+  if (dest == NULL)
+    return NULL;
+
+  char *s, *d, *p;
+
+  s = strstr (src, str);
+  if (s && *str != '\0')
+  {
+    d = dest;
+    for (p = src; p < s; p++, d++)
+      *d = *p;
+    for (p = repl; *p != '\0'; p++, d++)
+      *d = *p;
+    for (p = s + strlen (str); *p != '\0'; p++, d++)
+      *d = *p;
+    *d = '\0';
+  }
+  else
+    strcpy (dest, src);
+
+  dest = realloc (dest, strlen (dest) + 1);
+  if (dest == NULL)
+    return NULL;
+
+  return dest;
+}
+
+
+unsigned short
+canfigger_realize_str (char *str, const char *homedir)
+{
+  trim_char ('/', str);
+  /* Any trailing whitespace should already be trimmed before this function is called */
+
+  uid_t uid = geteuid ();
+  struct passwd *pwd = getpwuid (uid);  /* don't free, see getpwnam() for details */
+
+  if (pwd == NULL)
+    return -1;
+
+
+  /* What's a good length for this? */
+  char UID[40];
+  if ((size_t) snprintf (UID, sizeof UID, "%u", pwd->pw_uid) >= sizeof UID)
+    return -1;
+
+  struct st_vars_to_check
+  {
+    const char *name;
+    const char *value;
+  } st_var[] = {
+    {"~", homedir},
+    {"$HOME", homedir},
+    {"$UID", UID},
+    {NULL, NULL}
+  };
+
+  int i = 0;
+  while (st_var[i].name != NULL)
+  {
+    if (strstr (str, st_var[i].name) != NULL)
+    {
+      char *dest = strrepl (str, st_var[i].name, (char *) st_var[i].value);
+      if (dest == NULL)
+        return -1;
+
+      if (snprintf (str, PATH_MAX, "%s", dest) >= PATH_MAX)
+        return -1;
+
+      free (dest);
+
+      /* check the string again, in case str contains something like
+       * $HOME/Trash-$UID (which would be rare, if ever, but... */
+      i--;
+    }
+
+    i++;
+  }
+
+  return 0;
 }

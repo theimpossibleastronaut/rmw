@@ -18,8 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _INC_CONFIG_H
-#define _INC_CONFIG_H
+#pragma once
 
 #include <sys/stat.h>
 #include <pwd.h>
@@ -67,7 +66,3 @@ void init_config_data (st_config * st_config_data);
 void
 show_folder_line (const char *folder, const bool is_r,
                   const bool is_attached);
-
-void realize_waste_line (char *str);
-
-#endif

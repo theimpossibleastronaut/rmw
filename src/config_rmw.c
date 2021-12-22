@@ -76,101 +76,6 @@ WASTE = $HOME/.local/share/Waste\n", stream);
 }
 
 
-/*
- * replace part of a string, adapted from code by Gazl
- * https://www.linuxquestions.org/questions/showthread.php?&p=5794938#post5794938
-*/
-static char *
-strrepl (char *src, const char *str, char *repl)
-{
-  // The replacement text may make the returned string shorter or
-  // longer than src, so just add the length of all three for the
-  // mallocation.
-  size_t req_len = multi_strlen (src, str, repl, NULL) + 1;
-  char *dest = malloc (req_len);
-  chk_malloc (dest, __func__, __LINE__);
-
-  char *s, *d, *p;
-
-  s = strstr (src, str);
-  if (s && *str != '\0')
-  {
-    d = dest;
-    for (p = src; p < s; p++, d++)
-      *d = *p;
-    for (p = repl; *p != '\0'; p++, d++)
-      *d = *p;
-    for (p = s + strlen (str); *p != '\0'; p++, d++)
-      *d = *p;
-    *d = '\0';
-  }
-  else
-    strcpy (dest, src);
-
-  dest = realloc (dest, strlen (dest) + 1);
-  chk_malloc (dest, __func__, __LINE__);
-  return dest;
-}
-
-/*!
- * If "$HOME", "~", or "$UID" is used in the configuration file, convert it
- * to the literal value.
- */
-void
-realize_waste_line (char *str)
-{
-  trim_char ('/', str);
-  /*
-   *
-   * FIXME: This will need some work in order to be implemented
-   * on Windows
-   *
-   */
-
-  uid_t uid = geteuid ();
-  struct passwd *pwd = getpwuid (uid);  /* don't free, see getpwnam() for details */
-
-  if (pwd == NULL)
-  {
-    print_msg_error ();
-    fputs ("Unable to get $UID\n", stderr);
-    exit (EXIT_FAILURE);
-  }
-
-  /* What's a good length for this? */
-  char UID[40];
-  sn_check (snprintf (UID, sizeof UID, "%u", pwd->pw_uid), sizeof UID,
-            __func__, __LINE__);
-
-  struct st_vars_to_check st_var[] = {
-    {"~", HOMEDIR},
-    {"$HOME", HOMEDIR},
-    {"$UID", UID},
-    {NULL, NULL}
-  };
-
-  int i = 0;
-  while (st_var[i].name != NULL)
-  {
-    if (strstr (str, st_var[i].name) != NULL)
-    {
-      char *dest = strrepl (str, st_var[i].name, (char *) st_var[i].value);
-      bufchk_len (strlen (dest) + 1, LEN_MAX_PATH, __func__, __LINE__);
-      strcpy (str, dest);
-      free (dest);
-
-      /* check the string again, in case str contains something like
-       * $HOME/Trash-$UID (which would be rare, if ever, but... */
-      i--;
-    }
-
-    i++;
-  }
-
-  return;
-}
-
-
 /*!
  * This function is called when the "WASTE" option is encountered in the
  * config file. The line is parsed and added to the linked list of WASTE
@@ -192,7 +97,7 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
   bufchk_len (strlen (node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
   strcpy (tmp_waste_parent_folder, node->value);
-  realize_waste_line (tmp_waste_parent_folder);
+  canfigger_realize_str (tmp_waste_parent_folder, HOMEDIR);
 
   bool is_attached = exists (tmp_waste_parent_folder);
   if (removable && !is_attached)
