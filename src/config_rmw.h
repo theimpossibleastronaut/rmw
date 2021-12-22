@@ -20,13 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <sys/stat.h>
-#include <pwd.h>
-#include <unistd.h>             /* for geteuid() */
-
 #include "trashinfo_rmw.h"
 #include "parse_cli_options.h"
 #include "messages_rmw.h"
+#include "canfigger.h"
+#include "main.h"
 
 #define ENV_RMW_FAKE_HOME "RMW_FAKE_HOME"
 #define ENV_TEST_HOME "RMWTEST_HOME"
@@ -55,13 +53,13 @@ struct st_vars_to_check
   const char *value;
 };
 
-const char *get_config_home_dir (void);
+const char *get_config_home_dir (st_real_directory *st_real_dir);
 
 void
 parse_config_file (const rmw_options * cli_user_options,
-                   st_config * st_config_data);
+                   st_config * st_config_data, const char *homedir);
 
-void init_config_data (st_config * st_config_data);
+void init_config_data (st_config * st_config_data, st_real_directory *st_real_dir);
 
 void
 show_folder_line (const char *folder, const bool is_r,

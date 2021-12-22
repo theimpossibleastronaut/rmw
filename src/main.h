@@ -18,9 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _INC_MAIN_H
-#define _INC_MAIN_H
-
+#pragma once
 
 /*!
  * Holds a list of files that rmw will be ReMoving.
@@ -32,4 +30,9 @@ struct st_removed
   st_removed *next_node;
 };
 
-#endif
+typedef struct st_real_directory st_real_directory;
+struct st_real_directory
+{
+  const char *home;
+  const char *data;
+};

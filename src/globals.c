@@ -21,5 +21,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 
 int verbose = 0;
-
-const char *HOMEDIR;

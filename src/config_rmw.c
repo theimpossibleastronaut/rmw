@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_rmw.h"
 #include "utils_rmw.h"
 #include "strings_rmw.h"
-#include "canfigger.h"
+#include "main.h"
 
 static const int DEFAULT_EXPIRE_AGE = 0;
 static const char *lit_files = "files";
@@ -83,7 +83,7 @@ WASTE = $HOME/.local/share/Waste\n", stream);
  */
 static st_waste *
 parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
-                  const rmw_options * cli_user_options, bool fake_media_root)
+                  const rmw_options * cli_user_options, bool fake_media_root, const char *homedir)
 {
   bool removable = 0;
   if (strcmp ("removable", node->attribute) == 0)
@@ -97,7 +97,7 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
   bufchk_len (strlen (node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
   strcpy (tmp_waste_parent_folder, node->value);
-  canfigger_realize_str (tmp_waste_parent_folder, HOMEDIR);
+  canfigger_realize_str (tmp_waste_parent_folder, homedir);
 
   bool is_attached = exists (tmp_waste_parent_folder);
   if (removable && !is_attached)
@@ -192,7 +192,7 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
 
 
 const char *
-get_config_home_dir (void)
+get_config_home_dir (st_real_directory *st_real_dir)
 {
   const char rel_default[] = "/.config";
 
@@ -203,7 +203,7 @@ get_config_home_dir (void)
 
   if (enable_test != NULL || (xdg_config_home == NULL && enable_test == NULL))
   {
-    char *_config_home = join_paths (HOMEDIR, rel_default, NULL);
+    char *_config_home = join_paths (st_real_dir->home, rel_default, NULL);
     static char config_home[LEN_MAX_PATH];
     strcpy (config_home, _config_home);
     free (_config_home);
@@ -221,7 +221,7 @@ get_config_home_dir (void)
  */
 void
 parse_config_file (const rmw_options * cli_user_options,
-                   st_config * st_config_data)
+                   st_config * st_config_data, const char *homedir)
 {
   /* If no alternate configuration was specifed (-c) */
   if (cli_user_options->alt_config == NULL)
@@ -330,7 +330,7 @@ parse_config_file (const rmw_options * cli_user_options,
       {
         st_waste *st_new_waste_ptr =
           parse_line_waste (waste_curr, cfg_node, cli_user_options,
-                            st_config_data->fake_media_root);
+                            st_config_data->fake_media_root, homedir);
         if (st_new_waste_ptr != NULL)
         {
           waste_curr = st_new_waste_ptr;
@@ -366,9 +366,9 @@ visit the rmw web site at\n"));
 
 
 void
-init_config_data (st_config * x)
+init_config_data (st_config * x, st_real_directory *st_real_dir)
 {
-  x->dir = get_config_home_dir ();
+  x->dir = get_config_home_dir (st_real_dir);
 
   if (!exists (x->dir))
   {

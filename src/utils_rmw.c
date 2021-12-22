@@ -447,22 +447,22 @@ test_isdotdir (void)
 
 
 static void
-test_rmw_mkdir (void)
+test_rmw_mkdir (const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
-  char *dir = join_paths (HOMEDIR, subdirs, NULL);
+  char *dir = join_paths (h, subdirs, NULL);
   assert (rmw_mkdir (dir, S_IRWXU) == 0);
   printf ("%s\n", dir);
   assert (exists (dir) == true);
   free (dir);
 
-  assert (rmw_mkdir (HOMEDIR, S_IRWXU) != 0);
+  assert (rmw_mkdir (h, S_IRWXU) != 0);
   errno = 0;
 
-  assert (rmdir_recursive (HOMEDIR, 1, 1) == 0);
+  assert (rmdir_recursive (h, 1, 1) == 0);
 
   // remove the top directory, which should now be empty
-  assert (rmdir (HOMEDIR) == 0);
+  assert (rmdir (h) == 0);
 
   return;
 }
@@ -564,14 +564,18 @@ test_join_paths (void)
 int
 main ()
 {
+
+  //st_real_directory st_real_dir;
+  // st_real_dir.home = get_home_dir (st_directory->home);
+
   char tmp[LEN_MAX_PATH];
   int r =
     snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
   assert (r < LEN_MAX_PATH);
-  HOMEDIR = tmp;
+  const char *HOMEDIR = tmp;
 
   test_isdotdir ();
-  test_rmw_mkdir ();
+  test_rmw_mkdir (HOMEDIR);
   test_rmw_dirname ();
   test_human_readable_size ();
   test_join_paths ();
