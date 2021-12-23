@@ -29,21 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "messages_rmw.h"
 
 
-static const char *
-get_most_recent_list_filename (const char *data_dir)
-{
-  const char rel_most_recent_list_filename[] = "mrl";
-
-  static char mrl_file[LEN_MAX_PATH];
-  char *tmp_str = join_paths (data_dir, rel_most_recent_list_filename, NULL);
-  strcpy (mrl_file, tmp_str);
-  free (tmp_str);
-  if (verbose)
-    printf ("most recent list (mrl file): %s\n", mrl_file);
-  return mrl_file;
-}
-
-
 static int
 process_mrl (st_waste * waste_head,
              st_time * st_time_var,
@@ -475,6 +460,15 @@ get_locations (const char *alt_config)
     }
   }
 
+  // mrl file
+  static char mrl_file[LEN_MAX_PATH];
+  tmp_str = join_paths (x.data_dir, "mrl", NULL);
+  sn_check (snprintf (mrl_file, sizeof mrl_file, "%s", tmp_str), sizeof mrl_file, __func__, __LINE__);
+  free (tmp_str);
+  x.mrl = mrl_file;
+  if (verbose)
+    printf ("most recent list (mrl file): %s\n", x.mrl);
+
   return &x;
 }
 
@@ -573,14 +567,11 @@ Please check your configuration file and permissions\
     return result;
   }
 
-  const char *mrl_file =
-    get_most_recent_list_filename (st_location->data_dir);
-
   if (cli_user_options.most_recent_list || cli_user_options.want_undo)
   {
     int res =
       process_mrl (st_config_data.st_waste_folder_props_head, &st_time_var,
-                   mrl_file, &cli_user_options);
+                   st_location->mrl, &cli_user_options);
     dispose_waste (st_config_data.st_waste_folder_props_head);
     return res;
   }
@@ -609,7 +600,7 @@ Please check your configuration file and permissions\
                                   argv,
                                   st_config_data.st_waste_folder_props_head,
                                   &st_time_var,
-                                  mrl_file,
+                                  st_location->mrl,
                                   &cli_user_options);
 
     if (result > 1)
