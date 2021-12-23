@@ -83,7 +83,8 @@ WASTE = $HOME/.local/share/Waste\n", stream);
  */
 static st_waste *
 parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
-                  const rmw_options * cli_user_options, bool fake_media_root, const char *homedir)
+                  const rmw_options * cli_user_options, bool fake_media_root,
+                  const char *homedir)
 {
   bool removable = 0;
   if (strcmp ("removable", node->attribute) == 0)
@@ -196,7 +197,7 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
  */
 void
 parse_config_file (const rmw_options * cli_user_options,
-                   st_config * st_config_data, st_loc *st_location)
+                   st_config * st_config_data, st_loc * st_location)
 {
   st_canfigger_list *cfg_node =
     canfigger_parse_file (st_location->config_file, ',');
@@ -270,7 +271,8 @@ parse_config_file (const rmw_options * cli_user_options,
       {
         st_waste *st_new_waste_ptr =
           parse_line_waste (waste_curr, cfg_node, cli_user_options,
-                            st_config_data->fake_media_root, st_location->home);
+                            st_config_data->fake_media_root,
+                            st_location->home);
         if (st_new_waste_ptr != NULL)
         {
           waste_curr = st_new_waste_ptr;

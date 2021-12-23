@@ -402,7 +402,8 @@ get_locations (const char *alt_config)
   else
     tmp_str = join_paths (x.home, ".local/share/rmw", NULL);
 
-  sn_check (snprintf (data_rmw_home, sizeof data_rmw_home, "%s", tmp_str), sizeof data_rmw_home, __func__, __LINE__);
+  sn_check (snprintf (data_rmw_home, sizeof data_rmw_home, "%s", tmp_str),
+            sizeof data_rmw_home, __func__, __LINE__);
 
   free (tmp_str);
   x.data_dir = data_rmw_home;
@@ -419,7 +420,8 @@ get_locations (const char *alt_config)
   else
   {
     tmp_str = join_paths (x.home, ".config", NULL);
-    sn_check (snprintf (config_home, sizeof config_home, "%s", tmp_str), sizeof config_home, __func__, __LINE__);
+    sn_check (snprintf (config_home, sizeof config_home, "%s", tmp_str),
+              sizeof config_home, __func__, __LINE__);
     free (tmp_str);
     x.config_dir = config_home;
   }
@@ -443,7 +445,8 @@ get_locations (const char *alt_config)
   if (alt_config == NULL)
   {
     tmp_str = join_paths (x.config_dir, "rmwrc", NULL);
-    sn_check (snprintf (config_file, sizeof config_file, "%s", tmp_str), sizeof config_file, __func__, __LINE__);
+    sn_check (snprintf (config_file, sizeof config_file, "%s", tmp_str),
+              sizeof config_file, __func__, __LINE__);
     free (tmp_str);
     x.config_file = config_file;
   }
@@ -501,12 +504,12 @@ main (const int argc, char *const argv[])
   }
 
   //if (st_real_dir.home != NULL)
-    //bufchk_len (strlen (st_real_dir.home) + 1, LEN_MAX_PATH, __func__, __LINE__);
+  //bufchk_len (strlen (st_real_dir.home) + 1, LEN_MAX_PATH, __func__, __LINE__);
   //else
   //{
-    //print_msg_error ();
-    //fputs (_("while getting the path to your home directory\n"), stderr);
-    //return 1;
+  //print_msg_error ();
+  //fputs (_("while getting the path to your home directory\n"), stderr);
+  //return 1;
   //}
 
   bool init_data_dir = !exists (st_location->data_dir);
@@ -570,7 +573,8 @@ Please check your configuration file and permissions\
     return result;
   }
 
-  const char *mrl_file = get_most_recent_list_filename (st_location->data_dir);
+  const char *mrl_file =
+    get_most_recent_list_filename (st_location->data_dir);
 
   if (cli_user_options.most_recent_list || cli_user_options.want_undo)
   {
@@ -592,8 +596,7 @@ Please check your configuration file and permissions\
       msg_warn_restore (restore_errors += restore (argv[file_arg],
                                                    &st_time_var,
                                                    &cli_user_options,
-                                                   st_config_data.
-                                                   st_waste_folder_props_head));
+                                                   st_config_data.st_waste_folder_props_head));
 
     dispose_waste (st_config_data.st_waste_folder_props_head);
 

@@ -54,12 +54,11 @@ struct st_vars_to_check
 };
 
 
-void
-print_config (FILE * restrict stream);
+void print_config (FILE * restrict stream);
 
 void
 parse_config_file (const rmw_options * cli_user_options,
-                   st_config * st_config_data, st_loc *st_location);
+                   st_config * st_config_data, st_loc * st_location);
 
 void init_config_data (st_config * x);
 
