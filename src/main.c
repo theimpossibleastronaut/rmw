@@ -453,89 +453,90 @@ damage of 5000 hp. You feel satisfied.\n"));
 static st_loc *
 get_locations (const char *alt_config)
 {
-  static st_loc st_location;
-  st_location.st_directory = canfigger_get_directories ();
+  static st_loc x;
+  x.st_directory = canfigger_get_directories ();
+  if (x.st_directory == NULL)
+    return NULL;
+
   const char *enable_test = getenv (ENV_TEST_HOME);
   if (enable_test != NULL)
   {
     if (verbose)
       printf ("%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
-    st_location.home = enable_test;
+    x.home = enable_test;
   }
   else
-    st_location.home = st_location.st_directory->home;
+    x.home = x.st_directory->home;
 
   /* get the rmw data dir */
   static char data_rmw_home[LEN_MAX_PATH];
   char *tmp_str = NULL;
   if (enable_test == NULL)
-    tmp_str = join_paths (st_location.data_dir, "rmw", NULL);
+    tmp_str = join_paths (x.st_directory->dataroot, "rmw", NULL);
   else
-    tmp_str = join_paths (st_location.home, ".local/share/rmw", NULL);
+    tmp_str = join_paths (x.home, ".local/share/rmw", NULL);
 
   strcpy (data_rmw_home, tmp_str);
   free (tmp_str);
-  tmp_str = NULL;
-  st_location.data_dir = data_rmw_home;
+  x.data_dir = data_rmw_home;
 
   // get the config dir and file path
 
   static char config_home[LEN_MAX_PATH];
 
   if (enable_test == NULL)
-    st_location.config_dir = st_location.st_directory->configroot;
+    x.config_dir = x.st_directory->configroot;
   else
   {
-    tmp_str = join_paths (st_location.home, ".config", NULL);
+    tmp_str = join_paths (x.home, ".config", NULL);
     strcpy (config_home, tmp_str);
     free (tmp_str);
-    tmp_str = NULL;
-    st_location.config_dir = config_home;
+    x.config_dir = config_home;
   }
 
-  if (!exists (st_location.config_dir))
+  if (!exists (x.config_dir))
   {
-    if (!rmw_mkdir (st_location.config_dir, S_IRWXU))
-      msg_success_mkdir (st_location.config_dir);
+    if (!rmw_mkdir (x.config_dir, S_IRWXU))
+      msg_success_mkdir (x.config_dir);
     else
     {
-      msg_err_mkdir (st_location.config_dir, __func__);
+      msg_err_mkdir (x.config_dir, __func__);
       exit (errno);
     }
   }
 
+  static char config_file[LEN_MAX_PATH];
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
-    tmp_str = join_paths (st_location.config_dir, "rmwrc", NULL);
-    strcpy (config_home, tmp_str);
+    tmp_str = join_paths (x.config_dir, "rmwrc", NULL);
+    strcpy (config_file, tmp_str);
     free (tmp_str);
-    tmp_str = NULL;
-    st_location.config_file = config_home;
+    x.config_file = config_file;
   }
   else
-    st_location.config_file = alt_config;
+    x.config_file = alt_config;
 
-  if (!exists (st_location.config_file))
+  if (!exists (x.config_file))
   {
-    FILE *fd = fopen (st_location.config_file, "w");
+    FILE *fd = fopen (x.config_file, "w");
     if (fd)
     {
       printf (_("Creating default configuration file:"));
-      printf ("\n  %s\n\n", st_location.config_file);
+      printf ("\n  %s\n\n", x.config_file);
 
       print_config (fd);
-      close_file (fd, st_location.config_file, __func__);
+      close_file (fd, x.config_file, __func__);
     }
     else
     {
-      open_err (st_location.config_file, __func__);
+      open_err (x.config_file, __func__);
       printf (_("Unable to read or write a configuration file.\n"));
       exit (errno);
     }
   }
 
-  return &st_location;
+  return &x;
 
 }
 
@@ -557,6 +558,12 @@ main (const int argc, char *const argv[])
 
 
   st_loc *st_location = get_locations (cli_user_options.alt_config);
+  if (st_location == NULL)
+  {
+    print_msg_error ();
+    fputs ("while getting directory information", stderr);
+    exit (EXIT_FAILURE);
+  }
 
   const st_canfigger_directory *st_directory = canfigger_get_directories ();
 
