@@ -188,16 +188,11 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
  * created.
  */
 bool
-is_time_to_purge (st_time * st_time_var, const char *data_dir)
+is_time_to_purge (st_time * st_time_var, const char *file)
 {
   const int BUF_TIME = 80;
-  const char purge_time_file[] = "purge-time";
-  char *tmp_str = join_paths (data_dir, purge_time_file, NULL);
-  char file_lastpurge[strlen (tmp_str) + 1];
-  strcpy (file_lastpurge, tmp_str);
-  free (tmp_str);
 
-  FILE *fp = fopen (file_lastpurge, "r");
+  FILE *fp = fopen (file, "r");
   bool init = (fp);
   if (fp)
   {
@@ -206,24 +201,24 @@ is_time_to_purge (st_time * st_time_var, const char *data_dir)
     if (fgets (time_prev, sizeof time_prev, fp) == NULL)
     {
       print_msg_error ();
-      printf ("while getting line from %s\n", file_lastpurge);
+      printf ("while getting line from %s\n", file);
       perror (__func__);
-      close_file (fp, file_lastpurge, __func__);
+      close_file (fp, file, __func__);
       exit (EXIT_FAILURE);
     }
 
     trim_whitespace (time_prev);
-    close_file (fp, file_lastpurge, __func__);
+    close_file (fp, file, __func__);
 
     if ((st_time_var->now - atoi (time_prev)) < SECONDS_IN_A_DAY)
       return false;
   }
 
-  fp = fopen (file_lastpurge, "w");
+  fp = fopen (file, "w");
   if (fp)
   {
     fprintf (fp, "%ld\n", st_time_var->now);
-    close_file (fp, file_lastpurge, __func__);
+    close_file (fp, file, __func__);
 
     /*
      * if this is the first time the file got created, it's very likely
@@ -237,7 +232,7 @@ is_time_to_purge (st_time * st_time_var, const char *data_dir)
    * if we can't even write this file to the config directory, something
    * is not right. Make it fatal.
    */
-  open_err (file_lastpurge, __func__);
+  open_err (file, __func__);
   msg_return_code (errno);
   exit (errno);
 }

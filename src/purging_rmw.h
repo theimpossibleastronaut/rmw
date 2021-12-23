@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "time_rmw.h"
 #include "config_rmw.h"
 
-bool is_time_to_purge (st_time * st_time_var, const char *data_dir);
+bool is_time_to_purge (st_time * st_time_var, const char *file);
 
 int
 purge (st_config * st_config_data,

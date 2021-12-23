@@ -361,58 +361,49 @@ damage of 5000 hp. You feel satisfied.\n"));
 static st_loc *
 get_locations (const char *alt_config)
 {
+  const char purge_time_file_basename[] = "purge-time";
+
   static st_loc x;
   x.st_directory = canfigger_get_directories ();
   if (x.st_directory == NULL)
     return NULL;
 
   const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
-  if (enable_test != NULL)
+  static char data_rmw_home[LEN_MAX_PATH];
+  char *m_d_str = NULL;
+  static char config_home[LEN_MAX_PATH];
+
+  if (enable_test == NULL)
+  {
+    x.home = x.st_directory->home;
+    m_d_str = join_paths (x.st_directory->dataroot, "rmw", NULL);
+    x.config_dir = x.st_directory->configroot;
+  }
+  else
   {
     if (verbose)
       printf ("%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
     x.home = enable_test;
-  }
-  else
-    x.home = x.st_directory->home;
-
-  if (verbose)
-    printf ("home: %s\n", x.home);
-
-  /* get the rmw data dir */
-  static char data_rmw_home[LEN_MAX_PATH];
-  char *tmp_str = NULL;
-  if (enable_test == NULL)
-    tmp_str = join_paths (x.st_directory->dataroot, "rmw", NULL);
-  else
-    tmp_str = join_paths (x.home, ".local/share/rmw", NULL);
-
-  sn_check (snprintf (data_rmw_home, sizeof data_rmw_home, "%s", tmp_str),
-            sizeof data_rmw_home, __func__, __LINE__);
-
-  free (tmp_str);
-  x.data_dir = data_rmw_home;
-
-  if (verbose)
-    printf ("data_dir: %s\n", x.data_dir);
-
-  // get the config dir and file path
-
-  static char config_home[LEN_MAX_PATH];
-
-  if (enable_test == NULL)
-    x.config_dir = x.st_directory->configroot;
-  else
-  {
-    tmp_str = join_paths (x.home, ".config", NULL);
-    sn_check (snprintf (config_home, sizeof config_home, "%s", tmp_str),
+    m_d_str = join_paths (x.home, ".local/share/rmw", NULL);
+    char *m_c_str = join_paths (x.home, ".config", NULL);
+    sn_check (snprintf (config_home, sizeof config_home, "%s", m_c_str),
               sizeof config_home, __func__, __LINE__);
-    free (tmp_str);
+    free (m_c_str);
     x.config_dir = config_home;
   }
 
+  sn_check (snprintf (data_rmw_home, sizeof data_rmw_home, "%s", m_d_str),
+            sizeof data_rmw_home, __func__, __LINE__);
+
+  free (m_d_str);
+  x.data_dir = data_rmw_home;
+
   if (verbose)
+  {
+    printf ("data_dir: %s\n", x.data_dir);
     printf ("config_dir: %s\n", x.config_dir);
+    printf ("home: %s\n", x.home);
+  }
 
   if (!exists (x.config_dir))
   {
@@ -429,7 +420,7 @@ get_locations (const char *alt_config)
   /* If no alternate configuration was specifed (-c) */
   if (alt_config == NULL)
   {
-    tmp_str = join_paths (x.config_dir, "rmwrc", NULL);
+    char *tmp_str = join_paths (x.config_dir, "rmwrc", NULL);
     sn_check (snprintf (config_file, sizeof config_file, "%s", tmp_str),
               sizeof config_file, __func__, __LINE__);
     free (tmp_str);
@@ -462,12 +453,22 @@ get_locations (const char *alt_config)
 
   // mrl file
   static char mrl_file[LEN_MAX_PATH];
-  tmp_str = join_paths (x.data_dir, "mrl", NULL);
-  sn_check (snprintf (mrl_file, sizeof mrl_file, "%s", tmp_str), sizeof mrl_file, __func__, __LINE__);
-  free (tmp_str);
+  char *m_tmp_str = join_paths (x.data_dir, "mrl", NULL);
+  sn_check (snprintf (mrl_file, sizeof mrl_file, "%s", m_tmp_str), sizeof mrl_file, __func__, __LINE__);
+  free (m_tmp_str);
   x.mrl = mrl_file;
+
+  static char s_purge_time_file[LEN_MAX_PATH];
+  m_tmp_str = join_paths (x.data_dir, purge_time_file_basename, NULL);
+  sn_check (snprintf (s_purge_time_file, sizeof s_purge_time_file, "%s", m_tmp_str), sizeof s_purge_time_file, __func__, __LINE__);
+  free (m_tmp_str);
+  x.purge_time_file = s_purge_time_file;
+
   if (verbose)
+  {
     printf ("most recent list (mrl file): %s\n", x.mrl);
+    printf ("purge-time file: %s\n", x.purge_time_file);
+  }
 
   return &x;
 }
@@ -542,7 +543,7 @@ Please check your configuration file and permissions\
 
   int orphan_ctr = 0;
   if (cli_user_options.want_purge
-      || is_time_to_purge (&st_time_var, st_location->data_dir))
+      || is_time_to_purge (&st_time_var, st_location->purge_time_file))
   {
     if (!st_config_data.force_required || cli_user_options.force)
       purge (&st_config_data, &cli_user_options, &st_time_var, &orphan_ctr);
