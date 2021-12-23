@@ -29,83 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "messages_rmw.h"
 
 
-/*
- * Returns a pointer to the home directory, or optionally sets an
- * alternate home directory (primarily useful for testing an app).
- * If an alternate home directory isn't needed, the argument passed
- * can be NULL instead of a string.
- */
-static const char *
-get_home_dir (const char *homedir)
-{
-  const char *alternate_home_dir = NULL;
-  const char *deprecated_env = getenv (ENV_TEST_HOME);
-  if (deprecated_env != NULL)
-  {
-    print_msg_warn ();
-    printf ("'%s' will be deprecated, use '%s' instead\n", ENV_TEST_HOME,
-            ENV_RMW_FAKE_HOME);
-    alternate_home_dir = deprecated_env;
-  }
-
-  if (alternate_home_dir == NULL)
-    alternate_home_dir = getenv (ENV_RMW_FAKE_HOME);
-
-  if (alternate_home_dir != NULL)
-  {
-    if (verbose)
-      printf ("%s:%s\n", ENV_RMW_FAKE_HOME, alternate_home_dir);
-    return alternate_home_dir;
-  }
-#ifndef WIN32
-  return homedir;
-#else
-  char *_homedir;
-  char *_drive = getenv ("HOMEDRIVE");
-  char *_path = getenv ("HOMEPATH");
-
-  if (_drive != NULL && _path != NULL)
-  {
-    static char combined_path[LEN_MAX_PATH];
-    sn_check (snprintf
-              (combined_path, sizeof combined_path, "%s%s", _drive, _path),
-              __func__, __LINE__);
-    _homedir = &combined_path[0];
-  }
-  else
-    _homedir = NULL;
-
-  return _homedir;
-#endif
-}
-
-
-static const char *
-get_data_rmw_home_dir (const char *homedir)
-{
-  const char rel_default[] = ".local/share/rmw";
-
-  const char *xdg_data_home = getenv ("XDG_DATA_HOME");
-
-  static char data_rmw_home[LEN_MAX_PATH];
-  const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
-
-  if (enable_test != NULL || (xdg_data_home == NULL && enable_test == NULL))
-  {
-    char *tmp_str = join_paths (homedir, rel_default, NULL);
-    strcpy (data_rmw_home, tmp_str);
-    free (tmp_str);
-    return data_rmw_home;
-  }
-
-  char *tmp_str = join_paths (xdg_data_home, "rmw", NULL);
-  strcpy (data_rmw_home, tmp_str);
-  free (tmp_str);
-
-  return data_rmw_home;
-}
-
-
 static const char *
 get_most_recent_list_filename (const char *data_dir)
 {
@@ -458,7 +381,7 @@ get_locations (const char *alt_config)
   if (x.st_directory == NULL)
     return NULL;
 
-  const char *enable_test = getenv (ENV_TEST_HOME);
+  const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
   if (enable_test != NULL)
   {
     if (verbose)
@@ -468,6 +391,9 @@ get_locations (const char *alt_config)
   else
     x.home = x.st_directory->home;
 
+  if (verbose)
+    printf ("home: %s\n", x.home);
+
   /* get the rmw data dir */
   static char data_rmw_home[LEN_MAX_PATH];
   char *tmp_str = NULL;
@@ -476,9 +402,13 @@ get_locations (const char *alt_config)
   else
     tmp_str = join_paths (x.home, ".local/share/rmw", NULL);
 
-  strcpy (data_rmw_home, tmp_str);
+  sn_check (snprintf (data_rmw_home, sizeof data_rmw_home, "%s", tmp_str), sizeof data_rmw_home, __func__, __LINE__);
+
   free (tmp_str);
   x.data_dir = data_rmw_home;
+
+  if (verbose)
+    printf ("data_dir: %s\n", x.data_dir);
 
   // get the config dir and file path
 
@@ -489,10 +419,13 @@ get_locations (const char *alt_config)
   else
   {
     tmp_str = join_paths (x.home, ".config", NULL);
-    strcpy (config_home, tmp_str);
+    sn_check (snprintf (config_home, sizeof config_home, "%s", tmp_str), sizeof config_home, __func__, __LINE__);
     free (tmp_str);
     x.config_dir = config_home;
   }
+
+  if (verbose)
+    printf ("config_dir: %s\n", x.config_dir);
 
   if (!exists (x.config_dir))
   {
@@ -510,12 +443,15 @@ get_locations (const char *alt_config)
   if (alt_config == NULL)
   {
     tmp_str = join_paths (x.config_dir, "rmwrc", NULL);
-    strcpy (config_file, tmp_str);
+    sn_check (snprintf (config_file, sizeof config_file, "%s", tmp_str), sizeof config_file, __func__, __LINE__);
     free (tmp_str);
     x.config_file = config_file;
   }
   else
     x.config_file = alt_config;
+
+  if (verbose)
+    printf ("config_file: %s\n", x.config_file);
 
   if (!exists (x.config_file))
   {
@@ -537,7 +473,6 @@ get_locations (const char *alt_config)
   }
 
   return &x;
-
 }
 
 int
@@ -565,34 +500,26 @@ main (const int argc, char *const argv[])
     exit (EXIT_FAILURE);
   }
 
-  const st_canfigger_directory *st_directory = canfigger_get_directories ();
+  //if (st_real_dir.home != NULL)
+    //bufchk_len (strlen (st_real_dir.home) + 1, LEN_MAX_PATH, __func__, __LINE__);
+  //else
+  //{
+    //print_msg_error ();
+    //fputs (_("while getting the path to your home directory\n"), stderr);
+    //return 1;
+  //}
 
-  st_real_directory st_real_dir;
-
-  st_real_dir.home = get_home_dir (st_directory->home);
-
-  if (st_real_dir.home != NULL)
-    bufchk_len (strlen (st_real_dir.home) + 1, LEN_MAX_PATH, __func__, __LINE__);
-  else
-  {
-    print_msg_error ();
-    fputs (_("while getting the path to your home directory\n"), stderr);
-    return 1;
-  }
-
-  st_real_dir.data = get_data_rmw_home_dir (st_real_dir.home);
-
-  bool init_data_dir = !exists (st_real_dir.data);
+  bool init_data_dir = !exists (st_location->data_dir);
 
   if (init_data_dir)
   {
-    if (!rmw_mkdir (st_real_dir.data, S_IRWXU))
+    if (!rmw_mkdir (st_location->data_dir, S_IRWXU))
     {
-      msg_success_mkdir (st_real_dir.data);
+      msg_success_mkdir (st_location->data_dir);
     }
     else
     {
-      msg_err_mkdir (st_real_dir.data, __func__);
+      msg_err_mkdir (st_location->data_dir, __func__);
       printf (_("\
 unable to create config and data directory\n\
 Please check your configuration file and permissions\
@@ -604,8 +531,8 @@ Please check your configuration file and permissions\
   }
 
   st_config st_config_data;
-  init_config_data (&st_config_data, &st_real_dir);
-  parse_config_file (&cli_user_options, &st_config_data, st_real_dir.home);
+  init_config_data (&st_config_data);
+  parse_config_file (&cli_user_options, &st_config_data, st_location);
 
   if (cli_user_options.list)
   {
@@ -618,7 +545,7 @@ Please check your configuration file and permissions\
 
   int orphan_ctr = 0;
   if (cli_user_options.want_purge
-      || is_time_to_purge (&st_time_var, st_real_dir.data))
+      || is_time_to_purge (&st_time_var, st_location->data_dir))
   {
     if (!st_config_data.force_required || cli_user_options.force)
       purge (&st_config_data, &cli_user_options, &st_time_var, &orphan_ctr);
@@ -643,7 +570,7 @@ Please check your configuration file and permissions\
     return result;
   }
 
-  const char *mrl_file = get_most_recent_list_filename (st_real_dir.data);
+  const char *mrl_file = get_most_recent_list_filename (st_location->data_dir);
 
   if (cli_user_options.most_recent_list || cli_user_options.want_undo)
   {

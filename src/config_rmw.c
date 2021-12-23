@@ -191,75 +191,15 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
 }
 
 
-const char *
-get_config_home_dir (st_real_directory *st_real_dir)
-{
-  const char rel_default[] = "/.config";
-
-  const char *xdg_config_home = getenv ("XDG_CONFIG_HOME");
-
-  static const char *ptr;
-  const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
-
-  if (enable_test != NULL || (xdg_config_home == NULL && enable_test == NULL))
-  {
-    char *_config_home = join_paths (st_real_dir->home, rel_default, NULL);
-    static char config_home[LEN_MAX_PATH];
-    strcpy (config_home, _config_home);
-    free (_config_home);
-    ptr = &config_home[0];
-    return ptr;
-  }
-
-  bufchk_len (strlen (xdg_config_home) + 1, LEN_MAX_PATH, __func__, __LINE__);
-  return xdg_config_home;
-}
-
-
 /*!
  * Get configuration data (parse the config file)
  */
 void
 parse_config_file (const rmw_options * cli_user_options,
-                   st_config * st_config_data, const char *homedir)
+                   st_config * st_config_data, st_loc *st_location)
 {
-  /* If no alternate configuration was specifed (-c) */
-  if (cli_user_options->alt_config == NULL)
-  {
-    const char rel_default_config[] = "rmwrc";
-    char *tmp_str =
-      join_paths (st_config_data->dir, rel_default_config, NULL);
-    strcpy (st_config_data->file, tmp_str);
-    free (tmp_str);
-  }
-  else
-  {
-    bufchk_len (strlen (cli_user_options->alt_config) + 1, LEN_MAX_PATH,
-                __func__, __LINE__);
-    strcpy (st_config_data->file, cli_user_options->alt_config);
-  }
-
-  if (!exists (st_config_data->file))
-  {
-    FILE *fd = fopen (st_config_data->file, "w");
-    if (fd)
-    {
-      printf (_("Creating default configuration file:"));
-      printf ("\n  %s\n\n", st_config_data->file);
-
-      print_config (fd);
-      close_file (fd, st_config_data->file, __func__);
-    }
-    else
-    {
-      open_err (st_config_data->file, __func__);
-      printf (_("Unable to read or write a configuration file.\n"));
-      exit (errno);
-    }
-  }
-
   st_canfigger_list *cfg_node =
-    canfigger_parse_file (st_config_data->file, ',');
+    canfigger_parse_file (st_location->config_file, ',');
   st_canfigger_list *root = cfg_node;
 
   if (cfg_node == NULL)
@@ -330,7 +270,7 @@ parse_config_file (const rmw_options * cli_user_options,
       {
         st_waste *st_new_waste_ptr =
           parse_line_waste (waste_curr, cfg_node, cli_user_options,
-                            st_config_data->fake_media_root, homedir);
+                            st_config_data->fake_media_root, st_location->home);
         if (st_new_waste_ptr != NULL)
         {
           waste_curr = st_new_waste_ptr;
@@ -366,21 +306,8 @@ visit the rmw web site at\n"));
 
 
 void
-init_config_data (st_config * x, st_real_directory *st_real_dir)
+init_config_data (st_config * x)
 {
-  x->dir = get_config_home_dir (st_real_dir);
-
-  if (!exists (x->dir))
-  {
-    if (!rmw_mkdir (x->dir, S_IRWXU))
-      msg_success_mkdir (x->dir);
-    else
-    {
-      msg_err_mkdir (x->dir, __func__);
-      exit (errno);
-    }
-  }
-
   x->st_waste_folder_props_head = NULL;
   /*
    * The default value is only used as a last resort,

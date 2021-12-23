@@ -32,13 +32,6 @@ struct st_removed
   st_removed *next_node;
 };
 
-typedef struct st_real_directory st_real_directory;
-struct st_real_directory
-{
-  const char *home;
-  const char *data;
-};
-
 typedef struct st_loc st_loc;
 struct st_loc
 {
