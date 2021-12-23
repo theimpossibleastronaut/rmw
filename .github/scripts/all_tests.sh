@@ -6,11 +6,9 @@ sudo apt-get install -y gettext
 
 USE_VALGRIND=""
 
-if [ "$MATRIX_OS" = "ubuntu-latest" ] && [ "$MATRIX_ARCH" = "x64" ] ; then
-  if [ "$CC" = "gcc-10" ]; then
-    USE_VALGRIND=1
-    sudo apt-get install -y valgrind
-  fi
+if [ "$CC" = "gcc-11" ]; then
+  USE_VALGRIND=1
+  sudo apt-get install -y valgrind
 fi
 
 if [ "$MATRIX_OS" = "ubuntu-18.04" ]; then
