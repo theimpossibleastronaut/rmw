@@ -2,10 +2,12 @@ name: C/C++ CI
 
 on:
   push:
+    branches: master
     paths-ignore:
     - '**/*.md'
     - '.github/workflows/codeql-analysis.yml'
   pull_request:
+    branches: master
     paths-ignore:
     - '**/*.md'
     - '.github/workflows/codeql-analysis.yml'
