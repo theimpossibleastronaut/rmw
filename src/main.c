@@ -359,8 +359,12 @@ damage of 5000 hp. You feel satisfied.\n"));
 
 
 static st_loc *
-get_locations (const char *alt_config)
+get_locations (const char *alt_config_file)
 {
+  const char rel_default_data_dir[] = ".local/share/rmw";
+  const char rel_default_config_dir[] = ".config";
+  const char config_file_basename[] = "rmwrc";
+  const char mrl_file_basename[] = "mrl";
   const char purge_time_file_basename[] = "purge-time";
 
   static st_loc x;
@@ -369,40 +373,41 @@ get_locations (const char *alt_config)
     return NULL;
 
   const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
-  static char data_rmw_home[LEN_MAX_PATH];
+  static char s_data_dir[LEN_MAX_PATH];
   char *m_d_str = NULL;
-  static char config_home[LEN_MAX_PATH];
+  static char s_config_dir[LEN_MAX_PATH];
 
   if (enable_test == NULL)
   {
-    x.home = x.st_directory->home;
-    m_d_str = join_paths (x.st_directory->dataroot, "rmw", NULL);
+    x.home_dir = x.st_directory->home;
+    m_d_str = join_paths (x.st_directory->dataroot, PACKAGE_STRING, NULL);
     x.config_dir = x.st_directory->configroot;
   }
   else
   {
     if (verbose)
       printf ("%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
-    x.home = enable_test;
-    m_d_str = join_paths (x.home, ".local/share/rmw", NULL);
-    char *m_c_str = join_paths (x.home, ".config", NULL);
-    sn_check (snprintf (config_home, sizeof config_home, "%s", m_c_str),
-              sizeof config_home, __func__, __LINE__);
+    x.home_dir = enable_test;
+    m_d_str = join_paths (x.home_dir, rel_default_data_dir, NULL);
+    char *m_c_str = join_paths (x.home_dir, rel_default_config_dir, NULL);
+    sn_check (snprintf (s_config_dir, sizeof s_config_dir, "%s", m_c_str),
+              sizeof s_config_dir, __func__, __LINE__);
+
     free (m_c_str);
-    x.config_dir = config_home;
+    x.config_dir = s_config_dir;
   }
 
-  sn_check (snprintf (data_rmw_home, sizeof data_rmw_home, "%s", m_d_str),
-            sizeof data_rmw_home, __func__, __LINE__);
+  sn_check (snprintf (s_data_dir, sizeof s_data_dir, "%s", m_d_str),
+            sizeof s_data_dir, __func__, __LINE__);
 
   free (m_d_str);
-  x.data_dir = data_rmw_home;
+  x.data_dir = s_data_dir;
 
   if (verbose)
   {
+    printf ("home_dir: %s\n", x.home_dir);
     printf ("data_dir: %s\n", x.data_dir);
     printf ("config_dir: %s\n", x.config_dir);
-    printf ("home: %s\n", x.home);
   }
 
   if (!exists (x.config_dir))
@@ -416,18 +421,19 @@ get_locations (const char *alt_config)
     }
   }
 
-  static char config_file[LEN_MAX_PATH];
-  /* If no alternate configuration was specifed (-c) */
-  if (alt_config == NULL)
+  static char s_config_file[LEN_MAX_PATH];
+
+  if (alt_config_file == NULL)
   {
-    char *tmp_str = join_paths (x.config_dir, "rmwrc", NULL);
-    sn_check (snprintf (config_file, sizeof config_file, "%s", tmp_str),
-              sizeof config_file, __func__, __LINE__);
+    char *tmp_str = join_paths (x.config_dir, config_file_basename, NULL);
+    sn_check (snprintf (s_config_file, sizeof s_config_file, "%s", tmp_str),
+              sizeof s_config_file, __func__, __LINE__);
+
     free (tmp_str);
-    x.config_file = config_file;
+    x.config_file = s_config_file;
   }
   else
-    x.config_file = alt_config;
+    x.config_file = alt_config_file;
 
   if (verbose)
     printf ("config_file: %s\n", x.config_file);
@@ -437,8 +443,8 @@ get_locations (const char *alt_config)
     FILE *fd = fopen (x.config_file, "w");
     if (fd)
     {
-      printf (_("Creating default configuration file:"));
-      printf ("\n  %s\n\n", x.config_file);
+      puts (_("Creating default configuration file:"));
+      printf ("  %s\n\n", x.config_file);
 
       print_config (fd);
       close_file (fd, x.config_file, __func__);
@@ -446,28 +452,29 @@ get_locations (const char *alt_config)
     else
     {
       open_err (x.config_file, __func__);
-      printf (_("Unable to read or write a configuration file.\n"));
+      puts (_("Unable to read or write a configuration file."));
       exit (errno);
     }
   }
 
-  // mrl file
-  static char mrl_file[LEN_MAX_PATH];
-  char *m_tmp_str = join_paths (x.data_dir, "mrl", NULL);
-  sn_check (snprintf (mrl_file, sizeof mrl_file, "%s", m_tmp_str), sizeof mrl_file, __func__, __LINE__);
+  static char s_mrl_file[LEN_MAX_PATH];
+  char *m_tmp_str = join_paths (x.data_dir, mrl_file_basename, NULL);
+  sn_check (snprintf (s_mrl_file, sizeof s_mrl_file, "%s", m_tmp_str), sizeof s_mrl_file, __func__, __LINE__);
+
   free (m_tmp_str);
-  x.mrl = mrl_file;
+  x.mrl_file = s_mrl_file;
 
   static char s_purge_time_file[LEN_MAX_PATH];
   m_tmp_str = join_paths (x.data_dir, purge_time_file_basename, NULL);
   sn_check (snprintf (s_purge_time_file, sizeof s_purge_time_file, "%s", m_tmp_str), sizeof s_purge_time_file, __func__, __LINE__);
+
   free (m_tmp_str);
   x.purge_time_file = s_purge_time_file;
 
   if (verbose)
   {
-    printf ("most recent list (mrl file): %s\n", x.mrl);
-    printf ("purge-time file: %s\n", x.purge_time_file);
+    printf ("mrl_file: %s\n", x.mrl_file);
+    printf ("purge_time_file: %s\n", x.purge_time_file);
   }
 
   return &x;
@@ -489,23 +496,13 @@ main (const int argc, char *const argv[])
   if (verbose > 1)
     printf ("PATH_MAX = %d\n", LEN_MAX_PATH - 1);
 
-
-  st_loc *st_location = get_locations (cli_user_options.alt_config);
+  st_loc *st_location = get_locations (cli_user_options.alt_config_file);
   if (st_location == NULL)
   {
     print_msg_error ();
-    fputs ("while getting directory information", stderr);
-    exit (EXIT_FAILURE);
+    fputs (_("while getting the path to your home directory\n"), stderr);
+    return 1;
   }
-
-  //if (st_real_dir.home != NULL)
-  //bufchk_len (strlen (st_real_dir.home) + 1, LEN_MAX_PATH, __func__, __LINE__);
-  //else
-  //{
-  //print_msg_error ();
-  //fputs (_("while getting the path to your home directory\n"), stderr);
-  //return 1;
-  //}
 
   bool init_data_dir = !exists (st_location->data_dir);
 
@@ -572,7 +569,7 @@ Please check your configuration file and permissions\
   {
     int res =
       process_mrl (st_config_data.st_waste_folder_props_head, &st_time_var,
-                   st_location->mrl, &cli_user_options);
+                   st_location->mrl_file, &cli_user_options);
     dispose_waste (st_config_data.st_waste_folder_props_head);
     return res;
   }
@@ -601,7 +598,7 @@ Please check your configuration file and permissions\
                                   argv,
                                   st_config_data.st_waste_folder_props_head,
                                   &st_time_var,
-                                  st_location->mrl,
+                                  st_location->mrl_file,
                                   &cli_user_options);
 
     if (result > 1)

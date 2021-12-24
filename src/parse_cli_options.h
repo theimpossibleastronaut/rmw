@@ -37,7 +37,7 @@ typedef struct
   /*! list waste folder option */
   bool list;
   /*! Alternate configuration file given at the command line with -c */
-  const char *alt_config;
+  const char *alt_config_file;
 } rmw_options;
 
 typedef enum

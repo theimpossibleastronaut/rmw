@@ -196,7 +196,7 @@ init_rmw_options (rmw_options * x)
   x->most_recent_list = false;
   x->force = 0;
   x->list = false;
-  x->alt_config = NULL;
+  x->alt_config_file = NULL;
 }
 
 
@@ -238,7 +238,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       verbose++;
       break;
     case 'c':
-      options->alt_config = optarg;
+      options->alt_config_file = optarg;
       break;
     case 'n':
       options->want_dry_run = true;

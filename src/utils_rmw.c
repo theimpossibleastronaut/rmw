@@ -391,6 +391,31 @@ resolve_path (const char *file, const char *b)
 }
 
 
+/*!
+ * Trim a trailing character of a string
+ * @param[in] c The character to erase
+ * @param[out] str The string to alter
+ * @return void
+ */
+static void
+trim_char (const char c, char *str)
+{
+  trim_whitespace (str);
+  while (*str != '\0')
+    str++;
+
+  str--;
+
+  while (*str == c)
+  {
+    *str = '\0';
+    str--;
+  }
+
+  return;
+}
+
+
 char *
 join_paths (const char *argv, ...)
 {

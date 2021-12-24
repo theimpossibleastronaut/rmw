@@ -27,9 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "main.h"
 
 #define ENV_RMW_FAKE_HOME "RMW_FAKE_HOME"
-#define ENV_TEST_HOME "RMWTEST_HOME"
-
-#define LEN_MAX_CFG_LINE (LEN_MAX_PATH * 2 + 1)
 
 extern const char *expire_age_str;
 
@@ -46,13 +43,6 @@ typedef struct
   bool fake_media_root;
   int expire_age;
 } st_config;
-
-struct st_vars_to_check
-{
-  const char *name;
-  const char *value;
-};
-
 
 void print_config (FILE * restrict stream);
 

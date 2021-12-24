@@ -272,7 +272,7 @@ parse_config_file (const rmw_options * cli_user_options,
         st_waste *st_new_waste_ptr =
           parse_line_waste (waste_curr, cfg_node, cli_user_options,
                             st_config_data->fake_media_root,
-                            st_location->home);
+                            st_location->home_dir);
         if (st_new_waste_ptr != NULL)
         {
           waste_curr = st_new_waste_ptr;
