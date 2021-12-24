@@ -363,19 +363,19 @@ parse_config_file (const rmw_options * cli_user_options,
     exit (errno);
   }
 
-  enum
+  typedef enum
   {
     EXPIRE_AGE,
     WASTE,
     FORCE_REQUIRED,
     PURGE_AFTER,
     INVALID_OPTION
-  };
+  } cfg_opt_id;
 
   struct opt
   {
     const char *opt;
-    const unsigned short int e_opt;
+    cfg_opt_id id;
   };
 
   struct opt st_opt[] = {
@@ -397,7 +397,7 @@ parse_config_file (const rmw_options * cli_user_options,
       i++;
     }
 
-    switch (st_opt[i].e_opt)
+    switch (st_opt[i].id)
     {
     case EXPIRE_AGE:
     case PURGE_AFTER:

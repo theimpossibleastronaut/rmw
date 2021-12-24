@@ -18,8 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _INC_PARSE_CLI_OPTIONS_H
-#define _INC_PARSE_CLI_OPTIONS_H
+#pragma once
 
 #include <getopt.h>
 
@@ -41,9 +40,34 @@ typedef struct
   const char *alt_config;
 } rmw_options;
 
+typedef enum
+{
+  HELP,
+  VERBOSE,
+  CONFIG,
+  DRY_RUN,
+  LIST,
+  PURGE,
+  ORPHANED,
+  RESTORE,
+  SELECT,
+  UNDO_LAST,
+  MOST_RECENT_LIST,
+  WARRANTY,
+  _VERSION,
+  INTERACTIVE,
+  RECURSIVE,
+  FORCE,
+  EMPTY,
+} cli_opt_id;
+
+struct cli_opt
+{
+  cli_opt_id id;
+  char *str;
+};
+
 void init_rmw_options (rmw_options * options);
 
 void
 parse_cli_options (const int argc, char *const argv[], rmw_options * options);
-
-#endif
