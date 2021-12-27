@@ -358,7 +358,44 @@ damage of 5000 hp. You feel satisfied.\n"));
 }
 
 
-static st_loc *
+// Returns a struct containing the absolute path of the user's home,
+// dataroot, and configroot directories. If $XDG_DATA_HOME or $XDG_CONFIG_HOME
+// exist as environmental variables, those will be used. Otherwise dataroot
+// will be appended to $HOME as '/.local/share' and configroot will be
+// appended as '/.config'.
+//
+// TODO: make it compatible with Windows systems.
+static const st_dir *
+get_directories (void)
+{
+  static st_dir st_directory;
+  st_directory.home = getenv ("HOME");
+  if (st_directory.home == NULL)
+    return NULL;
+
+  const char *xdg_configroot = getenv ("XDG_CONFIG_HOME");
+  if (xdg_configroot == NULL)
+    snprintf (st_directory.configroot,
+              sizeof st_directory.configroot,
+              "%s/.config", st_directory.home);
+  else
+    snprintf (st_directory.configroot,
+              sizeof st_directory.configroot, "%s", xdg_configroot);
+
+  const char *xdg_dataroot = getenv ("XDG_DATA_HOME");
+  if (xdg_dataroot == NULL)
+    snprintf (st_directory.dataroot,
+              sizeof st_directory.dataroot,
+              "%s/.local/share", st_directory.home);
+  else
+    snprintf (st_directory.dataroot,
+              sizeof st_directory.dataroot, "%s", xdg_dataroot);
+
+  return &st_directory;
+}
+
+
+static const st_loc *
 get_locations (const char *alt_config_file)
 {
   const char rel_default_data_dir[] = ".local/share/rmw";
@@ -368,7 +405,7 @@ get_locations (const char *alt_config_file)
   const char purge_time_file_basename[] = "purge-time";
 
   static st_loc x;
-  x.st_directory = canfigger_get_directories ();
+  x.st_directory = get_directories ();
   if (x.st_directory == NULL)
     return NULL;
 
@@ -496,7 +533,7 @@ main (const int argc, char *const argv[])
   if (verbose > 1)
     printf ("PATH_MAX = %d\n", LEN_MAX_PATH - 1);
 
-  st_loc *st_location = get_locations (cli_user_options.alt_config_file);
+  const st_loc *st_location = get_locations (cli_user_options.alt_config_file);
   if (st_location == NULL)
   {
     print_msg_error ();

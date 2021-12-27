@@ -32,6 +32,14 @@ struct st_removed
   st_removed *next_node;
 };
 
+typedef struct st_dir st_dir;
+struct st_dir
+{
+  const char *home;
+  char configroot[__CFG_LEN_MAX_LINE];
+  char dataroot[__CFG_LEN_MAX_LINE];
+};
+
 typedef struct st_loc st_loc;
 struct st_loc
 {
@@ -41,5 +49,5 @@ struct st_loc
   const char *data_dir;
   const char *purge_time_file;
   const char *mrl_file;
-  const st_canfigger_directory *st_directory;
+  const st_dir *st_directory;
 };

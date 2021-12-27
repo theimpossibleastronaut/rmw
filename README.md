@@ -279,7 +279,8 @@ run 'configure' from any directory you like.)
     ninja
 ```
 
-Use `meson configure` in the build dir to view available options.
+Use `meson configure` in the build dir to view or change available
+options.
 
 #### Installing without superuser privileges
 
@@ -294,7 +295,7 @@ or while in the build dir
 
 To install:
 
-    ninja install
+    meson install --skip-subprojects canfigger
 
 In the example above, the rmw binary will be installed to
 `$HOME/.local/bin` and documentation to `$HOME/.local/doc`.

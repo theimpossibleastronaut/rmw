@@ -589,10 +589,6 @@ test_join_paths (void)
 int
 main ()
 {
-
-  //st_real_directory st_real_dir;
-  // st_real_dir.home = get_home_dir (st_directory->home);
-
   char tmp[LEN_MAX_PATH];
   int r =
     snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");

@@ -18,11 +18,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef INC_GLOBALS_H
-#define INC_GLOBALS_H
-#include "globals.h"
-#endif
+// for realize_str()
+#include <pwd.h>
+#include <unistd.h>
+#include <sys/types.h>
 
+#include "globals.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
 #include "strings_rmw.h"
@@ -76,6 +77,104 @@ WASTE = $HOME/.local/share/Waste\n", stream);
 }
 
 
+/*
+ * replace part of a string, adapted from code by Gazl
+ * https://www.linuxquestions.org/questions/showthread.php?&p=5794938#post5794938
+*/
+static char *
+strrepl (char *src, const char *str, char *repl)
+{
+  // The replacement text may make the returned string shorter or
+  // longer than src, so just add the length of all three for the
+  // mallocation.
+  size_t req_len = strlen (src) + strlen (str) + strlen (repl) + 1;
+  char *dest = malloc (req_len);
+  if (dest == NULL)
+    return NULL;
+
+  char *s, *d, *p;
+
+  s = strstr (src, str);
+  if (s && *str != '\0')
+  {
+    d = dest;
+    for (p = src; p < s; p++, d++)
+      *d = *p;
+    for (p = repl; *p != '\0'; p++, d++)
+      *d = *p;
+    for (p = s + strlen (str); *p != '\0'; p++, d++)
+      *d = *p;
+    *d = '\0';
+  }
+  else
+    strcpy (dest, src);
+
+  dest = realloc (dest, strlen (dest) + 1);
+  if (dest == NULL)
+    return NULL;
+
+  return dest;
+}
+
+
+// looks for '$HOME', '$UID', or '~' in a string and replace it with its
+// corresponding literal value
+//
+// TODO: make it compatible with Windows systems.
+static unsigned short
+realize_str (char *str, const char *homedir)
+{
+  uid_t uid = geteuid ();
+  struct passwd *pwd = getpwuid (uid);  /* don't free, see getpwnam() for details */
+
+  if (pwd == NULL)
+    return -1;
+
+  /* What's a good length for this? */
+  char UID[40];
+  if ((size_t) snprintf (UID, sizeof UID, "%u", pwd->pw_uid) >= sizeof UID)
+    return -1;
+
+  struct st_vars_to_check
+  {
+    const char *name;
+    const char *value;
+  } st_var[] = {
+    {"~", homedir},
+    {"$HOME", homedir},
+    {"$UID", UID},
+    {NULL, NULL}
+  };
+
+  int i = 0;
+  while (st_var[i].name != NULL)
+  {
+    if (strstr (str, st_var[i].name) != NULL)
+    {
+      char *dest = strrepl (str, st_var[i].name, (char *) st_var[i].value);
+      if (dest == NULL)
+        return -1;
+
+      if (snprintf (str, __CFG_LEN_MAX_LINE, "%s", dest) >= __CFG_LEN_MAX_LINE)
+      {
+        free (dest);
+        return -1;
+      }
+
+      free (dest);
+
+      /* check the string again, in case str contains something like
+       * $HOME/Trash-$UID (which would be rare, if ever, but... */
+      i--;
+    }
+
+    i++;
+  }
+
+  return 0;
+}
+
+
 /*!
  * This function is called when the "WASTE" option is encountered in the
  * config file. The line is parsed and added to the linked list of WASTE
@@ -98,7 +197,7 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
   bufchk_len (strlen (node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
   strcpy (tmp_waste_parent_folder, node->value);
-  canfigger_realize_str (tmp_waste_parent_folder, homedir);
+  realize_str (tmp_waste_parent_folder, homedir);
 
   bool is_attached = exists (tmp_waste_parent_folder);
   if (removable && !is_attached)
@@ -197,7 +296,7 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
  */
 void
 parse_config_file (const rmw_options * cli_user_options,
-                   st_config * st_config_data, st_loc * st_location)
+                   st_config * st_config_data, const st_loc * st_location)
 {
   st_canfigger_list *cfg_node =
     canfigger_parse_file (st_location->config_file, ',');
