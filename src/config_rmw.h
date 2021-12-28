@@ -36,9 +36,7 @@ extern const char *expire_age_str;
 
 typedef struct
 {
-  // const char *dir;
   char uid[10];
-  // char file[LEN_MAX_PATH];
   st_waste *st_waste_folder_props_head;
   bool force_required;
   bool fake_media_root;

@@ -36,8 +36,8 @@ typedef struct st_dir st_dir;
 struct st_dir
 {
   const char *home;
-  char configroot[__CFG_LEN_MAX_LINE];
-  char dataroot[__CFG_LEN_MAX_LINE];
+  char configroot[LEN_MAX_PATH];
+  char dataroot[LEN_MAX_PATH];
 };
 
 typedef struct st_loc st_loc;

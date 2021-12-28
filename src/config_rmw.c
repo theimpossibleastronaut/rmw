@@ -141,7 +141,7 @@ realize_str (char *str, const char *homedir, const char *uid)
       if (dest == NULL)
         return -1;
 
-      if (snprintf (str, __CFG_LEN_MAX_LINE, "%s", dest) >= __CFG_LEN_MAX_LINE)
+      if (snprintf (str, LEN_MAX_PATH, "%s", dest) >= LEN_MAX_PATH)
       {
         free (dest);
         return -1;
