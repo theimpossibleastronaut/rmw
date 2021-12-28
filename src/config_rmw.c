@@ -18,10 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// for realize_str()
-#include <pwd.h>
 #include <unistd.h>
-#include <sys/types.h>
 
 #include "globals.h"
 #include "config_rmw.h"
@@ -122,19 +119,8 @@ strrepl (char *src, const char *str, char *repl)
 //
 // TODO: make it compatible with Windows systems.
 static unsigned short
-realize_str (char *str, const char *homedir)
+realize_str (char *str, const char *homedir, const char *uid)
 {
-  uid_t uid = geteuid ();
-  struct passwd *pwd = getpwuid (uid);  /* don't free, see getpwnam() for details */
-
-  if (pwd == NULL)
-    return -1;
-
-  /* What's a good length for this? */
-  char UID[40];
-  if ((size_t) snprintf (UID, sizeof UID, "%u", pwd->pw_uid) >= sizeof UID)
-    return -1;
-
   struct st_vars_to_check
   {
     const char *name;
@@ -142,7 +128,7 @@ realize_str (char *str, const char *homedir)
   } st_var[] = {
     {"~", homedir},
     {"$HOME", homedir},
-    {"$UID", UID},
+    {"$UID", uid},
     {NULL, NULL}
   };
 
@@ -183,7 +169,7 @@ realize_str (char *str, const char *homedir)
 static st_waste *
 parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
                   const rmw_options * cli_user_options, bool fake_media_root,
-                  const char *homedir)
+                  const char *homedir, const char *uid)
 {
   bool removable = 0;
   if (strcmp ("removable", node->attribute) == 0)
@@ -197,7 +183,7 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
   bufchk_len (strlen (node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
   strcpy (tmp_waste_parent_folder, node->value);
-  realize_str (tmp_waste_parent_folder, homedir);
+  realize_str (tmp_waste_parent_folder, homedir, uid);
 
   bool is_attached = exists (tmp_waste_parent_folder);
   if (removable && !is_attached)
@@ -371,7 +357,7 @@ parse_config_file (const rmw_options * cli_user_options,
         st_waste *st_new_waste_ptr =
           parse_line_waste (waste_curr, cfg_node, cli_user_options,
                             st_config_data->fake_media_root,
-                            st_location->home_dir);
+                            st_location->home_dir, st_config_data->uid);
         if (st_new_waste_ptr != NULL)
         {
           waste_curr = st_new_waste_ptr;
@@ -416,6 +402,9 @@ init_config_data (st_config * x)
    */
   x->expire_age = DEFAULT_EXPIRE_AGE;
   x->force_required = 0;
+
+  // get the UID
+  sn_check (snprintf (x->uid, sizeof x->uid, "%d", getuid ()), sizeof x->uid, __func__, __LINE__);
 
   const char *f = getenv ("RMW_FAKE_MEDIA_ROOT");
   if (f != NULL)
