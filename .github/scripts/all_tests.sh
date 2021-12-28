@@ -27,7 +27,7 @@ if [ -n "$USE_VALGRIND" ]; then
 fi
 
 # fake media root
-meson test --setup=fake_media_root
+meson test --setup=fake_media_root --suite rmw
 
 # nls disabled
 meson configure -Dnls=false

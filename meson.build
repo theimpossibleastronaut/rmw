@@ -53,14 +53,16 @@ subdir('po')
 
 config_h = configure_file(output : 'config.h', configuration : conf)
 
-subdir('external/canfigger')
+canfigger_proj = subproject('canfigger')
+dep_canfigger_static = canfigger_proj.get_variable('dep_canfigger_static')
+#subdir('external/canfigger')
 
 subdir('src')
 
 executable(
   'rmw',
   'src/main.c',
-  dependencies: dep_rmw,
+  dependencies: [dep_canfigger_static, dep_rmw],
   install : true
   )
 

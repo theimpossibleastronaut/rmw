@@ -135,29 +135,6 @@ trim_whitespace (char *str)
   return;
 }
 
-/*!
- * Trim a trailing character of a string
- * @param[in] c The character to erase
- * @param[out] str The string to alter
- * @return void
- */
-void
-trim_char (const char c, char *str)
-{
-  trim_whitespace (str);
-  while (*str != '\0')
-    str++;
-
-  str--;
-
-  while (*str == c)
-  {
-    *str = '\0';
-    str--;
-  }
-
-  return;
-}
 
 /**
  * Add a null terminator to chop off part of a string

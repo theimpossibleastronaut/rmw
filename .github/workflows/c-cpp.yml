@@ -30,6 +30,8 @@ jobs:
       CC: ${{ matrix.compiler }}
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Install dependencies
       run: |
         if [ -z "${CC##*$clang*}" ]; then
@@ -53,6 +55,8 @@ jobs:
       PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig:$PKG_CONFIG_PATH"
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: true
     - run: |
         brew update
         brew install ncurses meson

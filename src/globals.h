@@ -18,8 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _INC_GLOBALS_H
-#define _INC_GLOBALS_H
+#pragma once
 
 #include "config.h"
 #include <errno.h>
@@ -62,7 +61,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define EBUF 11
 
 extern int verbose;
-
-extern const char *HOMEDIR;
-
-#endif

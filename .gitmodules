@@ -1,0 +1,3 @@
+[submodule "subprojects/canfigger"]
+	path = subprojects/canfigger
+	url = https://github.com/andy5995/canfigger

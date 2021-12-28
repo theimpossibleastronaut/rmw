@@ -18,15 +18,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef INC_GLOBALS_H
-#define INC_GLOBALS_H
-#include "globals.h"
-#endif
+#include <unistd.h>
 
+#include "globals.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
 #include "strings_rmw.h"
-#include "canfigger.h"
+#include "main.h"
 
 static const int DEFAULT_EXPIRE_AGE = 0;
 static const char *lit_files = "files";
@@ -39,7 +37,7 @@ const char *expire_age_str = "expire_age";
  * If any changes are made to rmwrc.example, the text here will need to be updated
  * to match
  */
-static void
+void
 print_config (FILE * restrict stream)
 {
   fputs (_("\
@@ -86,9 +84,10 @@ strrepl (char *src, const char *str, char *repl)
   // The replacement text may make the returned string shorter or
   // longer than src, so just add the length of all three for the
   // mallocation.
-  size_t req_len = multi_strlen (src, str, repl, NULL) + 1;
+  size_t req_len = strlen (src) + strlen (str) + strlen (repl) + 1;
   char *dest = malloc (req_len);
-  chk_malloc (dest, __func__, __LINE__);
+  if (dest == NULL)
+    return NULL;
 
   char *s, *d, *p;
 
@@ -108,44 +107,28 @@ strrepl (char *src, const char *str, char *repl)
     strcpy (dest, src);
 
   dest = realloc (dest, strlen (dest) + 1);
-  chk_malloc (dest, __func__, __LINE__);
+  if (dest == NULL)
+    return NULL;
+
   return dest;
 }
 
-/*!
- * If "$HOME", "~", or "$UID" is used in the configuration file, convert it
- * to the literal value.
- */
-void
-realize_waste_line (char *str)
+
+// looks for '$HOME', '$UID', or '~' in a string and replace it with its
+// corresponding literal value
+//
+// TODO: make it compatible with Windows systems.
+static unsigned short
+realize_str (char *str, const char *homedir, const char *uid)
 {
-  trim_char ('/', str);
-  /*
-   *
-   * FIXME: This will need some work in order to be implemented
-   * on Windows
-   *
-   */
-
-  uid_t uid = geteuid ();
-  struct passwd *pwd = getpwuid (uid);  /* don't free, see getpwnam() for details */
-
-  if (pwd == NULL)
+  struct st_vars_to_check
   {
-    print_msg_error ();
-    fputs ("Unable to get $UID\n", stderr);
-    exit (EXIT_FAILURE);
-  }
-
-  /* What's a good length for this? */
-  char UID[40];
-  sn_check (snprintf (UID, sizeof UID, "%u", pwd->pw_uid), sizeof UID,
-            __func__, __LINE__);
-
-  struct st_vars_to_check st_var[] = {
-    {"~", HOMEDIR},
-    {"$HOME", HOMEDIR},
-    {"$UID", UID},
+    const char *name;
+    const char *value;
+  } st_var[] = {
+    {"~", homedir},
+    {"$HOME", homedir},
+    {"$UID", uid},
     {NULL, NULL}
   };
 
@@ -155,8 +138,15 @@ realize_waste_line (char *str)
     if (strstr (str, st_var[i].name) != NULL)
     {
       char *dest = strrepl (str, st_var[i].name, (char *) st_var[i].value);
-      bufchk_len (strlen (dest) + 1, LEN_MAX_PATH, __func__, __LINE__);
-      strcpy (str, dest);
+      if (dest == NULL)
+        return -1;
+
+      if (snprintf (str, LEN_MAX_PATH, "%s", dest) >= LEN_MAX_PATH)
+      {
+        free (dest);
+        return -1;
+      }
+
       free (dest);
 
       /* check the string again, in case str contains something like
@@ -167,7 +157,7 @@ realize_waste_line (char *str)
     i++;
   }
 
-  return;
+  return 0;
 }
 
 
@@ -178,7 +168,8 @@ realize_waste_line (char *str)
  */
 static st_waste *
 parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
-                  const rmw_options * cli_user_options, bool fake_media_root)
+                  const rmw_options * cli_user_options, bool fake_media_root,
+                  const char *homedir, const char *uid)
 {
   bool removable = 0;
   if (strcmp ("removable", node->attribute) == 0)
@@ -192,7 +183,7 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
   bufchk_len (strlen (node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
   strcpy (tmp_waste_parent_folder, node->value);
-  realize_waste_line (tmp_waste_parent_folder);
+  realize_str (tmp_waste_parent_folder, homedir, uid);
 
   bool is_attached = exists (tmp_waste_parent_folder);
   if (removable && !is_attached)
@@ -286,75 +277,15 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
 }
 
 
-const char *
-get_config_home_dir (void)
-{
-  const char rel_default[] = "/.config";
-
-  const char *xdg_config_home = getenv ("XDG_CONFIG_HOME");
-
-  static const char *ptr;
-  const char *enable_test = getenv (ENV_RMW_FAKE_HOME);
-
-  if (enable_test != NULL || (xdg_config_home == NULL && enable_test == NULL))
-  {
-    char *_config_home = join_paths (HOMEDIR, rel_default, NULL);
-    static char config_home[LEN_MAX_PATH];
-    strcpy (config_home, _config_home);
-    free (_config_home);
-    ptr = &config_home[0];
-    return ptr;
-  }
-
-  bufchk_len (strlen (xdg_config_home) + 1, LEN_MAX_PATH, __func__, __LINE__);
-  return xdg_config_home;
-}
-
-
 /*!
  * Get configuration data (parse the config file)
  */
 void
 parse_config_file (const rmw_options * cli_user_options,
-                   st_config * st_config_data)
+                   st_config * st_config_data, const st_loc * st_location)
 {
-  /* If no alternate configuration was specifed (-c) */
-  if (cli_user_options->alt_config == NULL)
-  {
-    const char rel_default_config[] = "rmwrc";
-    char *tmp_str =
-      join_paths (st_config_data->dir, rel_default_config, NULL);
-    strcpy (st_config_data->file, tmp_str);
-    free (tmp_str);
-  }
-  else
-  {
-    bufchk_len (strlen (cli_user_options->alt_config) + 1, LEN_MAX_PATH,
-                __func__, __LINE__);
-    strcpy (st_config_data->file, cli_user_options->alt_config);
-  }
-
-  if (!exists (st_config_data->file))
-  {
-    FILE *fd = fopen (st_config_data->file, "w");
-    if (fd)
-    {
-      printf (_("Creating default configuration file:"));
-      printf ("\n  %s\n\n", st_config_data->file);
-
-      print_config (fd);
-      close_file (fd, st_config_data->file, __func__);
-    }
-    else
-    {
-      open_err (st_config_data->file, __func__);
-      printf (_("Unable to read or write a configuration file.\n"));
-      exit (errno);
-    }
-  }
-
   st_canfigger_list *cfg_node =
-    canfigger_parse_file (st_config_data->file, ',');
+    canfigger_parse_file (st_location->config_file, ',');
   st_canfigger_list *root = cfg_node;
 
   if (cfg_node == NULL)
@@ -425,7 +356,8 @@ parse_config_file (const rmw_options * cli_user_options,
       {
         st_waste *st_new_waste_ptr =
           parse_line_waste (waste_curr, cfg_node, cli_user_options,
-                            st_config_data->fake_media_root);
+                            st_config_data->fake_media_root,
+                            st_location->home_dir, st_config_data->uid);
         if (st_new_waste_ptr != NULL)
         {
           waste_curr = st_new_waste_ptr;
@@ -463,19 +395,6 @@ visit the rmw web site at\n"));
 void
 init_config_data (st_config * x)
 {
-  x->dir = get_config_home_dir ();
-
-  if (!exists (x->dir))
-  {
-    if (!rmw_mkdir (x->dir, S_IRWXU))
-      msg_success_mkdir (x->dir);
-    else
-    {
-      msg_err_mkdir (x->dir, __func__);
-      exit (errno);
-    }
-  }
-
   x->st_waste_folder_props_head = NULL;
   /*
    * The default value is only used as a last resort,
@@ -483,6 +402,9 @@ init_config_data (st_config * x)
    */
   x->expire_age = DEFAULT_EXPIRE_AGE;
   x->force_required = 0;
+
+  // get the UID
+  sn_check (snprintf (x->uid, sizeof x->uid, "%d", getuid ()), sizeof x->uid, __func__, __LINE__);
 
   const char *f = getenv ("RMW_FAKE_MEDIA_ROOT");
   if (f != NULL)

@@ -36,6 +36,4 @@ size_t multi_strlen (const char *argv, ...);
 
 void trim_whitespace (char *str);
 
-void trim_char (const char c, char *str);
-
 void truncate_str (char *str, const size_t pos);

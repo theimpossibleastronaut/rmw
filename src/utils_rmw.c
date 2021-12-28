@@ -391,6 +391,31 @@ resolve_path (const char *file, const char *b)
 }
 
 
+/*!
+ * Trim a trailing character of a string
+ * @param[in] c The character to erase
+ * @param[out] str The string to alter
+ * @return void
+ */
+static void
+trim_char (const char c, char *str)
+{
+  trim_whitespace (str);
+  while (*str != '\0')
+    str++;
+
+  str--;
+
+  while (*str == c)
+  {
+    *str = '\0';
+    str--;
+  }
+
+  return;
+}
+
+
 char *
 join_paths (const char *argv, ...)
 {
@@ -447,22 +472,22 @@ test_isdotdir (void)
 
 
 static void
-test_rmw_mkdir (void)
+test_rmw_mkdir (const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
-  char *dir = join_paths (HOMEDIR, subdirs, NULL);
+  char *dir = join_paths (h, subdirs, NULL);
   assert (rmw_mkdir (dir, S_IRWXU) == 0);
   printf ("%s\n", dir);
   assert (exists (dir) == true);
   free (dir);
 
-  assert (rmw_mkdir (HOMEDIR, S_IRWXU) != 0);
+  assert (rmw_mkdir (h, S_IRWXU) != 0);
   errno = 0;
 
-  assert (rmdir_recursive (HOMEDIR, 1, 1) == 0);
+  assert (rmdir_recursive (h, 1, 1) == 0);
 
   // remove the top directory, which should now be empty
-  assert (rmdir (HOMEDIR) == 0);
+  assert (rmdir (h) == 0);
 
   return;
 }
@@ -568,10 +593,10 @@ main ()
   int r =
     snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
   assert (r < LEN_MAX_PATH);
-  HOMEDIR = tmp;
+  const char *HOMEDIR = tmp;
 
   test_isdotdir ();
-  test_rmw_mkdir ();
+  test_rmw_mkdir (HOMEDIR);
   test_rmw_dirname ();
   test_human_readable_size ();
   test_join_paths ();

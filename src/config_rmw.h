@@ -18,21 +18,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _INC_CONFIG_H
-#define _INC_CONFIG_H
-
-#include <sys/stat.h>
-#include <pwd.h>
-#include <unistd.h>             /* for geteuid() */
+#pragma once
 
 #include "trashinfo_rmw.h"
 #include "parse_cli_options.h"
 #include "messages_rmw.h"
+#include "canfigger.h"
+#include "main.h"
 
 #define ENV_RMW_FAKE_HOME "RMW_FAKE_HOME"
-#define ENV_TEST_HOME "RMWTEST_HOME"
-
-#define LEN_MAX_CFG_LINE (LEN_MAX_PATH * 2 + 1)
 
 extern const char *expire_age_str;
 
@@ -42,32 +36,21 @@ extern const char *expire_age_str;
 
 typedef struct
 {
-  const char *dir;
-  char file[LEN_MAX_PATH];
+  char uid[10];
   st_waste *st_waste_folder_props_head;
   bool force_required;
   bool fake_media_root;
   int expire_age;
 } st_config;
 
-struct st_vars_to_check
-{
-  const char *name;
-  const char *value;
-};
-
-const char *get_config_home_dir (void);
+void print_config (FILE * restrict stream);
 
 void
 parse_config_file (const rmw_options * cli_user_options,
-                   st_config * st_config_data);
+                   st_config * st_config_data, const st_loc * st_location);
 
-void init_config_data (st_config * st_config_data);
+void init_config_data (st_config * x);
 
 void
 show_folder_line (const char *folder, const bool is_r,
                   const bool is_attached);
-
-void realize_waste_line (char *str);
-
-#endif
