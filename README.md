@@ -74,7 +74,7 @@ OPTIONS
               you would like to require it, add 'force_required' to your config
               file.
 
-       -e, --empty
+           --empty
               completely empty (purge) all waste directories
 
        -r, -R, --recursive

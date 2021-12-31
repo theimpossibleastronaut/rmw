@@ -52,6 +52,14 @@ static const struct cli_opt cli_opt[] = {
 };
 
 
+/* For long options that have no equivalent short option, use a
+   non-character as a pseudo short option, starting with CHAR_MAX + 1.  */
+enum
+{
+  L_EMPTY = CHAR_MAX + 1,
+};
+
+
 static void
 print_usage (const char *prog_name)
 {
@@ -88,7 +96,7 @@ puts ("");
   -f, --%s               allow purging of expired files\n\
 "), cli_opt[FORCE].str);
   printf (_("\
-  -e, --%s               completely empty (purge) all waste directories\n\
+      --%s               completely empty (purge) all waste directories\n\
 "), cli_opt[EMPTY].str);
   printf (_("\
   -r, -R, --%s       option used for compatibility with rm\n\
@@ -220,13 +228,13 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
     {cli_opt[INTERACTIVE].str, 0, NULL, 'i'},
     {cli_opt[RECURSIVE].str, 0, NULL, 'r'},
     {cli_opt[FORCE].str, 0, NULL, 'f'},
-    {cli_opt[EMPTY].str, 0, NULL, 'e'},
+    {cli_opt[EMPTY].str, 0, NULL, L_EMPTY},
     {NULL, 0, NULL, 0}
   };
 
   int c;
   while ((c =
-          getopt_long (argc, argv, "hvc:g::oz:lnsumwVfeirR", long_options,
+          getopt_long (argc, argv, "hvc:g::oz:lnsumwVfirR", long_options,
                        NULL)) != -1)
   {
     switch (c)
@@ -305,7 +313,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       if (options->force < 2)   /* This doesn't need to go higher than 2 */
         options->force++;
       break;
-    case 'e':
+    case L_EMPTY:
       options->want_empty_trash = true;
       options->want_purge = -1;
       break;

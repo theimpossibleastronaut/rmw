@@ -46,31 +46,31 @@ create_some_files
 
 echo
 echo
-echo " == rmw -e command should completely purge the waste folders,"
+echo " == rmw --empty command should completely purge the waste folders,"
 echo " == no matter when they were deleted"
 
 $VALGRIND $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/somefiles/*
 
 echo $SEPARATOR
 echo '  == purging disabled should output a message that purging is disabled'
-output=`$RMW_PURGE_DISABLED_CMD -eff`
+output=`$RMW_PURGE_DISABLED_CMD --empty -ff`
 expected=`echo "purging is disabled ('expire_age' is set to '0')" | cut -b1-20`
 output=`echo $output | cut -b1-20`
 test "${output}" = "${expected}"
 
 # Should not work if '-f' isn't used"
 substring="purge has been skipped"
-output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge -e`
+output=`echo "y" | $RMW_ALT_TEST_CMD_STRING --purge --empty`
 test -z "${output##*$substring*}"
 
 echo " == Should not work if 'Y' or 'y' is not supplied."
-echo "yfw" | $VALGRIND $RMW_TEST_CMD_STRING --purge -e
+echo "yfw" | $VALGRIND $RMW_TEST_CMD_STRING --purge --empty
 
-echo "Yfw" | $RMW_TEST_CMD_STRING --purge -e
+echo "Yfw" | $RMW_TEST_CMD_STRING --purge --empty
 
-echo "n" | $RMW_TEST_CMD_STRING --purge -e
+echo "n" | $RMW_TEST_CMD_STRING --purge --empty
 
-echo "Nqer" | $RMW_TEST_CMD_STRING --purge -e
+echo "Nqer" | $RMW_TEST_CMD_STRING --purge --empty
 
 echo " == (files should still be present)"
 test -e $PRIMARY_WASTE_DIR/files/read_only_file
@@ -88,7 +88,7 @@ test -z "${output##*$substring*}"
 echo $SEPARATOR
 
 echo " == Empty works with force empty (-ffe)"
-echo "y" | $VALGRIND $RMW_TEST_CMD_STRING -ffe
+echo "y" | $VALGRIND $RMW_TEST_CMD_STRING --empty -ff
 test ! -e $PRIMARY_WASTE_DIR/files/read_only_file
 test ! -e $PRIMARY_WASTE_DIR/files/topdir
 test ! -e $PRIMARY_WASTE_DIR/info/read_only_file.trashinfo
@@ -96,14 +96,14 @@ test ! -e $PRIMARY_WASTE_DIR/info/topdir.trashinfo
 
 echo " == Should work with 'Y' or 'y'"
 create_temp_files
-$RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/* && echo "y" | $RMW_TEST_CMD_STRING -e
+$RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/* && echo "y" | $RMW_TEST_CMD_STRING --empty
 
 create_temp_files
 $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/*
 test -e $PRIMARY_WASTE_DIR/files/abc
 test -e $PRIMARY_WASTE_DIR/files/123
 test -e $PRIMARY_WASTE_DIR/files/xyz
-echo "Y" | $RMW_TEST_CMD_STRING -e
+echo "Y" | $RMW_TEST_CMD_STRING --empty
 
 echo
 echo
