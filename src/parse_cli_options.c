@@ -31,7 +31,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define RMW_VERSION_STRING VERSION
 
-static const struct cli_opt cli_opt[] = {
+
+typedef enum
+{
+  HELP,
+  VERBOSE,
+  CONFIG,
+  DRY_RUN,
+  LIST,
+  PURGE,
+  ORPHANED,
+  RESTORE,
+  SELECT,
+  UNDO_LAST,
+  MOST_RECENT_LIST,
+  WARRANTY,
+  _VERSION,
+  INTERACTIVE,
+  RECURSIVE,
+  FORCE,
+  EMPTY,
+} cli_opt_id;
+
+
+static struct cli_opt
+{
+  cli_opt_id id;
+  char *str;
+} cli_opt[] = {
   {HELP, "help"},
   {VERBOSE, "verbose"},
   {CONFIG, "config"},

@@ -40,32 +40,6 @@ typedef struct
   const char *alt_config_file;
 } rmw_options;
 
-typedef enum
-{
-  HELP,
-  VERBOSE,
-  CONFIG,
-  DRY_RUN,
-  LIST,
-  PURGE,
-  ORPHANED,
-  RESTORE,
-  SELECT,
-  UNDO_LAST,
-  MOST_RECENT_LIST,
-  WARRANTY,
-  _VERSION,
-  INTERACTIVE,
-  RECURSIVE,
-  FORCE,
-  EMPTY,
-} cli_opt_id;
-
-struct cli_opt
-{
-  cli_opt_id id;
-  char *str;
-};
 
 void init_rmw_options (rmw_options * options);
 
