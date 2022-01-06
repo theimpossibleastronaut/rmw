@@ -172,12 +172,12 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
                   const char *homedir, const char *uid)
 {
   bool removable = 0;
-  if (strcmp ("removable", node->attribute) == 0)
+  if (strcmp ("removable", node->attr_node->str) == 0)
     removable = 1;
-  else if (*node->attribute != '\0')
+  else if (*node->attr_node->str != '\0')
   {
     print_msg_warn ();
-    printf ("ignoring invalid attribute: '%s'\n", node->attribute);
+    printf ("ignoring invalid attribute: '%s'\n", node->attr_node->str);
   }
 
   bufchk_len (strlen (node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
@@ -374,6 +374,7 @@ parse_config_file (const rmw_options * cli_user_options,
       print_msg_warn ();
       printf (_("Unknown or invalid option: '%s'\n"), cfg_node->key);
     }
+    canfigger_free_attr (cfg_node->attr_node);
     cfg_node = cfg_node->next;
   }
 
