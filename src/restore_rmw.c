@@ -194,6 +194,8 @@ Duplicate filename at destination - appending time string...\n"));
   return 0;
 }
 
+
+#if !defined DISABLE_CURSES
 static char *
 create_formatted_str (const off_t size, const mode_t mode,
                       const char *dir_entry, const int len,
@@ -246,6 +248,7 @@ add_entry (st_node * node, st_waste * waste_curr_node, const char *dir_entry)
   comparer int_cmp = strcasecmp;
   return insert_node (node, int_cmp, m_dir_entry, formatted_hr_size);
 }
+
 
 /*!
  * Displays a list of files that can be restored, user can select multiple
@@ -420,6 +423,7 @@ restore_select (st_waste * waste_head, st_time * st_time_var,
 
   return 0;
 }
+#endif
 
 /*!
  * Restores files from the mrl
@@ -475,6 +479,7 @@ typedef struct entries
   mode_t mode;
 } entries;
 
+#if !defined DISABLE_CURSES
 static void
 test_human_readable_size (void)
 {
@@ -516,11 +521,14 @@ test_human_readable_size (void)
     }
   }
 }
+#endif
 
 int
 main ()
 {
+  #if !defined DISABLE_CURSES
   test_human_readable_size ();
+  #endif
   return 0;
 }
 #endif

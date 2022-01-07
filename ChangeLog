@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2022-01-07
+
+  * curses is no longer a requirement (configure -Dwithout-curses=true)
+
 2021-12-30
 
   * removed '-e' command line option ('--empty' option not affected)

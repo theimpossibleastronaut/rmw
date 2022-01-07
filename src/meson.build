@@ -1,7 +1,16 @@
-dep_curses = dependency('curses')
-dep_menu = dependency('menuw', required : false)
-if not dep_menu.found()
-  dep_menu = dependency('menu', required : true)
+dep_menu = []
+dep_curses = []
+if not get_option('without-curses')
+  dep_curses = dependency('curses')
+  dep_menu = dependency('menuw', required : false)
+  if not dep_menu.found()
+    dep_menu = dependency('menu', required : false)
+    if not dep_menu.found()
+      add_project_arguments('-DDISABLE_CURSES', language : 'c')
+    endif
+  endif
+else
+  add_project_arguments('-DDISABLE_CURSES', language : 'c')
 endif
 
 src = [
