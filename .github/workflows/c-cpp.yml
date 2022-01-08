@@ -77,7 +77,7 @@ jobs:
       uses: vmactions/freebsd-vm@v0.1.5
       with:
         usesh: true
-        prepare: pkg install -y meson ninja gettext
+        prepare: pkg install -y meson ninja gettext pkgconf
         run: |
           meson builddir
           ninja -v -C builddir
