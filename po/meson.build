@@ -3,9 +3,9 @@ if get_option('nls')
   if host_machine.system() == 'linux' or host_machine.system() == 'gnu'
     gettext_deps = []
   elif host_machine.system() == 'freebsd' or host_machine.system() == 'openbsd' or host_machine.system() == 'dragonfly'
-    gettext_deps = [cc.find_library('intl', has_headers: ['libintl.h'], dirs: ['/usr/local/lib'], header_args: c_args)]
+    gettext_deps = [cc.find_library('intl', has_headers: ['libintl.h'], dirs: ['/usr/local/lib'], header_args: '-isystem/usr/local/include')]
   elif host_machine.system() == 'netbsd'
-    gettext_deps = [cc.find_library('intl', has_headers: ['libintl.h'], dirs: ['/usr/pkg/lib'], header_args: c_args)]
+    gettext_deps = [cc.find_library('intl', has_headers: ['libintl.h'], dirs: ['/usr/pkg/lib'], header_args: '-isystem/usr/pkg/include')]
   else # darwin, cygwin
     gettext_deps = [cc.find_library('intl', has_headers: ['libintl.h'])]
   endif
