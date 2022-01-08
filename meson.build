@@ -25,6 +25,14 @@ foreach cflag : extra_flags
   endif
 endforeach
 
+inc_args = []
+if host_machine.system() == 'freebsd' or host_machine.system() == 'openbsd' or host_machine.system() == 'dragonfly'
+  inc_args = ['-isystem/usr/local/include']
+elif host_machine.system() == 'netbsd'
+  inc_args = ['-isystem/usr/pkg/include']
+endif
+add_project_arguments(inc_args, language : 'c')
+
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_STRING', meson.project_name())

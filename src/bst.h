@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#if !defined DISABLE_CURSES
+
 #include <strings.h>
 #include <stdlib.h>
 #include "config.h"
@@ -59,3 +61,5 @@ st_node *insert_node (st_node * root, comparer compare, char *file,
 void populate_menu (st_node * node, ITEM ** my_items, bool level_one);
 
 void dispose (st_node * root);
+
+#endif

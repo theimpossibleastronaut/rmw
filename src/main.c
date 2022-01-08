@@ -595,11 +595,16 @@ Please check your configuration file and permissions\
 
   if (cli_user_options.want_selection_menu)
   {
+#if !defined DISABLE_CURSES
     int result =
       restore_select (st_config_data.st_waste_folder_props_head, &st_time_var,
                       &cli_user_options);
     dispose_waste (st_config_data.st_waste_folder_props_head);
     return result;
+#else
+    printf ("This rmw was built without menu support\n");
+    return 0;
+#endif
   }
 
   if (cli_user_options.most_recent_list || cli_user_options.want_undo)

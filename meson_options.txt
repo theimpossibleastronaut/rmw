@@ -3,3 +3,6 @@ option('nls', type : 'boolean', value : true,
 
 option('docdir', type : 'string', value : 'share/doc/rmw',
        description : 'directory where the documentation should be installed to')
+
+option('without-curses', type : 'boolean', value : 'false',
+       description : 'build without curses/menu support')

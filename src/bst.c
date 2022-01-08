@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bst.h"
 #include "messages_rmw.h"
 
+#if !defined DISABLE_CURSES
 
 /*!
  * create a new node
@@ -135,3 +136,5 @@ dispose (st_node * root)
   }
   return;
 }
+
+#endif
