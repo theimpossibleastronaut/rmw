@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Copyright (C) 2012-2022  Andy Alt (andy400-dev@yahoo.com)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -99,7 +99,7 @@ Move FILE(s) to a WASTE directory listed in configuration file\n\
 "), prog_name, prog_name, prog_name, prog_name);
   puts (_("\
 Restore FILE(s) from a WASTE directory"));
-puts ("");
+putchar ('\n');
   printf (_("\
   -h, --%s                show help for command line options\n\
 "), cli_opt[HELP].str);

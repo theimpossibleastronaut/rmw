@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Copyright (C) 2012-2022  Andy Alt (andy400-dev@yahoo.com)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -37,8 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LEN_MAX_TIME_STR_SUFFIX (sizeof "_000000-000000")
 #define LEN_TIME_STR_SUFFIX (LEN_MAX_TIME_STR_SUFFIX - 1)
 #define SECONDS_IN_A_DAY (60 * 60 * 24)
-
-extern const int len_date_extension;
 
 /*! Holds variables related to time
  */

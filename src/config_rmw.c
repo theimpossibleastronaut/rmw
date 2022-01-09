@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Copyright (C) 2012-2022  Andy Alt (andy400-dev@yahoo.com)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -341,7 +341,7 @@ parse_config_file (const rmw_options * cli_user_options,
         st_config_data->expire_age = atoi (cfg_node->value);
         if (i == PURGE_AFTER)
         {
-          puts ("");
+          putchar ('\n');
           print_msg_warn ();
           printf ("\
   The configuration option 'purge_after' will be deprecated.\n\
