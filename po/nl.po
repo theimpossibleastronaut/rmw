@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 14:18-0500\n"
+"POT-Creation-Date: 2022-01-10 23:24-0600\n"
 "PO-Revision-Date: 2021-06-28 20:48+0000\n"
 "Last-Translator: Martijn de Boer, 2021\n"
 "Language-Team: Dutch (https://www.transifex.com/aalt/teams/92532/nl/)\n"
@@ -22,7 +22,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/config_rmw.c:62
+#: src/parse_cli_options.c:141
+#, fuzzy
+msgid ""
+"\n"
+"\n"
+"  \t===] Restoring [===\n"
+msgstr ""
+"  \n"
+"\n"
+"  \t===] Terugzetten [===\n"
+"\n"
+
+#: src/config_rmw.c:60
 msgid ""
 "\n"
 "# How many days should items be allowed to stay in the waste\n"
@@ -39,7 +51,7 @@ msgstr ""
 "purge=N_DAYS)\n"
 "#\n"
 
-#: src/config_rmw.c:49
+#: src/config_rmw.c:47
 msgid ""
 "\n"
 "# The directory used by the FreeDesktop.org Trash spec\n"
@@ -51,7 +63,7 @@ msgstr ""
 "# Let op macOS en Windows gebruikers: bestanden naar de 'bureaublad'\n"
 "# afvalemmer verplaatsen werkt nog niet\n"
 
-#: src/config_rmw.c:70
+#: src/config_rmw.c:68
 msgid ""
 "\n"
 "# purge is allowed to run without the '-f' option. If you'd rather\n"
@@ -64,7 +76,7 @@ msgstr ""
 "inschakelen\n"
 "#\n"
 
-#: src/main.c:305
+#: src/main.c:214
 msgid ""
 "\n"
 "Your single slash has been ignored. You walk to the market\n"
@@ -78,52 +90,45 @@ msgstr ""
 "het bos en treft je vijand aan. Je valt aan, en deelt 5000 hp schade.\n"
 "Je voelt je voldaan.\n"
 
-#: src/parse_cli_options.c:85
-msgid ""
-"  \n"
-"\n"
-"  \t===] Restoring [===\n"
-"\n"
-msgstr ""
-"  \n"
-"\n"
-"  \t===] Terugzetten [===\n"
-"\n"
-
-#: src/parse_cli_options.c:100
+#: src/parse_cli_options.c:157
+#, fuzzy
 msgid ""
 "  \n"
 "\n"
 "Visit the rmw home page for more help, and information about\n"
-"how to obtain support - "
+"how to obtain support - <"
 msgstr ""
 " \n"
 "\n"
 "Bezoek de rmw homepage voor meer hulp, en informatie over hoe je "
 "ondersteuning kunt krijgen - "
 
-#: src/parse_cli_options.c:82
-msgid "  -V, --version             display version and license information\n"
-msgstr "  -V, --version             toon versie en licentie informatie\n"
-
-#: src/parse_cli_options.c:50
-msgid "  -c, --config FILE         use an alternate configuration\n"
-msgstr "  -c, --config BESTAND         gebruik een alternatieve configuratie\n"
-
-#: src/parse_cli_options.c:69
+#: src/parse_cli_options.c:125
+#, fuzzy, c-format
 msgid ""
-"  -e, --empty               completely empty (purge) all waste directories\n"
+"      --%s               completely empty (purge) all waste directories\n"
 msgstr ""
 "  -e, --empty               leeg alle afval mappen, in haar volledigheid\n"
 
-#: src/parse_cli_options.c:66
-msgid "  -f, --force               allow purging of expired files\n"
+#: src/parse_cli_options.c:138
+#, fuzzy, c-format
+msgid "  -V, --%s             display version and license information\n"
+msgstr "  -V, --version             toon versie en licentie informatie\n"
+
+#: src/parse_cli_options.c:106
+#, fuzzy, c-format
+msgid "  -c, --%s FILE         use an alternate configuration\n"
+msgstr "  -c, --config BESTAND         gebruik een alternatieve configuratie\n"
+
+#: src/parse_cli_options.c:122
+#, fuzzy, c-format
+msgid "  -f, --%s               allow purging of expired files\n"
 msgstr "  -f, --force               sta weggooien van verlopen bestanden toe\n"
 
-#: src/parse_cli_options.c:56
-#, c-format
+#: src/parse_cli_options.c:112
+#, fuzzy, c-format
 msgid ""
-"  -g[N_DAYS], --purge[=N_DAYS]\n"
+"  -g[N_DAYS], --%s[=N_DAYS]\n"
 "                            purge expired files;\n"
 "                            optional argument 'N_DAYS' overrides '%s'\n"
 "                            value from the configuration file\n"
@@ -135,74 +140,84 @@ msgstr ""
 "                            waarde van het configuration bestand\n"
 "                            (Bijvoorbeeld: -g90, --purge=90)\n"
 
-#: src/parse_cli_options.c:47
-msgid "  -h, --help                show help for command line options\n"
+#: src/parse_cli_options.c:103
+#, fuzzy, c-format
+msgid "  -h, --%s                show help for command line options\n"
 msgstr ""
 "  -h, --help                toon help voor de commandolijn argumenten\n"
 
-#: src/parse_cli_options.c:53
-msgid "  -l, --list                list waste directories\n"
+#: src/parse_cli_options.c:109
+#, fuzzy, c-format
+msgid "  -l, --%s                list waste directories\n"
 msgstr "  -l, --list                toon lijst van afval mappen\n"
 
-#: src/parse_cli_options.c:97
-msgid "  -m, --most-recent-list    list most recently rmw'ed files\n"
+#: src/parse_cli_options.c:154
+#, fuzzy, c-format
+msgid "  -m, --%s    list most recently rmw'ed files\n"
 msgstr ""
 "  -m, --most-recent-list    toont de meest recente germw-de bestanden\n"
 
-#: src/parse_cli_options.c:63
-msgid "  -o, --orphaned            check for orphaned files (maintenance)\n"
+#: src/parse_cli_options.c:119
+#, fuzzy, c-format
+msgid "  -o, --%s            check for orphaned files (maintenance)\n"
 msgstr "  -o, --orphaned            controleer op wees bestanden (onderhoud)\n"
 
-#: src/parse_cli_options.c:72
+#: src/parse_cli_options.c:128
+#, fuzzy, c-format
 msgid ""
-"  -r, -R, --recursive       option used for compatibility with rm\n"
+"  -r, -R, --%s       option used for compatibility with rm\n"
 "                            (recursive operation is enabled by default)\n"
 msgstr ""
 "  -r, -R, --recursive       optie gebruikt voor compatabiliteit met rm\n"
 "                            (recursieve operatie staat standaard aan)\n"
 
-#: src/parse_cli_options.c:91
-msgid "  -s, --select              select files from list to restore\n"
+#: src/parse_cli_options.c:148
+#, fuzzy, c-format
+msgid "  -s, --%s              select files from list to restore\n"
 msgstr ""
 "  -s, --select              selecteer bestanden uit een lijst om terug te "
 "zetten\n"
 
-#: src/parse_cli_options.c:94
-msgid "  -u, --undo-last           undo last move\n"
+#: src/parse_cli_options.c:151
+#, fuzzy, c-format
+msgid "  -u, --%s           undo last move\n"
 msgstr "  -u, --undo-last           laatste verplaatsing ongedaan maken\n"
 
-#: src/parse_cli_options.c:76
-msgid "  -v, --verbose             increase output messages\n"
+#: src/parse_cli_options.c:132
+#, fuzzy, c-format
+msgid "  -v, --%s             increase output messages\n"
 msgstr "  -v, --verbose             verhoog verbositeit\n"
 
-#: src/parse_cli_options.c:79
-msgid "  -w, --warranty            display warranty\n"
+#: src/parse_cli_options.c:135
+#, fuzzy, c-format
+msgid "  -w, --%s            display warranty\n"
 msgstr "  -w, --warranty            toon garantie\n"
 
-#: src/parse_cli_options.c:88
-msgid "  -z, --restore FILE(s)     restore FILE(s) (see man page example)\n"
+#: src/parse_cli_options.c:145
+#, fuzzy, c-format
+msgid "  -z, --%s FILE(s)     restore FILE(s) (see man page example)\n"
 msgstr ""
 "  -z, --restore FILE(s)     zet BESTAND(en) terug (bekijk man pagina voor "
 "een voorbeeld)\n"
 
-#: src/messages_rmw.c:27
+#: src/messages_rmw.c:28
 msgid "  :error: "
 msgstr " :fout: "
 
-#: src/messages_rmw.c:145
+#: src/messages_rmw.c:155
 #, c-format
 msgid "  :return code: %d\n"
 msgstr "  :return code: %d\n"
 
-#: src/messages_rmw.c:34
+#: src/messages_rmw.c:36
 msgid " :warning: "
 msgstr " :waarschuwing: "
 
-#: src/config_rmw.c:56
+#: src/config_rmw.c:54
 msgid "# A folder can use the $UID variable.\n"
 msgstr "# Een map kan de $UID variable gebruiken.\n"
 
-#: src/config_rmw.c:58
+#: src/config_rmw.c:56
 msgid ""
 "# See the README or man page for details about using the 'removable' "
 "attribute\n"
@@ -210,125 +225,124 @@ msgstr ""
 "# Bekijk de README of man pagina voor details over het 'removable' "
 "attribuut\n"
 
-#: src/config_rmw.c:45
+#: src/config_rmw.c:43
 msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr "# rmw standaard afval map, separaat van de desktop afvalemmer\n"
 
-#: src/purging_rmw.c:483
+#: src/purging_rmw.c:485
 #, c-format
 msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
 msgstr "%d directories overgeslagen (RMDIR_MAX_DEPTH bereikt)\n"
 
-#: src/purging_rmw.c:487
+#: src/purging_rmw.c:489
 #, c-format
 msgid "%d directories skipped (contains read-only files)\n"
 msgstr "%d directories overgeslagen (bevat alleen-lezen bestanden)\n"
 
-#: src/purging_rmw.c:490
+#: src/purging_rmw.c:492
 #, c-format
 msgid "%d file purged"
 msgid_plural "%d files purged"
 msgstr[0] "%dbestand gepurged"
 msgstr[1] "%dbestanden gepurged"
 
-#: src/main.c:448
+#: src/main.c:352
 #, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
 msgstr[0] "%d item is verplaatst naar de afval map"
 msgstr[1] "%d items zijn verplaatst naar de afval map"
 
-#: src/main.c:343
+#: src/main.c:249
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr "%s staat in een afval map en is genegeerd\n"
 
-#: src/purging_rmw.c:470
+#: src/purging_rmw.c:472
 #, c-format
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr "'%s' zal worden weggegooid over %.2lf dagen\n"
 
-#: src/restore_rmw.c:337
+#: src/restore_rmw.c:347
 msgid "'q' - quit"
 msgstr "'q' - afsluiten"
 
-#: src/purging_rmw.c:498
+#: src/purging_rmw.c:500
 #, c-format
 msgid "(%d directory deleted)"
 msgid_plural "(%d directories deleted)"
 msgstr[0] "(%d map verwijderd)"
 msgstr[1] "(%d mappen verwijderd)"
 
-#: src/purging_rmw.c:494
+#: src/purging_rmw.c:496
 #, c-format
 msgid "(%d file deleted)"
 msgid_plural "(%d files deleted)"
 msgstr[0] "(%d bestand gepurged)"
 msgstr[1] "(%d bestanden gepurged)"
 
-#: src/purging_rmw.c:401
+#: src/purging_rmw.c:403
 #, c-format
 msgid "(check owner/write permissions)\n"
 msgstr "(controleer eigenaar/schrijf permissies)\n"
 
-#: src/parse_cli_options.c:277
+#: src/parse_cli_options.c:332
 #, c-format
 msgid "-i / --interactive: not implemented\n"
 msgstr "-i / --interactive: nog niet beschikbaar\n"
 
-#: src/parse_cli_options.c:282
+#: src/parse_cli_options.c:337
 #, c-format
 msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr ""
 "-r, -R, --recursive: optie is niet vereist (staat standaard ingeschakeld)\n"
 
-#: src/restore_rmw.c:330
+#: src/restore_rmw.c:340
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RECHTS / CURSOR-LINKS> - wissel afval mappen"
 
-#: src/restore_rmw.c:331
+#: src/restore_rmw.c:341
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<SPATIE> - selecteer of deselecteer een bestand. / <ENTER> - zet "
 "geselecteerde bestanden terug"
 
-#: src/restore_rmw.c:326
+#: src/restore_rmw.c:334
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== bevat %d bestanden"
 msgstr[1] "== bevat %d bestanden =="
 
-#: src/purging_rmw.c:264
+#: src/purging_rmw.c:266
 msgid "Action cancelled."
 msgstr "Actie geannuleerd."
 
-#: src/parse_cli_options.c:248
+#: src/parse_cli_options.c:303
 msgid "Arguments given to --purge must be numeric only"
 msgstr ""
 "Argumenten gegeven aan --purge kunnen enkel uit numerieke waarden bestaan"
 
-#: src/utils_rmw.c:195
+#: src/utils_rmw.c:210
 msgid "Continue? (y/n): "
 msgstr "Doorgaan? (y/n): "
 
-#: src/purging_rmw.c:562
+#: src/purging_rmw.c:560
 #, c-format
 msgid "Created %s\n"
 msgstr "Aangemaakt %s\n"
 
-#: src/messages_rmw.c:245
+#: src/messages_rmw.c:258
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/config_rmw.c:369
-#, c-format
+#: src/main.c:483
 msgid "Creating default configuration file:"
 msgstr "Aanmaken van standaard configuratie bestand:"
 
-#: src/purging_rmw.c:399
+#: src/purging_rmw.c:401
 #, c-format
 msgid "Directory not purged - still contains files\n"
 msgstr "Directory niet gepurged - bevat nog steeds bestanden\n"
@@ -338,12 +352,12 @@ msgstr "Directory niet gepurged - bevat nog steeds bestanden\n"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 
-#: src/main.c:329 src/restore_rmw.c:194
+#: src/messages_rmw.c:268
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
 
-#: src/main.c:599
+#: src/main.c:657
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -352,50 +366,49 @@ msgstr ""
 "Geen bestandsnamen of commando lijn opties werden gegeven;\n"
 "Geef '%s -h' op voor meer informatie\n"
 
-#: src/purging_rmw.c:409
+#: src/purging_rmw.c:411
 #, c-format
 msgid "Maximum depth of %u reached, skipping\n"
 msgstr "Maximale diepte van %u bereikt, overslaan\n"
 
-#: src/main.c:437
+#: src/main.c:341
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
 
-#: src/purging_rmw.c:271
+#: src/purging_rmw.c:273
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Purgen van alle bestanden in afval mappen ...\n"
 
-#: src/purging_rmw.c:274
+#: src/purging_rmw.c:276
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Purgen van bestanden gebaseerd op het aantal dagen in de afval map (%u)...\n"
 
-#: src/restore_rmw.c:292
+#: src/restore_rmw.c:300
 #, c-format
 msgid "Reading %s...\n"
 msgstr "Lezen %s...\n"
 
-#: src/parse_cli_options.c:106
+#: src/parse_cli_options.c:161
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Rapporteer fouten aan <%s>.\n"
 
-#: src/parse_cli_options.c:44
-msgid ""
-"Restore FILE(s) from a WASTE directory\n"
-"\n"
+#: src/parse_cli_options.c:100
+#, fuzzy
+msgid "Restore FILE(s) from a WASTE directory"
 msgstr ""
 "Zet BESTAND(en) terug uit een AFVAL map\n"
 "\n"
 
-#: src/main.c:166
+#: src/main.c:75
 msgid "Skipping --undo-last because --most-recent-list was requested"
 msgstr "Sla --undo-last over omdat --most-recent-list meegegeven is"
 
-#: src/parse_cli_options.c:112
+#: src/parse_cli_options.c:167
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -416,40 +429,40 @@ msgstr ""
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 
-#: src/purging_rmw.c:261
+#: src/purging_rmw.c:263
 msgid "The contents of all waste folders will be deleted -"
 msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 
-#: src/main.c:160
+#: src/main.c:69
 msgid "There are no items in the list - please check back later.\n"
 msgstr "Er staan geen items in de lijst - kom later terug.\n"
 
-#: src/parse_cli_options.c:294
+#: src/parse_cli_options.c:349
 #, c-format
 msgid "Try '%s --help' for more information.\n"
 msgstr "Probeer '%s --help' voor meer informatie.\n"
 
-#: src/parse_cli_options.c:158
+#: src/parse_cli_options.c:213
 #, c-format
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr "Probeer '%s ./%s' voor het verwijderen van bestand '%s'.\n"
 
-#: src/main.c:502
+#: src/main.c:560
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Kan niet doorgaan. Afsluiten...\n"
 
-#: src/config_rmw.c:378
-#, c-format
-msgid "Unable to read or write a configuration file.\n"
+#: src/main.c:492
+#, fuzzy
+msgid "Unable to read or write a configuration file."
 msgstr "Kan een configuratie bestand niet lezen of schrijven.\n"
 
-#: src/config_rmw.c:466
+#: src/config_rmw.c:375
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
 
-#: src/parse_cli_options.c:37
+#: src/parse_cli_options.c:93
 #, c-format
 msgid ""
 "Usage: %s [OPTION]... FILE...\n"
@@ -467,40 +480,35 @@ msgstr ""
 "   of: %s -u\n"
 "   of: %s -z BESTAND...\n"
 
-#: src/restore_rmw.c:271
+#: src/restore_rmw.c:278
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 "Je terminal heeft enkel %d regels. Een minimum van %d regels is vereist.\n"
 
-#: src/config_rmw.c:537
+#: src/config_rmw.c:437
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:362
-#, c-format
-msgid "config file: %s\n"
-msgstr "configuratie bestand: %s\n"
-
-#: src/config_rmw.c:537
+#: src/config_rmw.c:437
 msgid "detached"
 msgstr "ontkoppeld"
 
-#: src/parse_cli_options.c:225
+#: src/parse_cli_options.c:280
 msgid "dry-run mode enabled."
 msgstr "droogloop modus ingeschakeld."
 
-#: src/messages_rmw.c:101
+#: src/messages_rmw.c:109
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "formaat van .trashinfo `bestand %s` is incorrect"
 
-#: src/messages_rmw.c:53 src/messages_rmw.c:85
+#: src/messages_rmw.c:56 src/messages_rmw.c:91
 #, c-format
 msgid "function: <%s>"
 msgstr "functie: <%s>"
 
-#: src/config_rmw.c:476
+#: src/config_rmw.c:386
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -513,12 +521,12 @@ msgstr ""
 "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
 "rapporteren, bezoek de website van rmw op\n"
 
-#: src/main.c:529
+#: src/main.c:585
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of force\n"
 
-#: src/purging_rmw.c:252
+#: src/purging_rmw.c:254
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -527,17 +535,17 @@ msgstr ""
 "verwijderen is uitgeschakeld ('%s' is ingesteld op '0')\n"
 "\n"
 
-#: src/config_rmw.c:535
+#: src/config_rmw.c:435
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
 
-#: src/messages_rmw.c:119
+#: src/messages_rmw.c:128
 #, c-format
 msgid "restore() returned %d\n"
 msgstr "restore() gaf %d\n"
 
-#: src/parse_cli_options.c:128
+#: src/parse_cli_options.c:183
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -557,14 +565,7 @@ msgstr ""
 "bepaalde condities;\n"
 "zie <http://www.gnu.org/licenses/gpl.html> voor details.\n"
 
-#: src/utils_rmw.c:271 src/utils_rmw.c:283 src/utils_rmw.c:332
-#: src/utils_rmw.c:348
-#, c-format
-msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
-msgstr ""
-"rmw: %s(): buffer te klein (wou %d hebben, had een minimum nodig van %d)\n"
-
-#: src/main.c:497
+#: src/main.c:555
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -575,46 +576,46 @@ msgstr ""
 "Controleer alstublieft uw configuratie bestand en permissies\n"
 "\n"
 
-#: src/messages_rmw.c:131
+#: src/messages_rmw.c:141
 #, c-format
 msgid "while attempting to allocate memory -- %s:L%d\n"
 msgstr "tijdens het reserveren van geheugen - %s:L%d\n"
 
-#: src/purging_rmw.c:103
+#: src/purging_rmw.c:104
 #, c-format
 msgid "while changing permissions of %s\n"
 msgstr "bij het maken van %s\n"
 
-#: src/messages_rmw.c:82
+#: src/messages_rmw.c:87 src/purging_rmw.c:117
 #, c-format
 msgid "while closing %s\n"
 msgstr "bij sluiten van %s\n"
 
-#: src/purging_rmw.c:568
+#: src/purging_rmw.c:566
 #, c-format
 msgid "while creating %s\n"
 msgstr "bij het maken van %s\n"
 
-#: src/messages_rmw.c:239
+#: src/messages_rmw.c:252
 #, c-format
 msgid "while creating %s (%s)\n"
 msgstr "tijdens maken %s (%s)\n"
 
-#: src/main.c:480
+#: src/main.c:540
 msgid "while getting the path to your home directory\n"
 msgstr "bij het ophalen van het pad naar je thuismap\n"
 
-#: src/messages_rmw.c:49
+#: src/messages_rmw.c:51 src/purging_rmw.c:91
 #, c-format
 msgid "while opening %s\n"
 msgstr "bij het openen van %s\n"
 
-#: src/messages_rmw.c:162
+#: src/messages_rmw.c:172
 #, c-format
 msgid "while opening %s -- %s:L%d\n"
 msgstr "bij het openen van %s - %s:L%d\n"
 
-#: src/messages_rmw.c:229
+#: src/messages_rmw.c:242
 #, c-format
 msgid "while removing %s\n"
 msgstr "bij het verwijderen van %s\n"
@@ -624,7 +625,7 @@ msgstr "bij het verwijderen van %s\n"
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "bij het verwijderen van .trashinfo bestand: '%s'\n"
 
-#: src/messages_rmw.c:171
+#: src/messages_rmw.c:182
 #, c-format
 msgid ""
 "while trying to move (rename)\n"
@@ -632,3 +633,12 @@ msgid ""
 msgstr ""
 "tijdens het verplaatsen (hernoemen)\n"
 " %s -> %s - %s:L%d\n"
+
+#, c-format
+#~ msgid "config file: %s\n"
+#~ msgstr "configuratie bestand: %s\n"
+
+#, c-format
+#~ msgid "rmw: %s(): buffer too small (got %d, needed a minimum of %d)\n"
+#~ msgstr ""
+#~ "rmw: %s(): buffer te klein (wou %d hebben, had een minimum nodig van %d)\n"
