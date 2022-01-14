@@ -496,14 +496,17 @@ get_locations (const char *alt_config_file)
 
   static char s_mrl_file[LEN_MAX_PATH];
   char *m_tmp_str = join_paths (x.data_dir, mrl_file_basename, NULL);
-  sn_check (snprintf (s_mrl_file, sizeof s_mrl_file, "%s", m_tmp_str), sizeof s_mrl_file, __func__, __LINE__);
+  sn_check (snprintf (s_mrl_file, sizeof s_mrl_file, "%s", m_tmp_str),
+            sizeof s_mrl_file, __func__, __LINE__);
 
   free (m_tmp_str);
   x.mrl_file = s_mrl_file;
 
   static char s_purge_time_file[LEN_MAX_PATH];
   m_tmp_str = join_paths (x.data_dir, purge_time_file_basename, NULL);
-  sn_check (snprintf (s_purge_time_file, sizeof s_purge_time_file, "%s", m_tmp_str), sizeof s_purge_time_file, __func__, __LINE__);
+  sn_check (snprintf
+            (s_purge_time_file, sizeof s_purge_time_file, "%s", m_tmp_str),
+            sizeof s_purge_time_file, __func__, __LINE__);
 
   free (m_tmp_str);
   x.purge_time_file = s_purge_time_file;
@@ -533,7 +536,8 @@ main (const int argc, char *const argv[])
   if (verbose > 1)
     printf ("PATH_MAX = %d\n", LEN_MAX_PATH - 1);
 
-  const st_loc *st_location = get_locations (cli_user_options.alt_config_file);
+  const st_loc *st_location =
+    get_locations (cli_user_options.alt_config_file);
   if (st_location == NULL)
   {
     print_msg_error ();
@@ -595,16 +599,17 @@ Please check your configuration file and permissions\
 
   if (cli_user_options.want_selection_menu)
   {
+    int r = 0;
 #if !defined DISABLE_CURSES
-    int result =
+    r =
       restore_select (st_config_data.st_waste_folder_props_head, &st_time_var,
                       &cli_user_options);
-    dispose_waste (st_config_data.st_waste_folder_props_head);
-    return result;
 #else
     printf ("This rmw was built without menu support\n");
-    return 0;
+    r = 0;
 #endif
+    dispose_waste (st_config_data.st_waste_folder_props_head);
+    return r;
   }
 
   if (cli_user_options.most_recent_list || cli_user_options.want_undo)
@@ -627,7 +632,8 @@ Please check your configuration file and permissions\
       msg_warn_restore (restore_errors += restore (argv[file_arg],
                                                    &st_time_var,
                                                    &cli_user_options,
-                                                   st_config_data.st_waste_folder_props_head));
+                                                   st_config_data.
+                                                   st_waste_folder_props_head));
 
     dispose_waste (st_config_data.st_waste_folder_props_head);
 

@@ -32,3 +32,11 @@ meson test --setup=fake_media_root --suite rmw
 # nls disabled
 meson configure -Dnls=false
 ninja -v
+meson test -v
+
+# curses disabled
+meson configure -Dwithout-curses=true
+if [ -n "$USE_VALGRIND" ]; then
+  ninja -v
+  meson test --setup=valgrind
+fi
