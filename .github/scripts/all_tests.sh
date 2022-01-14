@@ -31,4 +31,17 @@ meson test --setup=fake_media_root --suite rmw
 
 # nls disabled
 meson configure -Dnls=false
-ninja -v
+# 'meson test' appears to rebuild but doesn't necessarily show errors or
+# if the binary was not rebuilt because of errors
+ninja clean
+ninja build
+meson test -v
+
+ninja clean
+# curses disabled
+meson configure -Dwithout-curses=true
+if [ -n "$USE_VALGRIND" ]; then
+  ninja clean
+  ninja build
+  meson test --setup=valgrind
+fi
