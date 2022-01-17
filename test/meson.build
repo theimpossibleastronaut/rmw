@@ -3,7 +3,7 @@ vg = find_program('valgrind', required : false)
 if vg.found()
   add_test_setup(
     'valgrind',
-    exe_wrapper : [join_paths(meson.source_root(), 'test/valgrind_wrap.sh')]
+    exe_wrapper : [join_paths(meson.current_source_dir(), 'valgrind_wrap.sh')]
     )
 endif
 
@@ -26,7 +26,7 @@ scripts = [
   'test_restore.sh',
   ]
 
-RMW_FAKE_HOME = join_paths(meson.build_root(), 'test/rmw-tests-home')
+RMW_FAKE_HOME = join_paths(meson.current_build_dir(), 'rmw-tests-home')
 
 foreach case : test_cases
   exe = executable(
@@ -42,8 +42,8 @@ foreach s : scripts
   test(s,
     files(s),
     env : [
-      'MESON_SOURCE_ROOT=' + meson.source_root(),
+      'MESON_SOURCE_ROOT=' + meson.project_source_root(),
       'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
-      'MESON_BUILD_ROOT=' + meson.build_root()
+      'MESON_BUILD_ROOT=' + meson.project_build_root()
       ])
 endforeach

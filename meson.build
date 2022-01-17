@@ -2,7 +2,7 @@ project(
   'rmw',
   'c',
   version: '0.8.0.555',
-  meson_version : '>= 0.54.0',
+  meson_version : '>= 0.56.0',
   default_options: ['warning_level=3']
   )
 
@@ -94,7 +94,7 @@ install_data(
 if get_option('nls')
   ul = configuration_data()
   ul.set('LOCALEDIR', localedir)
-  ul.set('MESON_SOURCE_ROOT', meson.source_root())
+  ul.set('MESON_SOURCE_ROOT', meson.project_source_root())
   ul.set('MESON_PROJECT_NAME', meson.project_name())
   configure_file(input : 'uninstall_langs.sh.in',
                  output : 'uninstall_langs.sh',

@@ -15,5 +15,5 @@ if get_option('nls')
 
   i18n = import('i18n')
   i18n.gettext(meson.project_name(),
-    args: ['--directory=' + meson.source_root(), '--sort-output'])
+    args: ['--directory=' + meson.project_source_root(), '--sort-output'])
 endif
