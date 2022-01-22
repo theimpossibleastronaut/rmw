@@ -295,7 +295,7 @@ or while in the build dir
 
 To install:
 
-    meson install --skip-subprojects canfigger
+    meson install
 
 In the example above, the rmw binary will be installed to
 `$HOME/.local/bin` and documentation to `$HOME/.local/doc`.
@@ -316,6 +316,7 @@ brew](https://formulae.brew.sh/formula/rmw).
 
     ninja uninstall (uninstalls the program if installed with 'ninja install`)
 
-Note that the uninstall does not remove any language files that were installed. To remove them:
+Note that if using Meson version < 0.60.0, uninstall does not remove
+any language files that were installed. To remove them:
 
     sh uninstall_langs.sh
