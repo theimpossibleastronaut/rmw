@@ -64,7 +64,8 @@ config_h = configure_file(output : 'config.h', configuration : conf)
 # https://mesonbuild.com/Subprojects.html
 dep_canfigger = dependency(
   'canfigger',
-  fallback : ['canfigger', 'dep_canfigger'], default_options: 'default_library=static'
+  version : '>=0.2.0',
+  fallback : ['canfigger', 'dep_canfigger'], default_options: 'default_library=static',
   )
 
 subdir('src')
