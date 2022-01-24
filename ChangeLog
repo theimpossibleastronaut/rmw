@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2022-01-25
+
+  * the curses menu library is now much more likely to be found on *BSD
+  systems
+
 2022-01-07
 
   * curses is no longer a requirement (configure -Dwithout-curses=true)
