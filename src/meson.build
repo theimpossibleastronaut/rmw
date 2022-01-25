@@ -6,7 +6,13 @@ if not get_option('without-curses')
   if not dep_menu.found()
     dep_menu = dependency('menu', required : false)
     if not dep_menu.found()
-      add_project_arguments('-DDISABLE_CURSES', language : 'c')
+      dep_menu = cc.find_library('menuw')
+      if not dep_menu.found()
+        dep_menu = cc.find_library('menu')
+        if not dep_menu.found()
+          add_project_arguments('-DDISABLE_CURSES', language : 'c')
+        endif
+      endif
     endif
   endif
 else
