@@ -1,9 +1,12 @@
 === rmw ChangeLog ===
 
-2022-01-25
+2022-01-24
 
   * the curses menu library is now much more likely to be found on *BSD
   systems
+  * bugfix:if a waste folder listed in the config file has a trailing
+  slash, rmw will no longer report that the file is not in a waste
+  folder.
 
 2022-01-07
 

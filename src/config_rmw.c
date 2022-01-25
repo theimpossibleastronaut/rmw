@@ -182,6 +182,7 @@ parse_line_waste (st_waste * waste_curr, st_canfigger_node * node,
 
   bufchk_len (strlen (node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
+  trim_char ('/', node->value);
   strcpy (tmp_waste_parent_folder, node->value);
   if (realize_str (tmp_waste_parent_folder, homedir, uid) != 0)
   {

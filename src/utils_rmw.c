@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Copyright (C) 2012-2022  Andy Alt (andy400-dev@yahoo.com)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -397,8 +397,8 @@ resolve_path (const char *file, const char *b)
  * @param[out] str The string to alter
  * @return void
  */
-static void
-trim_char (const char c, char *str)
+void
+trim_char (const int c, char *str)
 {
   trim_whitespace (str);
   while (*str != '\0')
