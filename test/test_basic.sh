@@ -107,9 +107,14 @@ touch "tmpdot/.hello world"
 touch "tmpdot/.hello earth"
 
 output="$($RMW_TEST_CMD_STRING tmpdot/.*)"
-test "${output}" = "refusing to ReMove '.' or '..' directory: skipping 'tmpdot/.'
+if [ "$(uname)" != "OpenBSD" ]; then
+  expected="refusing to ReMove '.' or '..' directory: skipping 'tmpdot/.'
 refusing to ReMove '.' or '..' directory: skipping 'tmpdot/..'
 2 items were removed to the waste folder"
+else
+  expected="2 items were removed to the waste folder"
+fi
+test "${output}" = "$expected"
 
 expected="0 orphans found"
 output="$($RMW_TEST_CMD_STRING -o)"
