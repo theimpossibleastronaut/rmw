@@ -1,4 +1,4 @@
-# rmw-0.8.0.555
+# rmw-0.8.1
 ## Description
 
 rmw (ReMove to Waste) is a safe-remove utility for the command line. It
@@ -240,8 +240,6 @@ page on the website.
 * [General Help, Support, Discussion](https://remove-to-waste.info/#support)
 
 ## Installation
-
-[![Packaging status](https://repology.org/badge/vertical-allrepos/rmw.svg)](https://repology.org/project/rmw/versions)
 
 rmw is available in the [homebrew and
 linuxbrew](https://github.com/Homebrew/) repositories; or there may may

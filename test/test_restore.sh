@@ -144,7 +144,9 @@ if test -d /mnt/e2f95a91; then
   output=$(grep Path /home/andy/src/.Trash-1000/info/$test_file.trashinfo)
   echo $SEPARATOR
   # There should be no leading '/' in the filename.
-  test "$output" = "Path=rmw-project/rmw/builddir/test/rmw-tests-home/test_restore.sh_dir/media_root_test"
+  path_expected=$(echo ${MESON_BUILD_ROOT} | sed -e "s/\/home\/andy\/src\///g")
+  echo $path_expected
+  test "$output" = "Path=${path_expected}/test/rmw-tests-home/test_restore.sh_dir/media_root_test"
   echo $SEPARATOR
   output=$($BIN_DIR/rmw -uvv -c /home/andy/.config/rmwrc | grep media_root_test)
   echo $SEPARATOR

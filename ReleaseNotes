@@ -1,30 +1,14 @@
 === RMW Release Notes ===
 
-v0.8.0
+v0.8.1
 
-  * The config option 'purge_after' has been deprecated and replaced
-  with 'expire_age' ('purge_after' will still be accepted, but the user
-  will be given a deprecation warning).
+  * the curses menu library is now much more likely to be found on *BSD
+  systems
 
-  * When '-u' is used, the mrl file will no longer be removed, but
-  emptied instead. If a user gives the '-u' option when the mrl file is
-  empty, they will get a friendlier message stating that there are no
-  items in the list (instead of an error message about the file not
-  being found).
+  * bugfix: when attempting to restore a file from a waste folder
+  listed in the config file that has a trailing slash, rmw will no
+  longer report that the file is not in a waste folder.
 
-  * fixed handling of dot dirs ('.' and '..'). Instead of giving an
-  error message and quitting, rmw will print a message stating that
-  they'll be skipped.
+  - curses is no longer a requirement (configure -Dwithout-curses=true)
 
-  * The environmental variable RMWTEST_HOME has been replaced with
-  RMW_FAKE_HOME (Trying to use RMWTEST_HOME will give a deprecation
-  warning and still work).
-
-  * Expanded the man page and updated the README (improved documentation)
-
-  * Replaced autotools build system with meson
-
-  * rmw now uses the canfigger library for parsing the configuration file.
-
-  - disabled a restore test that failed when 'make check' is run with
-  superuser privileges
+  - removed '-e' command line option ('--empty' option not affected)
