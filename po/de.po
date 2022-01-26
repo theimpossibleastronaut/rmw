@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-10 23:24-0600\n"
+"POT-Creation-Date: 2022-01-25 23:17-0600\n"
 "PO-Revision-Date: 2019-07-07 00:18+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -330,7 +330,7 @@ msgstr "Doppelter Dateiname im Zielverzeichnis, füge Zeitstempel an...\n"
 msgid "File not found: '%s'\n"
 msgstr "Datei nicht gefunden: '%s'\n"
 
-#: src/main.c:657
+#: src/main.c:663
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -421,7 +421,7 @@ msgstr ""
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr ""
 
-#: src/main.c:560
+#: src/main.c:564
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Es kann nicht weitergemacht werden. Abbruch...\n"
@@ -431,7 +431,7 @@ msgstr "Es kann nicht weitergemacht werden. Abbruch...\n"
 msgid "Unable to read or write a configuration file."
 msgstr "Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden\n"
 
-#: src/config_rmw.c:375
+#: src/config_rmw.c:376
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
@@ -459,11 +459,11 @@ msgstr ""
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#: src/config_rmw.c:437
+#: src/config_rmw.c:438
 msgid "attached"
 msgstr "angeschlossen"
 
-#: src/config_rmw.c:437
+#: src/config_rmw.c:438
 msgid "detached"
 msgstr "entfernt"
 
@@ -481,7 +481,7 @@ msgstr "Format von .trashinfo `Datei %s` ist fehlerhaft)"
 msgid "function: <%s>"
 msgstr "Funktion: <%s>"
 
-#: src/config_rmw.c:386
+#: src/config_rmw.c:387
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -494,7 +494,7 @@ msgstr ""
 "Wenn du weitere Hilfe brauchst oder einen Fehler melden willst,\n"
 "besuche die rmw-Webseite unter\n"
 
-#: src/main.c:585
+#: src/main.c:589
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "Papierkorbleerung wurde übersprungen: verwende -f oder --force\n"
@@ -508,7 +508,7 @@ msgstr ""
 "Papierkorbleerung ist deaktiviert ('purge_after' steht auf '0')\n"
 "\n"
 
-#: src/config_rmw.c:435
+#: src/config_rmw.c:436
 #, c-format
 msgid "removable, "
 msgstr "löschbar."
@@ -539,7 +539,7 @@ msgstr ""
 "weiterverbreiten; siehe <http://www.gnu.org/licenses/gpl.html>\n"
 "für Details.\n"
 
-#: src/main.c:555
+#: src/main.c:559
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -577,7 +577,7 @@ msgstr "beim Anlegen von %s\n"
 msgid "while creating %s (%s)\n"
 msgstr "beim Anlegen von %s\n"
 
-#: src/main.c:540
+#: src/main.c:544
 msgid "while getting the path to your home directory\n"
 msgstr "beim Ermitteln des Pfades zu deinem Home-Verzeichnis.\n"
 

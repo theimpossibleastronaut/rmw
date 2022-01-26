@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.8.0-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-10 23:24-0600\n"
+"POT-Creation-Date: 2022-01-25 23:17-0600\n"
 "PO-Revision-Date: 2018-10-14 20:48+0000\n"
 "Language-Team: Polish (Poland) (https://www.transifex.com/aalt/teams/92532/"
 "pl_PL/)\n"
@@ -316,7 +316,7 @@ msgstr ""
 msgid "File not found: '%s'\n"
 msgstr "Nie znaleziono pliku: '%s'\n"
 
-#: src/main.c:657
+#: src/main.c:663
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -404,7 +404,7 @@ msgstr ""
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr ""
 
-#: src/main.c:560
+#: src/main.c:564
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
@@ -413,7 +413,7 @@ msgstr ""
 msgid "Unable to read or write a configuration file."
 msgstr ""
 
-#: src/config_rmw.c:375
+#: src/config_rmw.c:376
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
@@ -434,11 +434,11 @@ msgstr ""
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#: src/config_rmw.c:437
+#: src/config_rmw.c:438
 msgid "attached"
 msgstr ""
 
-#: src/config_rmw.c:437
+#: src/config_rmw.c:438
 msgid "detached"
 msgstr ""
 
@@ -456,7 +456,7 @@ msgstr ""
 msgid "function: <%s>"
 msgstr "funkcja: <%s>"
 
-#: src/config_rmw.c:386
+#: src/config_rmw.c:387
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -465,7 +465,7 @@ msgid ""
 "visit the rmw web site at\n"
 msgstr ""
 
-#: src/main.c:585
+#: src/main.c:589
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "pomięto proces oczyszczania: użyj -f albo --force\n"
@@ -477,7 +477,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/config_rmw.c:435
+#: src/config_rmw.c:436
 #, c-format
 msgid "removable, "
 msgstr ""
@@ -507,7 +507,7 @@ msgstr ""
 "przy zachowaniu pewnych warunków; aby uzyskać szczegółówe informacje,\n"
 "odwiedź <http://www.gnu.org/licenses/gpl.html>.\n"
 
-#: src/main.c:555
+#: src/main.c:559
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -540,7 +540,7 @@ msgstr ""
 msgid "while creating %s (%s)\n"
 msgstr ""
 
-#: src/main.c:540
+#: src/main.c:544
 msgid "while getting the path to your home directory\n"
 msgstr ""
 
