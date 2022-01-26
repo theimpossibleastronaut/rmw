@@ -1,20 +1,25 @@
 === rmw ChangeLog ===
 
+2022-01-25
+
+  * rmw v0.8.1 released
+
 2022-01-24
 
   * the curses menu library is now much more likely to be found on *BSD
   systems
-  * bugfix:if a waste folder listed in the config file has a trailing
-  slash, rmw will no longer report that the file is not in a waste
-  folder.
+
+  * bugfix: when attempting to restore a file from a waste folder
+  listed in the config file that has a trailing slash, rmw will no
+  longer report that the file is not in a waste folder.
 
 2022-01-07
 
-  * curses is no longer a requirement (configure -Dwithout-curses=true)
+  - curses is no longer a requirement (configure -Dwithout-curses=true)
 
 2021-12-30
 
-  * removed '-e' command line option ('--empty' option not affected)
+  - removed '-e' command line option ('--empty' option not affected)
 
 2021-06-28
 

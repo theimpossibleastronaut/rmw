@@ -30,7 +30,9 @@ Ex:
 Change Month and Year in man/rmw.1
 
 cd ..
-ninja dist
+
+commit changes (NOTE: ninja dist only packages *committed* changes)
+meson dist --include-subprojects
 
 Remove packaging directory from the resulting xz file
 
@@ -42,8 +44,6 @@ Remove packaging directory from the resulting xz file
 
 
 sha256 the tarball and paste into packaging/Slackbuild/rmw/rmw.info
-
-
 
 Make the AppImage
 
