@@ -4,13 +4,18 @@ if vg.found()
   add_test_setup(
     'valgrind',
     exe_wrapper : [join_paths(meson.current_source_dir(), 'valgrind_wrap.sh')]
-    )
+  )
+  add_test_setup(
+    'valgrind_fake_media_root',
+    exe_wrapper : [join_paths(meson.current_source_dir(), 'valgrind_wrap.sh')],
+    env: 'RMW_FAKE_MEDIA_ROOT=true'
+  )
 endif
 
 add_test_setup(
   'fake_media_root',
   env: 'RMW_FAKE_MEDIA_ROOT=true'
-  )
+)
 
 test_cases = [
   'strings_rmw',
