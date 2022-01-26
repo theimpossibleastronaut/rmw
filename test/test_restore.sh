@@ -112,8 +112,8 @@ substring="refusing to process"
 output="$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/.)" && exit 1
 test -z "${output##*$substring*}"
 
-if [ -n "${TERM}" || "${TERM}" != "dumb" ]; then
-  echo q | ${VALGRIND} ${RMW_TEST_CMD_STRING} -s
+if [ -n "${TERM}" ] && [ "${TERM}" != "dumb" ]; then
+  echo q | ${RMW_TEST_CMD_STRING} -s
 fi
 
 # This test will only work on Andy's workstation.
@@ -144,14 +144,13 @@ if test -d /mnt/e2f95a91; then
   output=$(grep Path /home/andy/src/.Trash-1000/info/$test_file.trashinfo)
   echo $SEPARATOR
   # There should be no leading '/' in the filename.
-  test "$output" = "Path=rmw-project/builddir/test/rmw-tests-home/test_restore.sh_dir/media_root_test"
+  test "$output" = "Path=rmw-project/rmw/builddir/test/rmw-tests-home/test_restore.sh_dir/media_root_test"
   echo $SEPARATOR
   output=$($BIN_DIR/rmw -uvv -c /home/andy/.config/rmwrc | grep media_root_test)
   echo $SEPARATOR
   test "$output" = "+'/home/andy/src/.Trash-1000/files/media_root_test' -> '${MESON_BUILD_ROOT}/test/rmw-tests-home/test_restore.sh_dir/media_root_test'
 -/home/andy/src/.Trash-1000/info/media_root_test.trashinfo"
 fi
-
 echo $SEPARATOR
 echo "restore tests passed"
 
