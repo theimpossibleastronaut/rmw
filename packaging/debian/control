@@ -6,7 +6,7 @@ Build-Depends:  debhelper (>= 12~),
                 libncursesw5-dev,
                 libtinfo-dev,
                 meson (>= 0.5.4)
-Standards-Version: 4.3.0
+Standards-Version: 4.5.1
 Homepage: https://remove-to-waste.info/
 
 Package: rmw

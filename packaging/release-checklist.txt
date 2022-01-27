@@ -11,6 +11,9 @@ Change version number
 
 cp README.md packaging/Slackbuild/rmw/README.Slackware
 
+For later Debian package creation, check standards version
+  https://www.debian.org/doc/debian-policy/upgrading-checklist.html
+
 
 update po and pot files
   ninja rmw-pot
@@ -31,7 +34,7 @@ Change Month and Year in man/rmw.1
 
 cd ..
 
-commit changes (NOTE: ninja dist only packages *committed* changes)
+commit changes (NOTE: meson dist only packages *committed* changes)
 meson dist --include-subprojects
 
 Remove packaging directory from the resulting xz file
@@ -50,10 +53,15 @@ Make the AppImage
   To pass the test on https://github.com/AppImage/appimage.github.io, the image must be
   built on an older system, such Ubuntu bionic. I do that in a docker image.
 
+  update the linuxdeploy appimage (which creates the image) if necessary
+    wget -nv -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+
+  The appimage won't run in a docker container, so it must first be extracted using the --appimage-extract option
+
   meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
   DESTDIR=AppDir ninja install
 
-  linuxdeploy-x86_64.AppImage -d /rmw/packaging/rmw.desktop \
+  (path to where the linuxdeploy appimage was extracted)/squashfs-root/AppRun -d /rmw/packaging/rmw.desktop \
   --icon-file=/rmw/packaging/rmw_icon_32x32.png \
    --icon-filename=rmw --executable AppDir/usr/bin/rmw --appdir AppDir --output appimage
 
@@ -66,7 +74,8 @@ Check copyright date/year
   packaging/Slackbuild/rmw/rmw.Slackbuild
 
 Make Debian package
-  tar xf rmw-<version>.tar.xz
+  cd packaging
+  tar xf rmw-<version>.tar.gz
   cd rmw-<version>
   cp -a <rmwsrcdir>/packaging/debian .
   dpkg-buildpackage -us -uc -tc (The resulting package will be one level up)
