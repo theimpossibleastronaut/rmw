@@ -58,6 +58,9 @@ Make the AppImage
 
   The appimage won't run in a docker container, so it must first be extracted using the --appimage-extract option
 
+  Meson 0.62.0 will require python 3.7. To install meson using an entry point that invokes #!/usr/bin/python3.7
+    python3.7 -m pip install meson
+
   meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
   DESTDIR=AppDir ninja install
 
