@@ -49,6 +49,14 @@ jobs:
         fi
     - run: sh ./.github/scripts/all_tests.sh
 
+  ubuntu-latest-x86:
+    runs-on: [ubuntu-latest, linux, x86]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - run: sh ./.github/scripts/all_tests.sh
+
   macos:
     runs-on: macos-latest
     env:
