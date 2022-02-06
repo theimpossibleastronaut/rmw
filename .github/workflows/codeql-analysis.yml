@@ -11,11 +11,13 @@ on:
     paths-ignore:
     - '**/*.md'
     - '.github/workflows/c-cpp.yml'
+    - '.github/workflows/coverity.yml'
   pull_request:
     branches: master
     paths-ignore:
     - '**/*.md'
     - '.github/workflows/c-cpp.yml'
+    - '.github/workflows/coverity.yml'
   schedule:
     - cron: '0 6 10 * *'
 

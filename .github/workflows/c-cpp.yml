@@ -6,11 +6,13 @@ on:
     paths-ignore:
     - '**/*.md'
     - '.github/workflows/codeql-analysis.yml'
+    - '.github/workflows/coverity.yml'
   pull_request:
     branches: master
     paths-ignore:
     - '**/*.md'
     - '.github/workflows/codeql-analysis.yml'
+    - '.github/workflows/coverity.yml'
 
 env:
   TERM: xterm
