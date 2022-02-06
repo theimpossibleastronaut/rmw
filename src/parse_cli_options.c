@@ -99,7 +99,7 @@ Move FILE(s) to a WASTE directory listed in configuration file\n\
 "), prog_name, prog_name, prog_name, prog_name);
   puts (_("\
 Restore FILE(s) from a WASTE directory"));
-putchar ('\n');
+  putchar ('\n');
   printf (_("\
   -h, --%s                show help for command line options\n\
 "), cli_opt[HELP].str);

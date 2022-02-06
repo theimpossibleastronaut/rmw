@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2022-02-08
+
+  * the 'ESC' key can now be used to quit the restore file selection menu
+
 2022-01-25
 
   * rmw v0.8.1 released

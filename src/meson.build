@@ -29,8 +29,7 @@ src = [
   'messages_rmw.c',
   'time_rmw.c',
   'trashinfo_rmw.c',
-  'utils_rmw.c',
-  'bst.c'
+  'utils_rmw.c'
   ]
 
 lib_rmw = static_library(

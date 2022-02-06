@@ -107,7 +107,7 @@ display_dot_trashinfo_error (const char *dti)
    *                contents
    */
   printf (_("format of .trashinfo `file %s` is incorrect"), dti);
-  printf ("\n");
+  putchar ('\n');
   return;
 }
 

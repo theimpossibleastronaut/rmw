@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Copyright (C) 2012-2022  Andy Alt (andy400-dev@yahoo.com)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 #include "main.h"
 #include "utils_rmw.h"
-#include "bst.h"
 #include "restore_rmw.h"
 #include "config_rmw.h"
 #include "purging_rmw.h"
@@ -352,7 +351,7 @@ damage of 5000 hp. You feel satisfied.\n"));
           ("%d item was removed to the waste folder",
            "%d items were removed to the waste folder", removed_files_ctr),
           removed_files_ctr);
-  printf ("\n");
+  putchar ('\n');
 
   return n_err;
 }
@@ -632,8 +631,7 @@ Please check your configuration file and permissions\
       msg_warn_restore (restore_errors += restore (argv[file_arg],
                                                    &st_time_var,
                                                    &cli_user_options,
-                                                   st_config_data.
-                                                   st_waste_folder_props_head));
+                                                   st_config_data.st_waste_folder_props_head));
 
     dispose_waste (st_config_data.st_waste_folder_props_head);
 

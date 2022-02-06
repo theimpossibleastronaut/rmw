@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Copyright (C) 2012-2022  Andy Alt (andy400-dev@yahoo.com)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -23,15 +23,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 #endif
 
+#include <ctype.h>
+
 #include "parse_cli_options.h"
 #include "config_rmw.h"
-#include "bst.h"
 #include "restore_rmw.h"
 #include "utils_rmw.h"
 #include "messages_rmw.h"
 
 const char *mrl_is_empty = "[Empty]\n";
 
+#define MENU_KEY_ENTER '\n'
+#define MENU_KEY_ESC 27
 
 static char *
 get_waste_parent (const char *src)
@@ -196,57 +199,76 @@ Duplicate filename at destination - appending time string...\n"));
 
 
 #if !defined DISABLE_CURSES
+// creates a string containing the human readable size of the file and a
+// 'D'(directory) or 'L'(link) (For regular files, only the size is displayed).
+//
+// example: '[4096 Kib] (D)'
+//
 static char *
-create_formatted_str (const off_t size, const mode_t mode,
-                      const char *dir_entry, const int len,
-                      char *formatted_hr_size)
+create_file_details_str (const off_t size, const mode_t mode)
 {
-  char *hr_size = human_readable_size (size);
+  char hr_size[LEN_MAX_HUMAN_READABLE_SIZE];
+  make_size_human_readable (size, hr_size);
 
-  /*
-   * The 2nd argument of new_item() (from the curses library, and used
-   * below) holds the description.
-   *
-   */
+  char *file_details = malloc (LEN_MAX_FILE_DETAILS);
+  chk_malloc (file_details, __func__, __LINE__);
   sn_check (snprintf
-            (formatted_hr_size, LEN_MAX_FORMATTED_HR_SIZE, "[%s]", hr_size),
-            LEN_MAX_FORMATTED_HR_SIZE, __func__, __LINE__);
-  free (hr_size);
+            (file_details, LEN_MAX_FILE_DETAILS, "[%s]", hr_size),
+            LEN_MAX_FILE_DETAILS, __func__, __LINE__);
 
   if (S_ISDIR (mode))
-    strcat (formatted_hr_size, " (D)");
+    strcat (file_details, " (D)");
   else if (S_ISLNK (mode))
-    strcat (formatted_hr_size, " (L)");
+    strcat (file_details, " (L)");
 
-  char *m_dir_entry = malloc (len + 1);
-  chk_malloc (m_dir_entry, __func__, __LINE__);
-  strcpy (m_dir_entry, dir_entry);
-  return m_dir_entry;
+  return file_details;
 }
 
-static st_node *
-add_entry (st_node * node, st_waste * waste_curr_node, const char *dir_entry)
+
+// A binary search based function to find the position
+// where item should be inserted in a[low..high]
+// Adapted from https://www.geeksforgeeks.org/c-program-for-binary-insertion-sort/
+static int
+binary_search (ITEM ** a, ITEM * item, int low, int high)
 {
-  int len_dir_entry = strlen (dir_entry);
-  int req_len = strlen ("/") + len_dir_entry + waste_curr_node->len_files + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
-  char full_path[req_len];
-  sn_check (snprintf
-            (full_path, sizeof full_path, "%s/%s", waste_curr_node->files,
-             dir_entry), sizeof full_path, __func__, __LINE__);
+  if (high <= low)
+    return (strcasecmp (item_name (item), item_name (a[low])) >
+            0) ? (low + 1) : low;
 
-  struct stat st;
-  if (lstat (full_path, &st))
-    msg_err_lstat (full_path, __func__, __LINE__);
+  int mid = (low + high) / 2;
 
-  char formatted_hr_size[LEN_MAX_FORMATTED_HR_SIZE];
-  *formatted_hr_size = '\0';
-  char *m_dir_entry =
-    create_formatted_str (st.st_size, st.st_mode, dir_entry, len_dir_entry,
-                          formatted_hr_size);
+  int r = strcasecmp (item_name (item), item_name (a[mid]));
+  if (r == 0)
+    return mid + 1;
 
-  comparer int_cmp = strcasecmp;
-  return insert_node (node, int_cmp, m_dir_entry, formatted_hr_size);
+  if (r > 0)
+    return binary_search (a, item, mid + 1, high);
+  return binary_search (a, item, low, mid - 1);
+}
+
+static void
+insertion_sort (ITEM ** a, const int n)
+{
+  ITEM *selected;
+  int i, loc, j;
+
+  for (i = 1; i < n; ++i)
+  {
+    j = i - 1;
+    selected = a[i];
+
+    // find location where selected should be inserted
+    loc = binary_search (a, selected, 0, j);
+
+    // Move all elements after location to create space
+    while (j >= loc)
+    {
+      a[j + 1] = a[j];
+      j--;
+    }
+    a[j + 1] = selected;
+  }
+  return;
 }
 
 
@@ -263,12 +285,88 @@ restore_select (st_waste * waste_head, st_time * st_time_var,
                 const rmw_options * cli_user_options)
 {
   st_waste *waste_curr = waste_head;
+  const int start_line_bottom = 7;
+  const int min_lines_required = start_line_bottom + 3;
   int c = 0;
 
   do
   {
-    const int start_line_bottom = 7;
-    const int min_lines_required = start_line_bottom + 3;
+    int n_choices = 0;
+
+    DIR *waste_dir = opendir (waste_curr->files);
+    if (waste_dir == NULL)
+    {
+      /* we don't want errno to be changed because it's used in msg_error_open_dir()
+       * but afaik, endwin() doesn't change errno */
+      msg_err_open_dir (waste_curr->files, __func__, __LINE__);
+    }
+
+    /*
+     *  Sometimes there is a pause before the next waste folder is read.
+     * This message should help fill the time before curses is initialized
+     * and the list appears
+     */
+    printf (_("Reading %s...\n"), waste_curr->files);
+    struct dirent *entry = NULL;
+    // First, get the number of directory entries...
+    while ((entry = readdir (waste_dir)) != NULL)
+    {
+      if (isdotdir (entry->d_name))
+        continue;
+
+      n_choices++;
+    }
+
+    // Now that we have the number of directory entries, we can
+    // allocate memory for all the choices (using n_choices)
+    // https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/menus.html
+    //
+    // Why is the '+1' needed here? (rmw segfaults without it)
+    ITEM **my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
+    chk_malloc (my_items, __func__, __LINE__);
+
+    rewinddir (waste_dir);
+    n_choices = 0;
+
+    while ((entry = readdir (waste_dir)) != NULL)
+    {
+      if (isdotdir (entry->d_name))
+        continue;
+
+      // dir_entry_list = add_entry (dir_entry_list, waste_curr, entry->d_name);
+      char *tmp_path = join_paths (waste_curr->files, entry->d_name, NULL);
+
+      // this is used to get the size and mode of the file
+      struct stat st;
+      if (lstat (tmp_path, &st))
+        msg_err_lstat (tmp_path, __func__, __LINE__);
+      free (tmp_path);
+      char *m_dir_entry = malloc (strlen (entry->d_name) + 1);
+      chk_malloc (m_dir_entry, __func__, __LINE__);
+      sn_check (snprintf (m_dir_entry, LEN_MAX_PATH, "%s", entry->d_name),
+                LEN_MAX_PATH, __func__, __LINE__);
+      char *file_details = create_file_details_str (st.st_size, st.st_mode);
+
+      my_items[n_choices] = new_item (m_dir_entry, file_details);
+      if (my_items[n_choices] == NULL)
+      {
+        endwin ();
+        perror (m_dir_entry);
+        perror ("new_item");
+        if (closedir (waste_dir))
+          perror ("closedir");
+        free (my_items);
+        dispose_waste (waste_head);
+        exit (EXIT_FAILURE);
+      }
+
+      n_choices++;
+    }
+
+    if (closedir (waste_dir))
+      msg_err_close_dir (waste_curr->files, __func__, __LINE__);
+
+    insertion_sort (my_items, n_choices);
     /* Initialize curses */
     initscr ();
     if (LINES < min_lines_required)
@@ -280,52 +378,12 @@ restore_select (st_waste * waste_head, st_time * st_time_var,
       dispose_waste (waste_head);
       exit (EXIT_FAILURE);
     }
-    st_node *dir_entry_list = NULL;
-    int n_choices = 0;
-
-    struct dirent *entry = NULL;
-    static DIR *waste_dir = NULL;
-    waste_dir = opendir (waste_curr->files);
-    if (waste_dir == NULL)
-    {
-      /* we don't want errno to be changed because it's used in msg_error_open_dir()
-       * but afaik, endwin() doesn't change errno */
-      msg_err_open_dir (waste_curr->files, __func__, __LINE__);
-    }
-    /*
-     *  Sometimes there is a pause before the next waste folder is read.
-     * This message should help fill the time before curses is initialized
-     * and the list appears
-     */
-    printf (_("Reading %s...\n"), waste_curr->files);
-
-    while ((entry = readdir (waste_dir)) != NULL)
-    {
-      if (isdotdir (entry->d_name))
-        continue;
-
-      dir_entry_list = add_entry (dir_entry_list, waste_curr, entry->d_name);
-
-      n_choices++;
-    }
-
-    if (closedir (waste_dir))
-      msg_err_close_dir (waste_curr->files, __func__, __LINE__);
 
     clear ();
     cbreak ();
     noecho ();
     keypad (stdscr, TRUE);
-
-    ITEM **my_items;
-    MENU *my_menu;
-    /* Initialize items */
-    // Why is the '+1' needed here? (rmw segfaults without it)
-    my_items = (ITEM **) calloc (n_choices + 1, sizeof (ITEM *));
-    chk_malloc (my_items, __func__, __LINE__);
-    populate_menu (dir_entry_list, my_items, true);
-
-    my_menu = new_menu ((ITEM **) my_items);
+    MENU *my_menu = new_menu ((ITEM **) my_items);
     set_menu_format (my_menu, LINES - start_line_bottom - 1, 1);
     menu_opts_off (my_menu, O_ONEVALUE);
 
@@ -340,11 +398,7 @@ restore_select (st_waste * waste_head, st_time * st_time_var,
               _("<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"));
     mvprintw (LINES - (start_line_bottom - 4), 0, _("\
 <SPACE> - select or unselect an item. / <ENTER> - restore selected items"));
-
-    /* TRANSLATORS: the 'q' can not be translated. rmw can only accept a 'q'
-     * for input in this case.
-     */
-    mvprintw (LINES - (start_line_bottom - 5), 0, _("'q' - quit"));
+    mvprintw (LINES - (start_line_bottom - 5), 0, _("<ESC> - quit"));
     post_menu (my_menu);
     refresh ();
 
@@ -382,12 +436,14 @@ restore_select (st_waste * waste_head, st_time * st_time_var,
         break;
       }
     }
-    while (c != KEY_RIGHT && c != KEY_LEFT && c != 10 && c != 'q');
+    while (c != KEY_RIGHT && c != KEY_LEFT && c != MENU_KEY_ENTER
+           && c != MENU_KEY_ESC && c != 'q');
+    // using 'q' to exit will be deprecated some day
 
-    if (c == 10)
+    if (c == MENU_KEY_ENTER)
     {
       endwin ();
-      printf ("\n");
+      putchar ('\n');
       ITEM **items;
       items = menu_items (my_menu);
 
@@ -405,21 +461,29 @@ restore_select (st_waste * waste_head, st_time * st_time_var,
         }
       }
     }
-    if (c != 10)
+    if (c != MENU_KEY_ENTER)
       endwin ();
 
+    // Some demo menu code at
+    // https://github.com/ThomasDickey/ncurses-snapshots/blob/master/test/demo_menus.c
+    //
+    // The menu must be unposted and freed before freeing items, otherwise valgrind reports
+    // substantial memory leak
     unpost_menu (my_menu);
     free_menu (my_menu);
 
     int i;
-    for (i = 0; i < n_choices; ++i)
+    for (i = 0; i < n_choices; i++)
+    {
+      free ((void *) item_name (my_items[i]));
+      free ((void *) item_description (my_items[i]));
       free_item (my_items[i]);
+    }
 
     free (my_items);
-    dispose (dir_entry_list);
 
   }
-  while (c != 'q' && c != 10);
+  while (c != MENU_KEY_ESC && c != 'q' && c != MENU_KEY_ENTER);
 
   return 0;
 }
@@ -470,65 +534,49 @@ undo_last_rmw (st_time * st_time_var, const char *mrl_file, const
 
 #define BUF_SIZE 80
 
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-
-typedef struct entries
-{
-  char *name;
-  off_t size;
-  mode_t mode;
-} entries;
-
 #if !defined DISABLE_CURSES
 static void
-test_human_readable_size (void)
+test_create_file_details_str (void)
 {
-  const struct entries test_entries[] = {
-    {"foo", 1204, S_IFDIR},
-    {"bar", 10000, S_IFLNK},
-    {"Hello", 28000000000000, S_IFREG},
-    {"World On A String", 4096, S_IFDIR},
+  struct expected
+  {
+    char *name;
+    off_t size;
+    mode_t mode;
+    char *out;
+  } const data[] = {
+    {"foo", 1204, S_IFDIR, "[1.1 KiB] (D)"},
+    {"bar", 10000, S_IFLNK, "[9.7 KiB] (L)"},
+    {"Hello", 28000000000000, S_IFREG, "[25.4 TiB]"},
+    {"World On A String", 4096, S_IFDIR, "[4.0 KiB] (D)"},
   };
 
-  int entries_size = ARRAY_SIZE (test_entries);
-  int i;
-
-  for (i = 0; i < entries_size; i++)
+  int data_size = ARRAY_SIZE (data);
+  int i = 0;
+  while (i < data_size)
   {
-    int len = strlen (test_entries[i].name);
-    char formatted_hr_size[LEN_MAX_FORMATTED_HR_SIZE];
-    char *m_dir_entry =
-      create_formatted_str (test_entries[i].size, test_entries[i].mode,
-                            test_entries[i].name, len, formatted_hr_size);
-    printf ("%s\n", formatted_hr_size);
-    free (m_dir_entry);
-    switch (i)
-    {
-    case 0:
-      assert (strcmp (formatted_hr_size, "[1.1 KiB] (D)") == 0);
-      break;
-    case 1:
-      assert (strcmp (formatted_hr_size, "[9.7 KiB] (L)") == 0);
-      break;
-    case 2:
-      assert (strcmp (formatted_hr_size, "[25.4 TiB]") == 0);
-      break;
-    case 3:
-      assert (strcmp (formatted_hr_size, "[4.0 KiB] (D)") == 0);
-      break;
-    default:
-      break;
-    }
+    //char file_details[LEN_MAX_FILE_DETAILS];
+    //*file_details = '\0';
+    char *file_details = create_file_details_str (data[i].size, data[i].mode);
+    fprintf (stderr, "file_details: %s\nExpected: %s\n\n", file_details,
+             data[i].out);
+    assert (strcmp (file_details, data[i].out) == 0);
+    free (file_details);
+    i++;
   }
+
+  assert (i == data_size);
+
+  return;
 }
 #endif
 
 int
 main ()
 {
-  #if !defined DISABLE_CURSES
-  test_human_readable_size ();
-  #endif
+#if !defined DISABLE_CURSES
+  test_create_file_details_str ();
+#endif
   return 0;
 }
 #endif

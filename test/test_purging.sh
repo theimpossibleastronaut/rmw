@@ -176,4 +176,16 @@ test ! -e $PRIMARY_WASTE_DIR/info/somefiles.trashinfo
 
 $RMW_TEST_CMD_STRING -o
 
+echo " == Test 'show_purge_stats' == "
+create_temp_files
+RMW_FAKE_YEAR=True $RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/tmp-files/*
+output=$($RMW_TEST_CMD_STRING -g)
+echo $output
+test "${output}" = "
+Purging files based on number of days in the waste folders (90) ...
+3 files purged
+(3 files deleted)
+(0 directories deleted)
+120 B freed"
+
 exit 0

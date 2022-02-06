@@ -113,7 +113,10 @@ output="$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/.)" && exit 1
 test -z "${output##*$substring*}"
 
 if [ -n "${TERM}" ] && [ "${TERM}" != "dumb" ]; then
-  echo q | ${RMW_TEST_CMD_STRING} -s
+  if [ -n "${VALGRIND}" ];then
+    TMP_VALGRIND="valgrind --error-exitcode=1"
+  fi
+  echo q | $TMP_VALGRIND ${RMW_TEST_CMD_STRING} -s
 fi
 
 # This test will only work on Andy's workstation.

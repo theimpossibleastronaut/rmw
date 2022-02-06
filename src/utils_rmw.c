@@ -160,44 +160,38 @@ dispose_waste (st_waste * node)
   return;
 }
 
-char *
-human_readable_size (const off_t size)
+void
+make_size_human_readable (const off_t size, char *buf)
 {
-  char *buffer = malloc (LEN_MAX_HUMAN_READABLE_SIZE);
-  chk_malloc (buffer, __func__, __LINE__);
-
   /* Store only the first letter; we add "iB" later during snprintf(). */
   const char prefix[] = { 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y' };
+
   short power = -1;
-
-  short remainder;
-  remainder = 0;
-
+  off_t remainder = 0;
   off_t hr_size = size;
 
   while (hr_size >= 1024)
   {
     remainder = hr_size % 1024;
     hr_size /= 1024;
-
-    ++power;
+    power++;
   }
 
-  char a_size[7];
-  sn_check (snprintf (a_size, sizeof a_size, "%ld", hr_size), sizeof a_size,
-            __func__, __LINE__);
-
+  // Doing some casting here because after the division above, 'hr_size'
+  // and 'remainder' should not be any more than 4 digits
   if (power >= 0)
     sn_check (snprintf
-              (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%ld.%d %ciB", hr_size,
-               (remainder * 10) / 1024, prefix[power]),
-              LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
+              (buf, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB",
+               (short) hr_size, (short) remainder * 10 / 1024,
+               prefix[power]), LEN_MAX_HUMAN_READABLE_SIZE, __func__,
+              __LINE__);
   else
     sn_check (snprintf
-              (buffer, LEN_MAX_HUMAN_READABLE_SIZE, "%ld B", hr_size),
-              LEN_MAX_HUMAN_READABLE_SIZE, __func__, __LINE__);
+              (buf, LEN_MAX_HUMAN_READABLE_SIZE, "%d B",
+               (short) hr_size), LEN_MAX_HUMAN_READABLE_SIZE, __func__,
+              __LINE__);
 
-  return buffer;
+  return;
 }
 
 /*!
@@ -474,6 +468,7 @@ test_isdotdir (void)
 static void
 test_rmw_mkdir (const char *h)
 {
+  st_counters stats = { 0, 0, 0, 0, 0, 0 };
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths (h, subdirs, NULL);
   assert (rmw_mkdir (dir, S_IRWXU) == 0);
@@ -484,7 +479,7 @@ test_rmw_mkdir (const char *h)
   assert (rmw_mkdir (h, S_IRWXU) != 0);
   errno = 0;
 
-  assert (rmdir_recursive (h, 1, 1) == 0);
+  assert (rmdir_recursive (h, 1, 1, &stats) == 0);
 
   // remove the top directory, which should now be empty
   assert (rmdir (h) == 0);
@@ -539,31 +534,33 @@ test_rmw_dirname (void)
 }
 
 static void
-test_human_readable_size (void)
+test_make_size_human_readable (void)
 {
-  char *hr = human_readable_size (256);
-  assert (strcmp (hr, "256 B") == 0);
-  free (hr);
+  struct expected
+  {
+    const off_t file_size;
+    const char *out;
+  } const data[] = {
+    {256, "256 B"},
+    {1024, "1.0 KiB"},
+    {12000, "11.7 KiB"},
+    {32000000000, "29.8 GiB"},
+    {62000000000000, "56.3 TiB"},
+    {82000300000000000, "72.8 PiB"},
+  };
 
-  hr = human_readable_size (1024);
-  assert (strcmp (hr, "1.0 KiB") == 0);
-  free (hr);
+  int data_size = ARRAY_SIZE (data);
+  int i = 0;
+  while (i < data_size)
+  {
+    char hr[LEN_MAX_HUMAN_READABLE_SIZE];
+    make_size_human_readable (data[i].file_size, hr);
+    fprintf (stderr, "hr_size: %s\nExpected: %s\n\n", hr, data[i].out);
+    assert (strcmp (hr, data[i].out) == 0);
+    i++;
+  }
 
-  hr = human_readable_size (12000);
-  assert (strcmp (hr, "11.7 KiB") == 0);
-  free (hr);
-
-  hr = human_readable_size (32000000000);
-  assert (strcmp (hr, "29.8 GiB") == 0);
-  free (hr);
-
-  hr = human_readable_size (62000000000000);
-  assert (strcmp (hr, "56.3 TiB") == 0);
-  free (hr);
-
-  hr = human_readable_size (82000300000000000);
-  assert (strcmp (hr, "72.8 PiB") == 0);
-  free (hr);
+  assert (i == data_size);
 
   return;
 }
@@ -598,7 +595,7 @@ main ()
   test_isdotdir ();
   test_rmw_mkdir (HOMEDIR);
   test_rmw_dirname ();
-  test_human_readable_size ();
+  test_make_size_human_readable ();
   test_join_paths ();
 
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";

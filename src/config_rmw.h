@@ -30,10 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 extern const char *expire_age_str;
 
-/* Not currently used
- * #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
- */
-
 typedef struct
 {
   char uid[10];
