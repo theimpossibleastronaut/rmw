@@ -34,9 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RMDIR_MAX_DEPTH 32
 #endif
 
-static unsigned int deleted_files_ctr = 0;
-static unsigned int deleted_dirs_ctr = 0;
-static off_t bytes_freed = 0;
 
 /*!
  * remove dirs recursively, primarily used by @ref purge()
@@ -45,7 +42,8 @@ static off_t bytes_freed = 0;
  * @return error number
  */
 int
-rmdir_recursive (const char *dirname, short unsigned level, const int force)
+rmdir_recursive (const char *dirname, short unsigned level, const int force,
+                 st_counters * ctr)
 {
   if (level > RMDIR_MAX_DEPTH)
     return RMDIR_MAX_DEPTH;
@@ -103,7 +101,7 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
         print_msg_error ();
         fprintf (stderr, _("while changing permissions of %s\n"), dirname);
         perror ("fchmod: ");
-        printf ("\n");
+        putchar ('\n');
         /* if permissions aren't changed, the directory is still
          * not writable. This error shouldn't really happen. I don't
          * know what to do next if that happens. Right now, the program
@@ -125,8 +123,8 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
       {
         if (remove (st_dirname_properties.path) == 0)
         {
-          deleted_files_ctr++;
-          bytes_freed += st.st_size;
+          ctr->deleted_files++;
+          ctr->bytes_freed += st.st_size;
         }
         else
         {
@@ -136,7 +134,7 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
       else
       {
         remove_result =
-          rmdir_recursive (st_dirname_properties.path, ++level, force);
+          rmdir_recursive (st_dirname_properties.path, ++level, force, ctr);
         level--;
 
         switch (remove_result)
@@ -173,7 +171,7 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force)
   if (level > 1)
   {
     if ((remove_result = rmdir (dirname)) == 0)
-      deleted_dirs_ctr++;
+      ctr->deleted_dirs++;
     else
       perror ("rmdir_recursive -> rmdir");
   }
@@ -238,6 +236,29 @@ is_time_to_purge (st_time * st_time_var, const char *file)
 }
 
 
+static void
+show_purge_stats (st_counters * ctr)
+{
+  printf (ngettext ("%d file purged", "%d files purged", ctr->purge),
+          ctr->purge);
+  putchar ('\n');
+  printf (ngettext
+          ("(%d file deleted)", "(%d files deleted)", ctr->deleted_files),
+          ctr->deleted_files);
+  putchar ('\n');
+  printf (ngettext
+          ("(%d directory deleted)", "(%d directories deleted)",
+           ctr->deleted_dirs), ctr->deleted_dirs);
+  putchar ('\n');
+  /* TRANSLATORS: context: "Number of bytes freed" */
+  char hr_size[LEN_MAX_HUMAN_READABLE_SIZE];
+  make_size_human_readable (ctr->bytes_freed, hr_size);
+  printf ("%s freed", hr_size);
+  putchar ('\n');
+
+  return;
+}
+
 /*!
  * Purges files older than x number of days, unless expire_age is set to
  * 0 in the config file.
@@ -268,7 +289,7 @@ purge (st_config * st_config_data,
     }
   }
 
-  printf ("\n");
+  putchar ('\n');
   if (cli_user_options->want_empty_trash)
     printf (_("Purging all files in waste folders ...\n"));
   else
@@ -276,9 +297,8 @@ purge (st_config * st_config_data,
             ("Purging files based on number of days in the waste folders (%u) ...\n"),
             st_config_data->expire_age);
 
-  unsigned int purge_ctr = 0;
-  unsigned int dirs_containing_files_ctr = 0;
-  unsigned int max_depth_reached_ctr = 0;
+  st_counters ctr = { 0, 0, 0, 0, 0, 0 };
+
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
   while (waste_curr != NULL)
   {
@@ -386,7 +406,8 @@ purge (st_config * st_config_data,
           {
             if (cli_user_options->want_dry_run == false)
               status =
-                rmdir_recursive (purge_target, 1, cli_user_options->force);
+                rmdir_recursive (purge_target, 1, cli_user_options->force,
+                                 &ctr);
             else
             {
               /* Not much choice but to
@@ -401,7 +422,7 @@ purge (st_config * st_config_data,
               printf (_("Directory not purged - still contains files\n"));
               printf ("%s\n", purge_target);
               printf (_("(check owner/write permissions)\n"));
-              dirs_containing_files_ctr++;
+              ctr.dirs_containing_files++;
               break;
 
             case RMDIR_MAX_DEPTH:
@@ -411,7 +432,7 @@ purge (st_config * st_config_data,
               printf (_("Maximum depth of %u reached, skipping\n"),
                       RMDIR_MAX_DEPTH);
               printf ("%s\n", purge_target);
-              max_depth_reached_ctr++;
+              ctr.max_depth_reached++;
               break;
 
             case 0:
@@ -422,8 +443,8 @@ purge (st_config * st_config_data,
 
               if (status == 0)
               {
-                deleted_dirs_ctr++;
-                bytes_freed += st.st_size;
+                ctr.deleted_dirs++;
+                ctr.bytes_freed += st.st_size;
               }
               else
                 msg_err_remove (purge_target, __func__);
@@ -443,8 +464,8 @@ purge (st_config * st_config_data,
               status = 0;
             if (status == 0)
             {
-              deleted_files_ctr++;
-              bytes_freed += st.st_size;
+              ctr.deleted_files++;
+              ctr.bytes_freed += st.st_size;
             }
             else
               msg_err_remove (purge_target, __func__);
@@ -459,7 +480,7 @@ purge (st_config * st_config_data,
 
             if (!status)
             {
-              purge_ctr++;
+              ctr.purge++;
               if (verbose)
                 printf ("-%s\n", pt_basename);
             }
@@ -481,30 +502,15 @@ purge (st_config * st_config_data,
     waste_curr = waste_curr->next_node;
   }
 
-  if (max_depth_reached_ctr)
+  if (ctr.max_depth_reached)
     printf (_("%d directories skipped (RMDIR_MAX_DEPTH reached)\n"),
-            max_depth_reached_ctr);
+            ctr.max_depth_reached);
 
-  if (dirs_containing_files_ctr)
+  if (ctr.dirs_containing_files)
     printf (_("%d directories skipped (contains read-only files)\n"),
-            dirs_containing_files_ctr);
+            ctr.dirs_containing_files);
 
-  printf (ngettext ("%d file purged", "%d files purged", purge_ctr),
-          purge_ctr);
-  printf ("\n");
-  printf (ngettext
-          ("(%d file deleted)", "(%d files deleted)", deleted_files_ctr),
-          deleted_files_ctr);
-  printf ("\n");
-  printf (ngettext
-          ("(%d directory deleted)", "(%d directories deleted)",
-           deleted_dirs_ctr), deleted_dirs_ctr);
-  printf ("\n");
-  /* TRANSLATORS: context: "Number of bytes freed" */
-  char *hr_size = human_readable_size (bytes_freed);
-  printf ("%s freed", hr_size);
-  free (hr_size);
-  printf ("\n");
+  show_purge_stats (&ctr);
 
   return 0;
 
@@ -588,6 +594,7 @@ orphan_maint (st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 static void
 test_rmdir_recursive (void)
 {
+  st_counters ctr = { 0, 0, 0, 0, 0, 0 };
   char cur_dir[LEN_MAX_PATH];
   assert (getcwd (cur_dir, LEN_MAX_PATH) != NULL);
 
@@ -634,11 +641,11 @@ test_rmdir_recursive (void)
 
   // Because some of the created files don't have write permission, this
   // should fail the first time when force isn't set to 2
-  assert (rmdir_recursive (dir_rmdir_test, level, force) == EACCES);
+  assert (rmdir_recursive (dir_rmdir_test, level, force, &ctr) == EACCES);
 
   force = 2;
   // Now it should pass
-  assert (rmdir_recursive (dir_rmdir_test, level, force) == 0);
+  assert (rmdir_recursive (dir_rmdir_test, level, force, &ctr) == 0);
   assert (rmdir (dir_rmdir_test) == 0);
 
   // Now try the test again, but creating a number of dirs that exceed MAX_DEPTH
@@ -652,20 +659,24 @@ test_rmdir_recursive (void)
   assert (chdir (cur_dir) == 0);
 
   // should return an error because MAX_DEPTH was reached
-  assert (rmdir_recursive (dir_rmdir_test, level, force) == RMDIR_MAX_DEPTH);
+  assert (rmdir_recursive (dir_rmdir_test, level, force, &ctr) ==
+          RMDIR_MAX_DEPTH);
+  printf ("deleted_dirs: %d\n", ctr.deleted_dirs);
+  assert (ctr.deleted_dirs == RMDIR_MAX_DEPTH - 1);
 
   // Change the 'level' argument so it will go one level further down
   level = 0;
-  assert (rmdir_recursive (dir_rmdir_test, level, force) == 0);
+  assert (rmdir_recursive (dir_rmdir_test, level, force, &ctr) == 0);
 
   level = 1;
-  assert (rmdir_recursive (dir_rmdir_test, level, force) == 0);
+  assert (rmdir_recursive (dir_rmdir_test, level, force, &ctr) == 0);
 
   // remove the top directory, which should now be empty
   assert (rmdir (dir_rmdir_test) == 0);
 
   return;
 }
+
 
 int
 main (void)

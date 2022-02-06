@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "trashinfo_rmw.h"
 
 #define LEN_MAX_HUMAN_READABLE_SIZE (sizeof "xxxx.y GiB")
-#define LEN_MAX_FORMATTED_HR_SIZE (LEN_MAX_HUMAN_READABLE_SIZE + (sizeof " (D)" - 1 + sizeof "[]" - 1))
+#define LEN_MAX_FILE_DETAILS (LEN_MAX_HUMAN_READABLE_SIZE + sizeof "[] (D)" - 1)
 
 char *rmw_dirname (char *path);
 
@@ -39,7 +39,7 @@ bool exists (const char *filename);
 
 void dispose_waste (st_waste * node);
 
-char *human_readable_size (off_t size);
+void make_size_human_readable (off_t size, char *dest_hr_size);
 
 bool user_verify (void);
 
