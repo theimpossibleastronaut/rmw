@@ -101,7 +101,7 @@ they deem inappropriate, threatening, offensive, or harmful.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may
 be reported by contacting the project maintainer, [Andy
-Alt](https://github.com/andy5995) at andy400-dev@yahoo.com. He will
+Alt](https://github.com/andy5995) at arch_stanton5995@protonmail.com. He will
 review and investigate all complaints, and will respond in a way that
 he deems appropriate to the circumstances. He is obligated to maintain
 confidentiality with regard to the reporter of an incident. Further

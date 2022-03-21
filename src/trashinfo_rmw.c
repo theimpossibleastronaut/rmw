@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2021  Andy Alt (andy400-dev@yahoo.com)
+Copyright (C) 2012-2021  Andy Alt (arch_stanton5995@protonmail.com)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify

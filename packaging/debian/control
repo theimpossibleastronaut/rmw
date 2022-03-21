@@ -1,7 +1,7 @@
 Source: rmw
 Section: utils
 Priority: optional
-Maintainer: Andy Alt <andy400-dev@yahoo.com>
+Maintainer: Andy Alt <arch_stanton5995@protonmail.com>
 Build-Depends:  debhelper (>= 12~),
                 libncursesw5-dev,
                 libtinfo-dev,
