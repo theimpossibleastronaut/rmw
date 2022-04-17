@@ -76,7 +76,7 @@ close_file (FILE * file_ptr, const char *filename, const char *function_name)
    * https://stackoverflow.com/questions/16922871/why-glibcs-fclosenull-cause-segmentation-fault-instead-of-returning-error
    */
   if (file_ptr == NULL)
-    return 0;
+    return -1;
 
   if (fclose (file_ptr) != EOF)
     return 0;

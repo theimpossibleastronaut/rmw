@@ -82,14 +82,21 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force,
       // using fchmod instead of chmod to hopefully prevent codeql
       // from complaining about TOCTOU warnings
       // https://github.com/theimpossibleastronaut/rmw/security/code-scanning/4?query=ref%3Arefs%2Fheads%2Fmaster
-      int fd = open (st_dirname_properties.path, O_RDONLY);
+      FILE *fp = fopen (st_dirname_properties.path, "r");
+      if (fp == NULL)
+      {
+        open_err (st_dirname_properties.path, __func__);
+        return errno;
+      }
+
+      // fchmod requires a file descriptor.
+      int fd = fileno (fp);
       if (fd == -1)
       {
-        print_msg_error ();
-        fprintf (stderr, _("while opening %s\n"), st_dirname_properties.path);
-        perror ("");
-        return fd;
+        strerror (errno);
+        return errno;
       }
+
       if (fchmod (fd, 00700) == 0)
       {
         /* Now that the mode has changed, lstat must be run again */
@@ -109,12 +116,9 @@ rmdir_recursive (const char *dirname, short unsigned level, const int force,
          * permissions
          */
       }
-      if (close (fd) == -1)
-      {
-        print_msg_error ();
-        fprintf (stderr, _("while closing %s\n"), st_dirname_properties.path);
-        perror ("");
-      }
+      int r = close_file (fp, st_dirname_properties.path, __func__);
+      if (r)
+        return r;
     }
 
     if (st.st_mode & S_IWUSR)
