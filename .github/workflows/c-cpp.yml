@@ -1,4 +1,7 @@
 name: C/C++ CI
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 on:
   push:
@@ -23,7 +26,7 @@ jobs:
       fail-fast: false
       matrix:
         arch: [x64]
-        os: [ubuntu-latest]
+        os: [ubuntu-20.04]
         compiler: [gcc-9, gcc-11, clang-10]
     runs-on: ${{ matrix.os }}
     env:
@@ -42,7 +45,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y $CC
         else
-          if  [ "$CC" = "gcc-11" ]; then
+          if  [ "$CC" = "gcc-11"]; then
             sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6B05F25D762E3157;
             sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
           fi
@@ -50,6 +53,17 @@ jobs:
           sudo apt-get install -y $CC
         fi
     - run: sh ./.github/scripts/all_tests.sh
+
+  Jammy:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Build
+      run: sh ./.github/scripts/all_tests.sh
 
   macos:
     runs-on: macos-latest

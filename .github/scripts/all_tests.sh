@@ -15,7 +15,11 @@ if [ "$MATRIX_OS" = "ubuntu-18.04" ]; then
   sudo apt-get install -y python3-pip python3-setuptools
 fi
 
-sudo -H python3 -m pip install meson ninja
+if [ "${GITHUB_JOB}" = "ubuntu-22.04" ]; then
+  sudo apt-get install -y meson
+else
+   sudo -H python3 -m pip install meson ninja
+fi
 
 meson builddir
 cd builddir
