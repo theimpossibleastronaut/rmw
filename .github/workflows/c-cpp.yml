@@ -21,7 +21,7 @@ env:
   TERM: xterm
 
 jobs:
-  ubuntu-latest:
+  ubuntu-focal:
     strategy:
       fail-fast: false
       matrix:
@@ -58,6 +58,8 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-22.04
+    env:
+      CC: 'gcc-12'
     steps:
     - uses: actions/checkout@v3
       with:

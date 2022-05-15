@@ -11,21 +11,17 @@ if [ "$CC" = "gcc-11" ]; then
   sudo apt-get install -y valgrind
 fi
 
-if [ "$MATRIX_OS" = "ubuntu-18.04" ]; then
+if [ "${GITHUB_JOB}" = "ubuntu-focal" ]; then
   sudo apt-get install -y python3-pip python3-setuptools
 fi
 
-if [ "${GITHUB_JOB}" = "ubuntu-22.04" ]; then
-  sudo apt-get install -y meson gcc-12
+if [ "$CC" = "gcc-12" ]; then
+  sudo apt-get install -y meson $CC
 else
    sudo -H python3 -m pip install meson ninja
 fi
 
-if [ "${GITHUB_JOB}" = "ubuntu-22.04" ]; then
-  CC=gcc-12
-fi
-
-$CC meson builddir
+meson builddir
 cd builddir
 ninja -v
 ninja dist
