@@ -35,31 +35,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * for the null terminator when this function is called.
  */
 void
-bufchk_len (const size_t len, const size_t dest_boundary, const char *func,
-            const int line)
+bufchk_len(const size_t len, const size_t dest_boundary, const char *func,
+           const int line)
 {
   if (len <= dest_boundary)
     return;
 
-  msg_err_buffer_overrun (func, line);
+  msg_err_buffer_overrun(func, line);
 #ifndef TEST_LIB
-  exit (EBUF);
+  exit(EBUF);
 #endif
   errno = 1;
   return;
 }
 
 void
-sn_check (const size_t len, const size_t dest_boundary, const char *func,
-          const int line)
+sn_check(const size_t len, const size_t dest_boundary, const char *func,
+         const int line)
 {
   if (len < dest_boundary)
     return;
 
-  msg_err_buffer_overrun (func, line);
+  msg_err_buffer_overrun(func, line);
 
 #ifndef TEST_LIB
-  exit (EBUF);
+  exit(EBUF);
 #endif
   errno = 1;
   return;
@@ -73,21 +73,21 @@ sn_check (const size_t len, const size_t dest_boundary, const char *func,
  * @return the combined length of each string
  */
 size_t
-multi_strlen (const char *argv, ...)
+multi_strlen(const char *argv, ...)
 {
   va_list vlist;
   char *str;
   size_t len = 0;
 
   str = (char *) argv;
-  va_start (vlist, argv);
+  va_start(vlist, argv);
   while (str != NULL)
   {
-    len += strlen (str);
-    str = va_arg (vlist, char *);
+    len += strlen(str);
+    str = va_arg(vlist, char *);
   }
 
-  va_end (vlist);
+  va_end(vlist);
   return len;
 }
 
@@ -98,14 +98,14 @@ multi_strlen (const char *argv, ...)
  * @return void
  */
 void
-trim_whitespace (char *str)
+trim_whitespace(char *str)
 {
   if (str == NULL)
   {
 #ifndef TEST_LIB
-    print_msg_error ();
-    fprintf (stderr, "%s received a NULL", __func__);
-    exit (EXIT_FAILURE);
+    print_msg_error();
+    fprintf(stderr, "%s received a NULL", __func__);
+    exit(EXIT_FAILURE);
 #else
     errno = 1;
     return;
@@ -123,7 +123,7 @@ trim_whitespace (char *str)
   else
     return;
 
-  while (isspace (*str))
+  while (isspace(*str))
   {
     *str = '\0';
     if (str != pos_0)
@@ -144,9 +144,9 @@ trim_whitespace (char *str)
  * @return void
  */
 void
-truncate_str (char *str, const size_t pos)
+truncate_str(char *str, const size_t pos)
 {
-  str[strlen (str) - pos] = '\0';
+  str[strlen(str) - pos] = '\0';
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -157,82 +157,82 @@ truncate_str (char *str, const size_t pos)
 #define BUF_SIZE 80
 
 static void
-test_multi_strlen (void)
+test_multi_strlen(void)
 {
-  assert (multi_strlen ("this", " is", " a", " test string", NULL) ==
-          strlen ("this is a test string"));
+  assert(multi_strlen("this", " is", " a", " test string", NULL) ==
+         strlen("this is a test string"));
   return;
 }
 
 static void
-test_bufchk_len (void)
+test_bufchk_len(void)
 {
   errno = 0;
-  bufchk_len (12, 12, __func__, __LINE__);
-  assert (!errno);
+  bufchk_len(12, 12, __func__, __LINE__);
+  assert(!errno);
 
-  bufchk_len (12, 11, __func__, __LINE__);
-  assert (errno);
+  bufchk_len(12, 11, __func__, __LINE__);
+  assert(errno);
   errno = 0;
   return;
 }
 
 static void
-test_sn_check (void)
+test_sn_check(void)
 {
   errno = 0;
-  sn_check (24, 24, __func__, __LINE__);
-  assert (errno);
+  sn_check(24, 24, __func__, __LINE__);
+  assert(errno);
   errno = 0;
 
-  sn_check (33, 34, __func__, __LINE__);
-  assert (!errno);
+  sn_check(33, 34, __func__, __LINE__);
+  assert(!errno);
   return;
 }
 
 static void
-test_trim_whitespace ()
+test_trim_whitespace()
 {
   // handle strings that are NULL
   errno = 0;
   char *test = NULL;
-  trim_whitespace (test);
-  assert (errno == 1);
+  trim_whitespace(test);
+  assert(errno == 1);
   errno = 0;
 
-  test = calloc (1, BUF_SIZE + 1);
-  chk_malloc (test, __func__, __LINE__);
+  test = calloc(1, BUF_SIZE + 1);
+  chk_malloc(test, __func__, __LINE__);
 
   // handle strings that are empty
   test[0] = '\0';
-  trim_whitespace (test);
-  assert (strcmp (test, "") == 0);
+  trim_whitespace(test);
+  assert(strcmp(test, "") == 0);
 
-  strcpy (test, " \n\t\v\f\r ");
-  trim_whitespace (test);
-  assert (!strcmp (test, ""));
+  strcpy(test, " \n\t\v\f\r ");
+  trim_whitespace(test);
+  assert(!strcmp(test, ""));
 
   /* fails if \b is present */
-  strcpy (test, "Hello World\n\t\v\f\r ");
-  trim_whitespace (test);
-  printf ("'%s'\n", test);
-  assert (!strcmp (test, "Hello World"));
+  strcpy(test, "Hello World\n\t\v\f\r ");
+  trim_whitespace(test);
+  printf("'%s'\n", test);
+  assert(!strcmp(test, "Hello World"));
 
-  strcpy (test, "Hello World\n\t\v stop\f\r ");
-  trim_whitespace (test);
-  assert (!strcmp (test, "Hello World\n\t\v stop"));
+  strcpy(test, "Hello World\n\t\v stop\f\r ");
+  trim_whitespace(test);
+  assert(!strcmp(test, "Hello World\n\t\v stop"));
 
-  free (test);
+  free(test);
 }
 
 
 int
-main ()
+main()
 {
-  test_trim_whitespace ();
-  test_bufchk_len ();
-  test_sn_check ();
-  test_multi_strlen ();
+  test_trim_whitespace();
+  test_bufchk_len();
+  test_sn_check();
+  test_multi_strlen();
 
   return 0;
 }

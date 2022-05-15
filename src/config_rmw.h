@@ -39,14 +39,13 @@ typedef struct
   int expire_age;
 } st_config;
 
-void print_config (FILE * restrict stream);
+void print_config(FILE * restrict stream);
 
 void
-parse_config_file (const rmw_options * cli_user_options,
-                   st_config * st_config_data, const st_loc * st_location);
+parse_config_file(const rmw_options * cli_user_options,
+                  st_config * st_config_data, const st_loc * st_location);
 
-void init_config_data (st_config * x);
+void init_config_data(st_config * x);
 
 void
-show_folder_line (const char *folder, const bool is_r,
-                  const bool is_attached);
+show_folder_line(const char *folder, const bool is_r, const bool is_attached);

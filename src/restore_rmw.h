@@ -55,14 +55,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 extern const char *mrl_is_empty;
 
 int
-restore (const char *src, st_time * st_time_var,
-         const rmw_options * cli_user_options, st_waste * waste_head);
+restore(const char *src, st_time * st_time_var,
+        const rmw_options * cli_user_options, st_waste * waste_head);
 
 int
-restore_select (st_waste * waste_head, st_time * st_time_var,
-                const rmw_options * cli_user_options);
+restore_select(st_waste * waste_head, st_time * st_time_var,
+               const rmw_options * cli_user_options);
 
 int
-undo_last_rmw (st_time * st_time_var, const char *mrl_file, const
-               rmw_options * cli_user_options, char *mrl_contents, st_waste
-               * waste_head);
+undo_last_rmw(st_time * st_time_var, const char *mrl_file, const
+              rmw_options * cli_user_options, char *mrl_contents, st_waste
+              * waste_head);

@@ -88,83 +88,83 @@ enum
 
 
 static void
-print_usage (const char *prog_name)
+print_usage(const char *prog_name)
 {
-  printf (_("Usage: %s [OPTION]... FILE...\n\
+  printf(_("Usage: %s [OPTION]... FILE...\n\
 Move FILE(s) to a WASTE directory listed in configuration file\n\
 \n\
    or: %s -s\n\
    or: %s -u\n\
    or: %s -z FILE...\n\
 "), prog_name, prog_name, prog_name, prog_name);
-  puts (_("\
+  puts(_("\
 Restore FILE(s) from a WASTE directory"));
-  putchar ('\n');
-  printf (_("\
+  putchar('\n');
+  printf(_("\
   -h, --%s                show help for command line options\n\
 "), cli_opt[HELP].str);
-  printf (_("\
+  printf(_("\
   -c, --%s FILE         use an alternate configuration\n\
 "), cli_opt[CONFIG].str);
-  printf (_("\
+  printf(_("\
   -l, --%s                list waste directories\n\
 "), cli_opt[LIST].str);
-  printf (_("\
+  printf(_("\
   -g[N_DAYS], --%s[=N_DAYS]\n\
                             purge expired files;\n\
                             optional argument 'N_DAYS' overrides '%s'\n\
                             value from the configuration file\n\
                             (Examples: -g90, --purge=90)\n\
 "), cli_opt[PURGE].str, expire_age_str);
-  printf (_("\
+  printf(_("\
   -o, --%s            check for orphaned files (maintenance)\n\
 "), cli_opt[ORPHANED].str);
-  printf (_("\
+  printf(_("\
   -f, --%s               allow purging of expired files\n\
 "), cli_opt[FORCE].str);
-  printf (_("\
+  printf(_("\
       --%s               completely empty (purge) all waste directories\n\
 "), cli_opt[EMPTY].str);
-  printf (_("\
+  printf(_("\
   -r, -R, --%s       option used for compatibility with rm\n\
                             (recursive operation is enabled by default)\n\
 "), cli_opt[RECURSIVE].str);
-  printf (_("\
+  printf(_("\
   -v, --%s             increase output messages\n\
 "), cli_opt[VERBOSE].str);
-  printf (_("\
+  printf(_("\
   -w, --%s            display warranty\n\
 "), cli_opt[WARRANTY].str);
-  printf (_("\
+  printf(_("\
   -V, --%s             display version and license information\n\
 "), cli_opt[_VERSION].str);
-  puts (_("\
+  puts(_("\
 \n\
 \n\
   \t===] Restoring [===\n"));
-  printf (_("\
+  printf(_("\
   -z, --%s FILE(s)     restore FILE(s) (see man page example)\n\
 "), cli_opt[RESTORE].str);
-  printf (_("\
+  printf(_("\
   -s, --%s              select files from list to restore\n\
 "), cli_opt[SELECT].str);
-  printf (_("\
+  printf(_("\
   -u, --%s           undo last move\n\
 "), cli_opt[UNDO_LAST].str);
-  printf (_("\
+  printf(_("\
   -m, --%s    list most recently rmw'ed files\n\
 "), cli_opt[MOST_RECENT_LIST].str);
-  puts (_("\
+  puts(_("\
   \n\n\
 Visit the rmw home page for more help, and information about\n\
 how to obtain support - <" PACKAGE_URL ">\n"));
-  printf (_("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
+  printf(_("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
 }
 
 static void
-warranty (void)
+warranty(void)
 {
-  printf (_("\
+  printf(_("\
 THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n\
 APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT\n\
 HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY\n\
@@ -174,13 +174,13 @@ PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM\n\
 IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n\
 ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"));
 
-  exit (0);
+  exit(0);
 }
 
 static void
-version (void)
+version(void)
 {
-  printf (_("\
+  printf(_("\
 rmw %s\n\
 Author: Andy Alt (arch_stanton5995@protonmail.com)\n\
 The RMW team: see AUTHORS file\n\
@@ -188,7 +188,7 @@ This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n\
 This is free software, and you are welcome to redistribute it\n\
 under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n\
 for details.\n"), RMW_VERSION_STRING);
-  exit (0);
+  exit(0);
 }
 
 /* Advise the user about invalid usages like "rm -foo" if the file
@@ -197,7 +197,7 @@ for details.\n"), RMW_VERSION_STRING);
  * This function (lightly modified) is on loan from rm.c in the
  * GNU coreutils package<https://www.gnu.org/software/coreutils/coreutils.html> */
 static void
-diagnose_leading_hyphen (const int argc, char *const argv[])
+diagnose_leading_hyphen(const int argc, char *const argv[])
 {
   /* OPTIND is unreliable, so iterate through the arguments looking
      for a file name that looks like an option.  */
@@ -207,18 +207,18 @@ diagnose_leading_hyphen (const int argc, char *const argv[])
     char const *arg = argv[i];
     struct stat st;
 
-    if (arg[0] == '-' && arg[1] && lstat (arg, &st) == 0)
+    if (arg[0] == '-' && arg[1] && lstat(arg, &st) == 0)
     {
-      fprintf (stderr,
-               _("Try '%s ./%s' to remove the file '%s'.\n"),
-               argv[0], arg, arg);
+      fprintf(stderr,
+              _("Try '%s ./%s' to remove the file '%s'.\n"),
+              argv[0], arg, arg);
       break;
     }
   }
 }
 
 void
-init_rmw_options (rmw_options * x)
+init_rmw_options(rmw_options * x)
 {
   verbose = 0;
   x->want_restore = false;
@@ -236,7 +236,7 @@ init_rmw_options (rmw_options * x)
 
 
 void
-parse_cli_options (const int argc, char *const argv[], rmw_options * options)
+parse_cli_options(const int argc, char *const argv[], rmw_options * options)
 {
   const struct option long_options[] = {
     {cli_opt[HELP].str, 0, NULL, 'h'},
@@ -261,14 +261,14 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
 
   int c;
   while ((c =
-          getopt_long (argc, argv, "hvc:g::oz:lnsumwVfirR", long_options,
-                       NULL)) != -1)
+          getopt_long(argc, argv, "hvc:g::oz:lnsumwVfirR", long_options,
+                      NULL)) != -1)
   {
     switch (c)
     {
     case 'h':
-      print_usage (argv[0]);
-      exit (0);
+      print_usage(argv[0]);
+      exit(0);
     case 'v':
       verbose++;
       break;
@@ -277,7 +277,7 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       break;
     case 'n':
       options->want_dry_run = true;
-      puts (_("dry-run mode enabled."));
+      puts(_("dry-run mode enabled."));
       /* assume verbosity as well */
       if (verbose == 0)
         verbose = 1;
@@ -298,14 +298,14 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       char *p = optarg;
       while (*p != '\0')
       {
-        if (!isdigit (*p))
+        if (!isdigit(*p))
         {
-          puts (_("Arguments given to --purge must be numeric only"));
-          exit (EXIT_FAILURE);
+          puts(_("Arguments given to --purge must be numeric only"));
+          exit(EXIT_FAILURE);
         }
         p++;
       }
-      options->want_purge = atoi (optarg);
+      options->want_purge = atoi(optarg);
       break;
     case 'o':
       options->want_orphan_chk = true;
@@ -323,18 +323,18 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       options->most_recent_list = true;
       break;
     case 'w':
-      warranty ();
+      warranty();
       break;
     case 'V':
-      version ();
+      version();
       break;
     case 'i':
-      printf (_("-i / --interactive: not implemented\n"));
+      printf(_("-i / --interactive: not implemented\n"));
       break;
     case 'r':
     case 'R':
-      printf (_
-              ("-r, -R, --recursive: option not required (enabled by default)\n"));
+      printf(_
+             ("-r, -R, --recursive: option not required (enabled by default)\n"));
       break;
     case 'f':
       if (options->force < 2)   /* This doesn't need to go higher than 2 */
@@ -345,9 +345,9 @@ parse_cli_options (const int argc, char *const argv[], rmw_options * options)
       options->want_purge = -1;
       break;
     default:
-      diagnose_leading_hyphen (argc, argv);
-      fprintf (stderr, _("Try '%s --help' for more information.\n"), argv[0]);
-      exit (EXIT_FAILURE);
+      diagnose_leading_hyphen(argc, argv);
+      fprintf(stderr, _("Try '%s --help' for more information.\n"), argv[0]);
+      exit(EXIT_FAILURE);
     }
   }
 

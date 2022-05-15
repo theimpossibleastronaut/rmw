@@ -39,12 +39,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * -andy5995 2021-05-02)
  */
 char *
-rmw_dirname (char *path)
+rmw_dirname(char *path)
 {
   if (path == NULL || *path == '\0')
     return NULL;
 
-  int len = strlen (path);
+  int len = strlen(path);
   if (len > 1 && path[len - 1] == '/')
   {
     path[len - 1] = '\0';
@@ -72,13 +72,13 @@ rmw_dirname (char *path)
     return path;
   }
 
-  if (isdotdir (path))
+  if (isdotdir(path))
     if (path[1] == '.')
       path[1] = '\0';
 
   // No slashes were found
   if (ptr == &path[0])
-    strcpy (path, ".");
+    strcpy(path, ".");
 
   return path;
 }
@@ -91,9 +91,9 @@ rmw_dirname (char *path)
  * Also creates parent directories.
  */
 int
-rmw_mkdir (const char *dir, mode_t mode)
+rmw_mkdir(const char *dir, mode_t mode)
 {
-  if (exists (dir))
+  if (exists(dir))
   {
     errno = EEXIST;
     return -1;
@@ -101,18 +101,18 @@ rmw_mkdir (const char *dir, mode_t mode)
 
   int res = 0;
 
-  char tmp[strlen (dir) + 1];
-  strcpy (tmp, dir);
-  char *parent = rmw_dirname (tmp);
+  char tmp[strlen(dir) + 1];
+  strcpy(tmp, dir);
+  char *parent = rmw_dirname(tmp);
   if (!parent)
     return -1;
-  if (!exists (parent))
-    res = rmw_mkdir (parent, mode);
+  if (!exists(parent))
+    res = rmw_mkdir(parent, mode);
 
   if (res)
     return res;
 
-  return mkdir (dir, mode);
+  return mkdir(dir, mode);
 }
 
 
@@ -120,7 +120,7 @@ rmw_mkdir (const char *dir, mode_t mode)
  * Determine whether or not a file or directory exists.
  */
 bool
-exists (const char *filename)
+exists(const char *filename)
 {
   if (!filename)
     return false;
@@ -135,7 +135,7 @@ exists (const char *filename)
 
   static struct stat st;
   static int res;
-  res = (lstat (filename, &st));
+  res = (lstat(filename, &st));
   if (!res)
     return true;
 
@@ -145,23 +145,23 @@ exists (const char *filename)
 }
 
 void
-dispose_waste (st_waste * node)
+dispose_waste(st_waste * node)
 {
   if (node != NULL)
   {
-    dispose_waste (node->next_node);
-    free (node->parent);
-    free (node->files);
-    free (node->info);
+    dispose_waste(node->next_node);
+    free(node->parent);
+    free(node->files);
+    free(node->info);
     if (node->media_root != NULL)
-      free (node->media_root);
-    free (node);
+      free(node->media_root);
+    free(node);
   }
   return;
 }
 
 void
-make_size_human_readable (const off_t size, char *buf)
+make_size_human_readable(const off_t size, char *buf)
 {
   /* Store only the first letter; we add "iB" later during snprintf(). */
   const char prefix[] = { 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y' };
@@ -180,16 +180,16 @@ make_size_human_readable (const off_t size, char *buf)
   // Doing some casting here because after the division above, 'hr_size'
   // and 'remainder' should not be any more than 4 digits
   if (power >= 0)
-    sn_check (snprintf
-              (buf, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB",
-               (short) hr_size, (short) remainder * 10 / 1024,
-               prefix[power]), LEN_MAX_HUMAN_READABLE_SIZE, __func__,
-              __LINE__);
+    sn_check(snprintf
+             (buf, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB",
+              (short) hr_size, (short) remainder * 10 / 1024,
+              prefix[power]), LEN_MAX_HUMAN_READABLE_SIZE, __func__,
+             __LINE__);
   else
-    sn_check (snprintf
-              (buf, LEN_MAX_HUMAN_READABLE_SIZE, "%d B",
-               (short) hr_size), LEN_MAX_HUMAN_READABLE_SIZE, __func__,
-              __LINE__);
+    sn_check(snprintf
+             (buf, LEN_MAX_HUMAN_READABLE_SIZE, "%d B",
+              (short) hr_size), LEN_MAX_HUMAN_READABLE_SIZE, __func__,
+             __LINE__);
 
   return;
 }
@@ -199,10 +199,10 @@ make_size_human_readable (const off_t size, char *buf)
  * @return true if 'y' or 'Y' was entered, false otherwise"
  */
 bool
-user_verify (void)
+user_verify(void)
 {
-  fputs (_("Continue? (y/n): "), stdout);
-  int answer = getchar ();
+  fputs(_("Continue? (y/n): "), stdout);
+  int answer = getchar();
   bool want_continue = (answer == (int) 'Y') || (answer == (int) 'y');
   int char_count = 0;
 
@@ -212,10 +212,10 @@ user_verify (void)
     char_count++;
     if (char_count > 1024)
     {
-      fputs ("Too many chars in stdin!!\n", stderr);
-      exit (EXIT_FAILURE);
+      fputs("Too many chars in stdin!!\n", stderr);
+      exit(EXIT_FAILURE);
     }
-    answer = getchar ();
+    answer = getchar();
   }
 
   return (want_continue && (char_count <= 1));
@@ -240,7 +240,7 @@ user_verify (void)
   * @see unescape_url
  */
 static bool
-is_unreserved (char c)
+is_unreserved(char c)
 {
   if (('A' <= c && c <= 'Z') ||
       ('a' <= c && c <= 'z') || ('0' <= c && c <= '9'))
@@ -266,24 +266,24 @@ is_unreserved (char c)
  * returns an allocated string which must be freed later
  */
 char *
-escape_url (const char *str)
+escape_url(const char *str)
 {
   int pos_str = 0, pos_dest = 0;
-  char *dest = malloc (LEN_MAX_ESCAPED_PATH);
-  chk_malloc (dest, __func__, __LINE__);
+  char *dest = malloc(LEN_MAX_ESCAPED_PATH);
+  chk_malloc(dest, __func__, __LINE__);
   *dest = '\0';
 
   while (str[pos_str])
   {
-    if (is_unreserved (str[pos_str]))
+    if (is_unreserved(str[pos_str]))
     {
-      bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
+      bufchk_len(pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       dest[pos_dest] = str[pos_str];
       pos_dest += 1;
     }
     else
     {
-      bufchk_len (pos_dest + 4, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
+      bufchk_len(pos_dest + 4, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       /* A quick explanation to this printf
        * %% - print a '%'
        * 0  - pad with left '0'
@@ -291,7 +291,7 @@ escape_url (const char *str)
        * hh - this is a byte
        * X  - print hexadecimal form with uppercase letters
        */
-      sprintf (dest + pos_dest, "%%%02hhX", str[pos_str]);
+      sprintf(dest + pos_dest, "%%%02hhX", str[pos_str]);
       pos_dest += 3;
     }
     pos_str++;
@@ -307,11 +307,11 @@ escape_url (const char *str)
  * returns an allocated string which must be freed later
  */
 char *
-unescape_url (const char *str)
+unescape_url(const char *str)
 {
   int pos_str = 0, pos_dest = 0;
-  char *dest = malloc (LEN_MAX_PATH);
-  chk_malloc (dest, __func__, __LINE__);
+  char *dest = malloc(LEN_MAX_PATH);
+  chk_malloc(dest, __func__, __LINE__);
 
   while (str[pos_str])
   {
@@ -319,15 +319,15 @@ unescape_url (const char *str)
     {
       /* skip the '%' */
       pos_str += 1;
-      bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
+      bufchk_len(pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       // Is casting dest to unsigned char* ok here? Is there a better way to
       // do the conversion?
-      sscanf (str + pos_str, "%2hhx", (unsigned char *) dest + pos_dest);
+      sscanf(str + pos_str, "%2hhx", (unsigned char *) dest + pos_dest);
       pos_str += 2;
     }
     else
     {
-      bufchk_len (pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
+      bufchk_len(pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
       dest[pos_dest] = str[pos_str];
       pos_str += 1;
     }
@@ -343,7 +343,7 @@ unescape_url (const char *str)
  * Checks for . and .. directories
  */
 bool
-isdotdir (const char *dir)
+isdotdir(const char *dir)
 {
   if (dir[0] != '.')
     return false;
@@ -364,23 +364,23 @@ isdotdir (const char *dir)
  *
  */
 char *
-resolve_path (const char *file, const char *b)
+resolve_path(const char *file, const char *b)
 {
-  int req_len = strlen (file) + 1;
-  bufchk_len (req_len, LEN_MAX_PATH, __func__, __LINE__);
+  int req_len = strlen(file) + 1;
+  bufchk_len(req_len, LEN_MAX_PATH, __func__, __LINE__);
   char tmp[req_len];
-  strcpy (tmp, file);
+  strcpy(tmp, file);
 
-  char *orig_dirname = realpath (rmw_dirname (tmp), NULL);
+  char *orig_dirname = realpath(rmw_dirname(tmp), NULL);
   if (orig_dirname == NULL)
   {
-    print_msg_error ();
-    perror ("realpath()");
+    print_msg_error();
+    perror("realpath()");
     return NULL;
   }
 
-  char *abspath = join_paths (orig_dirname, b, NULL);
-  free (orig_dirname);
+  char *abspath = join_paths(orig_dirname, b, NULL);
+  free(orig_dirname);
   return abspath;
 }
 
@@ -392,9 +392,9 @@ resolve_path (const char *file, const char *b)
  * @return void
  */
 void
-trim_char (const int c, char *str)
+trim_char(const int c, char *str)
 {
-  trim_whitespace (str);
+  trim_whitespace(str);
   while (*str != '\0')
     str++;
 
@@ -411,33 +411,33 @@ trim_char (const int c, char *str)
 
 
 char *
-join_paths (const char *argv, ...)
+join_paths(const char *argv, ...)
 {
-  char *path = calloc (1, LEN_MAX_PATH);
-  chk_malloc (path, __func__, __LINE__);
+  char *path = calloc(1, LEN_MAX_PATH);
+  chk_malloc(path, __func__, __LINE__);
 
   va_list ap;
   char *str = (char *) argv;
-  va_start (ap, argv);
+  va_start(ap, argv);
 
   while (str != NULL)
   {
     size_t len = 0;
-    char *dup_str = strdup (str);
-    chk_malloc (dup_str, __func__, __LINE__);
-    trim_char ('/', dup_str);
-    len = strlen (path);
+    char *dup_str = strdup(str);
+    chk_malloc(dup_str, __func__, __LINE__);
+    trim_char('/', dup_str);
+    len = strlen(path);
     int max_len = LEN_MAX_PATH - len;
-    int r = snprintf (path + len, max_len, "%s/", dup_str);
-    free (dup_str);
-    sn_check (r, max_len, __func__, __LINE__);
-    str = va_arg (ap, char *);
+    int r = snprintf(path + len, max_len, "%s/", dup_str);
+    free(dup_str);
+    sn_check(r, max_len, __func__, __LINE__);
+    str = va_arg(ap, char *);
   }
 
-  va_end (ap);
-  trim_char ('/', path);
-  path = realloc (path, strlen (path) + 1);
-  chk_malloc (path, __func__, __LINE__);
+  va_end(ap);
+  trim_char('/', path);
+  path = realloc(path, strlen(path) + 1);
+  chk_malloc(path, __func__, __LINE__);
   return path;
 }
 
@@ -452,89 +452,89 @@ join_paths (const char *argv, ...)
 
 
 static void
-test_isdotdir (void)
+test_isdotdir(void)
 {
-  assert (isdotdir (".") == true);
-  assert (isdotdir ("..") == true);
-  assert (isdotdir (".t") == false);
-  assert (isdotdir ("...") == false);
-  assert (isdotdir ("t.") == false);
-  assert (isdotdir (".. ") == false);
+  assert(isdotdir(".") == true);
+  assert(isdotdir("..") == true);
+  assert(isdotdir(".t") == false);
+  assert(isdotdir("...") == false);
+  assert(isdotdir("t.") == false);
+  assert(isdotdir(".. ") == false);
 
   return;
 }
 
 
 static void
-test_rmw_mkdir (const char *h)
+test_rmw_mkdir(const char *h)
 {
   st_counters stats = { 0, 0, 0, 0, 0, 0 };
   const char *subdirs = "foo/bar/21/42";
-  char *dir = join_paths (h, subdirs, NULL);
-  assert (rmw_mkdir (dir, S_IRWXU) == 0);
-  printf ("%s\n", dir);
-  assert (exists (dir) == true);
-  free (dir);
+  char *dir = join_paths(h, subdirs, NULL);
+  assert(rmw_mkdir(dir, S_IRWXU) == 0);
+  printf("%s\n", dir);
+  assert(exists(dir) == true);
+  free(dir);
 
-  assert (rmw_mkdir (h, S_IRWXU) != 0);
+  assert(rmw_mkdir(h, S_IRWXU) != 0);
   errno = 0;
 
-  assert (rmdir_recursive (h, 1, 1, &stats) == 0);
+  assert(rmdir_recursive(h, 1, 1, &stats) == 0);
 
   // remove the top directory, which should now be empty
-  assert (rmdir (h) == 0);
+  assert(rmdir(h) == 0);
 
   return;
 }
 
 static void
-test_rmw_dirname (void)
+test_rmw_dirname(void)
 {
   char dir[BUF_SIZE];
-  strcpy (dir, "/");
-  assert (strcmp (rmw_dirname (dir), "/") == 0);
+  strcpy(dir, "/");
+  assert(strcmp(rmw_dirname(dir), "/") == 0);
 
-  strcpy (dir, "./foo");
-  assert (strcmp (rmw_dirname (dir), ".") == 0);
+  strcpy(dir, "./foo");
+  assert(strcmp(rmw_dirname(dir), ".") == 0);
 
-  strcpy (dir, "../foo");
-  assert (strcmp (rmw_dirname (dir), "..") == 0);
+  strcpy(dir, "../foo");
+  assert(strcmp(rmw_dirname(dir), "..") == 0);
 
-  strcpy (dir, "./foo/");
-  assert (strcmp (rmw_dirname (dir), ".") == 0);
+  strcpy(dir, "./foo/");
+  assert(strcmp(rmw_dirname(dir), ".") == 0);
 
-  strcpy (dir, "./foo/bar/");
-  assert (strcmp (rmw_dirname (dir), "./foo") == 0);
+  strcpy(dir, "./foo/bar/");
+  assert(strcmp(rmw_dirname(dir), "./foo") == 0);
 
-  strcpy (dir, "foo/bar/42");
-  assert (strcmp (rmw_dirname (dir), "foo/bar") == 0);
+  strcpy(dir, "foo/bar/42");
+  assert(strcmp(rmw_dirname(dir), "foo/bar") == 0);
 
-  strcpy (dir, "/foo/bar/42");
-  assert (strcmp (rmw_dirname (dir), "/foo/bar") == 0);
+  strcpy(dir, "/foo/bar/42");
+  assert(strcmp(rmw_dirname(dir), "/foo/bar") == 0);
 
-  strcpy (dir, "..");
-  assert (strcmp (rmw_dirname (dir), ".") == 0);
+  strcpy(dir, "..");
+  assert(strcmp(rmw_dirname(dir), ".") == 0);
 
-  strcpy (dir, ".");
-  assert (strcmp (rmw_dirname (dir), ".") == 0);
+  strcpy(dir, ".");
+  assert(strcmp(rmw_dirname(dir), ".") == 0);
 
-  strcpy (dir, "usr");
-  assert (strcmp (rmw_dirname (dir), ".") == 0);
+  strcpy(dir, "usr");
+  assert(strcmp(rmw_dirname(dir), ".") == 0);
 
-  strcpy (dir, "/usr/");
-  assert (strcmp (rmw_dirname (dir), "/") == 0);
+  strcpy(dir, "/usr/");
+  assert(strcmp(rmw_dirname(dir), "/") == 0);
 
-  strcpy (dir, "//");
-  assert (strcmp (rmw_dirname (dir), "/") == 0);
+  strcpy(dir, "//");
+  assert(strcmp(rmw_dirname(dir), "/") == 0);
 
-  strcpy (dir, "");
-  assert (rmw_dirname (dir) == NULL);
+  strcpy(dir, "");
+  assert(rmw_dirname(dir) == NULL);
 
   return;
 }
 
 static void
-test_make_size_human_readable (void)
+test_make_size_human_readable(void)
 {
   struct expected
   {
@@ -549,68 +549,68 @@ test_make_size_human_readable (void)
     {82000300000000000, "72.8 PiB"},
   };
 
-  int data_size = ARRAY_SIZE (data);
+  int data_size = ARRAY_SIZE(data);
   int i = 0;
   while (i < data_size)
   {
     char hr[LEN_MAX_HUMAN_READABLE_SIZE];
-    make_size_human_readable (data[i].file_size, hr);
-    fprintf (stderr, "hr_size: %s\nExpected: %s\n\n", hr, data[i].out);
-    assert (strcmp (hr, data[i].out) == 0);
+    make_size_human_readable(data[i].file_size, hr);
+    fprintf(stderr, "hr_size: %s\nExpected: %s\n\n", hr, data[i].out);
+    assert(strcmp(hr, data[i].out) == 0);
     i++;
   }
 
-  assert (i == data_size);
+  assert(i == data_size);
 
   return;
 }
 
 
 void
-test_join_paths (void)
+test_join_paths(void)
 {
-  char *path = join_paths ("home", "foo//", "bar", NULL);
-  assert (path != NULL);
-  assert (strcmp (path, "home/foo/bar") == 0);
-  free (path);
+  char *path = join_paths("home", "foo//", "bar", NULL);
+  assert(path != NULL);
+  assert(strcmp(path, "home/foo/bar") == 0);
+  free(path);
 
-  path = join_paths ("/home/foo", "bar", "world/", NULL);
-  assert (path != NULL);
-  assert (strcmp (path, "/home/foo/bar/world") == 0);
-  free (path);
+  path = join_paths("/home/foo", "bar", "world/", NULL);
+  assert(path != NULL);
+  assert(strcmp(path, "/home/foo/bar/world") == 0);
+  free(path);
 
   return;
 }
 
 
 int
-main ()
+main()
 {
   char tmp[LEN_MAX_PATH];
   int r =
-    snprintf (tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
-  assert (r < LEN_MAX_PATH);
+    snprintf(tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
+  assert(r < LEN_MAX_PATH);
   const char *HOMEDIR = tmp;
 
-  test_isdotdir ();
-  test_rmw_mkdir (HOMEDIR);
-  test_rmw_dirname ();
-  test_make_size_human_readable ();
-  test_join_paths ();
+  test_isdotdir();
+  test_rmw_mkdir(HOMEDIR);
+  test_rmw_dirname();
+  test_make_size_human_readable();
+  test_join_paths();
 
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";
-  char *escaped_path = escape_url (str);
-  fprintf (stderr, "'%s'\n", escaped_path);
-  assert (!strcmp
-          (escaped_path,
-           "reserved%20%20%20%20%3D%20%3B%20%7C%20/%20%7C%20%3F%20%7C%20%3A%20%7C%20%40%20%7C%20%26%20%7C%20%3D%20%7C%20%2B%20%7C%20%24%20%0A%09%0B%20%20%0C%0D"));
+  char *escaped_path = escape_url(str);
+  fprintf(stderr, "'%s'\n", escaped_path);
+  assert(!strcmp
+         (escaped_path,
+          "reserved%20%20%20%20%3D%20%3B%20%7C%20/%20%7C%20%3F%20%7C%20%3A%20%7C%20%40%20%7C%20%26%20%7C%20%3D%20%7C%20%2B%20%7C%20%24%20%0A%09%0B%20%20%0C%0D"));
 
-  char *unescaped_path = unescape_url (escaped_path);
-  fprintf (stderr, "'%s'\n", unescaped_path);
-  assert (!strcmp (unescaped_path, str));
+  char *unescaped_path = unescape_url(escaped_path);
+  fprintf(stderr, "'%s'\n", unescaped_path);
+  assert(!strcmp(unescaped_path, str));
 
-  free (unescaped_path);
-  free (escaped_path);
+  free(unescaped_path);
+  free(escaped_path);
   return 0;
 }
 #endif

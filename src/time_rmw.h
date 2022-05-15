@@ -48,8 +48,8 @@ typedef struct
   time_t now;
 } st_time;
 
-void init_time_vars (st_time * st_time_var);
+void init_time_vars(st_time * st_time_var);
 
-time_t get_then_time (const char *raw_deletion_date);
+time_t get_then_time(const char *raw_deletion_date);
 
 #endif

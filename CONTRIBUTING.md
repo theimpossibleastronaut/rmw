@@ -17,10 +17,16 @@ but braces not indented:
 ```
   if (cli_user_options.list)
   {
-    list_waste_folders (st_config_data.st_waste_folder_props_head);
+    list_waste_folders(st_config_data.st_waste_folder_props_head);
     return 0;
   }
 ```
+
+You can format code automatically by using
+[indent](https://www.gnu.org/software/indent/) with the following
+arguments:
+
+    indent -ci2 -bl -bli0 -nut -npcs
 
 ## Website
 

@@ -28,13 +28,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Assigns a time string to *tm_str based on the format requested
  */
 static void
-set_time_string (char *tm_str, const size_t len, const char *format,
-                 time_t time_t_now)
+set_time_string(char *tm_str, const size_t len, const char *format,
+                time_t time_t_now)
 {
   struct tm result;
-  localtime_r (&time_t_now, &result);
-  strftime (tm_str, len, format, &result);
-  trim_whitespace (tm_str);
+  localtime_r(&time_t_now, &result);
+  strftime(tm_str, len, format, &result);
+  trim_whitespace(tm_str);
 }
 
 /*!
@@ -43,35 +43,35 @@ set_time_string (char *tm_str, const size_t len, const char *format,
  * the returned string will be based on the local-time of the user's system.
  */
 static void
-set_which_deletion_date (char *format)
+set_which_deletion_date(char *format)
 {
-  char *fake_year = getenv ("RMW_FAKE_YEAR");
+  char *fake_year = getenv("RMW_FAKE_YEAR");
   bool valid_value = false;
   if (fake_year != NULL)
   {
-    valid_value = strcasecmp (fake_year, "true") == 0;
-    puts ("RMW_FAKE_YEAR:true");
+    valid_value = strcasecmp(fake_year, "true") == 0;
+    puts("RMW_FAKE_YEAR:true");
   }
-  sn_check (snprintf
-            (format, LEN_MAX_DELETION_DATE, "%s",
-             valid_value ? "1999-%m-%dT%T" : "%FT%T"), LEN_MAX_DELETION_DATE,
-            __func__, __LINE__);
+  sn_check(snprintf
+           (format, LEN_MAX_DELETION_DATE, "%s",
+            valid_value ? "1999-%m-%dT%T" : "%FT%T"), LEN_MAX_DELETION_DATE,
+           __func__, __LINE__);
 
   return;
 }
 
 
 void
-init_time_vars (st_time * x)
+init_time_vars(st_time * x)
 {
-  x->now = time (NULL);
+  x->now = time(NULL);
 
-  set_which_deletion_date (x->t_fmt);
+  set_which_deletion_date(x->t_fmt);
 
-  set_time_string (x->deletion_date, LEN_MAX_DELETION_DATE, x->t_fmt, x->now);
+  set_time_string(x->deletion_date, LEN_MAX_DELETION_DATE, x->t_fmt, x->now);
 
-  set_time_string (x->suffix_added_dup_exists,
-                   LEN_MAX_TIME_STR_SUFFIX, "_%H%M%S-%y%m%d", x->now);
+  set_time_string(x->suffix_added_dup_exists,
+                  LEN_MAX_TIME_STR_SUFFIX, "_%H%M%S-%y%m%d", x->now);
 
   return;
 }
@@ -81,10 +81,10 @@ init_time_vars (st_time * x)
  * file. Called from purge()
  */
 time_t
-get_then_time (const char *raw_deletion_date)
+get_then_time(const char *raw_deletion_date)
 {
   struct tm tm_then;
-  memset (&tm_then, 0, sizeof (struct tm));
-  strptime (raw_deletion_date, "%Y-%m-%dT%H:%M:%S", &tm_then);
-  return mktime (&tm_then);
+  memset(&tm_then, 0, sizeof(struct tm));
+  strptime(raw_deletion_date, "%Y-%m-%dT%H:%M:%S", &tm_then);
+  return mktime(&tm_then);
 }

@@ -21,19 +21,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "messages_rmw.h"
 
 void
-print_msg_error (void)
+print_msg_error(void)
 {
   /* TRANSLATORS: this precedes a string which informs the user of a more
    * serious error, sometimes a fatal one */
-  fputs (_("  :error: "), stderr);
+  fputs(_("  :error: "), stderr);
 }
 
 void
-print_msg_warn (void)
+print_msg_warn(void)
 {
   /* TRANSLATORS: this precedes a string which warns the user of some minor
    * but not fatal problem */
-  fputs (_(" :warning: "), stdout);
+  fputs(_(" :warning: "), stdout);
 }
 
 /**
@@ -44,18 +44,18 @@ print_msg_warn (void)
  * @return void
  */
 void
-open_err (const char *filename, const char *function_name)
+open_err(const char *filename, const char *function_name)
 {
-  print_msg_error ();
+  print_msg_error();
   /* TRANSLATORS:  "opening" refers to a file  */
-  fprintf (stderr, _("while opening %s\n"), filename);
+  fprintf(stderr, _("while opening %s\n"), filename);
 
   static char combined_msg[BUFSIZ];
   /* TRANSLATORS:  "function" refers to a C function  */
-  sn_check (snprintf
-            (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
-            BUFSIZ, __func__, __LINE__);
-  perror (combined_msg);
+  sn_check(snprintf
+           (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
+           BUFSIZ, __func__, __LINE__);
+  perror(combined_msg);
 
   return;
 }
@@ -70,7 +70,7 @@ open_err (const char *filename, const char *function_name)
  * @return an error number, 0 if no error
  */
 int
-close_file (FILE * file_ptr, const char *filename, const char *function_name)
+close_file(FILE * file_ptr, const char *filename, const char *function_name)
 {
   /* fclose() shouldn't be used on file pointers that are NULL.
    * https://stackoverflow.com/questions/16922871/why-glibcs-fclosenull-cause-segmentation-fault-instead-of-returning-error
@@ -78,54 +78,54 @@ close_file (FILE * file_ptr, const char *filename, const char *function_name)
   if (file_ptr == NULL)
     return -1;
 
-  if (fclose (file_ptr) != EOF)
+  if (fclose(file_ptr) != EOF)
     return 0;
   else
   {
     /* TRANSLATORS:  "closing" refers to a file  */
-    print_msg_error ();
-    fprintf (stderr, _("while closing %s\n"), filename);
+    print_msg_error();
+    fprintf(stderr, _("while closing %s\n"), filename);
 
     static char combined_msg[BUFSIZ];
-    sn_check (snprintf
-              (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
-              BUFSIZ, __func__, __LINE__);
-    perror (combined_msg);
+    sn_check(snprintf
+             (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
+             BUFSIZ, __func__, __LINE__);
+    perror(combined_msg);
 
-    msg_return_code (errno);
+    msg_return_code(errno);
     return errno;
   }
 }
 
 void
-display_dot_trashinfo_error (const char *dti)
+display_dot_trashinfo_error(const char *dti)
 {
-  print_msg_error ();
+  print_msg_error();
   /* TRANSLATORS:  ".trashinfo" should remain untranslated
    *
    *               "format" refers to the layout of the file
    *                contents
    */
-  printf (_("format of .trashinfo `file %s` is incorrect"), dti);
-  putchar ('\n');
+  printf(_("format of .trashinfo `file %s` is incorrect"), dti);
+  putchar('\n');
   return;
 }
 
 void
-msg_warn_restore (int result)
+msg_warn_restore(int result)
 {
   if (result == 0)
     return;
 
   if (result != ENOENT)
   {
-    print_msg_warn ();
+    print_msg_warn();
     if (result != ENOENT)
     {
       /* TRANSLATORS: ignore "restore()"
        * "returned" refers to an error code (number) that was returned by
        * an operation */
-      printf (_("restore() returned %d\n"), result);
+      printf(_("restore() returned %d\n"), result);
     }
   }
 
@@ -133,56 +133,56 @@ msg_warn_restore (int result)
 }
 
 void
-chk_malloc (void *state, const char *func, const int line)
+chk_malloc(void *state, const char *func, const int line)
 {
   if (state == NULL)
   {
-    print_msg_error ();
-    printf (_("while attempting to allocate memory -- %s:L%d\n"), func, line);
-    msg_return_code (-1);
-    exit (EXIT_FAILURE);
+    print_msg_error();
+    printf(_("while attempting to allocate memory -- %s:L%d\n"), func, line);
+    msg_return_code(-1);
+    exit(EXIT_FAILURE);
   }
   return;
 }
 
 void
-msg_return_code (const int code)
+msg_return_code(const int code)
 {
   if (verbose)
   {
     /* TRANSLATORS: "return" code refers to a number returned by an operation
      * or function */
-    printf (_("  :return code: %d\n"), code);
+    printf(_("  :return code: %d\n"), code);
   }
 }
 
 void
-msg_err_close_dir (const char *dir, const char *func, const int line)
+msg_err_close_dir(const char *dir, const char *func, const int line)
 {
-  print_msg_error ();
-  fprintf (stderr, "while closing %s -- %s:L%d\n", dir, func, line);
-  perror ("closedir()");
-  exit (errno);
+  print_msg_error();
+  fprintf(stderr, "while closing %s -- %s:L%d\n", dir, func, line);
+  perror("closedir()");
+  exit(errno);
 }
 
 void
-msg_err_open_dir (const char *dir, const char *func, const int line)
+msg_err_open_dir(const char *dir, const char *func, const int line)
 {
-  print_msg_error ();
-  fprintf (stderr, _("while opening %s -- %s:L%d\n"), dir, func, line);
-  perror ("opendir()");
-  exit (errno);
+  print_msg_error();
+  fprintf(stderr, _("while opening %s -- %s:L%d\n"), dir, func, line);
+  perror("opendir()");
+  exit(errno);
 }
 
 void
-msg_err_rename (const char *src_file, const char *dest_file, const char *func,
-                const int line)
+msg_err_rename(const char *src_file, const char *dest_file, const char *func,
+               const int line)
 {
-  print_msg_error ();
-  printf (_("while trying to move (rename)\n\
+  print_msg_error();
+  printf(_("while trying to move (rename)\n\
   %s -> %s -- %s:L%d\n"), src_file, dest_file, func, line);
-  perror ("rename()");
-  exit (errno);
+  perror("rename()");
+  exit(errno);
 }
 
 /*!
@@ -191,11 +191,11 @@ msg_err_rename (const char *src_file, const char *dest_file, const char *func,
  * @return exit failure
  */
 void
-msg_err_fatal_fprintf (const char *func)
+msg_err_fatal_fprintf(const char *func)
 {
-  print_msg_error ();
-  fprintf (stderr, "fprintf returned an error in %s.\n", func);
-  exit (EXIT_FAILURE);
+  print_msg_error();
+  fprintf(stderr, "fprintf returned an error in %s.\n", func);
+  exit(EXIT_FAILURE);
 }
 
 /*!
@@ -207,13 +207,13 @@ msg_err_fatal_fprintf (const char *func)
  * @see bufchk_len
  */
 void
-msg_err_buffer_overrun (const char *func, const int line)
+msg_err_buffer_overrun(const char *func, const int line)
 {
-  print_msg_error ();
-  fprintf (stderr, "func = %s:L%d\n", func, line);
+  print_msg_error();
+  fprintf(stderr, "func = %s:L%d\n", func, line);
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */
-  fputs ("Buffer length exceeded.\n", stderr);
+  fputs("Buffer length exceeded.\n", stderr);
   fputs
     ("If you think this may be a bug, please report it to the rmw developers.\n",
      stderr);
@@ -226,44 +226,44 @@ msg_err_buffer_overrun (const char *func, const int line)
  * @return void
  */
 void
-msg_err_lstat (const char *file, const char *func, const int line)
+msg_err_lstat(const char *file, const char *func, const int line)
 {
-  print_msg_error ();
-  perror ("lstat()");
-  fprintf (stderr, "%s in %s:L%d\n", file, func, line);
-  exit (errno);
+  print_msg_error();
+  perror("lstat()");
+  fprintf(stderr, "%s in %s:L%d\n", file, func, line);
+  exit(errno);
 }
 
 void
-msg_err_remove (const char *file, const char *func)
+msg_err_remove(const char *file, const char *func)
 {
-  print_msg_error ();
+  print_msg_error();
   /* TRANSLATORS:  "removing" refers to a file or folder  */
-  fprintf (stderr, _("while removing %s\n"), file);
-  perror (func);
+  fprintf(stderr, _("while removing %s\n"), file);
+  perror(func);
 }
 
 
 void
-msg_err_mkdir (const char *dir, const char *func)
+msg_err_mkdir(const char *dir, const char *func)
 {
-  perror ("rmw_mkdir()");
-  print_msg_error ();
-  fprintf (stderr, _("while creating %s (%s)\n"), dir, func);
+  perror("rmw_mkdir()");
+  print_msg_error();
+  fprintf(stderr, _("while creating %s (%s)\n"), dir, func);
 }
 
 void
-msg_success_mkdir (const char *dir)
+msg_success_mkdir(const char *dir)
 {
-  printf (_("Created directory %s\n"), dir);
+  printf(_("Created directory %s\n"), dir);
   return;
 }
 
 
 void
-msg_warn_file_not_found (const char *file)
+msg_warn_file_not_found(const char *file)
 {
   /* TRANSLATORS:  "%s" refers to a file or directory  */
-  print_msg_warn ();
-  printf (_("File not found: '%s'\n"), file);
+  print_msg_warn();
+  printf(_("File not found: '%s'\n"), file);
 }

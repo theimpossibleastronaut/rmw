@@ -41,7 +41,7 @@ typedef struct
 } rmw_options;
 
 
-void init_rmw_options (rmw_options * options);
+void init_rmw_options(rmw_options * options);
 
 void
-parse_cli_options (const int argc, char *const argv[], rmw_options * options);
+parse_cli_options(const int argc, char *const argv[], rmw_options * options);
