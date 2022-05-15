@@ -16,12 +16,16 @@ if [ "$MATRIX_OS" = "ubuntu-18.04" ]; then
 fi
 
 if [ "${GITHUB_JOB}" = "ubuntu-22.04" ]; then
-  sudo apt-get install -y meson
+  sudo apt-get install -y meson gcc-12
 else
    sudo -H python3 -m pip install meson ninja
 fi
 
-meson builddir
+if [ "${GITHUB_JOB}" = "ubuntu-22.04" ]; then
+  CC=gcc-12
+fi
+
+$CC meson builddir
 cd builddir
 ninja -v
 ninja dist
