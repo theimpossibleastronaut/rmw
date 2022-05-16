@@ -25,6 +25,17 @@ foreach cflag : extra_flags
   endif
 endforeach
 
+# gcc-12 gives false positives.
+disable_flag = [
+  '-Wno-analyzer-malloc-leak',
+  '-Wno-analyzer-null-argument'
+]
+foreach cflag : disable_flag
+  if cc.get_id() == 'gcc' and cc.version().startswith('12.')
+    add_project_arguments(disable_flag, language: 'c')
+  endif
+endforeach
+
 inc_args = []
 if host_machine.system() == 'freebsd' or host_machine.system() == 'openbsd' or host_machine.system() == 'dragonfly'
   inc_args = ['-isystem/usr/local/include']
