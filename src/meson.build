@@ -35,8 +35,16 @@ src = [
 lib_rmw = static_library(
   'rmw',
   src,
-  include_directories : '..',
-  dependencies: [gettext_deps, dep_canfigger, dep_menu, dep_curses]
+  include_directories : include_directories('..'),
+  dependencies: [
+    dep_intl,
+    dep_canfigger,
+    dep_menu,
+    dep_curses
+    ]
   )
 
-dep_rmw = declare_dependency(link_with: lib_rmw, include_directories : '..')
+dep_rmw = declare_dependency(
+  link_with: lib_rmw,
+  include_directories : include_directories('..')
+  )
