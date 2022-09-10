@@ -28,160 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
-#ifndef TEST_LIB
-#define RMDIR_MAX_DEPTH 128
-#else
-#define RMDIR_MAX_DEPTH 32
-#endif
-
-
-/*!
- * remove dirs recursively, primarily used by @ref purge()
- * @param[in] path the directory to be removed
- * @param[out] level keeps track of the number of times recursion has happened
- * @return error number
- */
-int
-rmdir_recursive(const char *dirname, short unsigned level, const int force,
-                st_counters * ctr)
-{
-  if (level > RMDIR_MAX_DEPTH)
-    return RMDIR_MAX_DEPTH;
-
-  int remove_result = 0;
-
-  struct _dirname
-  {
-    char path[LEN_MAX_PATH];
-    DIR *ptr;
-    struct dirent *st_entry_ptr;
-  } st_dirname_properties;
-
-  st_dirname_properties.ptr = opendir(dirname);
-  if (st_dirname_properties.ptr == NULL)
-    msg_err_open_dir(dirname, __func__, __LINE__);
-
-  while ((st_dirname_properties.st_entry_ptr =
-          readdir(st_dirname_properties.ptr)) != NULL)
-  {
-    if (isdotdir(st_dirname_properties.st_entry_ptr->d_name))
-      continue;
-
-    char *path_tmp =
-      join_paths(dirname, st_dirname_properties.st_entry_ptr->d_name, NULL);
-    strcpy(st_dirname_properties.path, path_tmp);
-    free(path_tmp);
-    path_tmp = NULL;
-
-    struct stat st;
-    if (lstat(st_dirname_properties.path, &st))
-      msg_err_lstat(st_dirname_properties.path, __func__, __LINE__);
-
-    if (force >= 2 && ~st.st_mode & S_IWUSR)
-    {
-      // using fchmod instead of chmod to hopefully prevent codeql
-      // from complaining about TOCTOU warnings
-      // https://github.com/theimpossibleastronaut/rmw/security/code-scanning/4?query=ref%3Arefs%2Fheads%2Fmaster
-      FILE *fp = fopen(st_dirname_properties.path, "r");
-      if (fp == NULL)
-      {
-        open_err(st_dirname_properties.path, __func__);
-        return errno;
-      }
-
-      // fchmod requires a file descriptor.
-      int fd = fileno(fp);
-      if (fd == -1)
-      {
-        strerror(errno);
-        return errno;
-      }
-
-      if (fchmod(fd, 00700) == 0)
-      {
-        /* Now that the mode has changed, lstat must be run again */
-        if (lstat(st_dirname_properties.path, &st))
-          msg_err_lstat(st_dirname_properties.path, __func__, __LINE__);
-      }
-      else
-      {
-        print_msg_error();
-        fprintf(stderr, _("while changing permissions of %s\n"), dirname);
-        perror("fchmod: ");
-        putchar('\n');
-        /* if permissions aren't changed, the directory is still
-         * not writable. This error shouldn't really happen. I don't
-         * know what to do next if that happens. Right now, the program
-         * will continue as normal, with the warning message about
-         * permissions
-         */
-      }
-      int r = close_file(fp, st_dirname_properties.path, __func__);
-      if (r)
-        return r;
-    }
-
-    if (st.st_mode & S_IWUSR)
-    {
-      if (!S_ISDIR(st.st_mode))
-      {
-        if (remove(st_dirname_properties.path) == 0)
-        {
-          ctr->deleted_files++;
-          ctr->bytes_freed += st.st_size;
-        }
-        else
-        {
-          perror("rmdir_recursive -> remove");
-        }
-      }
-      else
-      {
-        remove_result =
-          rmdir_recursive(st_dirname_properties.path, ++level, force, ctr);
-        level--;
-
-        switch (remove_result)
-        {
-
-        case EACCES:
-          if (closedir(st_dirname_properties.ptr))
-            msg_err_close_dir(dirname, __func__, __LINE__);
-          return EACCES;
-          break;
-        case RMDIR_MAX_DEPTH:
-          if (closedir(st_dirname_properties.ptr))
-            msg_err_close_dir(dirname, __func__, __LINE__);
-          return RMDIR_MAX_DEPTH;
-          break;
-        }
-      }
-    }
-    else
-    {
-      printf("\nPermission denied while deleting\n");
-      printf("%s\n", st_dirname_properties.path);
-
-      if (closedir(st_dirname_properties.ptr))
-        msg_err_close_dir(dirname, __func__, __LINE__);
-
-      return EACCES;
-    }
-  }
-
-  if (closedir(st_dirname_properties.ptr))
-    msg_err_close_dir(dirname, __func__, __LINE__);
-
-  if (level > 1)
-  {
-    if ((remove_result = rmdir(dirname)) == 0)
-      ctr->deleted_dirs++;
-    else
-      perror("rmdir_recursive -> rmdir");
-  }
-
-  return remove_result;
-}
 
 /*!
  * Called in main() to determine whether or not purge() was run today, reads
@@ -240,29 +86,6 @@ is_time_to_purge(st_time * st_time_var, const char *file)
 }
 
 
-static void
-show_purge_stats(st_counters * ctr)
-{
-  printf(ngettext("%d file purged", "%d files purged", ctr->purge),
-         ctr->purge);
-  putchar('\n');
-  printf(ngettext
-         ("(%d file deleted)", "(%d files deleted)", ctr->deleted_files),
-         ctr->deleted_files);
-  putchar('\n');
-  printf(ngettext
-         ("(%d directory deleted)", "(%d directories deleted)",
-          ctr->deleted_dirs), ctr->deleted_dirs);
-  putchar('\n');
-  /* TRANSLATORS: context: "Number of bytes freed" */
-  char hr_size[LEN_MAX_HUMAN_READABLE_SIZE];
-  make_size_human_readable(ctr->bytes_freed, hr_size);
-  printf("%s freed", hr_size);
-  putchar('\n');
-
-  return;
-}
-
 /*!
  * Purges files older than x number of days, unless expire_age is set to
  * 0 in the config file.
@@ -300,7 +123,7 @@ purge(st_config * st_config_data,
            ("Purging files based on number of days in the waste folders (%u) ...\n"),
            st_config_data->expire_age);
 
-  st_counters ctr = { 0, 0, 0, 0, 0, 0 };
+  int ctr = 0;
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
   while (waste_curr != NULL)
@@ -405,74 +228,39 @@ purge(st_config * st_config_data,
             }
           }
 
-          if (S_ISDIR(st.st_mode))
+          if (! S_ISDIR(st.st_mode))
           {
             if (cli_user_options->want_dry_run == false)
+              status = remove(purge_target);
+            else
+              status = 0;
+          }
+          else
+          {
+            char rm_args[BUFSIZ];
+            sn_check(
+              snprintf(
+                rm_args,
+                sizeof(rm_args),
+                "rm -rf%s --one-file-system %s",
+                verbose ? "v" : "",
+                purge_target
+                ),
+              sizeof(rm_args), __func__, __LINE__
+              );
+            
+
+            if (cli_user_options->want_dry_run == false)
               status =
-                rmdir_recursive(purge_target, 1, cli_user_options->force,
-                                &ctr);
+                system(rm_args);
             else
             {
               /* Not much choice but to
                * assume there would not be an error if the attempt were actually made */
               status = 0;
             }
-
-            switch (status)
-            {
-            case EACCES:
-              print_msg_warn();
-              printf(_("Directory not purged - still contains files\n"));
-              printf("%s\n", purge_target);
-              printf(_("(check owner/write permissions)\n"));
-              ctr.dirs_containing_files++;
-              break;
-
-            case RMDIR_MAX_DEPTH:
-              print_msg_warn();
-              /* TRANSLATORS:  "depth" refers to the recursion depth in a
-               * directory   */
-              printf(_("Maximum depth of %u reached, skipping\n"),
-                     RMDIR_MAX_DEPTH);
-              printf("%s\n", purge_target);
-              ctr.max_depth_reached++;
-              break;
-
-            case 0:
-              if (cli_user_options->want_dry_run == false)
-                status = rmdir(purge_target);
-              else
-                status = 0;
-
-              if (status == 0)
-              {
-                ctr.deleted_dirs++;
-                ctr.bytes_freed += st.st_size;
-              }
-              else
-                msg_err_remove(purge_target, __func__);
-              break;
-
-            default:
-              msg_err_remove(purge_target, __func__);
-              break;
-            }
-
           }
-          else
-          {
-            if (cli_user_options->want_dry_run == false)
-              status = remove(purge_target);
-            else
-              status = 0;
-            if (status == 0)
-            {
-              ctr.deleted_files++;
-              ctr.bytes_freed += st.st_size;
-            }
-            else
-              msg_err_remove(purge_target, __func__);
-          }
+
 
           if (status == 0)
           {
@@ -483,12 +271,16 @@ purge(st_config * st_config_data,
 
             if (!status)
             {
-              ctr.purge++;
+              ctr++;
               if (verbose)
                 printf("-%s\n", pt_basename);
             }
             else
-              msg_err_remove(purge_target, __func__);
+              msg_err_remove(trashinfo_entry_realpath, __func__);
+          }
+          else
+          {
+            msg_err_remove(purge_target, __func__);
           }
         }
         else if (verbose >= 2)
@@ -505,15 +297,9 @@ purge(st_config * st_config_data,
     waste_curr = waste_curr->next_node;
   }
 
-  if (ctr.max_depth_reached)
-    printf(_("%d directories skipped (RMDIR_MAX_DEPTH reached)\n"),
-           ctr.max_depth_reached);
-
-  if (ctr.dirs_containing_files)
-    printf(_("%d directories skipped (contains read-only files)\n"),
-           ctr.dirs_containing_files);
-
-  show_purge_stats(&ctr);
+  printf(ngettext("%d item purged", "%d items purged", ctr),
+         ctr);
+  putchar('\n');
 
   return 0;
 
@@ -588,103 +374,3 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
   return 0;
 }
-
-///////////////////////////////////////////////////////////////////////
-#ifdef TEST_LIB
-
-#include "test.h"
-
-static void
-test_rmdir_recursive(void)
-{
-  st_counters ctr = { 0, 0, 0, 0, 0, 0 };
-  char cur_dir[LEN_MAX_PATH];
-  assert(getcwd(cur_dir, LEN_MAX_PATH) != NULL);
-
-  // Just an extra trivial check to make sure that the number used for
-  // the test matches with what's defined in purging_rmw.h
-  assert(RMDIR_MAX_DEPTH == 32);
-
-  char dir_rmdir_test[LEN_MAX_PATH];
-  strcpy(dir_rmdir_test, "rmdir_test");
-
-  FILE *fd1;
-  FILE *fd2;
-
-  int i;
-  for (i = 0; i < RMDIR_MAX_DEPTH; i++)
-  {
-    assert(mkdir(dir_rmdir_test, S_IRWXU) == 0);
-
-    if (i == RMDIR_MAX_DEPTH - 1)
-    {
-      // Make the last directory non-writable
-      assert(chmod(dir_rmdir_test, 00500) == 0);
-    }
-
-    // These files can't get created after a dir has permissions set to
-    // 00500, so making it conditional
-    if (i != RMDIR_MAX_DEPTH - 1)
-    {
-      assert(chdir(dir_rmdir_test) == 0);
-      assert((fd1 = fopen("test_file1", "w+")) != NULL);
-      assert(fclose(fd1) == 0);
-      assert((fd2 = fopen("test file2", "w+")) != NULL);
-      assert(chmod("test file2", 00400) == 0);
-      assert(fclose(fd2) == 0);
-    }
-    printf("%d\n", i);
-  }
-
-  // Go back to the original cwd
-  assert(chdir(cur_dir) == 0);
-
-  int force = 1;
-  int level = 1;
-
-  // Because some of the created files don't have write permission, this
-  // should fail the first time when force isn't set to 2
-  assert(rmdir_recursive(dir_rmdir_test, level, force, &ctr) == EACCES);
-
-  force = 2;
-  // Now it should pass
-  assert(rmdir_recursive(dir_rmdir_test, level, force, &ctr) == 0);
-  assert(rmdir(dir_rmdir_test) == 0);
-
-  // Now try the test again, but creating a number of dirs that exceed MAX_DEPTH
-  for (i = 0; i < RMDIR_MAX_DEPTH + 1; i++)
-  {
-    assert(mkdir(dir_rmdir_test, S_IRWXU) == 0);
-    assert(chdir(dir_rmdir_test) == 0);
-  }
-
-  // Go back to the original cwd
-  assert(chdir(cur_dir) == 0);
-
-  // should return an error because MAX_DEPTH was reached
-  assert(rmdir_recursive(dir_rmdir_test, level, force, &ctr) ==
-         RMDIR_MAX_DEPTH);
-  printf("deleted_dirs: %d\n", ctr.deleted_dirs);
-  assert(ctr.deleted_dirs == RMDIR_MAX_DEPTH - 1);
-
-  // Change the 'level' argument so it will go one level further down
-  level = 0;
-  assert(rmdir_recursive(dir_rmdir_test, level, force, &ctr) == 0);
-
-  level = 1;
-  assert(rmdir_recursive(dir_rmdir_test, level, force, &ctr) == 0);
-
-  // remove the top directory, which should now be empty
-  assert(rmdir(dir_rmdir_test) == 0);
-
-  return;
-}
-
-
-int
-main(void)
-{
-  test_rmdir_recursive();
-  return 0;
-}
-#endif

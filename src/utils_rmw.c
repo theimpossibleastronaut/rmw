@@ -468,7 +468,6 @@ test_isdotdir(void)
 static void
 test_rmw_mkdir(const char *h)
 {
-  st_counters stats = { 0, 0, 0, 0, 0, 0 };
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths(h, subdirs, NULL);
   assert(rmw_mkdir(dir, S_IRWXU) == 0);
@@ -479,10 +478,9 @@ test_rmw_mkdir(const char *h)
   assert(rmw_mkdir(h, S_IRWXU) != 0);
   errno = 0;
 
-  assert(rmdir_recursive(h, 1, 1, &stats) == 0);
-
-  // remove the top directory, which should now be empty
-  assert(rmdir(h) == 0);
+  char rm_args[BUFSIZ];
+  sn_check(snprintf(rm_args, sizeof(rm_args), "rm -rf %s", h), sizeof rm_args, __func__, __LINE__);
+  assert(system(rm_args) == 0);
 
   return;
 }
