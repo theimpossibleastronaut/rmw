@@ -253,7 +253,8 @@ purge(st_config * st_config_data,
               snprintf(
                 rm_args,
                 sizeof(rm_args),
-                "rm -rf %s %s %s",
+                "%s -rf %s %s %s",
+                RM_FULL_PATH,
                 rm_verbose_arg,
                 rm_onefs_arg,
                 purge_target

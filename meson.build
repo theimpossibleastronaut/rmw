@@ -45,7 +45,9 @@ conf.set_quoted('PACKAGE_BUGREPORT', 'https://github.com/theimpossibleastronaut/
 
 foo_file = 'foo_rmw.txt'
 configure_file(output: foo_file, configuration: configuration_data())
-r = run_command(find_program('rm'), '--one-file-system', join_paths(meson.project_build_root(), foo_file), check: false)
+rm_cmd = find_program('rm', required: true)
+conf.set_quoted('RM_FULL_PATH', rm_cmd.full_path())
+r = run_command(rm_cmd, '--one-file-system', join_paths(meson.project_build_root(), foo_file), check: false)
 if r.returncode() == 0
   conf.set('RM_HAS_ONE_FILE_SYSTEM_ARG', 1)
 endif
