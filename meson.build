@@ -2,11 +2,12 @@ project(
   'rmw',
   'c',
   version: '0.8.1.555',
-  meson_version : '>= 0.56.0',
+  meson_version : '>= 0.59.0',
   default_options: ['warning_level=3']
   )
 
 cc = meson.get_compiler('c')
+host_sys = host_machine.system()
 
 extra_flags = [
   '-fno-common',
@@ -17,7 +18,7 @@ extra_flags = [
   '-Wshadow',
   '-Wstrict-overflow=5',
 # '-Wconversion'
-]
+  ]
 
 foreach cflag : extra_flags
   if cc.has_argument(cflag)
@@ -29,20 +30,12 @@ endforeach
 disable_flag = [
   '-Wno-analyzer-malloc-leak',
   '-Wno-analyzer-null-argument'
-]
+  ]
 foreach cflag : disable_flag
   if cc.get_id() == 'gcc' and cc.version().startswith('12.')
     add_project_arguments(disable_flag, language: 'c')
   endif
 endforeach
-
-inc_args = []
-if host_machine.system() == 'freebsd' or host_machine.system() == 'openbsd' or host_machine.system() == 'dragonfly'
-  inc_args = ['-isystem/usr/local/include']
-elif host_machine.system() == 'netbsd'
-  inc_args = ['-isystem/usr/pkg/include']
-endif
-add_project_arguments(inc_args, language : 'c')
 
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
@@ -59,11 +52,11 @@ check_headers = [
   ['ncurses/curses.h', 'HAVE_NCURSES_CURSES_H'],
   ['ncurses.h', 'HAVE_NCURSES_H'],
   ['curses.h', 'HAVE_CURSES_H'],
-]
+  ]
 
 foreach h : check_headers
-  if cc.has_header(h.get(0))
-    conf.set(h.get(1), 1)
+  if cc.has_header(h[0])
+    conf.set(h[1], 1)
   endif
 endforeach
 
@@ -84,7 +77,7 @@ subdir('src')
 executable(
   'rmw',
   'src/main.c',
-  dependencies: [dep_canfigger, dep_rmw],
+  dependencies: [dep_canfigger, dep_rmw, dep_intl],
   install : true
   )
 
@@ -102,13 +95,3 @@ install_data(
     ),
   install_dir : get_option('docdir')
   )
-
-if get_option('nls')
-  ul = configuration_data()
-  ul.set('LOCALEDIR', localedir)
-  ul.set('MESON_SOURCE_ROOT', meson.project_source_root())
-  ul.set('MESON_PROJECT_NAME', meson.project_name())
-  configure_file(input : 'uninstall_langs.sh.in',
-                 output : 'uninstall_langs.sh',
-                 configuration : ul)
-endif

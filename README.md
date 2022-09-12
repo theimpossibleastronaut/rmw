@@ -258,7 +258,7 @@ the [releases section][releases-url].
 ### Required libraries
 
 * libncursesw (ncurses-devel on some systems, such as CentOS)
-* gettext (or use '-Dnls=false' if you only need English language support)
+* gettext (or use '-Dnls=false' when configuring with meson if you only need English language support)
 
 If you're building from source, you will need the libncursesw(5 or
 6)-dev package from your operating system distribution. On some systems
@@ -313,8 +313,3 @@ brew](https://formulae.brew.sh/formula/rmw).
 ### Uninstall
 
     ninja uninstall (uninstalls the program if installed with 'ninja install`)
-
-Note that if using Meson version < 0.60.0, uninstall does not remove
-any language files that were installed. To remove them:
-
-    sh uninstall_langs.sh
