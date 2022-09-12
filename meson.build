@@ -43,6 +43,13 @@ conf.set_quoted('PACKAGE_STRING', meson.project_name())
 conf.set_quoted('PACKAGE_URL', 'https://remove-to-waste.info/')
 conf.set_quoted('PACKAGE_BUGREPORT', 'https://github.com/theimpossibleastronaut/rmw/issues')
 
+foo_file = 'foo_rmw.txt'
+configure_file(output: foo_file, configuration: configuration_data())
+r = run_command(find_program('rm'), '--one-file-system', join_paths(meson.project_build_root(), foo_file), check: false)
+if r.returncode() == 0
+  conf.set('RM_HAS_ONE_FILE_SYSTEM_ARG', 1)
+endif
+
 check_headers = [
   ['ncursesw/menu.h', 'HAVE_NCURSESW_MENU_H'],
   ['ncurses/menu.h', 'HAVE_NCURSES_MENU_H'],

@@ -95,6 +95,9 @@ purge(st_config * st_config_data,
       const rmw_options * cli_user_options,
       st_time * st_time_var, int *orphan_ctr)
 {
+  const int LEN_MAX_RM_ARGS = (128 + LEN_MAX_PATH);
+  char rm_args[LEN_MAX_RM_ARGS];
+
   if (!st_config_data->expire_age)
   {
     /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
@@ -102,6 +105,15 @@ purge(st_config * st_config_data,
     printf(_("purging is disabled ('%s' is set to '0')\n\n"), expire_age_str);
     return 0;
   }
+
+  char rm_onefs_arg[] = "--one-file-system";
+#ifndef RM_HAS_ONE_FILE_SYSTEM_ARG
+  *rm_onefs_arg = '\0';
+#endif
+
+  char rm_verbose_arg[] = "-v";
+  if (!verbose)
+    *rm_verbose_arg = '\0';
 
   int status = 0;
 
@@ -237,18 +249,17 @@ purge(st_config * st_config_data,
           }
           else
           {
-            char rm_args[BUFSIZ];
             sn_check(
               snprintf(
                 rm_args,
                 sizeof(rm_args),
-                "rm -rf%s --one-file-system %s",
-                verbose ? "v" : "",
+                "rm -rf %s %s %s",
+                rm_verbose_arg,
+                rm_onefs_arg,
                 purge_target
                 ),
               sizeof(rm_args), __func__, __LINE__
               );
-            
 
             if (cli_user_options->want_dry_run == false)
               status =
