@@ -95,13 +95,3 @@ install_data(
     ),
   install_dir : get_option('docdir')
   )
-
-if get_option('nls')
-  ul = configuration_data()
-  ul.set('LOCALEDIR', localedir)
-  ul.set('MESON_SOURCE_ROOT', meson.project_source_root())
-  ul.set('MESON_PROJECT_NAME', meson.project_name())
-  configure_file(input : 'uninstall_langs.sh.in',
-                 output : 'uninstall_langs.sh',
-                 configuration : ul)
-endif
