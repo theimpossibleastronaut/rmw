@@ -254,7 +254,7 @@ purge(st_config * st_config_data,
                 rm_args,
                 sizeof(rm_args),
                 "%s -rf %s %s %s",
-                RM_FULL_PATH,
+                "././bin/rm",
                 rm_verbose_arg,
                 rm_onefs_arg,
                 purge_target

@@ -519,6 +519,11 @@ get_locations(const char *alt_config_file)
 int
 main(const int argc, char *const argv[])
 {
+  char *appdir = getenv("APPDIR");
+  if (appdir != NULL)
+    printf("%s\n", appdir);
+
+  //exit(0);
 #ifdef ENABLE_NLS
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE_STRING, LOCALEDIR);
