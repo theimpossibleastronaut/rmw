@@ -240,7 +240,8 @@ msg_err_remove(const char *file, const char *func)
   print_msg_error();
   /* TRANSLATORS:  "removing" refers to a file or folder  */
   fprintf(stderr, _("while removing %s\n"), file);
-  perror(func);
+  if (errno)
+    perror(func);
 }
 
 

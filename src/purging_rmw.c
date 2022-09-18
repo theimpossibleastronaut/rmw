@@ -263,8 +263,7 @@ purge(st_config * st_config_data,
               );
 
             if (cli_user_options->want_dry_run == false)
-              status =
-                system(rm_args);
+              status = system(rm_args);
             else
             {
               /* Not much choice but to
