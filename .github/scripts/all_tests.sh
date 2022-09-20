@@ -2,6 +2,8 @@
 
 set -ev
 
+echo ${GITHUB_REF_NAME}
+VERSION="${GITHUB_REF_NAME##v}"
 BUILDDIR="$PWD/builddir"
 
 sudo apt-get install -y gettext
@@ -49,8 +51,6 @@ if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
     meson test --setup=valgrind
   fi
 else
-  echo ${GITHUB_REF_NAME}
-  VERSION="${GITHUB_REF_NAME##v}"
   meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
   DESTDIR=AppDir ninja install
   cp /usr/bin/rm AppDir/usr/bin
