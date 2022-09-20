@@ -49,7 +49,8 @@ if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
     meson test --setup=valgrind
   fi
 else
-  VERSION=${GITHUB_REF_NAME:1}
+  echo ${GITHUB_REF_NAME}
+  VERSION="${GITHUB_REF_NAME##v}"
   meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
   DESTDIR=AppDir ninja install
   cp /usr/bin/rm AppDir/usr/bin
