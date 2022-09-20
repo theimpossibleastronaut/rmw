@@ -3,7 +3,7 @@
 set -ev
 
 echo ${GITHUB_REF_NAME}
-VERSION="${GITHUB_REF_NAME##v}"
+export VERSION="${GITHUB_REF_NAME##v}"
 BUILDDIR="$PWD/builddir"
 
 sudo apt-get install -y gettext
