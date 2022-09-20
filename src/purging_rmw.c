@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
+#define LEN_MAX_RM_ARGS (128 + LEN_MAX_PATH)
 
 /*!
  * Called in main() to determine whether or not purge() was run today, reads
@@ -95,9 +96,6 @@ purge(st_config * st_config_data,
       const rmw_options * cli_user_options,
       st_time * st_time_var, int *orphan_ctr)
 {
-  const int LEN_MAX_RM_ARGS = (128 + LEN_MAX_PATH);
-  char rm_args[LEN_MAX_RM_ARGS];
-
   if (!st_config_data->expire_age)
   {
     /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
@@ -106,14 +104,30 @@ purge(st_config * st_config_data,
     return 0;
   }
 
-  char rm_onefs_arg[] = "--one-file-system";
-#ifndef RM_HAS_ONE_FILE_SYSTEM_ARG
-  *rm_onefs_arg = '\0';
-#endif
+  const char onefs_str[] = "--one-file-system";
+  struct rm
+  {
+    char full_path[LEN_MAX_PATH];
+    char onefs[sizeof onefs_str];
+    char v[3];
+    char args[LEN_MAX_RM_ARGS];
+  } rm = {
+    RM_FULL_PATH,
+    "",
+    "-v",
+    ""
+  };
 
-  char rm_verbose_arg[] = "-v";
+#ifdef RM_HAS_ONE_FILE_SYSTEM_ARG
+  strcpy(rm.onefs, onefs_str);
+#endif
   if (!verbose)
-    *rm_verbose_arg = '\0';
+    *rm.v = '\0';
+  char *appdir = getenv("APPDIR");
+  if (appdir != NULL)
+    sn_check(snprintf
+             (rm.full_path, sizeof rm.full_path, "%s/usr/bin/rm", appdir),
+             sizeof rm.full_path, __func__, __LINE__);
 
   int status = 0;
 
@@ -240,7 +254,7 @@ purge(st_config * st_config_data,
             }
           }
 
-          if (! S_ISDIR(st.st_mode))
+          if (!S_ISDIR(st.st_mode))
           {
             if (cli_user_options->want_dry_run == false)
               status = remove(purge_target);
@@ -249,21 +263,18 @@ purge(st_config * st_config_data,
           }
           else
           {
-            sn_check(
-              snprintf(
-                rm_args,
-                sizeof(rm_args),
-                "%s -rf %s %s %s",
-                "././bin/rm",
-                rm_verbose_arg,
-                rm_onefs_arg,
-                purge_target
-                ),
-              sizeof(rm_args), __func__, __LINE__
-              );
+            char rm_cmd[sizeof rm.full_path + sizeof rm.args];
+            sn_check(snprintf(rm_cmd,
+                              sizeof rm_cmd,
+                              "%s -rf %s %s %s",
+                              rm.full_path,
+                              rm.v,
+                              rm.onefs,
+                              purge_target),
+                     sizeof(rm_cmd), __func__, __LINE__);
 
             if (cli_user_options->want_dry_run == false)
-              status = system(rm_args);
+              status = system(rm_cmd);
             else
             {
               /* Not much choice but to
@@ -308,8 +319,7 @@ purge(st_config * st_config_data,
     waste_curr = waste_curr->next_node;
   }
 
-  printf(ngettext("%d item purged", "%d items purged", ctr),
-         ctr);
+  printf(ngettext("%d item purged", "%d items purged", ctr), ctr);
   putchar('\n');
 
   return 0;
