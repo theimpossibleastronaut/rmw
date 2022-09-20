@@ -1,4 +1,12 @@
 === rmw ChangeLog ===
+2022-09-21
+
+  - When purging, '-ff' is no longer needed to confirm removal of
+  non-writable expired directories and files
+  * When purging, the 'rm' binary native to the user's
+  system will now be used.
+  + When purging, if the user's native 'rm' has the '--one-file-system'
+  argument available, it will be automatically used when calling 'rm'.
 
 2022-02-08
 
