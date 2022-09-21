@@ -39,6 +39,7 @@ jobs:
       id: build-debian-bullseye
       with:
         args: --nosign
+        sources: deb http://deb.debian.org/debian bullseye-backports main
   #  - name: Create sha256sum
    #   run: sha256sum ${{ steps.build.outputs.filename }} > ${{ steps.build.outputs.filename }}.sha256sum
     - name: Release deb package
