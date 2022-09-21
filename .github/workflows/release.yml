@@ -46,7 +46,7 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         allowUpdates: True
-        artifacts: "rmw*.deb*"
+        artifacts: "output/*"
         token: ${{ secrets.GITHUB_TOKEN }}
         omitNameDuringUpdate: True
         omitBodyDuringUpdate: True
