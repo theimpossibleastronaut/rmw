@@ -38,7 +38,7 @@ jobs:
     - uses: legoktm/gh-action-build-deb@debian-bullseye
       id: build-debian-bullseye
       with:
-        args: --nosign
+        args: --no-sign
         sources: deb http://deb.debian.org/debian bullseye-backports main
   #  - name: Create sha256sum
    #   run: sha256sum ${{ steps.build.outputs.filename }} > ${{ steps.build.outputs.filename }}.sha256sum
