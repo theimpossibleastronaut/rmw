@@ -30,3 +30,26 @@ jobs:
     - name: remove artifacts
       run: rm rmw*.AppImage*
 
+  build-deb:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: Copy debian directory
+      run: cp -a packaging/debian .
+    - uses: singingwolfboy/build-dpkg-buster@v1
+      id: build
+      with:
+        args: --unsigned-source --unsigned-changes
+  #  - name: Create sha256sum
+   #   run: sha256sum ${{ steps.build.outputs.filename }} > ${{ steps.build.outputs.filename }}.sha256sum
+    - name: Release deb package
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: True
+        artifacts: "rmw*.deb*"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        omitNameDuringUpdate: True
+        omitBodyDuringUpdate: True
+        replacesArtifacts: false
+    #- name: remove artifacts
+     # run: rm rmw*.AppImage*
