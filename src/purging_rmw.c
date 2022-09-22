@@ -84,6 +84,92 @@ is_time_to_purge(st_time * st_time_var, const char *file)
   exit(errno);
 }
 
+static int
+do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
+              const char *trashinfo_entry_realpath, int *orphan_ctr,
+              st_rm * rm, const char *pt_basename, int *ctr)
+{
+  int status = 0;
+  // If the corresponding file wasn't found, either display an error and exit, or remove the
+  // (probably) orphaned trashinfo file.
+  struct stat st;
+  if (lstat(purge_target, &st))
+  {
+    if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
+    {
+      int res = 0;
+      if (cli_user_options->want_dry_run == false)
+      {
+        res = remove(trashinfo_entry_realpath);
+        if (res != 0)
+          msg_err_remove(trashinfo_entry_realpath, __func__);
+      }
+      if (res == 0)
+        printf("removed '%s'\n", trashinfo_entry_realpath);
+      (*orphan_ctr)++;
+      return 1;
+    }
+    else
+    {
+      printf("While processing %s:\n", trashinfo_entry_realpath);
+      puts("You can remove the trashinfo file with '-offg'");
+      // Will exit after error
+      msg_err_lstat(purge_target, __func__, __LINE__);
+    }
+  }
+
+  if (!S_ISDIR(st.st_mode))
+  {
+    if (cli_user_options->want_dry_run == false)
+      status = remove(purge_target);
+    else
+      status = 0;
+  }
+  else
+  {
+    char rm_cmd[LEN_MAX_RM_CMD];
+    sn_check(snprintf(rm_cmd,
+                      sizeof rm_cmd,
+                      "%s -rf %s %s %s",
+                      rm->full_path,
+                      rm->v,
+                      rm->onefs,
+                      purge_target), sizeof(rm_cmd), __func__, __LINE__);
+
+    if (cli_user_options->want_dry_run == false)
+      status = system(rm_cmd);
+    else
+    {
+      printf("removing '%s\n", rm_cmd);
+      /* Not much choice but to
+       * assume there would not be an error if the attempt were actually made */
+      status = 0;
+    }
+  }
+
+  if (status == 0)
+  {
+    if (cli_user_options->want_dry_run == false)
+      status = remove(trashinfo_entry_realpath);
+    else
+      status = 0;
+
+    if (!status)
+    {
+      (*ctr)++;
+      if (verbose)
+        printf("-%s\n", pt_basename);
+    }
+    else
+      msg_err_remove(trashinfo_entry_realpath, __func__);
+  }
+  else
+  {
+    msg_err_remove(purge_target, __func__);
+  }
+  return 0;
+}
+
 
 void
 init_rm(st_rm * rm)
@@ -123,8 +209,6 @@ purge(st_config * st_config_data,
 
   st_rm rm;
   init_rm(&rm);
-
-  int status = 0;
 
   if (cli_user_options->want_empty_trash)
   {
@@ -201,9 +285,9 @@ purge(st_config * st_config_data,
         ((double) then + (SECONDS_IN_A_DAY * st_config_data->expire_age) -
          st_time_var->now) / SECONDS_IN_A_DAY;
 
-      bool do_file_purge = days_remaining <= 0
+      bool want_purge = days_remaining <= 0
         || cli_user_options->want_empty_trash;
-      if (do_file_purge || verbose >= 2)
+      if (want_purge || verbose >= 2)
       {
         char temp[strlen(st_trashinfo_dir_entry->d_name) + 1];
         strcpy(temp, st_trashinfo_dir_entry->d_name);
@@ -218,84 +302,12 @@ purge(st_config * st_config_data,
         strcpy(pt_tmp, purge_target);
         char *pt_basename = basename(pt_tmp);
 
-        if (do_file_purge)
+        if (want_purge)
         {
-          // If the corresponding file wasn't found, either display an error and exit, or remove the
-          // (probably) orphaned trashinfo file.
-          struct stat st;
-          if (lstat(purge_target, &st))
-          {
-            if (cli_user_options->want_orphan_chk
-                && cli_user_options->force >= 2)
-            {
-              int res = 0;
-              if (cli_user_options->want_dry_run == false)
-              {
-                res = remove(trashinfo_entry_realpath);
-                if (res != 0)
-                  msg_err_remove(trashinfo_entry_realpath, __func__);
-              }
-              if (res == 0)
-                printf("removed '%s'\n", trashinfo_entry_realpath);
-              (*orphan_ctr)++;
-              continue;
-            }
-            else
-            {
-              printf("While processing %s:\n", trashinfo_entry_realpath);
-              puts("You can remove the trashinfo file with '-offg'");
-              // Will exit after error
-              msg_err_lstat(purge_target, __func__, __LINE__);
-            }
-          }
-
-          if (!S_ISDIR(st.st_mode))
-          {
-            if (cli_user_options->want_dry_run == false)
-              status = remove(purge_target);
-            else
-              status = 0;
-          }
-          else
-          {
-            char rm_cmd[LEN_MAX_RM_CMD];
-            sn_check(snprintf(rm_cmd,
-                              sizeof rm_cmd,
-                              "%s -rf %s %s %s",
-                              rm.full_path,
-                              rm.v, rm.onefs, purge_target), sizeof rm_cmd);
-
-            if (cli_user_options->want_dry_run == false)
-              status = system(rm_cmd);
-            else
-            {
-              /* Not much choice but to
-               * assume there would not be an error if the attempt were actually made */
-              status = 0;
-            }
-          }
-
-
-          if (status == 0)
-          {
-            if (cli_user_options->want_dry_run == false)
-              status = remove(trashinfo_entry_realpath);
-            else
-              status = 0;
-
-            if (!status)
-            {
-              ctr++;
-              if (verbose)
-                printf("-%s\n", pt_basename);
-            }
-            else
-              msg_err_remove(trashinfo_entry_realpath, __func__);
-          }
-          else
-          {
-            msg_err_remove(purge_target, __func__);
-          }
+          if (do_file_purge(purge_target, cli_user_options,
+                            trashinfo_entry_realpath, orphan_ctr, &rm,
+                            pt_basename, &ctr) == 1)
+            continue;
         }
         else if (verbose >= 2)
         {
