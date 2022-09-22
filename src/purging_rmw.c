@@ -28,8 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
-#define LEN_MAX_RM_ARGS (128 + LEN_MAX_PATH)
-
 /*!
  * Called in main() to determine whether or not purge() was run today, reads
  * and writes to the 'lastpurge` file. If it hasn't been run today, the
@@ -87,6 +85,25 @@ is_time_to_purge(st_time * st_time_var, const char *file)
 }
 
 
+void
+init_rm(st_rm *rm)
+{
+  strcpy(rm->full_path, RM_FULL_PATH);
+  strcpy(rm->onefs, ONEFS_STR);
+  strcpy(rm->v, "-v");
+
+#ifndef RM_HAS_ONE_FILE_SYSTEM_ARG
+  *rm->onefs = '\0';
+#endif
+  if (!verbose)
+    *rm->v = '\0';
+  char *appdir = getenv("APPDIR");
+  if (appdir != NULL)
+    sn_check(snprintf
+             (rm->full_path, sizeof rm->full_path, "%s/usr/bin/rm", appdir),
+             sizeof rm->full_path, __func__, __LINE__);
+}
+
 /*!
  * Purges files older than x number of days, unless expire_age is set to
  * 0 in the config file.
@@ -104,30 +121,8 @@ purge(st_config * st_config_data,
     return 0;
   }
 
-  const char onefs_str[] = "--one-file-system";
-  struct rm
-  {
-    char full_path[LEN_MAX_PATH];
-    char onefs[sizeof onefs_str];
-    char v[3];
-    char args[LEN_MAX_RM_ARGS];
-  } rm = {
-    RM_FULL_PATH,
-    "",
-    "-v",
-    ""
-  };
-
-#ifdef RM_HAS_ONE_FILE_SYSTEM_ARG
-  strcpy(rm.onefs, onefs_str);
-#endif
-  if (!verbose)
-    *rm.v = '\0';
-  char *appdir = getenv("APPDIR");
-  if (appdir != NULL)
-    sn_check(snprintf
-             (rm.full_path, sizeof rm.full_path, "%s/usr/bin/rm", appdir),
-             sizeof rm.full_path, __func__, __LINE__);
+  st_rm rm;
+  init_rm (&rm);
 
   int status = 0;
 
@@ -263,7 +258,7 @@ purge(st_config * st_config_data,
           }
           else
           {
-            char rm_cmd[sizeof rm.full_path + sizeof rm.args];
+            char rm_cmd[LEN_MAX_RM_CMD];
             sn_check(snprintf(rm_cmd,
                               sizeof rm_cmd,
                               "%s -rf %s %s %s",

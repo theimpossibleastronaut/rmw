@@ -448,8 +448,6 @@ join_paths(const char *argv, ...)
 #include "test.h"
 #include "purging_rmw.h"
 
-#define BUF_SIZE 1024
-
 
 static void
 test_isdotdir(void)
@@ -473,14 +471,20 @@ test_rmw_mkdir(const char *h)
   assert(rmw_mkdir(dir, S_IRWXU) == 0);
   printf("%s\n", dir);
   assert(exists(dir) == true);
+
+  st_rm rm;
+  init_rm(&rm);
+  char rm_cmd[LEN_MAX_RM_CMD];
+
+  assert(snprintf(rm_cmd,
+                    sizeof rm_cmd,
+                    "%s -rf %s %s %s",
+                    rm.full_path,
+                    rm.v,
+                    rm.onefs,
+                    dir) < sizeof rm_cmd);
+  assert(system(rm_cmd) == 0);
   free(dir);
-
-  assert(rmw_mkdir(h, S_IRWXU) != 0);
-  errno = 0;
-
-  char rm_args[BUFSIZ];
-  sn_check(snprintf(rm_args, sizeof(rm_args), "rm -rf %s", h), sizeof rm_args, __func__, __LINE__);
-  assert(system(rm_args) == 0);
 
   return;
 }
@@ -488,7 +492,7 @@ test_rmw_mkdir(const char *h)
 static void
 test_rmw_dirname(void)
 {
-  char dir[BUF_SIZE];
+  char dir[BUFSIZ];
   strcpy(dir, "/");
   assert(strcmp(rmw_dirname(dir), "/") == 0);
 
