@@ -86,7 +86,7 @@ is_time_to_purge(st_time * st_time_var, const char *file)
 
 
 void
-init_rm(st_rm *rm)
+init_rm(st_rm * rm)
 {
   strcpy(rm->full_path, RM_FULL_PATH);
   strcpy(rm->onefs, ONEFS_STR);
@@ -122,7 +122,7 @@ purge(st_config * st_config_data,
   }
 
   st_rm rm;
-  init_rm (&rm);
+  init_rm(&rm);
 
   int status = 0;
 

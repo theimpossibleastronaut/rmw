@@ -476,13 +476,10 @@ test_rmw_mkdir(const char *h)
   init_rm(&rm);
   char rm_cmd[LEN_MAX_RM_CMD];
 
-  assert(snprintf(rm_cmd,
-                    sizeof rm_cmd,
-                    "%s -rf %s %s %s",
-                    rm.full_path,
-                    rm.v,
-                    rm.onefs,
-                    dir) < sizeof rm_cmd);
+  assert((size_t)snprintf(rm_cmd,
+                  sizeof rm_cmd,
+                  "%s -rf %s %s %s",
+                  rm.full_path, rm.v, rm.onefs, dir) < sizeof rm_cmd);
   assert(system(rm_cmd) == 0);
   free(dir);
 

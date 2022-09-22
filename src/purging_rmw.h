@@ -38,8 +38,7 @@ typedef struct
 
 bool is_time_to_purge(st_time * st_time_var, const char *file);
 
-void
-init_rm(st_rm *rm);
+void init_rm(st_rm * rm);
 
 int
 purge(st_config * st_config_data,
