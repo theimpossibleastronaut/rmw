@@ -88,7 +88,8 @@ is_time_to_purge(st_time * st_time_var, const char *file)
 void
 init_rm(st_rm * rm)
 {
-  strcpy(rm->full_path, RM_FULL_PATH);
+  sn_check(snprintf(rm->full_path, LEN_MAX_PATH, RM_FULL_PATH), LEN_MAX_PATH,
+           __func__, __LINE__);
   strcpy(rm->onefs, ONEFS_STR);
   strcpy(rm->v, "-v");
 
@@ -100,8 +101,8 @@ init_rm(st_rm * rm)
   char *appdir = getenv("APPDIR");
   if (appdir != NULL)
     sn_check(snprintf
-             (rm->full_path, sizeof rm->full_path, "%s/usr/bin/rm", appdir),
-             sizeof rm->full_path, __func__, __LINE__);
+             (rm->full_path, LEN_MAX_PATH, "%s/usr/bin/rm", appdir),
+             LEN_MAX_PATH, __func__, __LINE__);
 }
 
 /*!
