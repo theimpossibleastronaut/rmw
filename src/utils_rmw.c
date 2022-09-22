@@ -448,8 +448,6 @@ join_paths(const char *argv, ...)
 #include "test.h"
 #include "purging_rmw.h"
 
-#define BUF_SIZE 1024
-
 
 static void
 test_isdotdir(void)
@@ -468,21 +466,23 @@ test_isdotdir(void)
 static void
 test_rmw_mkdir(const char *h)
 {
-  st_counters stats = { 0, 0, 0, 0, 0, 0 };
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths(h, subdirs, NULL);
   assert(rmw_mkdir(dir, S_IRWXU) == 0);
   printf("%s\n", dir);
   assert(exists(dir) == true);
+
+  st_rm rm;
+  init_rm(&rm);
+  char rm_cmd[LEN_MAX_RM_CMD];
+
+  assert((size_t) snprintf(rm_cmd,
+                           sizeof rm_cmd,
+                           "%s -rf %s %s %s",
+                           rm.full_path, rm.v, rm.onefs,
+                           dir) < sizeof rm_cmd);
+  assert(system(rm_cmd) == 0);
   free(dir);
-
-  assert(rmw_mkdir(h, S_IRWXU) != 0);
-  errno = 0;
-
-  assert(rmdir_recursive(h, 1, 1, &stats) == 0);
-
-  // remove the top directory, which should now be empty
-  assert(rmdir(h) == 0);
 
   return;
 }
@@ -490,7 +490,7 @@ test_rmw_mkdir(const char *h)
 static void
 test_rmw_dirname(void)
 {
-  char dir[BUF_SIZE];
+  char dir[BUFSIZ];
   strcpy(dir, "/");
   assert(strcmp(rmw_dirname(dir), "/") == 0);
 

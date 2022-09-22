@@ -627,8 +627,7 @@ Please check your configuration file and permissions\
       msg_warn_restore(restore_errors += restore(argv[file_arg],
                                                  &st_time_var,
                                                  &cli_user_options,
-                                                 st_config_data.
-                                                 st_waste_folder_props_head));
+                                                 st_config_data.st_waste_folder_props_head));
 
     dispose_waste(st_config_data.st_waste_folder_props_head);
 

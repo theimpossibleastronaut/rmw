@@ -155,17 +155,8 @@ echo $SEPARATOR
 RMW_FAKE_YEAR=True $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/somefiles
 
 echo $SEPARATOR
-echo " == only one f, should fail"
+echo " == 1 f, this should pass"
 $RMW_TEST_CMD_STRING -f --purge
-
-echo $SEPARATOR
-echo " == (files should still be present)"
-test -e $PRIMARY_WASTE_DIR/files/somefiles
-test -e $PRIMARY_WASTE_DIR/info/somefiles.trashinfo
-
-echo $SEPARATOR
-echo " == 2 f's, this should pass"
-$RMW_TEST_CMD_STRING -ff --purge
 
 echo
 echo
@@ -183,9 +174,6 @@ output=$($RMW_TEST_CMD_STRING -g)
 echo $output
 test "${output}" = "
 Purging files based on number of days in the waste folders (90) ...
-3 files purged
-(3 files deleted)
-(0 directories deleted)
-120 B freed"
+3 items purged"
 
 exit 0

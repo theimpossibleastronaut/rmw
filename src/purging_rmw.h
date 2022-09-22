@@ -27,17 +27,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "time_rmw.h"
 #include "config_rmw.h"
 
-typedef struct st_counters
+#define LEN_MAX_RM_CMD (LEN_MAX_PATH + 128 + LEN_MAX_PATH)
+#define ONEFS_STR "--one-file-system"
+typedef struct
 {
-  unsigned int purge;
-  unsigned int dirs_containing_files;
-  unsigned int max_depth_reached;
-  unsigned int deleted_files;
-  unsigned int deleted_dirs;
-  off_t bytes_freed;
-} st_counters;
+  char full_path[LEN_MAX_PATH];
+  char onefs[sizeof ONEFS_STR];
+  char v[3];
+} st_rm;
 
 bool is_time_to_purge(st_time * st_time_var, const char *file);
+
+void init_rm(st_rm * rm);
 
 int
 purge(st_config * st_config_data,
@@ -46,8 +47,4 @@ purge(st_config * st_config_data,
 
 short orphan_maint(st_waste * waste_head, st_time * st_time_var,
                    int *orphan_ctr);
-
-int
-rmdir_recursive(const char *dirname, short unsigned level, const int force,
-                st_counters * ctr);
 #endif

@@ -21,7 +21,6 @@ test_cases = [
   'strings_rmw',
   'utils_rmw',
   'trashinfo_rmw',
-  'purging_rmw',
   'restore_rmw'
   ]
 

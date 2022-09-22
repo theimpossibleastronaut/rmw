@@ -65,11 +65,6 @@ OPTIONS
        -f, --force
               allow purging of expired files
 
-              rmw will refuse to purge directories if they contain non-writable
-              files or subdirectories. rmw will show a message that tells you
-              "permission denied; directory still contains files". To override,
-              you can re-run rmw using '-ffg'.
-
               By default, force is not required to enable the purge feature. If
               you would like to require it, add 'force_required' to your config
               file.

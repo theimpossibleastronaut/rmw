@@ -64,6 +64,8 @@ Make the AppImage
   meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
   DESTDIR=AppDir ninja install
 
+  cp /usr/bin/rm AppDir/usr/bin
+
   (path to where the linuxdeploy appimage was extracted)/squashfs-root/AppRun -d /rmw/packaging/rmw.desktop \
   --icon-file=/rmw/packaging/rmw_icon_32x32.png \
    --icon-filename=rmw --executable AppDir/usr/bin/rmw --appdir AppDir --output appimage
