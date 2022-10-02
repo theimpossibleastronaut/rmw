@@ -223,7 +223,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   strcpy(waste_curr->parent, tmp_waste_parent_folder);
 
   /* and the files... */
-  waste_curr->files = join_paths(waste_curr->parent, lit_files, NULL);
+  waste_curr->files = join_paths(waste_curr->parent, lit_files);
   waste_curr->len_files = strlen(waste_curr->files);
 
   if (!exists(waste_curr->files))
@@ -237,7 +237,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
     }
   }
 
-  waste_curr->info = join_paths(waste_curr->parent, lit_info, NULL);
+  waste_curr->info = join_paths(waste_curr->parent, lit_info);
   waste_curr->len_info = strlen(waste_curr->info);
 
   if (!exists(waste_curr->info))

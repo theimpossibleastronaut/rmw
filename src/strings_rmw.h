@@ -32,8 +32,6 @@ void
 sn_check(const size_t len, const size_t dest_boundary, const char *func,
          const int line);
 
-size_t multi_strlen(const char *argv, ...);
-
 void trim_whitespace(char *str);
 
 void truncate_str(char *str, const size_t pos);

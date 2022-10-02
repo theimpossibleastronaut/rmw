@@ -274,7 +274,7 @@ damage of 5000 hp. You feel satisfied.\n"));
       if (waste_curr->dev_num == st_orig.st_dev)
       {
         char *tmp_str =
-          join_paths(waste_curr->files, st_target.base_name, NULL);
+          join_paths(waste_curr->files, st_target.base_name);
         strcpy(st_target.waste_dest_name, tmp_str);
         free(tmp_str);
         tmp_str = NULL;
@@ -413,7 +413,7 @@ get_locations(const char *alt_config_file)
   if (enable_test == NULL)
   {
     x.home_dir = x.st_directory->home;
-    m_d_str = join_paths(x.st_directory->dataroot, PACKAGE_STRING, NULL);
+    m_d_str = join_paths(x.st_directory->dataroot, PACKAGE_STRING);
     x.config_dir = x.st_directory->configroot;
   }
   else
@@ -421,8 +421,8 @@ get_locations(const char *alt_config_file)
     if (verbose)
       printf("%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
     x.home_dir = enable_test;
-    m_d_str = join_paths(x.home_dir, rel_default_data_dir, NULL);
-    char *m_c_str = join_paths(x.home_dir, rel_default_config_dir, NULL);
+    m_d_str = join_paths(x.home_dir, rel_default_data_dir);
+    char *m_c_str = join_paths(x.home_dir, rel_default_config_dir);
     sn_check(snprintf(s_config_dir, sizeof s_config_dir, "%s", m_c_str),
              sizeof s_config_dir, __func__, __LINE__);
 
@@ -458,7 +458,7 @@ get_locations(const char *alt_config_file)
 
   if (alt_config_file == NULL)
   {
-    char *tmp_str = join_paths(x.config_dir, config_file_basename, NULL);
+    char *tmp_str = join_paths(x.config_dir, config_file_basename);
     sn_check(snprintf(s_config_file, sizeof s_config_file, "%s", tmp_str),
              sizeof s_config_file, __func__, __LINE__);
 
@@ -491,7 +491,7 @@ get_locations(const char *alt_config_file)
   }
 
   static char s_mrl_file[LEN_MAX_PATH];
-  char *m_tmp_str = join_paths(x.data_dir, mrl_file_basename, NULL);
+  char *m_tmp_str = join_paths(x.data_dir, mrl_file_basename);
   sn_check(snprintf(s_mrl_file, sizeof s_mrl_file, "%s", m_tmp_str),
            sizeof s_mrl_file, __func__, __LINE__);
 
@@ -499,7 +499,7 @@ get_locations(const char *alt_config_file)
   x.mrl_file = s_mrl_file;
 
   static char s_purge_time_file[LEN_MAX_PATH];
-  m_tmp_str = join_paths(x.data_dir, purge_time_file_basename, NULL);
+  m_tmp_str = join_paths(x.data_dir, purge_time_file_basename);
   sn_check(snprintf
            (s_purge_time_file, sizeof s_purge_time_file, "%s", m_tmp_str),
            sizeof s_purge_time_file, __func__, __LINE__);
