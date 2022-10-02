@@ -44,7 +44,7 @@ get_waste_parent(const char *src)
   char *src_dirname = rmw_dirname(src_copy);
 
   char *one_dir_level = "/..";
-  char *waste_parent_rel_path = join_paths(src_dirname, one_dir_level, NULL);
+  char *waste_parent_rel_path = join_paths(src_dirname, one_dir_level);
   char *waste_parent = realpath(waste_parent_rel_path, NULL);
   free(waste_parent_rel_path);
 
@@ -97,7 +97,7 @@ restore(const char *src, st_time * st_time_var,
     }
 
     char src_tinfo[LEN_MAX_PATH];
-    char *tmp_str = join_paths(waste_parent, lit_info, src_basename, NULL);
+    char *tmp_str = join_paths(waste_parent, lit_info, src_basename);
     int r = snprintf(src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
     free(tmp_str);
     tmp_str = NULL;
@@ -116,7 +116,7 @@ restore(const char *src, st_time * st_time_var,
     if (*_dest != '/')
     {
       char *media_root = rmw_dirname(waste_parent);
-      char *_tmp_str = join_paths(media_root, _dest, NULL);
+      char *_tmp_str = join_paths(media_root, _dest);
       strcpy(dest, _tmp_str);
       free(_tmp_str);
     }
@@ -333,7 +333,7 @@ restore_select(st_waste * waste_head, st_time * st_time_var,
         continue;
 
       // dir_entry_list = add_entry (dir_entry_list, waste_curr, entry->d_name);
-      char *tmp_path = join_paths(waste_curr->files, entry->d_name, NULL);
+      char *tmp_path = join_paths(waste_curr->files, entry->d_name);
 
       // this is used to get the size and mode of the file
       struct stat st;
@@ -452,7 +452,7 @@ restore_select(st_waste * waste_head, st_time * st_time_var,
         if (item_value(items[i]) == TRUE)
         {
           char *recover_file =
-            join_paths(waste_curr->files, item_name(items[i]), NULL);
+            join_paths(waste_curr->files, item_name(items[i]));
           msg_warn_restore(restore
                            (recover_file, st_time_var, cli_user_options,
                             waste_head));

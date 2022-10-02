@@ -379,7 +379,7 @@ resolve_path(const char *file, const char *b)
     return NULL;
   }
 
-  char *abspath = join_paths(orig_dirname, b, NULL);
+  char *abspath = join_paths(orig_dirname, b);
   free(orig_dirname);
   return abspath;
 }
@@ -411,7 +411,7 @@ trim_char(const int c, char *str)
 
 
 char *
-join_paths(const char *argv, ...)
+real_join_paths(const char *argv, ...)
 {
   char *path = calloc(1, LEN_MAX_PATH);
   chk_malloc(path, __func__, __LINE__);
@@ -467,7 +467,7 @@ static void
 test_rmw_mkdir(const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
-  char *dir = join_paths(h, subdirs, NULL);
+  char *dir = join_paths(h, subdirs);
   assert(rmw_mkdir(dir, S_IRWXU) == 0);
   printf("%s\n", dir);
   assert(exists(dir) == true);
@@ -569,12 +569,12 @@ test_make_size_human_readable(void)
 void
 test_join_paths(void)
 {
-  char *path = join_paths("home", "foo//", "bar", NULL);
+  char *path = join_paths("home", "foo//", "bar");
   assert(path != NULL);
   assert(strcmp(path, "home/foo/bar") == 0);
   free(path);
 
-  path = join_paths("/home/foo", "bar", "world/", NULL);
+  path = join_paths("/home/foo", "bar", "world/");
   assert(path != NULL);
   assert(strcmp(path, "/home/foo/bar/world") == 0);
   free(path);

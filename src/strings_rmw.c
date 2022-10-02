@@ -65,31 +65,6 @@ sn_check(const size_t len, const size_t dest_boundary, const char *func,
   return;
 }
 
-/*!
- * Get the combined length of multiple strings. Last argument MUST be "NULL".
- *
- * @param[in] argv The first argument
- * @param[in] ... variable argument list, each argument must be a string.
- * @return the combined length of each string
- */
-size_t
-multi_strlen(const char *argv, ...)
-{
-  va_list vlist;
-  char *str;
-  size_t len = 0;
-
-  str = (char *) argv;
-  va_start(vlist, argv);
-  while (str != NULL)
-  {
-    len += strlen(str);
-    str = va_arg(vlist, char *);
-  }
-
-  va_end(vlist);
-  return len;
-}
 
 /*!
  * Removes trailing white space from a string (including newlines, formfeeds,
@@ -156,13 +131,6 @@ truncate_str(char *str, const size_t pos)
 
 #define BUF_SIZE 80
 
-static void
-test_multi_strlen(void)
-{
-  assert(multi_strlen("this", " is", " a", " test string", NULL) ==
-         strlen("this is a test string"));
-  return;
-}
 
 static void
 test_bufchk_len(void)
@@ -232,7 +200,6 @@ main()
   test_trim_whitespace();
   test_bufchk_len();
   test_sn_check();
-  test_multi_strlen();
 
   return 0;
 }

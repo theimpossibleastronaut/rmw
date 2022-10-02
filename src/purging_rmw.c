@@ -175,7 +175,7 @@ purge(st_config * st_config_data,
         continue;
 
       char *tmp_str =
-        join_paths(waste_curr->info, st_trashinfo_dir_entry->d_name, NULL);
+        join_paths(waste_curr->info, st_trashinfo_dir_entry->d_name);
       char trashinfo_entry_realpath[strlen(tmp_str) + 1];
       strcpy(trashinfo_entry_realpath, tmp_str);
       free(tmp_str);
@@ -210,7 +210,7 @@ purge(st_config * st_config_data,
         strcpy(temp, st_trashinfo_dir_entry->d_name);
         truncate_str(temp, len_trashinfo_ext);  /* acquire the (basename - trashinfo extension) */
 
-        char *_tmp_str = join_paths(waste_curr->files, temp, NULL);
+        char *_tmp_str = join_paths(waste_curr->files, temp);
         char purge_target[strlen(_tmp_str) + 1];
         strcpy(purge_target, _tmp_str);
         free(_tmp_str);
@@ -351,7 +351,7 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
       st_file_properties.base_name = basename(entry->d_name);
 
       char *tmp_str =
-        join_paths(waste_curr->info, st_file_properties.base_name, NULL);
+        join_paths(waste_curr->info, st_file_properties.base_name);
       int r = snprintf(path_to_trashinfo, LEN_MAX_PATH, "%s%s", tmp_str,
                        trashinfo_ext);
       sn_check(r, LEN_MAX_PATH, __func__, __LINE__);
