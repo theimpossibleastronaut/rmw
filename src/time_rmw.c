@@ -54,8 +54,7 @@ set_which_deletion_date(char *format)
   }
   sn_check(snprintf
            (format, LEN_MAX_DELETION_DATE, "%s",
-            valid_value ? "1999-%m-%dT%T" : "%FT%T"), LEN_MAX_DELETION_DATE,
-           __func__, __LINE__);
+            valid_value ? "1999-%m-%dT%T" : "%FT%T"), LEN_MAX_DELETION_DATE);
 
   return;
 }

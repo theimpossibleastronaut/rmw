@@ -50,8 +50,8 @@ bufchk_len(const size_t len, const size_t dest_boundary, const char *func,
 }
 
 void
-sn_check(const size_t len, const size_t dest_boundary, const char *func,
-         const int line)
+real_sn_check(const size_t len, const size_t dest_boundary, const char *func,
+              const int line)
 {
   if (len < dest_boundary)
     return;
@@ -149,11 +149,11 @@ static void
 test_sn_check(void)
 {
   errno = 0;
-  sn_check(24, 24, __func__, __LINE__);
+  sn_check(24, 24);
   assert(errno);
   errno = 0;
 
-  sn_check(33, 34, __func__, __LINE__);
+  sn_check(33, 34);
   assert(!errno);
   return;
 }

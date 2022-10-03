@@ -101,7 +101,7 @@ restore(const char *src, st_time * st_time_var,
     int r = snprintf(src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
     free(tmp_str);
     tmp_str = NULL;
-    sn_check(r, LEN_MAX_PATH, __func__, __LINE__);
+    sn_check(r, LEN_MAX_PATH);
 
     char *_dest = parse_trashinfo_file(src_tinfo, path_key);
     if (_dest == NULL)
@@ -213,7 +213,7 @@ create_file_details_str(const off_t size, const mode_t mode)
   chk_malloc(file_details, __func__, __LINE__);
   sn_check(snprintf
            (file_details, LEN_MAX_FILE_DETAILS, "[%s]", hr_size),
-           LEN_MAX_FILE_DETAILS, __func__, __LINE__);
+           LEN_MAX_FILE_DETAILS);
 
   if (S_ISDIR(mode))
     strcat(file_details, " (D)");
@@ -343,7 +343,7 @@ restore_select(st_waste * waste_head, st_time * st_time_var,
       char *m_dir_entry = malloc(strlen(entry->d_name) + 1);
       chk_malloc(m_dir_entry, __func__, __LINE__);
       sn_check(snprintf(m_dir_entry, LEN_MAX_PATH, "%s", entry->d_name),
-               LEN_MAX_PATH, __func__, __LINE__);
+               LEN_MAX_PATH);
       char *file_details = create_file_details_str(st.st_size, st.st_mode);
 
       my_items[n_choices] = new_item(m_dir_entry, file_details);

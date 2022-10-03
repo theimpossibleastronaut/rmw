@@ -183,13 +183,11 @@ make_size_human_readable(const off_t size, char *buf)
     sn_check(snprintf
              (buf, LEN_MAX_HUMAN_READABLE_SIZE, "%d.%d %ciB",
               (short) hr_size, (short) remainder * 10 / 1024,
-              prefix[power]), LEN_MAX_HUMAN_READABLE_SIZE, __func__,
-             __LINE__);
+              prefix[power]), LEN_MAX_HUMAN_READABLE_SIZE);
   else
     sn_check(snprintf
              (buf, LEN_MAX_HUMAN_READABLE_SIZE, "%d B",
-              (short) hr_size), LEN_MAX_HUMAN_READABLE_SIZE, __func__,
-             __LINE__);
+              (short) hr_size), LEN_MAX_HUMAN_READABLE_SIZE);
 
   return;
 }
@@ -430,7 +428,7 @@ real_join_paths(const char *argv, ...)
     int max_len = LEN_MAX_PATH - len;
     int r = snprintf(path + len, max_len, "%s/", dup_str);
     free(dup_str);
-    sn_check(r, max_len, __func__, __LINE__);
+    sn_check(r, max_len);
     str = va_arg(ap, char *);
   }
 

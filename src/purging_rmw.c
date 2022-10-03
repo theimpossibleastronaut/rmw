@@ -88,8 +88,7 @@ is_time_to_purge(st_time * st_time_var, const char *file)
 void
 init_rm(st_rm * rm)
 {
-  sn_check(snprintf(rm->full_path, LEN_MAX_PATH, RM_FULL_PATH), LEN_MAX_PATH,
-           __func__, __LINE__);
+  sn_check(snprintf(rm->full_path, LEN_MAX_PATH, RM_FULL_PATH), LEN_MAX_PATH);
   strcpy(rm->onefs, ONEFS_STR);
   strcpy(rm->v, "-v");
 
@@ -102,7 +101,7 @@ init_rm(st_rm * rm)
   if (appdir != NULL)
     sn_check(snprintf
              (rm->full_path, LEN_MAX_PATH, "%s/usr/bin/rm", appdir),
-             LEN_MAX_PATH, __func__, __LINE__);
+             LEN_MAX_PATH);
 }
 
 /*!
@@ -264,10 +263,7 @@ purge(st_config * st_config_data,
                               sizeof rm_cmd,
                               "%s -rf %s %s %s",
                               rm.full_path,
-                              rm.v,
-                              rm.onefs,
-                              purge_target),
-                     sizeof(rm_cmd), __func__, __LINE__);
+                              rm.v, rm.onefs, purge_target), sizeof rm_cmd);
 
             if (cli_user_options->want_dry_run == false)
               status = system(rm_cmd);
@@ -354,7 +350,7 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
         join_paths(waste_curr->info, st_file_properties.base_name);
       int r = snprintf(path_to_trashinfo, LEN_MAX_PATH, "%s%s", tmp_str,
                        trashinfo_ext);
-      sn_check(r, LEN_MAX_PATH, __func__, __LINE__);
+      sn_check(r, LEN_MAX_PATH);
 
       free(tmp_str);
 
