@@ -54,7 +54,7 @@ open_err(const char *filename, const char *function_name)
   /* TRANSLATORS:  "function" refers to a C function  */
   sn_check(snprintf
            (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
-           BUFSIZ, __func__, __LINE__);
+           BUFSIZ);
   perror(combined_msg);
 
   return;
@@ -89,7 +89,7 @@ close_file(FILE * file_ptr, const char *filename, const char *function_name)
     static char combined_msg[BUFSIZ];
     sn_check(snprintf
              (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
-             BUFSIZ, __func__, __LINE__);
+             BUFSIZ);
     perror(combined_msg);
 
     msg_return_code(errno);

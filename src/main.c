@@ -273,8 +273,7 @@ damage of 5000 hp. You feel satisfied.\n"));
     {
       if (waste_curr->dev_num == st_orig.st_dev)
       {
-        char *tmp_str =
-          join_paths(waste_curr->files, st_target.base_name);
+        char *tmp_str = join_paths(waste_curr->files, st_target.base_name);
         strcpy(st_target.waste_dest_name, tmp_str);
         free(tmp_str);
         tmp_str = NULL;
@@ -424,14 +423,14 @@ get_locations(const char *alt_config_file)
     m_d_str = join_paths(x.home_dir, rel_default_data_dir);
     char *m_c_str = join_paths(x.home_dir, rel_default_config_dir);
     sn_check(snprintf(s_config_dir, sizeof s_config_dir, "%s", m_c_str),
-             sizeof s_config_dir, __func__, __LINE__);
+             sizeof s_config_dir);
 
     free(m_c_str);
     x.config_dir = s_config_dir;
   }
 
   sn_check(snprintf(s_data_dir, sizeof s_data_dir, "%s", m_d_str),
-           sizeof s_data_dir, __func__, __LINE__);
+           sizeof s_data_dir);
 
   free(m_d_str);
   x.data_dir = s_data_dir;
@@ -460,7 +459,7 @@ get_locations(const char *alt_config_file)
   {
     char *tmp_str = join_paths(x.config_dir, config_file_basename);
     sn_check(snprintf(s_config_file, sizeof s_config_file, "%s", tmp_str),
-             sizeof s_config_file, __func__, __LINE__);
+             sizeof s_config_file);
 
     free(tmp_str);
     x.config_file = s_config_file;
@@ -493,7 +492,7 @@ get_locations(const char *alt_config_file)
   static char s_mrl_file[LEN_MAX_PATH];
   char *m_tmp_str = join_paths(x.data_dir, mrl_file_basename);
   sn_check(snprintf(s_mrl_file, sizeof s_mrl_file, "%s", m_tmp_str),
-           sizeof s_mrl_file, __func__, __LINE__);
+           sizeof s_mrl_file);
 
   free(m_tmp_str);
   x.mrl_file = s_mrl_file;
@@ -502,7 +501,7 @@ get_locations(const char *alt_config_file)
   m_tmp_str = join_paths(x.data_dir, purge_time_file_basename);
   sn_check(snprintf
            (s_purge_time_file, sizeof s_purge_time_file, "%s", m_tmp_str),
-           sizeof s_purge_time_file, __func__, __LINE__);
+           sizeof s_purge_time_file);
 
   free(m_tmp_str);
   x.purge_time_file = s_purge_time_file;
@@ -627,7 +626,8 @@ Please check your configuration file and permissions\
       msg_warn_restore(restore_errors += restore(argv[file_arg],
                                                  &st_time_var,
                                                  &cli_user_options,
-                                                 st_config_data.st_waste_folder_props_head));
+                                                 st_config_data.
+                                                 st_waste_folder_props_head));
 
     dispose_waste(st_config_data.st_waste_folder_props_head);
 

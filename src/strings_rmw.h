@@ -24,12 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string.h>
 #include <stdbool.h>
 
+#define sn_check(a, b) real_sn_check(a, b, __func__, __LINE__)
+
+
 void
 bufchk_len(const size_t len, const size_t boundary, const char *func,
            const int line);
 
 void
-sn_check(const size_t len, const size_t dest_boundary, const char *func,
+real_sn_check(const size_t len, const size_t dest_boundary, const char *func,
          const int line);
 
 void trim_whitespace(char *str);

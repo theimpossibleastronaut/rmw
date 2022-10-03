@@ -410,8 +410,7 @@ init_config_data(st_config * x)
   x->force_required = 0;
 
   // get the UID
-  sn_check(snprintf(x->uid, sizeof x->uid, "%d", getuid()), sizeof x->uid,
-           __func__, __LINE__);
+  sn_check(snprintf(x->uid, sizeof x->uid, "%d", getuid()), sizeof x->uid);
 
   const char *f = getenv("RMW_FAKE_MEDIA_ROOT");
   if (f != NULL)
