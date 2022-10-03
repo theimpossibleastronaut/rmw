@@ -89,6 +89,30 @@ is_time_to_purge(st_time * st_time_var, const char *file)
   exit(errno);
 }
 
+
+/*!
+ * Get the time a file was rmw'ed by reading the corresponding trashinfo
+ * file. Called from purge()
+ */
+static time_t
+get_then_time(const char *tinfo_file)
+{
+  char *raw_deletion_date =
+    parse_trashinfo_file(tinfo_file, deletion_date_key);
+  if (raw_deletion_date != NULL)
+  {
+    struct tm tm_then;
+    memset(&tm_then, 0, sizeof(struct tm));
+    strptime(raw_deletion_date, "%Y-%m-%dT%H:%M:%S", &tm_then);
+    free(raw_deletion_date);
+    return mktime(&tm_then);
+  }
+  print_msg_error();
+  fprintf(stderr, "while getting deletion date from %s.\n", tinfo_file);
+  return 0;
+}
+
+
 static void
 print_header(char *files_dir)
 {
@@ -149,9 +173,7 @@ do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
                       sizeof rm_cmd,
                       "%s -rf %s %s %s",
                       rm->full_path,
-                      rm->v,
-                      rm->onefs,
-                      purge_target), sizeof rm_cmd);
+                      rm->v, rm->onefs, purge_target), sizeof rm_cmd);
 
     if (cli_user_options->want_dry_run == false)
       status = system(rm_cmd);
@@ -297,21 +319,7 @@ purge(st_config * st_config_data,
       strcpy(trashinfo_entry_realpath, tmp_str);
       free(tmp_str);
 
-      char *raw_deletion_date =
-        parse_trashinfo_file(trashinfo_entry_realpath, deletion_date_key);
-      time_t then = 0;
-      if (raw_deletion_date != NULL)
-      {
-        then = get_then_time(raw_deletion_date);
-        free(raw_deletion_date);
-      }
-      else
-      {
-        print_msg_error();
-        fprintf(stderr, "while getting deletion date from %s.\n",
-                trashinfo_entry_realpath);
-      }
-
+      time_t then = get_then_time(trashinfo_entry_realpath);
       if (!cli_user_options->want_empty_trash && !then)
         continue;
 

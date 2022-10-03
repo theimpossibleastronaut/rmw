@@ -80,6 +80,7 @@ echo $SEPARATOR
 echo " == Make sure the correct string (filename) is displayed when using -vvg"
 substring="'read_only_file' will be purged in 90."
 output=$($VALGRIND $RMW_TEST_CMD_STRING -vvg)
+echo $output
 test -z "${output##*$substring*}"
 
 substring="'topdir' will be purged in 90."
