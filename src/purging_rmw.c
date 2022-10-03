@@ -28,6 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
+enum
+{
+  CONTINUE
+};
+
 /*!
  * Called in main() to determine whether or not purge() was run today, reads
  * and writes to the 'lastpurge` file. If it hasn't been run today, the
@@ -84,6 +89,18 @@ is_time_to_purge(st_time * st_time_var, const char *file)
   exit(errno);
 }
 
+static void
+print_header(char *files_dir)
+{
+  putchar('\n');
+  printf("  [%s]\n", files_dir);
+  printf("  ");
+  char *p = files_dir;
+  while (*(p++) != '\0')
+    printf("-");
+  puts("--");
+}
+
 static int
 do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
               const char *trashinfo_entry_realpath, int *orphan_ctr,
@@ -107,7 +124,7 @@ do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
       if (res == 0)
         printf("removed '%s'\n", trashinfo_entry_realpath);
       (*orphan_ctr)++;
-      return 1;
+      return CONTINUE;
     }
     else
     {
@@ -171,6 +188,17 @@ do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
 }
 
 
+static char *
+get_pt_basename(const char *purge_target)
+{
+  static char *pt_basename;
+  static char pt_tmp[sizeof purge_target];
+  strcpy(pt_tmp, purge_target);
+  pt_basename = basename(pt_tmp);
+  return pt_basename;
+}
+
+
 void
 init_rm(st_rm * rm)
 {
@@ -189,6 +217,21 @@ init_rm(st_rm * rm)
              (rm->full_path, LEN_MAX_PATH, "%s/usr/bin/rm", appdir),
              LEN_MAX_PATH);
 }
+
+static void
+get_purge_target(char *purge_target, const char *tinfo_d_name,
+                 const char *files_dir)
+{
+  char temp[LEN_MAX_PATH];
+  sn_check(snprintf(temp, sizeof temp, "%s", tinfo_d_name), sizeof temp,
+           __func__, __LINE__);
+  truncate_str(temp, len_trashinfo_ext);        /* acquire the (basename - trashinfo extension) */
+  char *path = join_paths(files_dir, temp);
+  strcpy(purge_target, path);
+  free(path);
+  return;
+}
+
 
 /*!
  * Purges files older than x number of days, unless expire_age is set to
@@ -239,15 +282,7 @@ purge(st_config * st_config_data,
       msg_err_open_dir(waste_curr->info, __func__, __LINE__);
 
     if (verbose)
-    {
-      putchar('\n');
-      printf("  [%s]\n", waste_curr->files);
-      printf("  ");
-      char *p = waste_curr->files;
-      while (*(p++) != '\0')
-        printf("-");
-      puts("--");
-    }
+      print_header(waste_curr->files);
 
     /*
      *  Read each file in <WASTE>/info
@@ -289,24 +324,16 @@ purge(st_config * st_config_data,
         || cli_user_options->want_empty_trash;
       if (want_purge || verbose >= 2)
       {
-        char temp[strlen(st_trashinfo_dir_entry->d_name) + 1];
-        strcpy(temp, st_trashinfo_dir_entry->d_name);
-        truncate_str(temp, len_trashinfo_ext);  /* acquire the (basename - trashinfo extension) */
-
-        char *_tmp_str = join_paths(waste_curr->files, temp);
-        char purge_target[strlen(_tmp_str) + 1];
-        strcpy(purge_target, _tmp_str);
-        free(_tmp_str);
-
-        char pt_tmp[sizeof purge_target];
-        strcpy(pt_tmp, purge_target);
-        char *pt_basename = basename(pt_tmp);
+        char purge_target[LEN_MAX_PATH];
+        get_purge_target(purge_target, st_trashinfo_dir_entry->d_name,
+                         waste_curr->files);
+        char *pt_basename = get_pt_basename(purge_target);
 
         if (want_purge)
         {
           if (do_file_purge(purge_target, cli_user_options,
                             trashinfo_entry_realpath, orphan_ctr, &rm,
-                            pt_basename, &ctr) == 1)
+                            pt_basename, &ctr) == CONTINUE)
             continue;
         }
         else if (verbose >= 2)
@@ -327,7 +354,6 @@ purge(st_config * st_config_data,
   putchar('\n');
 
   return 0;
-
 }
 
 short
