@@ -151,7 +151,7 @@ do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
                       rm->full_path,
                       rm->v,
                       rm->onefs,
-                      purge_target), sizeof(rm_cmd), __func__, __LINE__);
+                      purge_target), sizeof rm_cmd);
 
     if (cli_user_options->want_dry_run == false)
       status = system(rm_cmd);
@@ -223,8 +223,7 @@ get_purge_target(char *purge_target, const char *tinfo_d_name,
                  const char *files_dir)
 {
   char temp[LEN_MAX_PATH];
-  sn_check(snprintf(temp, sizeof temp, "%s", tinfo_d_name), sizeof temp,
-           __func__, __LINE__);
+  sn_check(snprintf(temp, sizeof temp, "%s", tinfo_d_name), sizeof temp);
   truncate_str(temp, len_trashinfo_ext);        /* acquire the (basename - trashinfo extension) */
   char *path = join_paths(files_dir, temp);
   strcpy(purge_target, path);
