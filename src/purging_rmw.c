@@ -214,7 +214,7 @@ static char *
 get_pt_basename(const char *purge_target)
 {
   static char *pt_basename;
-  static char pt_tmp[sizeof purge_target];
+  static char pt_tmp[LEN_MAX_PATH];
   strcpy(pt_tmp, purge_target);
   pt_basename = basename(pt_tmp);
   return pt_basename;
