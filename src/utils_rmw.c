@@ -151,8 +151,6 @@ dispose_waste(st_waste * node)
   {
     dispose_waste(node->next_node);
     free(node->parent);
-    free(node->files);
-    free(node->info);
     if (node->media_root != NULL)
       free(node->media_root);
     free(node);
@@ -407,7 +405,6 @@ trim_char(const int c, char *str)
   return;
 }
 
-
 char *
 real_join_paths(const char *argv, ...)
 {
@@ -437,6 +434,31 @@ real_join_paths(const char *argv, ...)
   path = realloc(path, strlen(path) + 1);
   chk_malloc(path, __func__, __LINE__);
   return path;
+}
+
+void
+real_join_paths2(char *dest, ssize_t max_len, const char *argv, ...)
+{
+  *dest = '\0';
+  va_list ap;
+  char *str = (char *) argv;
+  va_start(ap, argv);
+
+  while (str != NULL)
+  {
+    size_t len = 0;
+    char *dup_str = strdup(str);
+    chk_malloc(dup_str, __func__, __LINE__);
+    trim_char('/', dup_str);
+    len = strlen(dest);
+    ssize_t boundary = max_len - len;
+    sn_check(snprintf(dest + len, boundary, "%s/", dup_str), boundary);
+    free(dup_str);
+    str = va_arg(ap, char *);
+  }
+  va_end(ap);
+  trim_char('/', dest);
+  return;
 }
 
 
@@ -567,15 +589,14 @@ test_make_size_human_readable(void)
 void
 test_join_paths(void)
 {
-  char *path = join_paths("home", "foo//", "bar");
-  assert(path != NULL);
+  char path[LEN_MAX_PATH];
+  join_paths2(path, sizeof path, "home", "foo//", "bar");
+  assert(*path != '\0');
   assert(strcmp(path, "home/foo/bar") == 0);
-  free(path);
 
-  path = join_paths("/home/foo", "bar", "world/");
-  assert(path != NULL);
+  join_paths2(path, sizeof path, "/home/foo", "bar", "world/");
+  assert(*path != '\0');
   assert(strcmp(path, "/home/foo/bar/world") == 0);
-  free(path);
 
   return;
 }

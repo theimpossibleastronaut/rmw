@@ -42,12 +42,12 @@ struct st_waste
   char *parent;
 
   /*! The info directory (where .trashinfo files are written) will be appended to the parent directory */
-  char *info;
+  char info[LEN_MAX_PATH];
   int len_info;
 
   /** Appended to the parent directory, where files are moved to when they are rmw'ed
    */
-  char *files;
+  char files[LEN_MAX_PATH];
   int len_files;
 
   /** The device number of the filesystem on which the file resides. rmw does

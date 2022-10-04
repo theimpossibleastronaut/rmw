@@ -26,7 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "trashinfo_rmw.h"
 
-#define join_paths(...) real_join_paths(__VA_ARGS__, NULL)
+#define join_paths(s, ...) real_join_paths(s, __VA_ARGS__, NULL)
+#define join_paths2(a, n, b, ...) real_join_paths2(a, n, b, __VA_ARGS__, NULL)
 
 #define LEN_MAX_HUMAN_READABLE_SIZE (sizeof "xxxx.y GiB")
 #define LEN_MAX_FILE_DETAILS (LEN_MAX_HUMAN_READABLE_SIZE + sizeof "[] (D)" - 1)
@@ -56,5 +57,7 @@ char *resolve_path(const char *file, const char *b);
 void trim_char(const int c, char *str);
 
 char *real_join_paths(const char *argv, ...);
+
+void real_join_paths2(char *dest, ssize_t max_len, const char *argv, ...);
 
 #endif
