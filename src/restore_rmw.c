@@ -96,8 +96,7 @@ restore(const char *src, st_time * st_time_var,
       return 1;
     }
 
-    path_char src_tinfo;
-    path_char tmp_str;
+    path_char src_tinfo, tmp_str;
     join_paths2(tmp_str, sizeof tmp_str, waste_parent, lit_info, src_basename);
     sn_check(snprintf(src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext), sizeof src_tinfo);
 

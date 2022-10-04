@@ -59,6 +59,12 @@ typedef char path_char[LEN_MAX_PATH];
 
 #define LEN_MAX_ESCAPED_PATH (PATH_MAX * 3 + 1)
 
+// Get the size of a struct member without creating an instance
+// of the struct
+// https://stackoverflow.com/a/3864612/6838037
+#define sizeof_memb(a,m) sizeof(((a*)0)->m)
+// Thanks wkl <https://stackoverflow.com/users/297696/wkl>
+
 #define EBUF 11
 
 extern int verbose;
