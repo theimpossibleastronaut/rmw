@@ -150,7 +150,6 @@ dispose_waste(st_waste * node)
   if (node != NULL)
   {
     dispose_waste(node->next_node);
-    free(node->parent);
     if (node->media_root != NULL)
       free(node->media_root);
     free(node);
@@ -589,7 +588,7 @@ test_make_size_human_readable(void)
 void
 test_join_paths(void)
 {
-  char path[LEN_MAX_PATH];
+  path_char path;
   join_paths2(path, sizeof path, "home", "foo//", "bar");
   assert(*path != '\0');
   assert(strcmp(path, "home/foo/bar") == 0);

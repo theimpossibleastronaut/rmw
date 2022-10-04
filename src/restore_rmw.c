@@ -96,12 +96,10 @@ restore(const char *src, st_time * st_time_var,
       return 1;
     }
 
-    char src_tinfo[LEN_MAX_PATH];
-    char *tmp_str = join_paths(waste_parent, lit_info, src_basename);
-    int r = snprintf(src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
-    free(tmp_str);
-    tmp_str = NULL;
-    sn_check(r, LEN_MAX_PATH);
+    path_char src_tinfo;
+    path_char tmp_str;
+    join_paths2(tmp_str, sizeof tmp_str, waste_parent, lit_info, src_basename);
+    sn_check(snprintf(src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext), sizeof src_tinfo);
 
     char *_dest = parse_trashinfo_file(src_tinfo, path_key);
     if (_dest == NULL)
@@ -111,14 +109,14 @@ restore(const char *src, st_time * st_time_var,
      * being restored resides, get the dirname of that waste folder and prepend it
      * to dest (thereby making the entire path absolute for restoration.
      */
-    char dest[LEN_MAX_PATH];
+    path_char dest;
     strcpy(dest, _dest);
     if (*_dest != '/')
     {
       char *media_root = rmw_dirname(waste_parent);
-      char *_tmp_str = join_paths(media_root, _dest);
+      path_char _tmp_str;
+      join_paths2(_tmp_str, sizeof _tmp_str, media_root, _dest);
       strcpy(dest, _tmp_str);
-      free(_tmp_str);
     }
     free(waste_parent);
     free(_dest);

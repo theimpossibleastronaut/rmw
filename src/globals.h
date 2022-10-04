@@ -55,6 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /*! The LEN_MAX_PATH macro is used as a shortcut throughout the program. */
 #define LEN_MAX_PATH (PATH_MAX + 1)
+typedef char path_char[LEN_MAX_PATH];
 
 #define LEN_MAX_ESCAPED_PATH (PATH_MAX * 3 + 1)
 
