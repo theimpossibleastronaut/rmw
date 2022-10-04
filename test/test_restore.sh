@@ -18,10 +18,8 @@ $RMW_TEST_CMD_STRING
 
 echo $SEPARATOR
 echo "If the mrl file doesn't exist yet..."
-expected="no items in the list"
-output=$($VALGRIND $RMW_TEST_CMD_STRING -u)
-test -z "${output##*$substring*}"
-echo $output
+cmp_substr "$($VALGRIND $RMW_TEST_CMD_STRING -u)" \
+  "no items in the list"
 
 echo $SEPARATOR
 echo " Creating some files for testing..."
@@ -30,9 +28,8 @@ create_some_files
 
 echo $SEPARATOR
 echo "Try to restore files that aren't in a Waste/files folder"
-substring="not in a Waste directory"
-output=$($VALGRIND $RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1) && exit 1
-test -z "${output##*$substring*}"
+cmp_substr "$($VALGRIND $RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1 && exit 1)" \
+  "not in a Waste directory"
 
 echo $SEPARATOR
 echo "ReMove files and then restore them by using -u"
@@ -108,9 +105,8 @@ for t in ".boo" ".far"; do
 done
 
 # a dot dir
-substring="refusing to process"
-output="$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/.)" && exit 1
-test -z "${output##*$substring*}"
+cmp_substr "$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/. && exit 1)" \
+  "refusing to process"
 
 if [ -n "${TERM}" ] && [ "${TERM}" != "dumb" ]; then
   if [ -n "${VALGRIND}" ];then

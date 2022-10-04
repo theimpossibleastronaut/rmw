@@ -14,6 +14,14 @@ touch somefiles/read_only_file
 chmod ugo-w somefiles/read_only_file
 }
 
+cmp_substr () {
+  if [ -z "$1" -o -z "$2" ]; then
+    return 1
+  fi
+  [ -z "${1##*$2*}" ]
+  return $?
+}
+
 if test -z "${MESON_BUILD_ROOT}" || test -z "${RMW_FAKE_HOME}"; then
   echo "This script is used by the build system. Use 'ninja test' or
   echo 'meson test --setup=valgrind' from the builddir."

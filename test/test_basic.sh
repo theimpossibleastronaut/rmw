@@ -74,12 +74,9 @@ cat $PRIMARY_WASTE_DIR/info/1.trashinfo
 echo $SEPARATOR
 echo "  == Test -m option"
 output=$($RMW_TEST_CMD_STRING --verbose -m)
-substring=".Waste/files/1_"
-test -z "${output##*$substring*}"
-substring=".Waste/files/2_"
-test -z "${output##*$substring*}"
-substring=".Waste/files/3_"
-test -z "${output##*$substring*}"
+cmp_substr "$output" ".Waste/files/1_"
+cmp_substr "$output" ".Waste/files/2_"
+cmp_substr "$output" ".Waste/files/3_"
 
 echo $SEPARATOR
 echo "  == test undo/restore feature"
@@ -120,9 +117,8 @@ expected="0 orphans found"
 output="$($RMW_TEST_CMD_STRING -o)"
 test "${output}" = "${expected}"
 
-substring="invalid option"
-output="$($RMW_ALT_TEST_CMD_STRING -l)"
-test -z "${output##*$substring*}"
+cmp_substr "$($RMW_ALT_TEST_CMD_STRING -l)" \
+  "invalid option"
 
 echo "Basic tests passed"
 exit 0
