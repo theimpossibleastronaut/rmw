@@ -74,16 +74,3 @@ init_time_vars(st_time * x)
 
   return;
 }
-
-/*!
- * Get the time a file was rmw'ed by reading the corresponding trashinfo
- * file. Called from purge()
- */
-time_t
-get_then_time(const char *raw_deletion_date)
-{
-  struct tm tm_then;
-  memset(&tm_then, 0, sizeof(struct tm));
-  strptime(raw_deletion_date, "%Y-%m-%dT%H:%M:%S", &tm_then);
-  return mktime(&tm_then);
-}
