@@ -588,7 +588,7 @@ test_make_size_human_readable(void)
 void
 test_join_paths(void)
 {
-  path_char path;
+  path_string path;
   join_paths2(path, sizeof path, "home", "foo//", "bar");
   assert(*path != '\0');
   assert(strcmp(path, "home/foo/bar") == 0);

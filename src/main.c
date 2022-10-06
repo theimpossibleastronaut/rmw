@@ -220,12 +220,15 @@ damage of 5000 hp. You feel satisfied.\n"));
     struct stat st_orig;
     if (!lstat(st_target.orig, &st_orig))
     {
-      st_target.real_path = resolve_path(st_target.orig, st_target.base_name);
-      if (st_target.real_path == NULL)
+      char *pp = resolve_path(st_target.orig, st_target.base_name);
+      if (pp == NULL)
       {
         n_err++;
         continue;
       }
+      sn_check(snprintf(st_target.real_path, sizeof(path_string), "%s", pp),
+               sizeof st_target.real_path);
+      free(pp);
     }
     else
     {
@@ -251,10 +254,7 @@ damage of 5000 hp. You feel satisfied.\n"));
       waste_curr = waste_curr->next_node;
     }
     if (is_protected)
-    {
-      free(st_target.real_path);
       continue;
-    }
 
     /**
      * Make some variables -
@@ -305,7 +305,6 @@ damage of 5000 hp. You feel satisfied.\n"));
           if (cli_user_options->want_dry_run == false)
             if (!create_trashinfo(&st_target, waste_curr, st_time_var))
             {
-              free(st_target.real_path);
               confirmed_removals_list =
                 add_removal(confirmed_removals_list,
                             st_target.waste_dest_name);
@@ -626,8 +625,7 @@ Please check your configuration file and permissions\
       msg_warn_restore(restore_errors += restore(argv[file_arg],
                                                  &st_time_var,
                                                  &cli_user_options,
-                                                 st_config_data.
-                                                 st_waste_folder_props_head));
+                                                 st_config_data.st_waste_folder_props_head));
 
     dispose_waste(st_config_data.st_waste_folder_props_head);
 

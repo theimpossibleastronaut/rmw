@@ -181,7 +181,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   }
 
   bufchk_len(strlen(node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
-  path_char tmp_waste_parent_folder;
+  path_string tmp_waste_parent_folder;
   trim_char('/', node->value);
   strcpy(tmp_waste_parent_folder, node->value);
   if (realize_str(tmp_waste_parent_folder, homedir, uid) != 0)
@@ -221,7 +221,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   strcpy(waste_curr->parent, tmp_waste_parent_folder);
 
   /* and the files... */
-  join_paths2(waste_curr->files, sizeof_memb(st_waste, files), waste_curr->parent, lit_files);
+  join_paths2(waste_curr->files, sizeof_memb(st_waste, files),
+              waste_curr->parent, lit_files);
   waste_curr->len_files = strlen(waste_curr->files);
 
   if (!exists(waste_curr->files))
@@ -235,7 +236,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
     }
   }
 
-  join_paths2(waste_curr->info, sizeof_memb(st_waste, info), waste_curr->parent, lit_info);
+  join_paths2(waste_curr->info, sizeof_memb(st_waste, info),
+              waste_curr->parent, lit_info);
   waste_curr->len_info = strlen(waste_curr->info);
 
   if (!exists(waste_curr->info))
@@ -255,7 +257,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   {
     waste_curr->dev_num = st.st_dev;
 
-    path_char tmp;
+    path_string tmp;
     strcpy(tmp, waste_curr->parent);
     char *media_root_ptr = rmw_dirname(tmp);
     waste_curr->media_root = malloc(strlen(media_root_ptr) + 1);
