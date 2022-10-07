@@ -436,9 +436,17 @@ real_join_paths(const char *argv, ...)
 }
 
 void
-real_join_paths2(char *dest, ssize_t max_len, const char *argv, ...)
+real_join_paths2(char *dest, size_t max_len, const char *argv, ...)
 {
-  *dest = '\0';
+  //if (*dest != '\0')
+  //exit(EXIT_FAILURE);
+  if (max_len <= sizeof(char *))
+  {
+    fputs("Incoming message from join_paths2....\n\
+      max_len too small; did you pass the size of a pointer instead?\n", stderr);
+    exit(EXIT_FAILURE);
+  }
+
   va_list ap;
   char *str = (char *) argv;
   va_start(ap, argv);
@@ -450,7 +458,7 @@ real_join_paths2(char *dest, ssize_t max_len, const char *argv, ...)
     chk_malloc(dup_str, __func__, __LINE__);
     trim_char('/', dup_str);
     len = strlen(dest);
-    ssize_t boundary = max_len - len;
+    size_t boundary = max_len - len;
     sn_check(snprintf(dest + len, boundary, "%s/", dup_str), boundary);
     free(dup_str);
     str = va_arg(ap, char *);
@@ -589,14 +597,21 @@ void
 test_join_paths(void)
 {
   path_string path;
+  *path = '\0';
   join_paths2(path, sizeof path, "home", "foo//", "bar");
   assert(*path != '\0');
   assert(strcmp(path, "home/foo/bar") == 0);
 
+  *path = '\0';
   join_paths2(path, sizeof path, "/home/foo", "bar", "world/");
   assert(*path != '\0');
   assert(strcmp(path, "/home/foo/bar/world") == 0);
 
+  // path can be appended
+  //join_paths2(path, sizeof path, "hello", "backwards");
+  //assert(*path != '\0');
+  //fputs(path, stderr);
+  //assert(strcmp(path, "/home/foo/bar/world/hello/backwards") == 0);
   return;
 }
 

@@ -31,7 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 typedef struct
 {
   path_string target;
+  char *target_basename;
   bool want;
+  struct dirent *st_ti_ent;
+  path_string ti_ent_realpath;
 
 } _st_purge;
 
@@ -134,8 +137,7 @@ print_header(char *files_dir)
 
 static int
 do_file_purge(_st_purge * st_purge, const rmw_options * cli_user_options,
-              const char *trashinfo_entry_realpath, int *orphan_ctr,
-              st_rm * rm, const char *pt_basename, int *ctr)
+              int *orphan_ctr, st_rm * rm, int *ctr)
 {
   int status = 0;
   // If the corresponding file wasn't found, either display an error and exit, or remove the
@@ -148,18 +150,18 @@ do_file_purge(_st_purge * st_purge, const rmw_options * cli_user_options,
       int res = 0;
       if (cli_user_options->want_dry_run == false)
       {
-        res = remove(trashinfo_entry_realpath);
+        res = remove(st_purge->ti_ent_realpath);
         if (res != 0)
-          msg_err_remove(trashinfo_entry_realpath, __func__);
+          msg_err_remove(st_purge->ti_ent_realpath, __func__);
       }
       if (res == 0)
-        printf("removed '%s'\n", trashinfo_entry_realpath);
+        printf("removed '%s'\n", st_purge->ti_ent_realpath);
       (*orphan_ctr)++;
       return CONTINUE;
     }
     else
     {
-      printf("While processing %s:\n", trashinfo_entry_realpath);
+      printf("While processing %s:\n", st_purge->ti_ent_realpath);
       puts("You can remove the trashinfo file with '-offg'");
       // Will exit after error
       msg_err_lstat(st_purge->target, __func__, __LINE__);
@@ -196,7 +198,7 @@ do_file_purge(_st_purge * st_purge, const rmw_options * cli_user_options,
   if (status == 0)
   {
     if (cli_user_options->want_dry_run == false)
-      status = remove(trashinfo_entry_realpath);
+      status = remove(st_purge->ti_ent_realpath);
     else
       status = 0;
 
@@ -204,10 +206,10 @@ do_file_purge(_st_purge * st_purge, const rmw_options * cli_user_options,
     {
       (*ctr)++;
       if (verbose)
-        printf("-%s\n", pt_basename);
+        printf("-%s\n", st_purge->target_basename);
     }
     else
-      msg_err_remove(trashinfo_entry_realpath, __func__);
+      msg_err_remove(st_purge->ti_ent_realpath, __func__);
   }
   else
   {
@@ -248,13 +250,15 @@ init_rm(st_rm * rm)
 }
 
 static void
-get_purge_target(char *target, const char *tinfo_d_name,
-                 const char *files_dir)
+get_purge_target(_st_purge * st_purge, const char *files_dir)
 {
   path_string temp;
-  sn_check(snprintf(temp, sizeof temp, "%s", tinfo_d_name), sizeof temp);
+  sn_check(snprintf(temp, sizeof temp, "%s", st_purge->st_ti_ent->d_name),
+           sizeof temp);
   truncate_str(temp, len_trashinfo_ext);        /* acquire the (basename - trashinfo extension) */
-  join_paths2(target, sizeof_memb(_st_purge, target), files_dir, temp);
+  *st_purge->target = '\0';
+  join_paths2(st_purge->target, sizeof_memb(_st_purge, target), files_dir,
+              temp);
   return;
 }
 
@@ -281,7 +285,10 @@ purge(st_config * st_config_data,
 
   _st_purge st_purge = {
     "",
+    NULL,
     0,
+    NULL,
+    ""
   };
 
   if (cli_user_options->want_empty_trash)
@@ -307,7 +314,6 @@ purge(st_config * st_config_data,
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
   while (waste_curr != NULL)
   {
-    struct dirent *st_trashinfo_dir_entry;
     DIR *trashinfo_dir = opendir(waste_curr->info);
     if (trashinfo_dir == NULL)
       msg_err_open_dir(waste_curr->info, __func__, __LINE__);
@@ -318,16 +324,16 @@ purge(st_config * st_config_data,
     /*
      *  Read each file in <WASTE>/info
      */
-    while ((st_trashinfo_dir_entry = readdir(trashinfo_dir)) != NULL)
+    while ((st_purge.st_ti_ent = readdir(trashinfo_dir)) != NULL)
     {
-      if (isdotdir(st_trashinfo_dir_entry->d_name))
+      if (isdotdir(st_purge.st_ti_ent->d_name))
         continue;
 
-      path_string trashinfo_entry_realpath;
-      join_paths2(trashinfo_entry_realpath, sizeof trashinfo_entry_realpath,
-                  waste_curr->info, st_trashinfo_dir_entry->d_name);
+      *st_purge.ti_ent_realpath = '\0';
+      join_paths2(st_purge.ti_ent_realpath, sizeof st_purge.ti_ent_realpath,
+                  waste_curr->info, st_purge.st_ti_ent->d_name);
 
-      time_t then = get_then_time(trashinfo_entry_realpath);
+      time_t then = get_then_time(st_purge.ti_ent_realpath);
       if (!cli_user_options->want_empty_trash && !then)
         continue;
 
@@ -339,21 +345,19 @@ purge(st_config * st_config_data,
         || cli_user_options->want_empty_trash;
       if (st_purge.want || verbose >= 2)
       {
-        get_purge_target(st_purge.target, st_trashinfo_dir_entry->d_name,
-                         waste_curr->files);
-        char *pt_basename = get_pt_basename(st_purge.target);
+        get_purge_target(&st_purge, waste_curr->files);
+        st_purge.target_basename = get_pt_basename(st_purge.target);
 
         if (st_purge.want)
         {
           if (do_file_purge(&st_purge, cli_user_options,
-                            trashinfo_entry_realpath, orphan_ctr, &rm,
-                            pt_basename, &ctr) == CONTINUE)
+                            orphan_ctr, &rm, &ctr) == CONTINUE)
             continue;
         }
         else if (verbose >= 2)
         {
           printf(_("'%s' will be purged in %.2lf days\n"),
-                 pt_basename, days_remaining);
+                 st_purge.target_basename, days_remaining);
         }
       }
     }
@@ -381,7 +385,7 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
    */
   st_file_properties.is_duplicate = 0;
 
-  char path_to_trashinfo[LEN_MAX_PATH];
+  path_string path_to_trashinfo;
   st_waste *waste_curr = waste_head;
   while (waste_curr != NULL)
   {
@@ -398,18 +402,19 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
       st_file_properties.base_name = basename(entry->d_name);
 
-      char *tmp_str =
-        join_paths(waste_curr->info, st_file_properties.base_name);
+      path_string tmp_str;
+      *tmp_str = '\0';
+      join_paths2(tmp_str, sizeof_memb(st_waste, info), waste_curr->info,
+                  st_file_properties.base_name);
       int r = snprintf(path_to_trashinfo, LEN_MAX_PATH, "%s%s", tmp_str,
                        trashinfo_ext);
       sn_check(r, LEN_MAX_PATH);
-
-      free(tmp_str);
 
       if (exists(path_to_trashinfo))
         continue;
 
       /* destination if restored */
+      *st_file_properties.real_path = '\0';
       join_paths2(st_file_properties.real_path,
                   sizeof st_file_properties.real_path * 2, waste_curr->parent,
                   "orphans", st_file_properties.base_name);

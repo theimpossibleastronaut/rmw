@@ -97,6 +97,8 @@ restore(const char *src, st_time * st_time_var,
     }
 
     path_string src_tinfo, tmp_str;
+    *src_tinfo = '\0';
+    *tmp_str = '\0';
     join_paths2(tmp_str, sizeof tmp_str, waste_parent, lit_info,
                 src_basename);
     sn_check(snprintf
@@ -117,6 +119,7 @@ restore(const char *src, st_time * st_time_var,
     {
       char *media_root = rmw_dirname(waste_parent);
       path_string _tmp_str;
+      *_tmp_str = '\0';
       join_paths2(_tmp_str, sizeof _tmp_str, media_root, _dest);
       strcpy(dest, _tmp_str);
     }

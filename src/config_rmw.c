@@ -113,6 +113,19 @@ strrepl(char *src, const char *str, char *repl)
   return dest;
 }
 
+static void
+init_waste_values(st_waste * x)
+{
+  *x->parent = '\0';
+  *x->info = '\0';
+  x->len_info = 0;
+  *x->files = '\0';
+  x->len_files = 0;
+  x->dev_num = 0;
+  x->removable = false;
+  x->media_root = NULL;
+  return;
+}
 
 // looks for '$HOME', '$UID', or '~' in a string and replace it with its
 // corresponding literal value
@@ -201,6 +214,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
 
   st_waste *temp_node = malloc(sizeof(st_waste));
   chk_malloc(temp_node, __func__, __LINE__);
+  init_waste_values(temp_node);
 
   if (waste_curr != NULL)
   {

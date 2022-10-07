@@ -58,6 +58,6 @@ void trim_char(const int c, char *str);
 
 char *real_join_paths(const char *argv, ...);
 
-void real_join_paths2(char *dest, ssize_t max_len, const char *argv, ...);
+void real_join_paths2(char *dest, size_t max_len, const char *argv, ...);
 
 #endif
