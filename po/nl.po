@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 16:02-0500\n"
+"POT-Creation-Date: 2022-10-12 14:59-0500\n"
 "PO-Revision-Date: 2021-06-28 20:48+0000\n"
 "Last-Translator: Martijn de Boer, 2021\n"
 "Language-Team: Dutch (https://www.transifex.com/aalt/teams/92532/nl/)\n"
@@ -76,7 +76,7 @@ msgstr ""
 "inschakelen\n"
 "#\n"
 
-#: src/main.c:213
+#: src/main.c:212
 msgid ""
 "\n"
 "Your single slash has been ignored. You walk to the market\n"
@@ -229,58 +229,29 @@ msgstr ""
 msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr "# rmw standaard afval map, separaat van de desktop afvalemmer\n"
 
-#: src/purging_rmw.c:506
-#, c-format
-msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
-msgstr "%d directories overgeslagen (RMDIR_MAX_DEPTH bereikt)\n"
-
-#: src/purging_rmw.c:510
-#, c-format
-msgid "%d directories skipped (contains read-only files)\n"
-msgstr "%d directories overgeslagen (bevat alleen-lezen bestanden)\n"
-
-#: src/purging_rmw.c:242
-#, c-format
-msgid "%d file purged"
-msgid_plural "%d files purged"
+#: src/purging_rmw.c:360
+#, fuzzy, c-format
+msgid "%d item purged"
+msgid_plural "%d items purged"
 msgstr[0] "%dbestand gepurged"
 msgstr[1] "%dbestanden gepurged"
 
-#: src/main.c:351
+#: src/main.c:348
 #, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
 msgstr[0] "%d item is verplaatst naar de afval map"
 msgstr[1] "%d items zijn verplaatst naar de afval map"
 
-#: src/main.c:248
+#: src/main.c:246
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr "%s staat in een afval map en is genegeerd\n"
 
-#: src/purging_rmw.c:493
+#: src/purging_rmw.c:348
 #, c-format
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr "'%s' zal worden weggegooid over %.2lf dagen\n"
-
-#: src/purging_rmw.c:250
-#, c-format
-msgid "(%d directory deleted)"
-msgid_plural "(%d directories deleted)"
-msgstr[0] "(%d map verwijderd)"
-msgstr[1] "(%d mappen verwijderd)"
-
-#: src/purging_rmw.c:246
-#, c-format
-msgid "(%d file deleted)"
-msgid_plural "(%d files deleted)"
-msgstr[0] "(%d bestand gepurged)"
-msgstr[1] "(%d bestanden gepurged)"
-
-#: src/purging_rmw.c:424
-#, c-format
-msgid "(check owner/write permissions)\n"
-msgstr "(controleer eigenaar/schrijf permissies)\n"
 
 #: src/parse_cli_options.c:332
 #, c-format
@@ -293,30 +264,30 @@ msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr ""
 "-r, -R, --recursive: optie is niet vereist (staat standaard ingeschakeld)\n"
 
-#: src/restore_rmw.c:398
+#: src/restore_rmw.c:397
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RECHTS / CURSOR-LINKS> - wissel afval mappen"
 
-#: src/restore_rmw.c:401
+#: src/restore_rmw.c:400
 #, fuzzy
 msgid "<ESC> - quit"
 msgstr "'q' - afsluiten"
 
-#: src/restore_rmw.c:399
+#: src/restore_rmw.c:398
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<SPATIE> - selecteer of deselecteer een bestand. / <ENTER> - zet "
 "geselecteerde bestanden terug"
 
-#: src/restore_rmw.c:392
+#: src/restore_rmw.c:391
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== bevat %d bestanden"
 msgstr[1] "== bevat %d bestanden =="
 
-#: src/purging_rmw.c:287
+#: src/purging_rmw.c:282
 msgid "Action cancelled."
 msgstr "Actie geannuleerd."
 
@@ -325,40 +296,35 @@ msgid "Arguments given to --purge must be numeric only"
 msgstr ""
 "Argumenten gegeven aan --purge kunnen enkel uit numerieke waarden bestaan"
 
-#: src/utils_rmw.c:204
+#: src/utils_rmw.c:202
 msgid "Continue? (y/n): "
 msgstr "Doorgaan? (y/n): "
 
-#: src/purging_rmw.c:566
+#: src/purging_rmw.c:413
 #, c-format
 msgid "Created %s\n"
 msgstr "Aangemaakt %s\n"
 
-#: src/messages_rmw.c:258
+#: src/messages_rmw.c:259
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/main.c:482
+#: src/main.c:478
 msgid "Creating default configuration file:"
 msgstr "Aanmaken van standaard configuratie bestand:"
 
-#: src/purging_rmw.c:422
-#, c-format
-msgid "Directory not purged - still contains files\n"
-msgstr "Directory niet gepurged - bevat nog steeds bestanden\n"
-
-#: src/restore_rmw.c:136
+#: src/restore_rmw.c:135
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 
-#: src/messages_rmw.c:268
+#: src/messages_rmw.c:269
 #, c-format
 msgid "File not found: '%s'\n"
 msgstr "Bestand niet gevonden: '%s'\n"
 
-#: src/main.c:661
+#: src/main.c:657
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -367,28 +333,23 @@ msgstr ""
 "Geen bestandsnamen of commando lijn opties werden gegeven;\n"
 "Geef '%s -h' op voor meer informatie\n"
 
-#: src/purging_rmw.c:432
-#, c-format
-msgid "Maximum depth of %u reached, skipping\n"
-msgstr "Maximale diepte van %u bereikt, overslaan\n"
-
-#: src/main.c:340
+#: src/main.c:337
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr "Geen geschikt bestandssysteem gevonden voor \"%s\"\n"
 
-#: src/purging_rmw.c:294
+#: src/purging_rmw.c:289
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Purgen van alle bestanden in afval mappen ...\n"
 
-#: src/purging_rmw.c:297
+#: src/purging_rmw.c:292
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Purgen van bestanden gebaseerd op het aantal dagen in de afval map (%u)...\n"
 
-#: src/restore_rmw.c:309
+#: src/restore_rmw.c:308
 #, c-format
 msgid "Reading %s...\n"
 msgstr "Lezen %s...\n"
@@ -430,7 +391,7 @@ msgstr ""
 "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF\n"
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 
-#: src/purging_rmw.c:284
+#: src/purging_rmw.c:279
 msgid "The contents of all waste folders will be deleted -"
 msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 
@@ -448,12 +409,12 @@ msgstr "Probeer '%s --help' voor meer informatie.\n"
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr "Probeer '%s ./%s' voor het verwijderen van bestand '%s'.\n"
 
-#: src/main.c:563
+#: src/main.c:558
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Kan niet doorgaan. Afsluiten...\n"
 
-#: src/main.c:491
+#: src/main.c:487
 #, fuzzy
 msgid "Unable to read or write a configuration file."
 msgstr "Kan een configuratie bestand niet lezen of schrijven.\n"
@@ -481,17 +442,17 @@ msgstr ""
 "   of: %s -u\n"
 "   of: %s -z BESTAND...\n"
 
-#: src/restore_rmw.c:376
+#: src/restore_rmw.c:375
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 "Je terminal heeft enkel %d regels. Een minimum van %d regels is vereist.\n"
 
-#: src/config_rmw.c:439
+#: src/config_rmw.c:438
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:439
+#: src/config_rmw.c:438
 msgid "detached"
 msgstr "ontkoppeld"
 
@@ -522,12 +483,12 @@ msgstr ""
 "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
 "rapporteren, bezoek de website van rmw op\n"
 
-#: src/main.c:588
+#: src/main.c:583
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of force\n"
 
-#: src/purging_rmw.c:275
+#: src/purging_rmw.c:270
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -536,7 +497,7 @@ msgstr ""
 "verwijderen is uitgeschakeld ('%s' is ingesteld op '0')\n"
 "\n"
 
-#: src/config_rmw.c:437
+#: src/config_rmw.c:436
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
@@ -566,7 +527,7 @@ msgstr ""
 "bepaalde condities;\n"
 "zie <http://www.gnu.org/licenses/gpl.html> voor details.\n"
 
-#: src/main.c:558
+#: src/main.c:553
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -582,31 +543,26 @@ msgstr ""
 msgid "while attempting to allocate memory -- %s:L%d\n"
 msgstr "tijdens het reserveren van geheugen - %s:L%d\n"
 
-#: src/purging_rmw.c:102
-#, c-format
-msgid "while changing permissions of %s\n"
-msgstr "bij het maken van %s\n"
-
-#: src/messages_rmw.c:87 src/purging_rmw.c:115
+#: src/messages_rmw.c:87
 #, c-format
 msgid "while closing %s\n"
 msgstr "bij sluiten van %s\n"
 
-#: src/purging_rmw.c:572
+#: src/purging_rmw.c:419
 #, c-format
 msgid "while creating %s\n"
 msgstr "bij het maken van %s\n"
 
-#: src/messages_rmw.c:252
+#: src/messages_rmw.c:253
 #, c-format
 msgid "while creating %s (%s)\n"
 msgstr "tijdens maken %s (%s)\n"
 
-#: src/main.c:543
+#: src/main.c:538
 msgid "while getting the path to your home directory\n"
 msgstr "bij het ophalen van het pad naar je thuismap\n"
 
-#: src/messages_rmw.c:51 src/purging_rmw.c:89
+#: src/messages_rmw.c:51
 #, c-format
 msgid "while opening %s\n"
 msgstr "bij het openen van %s\n"
@@ -621,7 +577,7 @@ msgstr "bij het openen van %s - %s:L%d\n"
 msgid "while removing %s\n"
 msgstr "bij het verwijderen van %s\n"
 
-#: src/restore_rmw.c:179
+#: src/restore_rmw.c:178
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "bij het verwijderen van .trashinfo bestand: '%s'\n"
@@ -634,6 +590,42 @@ msgid ""
 msgstr ""
 "tijdens het verplaatsen (hernoemen)\n"
 " %s -> %s - %s:L%d\n"
+
+#, c-format
+#~ msgid "%d directories skipped (RMDIR_MAX_DEPTH reached)\n"
+#~ msgstr "%d directories overgeslagen (RMDIR_MAX_DEPTH bereikt)\n"
+
+#, c-format
+#~ msgid "%d directories skipped (contains read-only files)\n"
+#~ msgstr "%d directories overgeslagen (bevat alleen-lezen bestanden)\n"
+
+#, c-format
+#~ msgid "(%d directory deleted)"
+#~ msgid_plural "(%d directories deleted)"
+#~ msgstr[0] "(%d map verwijderd)"
+#~ msgstr[1] "(%d mappen verwijderd)"
+
+#, c-format
+#~ msgid "(%d file deleted)"
+#~ msgid_plural "(%d files deleted)"
+#~ msgstr[0] "(%d bestand gepurged)"
+#~ msgstr[1] "(%d bestanden gepurged)"
+
+#, c-format
+#~ msgid "(check owner/write permissions)\n"
+#~ msgstr "(controleer eigenaar/schrijf permissies)\n"
+
+#, c-format
+#~ msgid "Directory not purged - still contains files\n"
+#~ msgstr "Directory niet gepurged - bevat nog steeds bestanden\n"
+
+#, c-format
+#~ msgid "Maximum depth of %u reached, skipping\n"
+#~ msgstr "Maximale diepte van %u bereikt, overslaan\n"
+
+#, c-format
+#~ msgid "while changing permissions of %s\n"
+#~ msgstr "bij het maken van %s\n"
 
 #, c-format
 #~ msgid "config file: %s\n"
