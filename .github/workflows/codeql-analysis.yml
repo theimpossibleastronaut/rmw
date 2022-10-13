@@ -8,16 +8,18 @@ name: "CodeQL"
 on:
   push:
     branches: master
-    paths-ignore:
+    paths:
     - '**/*.md'
-    - '.github/workflows/c-cpp.yml'
-    - '.github/workflows/coverity.yml'
+    - '.github/workflows/codeq-analysis.yml'
+    - '**/*.c'
+    - '**/*.h'
   pull_request:
     branches: master
-    paths-ignore:
+    paths:
     - '**/*.md'
-    - '.github/workflows/c-cpp.yml'
-    - '.github/workflows/coverity.yml'
+    - '.github/workflows/codeq-analysis.yml'
+    - '**/*.c'
+    - '**/*.h'
   schedule:
     - cron: '0 6 10 * *'
 

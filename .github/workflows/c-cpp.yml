@@ -6,16 +6,20 @@ concurrency:
 on:
   push:
     branches: master
-    paths-ignore:
-    - '**/*.md'
-    - '.github/workflows/codeql-analysis.yml'
-    - '.github/workflows/coverity.yml'
+    paths:
+      - '.github/workflows/c-cpp.yml'
+      - '**/*.c'
+      - '**/*.h'
+      - '**/*.sh'
+      - '**/meson*'
   pull_request:
     branches: master
-    paths-ignore:
-    - '**/*.md'
-    - '.github/workflows/codeql-analysis.yml'
-    - '.github/workflows/coverity.yml'
+    paths:
+      - '.github/workflows/c-cpp.yml'
+      - '**/*.c'
+      - '**/*.h'
+      - '**/*.sh'
+      - '**/meson*'
 
 env:
   TERM: xterm
