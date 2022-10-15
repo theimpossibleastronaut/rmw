@@ -22,4 +22,4 @@ COPY --from=0 /usr/bin/rmw /usr/bin
 COPY --from=0 /usr/share/doc/rmw /usr/share/doc/rmw
 COPY --from=0 /usr/share/locale /usr/share/locale
 
-CMD ["/bin/sh"]
+CMD ["/bin/bash"]
