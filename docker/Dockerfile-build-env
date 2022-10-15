@@ -1,0 +1,18 @@
+FROM andy5995/meson:bullseye
+RUN apt-get update \
+  && apt-get upgrade -y \
+  && apt-get install -y \
+    gettext \
+    libncurses-dev \
+    valgrind \
+  && rm -rf /var/lib/apt/lists
+
+WORKDIR /rmw
+RUN useradd -M -U rmw
+RUN passwd -d rmw
+RUN chown rmw:rmw /rmw
+
+COPY ./docker/entrypoint-test.sh .
+RUN chown rmw:rmw entrypoint-test.sh
+USER rmw
+ENTRYPOINT ["/bin/bash"]
