@@ -39,7 +39,7 @@ jobs:
           context: .
           file: ./docker/Dockerfile-meson
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/meson:debian-bullseye-testing
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/meson:bullseye-testing
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/meson:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/meson:buildcache,mode=max
       -
@@ -50,6 +50,6 @@ jobs:
           context: .
           file: ./docker/Dockerfile-meson
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/meson:debian-bullseye
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/meson:bullseye
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/meson:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/meson:buildcache,mode=max
