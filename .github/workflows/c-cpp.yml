@@ -12,7 +12,7 @@ on:
       - '**/*.h'
       - '**/*.sh'
       - '**/meson*'
-      - '**/po/*'
+      - '**/lkfjklj;lpo/*'
   pull_request:
     branches: master
     paths:
