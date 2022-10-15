@@ -12,6 +12,7 @@ on:
       - '**/*.h'
       - '**/*.sh'
       - '**/meson*'
+      - '**/po/*'
   pull_request:
     branches: master
     paths:
@@ -20,6 +21,7 @@ on:
       - '**/*.h'
       - '**/*.sh'
       - '**/meson*'
+      - '**/po/*'
 
 env:
   TERM: xterm
