@@ -10,8 +10,15 @@ if [ ! -f src/main.c ]; then
   exit 1
 fi
 
+ARGS2="--setup=fake_media_root"
+
+if [ -n "$USE_VALGRIND" ]; then
+  ARGS="--setup=valgrind"
+  ARGS2="--setup=valgrind_fake_media_root"
+fi
+
 meson ../builddir
 cd ../builddir
 ninja
-meson test --setup=valgrind
-meson test --setup=valgrind_fake_media_root --suite=rmw
+meson test $ARGS
+meson test $ARGS2 --suite=rmw
