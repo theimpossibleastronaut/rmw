@@ -7,11 +7,13 @@ on:
     paths:
       - '.github/workflows/docker-build-env.yml'
       - 'docker/Dockerfile-build-env'
+      - 'docker/entrypoint-test.sh'
   pull_request:
     branches: [ "master" ]
     paths:
       - '.github/workflows/docker-build-env.yml'
       - 'docker/Dockerfile-build-env'
+      - 'docker/entrypoint-test.sh'
 
 jobs:
   docker:
