@@ -308,3 +308,7 @@ brew](https://formulae.brew.sh/formula/rmw).
 ### Uninstall
 
     ninja uninstall (uninstalls the program if installed with 'ninja install`)
+
+### Docker
+
+see the [Docker README](https://github.com/theimpossibleastronaut/rmw/tree/master/docker)
