@@ -2,11 +2,6 @@
 
 You may find the Docker images useful (or you may not).
 
-## [andy5995/meson](https://hub.docker.com/repository/docker/andy5995/meson)
-
-Image contains a recent version of meson on Debian bullseye, installed
-with pip.
-
 ## [andy5995/rmw-build-env](https://hub.docker.com/repository/docker/andy5995/rmw-build-env)
 
 Image with the rmw build environment (meson, ncurses, and gettext) on

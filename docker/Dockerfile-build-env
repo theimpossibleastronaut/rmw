@@ -1,11 +1,13 @@
-FROM andy5995/meson:bullseye
+FROM debian:bullseye
 RUN apt-get update \
   && apt-get upgrade -y \
   && apt-get install -y \
     gettext \
     libncurses-dev \
     valgrind \
+    pip \
   && rm -rf /var/lib/apt/lists
+RUN python3 -m pip install meson ninja
 
 WORKDIR /rmw
 RUN useradd -M -U rmw
