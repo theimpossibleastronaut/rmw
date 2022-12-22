@@ -17,6 +17,7 @@ extra_flags = [
   '-Wformat-overflow=2',
   '-Wshadow',
   '-Wstrict-overflow=5',
+  '-fsanitize=address,undefine',
 # '-Wconversion'
   ]
 
