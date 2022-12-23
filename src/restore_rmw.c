@@ -93,6 +93,7 @@ restore(const char *src, st_time * st_time_var,
     {
       printf("refusing to process '.' or '..' directory: skipping '%s'",
              src_basename);
+      free(waste_parent);
       return 1;
     }
 
