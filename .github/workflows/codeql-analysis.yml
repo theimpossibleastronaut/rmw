@@ -73,7 +73,7 @@ jobs:
     #    uses a compiled language
 
     - run: |
-        meson builddir
+        meson setup builddir
         cd builddir
         ninja test
 

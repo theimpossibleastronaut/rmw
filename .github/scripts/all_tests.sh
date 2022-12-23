@@ -25,7 +25,7 @@ else
    sudo -H python3 -m pip install meson ninja
 fi
 
-meson $BUILDDIR
+meson setup $BUILDDIR
 cd $BUILDDIR
 
 if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
