@@ -3,7 +3,7 @@ project(
   'c',
   version: '0.8.1.555',
   meson_version : '>= 0.59.0',
-  default_options: ['warning_level=3']
+  default_options: ['warning_level=3', 'b_sanitize=address,undefined']
   )
 
 cc = meson.get_compiler('c')
@@ -17,7 +17,6 @@ extra_flags = [
   '-Wformat-overflow=2',
   '-Wshadow',
   '-Wstrict-overflow=5',
-  '-fsanitize=address,undefine',
 # '-Wconversion'
   ]
 
