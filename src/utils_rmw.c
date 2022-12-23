@@ -393,6 +393,8 @@ void
 trim_char(const int c, char *str)
 {
   trim_whitespace(str);
+  if (*str == '\0')
+    return;
   while (*str != '\0')
     str++;
 

@@ -16,7 +16,7 @@ extra_flags = [
   '-Wformat-security',
   '-Wformat-overflow=2',
   '-Wshadow',
-  '-Wstrict-overflow=5',
+  '-Wstrict-overflow=5'
 # '-Wconversion'
   ]
 
