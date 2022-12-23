@@ -46,6 +46,7 @@ get_waste_parent(const char *src)
   char *one_dir_level = "/..";
   char *waste_parent_rel_path = join_paths(src_dirname, one_dir_level);
   char *waste_parent = realpath(waste_parent_rel_path, NULL);
+  // TODO: handle error (on error, realpath return NULL and sets errno)
   free(waste_parent_rel_path);
 
   if (waste_parent == NULL)
