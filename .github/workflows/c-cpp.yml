@@ -82,8 +82,8 @@ jobs:
       with:
         submodules: true
     - run: |
-        brew update
-        brew install ncurses meson
+        pip3 install meson ninja
+        brew install ncurses
     - run: |
         meson builddir
         ninja -v -C builddir
