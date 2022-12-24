@@ -73,7 +73,7 @@ jobs:
     #    uses a compiled language
 
     - run: |
-        meson setup builddir
+        meson setup -Db_sanitize=none builddir
         cd builddir
         ninja test
 
