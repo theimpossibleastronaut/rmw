@@ -585,13 +585,12 @@ test_join_paths(void)
 void
 test_trim_char(void)
 {
-  char foo[BUFSIZ];
+  char foo[] = "Hello Worldd    ";
+  trim_char('d', foo);
+  assert(strcmp(foo, "Hello Worl") == 0);
   *foo = '\0';
   trim_char('/', foo);
   assert(*foo == '\0');
-  strcpy(foo, "Hello Worldd    ");
-  trim_char('d', foo);
-  assert(strcmp(foo, "Hello Worl") == 0);
   return;
 }
 
