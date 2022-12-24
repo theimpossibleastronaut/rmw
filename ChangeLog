@@ -3,6 +3,7 @@
 
   * bugfix: buffer underflow when calling trim_char() with empty
   string (Thanks to Christopher Wellons)
+  * replace valgrind test setup with asan (-fsanitize)
 
 2022-09-21
 
