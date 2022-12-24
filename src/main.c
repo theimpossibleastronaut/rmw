@@ -190,15 +190,17 @@ remove_to_waste(const int argc,
   int file_arg;
   for (file_arg = optind; file_arg < argc; file_arg++)
   {
-    int orig_req_len = strlen(argv[file_arg]) + 1;
-    bufchk_len(orig_req_len, LEN_MAX_PATH, __func__, __LINE__);
-    st_target.orig = argv[file_arg];
+    if (*argv[file_arg] == '\0')
+    {
+      puts("skipping empty string");
+      continue;
+    }
 
-    bufchk_len(orig_req_len, LEN_MAX_PATH, __func__, __LINE__);
-    char tmp[orig_req_len];
-    strcpy(tmp, st_target.orig);
+    char tmp[LEN_MAX_PATH];
+    sn_check(snprintf(tmp, sizeof(tmp), "%s", argv[file_arg]), sizeof(tmp));
+
+    // If basename() is given an empty string, it returns '.'
     st_target.base_name = basename(tmp);
-
     if (isdotdir(st_target.base_name))
     {
       printf("refusing to ReMove '.' or '..' directory: skipping '%s'\n",
@@ -218,9 +220,9 @@ damage of 5000 hp. You feel satisfied.\n"));
     }
 
     struct stat st_orig;
-    if (!lstat(st_target.orig, &st_orig))
+    if (!lstat(argv[file_arg], &st_orig))
     {
-      st_target.real_path = resolve_path(st_target.orig, st_target.base_name);
+      st_target.real_path = resolve_path(argv[file_arg], st_target.base_name);
       if (st_target.real_path == NULL)
       {
         n_err++;
@@ -229,7 +231,7 @@ damage of 5000 hp. You feel satisfied.\n"));
     }
     else
     {
-      msg_warn_file_not_found(st_target.orig);
+      msg_warn_file_not_found(argv[file_arg]);
       continue;
     }
 
@@ -244,7 +246,7 @@ damage of 5000 hp. You feel satisfied.\n"));
       {
         print_msg_warn();
         printf(_("%s resides within a waste folder and has been ignored\n"),
-               st_target.orig);
+               argv[file_arg]);
         is_protected = 1;
         break;
       }
@@ -292,12 +294,12 @@ damage of 5000 hp. You feel satisfied.\n"));
 
         int r_result = 0;
         if (cli_user_options->want_dry_run == false)
-          r_result = rename(st_target.orig, st_target.waste_dest_name);
+          r_result = rename(argv[file_arg], st_target.waste_dest_name);
 
         if (r_result == 0)
         {
           if (verbose)
-            printf("'%s' -> '%s'\n", st_target.orig,
+            printf("'%s' -> '%s'\n", argv[file_arg],
                    st_target.waste_dest_name);
 
           removed_files_ctr++;
@@ -314,7 +316,7 @@ damage of 5000 hp. You feel satisfied.\n"));
             }
         }
         else
-          msg_err_rename(st_target.orig,
+          msg_err_rename(argv[file_arg],
                          st_target.waste_dest_name, __func__, __LINE__);
 
     /**
@@ -334,7 +336,7 @@ damage of 5000 hp. You feel satisfied.\n"));
     if (!waste_folder_on_same_filesystem)
     {
       print_msg_warn();
-      printf(_("No suitable filesystem found for \"%s\"\n"), st_target.orig);
+      printf(_("No suitable filesystem found for \"%s\"\n"), argv[file_arg]);
     }
   }
 

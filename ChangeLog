@@ -1,4 +1,9 @@
 === rmw ChangeLog ===
+2022-12-24
+
+  * bugfix: buffer underflow when calling trim_char() with empty
+  string (Thanks to Christopher Wellons)
+
 2022-09-21
 
   - When purging, '-ff' is no longer needed to confirm removal of
