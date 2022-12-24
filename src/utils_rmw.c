@@ -343,12 +343,7 @@ unescape_url(const char *str)
 bool
 isdotdir(const char *dir)
 {
-  if (dir[0] != '.')
-    return false;
-  if (dir[1] == '\0' || (dir[1] == '.' && dir[2] == '\0'))
-    return true;
-
-  return false;
+  return (strcmp(dir, ".") == 0 || strcmp (dir, "..") == 0);
 }
 
 
