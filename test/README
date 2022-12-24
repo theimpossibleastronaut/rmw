@@ -4,10 +4,6 @@ From the build directory:
 
     ninja test
 
-To test with valgrind<http://valgrind.org/> (from the build dir):
-
-    meson test --setup=valgrind
-
 For more information about testing, see the Code Testing
 page<https://remove-to-waste.info/code-testing.html> on the rmw
 website.

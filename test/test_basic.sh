@@ -8,7 +8,7 @@ else
 fi
 
 echo "== On first run, directories should get created"
-$VALGRIND $RMW_TEST_CMD_STRING
+$RMW_TEST_CMD_STRING
 
 echo $SEPARATOR
 echo "List the waste folders..."

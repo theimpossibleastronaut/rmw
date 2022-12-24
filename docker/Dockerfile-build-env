@@ -4,7 +4,6 @@ RUN apt-get update \
   && apt-get install -y \
     gettext \
     libncurses-dev \
-    valgrind \
     pip \
   && rm -rf /var/lib/apt/lists
 RUN python3 -m pip install meson ninja

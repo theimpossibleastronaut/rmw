@@ -17,8 +17,7 @@ Example (if your present working directory is the rmw source directory):
     docker run --rm --entrypoint /rmw/entrypoint-test.sh  -v `pwd`:/rmw/src andy5995/rmw-build-env:bullseye
 
 That will mount the source directory at '/rmw/src', build rmw based on
-your local changes, and run the tests. To test with valgrind, add `-e
-USE_VALGRIND=true` to the docker 'run' arguments.
+your local changes, and run the tests.
 
 Specifying the entrypoint isn't mandatory; if omitted, you'll get a prompt.
 

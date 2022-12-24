@@ -49,7 +49,7 @@ echo
 echo " == rmw --empty command should completely purge the waste folders,"
 echo " == no matter when they were deleted"
 
-$VALGRIND $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/somefiles/*
+$RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/somefiles/*
 
 echo $SEPARATOR
 echo '  == purging disabled should output a message that purging is disabled'
@@ -64,7 +64,7 @@ cmp_substr "$(echo y | $RMW_ALT_TEST_CMD_STRING --purge --empty)" \
   "purge has been skipped"
 
 echo " == Should not work if 'Y' or 'y' is not supplied."
-echo "yfw" | $VALGRIND $RMW_TEST_CMD_STRING --purge --empty
+echo "yfw" | $RMW_TEST_CMD_STRING --purge --empty
 
 echo "Yfw" | $RMW_TEST_CMD_STRING --purge --empty
 
@@ -78,14 +78,14 @@ test -e $PRIMARY_WASTE_DIR/files/topdir
 
 echo $SEPARATOR
 echo " == Make sure the correct string (filename) is displayed when using -vvg"
-output="$($VALGRIND $RMW_TEST_CMD_STRING -vvg)"
+output="$($RMW_TEST_CMD_STRING -vvg)"
 cmp_substr "$output"  "'read_only_file' will be purged in 90."
 cmp_substr "$output" "'topdir' will be purged in 90."
 
 echo $SEPARATOR
 
 echo " == Empty works with force empty (-ffe)"
-echo "y" | $VALGRIND $RMW_TEST_CMD_STRING --empty -ff
+echo "y" | $RMW_TEST_CMD_STRING --empty -ff
 test ! -e $PRIMARY_WASTE_DIR/files/read_only_file
 test ! -e $PRIMARY_WASTE_DIR/files/topdir
 test ! -e $PRIMARY_WASTE_DIR/info/read_only_file.trashinfo
@@ -120,7 +120,7 @@ echo "\n\n == use a built-in environmental variable to write a"
 echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
-RMW_FAKE_YEAR=true $VALGRIND $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/*
+RMW_FAKE_YEAR=true $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/*
 cmp_substr "$(cat $PRIMARY_WASTE_DIR/info/abc.trashinfo)" \
   "DeletionDate=1999"
 
