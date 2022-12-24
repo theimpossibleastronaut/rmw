@@ -82,10 +82,10 @@ jobs:
       with:
         submodules: true
     - run: |
-        brew update
-        brew install ncurses meson
+        pip3 install meson ninja
+        brew install ncurses
     - run: |
-        meson builddir
+        meson setup builddir
         ninja -v -C builddir
         ninja -v -C builddir dist
 
@@ -104,7 +104,7 @@ jobs:
         prepare:  |
           pkg install -y meson ninja gettext pkgconf
         run: |
-          meson builddir
+          meson setup builddir
           ninja -v -C builddir
           ninja -C builddir test
 

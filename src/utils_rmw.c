@@ -343,12 +343,7 @@ unescape_url(const char *str)
 bool
 isdotdir(const char *dir)
 {
-  if (dir[0] != '.')
-    return false;
-  if (dir[1] == '\0' || (dir[1] == '.' && dir[2] == '\0'))
-    return true;
-
-  return false;
+  return (strcmp(dir, ".") == 0 || strcmp (dir, "..") == 0);
 }
 
 
@@ -393,6 +388,8 @@ void
 trim_char(const int c, char *str)
 {
   trim_whitespace(str);
+  if (*str == '\0')
+    return;
   while (*str != '\0')
     str++;
 
@@ -580,6 +577,18 @@ test_join_paths(void)
   return;
 }
 
+void
+test_trim_char(void)
+{
+  char foo[] = "Hello Worldd    ";
+  trim_char('d', foo);
+  assert(strcmp(foo, "Hello Worl") == 0);
+  *foo = '\0';
+  trim_char('/', foo);
+  assert(*foo == '\0');
+  return;
+}
+
 
 int
 main()
@@ -595,6 +604,7 @@ main()
   test_rmw_dirname();
   test_make_size_human_readable();
   test_join_paths();
+  test_trim_char();
 
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";
   char *escaped_path = escape_url(str);

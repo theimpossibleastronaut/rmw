@@ -8,7 +8,7 @@ else
 fi
 
 echo "== On first run, directories should get created"
-$VALGRIND $RMW_TEST_CMD_STRING
+$RMW_TEST_CMD_STRING
 
 echo $SEPARATOR
 echo "List the waste folders..."
@@ -119,6 +119,9 @@ test "${output}" = "${expected}"
 
 cmp_substr "$($RMW_ALT_TEST_CMD_STRING -l)" \
   "invalid option"
+
+cmp_substr "$($RMW_TEST_CMD_STRING '')" \
+  "skipping"
 
 echo "Basic tests passed"
 exit 0

@@ -18,7 +18,7 @@ $RMW_TEST_CMD_STRING
 
 echo $SEPARATOR
 echo "If the mrl file doesn't exist yet..."
-cmp_substr "$($VALGRIND $RMW_TEST_CMD_STRING -u)" \
+cmp_substr "$($RMW_TEST_CMD_STRING -u)" \
   "no items in the list"
 
 echo $SEPARATOR
@@ -28,14 +28,14 @@ create_some_files
 
 echo $SEPARATOR
 echo "Try to restore files that aren't in a Waste/files folder"
-cmp_substr "$($VALGRIND $RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1 && exit 1)" \
+cmp_substr "$($RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1 && exit 1)" \
   "not in a Waste directory"
 
 echo $SEPARATOR
 echo "ReMove files and then restore them by using -u"
 $RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/somefiles/*
 echo $SEPARATOR
-output=$($VALGRIND $RMW_TEST_CMD_STRING -uvv | grep Waste)
+output=$($RMW_TEST_CMD_STRING -uvv | grep Waste)
 echo $SEPARATOR
 echo "OUTPUT:"
 echo "---"
@@ -48,19 +48,19 @@ test "$output" = "+'${RMW_FAKE_HOME}/.Waste/files/read_only_file' -> '${RMW_FAKE
 
 echo $SEPARATOR
 echo "Show result when no undo file exists..."
-output=$($VALGRIND ${RMW_TEST_CMD_STRING} -u)
+output=$(${RMW_TEST_CMD_STRING} -u)
 test "${output}" = "There are no items in the list - please check back later."
 
 echo $SEPARATOR
 echo "restore using wildcard pattern, but be in the trash directory"
 $RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/somefiles/topdir -v
 cd $PRIMARY_WASTE_DIR/files
-$VALGRIND $RMW_TEST_CMD_STRING -z topd*
+$RMW_TEST_CMD_STRING -z topd*
 test -e "${RMW_FAKE_HOME}/somefiles/topdir"
 
 echo $SEPARATOR
 echo "Try restoring a file that doesn't exist"
-$VALGRIND $RMW_TEST_CMD_STRING -z nonexistent_fil* && exit 1
+$RMW_TEST_CMD_STRING -z nonexistent_fil* && exit 1
 
 # This test is inaccurate when run with superuser privileges.
 
@@ -77,7 +77,7 @@ echo "Symlinks"
 ln -s ${RMW_FAKE_HOME} ${RMW_FAKE_HOME}/link_test
 # broken link
 ln -s broken_symlink_test ${RMW_FAKE_HOME}/link_test2
-$VALGRIND $RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/link_test ${RMW_FAKE_HOME}/link_test2
+$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/link_test ${RMW_FAKE_HOME}/link_test2
 test -h "${PRIMARY_WASTE_DIR}/files/link_test"
 
 ${RMW_TEST_CMD_STRING} -u
@@ -109,10 +109,7 @@ cmp_substr "$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/. && exit 1)"
   "refusing to process"
 
 if [ -n "${TERM}" ] && [ "${TERM}" != "dumb" ]; then
-  if [ -n "${VALGRIND}" ];then
-    TMP_VALGRIND="valgrind --error-exitcode=1"
-  fi
-  echo q | $TMP_VALGRIND ${RMW_TEST_CMD_STRING} -s
+  echo q | ${RMW_TEST_CMD_STRING} -s
 fi
 
 # This test will only work on Andy's workstation.

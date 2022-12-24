@@ -23,8 +23,8 @@ cmp_substr () {
 }
 
 if test -z "${MESON_BUILD_ROOT}" || test -z "${RMW_FAKE_HOME}"; then
-  echo "This script is used by the build system. Use 'ninja test' or
-  echo 'meson test --setup=valgrind' from the builddir."
+  echo "This script is used by the build system. Use 'meson test'
+  echo 'from the builddir."
   exit 1
 fi
 

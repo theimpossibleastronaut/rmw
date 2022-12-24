@@ -46,6 +46,7 @@ get_waste_parent(const char *src)
   char *one_dir_level = "/..";
   char *waste_parent_rel_path = join_paths(src_dirname, one_dir_level);
   char *waste_parent = realpath(waste_parent_rel_path, NULL);
+  // TODO: handle error (on error, realpath return NULL and sets errno)
   free(waste_parent_rel_path);
 
   if (waste_parent == NULL)
@@ -93,6 +94,7 @@ restore(const char *src, st_time * st_time_var,
     {
       printf("refusing to process '.' or '..' directory: skipping '%s'",
              src_basename);
+      free(waste_parent);
       return 1;
     }
 

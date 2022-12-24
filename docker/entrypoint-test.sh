@@ -12,12 +12,7 @@ fi
 
 ARGS2="--setup=fake_media_root"
 
-if [ -n "$USE_VALGRIND" ]; then
-  ARGS="--setup=valgrind"
-  ARGS2="--setup=valgrind_fake_media_root"
-fi
-
-meson ../builddir
+meson setup ../builddir
 cd ../builddir
 ninja
 meson test $ARGS

@@ -267,7 +267,7 @@ just the ncurses packages is needed, and it's often already installed.
 run 'configure' from any directory you like.)
 
 ```
-    meson builddir
+    meson setup builddir
     cd builddir
     ninja
 ```
@@ -280,7 +280,7 @@ options.
 If you would like to install rmw without superuser privileges, use a prefix
 that you have write access to. Example:
 
-    meson -Dprefix=$HOME/.local builddir
+    meson setup -Dprefix=$HOME/.local builddir
 
 or while in the build dir
 
