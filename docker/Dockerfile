@@ -9,6 +9,7 @@ RUN git clone --depth 1 https://github.com/theimpossibleastronaut/rmw src
 WORKDIR /rmw/src
 RUN meson ../builddir \
   --prefix=/usr \
+  --Db_sanitize=none \
   -Dc_args=-static \
   -Dc_link_args=-static
 
