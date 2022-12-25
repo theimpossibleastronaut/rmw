@@ -172,4 +172,20 @@ test "${output}" = "
 Purging files based on number of days in the waste folders (90) ...
 3 items purged"
 
+# filenames with parens
+# THIS TEST DOESN'T WORK.
+
+#cd $RMW_FAKE_HOME
+#foo_file="foo (1)"
+#touch "$foo_file"
+#RMW_FAKE_YEAR=True $RMW_TEST_CMD_STRING -v "$foo_file"
+#
+# When rmw is invoked from here, the file gets
+# purged, when invoked from the command line, rmw fails with error
+# sh: -c: line 1: syntax error near unexpected token `('
+#$RMW_TEST_CMD_STRING -v -g
+#test ! -e "$PRIMARY_WASTE_DIR/files/$foo_file"
+#
+# But I've patched rmw so the error won't happen anymore.
+
 exit 0

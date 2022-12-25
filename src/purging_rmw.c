@@ -171,7 +171,7 @@ do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
     char rm_cmd[LEN_MAX_RM_CMD];
     sn_check(snprintf(rm_cmd,
                       sizeof rm_cmd,
-                      "%s -rf %s %s %s",
+                      "%s -rf %s %s '%s'",
                       rm->full_path,
                       rm->v, rm->onefs, purge_target), sizeof rm_cmd);
 
