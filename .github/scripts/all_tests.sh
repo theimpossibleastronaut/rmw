@@ -40,7 +40,7 @@ else
   DESTDIR=AppDir ninja install
   cp /usr/bin/rm AppDir/usr/bin
   cd -
-  wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${ARCH}.AppImage
+  curl https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${ARCH}.AppImage
   chmod +x linuxdeploy-${ARCH}.AppImage
   ./linuxdeploy-${ARCH}.AppImage  \
     -d packaging/rmw.desktop \
