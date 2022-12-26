@@ -54,7 +54,7 @@ Make the AppImage
   built on an older system, such Ubuntu bionic. I do that in a docker image.
 
   update the linuxdeploy appimage (which creates the image) if necessary
-    wget -nv -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+    curl https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
 
   The appimage won't run in a docker container, so it must first be extracted using the --appimage-extract option
 
