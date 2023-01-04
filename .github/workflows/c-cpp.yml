@@ -73,6 +73,22 @@ jobs:
     - name: Build
       run: sh ./.github/scripts/all_tests.sh
 
+  slackware:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: andy5995/slackware-build-essential:15.0
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Build and test with meson
+      run: |
+        meson setup _build
+        cd _build
+        meson compile
+        meson test
+
   macos:
     runs-on: macos-latest
     env:
