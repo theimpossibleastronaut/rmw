@@ -7,7 +7,7 @@ on:
   push:
     branches: master
     paths:
-    - '**'
+    - '**/**'
     - '!**.yml'
     - '!**.md'
     - '!docker/**'
@@ -15,7 +15,7 @@ on:
   pull_request:
     branches: master
     paths:
-    - '**'
+    - '**/**'
     - '!**.yml'
     - '!**.md'
     - '!docker/**'
