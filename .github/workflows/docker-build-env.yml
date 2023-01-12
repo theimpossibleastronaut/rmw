@@ -8,12 +8,6 @@ on:
       - '.github/workflows/docker-build-env.yml'
       - 'docker/Dockerfile-build-env'
       - 'docker/entrypoint-test.sh'
-  pull_request:
-    branches: [ "master" ]
-    paths:
-      - '.github/workflows/docker-build-env.yml'
-      - 'docker/Dockerfile-build-env'
-      - 'docker/entrypoint-test.sh'
 
 jobs:
   docker:
@@ -34,19 +28,7 @@ jobs:
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       -
-        name: Build and push test
-        if: ${{ github.ref != 'refs/heads/master' }}
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./docker/Dockerfile-build-env
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw-build-env:bullseye-testing
-          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/rmw-build-env:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/rmw-build-env:buildcache,mode=max
-      -
         name: Build and push
-        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/build-push-action@v3
         with:
           context: .
