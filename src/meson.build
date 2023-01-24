@@ -1,3 +1,5 @@
+subdir('bsd-coreutils')
+
 dep_menu = []
 dep_curses = []
 if not get_option('without-curses')
@@ -45,6 +47,6 @@ lib_rmw = static_library(
   )
 
 dep_rmw = declare_dependency(
-  link_with: lib_rmw,
+  link_with: [ lib_rmw, lib_bsdcoreutilsrm ],
   include_directories : include_directories('..')
   )

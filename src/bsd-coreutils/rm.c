@@ -1,3 +1,7 @@
+// Modified from the original by the rmw project
+// The original source is at
+// https://github.com/DiegoMagdaleno/BSDCoreUtils/blob/master/README.md
+
 /*	$OpenBSD: rm.c,v 1.42 2017/06/27 21:49:47 tedu Exp $	*/
 /*	$NetBSD: rm.c,v 1.19 1995/09/07 06:48:50 jtc Exp $	*/
 
@@ -34,7 +38,6 @@
 #include <sys/stat.h>
 #include <sys/mount.h>
 #include <sys/statvfs.h>
-#include <sys/random.h>
 
 #include <err.h>
 #include <errno.h>
@@ -47,6 +50,7 @@
 #include <limits.h>
 #include <pwd.h>
 #include <grp.h>
+#include <stdbool.h>
 
 #include "compat.h"
 
@@ -54,13 +58,11 @@
 
 extern const char *__progname;
 
-int dflag, eval, fflag, iflag, Pflag, vflag, stdin_ok;
+int dflag, eval, fflag, iflag, stdin_ok;
+bool vflag;
 
 int	check(char *, char *, struct stat *);
-void	checkdot(char **);
-void	rm_file(char **);
-int	rm_overwrite(char *, struct stat *);
-int	pass(int, off_t, char *, size_t);
+
 void	rm_tree(char **);
 void	usage(void);
 
@@ -72,53 +74,21 @@ void	usage(void);
  * 	file removal.
  */
 int
-main(int argc, char *argv[])
+bsd_coreutils_rm(char *argv, const bool want_verbose)
 {
-	int ch, rflag;
+	// case 'f':
+	fflag = 1;
 
-	Pflag = rflag = 0;
-	while ((ch = getopt(argc, argv, "dfiPRrv")) != -1)
-		switch(ch) {
-		case 'd':
-			dflag = 1;
-			break;
-		case 'f':
-			fflag = 1;
-			iflag = 0;
-			break;
-		case 'i':
-			fflag = 0;
-			iflag = 1;
-			break;
-		case 'P':
-			Pflag = 1;
-			break;
-		case 'R':
-		case 'r':			/* Compatibility. */
-			rflag = 1;
-			break;
-		case 'v':
-			vflag = 1;
-			break;
-		default:
-			usage();
-		}
-	argc -= optind;
-	argv += optind;
+	iflag = dflag = 0;
 
-	if (argc < 1 && fflag == 0)
-		usage();
+	vflag = want_verbose ? true : false;
 
-	checkdot(argv);
+	char *fake_fts_array[] = {
+		argv,
+		NULL
+	};
 
-	if (*argv) {
-		stdin_ok = isatty(STDIN_FILENO);
-
-		if (rflag)
-			rm_tree(argv);
-		else
-			rm_file(argv);
-	}
+	rm_tree(fake_fts_array);
 
 	return (eval);
 }
@@ -210,9 +180,6 @@ rm_tree(char **argv)
 
 		case FTS_F:
 		case FTS_NSOK:
-			if (Pflag)
-				rm_overwrite(p->fts_accpath, p->fts_info ==
-				    FTS_NSOK ? NULL : p->fts_statp);
 			/* FALLTHROUGH */
 		default:
 			if (!unlink(p->fts_accpath) ||
@@ -261,8 +228,6 @@ rm_file(char **argv)
 		else if (S_ISDIR(sb.st_mode))
 			rval = rmdir(f);
 		else {
-			if (Pflag)
-				rm_overwrite(f, &sb);
 			rval = unlink(f);
 		}
 		if (rval && (!fflag || errno != ENOENT)) {
@@ -273,85 +238,6 @@ rm_file(char **argv)
 	}
 }
 
-/*
- * rm_overwrite --
- *	Overwrite the file with varying bit patterns.
- *
- * XXX
- * This is a cheap way to *really* delete files.  Note that only regular
- * files are deleted, directories (and therefore names) will remain.
- * Also, this assumes a fixed-block file system (like FFS, or a V7 or a
- * System V file system).  In a logging file system, you'll have to have
- * kernel support.
- * Returns 1 for success.
- */
-int
-rm_overwrite(char *file, struct stat *sbp)
-{
-	struct stat sb, sb2;
-	struct statvfs fsb;
-	size_t bsize;
-	int fd;
-	char *buf = NULL;
-
-	fd = -1;
-	if (sbp == NULL) {
-		if (lstat(file, &sb))
-			goto err;
-		sbp = &sb;
-	}
-	if (!S_ISREG(sbp->st_mode))
-		return (1);
-	if (sbp->st_nlink > 1) {
-		warnx("%s (inode %llu): not overwritten due to multiple links",
-		    file, (unsigned long long)sbp->st_ino);
-		return (0);
-	}
-	if ((fd = open(file, O_WRONLY|O_NONBLOCK|O_NOFOLLOW, 0)) == -1)
-		goto err;
-	if (fstat(fd, &sb2))
-		goto err;
-	if (sb2.st_dev != sbp->st_dev || sb2.st_ino != sbp->st_ino ||
-	    !S_ISREG(sb2.st_mode)) {
-		errno = EPERM;
-		goto err;
-	}
-	if (fstatvfs(fd, &fsb) == -1)
-		goto err;
-	bsize = MAXIMUM(fsb.f_bsize, 1024U);
-	if ((buf = malloc(bsize)) == NULL)
-		err(1, "%s: malloc", file);
-
-	if (!pass(fd, sbp->st_size, buf, bsize))
-		goto err;
-	if (fsync(fd))
-		goto err;
-	close(fd);
-	free(buf);
-	return (1);
-
-err:
-	warn("%s", file);
-	close(fd);
-	eval = 1;
-	free(buf);
-	return (0);
-}
-
-int
-pass(int fd, off_t len, char *buf, size_t bsize)
-{
-	size_t wlen;
-
-	for (; len > 0; len -= wlen) {
-		wlen = len < bsize ? len : bsize;
-		if (getrandom(buf, wlen, GRND_RANDOM|GRND_NONBLOCK) == -1)
-			err(1, "getrandom()");
-		if (write(fd, buf, wlen) != wlen)
-			return (0);
-	}
-	return (1);
-}
 
 int
 check(char *path, char *name, struct stat *sp)
@@ -384,60 +270,4 @@ check(char *path, char *name, struct stat *sp)
 	while (ch != '\n' && ch != EOF)
 		ch = getchar();
 	return (first == 'y' || first == 'Y');
-}
-
-/*
- * POSIX.2 requires that if "." or ".." are specified as the basename
- * portion of an operand, a diagnostic message be written to standard
- * error and nothing more be done with such operands.
- *
- * Since POSIX.2 defines basename as the final portion of a path after
- * trailing slashes have been removed, we'll remove them here.
- */
-#define ISDOT(a) ((a)[0] == '.' && (!(a)[1] || ((a)[1] == '.' && !(a)[2])))
-void
-checkdot(char **argv)
-{
-	char *p, **save, **t;
-	int complained;
-	struct stat sb, root;
-
-	stat("/", &root);
-	complained = 0;
-	for (t = argv; *t;) {
-		if (lstat(*t, &sb) == 0 &&
-		    root.st_ino == sb.st_ino && root.st_dev == sb.st_dev) {
-			if (!complained++)
-				warnx("\"/\" may not be removed");
-			goto skip;
-		}
-		/* strip trailing slashes */
-		p = strrchr(*t, '\0');
-		while (--p > *t && *p == '/')
-			*p = '\0';
-
-		/* extract basename */
-		if ((p = strrchr(*t, '/')) != NULL)
-			++p;
-		else
-			p = *t;
-
-		if (ISDOT(p)) {
-			if (!complained++)
-				warnx("\".\" and \"..\" may not be removed");
-skip:
-			eval = 1;
-			for (save = t; (t[0] = t[1]) != NULL; ++t)
-				continue;
-			t = save;
-		} else
-			++t;
-	}
-}
-
-void
-usage(void)
-{
-	(void)fprintf(stderr, "usage: %s [-dfiPRrv] file ...\n", __progname);
-	exit(1);
 }
