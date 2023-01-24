@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2022  Andy Alt (arch_stanton5995@protonmail.com)
+Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,7 @@ typedef enum
   RECURSIVE,
   FORCE,
   EMPTY,
+  TOP_LEVEL_BYPASS
 } cli_opt_id;
 
 
@@ -75,7 +76,8 @@ static struct cli_opt
   {INTERACTIVE, "interactive"},
   {RECURSIVE, "recursive"},
   {FORCE, "force"},
-  {EMPTY, "empty"}
+  {EMPTY, "empty"},
+  {TOP_LEVEL_BYPASS, "top-level-bypass"}
 };
 
 
@@ -84,6 +86,7 @@ static struct cli_opt
 enum
 {
   L_EMPTY = CHAR_MAX + 1,
+  L_TOP_LEVEL_BYPASS
 };
 
 
@@ -129,6 +132,9 @@ Restore FILE(s) from a WASTE directory"));
   -r, -R, --%s       option used for compatibility with rm\n\
                             (recursive operation is enabled by default)\n\
 "), cli_opt[RECURSIVE].str);
+  printf(_("\
+      --%s    bypass protection of top-level directories\n\
+"), cli_opt[TOP_LEVEL_BYPASS].str);
   printf(_("\
   -v, --%s             increase output messages\n\
 "), cli_opt[VERBOSE].str);
@@ -225,6 +231,7 @@ init_rmw_options(rmw_options * x)
   x->want_dry_run = false;
   x->want_purge = 0;
   x->want_empty_trash = false;
+  x->want_top_level_bypass = false;
   x->want_orphan_chk = false;
   x->want_selection_menu = false;
   x->want_undo = false;
@@ -256,6 +263,7 @@ parse_cli_options(const int argc, char *const argv[], rmw_options * options)
     {cli_opt[RECURSIVE].str, 0, NULL, 'r'},
     {cli_opt[FORCE].str, 0, NULL, 'f'},
     {cli_opt[EMPTY].str, 0, NULL, L_EMPTY},
+    {cli_opt[TOP_LEVEL_BYPASS].str, 0, NULL, L_TOP_LEVEL_BYPASS},
     {NULL, 0, NULL, 0}
   };
 
@@ -343,6 +351,9 @@ parse_cli_options(const int argc, char *const argv[], rmw_options * options)
     case L_EMPTY:
       options->want_empty_trash = true;
       options->want_purge = -1;
+      break;
+    case L_TOP_LEVEL_BYPASS:
+      options->want_top_level_bypass = true;
       break;
     default:
       diagnose_leading_hyphen(argc, argv);

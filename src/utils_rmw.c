@@ -473,6 +473,19 @@ bool is_dir_f(const char *pathname)
   return false;
 }
 
+int
+count_chars(const char c, const char *str)
+{
+  int i = 0, n = 0;
+  while (str[i])
+  {
+    if (str[i++] == c)
+      n++;
+  }
+  return n;
+}
+
+
 ///////////////////////////////////////////////////////////////////////
 #ifdef TEST_LIB
 
@@ -672,6 +685,21 @@ test_exists(const char *pathname)
 }
 
 
+static void
+test_count_chars(void)
+{
+  int n = 0;
+  char *greet = "/hello/world";
+  n = count_chars('/', greet);
+  assert(n == 2);
+  n = count_chars('l', greet);
+  assert(n == 3);
+  n = count_chars(' ', greet);
+  assert(n == 0);
+  return;
+}
+
+
 int
 main()
 {
@@ -703,6 +731,8 @@ main()
 
   free(unescaped_path);
   free(escaped_path);
+
+  test_count_chars();
   return 0;
 }
 #endif

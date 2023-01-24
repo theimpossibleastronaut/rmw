@@ -28,6 +28,7 @@ typedef struct
   bool want_restore;
   int want_purge;
   bool want_empty_trash;
+  bool want_top_level_bypass;
   bool want_orphan_chk;
   bool want_selection_menu;
   bool want_undo;
