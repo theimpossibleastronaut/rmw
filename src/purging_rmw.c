@@ -28,6 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
+int
+bsd_coreutils_rm(char *argv[], const bool want_verbose);
+
 enum
 {
   CONTINUE
@@ -176,7 +179,10 @@ do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
                       rm->v, rm->onefs, purge_target), sizeof rm_cmd);
 
     if (cli_user_options->want_dry_run == false)
-      status = system(rm_cmd);
+    {
+      // status = system(rm_cmd);
+      status = bsd_coreutils_rm(purge_target, verbose);
+    }
     else
     {
       printf("removing '%s\n", rm_cmd);

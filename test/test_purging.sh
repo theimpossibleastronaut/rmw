@@ -83,9 +83,8 @@ cmp_substr "$output"  "'read_only_file' will be purged in 90."
 cmp_substr "$output" "'topdir' will be purged in 90."
 
 echo $SEPARATOR
-
 echo " == Empty works with force empty (-ffe)"
-echo "y" | $RMW_TEST_CMD_STRING --empty -ff
+echo "y" | $RMW_TEST_CMD_STRING -v --empty -ff
 test ! -e $PRIMARY_WASTE_DIR/files/read_only_file
 test ! -e $PRIMARY_WASTE_DIR/files/topdir
 test ! -e $PRIMARY_WASTE_DIR/info/read_only_file.trashinfo

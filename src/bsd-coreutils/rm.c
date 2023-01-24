@@ -1,3 +1,7 @@
+// Modified from the original by the rmw project
+// The original source is at
+// https://github.com/DiegoMagdaleno/BSDCoreUtils/blob/master/README.md
+
 /*	$OpenBSD: rm.c,v 1.42 2017/06/27 21:49:47 tedu Exp $	*/
 /*	$NetBSD: rm.c,v 1.19 1995/09/07 06:48:50 jtc Exp $	*/
 
@@ -47,6 +51,7 @@
 #include <limits.h>
 #include <pwd.h>
 #include <grp.h>
+#include <stdbool.h>
 
 #include "compat.h"
 
@@ -57,8 +62,7 @@ extern const char *__progname;
 int dflag, eval, fflag, iflag, Pflag, vflag, stdin_ok;
 
 int	check(char *, char *, struct stat *);
-void	checkdot(char **);
-void	rm_file(char **);
+
 int	rm_overwrite(char *, struct stat *);
 int	pass(int, off_t, char *, size_t);
 void	rm_tree(char **);
@@ -72,52 +76,26 @@ void	usage(void);
  * 	file removal.
  */
 int
-main(int argc, char *argv[])
+bsd_coreutils_rm(char *argv, const bool want_verbose)
 {
-	int ch, rflag;
+	int rflag;
 
 	Pflag = rflag = 0;
-	while ((ch = getopt(argc, argv, "dfiPRrv")) != -1)
-		switch(ch) {
-		case 'd':
-			dflag = 1;
-			break;
-		case 'f':
-			fflag = 1;
-			iflag = 0;
-			break;
-		case 'i':
-			fflag = 0;
-			iflag = 1;
-			break;
-		case 'P':
-			Pflag = 1;
-			break;
-		case 'R':
-		case 'r':			/* Compatibility. */
-			rflag = 1;
-			break;
-		case 'v':
-			vflag = 1;
-			break;
-		default:
-			usage();
-		}
-	argc -= optind;
-	argv += optind;
 
-	if (argc < 1 && fflag == 0)
-		usage();
+	// case 'f':
+	fflag = 1;
+	iflag = 0;
 
-	checkdot(argv);
+	//case 'R':
+	// case 'r':			/* Compatibility. */
+		rflag = 1;
+
+	if (want_verbose)
+		vflag = 1;
 
 	if (*argv) {
 		stdin_ok = isatty(STDIN_FILENO);
-
-		if (rflag)
-			rm_tree(argv);
-		else
-			rm_file(argv);
+		rm_tree(&argv);
 	}
 
 	return (eval);
@@ -384,60 +362,4 @@ check(char *path, char *name, struct stat *sp)
 	while (ch != '\n' && ch != EOF)
 		ch = getchar();
 	return (first == 'y' || first == 'Y');
-}
-
-/*
- * POSIX.2 requires that if "." or ".." are specified as the basename
- * portion of an operand, a diagnostic message be written to standard
- * error and nothing more be done with such operands.
- *
- * Since POSIX.2 defines basename as the final portion of a path after
- * trailing slashes have been removed, we'll remove them here.
- */
-#define ISDOT(a) ((a)[0] == '.' && (!(a)[1] || ((a)[1] == '.' && !(a)[2])))
-void
-checkdot(char **argv)
-{
-	char *p, **save, **t;
-	int complained;
-	struct stat sb, root;
-
-	stat("/", &root);
-	complained = 0;
-	for (t = argv; *t;) {
-		if (lstat(*t, &sb) == 0 &&
-		    root.st_ino == sb.st_ino && root.st_dev == sb.st_dev) {
-			if (!complained++)
-				warnx("\"/\" may not be removed");
-			goto skip;
-		}
-		/* strip trailing slashes */
-		p = strrchr(*t, '\0');
-		while (--p > *t && *p == '/')
-			*p = '\0';
-
-		/* extract basename */
-		if ((p = strrchr(*t, '/')) != NULL)
-			++p;
-		else
-			p = *t;
-
-		if (ISDOT(p)) {
-			if (!complained++)
-				warnx("\".\" and \"..\" may not be removed");
-skip:
-			eval = 1;
-			for (save = t; (t[0] = t[1]) != NULL; ++t)
-				continue;
-			t = save;
-		} else
-			++t;
-	}
-}
-
-void
-usage(void)
-{
-	(void)fprintf(stderr, "usage: %s [-dfiPRrv] file ...\n", __progname);
-	exit(1);
 }
