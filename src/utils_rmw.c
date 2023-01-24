@@ -387,18 +387,22 @@ resolve_path(const char *file, const char *b)
 void
 trim_char(const int c, char *str)
 {
-  trim_whitespace(str);
-  if (*str == '\0')
+  char *dup_str = str;
+  trim_whitespace(dup_str);
+  if (*dup_str == '\0')
     return;
-  while (*str != '\0')
-    str++;
 
-  str--;
+  while (*dup_str != '\0')
+    dup_str++;
 
-  while (*str == c)
+  dup_str--;
+
+  while (*dup_str == c)
   {
-    *str = '\0';
-    str--;
+    *dup_str = '\0';
+    if (dup_str == str)
+      return;
+    dup_str--;
   }
 
   return;
@@ -585,6 +589,9 @@ test_trim_char(void)
   assert(strcmp(foo, "Hello Worl") == 0);
   *foo = '\0';
   trim_char('/', foo);
+  assert(*foo == '\0');
+  strcpy(foo, "ccc");
+  trim_char('c', foo);
   assert(*foo == '\0');
   return;
 }
