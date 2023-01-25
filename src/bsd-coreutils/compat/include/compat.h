@@ -37,14 +37,16 @@
 #include <sys/stat.h>
 #endif
 
-#ifdef __linux__
+/* General imports for non-Apple platforms */
+#if defined(__linux__) || defined(__FreeBSD__)
 #include <stddef.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h>
+#include <sys/stat.h>
 #endif
-
 
 //! Fix a warning that complains about extern declarations
 #ifdef HAVE___PROGNAME
