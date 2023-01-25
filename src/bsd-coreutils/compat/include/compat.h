@@ -220,7 +220,7 @@ size_t strlcpy (char *, const char *, size_t);
  * 65536.  So we'll just define that here so as to avoid having
  * bsdutils depend on e2fsprogs to compile.
  */
-#if !defined __APPLE__
+#if defined (__linux__) || defined (__MINGW32__)
 #define MAXBSIZE (64 * 1024)
 #endif
 
@@ -231,7 +231,7 @@ size_t strlcpy (char *, const char *, size_t);
 #define FMT_SCALED_STRSIZE 7 /* minus sign, 4 digits, suffix, null byte */
 
 /* Buffer sizes */
-#if defined (__linux__) || defined (__APPLE__)
+#if defined (__linux__) || defined (__APPLE__) || defined (__FreeBSD__)
 #define _PW_BUF_LEN sysconf (_SC_GETPW_R_SIZE_MAX)
 #define _GR_BUF_LEN sysconf (_SC_GETGR_R_SIZE_MAX)
 #endif
