@@ -192,6 +192,12 @@ grptb_start(void)
 	return 0;
 }
 
+/* There is no need to define this 
+ * on Darwin based operating systems
+ * this is already defined as it was derived from
+ * BSD at somepoint
+*/
+#ifndef __APPLE__
 /*
  * user_from_uid()
  *	caches the name (if any) for the uid. If noname clear, we always
@@ -313,6 +319,7 @@ group_from_gid(gid_t gid, int noname)
 	}
 	return ptr->name;
 }
+#endif
 
 /*
  * uid_from_user()
