@@ -20,6 +20,8 @@ else
 endif
 
 src = [
+  'bsdutils/strmode.c',
+  'bsdutils/rm.c',
   'globals.c',
   'restore_rmw.c',
   'config_rmw.c',
@@ -35,7 +37,7 @@ src = [
 lib_rmw = static_library(
   'rmw',
   src,
-  include_directories : include_directories('..'),
+  include_directories : include_directories(['..', 'bsdutils']),
   dependencies: [
     dep_intl,
     dep_canfigger,
@@ -46,5 +48,5 @@ lib_rmw = static_library(
 
 dep_rmw = declare_dependency(
   link_with: lib_rmw,
-  include_directories : include_directories('..')
+  include_directories : include_directories(['..', 'bsdutils'])
   )
