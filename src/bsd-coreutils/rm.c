@@ -66,18 +66,13 @@ static char sccsid[] = "@(#)rm.c	8.5 (Berkeley) 4/18/94";
 #include "compat.h"
 
 static int dflag, eval, fflag, iflag, vflag, stdin_ok;
-static int rflag, Iflag, xflag;
+static int xflag;
 static uid_t uid;
 static volatile sig_atomic_t info;
 
 static int	check(const char *, const char *, struct stat *);
-static int	check2(char **);
-static void	checkdot(char **);
-static void	checkslash(char **);
-static void	rm_file(char **);
 static void	rm_tree(char **);
 static void siginfo(int __attribute__((unused)));
-static void	usage(void);
 
 /*
  * rm --
@@ -90,6 +85,7 @@ int
 bsdutils_rm(char *argv, bool want_verbose)
 {
 	(void)setlocale(LC_ALL, "");
+
 	// case 'f':
 	fflag = 1;
 
@@ -238,50 +234,6 @@ rm_tree(char **argv)
 	fts_close(fts);
 }
 
-static void
-rm_file(char **argv)
-{
-	struct stat sb;
-	int rval;
-	char *f;
-
-	/*
-	 * Remove a file.  POSIX 1003.2 states that, by default, attempting
-	 * to remove a directory is an error, so must always stat the file.
-	 */
-	while ((f = *argv++) != NULL) {
-		/* Assume if can't stat the file, can't unlink it. */
-		if (lstat(f, &sb)) {
-			if (!fflag || errno != ENOENT) {
-				warn("%s", f);
-				eval = 1;
-			}
-			continue;
-		}
-
-		if (S_ISDIR(sb.st_mode) && !dflag) {
-			warnx("%s: is a directory", f);
-			eval = 1;
-			continue;
-		}
-		if (!fflag && !check(f, f, &sb))
-			continue;
-		if (S_ISDIR(sb.st_mode))
-			rval = rmdir(f);
-		else
-			rval = unlink(f);
-		if (rval && (!fflag || errno != ENOENT)) {
-			warn("%s", f);
-			eval = 1;
-		}
-		if (vflag && rval == 0)
-			(void)printf("%s\n", f);
-		if (info && rval == 0) {
-			info = 0;
-			(void)printf("%s\n", f);
-		}
-	}
-}
 
 static int
 check(const char *path, const char *name, struct stat *sp)
@@ -324,111 +276,6 @@ check(const char *path, const char *name, struct stat *sp)
 	return (first == 'y' || first == 'Y');
 }
 
-#define ISSLASH(a)	((a)[0] == '/' && (a)[1] == '\0')
-static void
-checkslash(char **argv)
-{
-	char **t, **u;
-	int complained;
-
-	complained = 0;
-	for (t = argv; *t;) {
-		if (ISSLASH(*t)) {
-			if (!complained++)
-				warnx("\"/\" may not be removed");
-			eval = 1;
-			for (u = t; u[0] != NULL; ++u)
-				u[0] = u[1];
-		} else {
-			++t;
-		}
-	}
-}
-
-static int
-check2(char **argv)
-{
-	struct stat st;
-	int first;
-	int ch;
-	int fcount = 0;
-	int dcount = 0;
-	int i;
-	const char *dname = NULL;
-
-	for (i = 0; argv[i]; ++i) {
-		if (lstat(argv[i], &st) == 0) {
-			if (S_ISDIR(st.st_mode)) {
-				++dcount;
-				dname = argv[i];    /* only used if 1 dir */
-			} else {
-				++fcount;
-			}
-		}
-	}
-	first = 0;
-	while (first != 'n' && first != 'N' && first != 'y' && first != 'Y') {
-		if (dcount && rflag) {
-			fprintf(stderr, "recursively remove");
-			if (dcount == 1)
-				fprintf(stderr, " %s", dname);
-			else
-				fprintf(stderr, " %d dirs", dcount);
-			if (fcount == 1)
-				fprintf(stderr, " and 1 file");
-			else if (fcount > 1)
-				fprintf(stderr, " and %d files", fcount);
-		} else if (dcount + fcount > 3) {
-			fprintf(stderr, "remove %d files", dcount + fcount);
-		} else {
-			return(1);
-		}
-		fprintf(stderr, "? ");
-		fflush(stderr);
-
-		first = ch = getchar();
-		while (ch != '\n' && ch != EOF)
-			ch = getchar();
-		if (ch == EOF)
-			break;
-	}
-	return (first == 'y' || first == 'Y');
-}
-
-#define ISDOT(a)	((a)[0] == '.' && (!(a)[1] || ((a)[1] == '.' && !(a)[2])))
-static void
-checkdot(char **argv)
-{
-	char *p, **save, **t;
-	int complained;
-
-	complained = 0;
-	for (t = argv; *t;) {
-		if ((p = strrchr(*t, '/')) != NULL)
-			++p;
-		else
-			p = *t;
-		if (ISDOT(p)) {
-			if (!complained++)
-				warnx("\".\" and \"..\" may not be removed");
-			eval = 1;
-			for (save = t; (t[0] = t[1]) != NULL; ++t)
-				continue;
-			t = save;
-		} else
-			++t;
-	}
-}
-
-static void
-usage(void)
-{
-
-	(void)fprintf(stderr, "%s\n%s\n",
-	    "usage: rm [-f | -i] [-dIPRrvWx] file ...",
-	    "       unlink [--] file");
-	exit(EX_USAGE);
-}
 
 static void
 siginfo(int sig __attribute__((unused)))
