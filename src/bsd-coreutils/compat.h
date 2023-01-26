@@ -31,7 +31,6 @@
  */
 
 #if defined __APPLE__
-#include "simpleq.h"
 #include <grp.h>
 #include <pwd.h>
 #include <sys/stat.h>
@@ -176,7 +175,7 @@ char *getbsize (int *, long *);
 /* devname.c */
 #ifndef __MINGW32__
 char *devname (dev_t, mode_t);
-#endif 
+#endif
 
 #ifdef __MINGW32__
 char *devname_mingw(dev_t, mode_t);
@@ -242,7 +241,7 @@ size_t strlcpy (char *, const char *, size_t);
 #define _GR_BUF_LEN _SC_GETPW_R_SIZE_MAX
 #endif
 
-/* Linux spelling differences 
+/* Linux spelling differences
  * And Windows too :p
 */
 #if defined (__linux__) || defined (__MINGW32__)
@@ -267,3 +266,11 @@ size_t strlcpy (char *, const char *, size_t);
 #endif
 
 void explicit_bzero(void *, size_t );
+
+/* we use SIGUSR1 in place of SIGINFO */
+#define SIGINFO SIGUSR1
+
+int signame_to_signum(const char *sig);
+const char *signum_to_signame(int signum);
+int get_signame_by_idx(size_t idx, const char **signame, int *signum);
+

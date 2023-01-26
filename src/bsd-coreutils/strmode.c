@@ -1,7 +1,8 @@
-/*	$OpenBSD: strmode.c,v 1.8 2015/08/31 02:53:57 guenther Exp $ */
 /*-
- * Copyright (c) 1990 The Regents of the University of California.
- * All rights reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
+ * Copyright (c) 1990, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,16 +28,17 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-#include "compat.h"
+
+#if defined(LIBC_SCCS) && !defined(lint)
+static char sccsid[] = "@(#)strmode.c	8.3 (Berkeley) 8/15/94";
+#endif /* LIBC_SCCS and not lint */
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>
 
-/* XXX mode should be mode_t */
-
 void
-strmode(int mode, char *p)
+strmode(/* mode_t */ int mode, char *p)
 {
 	 /* print type */
 	switch (mode & S_IFMT) {
@@ -61,6 +63,11 @@ strmode(int mode, char *p)
 #ifdef S_IFIFO
 	case S_IFIFO:			/* fifo */
 		*p++ = 'p';
+		break;
+#endif
+#ifdef S_IFWHT
+	case S_IFWHT:			/* whiteout */
+		*p++ = 'w';
 		break;
 #endif
 	default:			/* unknown */
@@ -136,6 +143,6 @@ strmode(int mode, char *p)
 		*p++ = 't';
 		break;
 	}
-	*p++ = ' ';		/* will be a '+' if ACL's implemented */
+	*p++ = ' ';
 	*p = '\0';
 }

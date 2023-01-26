@@ -1,16 +1,14 @@
 src = [
   'rm.c',
-  'compat/src/strmode.c',
-  'compat/src/pwcache.c',
-  'compat/unkown_brother/strlcpy.c',
+  'strmode.c'
   ]
 
 lib_bsdcoreutilsrm = static_library(
   'bsdcoreutilsrm',
   src,
-  include_directories : include_directories('compat/include'),
+  # include_directories : include_directories('..'),
   )
 
 dep_rmw = declare_dependency(
-  include_directories : include_directories('compat/include')
+  # include_directories : include_directories('.')
   )

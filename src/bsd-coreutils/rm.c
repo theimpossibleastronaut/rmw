@@ -1,11 +1,9 @@
 // Modified from the original by the rmw project
 // The original source is at
-// https://github.com/DiegoMagdaleno/BSDCoreUtils/blob/master/README.md
-
-/*	$OpenBSD: rm.c,v 1.42 2017/06/27 21:49:47 tedu Exp $	*/
-/*	$NetBSD: rm.c,v 1.19 1995/09/07 06:48:50 jtc Exp $	*/
-
+// https://github.com/dcantrell/bsdutils
 /*-
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
  * Copyright (c) 1990, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -34,54 +32,74 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/types.h>
+#if 0
+#ifndef lint
+static const char copyright[] =
+"@(#) Copyright (c) 1990, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n";
+#endif /* not lint */
+
+#ifndef lint
+static char sccsid[] = "@(#)rm.c	8.5 (Berkeley) 4/18/94";
+#endif /* not lint */
+#endif
+
 #include <sys/stat.h>
+#include <sys/param.h>
 #include <sys/mount.h>
-#include <sys/statvfs.h>
 
 #include <err.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <fts.h>
+#include <grp.h>
+#include <locale.h>
+#include <pwd.h>
+#include <signal.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sysexits.h>
 #include <unistd.h>
-#include <limits.h>
-#include <pwd.h>
-#include <grp.h>
-#include <stdbool.h>
 
 #include "compat.h"
 
-#define MAXIMUM(a, b)	(((a) > (b)) ? (a) : (b))
+static int dflag, eval, fflag, iflag, vflag, stdin_ok;
+static int rflag, Iflag, xflag;
+static uid_t uid;
+static volatile sig_atomic_t info;
 
-extern const char *__progname;
-
-int dflag, eval, fflag, iflag, stdin_ok;
-bool vflag;
-
-int	check(char *, char *, struct stat *);
-
-void	rm_tree(char **);
-void	usage(void);
+static int	check(const char *, const char *, struct stat *);
+static int	check2(char **);
+static void	checkdot(char **);
+static void	checkslash(char **);
+static void	rm_file(char **);
+static void	rm_tree(char **);
+static void siginfo(int __attribute__((unused)));
+static void	usage(void);
 
 /*
  * rm --
  *	This rm is different from historic rm's, but is expected to match
- *	POSIX 1003.2 behavior.  The most visible difference is that -f
+ *	POSIX 1003.2 behavior.	The most visible difference is that -f
  *	has two specific effects now, ignore non-existent files and force
- * 	file removal.
+ *	file removal.
  */
 int
-bsd_coreutils_rm(char *argv, const bool want_verbose)
+bsdutils_rm(char *argv, bool want_verbose)
 {
+	(void)setlocale(LC_ALL, "");
 	// case 'f':
 	fflag = 1;
 
 	iflag = dflag = 0;
 
 	vflag = want_verbose ? true : false;
+
+	uid = geteuid();
+
+	(void)signal(SIGINFO, siginfo);
 
 	char *fake_fts_array[] = {
 		argv,
@@ -93,19 +111,20 @@ bsd_coreutils_rm(char *argv, const bool want_verbose)
 	return (eval);
 }
 
-void
+static void
 rm_tree(char **argv)
 {
 	FTS *fts;
 	FTSENT *p;
 	int needstat;
 	int flags;
+	int rval;
 
 	/*
 	 * Remove a file hierarchy.  If forcing removal (-f), or interactive
 	 * (-i) or can't ask anyway (stdin_ok), don't stat the file.
 	 */
-	needstat = !fflag && !iflag && stdin_ok;
+	needstat = !uid || (!fflag && !iflag && stdin_ok);
 
 	/*
 	 * If the -i option is specified, the user can skip on the pre-order
@@ -116,9 +135,14 @@ rm_tree(char **argv)
 	flags = FTS_PHYSICAL;
 	if (!needstat)
 		flags |= FTS_NOSTAT;
-	if (!(fts = fts_open(argv, flags, NULL)))
-		err(1, NULL);
-	while ((p = fts_read(fts)) != NULL) {
+	if (xflag)
+		flags |= FTS_XDEV;
+	if (!(fts = fts_open(argv, flags, NULL))) {
+		if (fflag && errno == ENOENT)
+			return;
+		err(1, "fts_open");
+	}
+	while (errno = 0, (p = fts_read(fts)) != NULL) {
 		switch (p->fts_info) {
 		case FTS_DNR:
 			if (!fflag || p->fts_errno != ENOENT) {
@@ -128,12 +152,11 @@ rm_tree(char **argv)
 			}
 			continue;
 		case FTS_ERR:
-			errno = p->fts_errno;
-			err(1, "%s", p->fts_path);
+			errx(1, "%s: %s", p->fts_path, strerror(p->fts_errno));
 		case FTS_NS:
 			/*
-			 * FTS_NS: assume that if can't stat the file, it
-			 * can't be unlinked.
+			 * Assume that since fts_read() couldn't stat the
+			 * file, it can't be unlinked.
 			 */
 			if (!needstat)
 				break;
@@ -170,34 +193,52 @@ rm_tree(char **argv)
 		switch (p->fts_info) {
 		case FTS_DP:
 		case FTS_DNR:
-			if (!rmdir(p->fts_accpath) ||
-			    (fflag && errno == ENOENT)) {
-				if (vflag)
-					fprintf(stdout, "%s\n", p->fts_path);
+			rval = rmdir(p->fts_accpath);
+			if (rval == 0 || (fflag && errno == ENOENT)) {
+				if (rval == 0 && vflag)
+					(void)printf("%s\n",
+					    p->fts_path);
+				if (rval == 0 && info) {
+					info = 0;
+					(void)printf("%s\n",
+					    p->fts_path);
+				}
 				continue;
 			}
 			break;
-
+		case FTS_NS:
+			/*
+			 * Assume that since fts_read() couldn't stat
+			 * the file, it can't be unlinked.
+			 */
+			if (fflag)
+				continue;
+			/* FALLTHROUGH */
 		case FTS_F:
 		case FTS_NSOK:
-			/* FALLTHROUGH */
 		default:
-			if (!unlink(p->fts_accpath) ||
-			    (fflag && errno == ENOENT)) {
-				if (vflag)
-					fprintf(stdout, "%s\n", p->fts_path);
+			rval = unlink(p->fts_accpath);
+			if (rval == 0 || (fflag && errno == ENOENT)) {
+				if (rval == 0 && vflag)
+					(void)printf("%s\n",
+					    p->fts_path);
+				if (rval == 0 && info) {
+					info = 0;
+					(void)printf("%s\n",
+					    p->fts_path);
+				}
 				continue;
 			}
 		}
 		warn("%s", p->fts_path);
 		eval = 1;
 	}
-	if (errno)
+	if (!fflag && errno)
 		err(1, "fts_read");
 	fts_close(fts);
 }
 
-void
+static void
 rm_file(char **argv)
 {
 	struct stat sb;
@@ -225,25 +266,30 @@ rm_file(char **argv)
 		}
 		if (!fflag && !check(f, f, &sb))
 			continue;
-		else if (S_ISDIR(sb.st_mode))
+		if (S_ISDIR(sb.st_mode))
 			rval = rmdir(f);
-		else {
+		else
 			rval = unlink(f);
-		}
 		if (rval && (!fflag || errno != ENOENT)) {
 			warn("%s", f);
 			eval = 1;
-		} else if (vflag)
-			(void)fprintf(stdout, "%s\n", f);
+		}
+		if (vflag && rval == 0)
+			(void)printf("%s\n", f);
+		if (info && rval == 0) {
+			info = 0;
+			(void)printf("%s\n", f);
+		}
 	}
 }
 
-
-int
-check(char *path, char *name, struct stat *sp)
+static int
+check(const char *path, const char *name, struct stat *sp)
 {
 	int ch, first;
 	char modep[15];
+	struct passwd *pw = NULL;
+	struct group *gr = NULL;
 
 	/* Check -i first. */
 	if (iflag)
@@ -255,14 +301,20 @@ check(char *path, char *name, struct stat *sp)
 		 * because their permissions are meaningless.  Check stdin_ok
 		 * first because we may not have stat'ed the file.
 		 */
-		if (!stdin_ok || S_ISLNK(sp->st_mode) || !access(name, W_OK) ||
-		    errno != EACCES)
+		if (!stdin_ok || S_ISLNK(sp->st_mode) || !access(name, W_OK))
 			return (1);
 		strmode(sp->st_mode, modep);
+		pw = getpwuid(sp->st_uid);
+		if (pw == NULL)
+			err(EXIT_FAILURE, "getpwuid");
+		gr = getgrgid(sp->st_gid);
+		if (gr == NULL)
+			err(EXIT_FAILURE, "getgrgid");
 		(void)fprintf(stderr, "override %s%s%s/%s for %s? ",
-		    modep + 1, modep[9] == ' ' ? "" : " ",
-		    user_from_uid(sp->st_uid, 0),
-		    group_from_gid(sp->st_gid, 0), path);
+		    modep + 1, modep[10] == ' ' ? "" : " ",
+		    pw->pw_name,
+		    gr->gr_name,
+		    path);
 	}
 	(void)fflush(stderr);
 
@@ -270,4 +322,117 @@ check(char *path, char *name, struct stat *sp)
 	while (ch != '\n' && ch != EOF)
 		ch = getchar();
 	return (first == 'y' || first == 'Y');
+}
+
+#define ISSLASH(a)	((a)[0] == '/' && (a)[1] == '\0')
+static void
+checkslash(char **argv)
+{
+	char **t, **u;
+	int complained;
+
+	complained = 0;
+	for (t = argv; *t;) {
+		if (ISSLASH(*t)) {
+			if (!complained++)
+				warnx("\"/\" may not be removed");
+			eval = 1;
+			for (u = t; u[0] != NULL; ++u)
+				u[0] = u[1];
+		} else {
+			++t;
+		}
+	}
+}
+
+static int
+check2(char **argv)
+{
+	struct stat st;
+	int first;
+	int ch;
+	int fcount = 0;
+	int dcount = 0;
+	int i;
+	const char *dname = NULL;
+
+	for (i = 0; argv[i]; ++i) {
+		if (lstat(argv[i], &st) == 0) {
+			if (S_ISDIR(st.st_mode)) {
+				++dcount;
+				dname = argv[i];    /* only used if 1 dir */
+			} else {
+				++fcount;
+			}
+		}
+	}
+	first = 0;
+	while (first != 'n' && first != 'N' && first != 'y' && first != 'Y') {
+		if (dcount && rflag) {
+			fprintf(stderr, "recursively remove");
+			if (dcount == 1)
+				fprintf(stderr, " %s", dname);
+			else
+				fprintf(stderr, " %d dirs", dcount);
+			if (fcount == 1)
+				fprintf(stderr, " and 1 file");
+			else if (fcount > 1)
+				fprintf(stderr, " and %d files", fcount);
+		} else if (dcount + fcount > 3) {
+			fprintf(stderr, "remove %d files", dcount + fcount);
+		} else {
+			return(1);
+		}
+		fprintf(stderr, "? ");
+		fflush(stderr);
+
+		first = ch = getchar();
+		while (ch != '\n' && ch != EOF)
+			ch = getchar();
+		if (ch == EOF)
+			break;
+	}
+	return (first == 'y' || first == 'Y');
+}
+
+#define ISDOT(a)	((a)[0] == '.' && (!(a)[1] || ((a)[1] == '.' && !(a)[2])))
+static void
+checkdot(char **argv)
+{
+	char *p, **save, **t;
+	int complained;
+
+	complained = 0;
+	for (t = argv; *t;) {
+		if ((p = strrchr(*t, '/')) != NULL)
+			++p;
+		else
+			p = *t;
+		if (ISDOT(p)) {
+			if (!complained++)
+				warnx("\".\" and \"..\" may not be removed");
+			eval = 1;
+			for (save = t; (t[0] = t[1]) != NULL; ++t)
+				continue;
+			t = save;
+		} else
+			++t;
+	}
+}
+
+static void
+usage(void)
+{
+
+	(void)fprintf(stderr, "%s\n%s\n",
+	    "usage: rm [-f | -i] [-dIPRrvWx] file ...",
+	    "       unlink [--] file");
+	exit(EX_USAGE);
+}
+
+static void
+siginfo(int sig __attribute__((unused)))
+{
+
+	info = 1;
 }
