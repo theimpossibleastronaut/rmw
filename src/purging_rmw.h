@@ -27,18 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "time_rmw.h"
 #include "config_rmw.h"
 
-#define LEN_MAX_RM_CMD (LEN_MAX_PATH + 128 + LEN_MAX_PATH)
-#define ONEFS_STR "--one-file-system"
-typedef struct
-{
-  char full_path[LEN_MAX_PATH];
-  char onefs[sizeof ONEFS_STR];
-  char v[3];
-} st_rm;
 
 bool is_time_to_purge(st_time * st_time_var, const char *file);
-
-void init_rm(st_rm * rm);
 
 int
 purge(st_config * st_config_data,

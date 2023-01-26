@@ -38,7 +38,6 @@ if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
 else
   meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
   DESTDIR=AppDir ninja install
-  cp /usr/bin/rm AppDir/usr/bin
   cd -
   wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${ARCH}.AppImage
   chmod +x linuxdeploy-${ARCH}.AppImage
