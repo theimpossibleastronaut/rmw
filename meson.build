@@ -5,7 +5,8 @@ project(
   meson_version : '>= 0.59.0',
   default_options: [
     'warning_level=3',
-    'b_sanitize=address,undefined'
+    'b_sanitize=address,undefined',
+    'b_lundef=false'
     ]
   )
 
@@ -45,15 +46,6 @@ conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_STRING', meson.project_name())
 conf.set_quoted('PACKAGE_URL', 'https://remove-to-waste.info/')
 conf.set_quoted('PACKAGE_BUGREPORT', 'https://github.com/theimpossibleastronaut/rmw/issues')
-
-foo_file = 'foo_rmw.txt'
-configure_file(output: foo_file, configuration: configuration_data())
-rm_cmd = find_program('rm', required: true)
-conf.set_quoted('RM_FULL_PATH', rm_cmd.full_path())
-r = run_command(rm_cmd, '--one-file-system', join_paths(meson.project_build_root(), foo_file), check: false)
-if r.returncode() == 0
-  conf.set('RM_HAS_ONE_FILE_SYSTEM_ARG', 1)
-endif
 
 check_headers = [
   ['ncursesw/menu.h', 'HAVE_NCURSESW_MENU_H'],

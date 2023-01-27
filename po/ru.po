@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.8.0-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-12 14:59-0500\n"
+"POT-Creation-Date: 2023-01-27 10:24-0600\n"
 "PO-Revision-Date: 2018-10-14 20:48+0000\n"
 "Last-Translator: Irina Fedulova <istartlin@gmail.com>, 2020\n"
 "Language-Team: Russian (https://www.transifex.com/aalt/teams/92532/ru/)\n"
@@ -56,7 +56,7 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/main.c:212
+#: src/main.c:214
 msgid ""
 "\n"
 "Your single slash has been ignored. You walk to the market\n"
@@ -183,7 +183,7 @@ msgstr ""
 msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr ""
 
-#: src/purging_rmw.c:360
+#: src/purging_rmw.c:336
 #, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
@@ -192,7 +192,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/main.c:348
+#: src/main.c:350
 #, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
@@ -201,12 +201,12 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/main.c:246
+#: src/main.c:248
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/purging_rmw.c:348
+#: src/purging_rmw.c:324
 #, c-format
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr ""
@@ -221,23 +221,23 @@ msgstr "-i / --interactive: не разработано\n"
 msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr ""
 
-#: src/restore_rmw.c:397
+#: src/restore_rmw.c:399
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<КУРСОР-ВПРАВО / КУРСОР-ВЛЕВО> - переключить корзины"
 
-#: src/restore_rmw.c:400
+#: src/restore_rmw.c:402
 #, fuzzy
 msgid "<ESC> - quit"
 msgstr "'q' - выход"
 
-#: src/restore_rmw.c:398
+#: src/restore_rmw.c:400
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<ПРОБЕЛ> - выбрать или отменить выбор элемента. / <ENTER> - восстановить "
 "выбранный элемент"
 
-#: src/restore_rmw.c:391
+#: src/restore_rmw.c:393
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -246,7 +246,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/purging_rmw.c:282
+#: src/purging_rmw.c:257
 msgid "Action cancelled."
 msgstr "Действие отменено."
 
@@ -258,7 +258,7 @@ msgstr ""
 msgid "Continue? (y/n): "
 msgstr ""
 
-#: src/purging_rmw.c:413
+#: src/purging_rmw.c:389
 #, c-format
 msgid "Created %s\n"
 msgstr "Создан %s\n"
@@ -268,11 +268,11 @@ msgstr "Создан %s\n"
 msgid "Created directory %s\n"
 msgstr "Папка создана %s\n"
 
-#: src/main.c:478
+#: src/main.c:480
 msgid "Creating default configuration file:"
 msgstr ""
 
-#: src/restore_rmw.c:135
+#: src/restore_rmw.c:137
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Файл с таким именем уже существует - добавляем стринг со временем...\n"
@@ -282,29 +282,29 @@ msgstr "Файл с таким именем уже существует - доб
 msgid "File not found: '%s'\n"
 msgstr "Файл не найден: '%s'\n"
 
-#: src/main.c:657
+#: src/main.c:659
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
 "Enter '%s -h' for more information\n"
 msgstr ""
 
-#: src/main.c:337
+#: src/main.c:339
 #, c-format
 msgid "No suitable filesystem found for \"%s\"\n"
 msgstr ""
 
-#: src/purging_rmw.c:289
+#: src/purging_rmw.c:264
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr ""
 
-#: src/purging_rmw.c:292
+#: src/purging_rmw.c:267
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 
-#: src/restore_rmw.c:308
+#: src/restore_rmw.c:310
 #, c-format
 msgid "Reading %s...\n"
 msgstr "Чтение %s...\n"
@@ -347,7 +347,7 @@ msgstr ""
 "ОБНАРУЖЕН ДЕФЕКТ, ВЫ БЕРЕТЕ НА СЕБЯ СТОИМОСТЬ НЕОБХОДИМОГО ОБСЛУЖИВАНИЯ, "
 "ПОЧИНКИ ИЛИ ИСПРАВЛЕНИЯ.\n"
 
-#: src/purging_rmw.c:279
+#: src/purging_rmw.c:254
 msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
@@ -365,12 +365,12 @@ msgstr ""
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr ""
 
-#: src/main.c:558
+#: src/main.c:560
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Невозможно продолжить. Выход...\n"
 
-#: src/main.c:487
+#: src/main.c:489
 msgid "Unable to read or write a configuration file."
 msgstr ""
 
@@ -390,7 +390,7 @@ msgid ""
 "   or: %s -z FILE...\n"
 msgstr ""
 
-#: src/restore_rmw.c:375
+#: src/restore_rmw.c:377
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
@@ -426,12 +426,12 @@ msgid ""
 "visit the rmw web site at\n"
 msgstr ""
 
-#: src/main.c:583
+#: src/main.c:585
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge пропущен: используйте -f или --force\n"
 
-#: src/purging_rmw.c:270
+#: src/purging_rmw.c:248
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -468,7 +468,7 @@ msgstr ""
 "при определенных условиях; проверьте <http://www.gnu.org/licenses/gpl.html>\n"
 "для детальной информации.\n"
 
-#: src/main.c:553
+#: src/main.c:555
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -486,7 +486,7 @@ msgstr ""
 msgid "while closing %s\n"
 msgstr ""
 
-#: src/purging_rmw.c:419
+#: src/purging_rmw.c:395
 #, c-format
 msgid "while creating %s\n"
 msgstr ""
@@ -496,7 +496,7 @@ msgstr ""
 msgid "while creating %s (%s)\n"
 msgstr ""
 
-#: src/main.c:538
+#: src/main.c:540
 msgid "while getting the path to your home directory\n"
 msgstr ""
 
@@ -515,7 +515,7 @@ msgstr ""
 msgid "while removing %s\n"
 msgstr ""
 
-#: src/restore_rmw.c:178
+#: src/restore_rmw.c:180
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr ""

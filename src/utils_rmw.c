@@ -467,20 +467,11 @@ test_rmw_mkdir(const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths(h, subdirs);
+  assert(bsdutils_rm(dir, verbose) == 0);
   assert(rmw_mkdir(dir, S_IRWXU) == 0);
   printf("%s\n", dir);
   assert(exists(dir) == true);
-
-  st_rm rm;
-  init_rm(&rm);
-  char rm_cmd[LEN_MAX_RM_CMD];
-
-  assert((size_t) snprintf(rm_cmd,
-                           sizeof rm_cmd,
-                           "%s -rf %s %s %s",
-                           rm.full_path, rm.v, rm.onefs,
-                           dir) < sizeof rm_cmd);
-  assert(system(rm_cmd) == 0);
+  assert(bsdutils_rm(dir, verbose) == 0);
   free(dir);
 
   return;

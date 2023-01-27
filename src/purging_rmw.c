@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 #include "trashinfo_rmw.h"
 
+
 enum
 {
   CONTINUE
@@ -126,9 +127,9 @@ print_header(char *files_dir)
 }
 
 static int
-do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
+do_file_purge(char *purge_target, const rmw_options * cli_user_options,
               const char *trashinfo_entry_realpath, int *orphan_ctr,
-              st_rm * rm, const char *pt_basename, int *ctr)
+              const char *pt_basename, int *ctr)
 {
   int status = 0;
   // If the corresponding file wasn't found, either display an error and exit, or remove the
@@ -168,18 +169,14 @@ do_file_purge(const char *purge_target, const rmw_options * cli_user_options,
   }
   else
   {
-    char rm_cmd[LEN_MAX_RM_CMD];
-    sn_check(snprintf(rm_cmd,
-                      sizeof rm_cmd,
-                      "%s -rf %s %s '%s'",
-                      rm->full_path,
-                      rm->v, rm->onefs, purge_target), sizeof rm_cmd);
-
     if (cli_user_options->want_dry_run == false)
-      status = system(rm_cmd);
+    {
+      // status = system(rm_cmd);
+      status = bsdutils_rm(purge_target, verbose);
+    }
     else
     {
-      printf("removing '%s\n", rm_cmd);
+      printf("removing '%s\n", purge_target);
       /* Not much choice but to
        * assume there would not be an error if the attempt were actually made */
       status = 0;
@@ -221,25 +218,6 @@ get_pt_basename(const char *purge_target)
 }
 
 
-void
-init_rm(st_rm * rm)
-{
-  sn_check(snprintf(rm->full_path, LEN_MAX_PATH, RM_FULL_PATH), LEN_MAX_PATH);
-  strcpy(rm->onefs, ONEFS_STR);
-  strcpy(rm->v, "-v");
-
-#ifndef RM_HAS_ONE_FILE_SYSTEM_ARG
-  *rm->onefs = '\0';
-#endif
-  if (!verbose)
-    *rm->v = '\0';
-  char *appdir = getenv("APPDIR");
-  if (appdir != NULL)
-    sn_check(snprintf
-             (rm->full_path, LEN_MAX_PATH, "%s/usr/bin/rm", appdir),
-             LEN_MAX_PATH);
-}
-
 static void
 get_purge_target(char *purge_target, const char *tinfo_d_name,
                  const char *files_dir)
@@ -270,9 +248,6 @@ purge(st_config * st_config_data,
     printf(_("purging is disabled ('%s' is set to '0')\n\n"), expire_age_str);
     return 0;
   }
-
-  st_rm rm;
-  init_rm(&rm);
 
   if (cli_user_options->want_empty_trash)
   {
@@ -332,6 +307,7 @@ purge(st_config * st_config_data,
       if (want_purge || verbose >= 2)
       {
         char purge_target[LEN_MAX_PATH];
+        *purge_target = '\0';
         get_purge_target(purge_target, st_trashinfo_dir_entry->d_name,
                          waste_curr->files);
         char *pt_basename = get_pt_basename(purge_target);
@@ -339,8 +315,8 @@ purge(st_config * st_config_data,
         if (want_purge)
         {
           if (do_file_purge(purge_target, cli_user_options,
-                            trashinfo_entry_realpath, orphan_ctr, &rm,
-                            pt_basename, &ctr) == CONTINUE)
+                            trashinfo_entry_realpath, orphan_ctr, pt_basename,
+                            &ctr) == CONTINUE)
             continue;
         }
         else if (verbose >= 2)

@@ -31,20 +31,21 @@
  */
 
 #if defined __APPLE__
-#include "simpleq.h"
 #include <grp.h>
 #include <pwd.h>
 #include <sys/stat.h>
 #endif
 
-#ifdef __linux__
+/* General imports for non-Apple platforms */
+#if defined(__linux__) || defined(__FreeBSD__)
 #include <stddef.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h>
+#include <sys/stat.h>
 #endif
-
 
 //! Fix a warning that complains about extern declarations
 #ifdef HAVE___PROGNAME
@@ -174,7 +175,7 @@ char *getbsize (int *, long *);
 /* devname.c */
 #ifndef __MINGW32__
 char *devname (dev_t, mode_t);
-#endif 
+#endif
 
 #ifdef __MINGW32__
 char *devname_mingw(dev_t, mode_t);
@@ -218,7 +219,7 @@ size_t strlcpy (char *, const char *, size_t);
  * 65536.  So we'll just define that here so as to avoid having
  * bsdutils depend on e2fsprogs to compile.
  */
-#if !defined __APPLE__
+#if defined (__linux__) || defined (__MINGW32__)
 #define MAXBSIZE (64 * 1024)
 #endif
 
@@ -229,7 +230,7 @@ size_t strlcpy (char *, const char *, size_t);
 #define FMT_SCALED_STRSIZE 7 /* minus sign, 4 digits, suffix, null byte */
 
 /* Buffer sizes */
-#if defined (__linux__) || defined (__APPLE__)
+#if defined (__linux__) || defined (__APPLE__) || defined (__FreeBSD__)
 #define _PW_BUF_LEN sysconf (_SC_GETPW_R_SIZE_MAX)
 #define _GR_BUF_LEN sysconf (_SC_GETGR_R_SIZE_MAX)
 #endif
@@ -240,7 +241,7 @@ size_t strlcpy (char *, const char *, size_t);
 #define _GR_BUF_LEN _SC_GETPW_R_SIZE_MAX
 #endif
 
-/* Linux spelling differences 
+/* Linux spelling differences
  * And Windows too :p
 */
 #if defined (__linux__) || defined (__MINGW32__)
@@ -265,3 +266,11 @@ size_t strlcpy (char *, const char *, size_t);
 #endif
 
 void explicit_bzero(void *, size_t );
+
+/* we use SIGUSR1 in place of SIGINFO */
+#define SIGINFO SIGUSR1
+
+int signame_to_signum(const char *sig);
+const char *signum_to_signame(int signum);
+int get_signame_by_idx(size_t idx, const char **signame, int *signum);
+

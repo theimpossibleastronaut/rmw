@@ -1,4 +1,9 @@
 === rmw ChangeLog ===
+2022-01-27
+
+  * replace function used to remove directories with rm from FreeBSD;
+  Thanks to @DiegoMagdaleno and @dcantrell
+
 2022-12-24
 
   * bugfix: buffer underflow when calling trim_char() with empty
@@ -9,10 +14,6 @@
 
   - When purging, '-ff' is no longer needed to confirm removal of
   non-writable expired directories and files
-  * When purging, the 'rm' binary native to the user's
-  system will now be used.
-  + When purging, if the user's native 'rm' has the '--one-file-system'
-  argument available, it will be automatically used when calling 'rm'.
 
 2022-02-08
 

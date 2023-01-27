@@ -53,7 +53,7 @@ $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/somefiles/*
 
 echo $SEPARATOR
 echo '  == purging disabled should output a message that purging is disabled'
-output=`$RMW_PURGE_DISABLED_CMD --empty -ff`
+output=`$RMW_PURGE_DISABLED_CMD --empty -f`
 expected=`echo "purging is disabled ('expire_age' is set to '0')" | cut -b1-20`
 output=`echo $output | cut -b1-20`
 test "${output}" = "${expected}"
@@ -83,9 +83,8 @@ cmp_substr "$output"  "'read_only_file' will be purged in 90."
 cmp_substr "$output" "'topdir' will be purged in 90."
 
 echo $SEPARATOR
-
-echo " == Empty works with force empty (-ffe)"
-echo "y" | $RMW_TEST_CMD_STRING --empty -ff
+echo " == Empty works with force empty (-fe)"
+echo "y" | $RMW_TEST_CMD_STRING -v --empty -f
 test ! -e $PRIMARY_WASTE_DIR/files/read_only_file
 test ! -e $PRIMARY_WASTE_DIR/files/topdir
 test ! -e $PRIMARY_WASTE_DIR/info/read_only_file.trashinfo
