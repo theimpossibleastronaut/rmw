@@ -135,6 +135,19 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
   // If the corresponding file wasn't found, either display an error and exit, or remove the
   // (probably) orphaned trashinfo file.
   struct stat st;
+  int fd = open(purge_target, O_RDWR);
+  if (fd < 0)
+    puts("open error");
+
+  struct flock fl;
+  fl.l_type = F_WRLCK;
+  int ld = fcntl(fd, F_SETLKW, &fl);
+  if (ld == -1)
+  {
+    perror("lock error");
+    printf("errno: %d\n", errno);
+  }
+
   if (lstat(purge_target, &st))
   {
     if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
@@ -163,7 +176,17 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
   if (!S_ISDIR(st.st_mode))
   {
     if (cli_user_options->want_dry_run == false)
-      status = remove(purge_target);
+    {
+      fl.l_type = F_UNLCK;
+      int ldu = fcntl(fd, F_SETLK, &fl);
+      if (ldu != -1)
+      {
+        close(fd);
+        status = remove(purge_target);
+      }
+      else
+        puts("unlock error");
+    }
     else
       status = 0;
   }
