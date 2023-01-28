@@ -20,6 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
+
+#include <fcntl.h>
+
 #include "globals.h"
 #endif
 
@@ -440,6 +443,25 @@ real_join_paths(const char *argv, ...)
   return path;
 }
 
+int is_dir_f(const char *pathname)
+{
+  int fd = open(pathname, O_RDONLY | O_DIRECTORY);
+  if (fd != -1)
+  {
+    if (close(fd) != 0)
+      perror("close:");
+    return 1;
+  }
+  else if (errno != ENOTDIR)
+  {
+    perror("open:");
+    errno = 0;
+    return -1;
+  }
+
+  errno = 0;
+  return 0;
+}
 
 ///////////////////////////////////////////////////////////////////////
 #ifdef TEST_LIB
@@ -587,6 +609,21 @@ test_trim_char(void)
   return;
 }
 
+void
+test_is_dir_f(void)
+{
+  assert(is_dir_f("."));
+  assert(is_dir_f("foobar") == -1);
+  FILE *fp = fopen("foobar", "w");
+  assert(fp != NULL);
+  assert(fclose(fp) != EOF);
+  assert(is_dir_f("foobar") == 0);
+  assert(symlink("foobar", "snafu") == 0);
+  assert(is_dir_f("snafu") == 0);
+  assert(bsdutils_rm("foobar", false) == 0);
+  assert(bsdutils_rm("snafu", false) == 0);
+  return;
+}
 
 int
 main()
@@ -603,6 +640,7 @@ main()
   test_make_size_human_readable();
   test_join_paths();
   test_trim_char();
+  test_is_dir_f();
 
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";
   char *escaped_path = escape_url(str);
