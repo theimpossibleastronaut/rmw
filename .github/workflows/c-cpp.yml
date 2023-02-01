@@ -1,6 +1,6 @@
 name: C/C++ CI
 concurrency:
-  group: ${{ github.workflow }}
+  group: build-${{ github.ref }}
   cancel-in-progress: true
 
 on:
@@ -27,99 +27,89 @@ env:
   TERM: xterm
 
 jobs:
-  ubuntu-focal:
+  build:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x64]
-        os: [ubuntu-20.04]
-        compiler: [gcc-9, gcc-11, clang-10]
+        os:  [ubuntu-20.04, ubuntu-22.04]
+        cc: [gcc, clang]
+        include:
+          - os: macos-latest
+          - os: ubuntu-20.04
+            cc: slackware
+            container: 'andy5995/slackware-build-essential:15.0'
+
     runs-on: ${{ matrix.os }}
-    env:
-      MATRIX_OS: ${{ matrix.os }}
-      MATRIX_ARCH: ${{ matrix.arch }}
-      CC: ${{ matrix.compiler }}
+    container: ${{ matrix.container }}
     steps:
+
     - uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Install dependencies
+
+    - name: Show info
       run: |
-        if [ -z "${CC##*$clang*}" ]; then
-          curl -L https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main"
-          sudo apt-get update -qq
-          sudo apt-get install -y $CC
-        else
-          if  [ "$CC" = "gcc-11"]; then
-            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6B05F25D762E3157;
-            sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
-          fi
-          sudo apt-get update -qq;
-          sudo apt-get install -y $CC
-        fi
-    - run: sh ./.github/scripts/all_tests.sh
+        export -p
+        echo '${{ toJSON(matrix) }}'
 
-  Jammy:
-    strategy:
-      fail-fast: false
-    runs-on: ubuntu-22.04
-    env:
-      CC: 'gcc-12'
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: true
-    - name: Build
-      run: sh ./.github/scripts/all_tests.sh
-
-  slackware:
-    # Containers must run in Linux based operating systems
-    runs-on: ubuntu-latest
-    # Docker Hub image that `container-job` executes in
-    container: andy5995/slackware-build-essential:15.0
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: true
-    - name: Build and test with meson
+    - if: ${{ matrix.cc == 'clang' }}
       run: |
-        meson setup _build
-        cd _build
-        meson compile
-        meson test
+        echo "CC=clang" >> $GITHUB_ENV
+        echo "CXX=clang++" >> $GITHUB_ENV
 
-  macos:
-    runs-on: macos-latest
-    env:
-      PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig:$PKG_CONFIG_PATH"
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: true
-    - run: |
+    - if: ${{ contains(matrix.os, 'macos') }}
+      run: |
         pip3 install meson ninja
         brew install ncurses
-    - run: |
-        meson setup builddir
-        ninja -v -C builddir
-        ninja -v -C builddir dist
+        PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}"
+        echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}" >> $GITHUB_ENV
+
+    #- if: ${{ contains(matrix.os, 'ubuntu') }}
+      #run: |
+        #sudo apt-get update -qq
+        #sudo apt-get upgrade -y -qq
+
+    #- if: ${{ matrix.cc == 'clang' && matrix.os != 'macos-latest' }}
+      #run: sudo apt-get install -y $CC $CXX
+
+    - if: ${{ contains(matrix.os, 'ubuntu') && matrix.container == null }}
+      run: |
+        sudo apt-get install -y \
+          gettext \
+          python3-pip \
+          python3-setuptools
+        sudo -H python3 -m pip install meson ninja
+
+    - name: Configure
+      run: meson setup builddir
+    - name: Build
+      run: |
+        cd builddir
+        meson compile
+    - name: Test
+      run: cd builddir && meson test -v
+    - name: Test fake media root
+      run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
 
   freebsd:
     runs-on: macos-12
     name: FreeBSD Test
+    env:
+      PKG_CONFIG_PATH: '/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}'
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: true
     - name: Test
-      id: test
       uses: vmactions/freebsd-vm@v0
       with:
+        envs: 'PKG_CONFIG_PATH'
         usesh: true
         prepare:  |
           pkg install -y meson ninja gettext pkgconf
         run: |
           meson setup builddir
-          ninja -v -C builddir
-          ninja -C builddir test
+          cd builddir
+          meson compile
+          meson test -v
+          meson test -v --setup=fake_media_root --suite rmw
