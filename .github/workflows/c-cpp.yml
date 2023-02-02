@@ -29,7 +29,7 @@ env:
 jobs:
   build:
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os:  [ubuntu-20.04, ubuntu-22.04]
         cc: [gcc, clang]
@@ -85,11 +85,13 @@ jobs:
     - name: Build
       run: |
         cd builddir
-        meson compile
+        ninja -v
     - name: Test
       run: cd builddir && meson test -v
     - name: Test fake media root
       run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
+    - name: Make dist
+      run: cd builddir && meson dist --include-subprojects
 
   freebsd:
     runs-on: macos-12
@@ -110,6 +112,7 @@ jobs:
         run: |
           meson setup builddir
           cd builddir
-          meson compile
+          ninja -v
           meson test -v
           meson test -v --setup=fake_media_root --suite rmw
+          meson dist --include-subprojects
