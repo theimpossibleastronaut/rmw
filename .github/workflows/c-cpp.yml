@@ -28,40 +28,63 @@ env:
 
 jobs:
   build:
+    name: ${{ matrix.build.name }}
     strategy:
       fail-fast: true
       matrix:
-        include:
-          - os: [ubuntu-20.04, ubuntu-22.04]
-            cc: [gcc, clang]
-          - os: ubuntu-20.04
+        build:
+          - name: ubuntu-20.04-gcc
+            os: ubuntu-20.04
+            cc: gcc
+          - name: ubuntu-20.04-clang
+            os: ubuntu-20.04
+            cc: clang
+          - name: ubuntu-22.04-gcc
+            os: ubuntu-22.04
+            cc: gcc
+          - name: ubuntu-22.04-clang
+            os: ubuntu-22.04
+            cc: clang
+          - name: Slackware
+            os: ubuntu-20.04
             container: 'andy5995/slackware-build-essential:15.0'
-          - os: ubuntu-20.04
+          - name: ubuntu-20.04-dist
+            os: ubuntu-20.04
             dist: true
-          - os: macos-latest
+          - name: macos-latest
+            os: macos-latest
+            env:
+              PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}"
 
-    runs-on: ${{ matrix.os }}
-    container: ${{ matrix.container }}
+    runs-on: ${{ matrix.build.os }}
+    container: ${{ matrix.build.container }}
     env:
-      CC: '${{ matrix.cc }}'
-      CXX: '${{ matrix.cc }}++'
+      CC: '${{ matrix.build.cc }}'
     steps:
 
     - uses: actions/checkout@v3
       with:
         submodules: true
 
+    - if: ${{ env.CC }}
+      run: |
+        if [ "$CC" = "gcc" ]; then
+          CXX=g++
+        else
+          CXX=clang++
+        fi
+        echo "CXX=${CXX}" >> $GITHUB_ENV
+
     - name: Show info
       run: |
         export -p
         echo '${{ toJSON(matrix) }}'
 
-    - if: ${{ contains(matrix.os, 'macos') }}
+    - if: ${{ contains(matrix.build.os, 'macos') }}
       run: |
+        echo "PKG_CONFIG_PATH=/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}" >> $GITHUB_ENV
         pip3 install meson ninja
         brew install ncurses
-        PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}"
-        echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}" >> $GITHUB_ENV
 
     #- if: ${{ contains(matrix.os, 'ubuntu') }}
       #run: |
@@ -71,7 +94,7 @@ jobs:
     #- if: ${{ matrix.cc == 'clang' && matrix.os != 'macos-latest' }}
       #run: sudo apt-get install -y $CC $CXX
 
-    - if: ${{ contains(matrix.os, 'ubuntu') && matrix.container == null }}
+    - if: ${{ contains(matrix.build.os, 'ubuntu') && matrix.build.container == null }}
       run: |
         sudo apt-get install -y \
           gettext \
@@ -89,7 +112,7 @@ jobs:
       run: cd builddir && meson test -v
     - name: Test fake media root
       run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
-    - if: ${{ matrix.dist == 'true' }}
+    - if: ${{ matrix.build.dist == 'true' }}
       run: cd builddir && meson dist --include-subprojects
 
   freebsd:
