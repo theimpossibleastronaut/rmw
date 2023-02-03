@@ -31,16 +31,20 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os:  [ubuntu-20.04, ubuntu-22.04]
-        cc: [gcc, clang]
         include:
-          - os: macos-latest
+          - os: [ubuntu-20.04, ubuntu-22.04]
+            cc: [gcc, clang]
           - os: ubuntu-20.04
-            cc: slackware
             container: 'andy5995/slackware-build-essential:15.0'
+          - os: ubuntu-20.04
+            dist: true
+          - os: macos-latest
 
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.container }}
+    env:
+      CC: '${{ matrix.cc }}'
+      CXX: '${{ matrix.cc }}++'
     steps:
 
     - uses: actions/checkout@v3
@@ -51,11 +55,6 @@ jobs:
       run: |
         export -p
         echo '${{ toJSON(matrix) }}'
-
-    - if: ${{ matrix.cc == 'clang' }}
-      run: |
-        echo "CC=clang" >> $GITHUB_ENV
-        echo "CXX=clang++" >> $GITHUB_ENV
 
     - if: ${{ contains(matrix.os, 'macos') }}
       run: |
@@ -90,7 +89,7 @@ jobs:
       run: cd builddir && meson test -v
     - name: Test fake media root
       run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
-    - name: Make dist
+    - if: ${{ matrix.dist == 'true' }}
       run: cd builddir && meson dist --include-subprojects
 
   freebsd:
