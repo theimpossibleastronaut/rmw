@@ -137,4 +137,3 @@ jobs:
           ninja -v
           meson test -v
           meson test -v --setup=fake_media_root --suite rmw
-          meson dist --include-subprojects
