@@ -71,7 +71,7 @@ static uid_t uid;
 static volatile sig_atomic_t info;
 
 static int	check(const char *, const char *, struct stat *);
-static void	rm_tree(char **);
+static void	rm_tree(char * const *);
 static void siginfo(int __attribute__((unused)));
 
 /*
@@ -82,7 +82,7 @@ static void siginfo(int __attribute__((unused)));
  *	file removal.
  */
 int
-bsdutils_rm(char *argv, bool want_verbose)
+bsdutils_rm(const char *const argv, bool want_verbose)
 {
 	(void)setlocale(LC_ALL, "");
 
@@ -97,8 +97,8 @@ bsdutils_rm(char *argv, bool want_verbose)
 
 	(void)signal(SIGINFO, siginfo);
 
-	char *fake_fts_array[] = {
-		argv,
+  char *const fake_fts_array[] = {
+		(char *const)argv,
 		NULL
 	};
 
@@ -108,7 +108,7 @@ bsdutils_rm(char *argv, bool want_verbose)
 }
 
 static void
-rm_tree(char **argv)
+rm_tree(char * const * argv)
 {
 	FTS *fts;
 	FTSENT *p;

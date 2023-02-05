@@ -20,6 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
+
+#include <fcntl.h>
+
 #include "globals.h"
 #endif
 
@@ -132,16 +135,28 @@ exists(const char *filename)
      file exists, not just if it can be read. If a file or directory
      can be opened read-only, that doesn't guarantee whether or not it
      exists */
-
-  static struct stat st;
-  static int res;
-  res = (lstat(filename, &st));
-  if (!res)
+  int fd = open(filename, O_RDONLY);
+  if (fd != -1)
+  {
+    if (close(fd) == -1)
+    {
+      perror("close");
+      errno = 0;
+    }
     return true;
+  }
 
-  // reset errno since we are only checking for the file existence
-  errno = 0;
-  return false;
+  // open will return an error when attempting to open
+  // a dangling symlink. Check if it's a symlink or not
+  static char buf[1];
+  ssize_t f = readlink(filename, buf, 1);
+  *buf = '\0';
+  if (f == -1)
+  {
+    errno = 0;
+    return false;
+  }
+  return true;
 }
 
 void
@@ -440,6 +455,17 @@ real_join_paths(const char *argv, ...)
   return path;
 }
 
+bool is_dir_f(const char *pathname)
+{
+  int fd = open(pathname, O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
+  if (fd != -1)
+  {
+    if (close(fd) != 0)
+      perror("close:");
+    return true;
+  }
+  return false;
+}
 
 ///////////////////////////////////////////////////////////////////////
 #ifdef TEST_LIB
@@ -588,6 +614,57 @@ test_trim_char(void)
 }
 
 
+static void
+test_is_dir_f(const char *pathname)
+{
+  assert(is_dir_f("."));
+  FILE *fp = fopen("foobar", "w");
+  assert(fp != NULL);
+  assert(fclose(fp) != EOF);
+
+  assert(!is_dir_f("foobar"));
+  assert(symlink("foobar", "snafu") == 0);
+  assert(!is_dir_f("snafu"));
+  assert(bsdutils_rm("foobar", false) == 0);
+  assert(bsdutils_rm("snafu", false) == 0);
+
+  const char *home_link = "home_1234";
+  assert(symlink(pathname, home_link) == 0);
+  assert(is_dir_f(home_link) == false);
+  assert(bsdutils_rm(home_link, false) == 0);
+
+  return;
+}
+
+
+static void
+test_exists(const char *pathname)
+{
+  FILE *fp = fopen("foobar", "w");
+  assert(fp != NULL);
+  assert(fclose(fp) != EOF);
+  assert(exists("foobar"));
+
+  assert(symlink("foobar", "snafu") == 0);
+  assert(exists("snafu"));
+  assert(bsdutils_rm("foobar", false) == 0);
+  assert(bsdutils_rm("snafu", false) == 0);
+
+  const char *home_link = "home_1234";
+  assert(exists(pathname));
+  assert(symlink(pathname, home_link) == 0);
+  assert(exists(home_link));
+  assert(bsdutils_rm((char *)home_link, false) == 0);
+
+  const char *dlink = "dangling_link";
+  assert(symlink("dangler", dlink) == 0);
+  assert(exists(dlink));
+  assert(bsdutils_rm(dlink, false) == 0);
+
+  return;
+}
+
+
 int
 main()
 {
@@ -603,6 +680,8 @@ main()
   test_make_size_human_readable();
   test_join_paths();
   test_trim_char();
+  test_exists(HOMEDIR);
+  test_is_dir_f(HOMEDIR);
 
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";
   char *escaped_path = escape_url(str);

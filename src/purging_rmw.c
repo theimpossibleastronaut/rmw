@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2022  Andy Alt (arch_stanton5995@protonmail.com)
+Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-#include <fcntl.h>
 
 #include "globals.h"
 #include "parse_cli_options.h"
@@ -132,10 +130,8 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
               const char *pt_basename, int *ctr)
 {
   int status = 0;
-  // If the corresponding file wasn't found, either display an error and exit, or remove the
-  // (probably) orphaned trashinfo file.
-  struct stat st;
-  if (lstat(purge_target, &st))
+
+  if (!exists(purge_target))
   {
     if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
     {
@@ -160,7 +156,9 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
     }
   }
 
-  if (!S_ISDIR(st.st_mode))
+  bool is_dir = is_dir_f(purge_target);
+
+  if (!is_dir)
   {
     if (cli_user_options->want_dry_run == false)
       status = remove(purge_target);
@@ -170,10 +168,7 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
   else
   {
     if (cli_user_options->want_dry_run == false)
-    {
-      // status = system(rm_cmd);
       status = bsdutils_rm(purge_target, verbose);
-    }
     else
     {
       printf("removing '%s\n", purge_target);
