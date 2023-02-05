@@ -86,10 +86,7 @@ bsdutils_rm(const char *const argv, bool want_verbose)
 {
 	(void)setlocale(LC_ALL, "");
 
-	// case 'f':
-	fflag = 1;
-
-	iflag = dflag = 0;
+	iflag = dflag = fflag = 0;
 
 	vflag = want_verbose ? true : false;
 

@@ -493,7 +493,8 @@ test_rmw_mkdir(const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths(h, subdirs);
-  assert(bsdutils_rm(dir, verbose) == 0);
+  if (exists(dir))
+    assert(bsdutils_rm(dir, verbose) == 0);
   assert(rmw_mkdir(dir, S_IRWXU) == 0);
   printf("%s\n", dir);
   assert(exists(dir) == true);
