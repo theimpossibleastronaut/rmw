@@ -57,6 +57,6 @@ void trim_char(const int c, char *str);
 
 char *real_join_paths(const char *argv, ...);
 
-int is_dir_f(const char *pathname);
+bool is_dir_f(const char *pathname);
 
 #endif

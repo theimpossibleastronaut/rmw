@@ -131,8 +131,7 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
 {
   int status = 0;
 
-  int r = is_dir_f(purge_target);
-  if (r != -1)
+  if (!exists(purge_target))
   {
     if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
     {
@@ -157,7 +156,7 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
     }
   }
 
-  bool is_dir = r == 1 ? true : false;
+  bool is_dir = is_dir_f(purge_target);
 
   if (!is_dir)
   {

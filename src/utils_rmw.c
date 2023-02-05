@@ -135,16 +135,28 @@ exists(const char *filename)
      file exists, not just if it can be read. If a file or directory
      can be opened read-only, that doesn't guarantee whether or not it
      exists */
-
-  static struct stat st;
-  static int res;
-  res = (lstat(filename, &st));
-  if (!res)
+  int fd = open(filename, O_RDONLY);
+  if (fd != -1)
+  {
+    if (close(fd) == -1)
+    {
+      perror("close");
+      errno = 0;
+    }
     return true;
+  }
 
-  // reset errno since we are only checking for the file existence
-  errno = 0;
-  return false;
+  // open will return an error when attempting to open
+  // a dangling symlink. Check if it's a symlink or not
+  static char buf[1];
+  ssize_t f = readlink(filename, buf, 1);
+  *buf = '\0';
+  if (f == -1)
+  {
+    errno = 0;
+    return false;
+  }
+  return true;
 }
 
 void
@@ -443,24 +455,16 @@ real_join_paths(const char *argv, ...)
   return path;
 }
 
-int is_dir_f(const char *pathname)
+bool is_dir_f(const char *pathname)
 {
   int fd = open(pathname, O_RDONLY | O_DIRECTORY);
   if (fd != -1)
   {
     if (close(fd) != 0)
       perror("close:");
-    return 1;
+    return true;
   }
-  else if (errno != ENOTDIR)
-  {
-    perror("open:");
-    errno = 0;
-    return -1;
-  }
-
-  errno = 0;
-  return 0;
+  return false;
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -613,13 +617,13 @@ void
 test_is_dir_f(void)
 {
   assert(is_dir_f("."));
-  assert(is_dir_f("foobar") == -1);
+  // assert(is_dir_f("foobar") == -1);
   FILE *fp = fopen("foobar", "w");
   assert(fp != NULL);
   assert(fclose(fp) != EOF);
-  assert(is_dir_f("foobar") == 0);
+  assert(is_dir_f("foobar") == false);
   assert(symlink("foobar", "snafu") == 0);
-  assert(is_dir_f("snafu") == 0);
+  assert(is_dir_f("snafu") == false);
   assert(bsdutils_rm("foobar", false) == 0);
   assert(bsdutils_rm("snafu", false) == 0);
   return;
