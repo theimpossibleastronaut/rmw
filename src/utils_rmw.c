@@ -457,7 +457,7 @@ real_join_paths(const char *argv, ...)
 
 bool is_dir_f(const char *pathname)
 {
-  int fd = open(pathname, O_RDONLY | O_DIRECTORY);
+  int fd = open(pathname, O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
   if (fd != -1)
   {
     if (close(fd) != 0)
@@ -613,21 +613,57 @@ test_trim_char(void)
   return;
 }
 
-void
-test_is_dir_f(void)
+
+static void
+test_is_dir_f(const char *pathname)
 {
   assert(is_dir_f("."));
-  // assert(is_dir_f("foobar") == -1);
   FILE *fp = fopen("foobar", "w");
   assert(fp != NULL);
   assert(fclose(fp) != EOF);
-  assert(is_dir_f("foobar") == false);
+
+  assert(!is_dir_f("foobar"));
   assert(symlink("foobar", "snafu") == 0);
-  assert(is_dir_f("snafu") == false);
+  assert(!is_dir_f("snafu"));
   assert(bsdutils_rm("foobar", false) == 0);
   assert(bsdutils_rm("snafu", false) == 0);
+
+  const char *home_link = "home_1234";
+  assert(symlink(pathname, home_link) == 0);
+  assert(is_dir_f(home_link) == false);
+  assert(bsdutils_rm(home_link, false) == 0);
+
   return;
 }
+
+
+static void
+test_exists(const char *pathname)
+{
+  FILE *fp = fopen("foobar", "w");
+  assert(fp != NULL);
+  assert(fclose(fp) != EOF);
+  assert(exists("foobar"));
+
+  assert(symlink("foobar", "snafu") == 0);
+  assert(exists("snafu"));
+  assert(bsdutils_rm("foobar", false) == 0);
+  assert(bsdutils_rm("snafu", false) == 0);
+
+  const char *home_link = "home_1234";
+  assert(exists(pathname));
+  assert(symlink(pathname, home_link) == 0);
+  assert(exists(home_link));
+  assert(bsdutils_rm((char *)home_link, false) == 0);
+
+  const char *dlink = "dangling_link";
+  assert(symlink("dangler", dlink) == 0);
+  assert(exists(dlink));
+  assert(bsdutils_rm(dlink, false) == 0);
+
+  return;
+}
+
 
 int
 main()
@@ -644,7 +680,8 @@ main()
   test_make_size_human_readable();
   test_join_paths();
   test_trim_char();
-  test_is_dir_f();
+  test_exists(HOMEDIR);
+  test_is_dir_f(HOMEDIR);
 
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";
   char *escaped_path = escape_url(str);

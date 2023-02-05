@@ -39,5 +39,5 @@ short orphan_maint(st_waste * waste_head, st_time * st_time_var,
                    int *orphan_ctr);
 
 
-int bsdutils_rm(char *argv, const bool want_verbose);
+int bsdutils_rm(const char *const argv, const bool want_verbose);
 #endif
