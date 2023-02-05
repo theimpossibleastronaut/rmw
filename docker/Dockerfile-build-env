@@ -9,11 +9,11 @@ RUN apt-get update \
 RUN python3 -m pip install meson ninja
 
 WORKDIR /rmw
-RUN useradd -M -U rmw
-RUN passwd -d rmw
-RUN chown rmw:rmw /rmw
+RUN useradd -U rmwbuilder
+RUN passwd -d rmwbuilder
+RUN chown rmwbuilder:rmwbuilder /rmw
 
 COPY ./docker/entrypoint-test.sh .
-RUN chown rmw:rmw entrypoint-test.sh
-USER rmw
-ENTRYPOINT ["/bin/bash"]
+RUN chown rmwbuilder:rmwbuilder entrypoint-test.sh
+
+CMD ["/bin/bash","-l"]

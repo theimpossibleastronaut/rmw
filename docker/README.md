@@ -14,12 +14,18 @@ sandbox).
 
 Example (if your present working directory is the rmw source directory):
 
-    docker run --rm --entrypoint /rmw/entrypoint-test.sh  -v `pwd`:/rmw/src andy5995/rmw-build-env:bullseye
+    docker run --rm --entrypoint /rmw/entrypoint-test.sh -u rmwbuilder -v `pwd`:/rmw/src andy5995/rmw-build-env:bullseye
 
 That will mount the source directory at '/rmw/src', build rmw based on
 your local changes, and run the tests.
 
 Specifying the entrypoint isn't mandatory; if omitted, you'll get a prompt.
+
+To get verbose test output, add
+
+    RMW_V="-v"
+
+to the `docker run` arguments.
 
 ## [andy5995/rmw](https://hub.docker.com/repository/docker/andy5995/rmw)
 

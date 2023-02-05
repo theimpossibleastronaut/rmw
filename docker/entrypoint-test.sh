@@ -10,10 +10,8 @@ if [ ! -f src/main.c ]; then
   exit 1
 fi
 
-ARGS2="--setup=fake_media_root"
-
 meson setup ../builddir
 cd ../builddir
 ninja
-meson test $ARGS
-meson test $ARGS2 --suite=rmw
+meson test $RMW_V
+meson test $RMW_V --setup=fake_media_root --suite=rmw
