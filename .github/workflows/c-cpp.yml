@@ -48,6 +48,9 @@ jobs:
           - name: Slackware
             os: ubuntu-20.04
             container: 'andy5995/slackware-build-essential:15.0'
+          - name: debian bullseye
+            os: ubuntu-20.04
+            container: 'andy5995/rmw-build-env:bullseye'
           - name: ubuntu-20.04-dist
             os: ubuntu-20.04
             dist: true
