@@ -23,7 +23,7 @@ Specifying the entrypoint isn't mandatory; if omitted, you'll get a prompt.
 
 To get verbose test output, add
 
-    RMW_V="-v"
+    -e RMW_V="-v"
 
 to the `docker run` arguments.
 
