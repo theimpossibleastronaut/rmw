@@ -648,19 +648,19 @@ test_exists(const char *pathname)
 
   assert(symlink("foobar", "snafu") == 0);
   assert(exists("snafu"));
-  assert(bsdutils_rm("foobar", false) == 0);
-  assert(bsdutils_rm("snafu", false) == 0);
+  assert(remove("foobar") == 0);
+  assert(remove("snafu") == 0);
 
   const char *home_link = "home_1234";
   assert(exists(pathname));
   assert(symlink(pathname, home_link) == 0);
   assert(exists(home_link));
-  assert(bsdutils_rm((char *)home_link, false) == 0);
+  assert(remove(home_link) == 0);
 
   const char *dlink = "dangling_link";
   assert(symlink("dangler", dlink) == 0);
   assert(exists(dlink));
-  assert(bsdutils_rm(dlink, false) == 0);
+  assert(remove(dlink) == 0);
 
   return;
 }
