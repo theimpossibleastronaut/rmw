@@ -6,7 +6,7 @@
   to bypass the protection
   + Ignore requests to ReMove user's home directory
 
-2022-01-27
+2023-01-27
 
   * replace function used to remove directories with rm from FreeBSD;
   Thanks to @DiegoMagdaleno and @dcantrell
