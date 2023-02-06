@@ -12,22 +12,23 @@ directory and running tests inside the container (not really required
 for testing in most cases because the rmw tests already run in a
 sandbox).
 
-Example (if your present working directory is the rmw source directory):
+Example (from the src_root/docker directory):
 
-    docker run --rm --entrypoint /rmw/entrypoint-test.sh -u rmwbuilder -v `pwd`:/rmw/src andy5995/rmw-build-env:bullseye
+    docker compose up
 
 That will mount the source directory at '/rmw/src', build rmw based on
 your local changes, and run the tests.
 
-Specifying the entrypoint isn't mandatory; if omitted, you'll get a prompt.
+To get verbose test output, change the value of RMW_V to `-v` in
+docker-compose.yml.
 
-To get verbose test output, add
+After you run `docker compose`, there will be a stopped container, which you
+can see by entering `docker ps -a`. You can remove this container anytime by
+entering:
 
-    -e RMW_V="-v"
-
-to the `docker run` arguments.
+    docker container rm rmw-test-current
 
 ## [andy5995/rmw](https://hub.docker.com/repository/docker/andy5995/rmw)
 
-Image contains a static build of rmw in '/usr/bin'. You can try it out
-inside the container if you like.
+Image contains a build of rmw in '/usr/bin'. You can try it out inside the
+container if you like.

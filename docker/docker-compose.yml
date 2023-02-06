@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  rmw-test:
+    environment:
+      RMW_V: ''
+    container_name: rmw-test-current
+    image: andy5995/rmw-build-env:bullseye
+    user: rmwbuilder
+    entrypoint: /rmw/entrypoint-test.sh
+    volumes:
+      - ${PWD}/..:/rmw/src
+    restart: "no"
