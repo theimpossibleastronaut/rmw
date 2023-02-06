@@ -337,6 +337,7 @@ damage of 5000 hp. You feel satisfied.\n"));
     {
       print_msg_warn();
       printf(_("No suitable filesystem found for \"%s\"\n"), argv[file_arg]);
+      free(st_target.real_path);
     }
   }
 
