@@ -133,7 +133,7 @@ Restore FILE(s) from a WASTE directory"));
                             (recursive operation is enabled by default)\n\
 "), cli_opt[RECURSIVE].str);
   printf(_("\
-      --%s    bypass protection of top-level directories\n\
+      --%s    bypass protection of top-level files\n\
 "), cli_opt[TOP_LEVEL_BYPASS].str);
   printf(_("\
   -v, --%s             increase output messages\n\
