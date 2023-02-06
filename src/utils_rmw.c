@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2022  Andy Alt (arch_stanton5995@protonmail.com)
+Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -131,10 +131,6 @@ exists(const char *filename)
    * recognized broken links. */
   // return ! access (filename, F_OK);
 
-  /* And we don't use fopen() because sometimes we want to know if the
-     file exists, not just if it can be read. If a file or directory
-     can be opened read-only, that doesn't guarantee whether or not it
-     exists */
   int fd = open(filename, O_RDONLY);
   if (fd != -1)
   {
@@ -146,17 +142,27 @@ exists(const char *filename)
     return true;
   }
 
-  // open will return an error when attempting to open
-  // a dangling symlink. Check if it's a symlink or not
-  static char buf[1];
-  ssize_t f = readlink(filename, buf, 1);
-  *buf = '\0';
-  if (f == -1)
+  // open() returns ENOENT in the case of dangling symbolic links
+  // check if it's a link or not:
+  if (errno == ENOENT)
   {
-    errno = 0;
-    return false;
+    static char buf[1];
+    ssize_t f = readlink(filename, buf, 1);
+    *buf = '\0';
+    if (f == -1)
+    {
+      errno = 0;
+      return false;
+    }
+    return true;
   }
-  return true;
+
+  // TODO: More error-handling
+  // This would return false even when the file exists but
+  // it not accessible by the user.
+  printf("open: %s\n", strerror(errno));
+  errno = 0;
+  return false;
 }
 
 void
