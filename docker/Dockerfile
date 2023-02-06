@@ -1,10 +1,6 @@
 FROM andy5995/rmw-build-env:bullseye
-USER root
-RUN apt-get update \
-  && apt-get install -y git
 
 WORKDIR /rmw
-USER rmw
 RUN git clone --depth 1 https://github.com/theimpossibleastronaut/rmw src
 WORKDIR /rmw/src
 RUN meson setup ../builddir \
