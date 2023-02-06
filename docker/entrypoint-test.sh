@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env -S bash --posix
 
 set -ev
 
-cd /rmw/src
+SRC_DIR=/rmw/src
+cd $SRC_DIR
 
 if [ ! -f src/main.c ]; then
   echo "Your local rmw src directory must be mounted in \
@@ -10,8 +11,10 @@ if [ ! -f src/main.c ]; then
   exit 1
 fi
 
-meson setup ../builddir
-cd ../builddir
+BUILD_DIR="$SRC_DIR/../builddir"
+
+meson setup $BUILD_DIR
+cd $BUILD_DIR
 ninja
 meson test $RMW_V
 meson test $RMW_V --setup=fake_media_root --suite=rmw
