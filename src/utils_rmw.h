@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2022  Andy Alt (arch_stanton5995@protonmail.com)
+Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -58,5 +58,7 @@ void trim_char(const int c, char *str);
 char *real_join_paths(const char *argv, ...);
 
 bool is_dir_f(const char *pathname);
+
+int count_chars(const char c, const char *str);
 
 #endif

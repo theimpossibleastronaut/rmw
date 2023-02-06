@@ -76,6 +76,10 @@ OPTIONS
               option used for compatibility with rm (recursive operation is
               enabled by default)
 
+            --top-level-bypass
+                bypass protection of top-level files
+                (added in v0.9.0)
+
        -v, --verbose
               increase output messages
 

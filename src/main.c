@@ -178,6 +178,7 @@ remove_to_waste(const int argc,
                 char *const argv[],
                 st_waste * waste_head,
                 st_time * st_time_var,
+                const char *home_dir,
                 const char *mrl_file, const rmw_options * cli_user_options)
 {
   rmw_target st_target;
@@ -233,6 +234,23 @@ damage of 5000 hp. You feel satisfied.\n"));
     {
       msg_warn_file_not_found(argv[file_arg]);
       continue;
+    }
+
+    if (strcmp(st_target.real_path, home_dir) == 0)
+    {
+      puts(_("Ignoring requested ReMoval of your HOME directory."));
+      free(st_target.real_path);
+      continue;
+    }
+
+    if (!cli_user_options->want_top_level_bypass)
+    {
+      if (count_chars('/', st_target.real_path) == 1)
+      {
+        printf(_("Ignoring requested ReMoval of %s.\n"), st_target.real_path);
+        free(st_target.real_path);
+        continue;
+      }
     }
 
     /* Make sure the file isn't a waste folder or a file within a waste folder */
@@ -518,6 +536,7 @@ get_locations(const char *alt_config_file)
   return &x;
 }
 
+
 int
 main(const int argc, char *const argv[])
 {
@@ -643,6 +662,7 @@ Please check your configuration file and permissions\
                                  argv,
                                  st_config_data.st_waste_folder_props_head,
                                  &st_time_var,
+                                 st_location->home_dir,
                                  st_location->mrl_file,
                                  &cli_user_options);
 

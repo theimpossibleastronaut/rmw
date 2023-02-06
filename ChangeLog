@@ -1,4 +1,11 @@
 === rmw ChangeLog ===
+
+2023-02-06
+
+  + Ignore requests to ReMove top-level files, add --top-level-bypass option
+  to bypass the protection
+  + Ignore requests to ReMove user's home directory
+
 2022-01-27
 
   * replace function used to remove directories with rm from FreeBSD;
