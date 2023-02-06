@@ -3,6 +3,7 @@ RUN apt-get update \
   && apt-get upgrade -y \
   && apt-get install -y \
     gettext \
+    git \
     libncurses-dev \
     pip \
   && rm -rf /var/lib/apt/lists
