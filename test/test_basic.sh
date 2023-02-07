@@ -124,7 +124,7 @@ cmp_substr "$($RMW_TEST_CMD_STRING '')" \
   "skipping"
 
 output=$($RMW_TEST_CMD_STRING ${RMW_FAKE_HOME})
-cmp_substr "$output" "Ignoring"
+cmp_substr "$output" "Skipping"
 
 echo "Basic tests passed"
 exit 0

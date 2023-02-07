@@ -238,7 +238,7 @@ damage of 5000 hp. You feel satisfied.\n"));
 
     if (strcmp(st_target.real_path, home_dir) == 0)
     {
-      puts(_("Ignoring requested ReMoval of your HOME directory."));
+      puts(_("Skipping requested ReMoval of your HOME directory"));
       free(st_target.real_path);
       continue;
     }
@@ -247,7 +247,7 @@ damage of 5000 hp. You feel satisfied.\n"));
     {
       if (count_chars('/', st_target.real_path) == 1)
       {
-        printf(_("Ignoring requested ReMoval of %s.\n"), st_target.real_path);
+        printf(_("Skipping requested ReMoval of %s\n"), st_target.real_path);
         free(st_target.real_path);
         continue;
       }
