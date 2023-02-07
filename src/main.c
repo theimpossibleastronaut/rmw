@@ -178,8 +178,8 @@ remove_to_waste(const int argc,
                 char *const argv[],
                 st_waste * waste_head,
                 st_time * st_time_var,
-                const char *home_dir,
-                const char *mrl_file, const rmw_options * cli_user_options)
+                const st_loc *st_location,
+                const rmw_options * cli_user_options)
 {
   rmw_target st_target;
 
@@ -246,7 +246,7 @@ damage of 5000 hp. You feel satisfied.\n"));
       continue;
     }
 
-    if (strcmp(st_target.real_path, home_dir) == 0)
+    if (strcmp(st_target.real_path, st_location->home_dir) == 0)
     {
       puts(_("Skipping requested ReMoval of your HOME directory"));
       free(st_target.real_path);
@@ -365,13 +365,15 @@ damage of 5000 hp. You feel satisfied.\n"));
     {
       print_msg_warn();
       printf(_("No suitable filesystem found for \"%s\"\n"), argv[file_arg]);
+      printf(_("No WASTE folder defined in '%s' that resides on the same \
+filesystem as '%s'.\n"),  st_location->config_file, argv[file_arg]);
       free(st_target.real_path);
     }
   }
 
   if (confirmed_removals_list_head != NULL)
   {
-    create_undo_file(confirmed_removals_list_head, mrl_file);
+    create_undo_file(confirmed_removals_list_head, st_location->mrl_file);
     dispose_removed(confirmed_removals_list_head);
   }
 
@@ -681,8 +683,7 @@ Please check your configuration file and permissions\
                                  argv,
                                  st_config_data.st_waste_folder_props_head,
                                  &st_time_var,
-                                 st_location->home_dir,
-                                 st_location->mrl_file,
+                                 st_location,
                                  &cli_user_options);
 
     if (result > 1)
