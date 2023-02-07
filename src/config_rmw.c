@@ -190,7 +190,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
     fprintf(stderr, "truncated: %s\n", tmp_waste_parent_folder);
   }
 
-  bool is_attached = exists(tmp_waste_parent_folder);
+  bool is_attached = exists(tmp_waste_parent_folder) == 1;
   if (removable && !is_attached)
   {
     if (cli_user_options->list)
