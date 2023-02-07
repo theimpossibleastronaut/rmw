@@ -131,7 +131,7 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
 {
   int status = 0;
 
-  if (!exists(purge_target))
+  if (check_pathname_state(purge_target) == P_STATE_ENOENT)
   {
     if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
     {
@@ -370,7 +370,7 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
       free(tmp_str);
 
-      if (exists(path_to_trashinfo))
+      if (check_pathname_state(path_to_trashinfo) == P_STATE_EXISTS)
         continue;
 
       /* destination if restored */

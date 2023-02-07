@@ -97,7 +97,7 @@ rmw_dirname(char *path)
 int
 rmw_mkdir(const char *dir, mode_t mode)
 {
-  if (exists(dir))
+  if (check_pathname_state(dir) == P_STATE_EXISTS)
   {
     errno = EEXIST;
     return -1;
@@ -110,61 +110,13 @@ rmw_mkdir(const char *dir, mode_t mode)
   char *parent = rmw_dirname(tmp);
   if (!parent)
     return -1;
-  if (!exists(parent))
+  if (check_pathname_state(parent) == P_STATE_ENOENT)
     res = rmw_mkdir(parent, mode);
 
   if (res)
     return res;
 
   return mkdir(dir, mode);
-}
-
-
-
-/*!
- * Determine whether or not a file or directory exists.
- */
-bool
-exists(const char *filename)
-{
-  if (!filename)
-    return false;
-  /* access() always dereferences symbolic links, and therefore doesn't
-   * recognized broken links. */
-  // return ! access (filename, F_OK);
-
-  int fd = open(filename, O_RDONLY);
-  if (fd != -1)
-  {
-    if (close(fd) == -1)
-    {
-      perror("close");
-      errno = 0;
-    }
-    return true;
-  }
-
-  // open() returns ENOENT in the case of dangling symbolic links
-  // check if it's a link or not:
-  if (errno == ENOENT)
-  {
-    static char buf[1];
-    ssize_t f = readlink(filename, buf, 1);
-    *buf = '\0';
-    if (f == -1)
-    {
-      errno = 0;
-      return false;
-    }
-    return true;
-  }
-
-  // TODO: More error-handling
-  // This would return false even when the file exists but
-  // it not accessible by the user.
-  printf("open: %s\n", strerror(errno));
-  errno = 0;
-  return false;
 }
 
 
@@ -558,11 +510,11 @@ test_rmw_mkdir(const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths(h, subdirs);
-  if (exists(dir))
+  if (check_pathname_state(dir) == P_STATE_EXISTS)
     assert(bsdutils_rm(dir, verbose) == 0);
   assert(rmw_mkdir(dir, S_IRWXU) == 0);
   printf("%s\n", dir);
-  assert(exists(dir) == true);
+  assert(check_pathname_state(dir) == P_STATE_EXISTS);
   assert(bsdutils_rm(dir, verbose) == 0);
   free(dir);
 
@@ -681,48 +633,58 @@ test_trim_char(void)
 
 
 static void
-test_is_dir_f(const char *pathname)
+test_is_dir_f(const char* const homedir)
 {
   assert(is_dir_f("."));
-  FILE *fp = fopen("foobar", "w");
+  char *foobar = join_paths(homedir, "foobar");
+  FILE *fp = fopen(foobar, "w");
   assert(fp != NULL);
   assert(fclose(fp) != EOF);
 
-  assert(!is_dir_f("foobar"));
-  assert(symlink("foobar", "snafu") == 0);
-  assert(!is_dir_f("snafu"));
-  assert(bsdutils_rm("foobar", false) == 0);
-  assert(bsdutils_rm("snafu", false) == 0);
+  assert(!is_dir_f(foobar));
+  char *snafu = join_paths(homedir, "snafu");
+  assert(symlink(foobar, snafu) == 0);
+  assert(!is_dir_f(snafu));
+  assert(bsdutils_rm(foobar, false) == 0);
+  free(foobar);
+  assert(bsdutils_rm(snafu, false) == 0);
+  free(snafu);
 
-  const char *home_link = "home_1234";
-  assert(symlink(pathname, home_link) == 0);
+  char *home_link = join_paths(homedir, "home_link");
+  assert(symlink(homedir, home_link) == 0);
   assert(is_dir_f(home_link) == false);
   assert(bsdutils_rm(home_link, false) == 0);
+  free(home_link);
 
   return;
 }
 
 
 static void
-test_check_pathname_state(const char *pathname)
+test_check_pathname_state(const char *const homedir)
 {
-  FILE *fp = fopen("foobar", "w");
+  char *foobar = join_paths(homedir, "foobar");
+  FILE *fp = fopen(foobar, "w");
   assert(fp != NULL);
   assert(fclose(fp) != EOF);
-  assert(check_pathname_state("foobar") == P_STATE_EXISTS);
+  assert(check_pathname_state(foobar) == P_STATE_EXISTS);
 
-  assert(symlink("foobar", "snafu") == 0);
-  assert(check_pathname_state("snafu") == P_STATE_EXISTS);
-  assert(remove("foobar") == 0);
-  assert(remove("snafu") == 0);
+  char *snafu = join_paths(homedir, "snafu");
+  assert(symlink(foobar, snafu) == 0);
+  assert(check_pathname_state(snafu) == P_STATE_EXISTS);
+  assert(remove(foobar) == 0);
+  free(foobar);
+  assert(remove(snafu) == 0);
+  free(snafu);
 
-  const char *home_link = "home_1234";
-  assert(check_pathname_state(pathname) == P_STATE_EXISTS);
+  char *home_link = join_paths(homedir, "home_1234");
+  assert(check_pathname_state(homedir) == P_STATE_EXISTS);
   if (check_pathname_state(home_link) == P_STATE_EXISTS)
     assert(remove(home_link) == 0);
-  assert(symlink(pathname, home_link) == 0);
+  assert(symlink(homedir, home_link) == 0);
   assert(check_pathname_state(home_link) == P_STATE_EXISTS);
   assert(remove(home_link) == 0);
+  free(home_link);
 
   const char *dlink = "dangling_link";
   if (check_pathname_state(dlink) == P_STATE_EXISTS)

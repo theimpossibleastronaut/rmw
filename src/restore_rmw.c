@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2022  Andy Alt (arch_stanton5995@protonmail.com)
+Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -63,7 +63,7 @@ int
 restore(const char *src, st_time * st_time_var,
         const rmw_options * cli_user_options, st_waste * waste_head)
 {
-  if (exists(src))
+  if (check_pathname_state(src) == P_STATE_EXISTS)
   {
     bufchk_len(strlen(src) + 1, LEN_MAX_PATH, __func__, __LINE__);
     char *waste_parent = get_waste_parent(src);
@@ -127,7 +127,7 @@ restore(const char *src, st_time * st_time_var,
 
     /* Check for duplicate filename
      */
-    if (exists(dest))
+    if (check_pathname_state(dest) == P_STATE_EXISTS)
     {
       bufchk_len(strlen(dest) + LEN_MAX_TIME_STR_SUFFIX, LEN_MAX_PATH,
                  __func__, __LINE__);
@@ -146,7 +146,7 @@ Duplicate filename at destination - appending time string...\n"));
 
     if (cli_user_options->want_dry_run == false)
     {
-      if (!exists(parent_dir))
+      if (check_pathname_state(parent_dir) == P_STATE_ENOENT)
       {
         if (!rmw_mkdir(parent_dir, S_IRWXU))
         {

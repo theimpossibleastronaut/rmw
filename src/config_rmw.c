@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2022  Andy Alt (arch_stanton5995@protonmail.com)
+Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -190,7 +190,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
     fprintf(stderr, "truncated: %s\n", tmp_waste_parent_folder);
   }
 
-  bool is_attached = exists(tmp_waste_parent_folder) == 1;
+  bool is_attached = check_pathname_state(tmp_waste_parent_folder) == P_STATE_EXISTS;
   if (removable && !is_attached)
   {
     if (cli_user_options->list)
@@ -226,7 +226,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   waste_curr->files = join_paths(waste_curr->parent, lit_files);
   waste_curr->len_files = strlen(waste_curr->files);
 
-  if (!exists(waste_curr->files))
+  if (check_pathname_state(waste_curr->files) == P_STATE_ENOENT)
   {
     if (!rmw_mkdir(waste_curr->files, S_IRWXU))
       msg_success_mkdir(waste_curr->files);
@@ -240,7 +240,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   waste_curr->info = join_paths(waste_curr->parent, lit_info);
   waste_curr->len_info = strlen(waste_curr->info);
 
-  if (!exists(waste_curr->info))
+  if (check_pathname_state(waste_curr->info) == P_STATE_ENOENT)
   {
     if (!rmw_mkdir(waste_curr->info, S_IRWXU))
       msg_success_mkdir(waste_curr->info);

@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2022  Andy Alt (arch_stanton5995@protonmail.com)
+Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -300,7 +300,7 @@ damage of 5000 hp. You feel satisfied.\n"));
 
         /* If a duplicate file exists
          */
-        if ((st_target.is_duplicate = exists(st_target.waste_dest_name)))
+        if ((st_target.is_duplicate = check_pathname_state(st_target.waste_dest_name) == P_STATE_EXISTS))
         {
           // append a time string
           bufchk_len(strlen(st_target.waste_dest_name) +
@@ -463,7 +463,7 @@ get_locations(const char *alt_config_file)
     printf("config_dir: %s\n", x.config_dir);
   }
 
-  if (!exists(x.config_dir))
+  if (check_pathname_state(x.config_dir) == P_STATE_ENOENT)
   {
     if (!rmw_mkdir(x.config_dir, S_IRWXU))
       msg_success_mkdir(x.config_dir);
@@ -491,7 +491,7 @@ get_locations(const char *alt_config_file)
   if (verbose)
     printf("config_file: %s\n", x.config_file);
 
-  if (!exists(x.config_file))
+  if (check_pathname_state(x.config_file) == P_STATE_ENOENT)
   {
     FILE *fd = fopen(x.config_file, "w");
     if (fd)
@@ -561,7 +561,7 @@ main(const int argc, char *const argv[])
     return 1;
   }
 
-  bool init_data_dir = !exists(st_location->data_dir);
+  bool init_data_dir = check_pathname_state(st_location->data_dir) == P_STATE_ENOENT;
 
   if (init_data_dir)
   {
