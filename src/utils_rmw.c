@@ -110,8 +110,11 @@ rmw_mkdir(const char *dir, mode_t mode)
   char *parent = rmw_dirname(tmp);
   if (!parent)
     return -1;
-  if (check_pathname_state(parent) == P_STATE_ENOENT)
+  int p_state = check_pathname_state(parent);
+  if (p_state == P_STATE_ENOENT)
     res = rmw_mkdir(parent, mode);
+  else if (p_state == P_STATE_ERR)
+    exit(p_state);
 
   if (res)
     return res;

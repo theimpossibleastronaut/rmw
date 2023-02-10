@@ -226,7 +226,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   waste_curr->files = join_paths(waste_curr->parent, lit_files);
   waste_curr->len_files = strlen(waste_curr->files);
 
-  if (check_pathname_state(waste_curr->files) == P_STATE_ENOENT)
+  int p_state = check_pathname_state(waste_curr->files);
+  if (p_state == P_STATE_ENOENT)
   {
     if (!rmw_mkdir(waste_curr->files, S_IRWXU))
       msg_success_mkdir(waste_curr->files);
@@ -236,11 +237,13 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
       exit(errno);
     }
   }
+  else if (p_state == P_STATE_ERR)
+    exit(p_state);
 
   waste_curr->info = join_paths(waste_curr->parent, lit_info);
   waste_curr->len_info = strlen(waste_curr->info);
 
-  if (check_pathname_state(waste_curr->info) == P_STATE_ENOENT)
+  if ((p_state = check_pathname_state(waste_curr->info)) == P_STATE_ENOENT)
   {
     if (!rmw_mkdir(waste_curr->info, S_IRWXU))
       msg_success_mkdir(waste_curr->info);
@@ -250,6 +253,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
       exit(errno);
     }
   }
+  else if (p_state == P_STATE_ERR)
+    exit(p_state);
 
   // get device number to use later for rename
   struct stat st, mp_st;
@@ -383,14 +388,12 @@ parse_config_file(const rmw_options * cli_user_options,
 
   if (waste_curr == NULL)
   {
-    print_msg_error();
     printf(_("no usable WASTE folder could be found\n\
 Please check your configuration file and permissions\n\
 If you need further help, or to report a possible bug,\n\
 visit the rmw web site at\n"));
     printf("  " PACKAGE_URL "\n");
     printf("Unable to continue. Exiting...\n");
-    msg_return_code(-1);
     exit(EXIT_FAILURE);
   }
 

@@ -40,8 +40,6 @@ void msg_warn_restore(int result);
 
 void chk_malloc(void *state, const char *func, const int line);
 
-void msg_return_code(const int code);
-
 void msg_err_close_dir(const char *dir, const char *func, const int line);
 
 void msg_err_open_dir(const char *dir, const char *func, const int line);

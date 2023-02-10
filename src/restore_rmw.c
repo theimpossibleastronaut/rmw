@@ -63,7 +63,8 @@ int
 restore(const char *src, st_time * st_time_var,
         const rmw_options * cli_user_options, st_waste * waste_head)
 {
-  if (check_pathname_state(src) == P_STATE_EXISTS)
+  int p_state = check_pathname_state(src);
+  if (p_state == P_STATE_EXISTS)
   {
     bufchk_len(strlen(src) + 1, LEN_MAX_PATH, __func__, __LINE__);
     char *waste_parent = get_waste_parent(src);
@@ -146,7 +147,8 @@ Duplicate filename at destination - appending time string...\n"));
 
     if (cli_user_options->want_dry_run == false)
     {
-      if (check_pathname_state(parent_dir) == P_STATE_ENOENT)
+      int p_state_parent = check_pathname_state(parent_dir);
+      if (p_state_parent == P_STATE_ENOENT)
       {
         if (!rmw_mkdir(parent_dir, S_IRWXU))
         {
@@ -160,6 +162,8 @@ Duplicate filename at destination - appending time string...\n"));
           msg_err_mkdir(waste_curr->files, __func__);
         }
       }
+      else if (p_state_parent == P_STATE_ERR)
+        return p_state_parent;
     }
 
     int rename_res = 0;
@@ -190,9 +194,14 @@ Duplicate filename at destination - appending time string...\n"));
   }
   else
   {
-    msg_warn_file_not_found(src);
-    msg_return_code(ENOENT);
-    return ENOENT;
+    if (p_state == P_STATE_ENOENT)
+    {
+      print_msg_warn();
+      msg_warn_file_not_found(src);
+      return ENOENT;
+    }
+    else
+      return p_state;
   }
 
   return 0;
