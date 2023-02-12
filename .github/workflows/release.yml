@@ -11,23 +11,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    container: andy5995/rmw-build-env:bionic
     env:
       ARCH: x86_64
+      WORKSPACE: ${{ github.workspace }}
     steps:
     - uses: actions/checkout@v3
     - name: Prepare AppImage
-      run: sh ./.github/scripts/all_tests.sh
+      run: |
+        chmod 1777 $WORKSPACE
+        export VERSION="${GITHUB_REF_NAME##v}"
+        packaging/appimage/workflow.sh
     - name: Release AppImage
       uses: ncipollo/release-action@v1
       with:
-        allowUpdates: True
-        artifacts: "rmw*.AppImage*"
+        allowUpdates: false
+        artifacts: ${{ github.workspace }}/rmw*.AppImage*
         token: ${{ secrets.GITHUB_TOKEN }}
         omitNameDuringUpdate: True
         omitBodyDuringUpdate: True
         replacesArtifacts: false
-    - name: remove artifacts
-      run: rm rmw*.AppImage*
 
   build-deb:
     runs-on: ubuntu-20.04
