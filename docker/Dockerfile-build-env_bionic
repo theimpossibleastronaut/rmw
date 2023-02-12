@@ -1,0 +1,17 @@
+FROM ubuntu:bionic
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+  && apt-get upgrade -y \
+  && apt-get install -y \
+    gettext \
+    git \
+    libncurses-dev \
+    pkg-config \
+    python3-pip \
+  && rm -rf /var/lib/apt/lists
+RUN python3 -m pip install meson ninja
+
+RUN useradd -U rmwbuilder
+RUN passwd -d rmwbuilder
+
+CMD ["/bin/bash","-l"]

@@ -6,12 +6,15 @@ on:
     branches: [ "master" ]
     paths:
       - '.github/workflows/docker-build-env.yml'
-      - 'docker/Dockerfile-build-env'
+      - 'docker/Dockerfile-build-env_**'
       - 'docker/entrypoint-test.sh'
 
 jobs:
   docker:
-    runs-on: ubuntu-latest
+    matrix:
+      os: ubuntu-latest
+      tag: [bullseye, bionic]
+    runs-on: ${{ matrix.os }}
     steps:
       -
         name: Checkout
@@ -32,8 +35,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./docker/Dockerfile-build-env
+          file: ./docker/Dockerfile-build-env_${{ matrix.tag }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw-build-env:bullseye
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw-build-env:${{ matrix.tag }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/rmw-build-env:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/rmw-build-env:buildcache,mode=max
