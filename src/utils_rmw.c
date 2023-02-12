@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "strings_rmw.h"
 #include "messages_rmw.h"
 
+
 /*
  * name: rmw_dirname
  * return a pointer to the parent directory of *path
@@ -96,7 +97,7 @@ rmw_dirname(char *path)
 int
 rmw_mkdir(const char *dir, mode_t mode)
 {
-  if (exists(dir))
+  if (check_pathname_state(dir) == P_STATE_EXISTS)
   {
     errno = EEXIST;
     return -1;
@@ -109,8 +110,11 @@ rmw_mkdir(const char *dir, mode_t mode)
   char *parent = rmw_dirname(tmp);
   if (!parent)
     return -1;
-  if (!exists(parent))
+  int p_state = check_pathname_state(parent);
+  if (p_state == P_STATE_ENOENT)
     res = rmw_mkdir(parent, mode);
+  else if (p_state == P_STATE_ERR)
+    exit(p_state);
 
   if (res)
     return res;
@@ -120,18 +124,15 @@ rmw_mkdir(const char *dir, mode_t mode)
 
 
 /*!
- * Determine whether or not a file or directory exists.
+ * Determine whether a file or directory exists, and is accessible.
  */
-bool
-exists(const char *filename)
+int
+check_pathname_state(const char *pathname)
 {
-  if (!filename)
+  if (!pathname)
     return false;
-  /* access() always dereferences symbolic links, and therefore doesn't
-   * recognized broken links. */
-  // return ! access (filename, F_OK);
 
-  int fd = open(filename, O_RDONLY);
+  int fd = open(pathname, O_RDONLY);
   if (fd != -1)
   {
     if (close(fd) == -1)
@@ -139,7 +140,7 @@ exists(const char *filename)
       perror("close");
       errno = 0;
     }
-    return true;
+    return P_STATE_EXISTS;
   }
 
   // open() returns ENOENT in the case of dangling symbolic links
@@ -147,22 +148,20 @@ exists(const char *filename)
   if (errno == ENOENT)
   {
     static char buf[1];
-    ssize_t f = readlink(filename, buf, 1);
+    ssize_t f = readlink(pathname, buf, 1);
     *buf = '\0';
-    if (f == -1)
+    if (f != -1)
+      return P_STATE_EXISTS;
+    else
     {
       errno = 0;
-      return false;
+      return P_STATE_ENOENT;
     }
-    return true;
   }
 
-  // TODO: More error-handling
-  // This would return false even when the file exists but
-  // it not accessible by the user.
-  printf("open: %s\n", strerror(errno));
+  printf("open %s: %s\n", pathname, strerror(errno));
   errno = 0;
-  return false;
+  return P_STATE_ERR;
 }
 
 void
@@ -463,6 +462,8 @@ real_join_paths(const char *argv, ...)
 
 bool is_dir_f(const char *pathname)
 {
+  // O_FOLLOW is needed, otherwise the a symlink to a directory
+  // would be detected as a directory, which we don't want
   int fd = open(pathname, O_RDONLY | O_DIRECTORY | O_NOFOLLOW);
   if (fd != -1)
   {
@@ -512,11 +513,11 @@ test_rmw_mkdir(const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths(h, subdirs);
-  if (exists(dir))
+  if (check_pathname_state(dir) == P_STATE_EXISTS)
     assert(bsdutils_rm(dir, verbose) == 0);
   assert(rmw_mkdir(dir, S_IRWXU) == 0);
   printf("%s\n", dir);
-  assert(exists(dir) == true);
+  assert(check_pathname_state(dir) == P_STATE_EXISTS);
   assert(bsdutils_rm(dir, verbose) == 0);
   free(dir);
 
@@ -635,50 +636,64 @@ test_trim_char(void)
 
 
 static void
-test_is_dir_f(const char *pathname)
+test_is_dir_f(const char* const homedir)
 {
   assert(is_dir_f("."));
-  FILE *fp = fopen("foobar", "w");
+  char *foobar = join_paths(homedir, "foobar");
+  FILE *fp = fopen(foobar, "w");
   assert(fp != NULL);
   assert(fclose(fp) != EOF);
 
-  assert(!is_dir_f("foobar"));
-  assert(symlink("foobar", "snafu") == 0);
-  assert(!is_dir_f("snafu"));
-  assert(bsdutils_rm("foobar", false) == 0);
-  assert(bsdutils_rm("snafu", false) == 0);
+  assert(!is_dir_f(foobar));
+  char *snafu = join_paths(homedir, "snafu");
+  assert(symlink(foobar, snafu) == 0);
+  assert(!is_dir_f(snafu));
+  assert(bsdutils_rm(foobar, false) == 0);
+  free(foobar);
+  assert(bsdutils_rm(snafu, false) == 0);
+  free(snafu);
 
-  const char *home_link = "home_1234";
-  assert(symlink(pathname, home_link) == 0);
+  char *home_link = join_paths(homedir, "home_link");
+  assert(symlink(homedir, home_link) == 0);
   assert(is_dir_f(home_link) == false);
   assert(bsdutils_rm(home_link, false) == 0);
+  free(home_link);
 
   return;
 }
 
 
 static void
-test_exists(const char *pathname)
+test_check_pathname_state(const char *const homedir)
 {
-  FILE *fp = fopen("foobar", "w");
+  char *foobar = join_paths(homedir, "foobar");
+  FILE *fp = fopen(foobar, "w");
   assert(fp != NULL);
   assert(fclose(fp) != EOF);
-  assert(exists("foobar"));
+  assert(check_pathname_state(foobar) == P_STATE_EXISTS);
 
-  assert(symlink("foobar", "snafu") == 0);
-  assert(exists("snafu"));
-  assert(remove("foobar") == 0);
-  assert(remove("snafu") == 0);
+  char *snafu = join_paths(homedir, "snafu");
+  assert(symlink(foobar, snafu) == 0);
+  assert(check_pathname_state(snafu) == P_STATE_EXISTS);
+  assert(remove(foobar) == 0);
+  free(foobar);
+  assert(remove(snafu) == 0);
+  free(snafu);
 
-  const char *home_link = "home_1234";
-  assert(exists(pathname));
-  assert(symlink(pathname, home_link) == 0);
-  assert(exists(home_link));
+  char *home_link = join_paths(homedir, "home_1234");
+  assert(check_pathname_state(homedir) == P_STATE_EXISTS);
+  if (check_pathname_state(home_link) == P_STATE_EXISTS)
+    assert(remove(home_link) == 0);
+  assert(symlink(homedir, home_link) == 0);
+  assert(check_pathname_state(home_link) == P_STATE_EXISTS);
   assert(remove(home_link) == 0);
+  free(home_link);
 
   const char *dlink = "dangling_link";
+  if (check_pathname_state(dlink) == P_STATE_EXISTS)
+    assert(remove(dlink) == 0);
   assert(symlink("dangler", dlink) == 0);
-  assert(exists(dlink));
+  assert(check_pathname_state(dlink) == P_STATE_EXISTS);
   assert(remove(dlink) == 0);
 
   return;
@@ -715,7 +730,7 @@ main()
   test_make_size_human_readable();
   test_join_paths();
   test_trim_char();
-  test_exists(HOMEDIR);
+  test_check_pathname_state(HOMEDIR);
   test_is_dir_f(HOMEDIR);
 
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";

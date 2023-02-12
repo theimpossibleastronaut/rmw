@@ -84,7 +84,6 @@ is_time_to_purge(st_time * st_time_var, const char *file)
    * is not right. Make it fatal.
    */
   open_err(file, __func__);
-  msg_return_code(errno);
   exit(errno);
 }
 
@@ -131,7 +130,8 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
 {
   int status = 0;
 
-  if (!exists(purge_target))
+  int p_state = check_pathname_state(purge_target);
+  if (p_state == P_STATE_ENOENT)
   {
     if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
     {
@@ -151,10 +151,11 @@ do_file_purge(char *purge_target, const rmw_options * cli_user_options,
     {
       printf("While processing %s:\n", trashinfo_entry_realpath);
       puts("You can remove the trashinfo file with '-offg'");
-      // Will exit after error
-      msg_err_lstat(purge_target, __func__, __LINE__);
+      msg_warn_file_not_found(purge_target);
     }
   }
+  else if (p_state == P_STATE_ERR)
+    exit(p_state);
 
   bool is_dir = is_dir_f(purge_target);
 
@@ -370,7 +371,7 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
       free(tmp_str);
 
-      if (exists(path_to_trashinfo))
+      if (check_pathname_state(path_to_trashinfo) == P_STATE_EXISTS)
         continue;
 
       /* destination if restored */

@@ -26,6 +26,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "trashinfo_rmw.h"
 
+enum {
+  P_STATE_ERR = -1,
+  P_STATE_ENOENT,
+  P_STATE_EXISTS
+};
+
 #define join_paths(...) real_join_paths(__VA_ARGS__, NULL)
 
 #define LEN_MAX_HUMAN_READABLE_SIZE (sizeof "xxxx.y GiB")
@@ -37,7 +43,7 @@ int rmw_mkdir(const char *dir, mode_t mode);
 
 int make_dir(const char *dir);
 
-bool exists(const char *filename);
+int check_pathname_state(const char *pathname);
 
 void dispose_waste(st_waste * node);
 

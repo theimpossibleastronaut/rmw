@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2021  Andy Alt (arch_stanton5995@protonmail.com)
+Copyright (C) 2012-2021  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -48,14 +48,9 @@ open_err(const char *filename, const char *function_name)
 {
   print_msg_error();
   /* TRANSLATORS:  "opening" refers to a file  */
-  fprintf(stderr, _("while opening %s\n"), filename);
-
-  static char combined_msg[BUFSIZ];
-  /* TRANSLATORS:  "function" refers to a C function  */
-  sn_check(snprintf
-           (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
-           BUFSIZ);
-  perror(combined_msg);
+  fprintf(stderr, _("while opening %s\n\
+function: <%s>\n\
+%s\n"), filename, function_name, strerror(errno));
 
   return;
 }
@@ -72,9 +67,6 @@ open_err(const char *filename, const char *function_name)
 int
 close_file(FILE * file_ptr, const char *filename, const char *function_name)
 {
-  /* fclose() shouldn't be used on file pointers that are NULL.
-   * https://stackoverflow.com/questions/16922871/why-glibcs-fclosenull-cause-segmentation-fault-instead-of-returning-error
-   */
   if (file_ptr == NULL)
     return -1;
 
@@ -84,15 +76,9 @@ close_file(FILE * file_ptr, const char *filename, const char *function_name)
   {
     /* TRANSLATORS:  "closing" refers to a file  */
     print_msg_error();
-    fprintf(stderr, _("while closing %s\n"), filename);
-
-    static char combined_msg[BUFSIZ];
-    sn_check(snprintf
-             (combined_msg, BUFSIZ, _("function: <%s>"), function_name),
-             BUFSIZ);
-    perror(combined_msg);
-
-    msg_return_code(errno);
+    fprintf(stderr, _("while closing %s\n\
+function: <%s>\n\
+%s\n"), filename, function_name, strerror(errno));
     return errno;
   }
 }
@@ -139,22 +125,11 @@ chk_malloc(void *state, const char *func, const int line)
   {
     print_msg_error();
     printf(_("while attempting to allocate memory -- %s:L%d\n"), func, line);
-    msg_return_code(-1);
-    exit(EXIT_FAILURE);
+    exit(ENOMEM);
   }
   return;
 }
 
-void
-msg_return_code(const int code)
-{
-  if (verbose)
-  {
-    /* TRANSLATORS: "return" code refers to a number returned by an operation
-     * or function */
-    printf(_("  :return code: %d\n"), code);
-  }
-}
 
 void
 msg_err_close_dir(const char *dir, const char *func, const int line)
@@ -264,7 +239,5 @@ msg_success_mkdir(const char *dir)
 void
 msg_warn_file_not_found(const char *file)
 {
-  /* TRANSLATORS:  "%s" refers to a file or directory  */
-  print_msg_warn();
-  printf(_("File not found: '%s'\n"), file);
+  printf("'%s': %s\n", file, strerror(ENOENT));
 }

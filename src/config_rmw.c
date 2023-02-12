@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://remove-to-waste.info/>
 
-Copyright (C) 2012-2022  Andy Alt (arch_stanton5995@protonmail.com)
+Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -190,7 +190,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
     fprintf(stderr, "truncated: %s\n", tmp_waste_parent_folder);
   }
 
-  bool is_attached = exists(tmp_waste_parent_folder);
+  bool is_attached = check_pathname_state(tmp_waste_parent_folder) == P_STATE_EXISTS;
   if (removable && !is_attached)
   {
     if (cli_user_options->list)
@@ -226,7 +226,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   waste_curr->files = join_paths(waste_curr->parent, lit_files);
   waste_curr->len_files = strlen(waste_curr->files);
 
-  if (!exists(waste_curr->files))
+  int p_state = check_pathname_state(waste_curr->files);
+  if (p_state == P_STATE_ENOENT)
   {
     if (!rmw_mkdir(waste_curr->files, S_IRWXU))
       msg_success_mkdir(waste_curr->files);
@@ -236,11 +237,13 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
       exit(errno);
     }
   }
+  else if (p_state == P_STATE_ERR)
+    exit(p_state);
 
   waste_curr->info = join_paths(waste_curr->parent, lit_info);
   waste_curr->len_info = strlen(waste_curr->info);
 
-  if (!exists(waste_curr->info))
+  if ((p_state = check_pathname_state(waste_curr->info)) == P_STATE_ENOENT)
   {
     if (!rmw_mkdir(waste_curr->info, S_IRWXU))
       msg_success_mkdir(waste_curr->info);
@@ -250,6 +253,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
       exit(errno);
     }
   }
+  else if (p_state == P_STATE_ERR)
+    exit(p_state);
 
   // get device number to use later for rename
   struct stat st, mp_st;
@@ -383,14 +388,12 @@ parse_config_file(const rmw_options * cli_user_options,
 
   if (waste_curr == NULL)
   {
-    print_msg_error();
     printf(_("no usable WASTE folder could be found\n\
 Please check your configuration file and permissions\n\
 If you need further help, or to report a possible bug,\n\
 visit the rmw web site at\n"));
     printf("  " PACKAGE_URL "\n");
     printf("Unable to continue. Exiting...\n");
-    msg_return_code(-1);
     exit(EXIT_FAILURE);
   }
 

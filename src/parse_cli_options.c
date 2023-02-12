@@ -188,7 +188,7 @@ version(void)
 {
   printf(_("\
 rmw %s\n\
-Author: Andy Alt (arch_stanton5995@protonmail.com)\n\
+Author: Andy Alt (arch_stanton5995@proton.me)\n\
 The RMW team: see AUTHORS file\n\
 This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n\
 This is free software, and you are welcome to redistribute it\n\
