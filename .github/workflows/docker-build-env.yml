@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: ubuntu-latest
+        os: [ubuntu-latest]
         tag: [bullseye, bionic]
     runs-on: ${{ matrix.os }}
     steps:
