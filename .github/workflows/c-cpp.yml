@@ -36,6 +36,7 @@ jobs:
           - name: ubuntu-20.04-gcc
             os: ubuntu-20.04
             cc: gcc
+            dist: true
           - name: ubuntu-20.04-clang
             os: ubuntu-20.04
             cc: clang
@@ -45,15 +46,21 @@ jobs:
           - name: ubuntu-22.04-clang
             os: ubuntu-22.04
             cc: clang
+          - name: ubuntu-18.04
+            os: ubuntu-22.04
+            container: 'andy5995/rmw-build-env:bionic'
           - name: Slackware
             os: ubuntu-20.04
             container: 'andy5995/slackware-build-essential:15.0'
           - name: debian bullseye
             os: ubuntu-20.04
             container: 'andy5995/rmw-build-env:bullseye'
-          - name: ubuntu-20.04-dist
-            os: ubuntu-20.04
-            dist: true
+          - name: ubuntu-22.04-without-nls
+            os: ubuntu-22.04
+            setup: -Dnls=false
+          - name: ubuntu-22.04-without-curses
+            os: ubuntu-22.04
+            setup: -Dwithout-curses=true
           - name: macos-latest
             os: macos-latest
             env:
@@ -64,7 +71,6 @@ jobs:
     env:
       CC: '${{ matrix.build.cc }}'
     steps:
-
     - uses: actions/checkout@v3
       with:
         submodules: true
@@ -100,13 +106,18 @@ jobs:
     - if: ${{ contains(matrix.build.os, 'ubuntu') && matrix.build.container == null }}
       run: |
         sudo apt-get install -y \
-          gettext \
           python3-pip \
           python3-setuptools
         sudo -H python3 -m pip install meson ninja
 
+    - if: ${{ contains(matrix.build.name, 'without-nls') && matrix.build.container == null }}
+      run: sudo apt remove -y gettext
+
+    - if: ${{ contains(matrix.build.name, 'without-nls') == false && matrix.build.container == null }}
+      run: sudo apt install -y gettext
+
     - name: Configure
-      run: meson setup builddir
+      run: meson setup builddir ${{ matrix.build.setup }}
     - name: Build
       run: |
         cd builddir
@@ -115,7 +126,7 @@ jobs:
       run: cd builddir && meson test -v
     - name: Test fake media root
       run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
-    - if: ${{ matrix.build.dist == 'true' }}
+    - if: ${{ contains(matrix.build.name, 'dist') }}
       run: cd builddir && meson dist --include-subprojects
 
   freebsd:
