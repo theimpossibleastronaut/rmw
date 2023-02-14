@@ -1,5 +1,5 @@
 subdir('bsdutils')
-
+disable_curses = ''
 dep_menu = []
 dep_curses = []
 if not get_option('without-curses')
@@ -12,13 +12,13 @@ if not get_option('without-curses')
       if not dep_menu.found()
         dep_menu = cc.find_library('menu')
         if not dep_menu.found()
-          add_project_arguments('-DDISABLE_CURSES', language : 'c')
+          conf.set('DISABLE_CURSES', 1)
         endif
       endif
     endif
   endif
 else
-  add_project_arguments('-DDISABLE_CURSES', language : 'c')
+  conf.set('DISABLE_CURSES', 1)
 endif
 
 src = [

@@ -9,25 +9,61 @@ on:
       - v**
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
+  dist:
+    runs-on: ubuntu-22.04
     env:
-      ARCH: x86_64
     steps:
     - uses: actions/checkout@v3
-    - name: Prepare AppImage
-      run: sh ./.github/scripts/all_tests.sh
-    - name: Release AppImage
+      with:
+        submodules: true
+    - name: Install dependencies
+      run: apt install -y meson ninja xz-utils
+    - name:
+      run: |
+        meson setup builddir
+        cd builddir
+        meson dist
+        cd meson-dist
+        export VERSION="${GITHUB_REF_NAME##v}"
+        REL_TAR="rmw-$VERSION.tar"
+        xz -d $REL_TAR.xz
+        tar --delete -f $REL_TAR rmw-$VERSION/packaging
+        xz $REL_TAR
+        sha256sum $REL_TAR.xz > $REL_TAR.xz.sha256sum
+    - name: Release Dist Archive
       uses: ncipollo/release-action@v1
       with:
-        allowUpdates: True
-        artifacts: "rmw*.AppImage*"
+        allowUpdates: false
+        artifacts: ${{ github.workspace }}/builddir/meson-dist/*
         token: ${{ secrets.GITHUB_TOKEN }}
         omitNameDuringUpdate: True
         omitBodyDuringUpdate: True
         replacesArtifacts: false
-    - name: remove artifacts
-      run: rm rmw*.AppImage*
+
+  build-appimage:
+    runs-on: ubuntu-20.04
+    container: andy5995/rmw-build-env:bionic
+    env:
+      ARCH: x86_64
+      WORKSPACE: ${{ github.workspace }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Prepare AppImage
+      run: |
+        chmod 1777 $WORKSPACE
+        export VERSION="${GITHUB_REF_NAME##v}"
+        packaging/appimage/workflow.sh
+    - name: Release AppImage
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: false
+        artifacts: ${{ github.workspace }}/rmw*.AppImage*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        omitNameDuringUpdate: True
+        omitBodyDuringUpdate: True
+        replacesArtifacts: false
 
   build-deb:
     runs-on: ubuntu-20.04
@@ -46,7 +82,7 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         allowUpdates: True
-        artifacts: "output/*"
+        artifacts: "output/*.deb"
         token: ${{ secrets.GITHUB_TOKEN }}
         omitNameDuringUpdate: True
         omitBodyDuringUpdate: True

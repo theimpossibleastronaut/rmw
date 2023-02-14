@@ -38,41 +38,13 @@ commit changes (NOTE: meson dist only packages *committed* changes)
 meson dist --include-subprojects
 
 Remove packaging directory from the resulting xz file
-
-  Decompress
-    xz -d ....
-  tar --delete -f rmw-0.8.0.tar rmw-0.8.0/packaging
-
-  gzip rmw-0.8.0.tar
-
-
-sha256 the tarball and paste into packaging/Slackbuild/rmw/rmw.info
+  (The process is now in the GitHub workflow)
 
 Make the AppImage
 
   To pass the test on https://github.com/AppImage/appimage.github.io, the image must be
   built on an older system, such Ubuntu bionic. I do that in a docker image.
-
-  update the linuxdeploy appimage (which creates the image) if necessary
-    wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-
-  The appimage won't run in a docker container, so it must first be extracted using the --appimage-extract option
-
-  Meson 0.62.0 will require python 3.7. To install meson using an entry point that invokes #!/usr/bin/python3.7
-    python3.7 -m pip install meson
-
-  meson configure -Dbuildtype=release -Dstrip=true -Dprefix=/usr
-  DESTDIR=AppDir ninja install
-
-  cp /usr/bin/rm AppDir/usr/bin
-
-  (path to where the linuxdeploy appimage was extracted)/squashfs-root/AppRun -d /rmw/packaging/rmw.desktop \
-  --icon-file=/rmw/packaging/rmw_icon_32x32.png \
-   --icon-filename=rmw --executable AppDir/usr/bin/rmw --appdir AppDir --output appimage
-
-  Rename the appimage so it contains the version...
-    rmw-0.8.0-x86_64.AppImage
-
+  (The process is now in the GitHub workflow)
 
 Check copyright date/year
   packaging/debian/copyright

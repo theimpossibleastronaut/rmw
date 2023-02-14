@@ -1,6 +1,6 @@
 name: C/C++ CI
 concurrency:
-  group: ${{ github.workflow }}
+  group: build-${{ github.ref }}
   cancel-in-progress: true
 
 on:
@@ -27,99 +27,127 @@ env:
   TERM: xterm
 
 jobs:
-  ubuntu-focal:
+  build:
+    name: ${{ matrix.build.name }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        arch: [x64]
-        os: [ubuntu-20.04]
-        compiler: [gcc-9, gcc-11, clang-10]
-    runs-on: ${{ matrix.os }}
+        build:
+          - name: ubuntu-20.04-gcc
+            os: ubuntu-20.04
+            cc: gcc
+            dist: true
+          - name: ubuntu-20.04-clang
+            os: ubuntu-20.04
+            cc: clang
+          - name: ubuntu-22.04-gcc
+            os: ubuntu-22.04
+            cc: gcc
+          - name: ubuntu-22.04-clang
+            os: ubuntu-22.04
+            cc: clang
+          - name: ubuntu-18.04
+            os: ubuntu-22.04
+            container: 'andy5995/rmw-build-env:bionic'
+          - name: Slackware
+            os: ubuntu-20.04
+            container: 'andy5995/slackware-build-essential:15.0'
+          - name: debian bullseye
+            os: ubuntu-20.04
+            container: 'andy5995/rmw-build-env:bullseye'
+          - name: ubuntu-22.04-without-nls
+            os: ubuntu-22.04
+            setup: -Dnls=false
+          - name: ubuntu-22.04-without-curses
+            os: ubuntu-22.04
+            setup: -Dwithout-curses=true
+          - name: macos-latest
+            os: macos-latest
+            env:
+              PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}"
+
+    runs-on: ${{ matrix.build.os }}
+    container: ${{ matrix.build.container }}
     env:
-      MATRIX_OS: ${{ matrix.os }}
-      MATRIX_ARCH: ${{ matrix.arch }}
-      CC: ${{ matrix.compiler }}
+      CC: '${{ matrix.build.cc }}'
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Install dependencies
+
+    - if: ${{ env.CC }}
       run: |
-        if [ -z "${CC##*$clang*}" ]; then
-          curl -L https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal main"
-          sudo apt-get update -qq
-          sudo apt-get install -y $CC
+        if [ "$CC" = "gcc" ]; then
+          CXX=g++
         else
-          if  [ "$CC" = "gcc-11"]; then
-            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6B05F25D762E3157;
-            sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
-          fi
-          sudo apt-get update -qq;
-          sudo apt-get install -y $CC
+          CXX=clang++
         fi
-    - run: sh ./.github/scripts/all_tests.sh
+        echo "CXX=${CXX}" >> $GITHUB_ENV
 
-  Jammy:
-    strategy:
-      fail-fast: false
-    runs-on: ubuntu-22.04
-    env:
-      CC: 'gcc-12'
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: true
-    - name: Build
-      run: sh ./.github/scripts/all_tests.sh
-
-  slackware:
-    # Containers must run in Linux based operating systems
-    runs-on: ubuntu-latest
-    # Docker Hub image that `container-job` executes in
-    container: andy5995/slackware-build-essential:15.0
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: true
-    - name: Build and test with meson
+    - name: Show info
       run: |
-        meson setup _build
-        cd _build
-        meson compile
-        meson test
+        export -p
+        echo '${{ toJSON(matrix) }}'
 
-  macos:
-    runs-on: macos-latest
-    env:
-      PKG_CONFIG_PATH: "/usr/local/opt/ncurses/lib/pkgconfig:$PKG_CONFIG_PATH"
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: true
-    - run: |
+    - if: ${{ contains(matrix.build.os, 'macos') }}
+      run: |
+        echo "PKG_CONFIG_PATH=/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}" >> $GITHUB_ENV
         pip3 install meson ninja
         brew install ncurses
-    - run: |
-        meson setup builddir
-        ninja -v -C builddir
-        ninja -v -C builddir dist
+
+    #- if: ${{ contains(matrix.os, 'ubuntu') }}
+      #run: |
+        #sudo apt-get update -qq
+        #sudo apt-get upgrade -y -qq
+
+    #- if: ${{ matrix.cc == 'clang' && matrix.os != 'macos-latest' }}
+      #run: sudo apt-get install -y $CC $CXX
+
+    - if: ${{ contains(matrix.build.os, 'ubuntu') && matrix.build.container == null }}
+      run: |
+        sudo apt-get install -y \
+          python3-pip \
+          python3-setuptools
+        sudo -H python3 -m pip install meson ninja
+
+    - if: ${{ contains(matrix.build.name, 'without-nls') && matrix.build.container == null }}
+      run: sudo apt remove -y gettext
+
+    - if: ${{ contains(matrix.build.name, 'without-nls') == false && matrix.build.container == null && contains(matrix.build.os, 'macos') == false }}
+      run: sudo apt install -y gettext
+
+    - name: Configure
+      run: meson setup builddir ${{ matrix.build.setup }}
+    - name: Build
+      run: |
+        cd builddir
+        ninja -v
+    - name: Test
+      run: cd builddir && meson test -v
+    - name: Test fake media root
+      run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
+    - if: ${{ contains(matrix.build.name, 'dist') }}
+      run: cd builddir && meson dist --include-subprojects
 
   freebsd:
     runs-on: macos-12
     name: FreeBSD Test
+    env:
+      PKG_CONFIG_PATH: '/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}'
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: true
     - name: Test
-      id: test
       uses: vmactions/freebsd-vm@v0
       with:
+        envs: 'PKG_CONFIG_PATH'
         usesh: true
         prepare:  |
           pkg install -y meson ninja gettext pkgconf
         run: |
           meson setup builddir
-          ninja -v -C builddir
-          ninja -C builddir test
+          cd builddir
+          ninja -v
+          meson test -v
+          meson test -v --setup=fake_media_root --suite rmw
