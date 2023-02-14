@@ -113,7 +113,7 @@ jobs:
     - if: ${{ contains(matrix.build.name, 'without-nls') && matrix.build.container == null }}
       run: sudo apt remove -y gettext
 
-    - if: ${{ contains(matrix.build.name, 'without-nls') == false && matrix.build.container == null }}
+    - if: ${{ contains(matrix.build.name, 'without-nls') == false && matrix.build.container == null && contains(matrix.build.os, 'macos') == false }}
       run: sudo apt install -y gettext
 
     - name: Configure
