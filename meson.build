@@ -67,8 +67,6 @@ endforeach
 localedir = join_paths(get_option('prefix'), get_option('localedir'))
 subdir('po')
 
-config_h = configure_file(output : 'config.h', configuration : conf)
-
 # https://mesonbuild.com/Subprojects.html
 dep_canfigger = dependency(
   'canfigger',
@@ -77,6 +75,7 @@ dep_canfigger = dependency(
   )
 
 subdir('src')
+config_h = configure_file(output : 'config.h', configuration : conf)
 
 executable(
   'rmw',
