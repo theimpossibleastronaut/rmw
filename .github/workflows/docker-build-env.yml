@@ -11,7 +11,7 @@ on:
 
 jobs:
   docker:
-    name: ${{ matrix.build.name }}
+    name: rmw-build-env_${{ matrix.tag }}
     strategy:
       fail-fast: true
       matrix:
