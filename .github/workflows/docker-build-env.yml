@@ -11,9 +11,12 @@ on:
 
 jobs:
   docker:
-    matrix:
-      os: ubuntu-latest
-      tag: [bullseye, bionic]
+    name: ${{ matrix.build.name }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: ubuntu-latest
+        tag: [bullseye, bionic]
     runs-on: ${{ matrix.os }}
     steps:
       -
