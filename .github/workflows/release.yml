@@ -11,6 +11,9 @@ on:
         required: true
         type: string
 
+env:
+  VERSION: ${{ inputs.version }}
+
 jobs:
   dist:
     runs-on: ubuntu-22.04
@@ -20,8 +23,6 @@ jobs:
         submodules: true
     - name: Install dependencies
       run: |
-        sudo apt update
-        sudo apt upgrade
         sudo apt install -y \
           meson \
           ninja-build \
@@ -32,7 +33,6 @@ jobs:
         cd builddir
         meson dist
         cd meson-dist
-        export VERSION="${GITHUB_REF_NAME##v}"
         REL_TAR="rmw-$VERSION.tar"
         xz -d $REL_TAR.xz
         tar --delete -f $REL_TAR rmw-$VERSION/packaging
@@ -56,7 +56,6 @@ jobs:
         submodules: true
     - name: Prepare AppImage
       run: |
-        export VERSION="${GITHUB_REF_NAME##v}"
         packaging/appimage/workflow.sh
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
@@ -78,11 +77,9 @@ jobs:
     - name: Create sha256sum
       run: |
         cd output
-        VERSION="${GITHUB_REF_NAME##v}"
-        sha256sum rmw_$VERSION_amd64.deb > rmw_$VERSION_amd64.deb.sha256sum
-        chmod o+r rmw_$VERSION_amd64.deb.sha256sum
+        sha256sum rmw_$VERSION_amd64.deb > ../rmw_$VERSION_amd64.deb.sha256sum
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: rmw_debian_pkg
-        path: output/*.deb*
+        path: output/*.deb *deb.sha256sum
