@@ -4,9 +4,12 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  push:
-    tags:
-      - v**
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'version number'
+        required: true
+        type: string
 
 jobs:
   dist:
@@ -16,7 +19,13 @@ jobs:
       with:
         submodules: true
     - name: Install dependencies
-      run: sudo apt install -y meson ninja xz-utils
+      run: |
+        sudo apt update
+        sudo apt upgrade
+        sudo apt install -y \
+          meson \
+          ninja-build \
+          xz-utils
     - name:
       run: |
         meson setup builddir
@@ -29,15 +38,11 @@ jobs:
         tar --delete -f $REL_TAR rmw-$VERSION/packaging
         xz $REL_TAR
         sha256sum $REL_TAR.xz > $REL_TAR.xz.sha256sum
-    - name: Release Dist Archive
-      uses: ncipollo/release-action@v1
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
       with:
-        allowUpdates: false
-        artifacts: ${{ github.workspace }}/builddir/meson-dist/*
-        token: ${{ secrets.GITHUB_TOKEN }}
-        omitNameDuringUpdate: True
-        omitBodyDuringUpdate: True
-        replacesArtifacts: false
+        name: rmw_dist_archive
+        path: ${{ github.workspace }}/builddir/meson-dist/*
 
   build-appimage:
     runs-on: ubuntu-20.04
@@ -53,15 +58,11 @@ jobs:
       run: |
         export VERSION="${GITHUB_REF_NAME##v}"
         packaging/appimage/workflow.sh
-    - name: Release AppImage
-      uses: ncipollo/release-action@v1
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
       with:
-        allowUpdates: false
-        artifacts: ${{ github.workspace }}/packaging/appimage/rmw*.AppImage*
-        token: ${{ secrets.GITHUB_TOKEN }}
-        omitNameDuringUpdate: True
-        omitBodyDuringUpdate: True
-        replacesArtifacts: false
+        name: rmw_appimage
+        path: ${{ github.workspace }}/packaging/appimage/rmw*.AppImage*
 
   build-deb:
     runs-on: ubuntu-20.04
@@ -80,14 +81,8 @@ jobs:
         VERSION="${GITHUB_REF_NAME##v}"
         sha256sum rmw_$VERSION_amd64.deb > rmw_$VERSION_amd64.deb.sha256sum
         chmod o+r rmw_$VERSION_amd64.deb.sha256sum
-    - name: Release deb package
-      uses: ncipollo/release-action@v1
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
       with:
-        allowUpdates: True
-        artifacts: "output/*.deb*"
-        token: ${{ secrets.GITHUB_TOKEN }}
-        omitNameDuringUpdate: True
-        omitBodyDuringUpdate: True
-        replacesArtifacts: false
-    #- name: remove artifacts
-     # run: rm rmw*.AppImage*
+        name: rmw_debian_pkg
+        path: output/*.deb*
