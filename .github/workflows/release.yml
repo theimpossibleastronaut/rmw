@@ -52,7 +52,6 @@ jobs:
         submodules: true
     - name: Prepare AppImage
       run: |
-        chmod 1777 $WORKSPACE
         export VERSION="${GITHUB_REF_NAME##v}"
         packaging/appimage/workflow.sh
     - name: Release AppImage
@@ -76,13 +75,16 @@ jobs:
       with:
         args: --no-sign
         sources: deb http://deb.debian.org/debian bullseye-backports main
-  #  - name: Create sha256sum
-   #   run: sha256sum ${{ steps.build.outputs.filename }} > ${{ steps.build.outputs.filename }}.sha256sum
+    - name: Create sha256sum
+      run: |
+        cd output
+        VERSION="${GITHUB_REF_NAME##v}"
+        sha256sum rmw_$VERSION_amd64.deb > rmw_$VERSION_amd64.deb.sha256sum
     - name: Release deb package
       uses: ncipollo/release-action@v1
       with:
         allowUpdates: True
-        artifacts: "output/*.deb"
+        artifacts: "output/*.deb*"
         token: ${{ secrets.GITHUB_TOKEN }}
         omitNameDuringUpdate: True
         omitBodyDuringUpdate: True
