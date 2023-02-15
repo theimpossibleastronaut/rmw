@@ -33,11 +33,11 @@ jobs:
         cd builddir
         meson dist
         cd meson-dist
-        REL_TAR="rmw-$VERSION.tar"
-        xz -d $REL_TAR.xz
-        tar --delete -f $REL_TAR rmw-$VERSION/packaging
-        xz $REL_TAR
-        sha256sum $REL_TAR.xz > $REL_TAR.xz.sha256sum
+        REL_TAR="rmw-${VERSION}.tar"
+        xz -d ${REL_TAR}.xz
+        tar --delete -f ${REL_TAR} rmw-${VERSION}/packaging
+        xz ${REL_TAR}
+        sha256sum ${REL_TAR}.xz > ${REL_TAR}.xz.sha256sum
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -77,7 +77,7 @@ jobs:
     - name: Create sha256sum
       run: |
         cd output
-        sha256sum rmw_$VERSION_amd64.deb > ../rmw_$VERSION_amd64.deb.sha256sum
+        sha256sum rmw_${VERSION}_amd64.deb > ../rmw_${VERSION}_amd64.deb.sha256sum
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
