@@ -16,7 +16,7 @@ jobs:
       with:
         submodules: true
     - name: Install dependencies
-      run: apt install -y meson ninja xz-utils
+      run: sudo apt install -y meson ninja xz-utils
     - name:
       run: |
         meson setup builddir
@@ -57,7 +57,7 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         allowUpdates: false
-        artifacts: ${{ github.workspace }}/rmw*.AppImage*
+        artifacts: ${{ github.workspace }}/packaging/appimage/rmw*.AppImage*
         token: ${{ secrets.GITHUB_TOKEN }}
         omitNameDuringUpdate: True
         omitBodyDuringUpdate: True
@@ -79,6 +79,7 @@ jobs:
         cd output
         VERSION="${GITHUB_REF_NAME##v}"
         sha256sum rmw_$VERSION_amd64.deb > rmw_$VERSION_amd64.deb.sha256sum
+        chmod o+r rmw_$VERSION_amd64.deb.sha256sum
     - name: Release deb package
       uses: ncipollo/release-action@v1
       with:
