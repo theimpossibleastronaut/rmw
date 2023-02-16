@@ -363,10 +363,8 @@ damage of 5000 hp. You feel satisfied.\n"));
 
     if (!waste_folder_on_same_filesystem)
     {
-      print_msg_warn();
-      printf(_("No suitable filesystem found for \"%s\"\n"), argv[file_arg]);
-      printf(_("No WASTE folder defined in '%s' that resides on the same \
-filesystem as '%s'.\n"),  st_location->config_file, argv[file_arg]);
+      printf(_(" :'%s' not ReMoved:\n"), argv[file_arg]);
+      printf(_("No WASTE folder defined in '%s' that resides on the same filesystem.\n"),  st_location->config_file);
       free(st_target.real_path);
     }
   }
