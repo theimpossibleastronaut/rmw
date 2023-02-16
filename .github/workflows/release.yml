@@ -83,6 +83,6 @@ jobs:
       with:
         name: rmw_debian_pkg
         path: |
-          **/output/*.deb
-          **/*deb.sha256sum
+          output/*.deb
+          *deb.sha256sum
         if-no-files-found: error
