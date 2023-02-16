@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-15 21:06-0600\n"
+"POT-Creation-Date: 2023-02-15 21:19-0600\n"
 "PO-Revision-Date: 2022-10-14 23:11+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -196,7 +196,7 @@ msgstr ""
 msgid "  :error: "
 msgstr "  :Fehler: "
 
-#: src/main.c:366
+#: src/main.c:368
 #, fuzzy, c-format
 msgid " :'%s' not ReMoved:\n"
 msgstr "'%s' nicht gefunden\n"
@@ -228,7 +228,7 @@ msgid_plural "%d items purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/main.c:379
+#: src/main.c:383
 #, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
@@ -300,7 +300,7 @@ msgstr "%s angelegt\n"
 msgid "Created directory %s\n"
 msgstr "Verzeichnis %s angelegt\n"
 
-#: src/main.c:512
+#: src/main.c:516
 msgid "Creating default configuration file:"
 msgstr "Erzeuge Standard-Konfigurationsdatei:"
 
@@ -309,7 +309,7 @@ msgstr "Erzeuge Standard-Konfigurationsdatei:"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelte Dateiname im Zielverzeichnis, hänge Zeitstempel an...\n"
 
-#: src/main.c:698
+#: src/main.c:701
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -318,7 +318,7 @@ msgstr ""
 "Fehlende Kommandozeilenoptionen \n"
 "Gib '%s -h' ein, um mehr Informationen zu erhalten\n"
 
-#: src/main.c:367
+#: src/main.c:370
 #, c-format
 msgid "No WASTE folder defined in '%s' that resides on the same filesystem.\n"
 msgstr ""
@@ -402,16 +402,16 @@ msgstr "Benutze '%s --help' um weitere Hilfe zu erhalten.\n"
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr "Verwende '%s ./%s' um die Datei '%s' zu entferne.\n"
 
-#: src/main.c:599
+#: src/main.c:603
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Es kann nicht weitergemacht werden. Abbruch...\n"
 
-#: src/main.c:521
+#: src/main.c:525
 msgid "Unable to read or write a configuration file."
 msgstr "Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden."
 
-#: src/config_rmw.c:381
+#: src/config_rmw.c:382
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
@@ -440,11 +440,11 @@ msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 "Ihr Terminal hat nur %d Zeilen. Es werden mindestens %d Zeilen benötigt.\n"
 
-#: src/config_rmw.c:441
+#: src/config_rmw.c:442
 msgid "attached"
 msgstr "angeschlossen"
 
-#: src/config_rmw.c:441
+#: src/config_rmw.c:442
 msgid "detached"
 msgstr "entfernt"
 
@@ -457,7 +457,7 @@ msgstr "Testmodus eingeschaltet."
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "Format von .trashinfo `Datei %s` ist fehlerhaft"
 
-#: src/config_rmw.c:391
+#: src/config_rmw.c:392
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -470,7 +470,7 @@ msgstr ""
 "Wenn Sie weitere Hilfe brauchen oder einen Fehler melden wollen,\n"
 "besuchen die rmw-Webseite unter\n"
 
-#: src/main.c:624
+#: src/main.c:628
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "Papierkorbleerung wurde übersprungen: verwende -f oder --force\n"
@@ -484,7 +484,7 @@ msgstr ""
 "Papierkorbleerung ist deaktiviert ('%s' steht auf '0')\n"
 "\n"
 
-#: src/config_rmw.c:439
+#: src/config_rmw.c:440
 #, c-format
 msgid "removable, "
 msgstr "löschbar, "
@@ -515,7 +515,7 @@ msgstr ""
 "weiterverbreiten; siehe <http://www.gnu.org/licenses/gpl.html>\n"
 "für Details.\n"
 
-#: src/main.c:594
+#: src/main.c:598
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -549,7 +549,7 @@ msgstr "beim Anlegen von %s\n"
 msgid "while creating %s (%s)\n"
 msgstr "beim Anlegen von %s (%s)\n"
 
-#: src/main.c:575
+#: src/main.c:579
 msgid "while getting the path to your home directory\n"
 msgstr "beim Ermitteln des Pfades zu Ihrem Home-Verzeichnises.\n"
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.8.0-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-15 21:06-0600\n"
+"POT-Creation-Date: 2023-02-15 21:19-0600\n"
 "PO-Revision-Date: 2018-10-14 20:48+0000\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/aalt/"
 "teams/92532/pt_BR/)\n"
@@ -161,7 +161,7 @@ msgstr ""
 msgid "  :error: "
 msgstr ""
 
-#: src/main.c:366
+#: src/main.c:368
 #, c-format
 msgid " :'%s' not ReMoved:\n"
 msgstr ""
@@ -191,7 +191,7 @@ msgid_plural "%d items purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/main.c:379
+#: src/main.c:383
 #, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
@@ -263,7 +263,7 @@ msgstr "Criou %s\n"
 msgid "Created directory %s\n"
 msgstr "Diretório criado %s\n"
 
-#: src/main.c:512
+#: src/main.c:516
 msgid "Creating default configuration file:"
 msgstr ""
 
@@ -273,14 +273,14 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 "Duplica de nome do ficheiro no destino - adicionando linha com horas...\n"
 
-#: src/main.c:698
+#: src/main.c:701
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
 "Enter '%s -h' for more information\n"
 msgstr ""
 
-#: src/main.c:367
+#: src/main.c:370
 #, c-format
 msgid "No WASTE folder defined in '%s' that resides on the same filesystem.\n"
 msgstr ""
@@ -365,16 +365,16 @@ msgstr ""
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr ""
 
-#: src/main.c:599
+#: src/main.c:603
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
 
-#: src/main.c:521
+#: src/main.c:525
 msgid "Unable to read or write a configuration file."
 msgstr ""
 
-#: src/config_rmw.c:381
+#: src/config_rmw.c:382
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
@@ -395,11 +395,11 @@ msgstr ""
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#: src/config_rmw.c:441
+#: src/config_rmw.c:442
 msgid "attached"
 msgstr ""
 
-#: src/config_rmw.c:441
+#: src/config_rmw.c:442
 msgid "detached"
 msgstr ""
 
@@ -412,7 +412,7 @@ msgstr ""
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr ""
 
-#: src/config_rmw.c:391
+#: src/config_rmw.c:392
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -421,7 +421,7 @@ msgid ""
 "visit the rmw web site at\n"
 msgstr ""
 
-#: src/main.c:624
+#: src/main.c:628
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "A purga foi ignorada: use -f ou --force\n"
@@ -433,7 +433,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/config_rmw.c:439
+#: src/config_rmw.c:440
 #, c-format
 msgid "removable, "
 msgstr ""
@@ -463,7 +463,7 @@ msgstr ""
 "sob certas condições; Veja <http://www.gnu.org/licenses/gpl.html>\n"
 "para mais detalhes.\n"
 
-#: src/main.c:594
+#: src/main.c:598
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -494,7 +494,7 @@ msgstr ""
 msgid "while creating %s (%s)\n"
 msgstr ""
 
-#: src/main.c:575
+#: src/main.c:579
 msgid "while getting the path to your home directory\n"
 msgstr ""
 

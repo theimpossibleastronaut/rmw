@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-15 21:06-0600\n"
+"POT-Creation-Date: 2023-02-15 21:19-0600\n"
 "PO-Revision-Date: 2020-04-18 12:26+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -175,7 +175,7 @@ msgstr ""
 msgid "  :error: "
 msgstr "   :galati: "
 
-#: src/main.c:366
+#: src/main.c:368
 #, c-format
 msgid " :'%s' not ReMoved:\n"
 msgstr ""
@@ -208,7 +208,7 @@ msgid_plural "%d items purged"
 msgstr[0] "%d failen sudhikaran ki gayi hai"
 msgstr[1] "%d file sudhikaran ki gayi hai"
 
-#: src/main.c:379
+#: src/main.c:383
 #, fuzzy, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
@@ -280,7 +280,7 @@ msgstr "Banaya gaya %s\n"
 msgid "Created directory %s\n"
 msgstr "Yeh directory banayi gayi %s\n"
 
-#: src/main.c:512
+#: src/main.c:516
 msgid "Creating default configuration file:"
 msgstr "configuration file banate waqt:"
 
@@ -289,7 +289,7 @@ msgstr "configuration file banate waqt:"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "behrupi file ka naam hai manzil par - sanlagn wakht par string \n"
 
-#: src/main.c:698
+#: src/main.c:701
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -299,7 +299,7 @@ msgstr ""
 "Dabaye '%s -h' adhik jankari ke liye\n"
 " \n"
 
-#: src/main.c:367
+#: src/main.c:370
 #, c-format
 msgid "No WASTE folder defined in '%s' that resides on the same filesystem.\n"
 msgstr ""
@@ -372,17 +372,17 @@ msgstr ""
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr ""
 
-#: src/main.c:599
+#: src/main.c:603
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Jaari nahi rakh saka. Bahar jaa raha hai….\n"
 
-#: src/main.c:521
+#: src/main.c:525
 #, fuzzy
 msgid "Unable to read or write a configuration file."
 msgstr "Nahi padha or likha jaa raha configuration file\n"
 
-#: src/config_rmw.c:381
+#: src/config_rmw.c:382
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unjana ya galat bikalp: '%s'\n"
@@ -403,11 +403,11 @@ msgstr ""
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#: src/config_rmw.c:441
+#: src/config_rmw.c:442
 msgid "attached"
 msgstr "jodagaya"
 
-#: src/config_rmw.c:441
+#: src/config_rmw.c:442
 #, fuzzy
 msgid "detached"
 msgstr "jodagaya"
@@ -421,7 +421,7 @@ msgstr "dry-run mode hai"
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "praroop .trashinfo file ki 'file %s' galat hai"
 
-#: src/config_rmw.c:391
+#: src/config_rmw.c:392
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -434,7 +434,7 @@ msgstr ""
 "agar aapko madad ki ya koi galti batani hai\n"
 "aap rmw web site par karen\n"
 
-#: src/main.c:624
+#: src/main.c:628
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "sudhikaran nahi kiya gaya: -f or --force ka istemal karen\n"
@@ -446,7 +446,7 @@ msgid ""
 "\n"
 msgstr "sudhikaran nahi kiya jaa sakta('purge_after' ko '0' karen)\n"
 
-#: src/config_rmw.c:439
+#: src/config_rmw.c:440
 #, c-format
 msgid "removable, "
 msgstr "hataya ja sakta hai, "
@@ -468,7 +468,7 @@ msgid ""
 "for details.\n"
 msgstr ""
 
-#: src/main.c:594
+#: src/main.c:598
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -502,7 +502,7 @@ msgstr "banate wakht %s\n"
 msgid "while creating %s (%s)\n"
 msgstr "banate wakht %s\n"
 
-#: src/main.c:575
+#: src/main.c:579
 msgid "while getting the path to your home directory\n"
 msgstr "home directory ka rasta milte wakht\n"
 
