@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2023-02-15
+
+  * change message displayed to user when a file being rmw'ed is on a
+  filesystem that doesn't haven't a WASTE folder defined
+
 2023-02-06
 
   + Ignore requests to ReMove top-level files, add --top-level-bypass option
