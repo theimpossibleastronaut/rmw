@@ -1,14 +1,17 @@
 === RMW Release Notes ===
 
-v0.8.1
+v0.9.0
 
-  * the curses menu library is now much more likely to be found on *BSD
-  systems
-
-  * bugfix: when attempting to restore a file from a waste folder
-  listed in the config file that has a trailing slash, rmw will no
-  longer report that the file is not in a waste folder.
-
-  - curses is no longer a requirement (configure -Dwithout-curses=true)
-
-  - removed '-e' command line option ('--empty' option not affected)
+  - When purging, '-ff' is no longer needed to confirm removal of
+  non-writable expired directories and files
+  * replace function used to remove directories with rm from FreeBSD;
+  Thanks to @DiegoMagdaleno and @dcantrell
+  * change message displayed to user when a file being rmw'ed is on a
+  filesystem that doesn't haven't a WASTE folder defined
+  + Ignore requests to ReMove top-level files, add --top-level-bypass option
+  to bypass the protection
+  + Ignore requests to ReMove user's home directory
+    * bugfix: buffer underflow when calling trim_char() with empty
+  string (Thanks to Christopher Wellons)
+  * replace valgrind test setup with asan (-fsanitize)
+  * the 'ESC' key can now be used to quit the restore file selection menu

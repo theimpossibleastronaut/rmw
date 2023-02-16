@@ -1,4 +1,4 @@
-# rmw-0.8.1.555
+# rmw-0.9.0
 ## Description
 
 rmw (ReMove to Waste) is a safe-remove utility for the command line. It
