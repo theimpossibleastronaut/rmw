@@ -363,7 +363,7 @@ unescape_url(const char *str)
 bool
 isdotdir(const char *dir)
 {
-  return (strcmp(dir, ".") == 0 || strcmp (dir, "..") == 0);
+  return (strcmp(dir, ".") == 0 || strcmp(dir, "..") == 0);
 }
 
 
@@ -460,7 +460,8 @@ real_join_paths(const char *argv, ...)
   return path;
 }
 
-bool is_dir_f(const char *pathname)
+bool
+is_dir_f(const char *pathname)
 {
   // O_FOLLOW is needed, otherwise the a symlink to a directory
   // would be detected as a directory, which we don't want
@@ -636,7 +637,7 @@ test_trim_char(void)
 
 
 static void
-test_is_dir_f(const char* const homedir)
+test_is_dir_f(const char *const homedir)
 {
   assert(is_dir_f("."));
   char *foobar = join_paths(homedir, "foobar");

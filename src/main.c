@@ -178,7 +178,7 @@ remove_to_waste(const int argc,
                 char *const argv[],
                 st_waste * waste_head,
                 st_time * st_time_var,
-                const st_loc *st_location,
+                const st_loc * st_location,
                 const rmw_options * cli_user_options)
 {
   rmw_target st_target;
@@ -310,7 +310,9 @@ damage of 5000 hp. You feel satisfied.\n"));
 
         /* If a duplicate file exists
          */
-        if ((st_target.is_duplicate = check_pathname_state(st_target.waste_dest_name)) == P_STATE_EXISTS)
+        if ((st_target.is_duplicate =
+             check_pathname_state(st_target.waste_dest_name)) ==
+            P_STATE_EXISTS)
         {
           // append a time string
           bufchk_len(strlen(st_target.waste_dest_name) +
@@ -364,7 +366,9 @@ damage of 5000 hp. You feel satisfied.\n"));
     if (!waste_folder_on_same_filesystem)
     {
       printf(_(" :'%s' not ReMoved:\n"), argv[file_arg]);
-      printf(_("No WASTE folder defined in '%s' that resides on the same filesystem.\n"),  st_location->config_file);
+      printf(_
+             ("No WASTE folder defined in '%s' that resides on the same filesystem.\n"),
+             st_location->config_file);
       free(st_target.real_path);
     }
   }
@@ -667,8 +671,7 @@ Please check your configuration file and permissions\
       msg_warn_restore(restore_errors += restore(argv[file_arg],
                                                  &st_time_var,
                                                  &cli_user_options,
-                                                 st_config_data.
-                                                 st_waste_folder_props_head));
+                                                 st_config_data.st_waste_folder_props_head));
 
     dispose_waste(st_config_data.st_waste_folder_props_head);
 

@@ -33,7 +33,7 @@ bufchk_len(const size_t len, const size_t boundary, const char *func,
 
 void
 real_sn_check(const size_t len, const size_t dest_boundary, const char *func,
-         const int line);
+              const int line);
 
 void trim_whitespace(char *str);
 

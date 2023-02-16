@@ -26,7 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "trashinfo_rmw.h"
 
-enum {
+enum
+{
   P_STATE_ERR = -1,
   P_STATE_ENOENT,
   P_STATE_EXISTS
