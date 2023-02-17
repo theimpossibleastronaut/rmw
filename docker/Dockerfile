@@ -1,22 +1,17 @@
-FROM andy5995/rmw-build-env:bullseye
+FROM andy5995/rmw-build-env:alpine
 
+RUN git clone --depth 1 https://github.com/theimpossibleastronaut/rmw
 WORKDIR /rmw
-RUN git clone --depth 1 https://github.com/theimpossibleastronaut/rmw src
-WORKDIR /rmw/src
-RUN meson setup ../builddir \
-  --prefix=/usr
-
+RUN LDFLAGS=-lfts meson setup builddir --buildtype=release -Db_sanitize=none --prefix=/usr
 WORKDIR /rmw/builddir
-RUN ninja
+RUN ninja -v && meson test -v
 RUN DESTDIR=/tmp/rmw ninja install
 
-FROM debian:bullseye-slim
+FROM alpine
 COPY --from=0 /tmp/rmw/ /
-RUN apt-get update && apt-get -y install \
-      libncursesw6  \
-      libasan6  \
-      libubsan1 \
-      man \
-    && rm -rf /var/lib/apt/lists
+RUN apk add \
+      mandoc \
+      musl-fts \
+      ncurses
 
-CMD ["/bin/bash","-l"]
+CMD ["/bin/sh","-l"]
