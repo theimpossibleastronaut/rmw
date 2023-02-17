@@ -1,0 +1,14 @@
+FROM alpine
+
+RUN apk update
+RUN apk add \
+      gcc \
+      gettext \
+      git \
+      meson \
+      musl-dev \
+      musl-fts-dev \
+      musl-libintl \
+      ncurses-dev
+
+CMD ["/bin/sh","-l"]

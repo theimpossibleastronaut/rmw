@@ -38,5 +38,3 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/rmw:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/rmw:buildcache,mode=max
