@@ -1,6 +1,6 @@
 name: Release
 concurrency:
-  group: build-${{ github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 on:
