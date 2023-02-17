@@ -18,7 +18,7 @@ APPDIR="$WORKSPACE/packaging/appimage/AppDir"
 BUILD_DIR="$WORKSPACE/packaging/appimage/builddir"
 
 cd "$WORKSPACE"
-meson setup "$BUILD_DIR" -Dbuildtype=release -Dstrip=true -Dprefix=/usr
+meson setup "$BUILD_DIR" -Dbuildtype=release -Dstrip=true -Db_sanitize=none -Dprefix=/usr
 
 rm -rf "$APPDIR"
 DESTDIR="$APPDIR" ninja -C "$BUILD_DIR" install

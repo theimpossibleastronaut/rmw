@@ -86,6 +86,7 @@ cd build
   meson .. \
     --buildtype=release \
     -Dstrip=true \
+    -Db_sanitize=none \
     --mandir=/usr/man \
     --prefix=/usr \
     --localedir=/usr/share/locale \
