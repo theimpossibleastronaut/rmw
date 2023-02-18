@@ -93,7 +93,7 @@ jobs:
       run: |
         echo "PKG_CONFIG_PATH=/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}" >> $GITHUB_ENV
         pip3 install meson ninja
-        brew install ncurses
+        brew install ncurses pkg-config
 
     #- if: ${{ contains(matrix.os, 'ubuntu') }}
       #run: |
