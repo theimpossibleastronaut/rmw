@@ -30,7 +30,7 @@ jobs:
   build:
     name: ${{ matrix.build.name }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         build:
           - name: ubuntu-20.04-gcc
