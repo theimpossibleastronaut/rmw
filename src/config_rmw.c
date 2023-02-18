@@ -183,7 +183,10 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   bufchk_len(strlen(node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
   char tmp_waste_parent_folder[LEN_MAX_PATH];
   trim_char('/', node->value);
-  strcpy(tmp_waste_parent_folder, node->value);
+
+  sn_check(snprintf(tmp_waste_parent_folder, sizeof tmp_waste_parent_folder,
+    "%s", node->value), sizeof tmp_waste_parent_folder);
+
   if (realize_str(tmp_waste_parent_folder, homedir, uid) != 0)
   {
     print_msg_error();
@@ -201,7 +204,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   }
 
   st_waste *temp_node = malloc(sizeof(st_waste));
-  chk_malloc(temp_node, __func__, __LINE__);
+  if (!temp_node)
+    fatal_malloc();
 
   if (waste_curr != NULL)
   {
@@ -220,7 +224,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
 
   /* make the parent... */
   waste_curr->parent = malloc(strlen(tmp_waste_parent_folder) + 1);
-  chk_malloc(waste_curr->parent, __func__, __LINE__);
+  if (!waste_curr->parent)
+    fatal_malloc();
   strcpy(waste_curr->parent, tmp_waste_parent_folder);
 
   /* and the files... */

@@ -97,6 +97,8 @@ rmw_dirname(char *path)
 int
 rmw_mkdir(const char *dir, mode_t mode)
 {
+  if (!dir)
+    return -1;
   if (check_pathname_state(dir) == P_STATE_EXISTS)
   {
     errno = EEXIST;
@@ -517,6 +519,7 @@ test_rmw_mkdir(const char *h)
   if (check_pathname_state(dir) == P_STATE_EXISTS)
     assert(bsdutils_rm(dir, verbose) == 0);
   assert(rmw_mkdir(dir, S_IRWXU) == 0);
+  assert(dir);
   printf("%s\n", dir);
   assert(check_pathname_state(dir) == P_STATE_EXISTS);
   assert(bsdutils_rm(dir, verbose) == 0);

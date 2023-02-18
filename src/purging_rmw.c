@@ -271,7 +271,10 @@ purge(st_config * st_config_data,
     struct dirent *st_trashinfo_dir_entry;
     DIR *trashinfo_dir = opendir(waste_curr->info);
     if (trashinfo_dir == NULL)
+    {
       msg_err_open_dir(waste_curr->info, __func__, __LINE__);
+      exit(errno);
+    }
 
     if (verbose)
       print_header(waste_curr->files);
@@ -354,7 +357,10 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
     DIR *files;
     files = opendir(waste_curr->files);
     if (files == NULL)
+    {
       msg_err_open_dir(waste_curr->files, __func__, __LINE__);
+      exit(errno);
+    }
 
     while ((entry = readdir(files)) != NULL)
     {

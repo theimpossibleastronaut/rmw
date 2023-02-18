@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define BUFSIZ 8192
 #endif
 
+#define fatal_malloc() real_fatal_malloc(__func__, __LINE__)
+
 void print_msg_error(void);
 
 void print_msg_warn(void);
@@ -39,6 +41,8 @@ void display_dot_trashinfo_error(const char *dti);
 void msg_warn_restore(int result);
 
 void chk_malloc(void *state, const char *func, const int line);
+
+void real_fatal_malloc(const char *func, const int line);
 
 void msg_err_close_dir(const char *dir, const char *func, const int line);
 

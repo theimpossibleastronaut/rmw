@@ -309,6 +309,7 @@ restore_select(st_waste * waste_head, st_time * st_time_var,
       /* we don't want errno to be changed because it's used in msg_error_open_dir()
        * but afaik, endwin() doesn't change errno */
       msg_err_open_dir(waste_curr->files, __func__, __LINE__);
+      exit(errno);
     }
 
     /*

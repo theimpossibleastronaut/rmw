@@ -125,9 +125,19 @@ chk_malloc(void *state, const char *func, const int line)
   {
     print_msg_error();
     printf(_("while attempting to allocate memory -- %s:L%d\n"), func, line);
-    exit(ENOMEM);
+    // exit(ENOMEM);
+    return;
   }
   return;
+}
+
+
+void
+real_fatal_malloc(const char *func, const int line)
+{
+  print_msg_error();
+  printf(_("while attempting to allocate memory -- %s:L%d\n"), func, line);
+  exit(ENOMEM);
 }
 
 
@@ -144,9 +154,8 @@ void
 msg_err_open_dir(const char *dir, const char *func, const int line)
 {
   print_msg_error();
-  fprintf(stderr, _("while opening %s -- %s:L%d\n"), dir, func, line);
-  perror("opendir()");
-  exit(errno);
+  fprintf(stderr, _("while opening %s -- %s:L%d\n%s\n"), dir, func, line, strerror(errno));
+  return;
 }
 
 void
