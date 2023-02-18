@@ -1,4 +1,3 @@
-Remove "development version" notice from README
 
 Change version number
   ./meson.build
@@ -8,8 +7,6 @@ Change version number
   packaging/Slackbuild/rmw/rmw.Slackbuild
   packaging/file_id.diz (filegate.net)
   cd packaging and run 'dch -r' (updates the changelog timestamp in debian/
-
-cp README.md packaging/Slackbuild/rmw/README.Slackware
 
 For later Debian package creation, check standards version
   https://www.debian.org/doc/debian-policy/upgrading-checklist.html
