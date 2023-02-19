@@ -61,10 +61,11 @@ jobs:
           - name: ubuntu-22.04-without-curses
             os: ubuntu-22.04
             setup: -Dwithout-curses=true
-          - name: macos-latest
+          - name: macos-latest-brew-canfigger
             os: macos-latest
-            env:
-              PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}"
+            install_packages: canfigger
+          - name: macos-latest-bundled-canfigger
+            os: macos-latest
 
     runs-on: ${{ matrix.build.os }}
     container: ${{ matrix.build.container }}
@@ -93,7 +94,10 @@ jobs:
       run: |
         echo "PKG_CONFIG_PATH=/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}" >> $GITHUB_ENV
         pip3 install meson ninja
-        brew install ncurses pkg-config
+        brew install \
+          ncurses \
+          pkg-config \
+          ${{ matrix.build.install_packages }}
 
     #- if: ${{ contains(matrix.os, 'ubuntu') }}
       #run: |
