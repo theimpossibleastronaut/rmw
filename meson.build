@@ -30,6 +30,17 @@ foreach cflag : extra_flags
   endif
 endforeach
 
+# gcc-12 gives false positives.
+disable_flag = [
+  '-Wno-analyzer-malloc-leak',
+  '-Wno-analyzer-null-argument'
+  ]
+foreach cflag : disable_flag
+  if cc.get_id() == 'gcc' and cc.version().startswith('12.')
+    add_project_arguments(disable_flag, language: 'c')
+  endif
+endforeach
+
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_STRING', meson.project_name())
