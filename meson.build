@@ -24,21 +24,16 @@ extra_flags = [
 # '-Wconversion'
   ]
 
-foreach cflag : extra_flags
-  if cc.has_argument(cflag)
-    add_project_arguments(cflag, language: 'c')
-  endif
-endforeach
+add_project_arguments(cc.get_supported_arguments(extra_flags), language: 'c')
 
 # Sometimes false positives are reported. Disabling...
 disable_flag = [
   '-Wno-analyzer-malloc-leak',
   '-Wno-analyzer-null-argument'
   ]
-foreach cflag : disable_flag
+
 #  if cc.get_id() == 'gcc' and cc.version().startswith('12.')
-  add_project_arguments(cc.get_supported_arguments(disable_flag), language: 'c')
-endforeach
+add_project_arguments(cc.get_supported_arguments(disable_flag), language: 'c')
 
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
