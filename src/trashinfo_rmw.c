@@ -62,8 +62,8 @@ create_trashinfo(rmw_target * st_f_props, st_waste * waste_curr,
     strlen(tmp_final_info_dest) + len_trashinfo_ext +
     (st_f_props->is_duplicate ? (LEN_MAX_TIME_STR_SUFFIX - 1) : 0) + 1;
   bufchk_len(req_len, LEN_MAX_PATH, __func__, __LINE__);
-  tmp_final_info_dest = realloc(tmp_final_info_dest, req_len);
-  chk_malloc(tmp_final_info_dest, __func__, __LINE__);
+  if (!(tmp_final_info_dest = realloc(tmp_final_info_dest, req_len)))
+    fatal_malloc();
   if (!tmp_final_info_dest)
     exit(ENOMEM);
   char final_info_dest[req_len];
@@ -179,9 +179,9 @@ parse_trashinfo_file(const char *file, const char *req_value)
         {
           trashinfo_field.f.date_str_ptr = strchr(fp_line, '=');
           trashinfo_field.f.date_str_ptr++;
-          trashinfo_field.value =
-            malloc(strlen(trashinfo_field.f.date_str_ptr) + 1);
-          chk_malloc(trashinfo_field.value, __func__, __LINE__);
+          if (!(trashinfo_field.value =
+            malloc(strlen(trashinfo_field.f.date_str_ptr) + 1)))
+          fatal_malloc();
           strcpy(trashinfo_field.value, trashinfo_field.f.date_str_ptr);
         }
         break;

@@ -221,7 +221,8 @@ create_file_details_str(const off_t size, const mode_t mode)
   make_size_human_readable(size, hr_size);
 
   char *file_details = malloc(LEN_MAX_FILE_DETAILS);
-  chk_malloc(file_details, __func__, __LINE__);
+  if (!file_details)
+    fatal_malloc();
   sn_check(snprintf
            (file_details, LEN_MAX_FILE_DETAILS, "[%s]", hr_size),
            LEN_MAX_FILE_DETAILS);
@@ -334,7 +335,8 @@ restore_select(st_waste * waste_head, st_time * st_time_var,
     //
     // Why is the '+1' needed here? (rmw segfaults without it)
     ITEM **my_items = (ITEM **) calloc(n_choices + 1, sizeof(ITEM *));
-    chk_malloc(my_items, __func__, __LINE__);
+    if (!my_items)
+      fatal_malloc();
 
     rewinddir(waste_dir);
     n_choices = 0;
@@ -353,7 +355,8 @@ restore_select(st_waste * waste_head, st_time * st_time_var,
         msg_err_lstat(tmp_path, __func__, __LINE__);
       free(tmp_path);
       char *m_dir_entry = malloc(strlen(entry->d_name) + 1);
-      chk_malloc(m_dir_entry, __func__, __LINE__);
+      if (!m_dir_entry)
+        fatal_malloc();
       sn_check(snprintf(m_dir_entry, LEN_MAX_PATH, "%s", entry->d_name),
                LEN_MAX_PATH);
       char *file_details = create_file_details_str(st.st_size, st.st_mode);

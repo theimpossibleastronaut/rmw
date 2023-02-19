@@ -74,12 +74,13 @@ close_file(FILE * file_ptr, const char *filename, const char *function_name)
     return 0;
   else
   {
+    int dup_errno = errno;
     /* TRANSLATORS:  "closing" refers to a file  */
     print_msg_error();
     fprintf(stderr, _("while closing %s\n\
 function: <%s>\n\
-%s\n"), filename, function_name, strerror(errno));
-    return errno;
+%s\n"), filename, function_name, strerror(dup_errno));
+    return dup_errno;
   }
 }
 
@@ -118,25 +119,12 @@ msg_warn_restore(int result)
   return;
 }
 
-void
-chk_malloc(void *state, const char *func, const int line)
-{
-  if (state == NULL)
-  {
-    print_msg_error();
-    printf(_("while attempting to allocate memory -- %s:L%d\n"), func, line);
-    // exit(ENOMEM);
-    return;
-  }
-  return;
-}
-
 
 void
 real_fatal_malloc(const char *func, const int line)
 {
   print_msg_error();
-  printf(_("while attempting to allocate memory -- %s:L%d\n"), func, line);
+  fprintf(stderr, _("while attempting to allocate memory -- %s:L%d\n"), func, line);
   exit(ENOMEM);
 }
 

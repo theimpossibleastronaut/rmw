@@ -34,57 +34,65 @@ process_mrl(st_waste * waste_head,
             const char *mrl_file, rmw_options * cli_user_options)
 {
   char *contents = NULL;
-  FILE *fd = fopen(mrl_file, "r");
-  if (fd != NULL)
+  FILE *fp = fopen(mrl_file, "r");
+  if (fp != NULL)
   {
-    fseek(fd, 0, SEEK_END);     // move to the end of the file so we can use ftell()
-    const int f_size = ftell(fd);       // Get the size of the file
-    rewind(fd);
+    fseek(fp, 0, SEEK_END);     // move to the end of the file so we can use ftell()
+    const int f_size = ftell(fp);       // Get the size of the file
+    rewind(fp);
 
     contents = calloc(1, f_size + 1);
-    chk_malloc(contents, __func__, __LINE__);
-    int n_items = fread(contents, 1, f_size + 1, fd);
+    if (!contents)
+      fatal_malloc();
+
+    int n_items = fread(contents, 1, f_size + 1, fp);
     if (n_items != f_size)
     {
       print_msg_warn();
       fprintf(stdout, "ftell() returned %d, but fread() returned %d", f_size,
               n_items);
     }
-    if (feof(fd) == 0)
+    if (feof(fp) == 0)
     {
       print_msg_error();
       fprintf(stderr, "while reading %s\n", mrl_file);
-      clearerr(fd);
+      clearerr(fp);
     }
-    close_file(fd, mrl_file, __func__);
+    close_file(fp, mrl_file, __func__);
   }
   else
-    contents = (char *) mrl_is_empty;
-
-  int res = 0;
-  if (contents != NULL)
   {
-    if (!strcmp(contents, mrl_is_empty))
-      puts(_("There are no items in the list - please check back later.\n"));
-    else if (cli_user_options->most_recent_list)
+    if (errno == ENOENT)
     {
-      printf("%s", contents);
-      if (cli_user_options->want_undo)
-        puts(_
-             ("Skipping --undo-last because --most-recent-list was requested"));
+      contents = (char *) mrl_is_empty;
+      errno = 0;
     }
     else
-      res =
-        undo_last_rmw(st_time_var, mrl_file, cli_user_options, contents,
-                      waste_head);
-
-    if (contents != NULL && contents != mrl_is_empty)
-      free(contents);
-
-    return res;
+    {
+      fprintf(stderr, "open mrl failed: %s\n", strerror(errno));
+      return -1;
+    }
   }
-  fprintf(stderr, "A 'NULL' was returned when trying to read the list\n");
-  return -1;
+
+  int res = 0;
+
+  if (!strcmp(contents, mrl_is_empty))
+    puts(_("There are no items in the list - please check back later.\n"));
+  else if (cli_user_options->most_recent_list)
+  {
+    printf("%s", contents);
+    if (cli_user_options->want_undo)
+      puts(_
+           ("Skipping --undo-last because --most-recent-list was requested"));
+  }
+  else
+    res =
+      undo_last_rmw(st_time_var, mrl_file, cli_user_options, contents,
+                    waste_head);
+
+  if (contents != NULL && contents != mrl_is_empty)
+    free(contents);
+  return res;
 }
 
 
@@ -98,13 +106,14 @@ add_removal(st_removed * removals, const char *file)
   if (removals == NULL)
   {
     st_removed *temp_node = (st_removed *) malloc(sizeof(st_removed));
-    chk_malloc(temp_node, __func__, __LINE__);
+    if (!temp_node)
+      fatal_malloc();
     removals = temp_node;
   }
   else
   {
-    removals->next_node = (st_removed *) malloc(sizeof(st_removed));
-    chk_malloc(removals->next_node, __func__, __LINE__);
+    if (!(removals->next_node = (st_removed *) malloc(sizeof(st_removed))))
+      fatal_malloc();
     removals = removals->next_node;
   }
   removals->next_node = NULL;

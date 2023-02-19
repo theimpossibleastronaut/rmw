@@ -290,7 +290,8 @@ escape_url(const char *str)
 {
   int pos_str = 0, pos_dest = 0;
   char *dest = malloc(LEN_MAX_ESCAPED_PATH);
-  chk_malloc(dest, __func__, __LINE__);
+  if (!dest)
+    fatal_malloc();
   *dest = '\0';
 
   while (str[pos_str])
@@ -331,7 +332,8 @@ unescape_url(const char *str)
 {
   int pos_str = 0, pos_dest = 0;
   char *dest = malloc(LEN_MAX_PATH);
-  chk_malloc(dest, __func__, __LINE__);
+  if (!dest)
+    fatal_malloc();
 
   while (str[pos_str])
   {
@@ -435,7 +437,8 @@ char *
 real_join_paths(const char *argv, ...)
 {
   char *path = calloc(1, LEN_MAX_PATH);
-  chk_malloc(path, __func__, __LINE__);
+  if (!path)
+    fatal_malloc();
 
   va_list ap;
   char *str = (char *) argv;
@@ -445,7 +448,8 @@ real_join_paths(const char *argv, ...)
   {
     size_t len = 0;
     char *dup_str = strdup(str);
-    chk_malloc(dup_str, __func__, __LINE__);
+    if (!dup_str)
+      fatal_malloc();
     trim_char('/', dup_str);
     len = strlen(path);
     int max_len = LEN_MAX_PATH - len;
@@ -457,8 +461,8 @@ real_join_paths(const char *argv, ...)
 
   va_end(ap);
   trim_char('/', path);
-  path = realloc(path, strlen(path) + 1);
-  chk_malloc(path, __func__, __LINE__);
+  if (!(path = realloc(path, strlen(path) + 1)))
+    fatal_malloc();
   return path;
 }
 

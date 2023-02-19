@@ -271,8 +271,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
     char tmp[LEN_MAX_PATH];
     strcpy(tmp, waste_curr->parent);
     char *media_root_ptr = rmw_dirname(tmp);
-    waste_curr->media_root = malloc(strlen(media_root_ptr) + 1);
-    chk_malloc(waste_curr->media_root, __func__, __LINE__);
+    if (!(waste_curr->media_root = malloc(strlen(media_root_ptr) + 1)))
+      fatal_malloc();
     strcpy(waste_curr->media_root, media_root_ptr);
     strcpy(tmp, waste_curr->media_root);
     if (!lstat(rmw_dirname(tmp), &mp_st))

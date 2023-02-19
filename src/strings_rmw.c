@@ -168,8 +168,8 @@ test_trim_whitespace()
   assert(errno == 1);
   errno = 0;
 
-  test = calloc(1, BUF_SIZE + 1);
-  chk_malloc(test, __func__, __LINE__);
+  if (!(test = calloc(1, BUF_SIZE + 1)))
+    fatal_malloc();
 
   // handle strings that are empty
   test[0] = '\0';
