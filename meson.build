@@ -30,15 +30,14 @@ foreach cflag : extra_flags
   endif
 endforeach
 
-# gcc-12 gives false positives.
+# Sometimes false positives are reported. Disabling...
 disable_flag = [
   '-Wno-analyzer-malloc-leak',
   '-Wno-analyzer-null-argument'
   ]
 foreach cflag : disable_flag
-  if cc.get_id() == 'gcc' and cc.version().startswith('12.')
-    add_project_arguments(disable_flag, language: 'c')
-  endif
+#  if cc.get_id() == 'gcc' and cc.version().startswith('12.')
+  add_project_arguments(cc.get_supported_arguments(disable_flag), language: 'c')
 endforeach
 
 conf = configuration_data()
