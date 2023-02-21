@@ -1,18 +1,9 @@
-
-# Required on Alpine Linux (and others?)
-# TODO: The "required" kwarg should be "true" but only for systems
-# that require it, such as Alpine Linux
-#
-# This doesn't work because meson.get_external_property() returns 'glibc'
-#
-#dep_musl_fts = []
-#libc_type = meson.get_external_property('libc', 'glibc').to_lower()
-#if libc_type == 'musl' or libc_type == 'musl-libc'
-#  dep_musl_fts = dependency('musl-fts', required: true)
-#endif
-#message(libc_type)
-
-dep_musl_fts = dependency('musl-fts', required: false)
+dep_musl_fts = []
+if cc.has_header_symbol('fts.h', 'fts_open')
+  dep_musl_fts = cc.find_library('fts', required: false)
+else
+  error('You may need to install musl-fts-dev.')
+endif
 
 lib_bsdutilsrm = static_library(
   'bsdutilsrm',
