@@ -132,26 +132,3 @@ jobs:
       run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
     - if: ${{ contains(matrix.build.name, 'dist') }}
       run: cd builddir && meson dist --include-subprojects
-
-  freebsd:
-    runs-on: macos-12
-    name: FreeBSD Test
-    env:
-      PKG_CONFIG_PATH: '/usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}'
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: true
-    - name: Test
-      uses: vmactions/freebsd-vm@v0
-      with:
-        envs: 'PKG_CONFIG_PATH'
-        usesh: true
-        prepare:  |
-          pkg install -y meson ninja gettext pkgconf
-        run: |
-          meson setup builddir
-          cd builddir
-          ninja -v
-          meson test -v
-          meson test -v --setup=fake_media_root --suite rmw

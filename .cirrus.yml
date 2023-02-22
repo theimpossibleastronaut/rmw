@@ -1,0 +1,20 @@
+freebsd_task:
+  name: FreeBSD
+  freebsd_instance:
+    image_family: freebsd-13-1
+
+  env:
+    PKG_CONFIG_PATH: /usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}
+
+  pkginstall_script:
+    - pkg update -f
+    - pkg install -y meson ninja gettext pkgconf
+
+  setup_script:
+    - meson setup builddir
+  build_script:
+    - cd builddir && ninja -v
+  test_script:
+    - cd builddir && meson test -v --suite rmw
+  test_fake_media_root
+    - cd builddir && meson test -v --setup=fake_media_root --suite rmw
