@@ -81,7 +81,7 @@ rmw_dirname(char *path)
       path[1] = '\0';
 
   // No slashes were found
-  if (ptr == &path[0])
+  if (ptr == &path[0] && len >= 1)
     strcpy(path, ".");
 
   return path;
