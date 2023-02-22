@@ -10,18 +10,19 @@ int main(void)
   return -1;
 }'''
 
-dep_musl_fts = []
+fts_flag = ''
 
 if cc.has_header_symbol('fts.h', 'fts_open', required: false)
   if not cc.links(code, name : 'fts link check')
-    dep_musl_fts = dependency('musl-fts', required: true)
+    fts_flag = '-lfts'
+    if not cc.links(code, args: fts_flag, name: 'fts link check')
+      error('You may need to install musl-fts-dev.')
+    endif
   endif
-else
-  error('You may need to install musl-fts-dev.')
 endif
 
 lib_bsdutilsrm = static_library(
   'bsdutilsrm',
   ['rm.c', 'strmode.c'],
-  dependencies: [dep_musl_fts]
+  link_args: fts_flag
 )
