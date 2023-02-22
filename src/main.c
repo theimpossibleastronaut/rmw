@@ -59,6 +59,9 @@ process_mrl(st_waste * waste_head,
       clearerr(fp);
     }
     close_file(fp, mrl_file, __func__);
+    // This fixes a coverity warning, and may be a good idea anyway, since the data read
+    // by fread may not be null-terminated.
+    contents[f_size] = '\0';
   }
   else
   {
