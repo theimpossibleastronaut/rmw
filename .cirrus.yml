@@ -16,5 +16,5 @@ freebsd_task:
     - cd builddir && ninja -v
   test_script:
     - cd builddir && meson test -v --suite rmw
-  test_fake_media_root
+  test_fake_media_root:
     - cd builddir && meson test -v --setup=fake_media_root --suite rmw
