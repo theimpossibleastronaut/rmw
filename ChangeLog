@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2023-02-23
+
+  * fix build on Alpine Linux (check for and link to musl-fts)
+    Thanks to @eli-schwartz and Hello71 from #musl on Libera IRC.
+
 2023-02-15
 
   * change message displayed to user when a file being rmw'ed is on a

@@ -61,6 +61,10 @@ jobs:
           - name: ubuntu-22.04-without-curses
             os: ubuntu-22.04
             setup: -Dwithout-curses=true
+          - name: Alpine
+            os: ubuntu-22.04
+            container: andy5995/rmw-build-env:alpine
+            setup: -Db_sanitize=none
           - name: macos-latest-brew-canfigger
             os: macos-latest
             install_packages: canfigger
