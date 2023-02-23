@@ -1,4 +1,4 @@
-dep_fts = cc.find_library('fts', required: not cc.has_function('fts_read'))
+dep_fts = cc.find_library('fts', required: not cc.has_function('fts_read', prefix: '#include <fts.h>'))
 
 lib_bsdutilsrm = static_library(
   'bsdutilsrm',
