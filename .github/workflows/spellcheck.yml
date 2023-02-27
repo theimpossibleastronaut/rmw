@@ -1,0 +1,16 @@
+name: Spellcheck Action
+
+on:
+  push:
+    branches: master
+  pull_request:
+    branches: master
+
+jobs:
+  spellcheck:
+    name: Spellcheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: rojopolis/spellcheck-github-actions@v0
+      name: Spellcheck
