@@ -1,0 +1,20 @@
+# see https://facelessuser.github.io/pyspelling/filters/html/
+
+matrix:
+- name: Markdown
+  aspell:
+    lang: en
+    ignore-case: true
+  dictionary:
+    wordlists:
+    - .github/wordlist.txt
+    encoding: utf-8
+  pipeline:
+  - pyspelling.filters.markdown:
+      markdown_extensions:
+      - markdown.extensions.extra:
+  - pyspelling.filters.html:
+      comments: true
+  sources:
+  - '**/*.md|!AUTHORS.md'
+  default_encoding: utf-8
