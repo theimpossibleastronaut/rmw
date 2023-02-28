@@ -3,8 +3,18 @@ name: Spellcheck Action
 on:
   push:
     branches: master
+    paths:
+    - '**/**.md'
+    - '**/wordlist.txt'
+    - '**/spellcheck.yml'
+    - '**/spellcheck-config.yml'
   pull_request:
     branches: master
+    paths:
+    - '**/**.md'
+    - '**/wordlist.txt'
+    - '**/spellcheck.yml'
+    - '**/spellcheck-config.yml'
 
 jobs:
   spellcheck:
@@ -14,6 +24,6 @@ jobs:
     - uses: actions/checkout@v3
     - uses: rojopolis/spellcheck-github-actions@v0
       name: Spellcheck
-      continue-on-error: true
+      continue-on-error: false
       with:
         config_path: .github/spellcheck-config.yml

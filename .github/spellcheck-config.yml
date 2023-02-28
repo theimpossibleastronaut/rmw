@@ -16,5 +16,5 @@ matrix:
   - pyspelling.filters.html:
       comments: true
   sources:
-  - '**/*.md'
+  - '**/*.md|!AUTHORS.md'
   default_encoding: utf-8
