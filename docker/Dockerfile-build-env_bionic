@@ -12,7 +12,8 @@ RUN apt update \
     libncurses-dev \
     pkg-config \
     python3-pip \
-  && rm -rf /var/lib/apt/lists
+  && rm -rf /var/lib/apt/lists \
+  && python3 -m pip install --upgrade pip
 RUN python3 -m pip install meson ninja
 
 RUN useradd -U rmwbuilder
