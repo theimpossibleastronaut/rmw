@@ -19,3 +19,17 @@ freebsd_task:
     - cd builddir && meson test -v --suite rmw
   test_fake_media_root:
     - cd builddir && meson test -v --setup=fake_media_root --suite rmw
+
+arm_task:
+  arm_container:
+    image: andy5995/rmw-build-env:bullseye
+  env:
+    CIRRUS_CLONE_SUBMODULES: true
+  setup_script:
+    - meson setup builddir -Db_sanitize=none
+  build_script:
+    - cd builddir && ninja -v
+  test_script:
+    - cd builddir && meson test -v --suite rmw
+  test_fake_media_root:
+    - cd builddir && meson test -v --setup=fake_media_root --suite rmw
