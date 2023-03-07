@@ -296,18 +296,6 @@ To install:
 In the example above, the rmw binary will be installed to
 `$HOME/.local/bin` and documentation to `$HOME/.local/doc`.
 
-### If ncurses can't be found
-
-On **macOS**, you may get a message during 'configure' that the menu
-library can't be found. The ncurses menu library isn't provided by
-default but can be installed using `brew install ncurses`. Then run
-'configure' like this:
-
-    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/ncurses/lib/pkgconfig
-
-Or you can install [rmw using
-brew](https://formulae.brew.sh/formula/rmw).
-
 ### Uninstall
 
     ninja uninstall (uninstalls the program if installed with 'ninja install`)

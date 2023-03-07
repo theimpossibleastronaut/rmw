@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2023-02-27
+
+  - on MacOS and *bsd, specifying the PKG_CONFIG_PATH is no longer needed to
+  find the ncurses menu library
+
 2023-02-23
 
   * fix build on Alpine Linux (check for and link to musl-fts)

@@ -6,7 +6,8 @@ project(
   default_options: [
     'warning_level=3',
     'b_sanitize=address,undefined',
-    'b_lundef=false'
+    'b_lundef=false',
+    'pkg_config_path=/usr/local/opt/ncurses/lib/pkgconfig'
     ]
   )
 
