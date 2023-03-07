@@ -5,7 +5,6 @@ freebsd_task:
 
   env:
     CIRRUS_CLONE_SUBMODULES: true
-    PKG_CONFIG_PATH: /usr/local/opt/ncurses/lib/pkgconfig:${PKG_CONFIG_PATH}
 
   pkginstall_script:
     - pkg update -f
