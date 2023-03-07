@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-15 21:19-0600\n"
+"POT-Creation-Date: 2023-03-07 05:02-0600\n"
 "PO-Revision-Date: 2022-10-14 23:11+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -72,7 +72,7 @@ msgstr ""
 "# '-f' verwenden wollen, kommentieren Sie die folgende Zeile aus:\n"
 "#\n"
 
-#: src/main.c:215
+#: src/main.c:227
 msgid ""
 "\n"
 "Your single slash has been ignored. You walk to the market\n"
@@ -196,7 +196,7 @@ msgstr ""
 msgid "  :error: "
 msgstr "  :Fehler: "
 
-#: src/main.c:368
+#: src/main.c:380
 #, fuzzy, c-format
 msgid " :'%s' not ReMoved:\n"
 msgstr "'%s' nicht gefunden\n"
@@ -221,26 +221,26 @@ msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr ""
 "# rmw Standard Mülleimer-Verzeichnis, unabhängig vom Schreibtisch-Mülleimer\n"
 
-#: src/purging_rmw.c:332
+#: src/purging_rmw.c:335
 #, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
 msgstr[0] "%d Datei gelöscht"
 msgstr[1] "%d Dateien gelöscht"
 
-#: src/main.c:383
+#: src/main.c:395
 #, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
 msgstr[0] "%d Datei wurde in den Papierkorb verschoben"
 msgstr[1] "%d Dateien wurden in den Papierkorb verschoben"
 
-#: src/main.c:276
+#: src/main.c:288
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr "%s existiert in einem Mülleimer Ordner und wird ignoriert\n"
 
-#: src/purging_rmw.c:320
+#: src/purging_rmw.c:323
 #, c-format
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr "'%s' wird in %.2lf Tag(en) gelöscht\n"
@@ -256,22 +256,22 @@ msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr ""
 "-r, -R, --recursive: Parameter nicht benötigt (standardmäßig aktiviert)\n"
 
-#: src/restore_rmw.c:408
+#: src/restore_rmw.c:412
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<PFEIL-RECHTS / PFEIL-LINKS> - zwischen Papierkörben wechseln"
 
-#: src/restore_rmw.c:411
+#: src/restore_rmw.c:415
 msgid "<ESC> - quit"
 msgstr "<ESC> - beenden"
 
-#: src/restore_rmw.c:409
+#: src/restore_rmw.c:413
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<LEERTASTE> - Eintrag auswählen oder Auswahl aufheben. / <ENTER> - "
 "ausgewählte Einträge wiederherstellen"
 
-#: src/restore_rmw.c:402
+#: src/restore_rmw.c:406
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
@@ -286,21 +286,21 @@ msgstr "Ausführung abgebrochen."
 msgid "Arguments given to --purge must be numeric only"
 msgstr "Argumente von --purge müssen Zahlen sein"
 
-#: src/utils_rmw.c:222
+#: src/utils_rmw.c:224
 msgid "Continue? (y/n): "
 msgstr "Weitermachen? (y/n): "
 
-#: src/purging_rmw.c:385
+#: src/purging_rmw.c:391
 #, c-format
 msgid "Created %s\n"
 msgstr "%s angelegt\n"
 
-#: src/messages_rmw.c:234
+#: src/messages_rmw.c:231
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Verzeichnis %s angelegt\n"
 
-#: src/main.c:516
+#: src/main.c:528
 msgid "Creating default configuration file:"
 msgstr "Erzeuge Standard-Konfigurationsdatei:"
 
@@ -309,7 +309,7 @@ msgstr "Erzeuge Standard-Konfigurationsdatei:"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelte Dateiname im Zielverzeichnis, hänge Zeitstempel an...\n"
 
-#: src/main.c:701
+#: src/main.c:713
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -318,7 +318,7 @@ msgstr ""
 "Fehlende Kommandozeilenoptionen \n"
 "Gib '%s -h' ein, um mehr Informationen zu erhalten\n"
 
-#: src/main.c:370
+#: src/main.c:382
 #, c-format
 msgid "No WASTE folder defined in '%s' that resides on the same filesystem.\n"
 msgstr ""
@@ -334,7 +334,7 @@ msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Lösche Dateien auf Grundlage der Verweildauer in den Papierkörben (%u) ...\n"
 
-#: src/restore_rmw.c:319
+#: src/restore_rmw.c:321
 #, c-format
 msgid "Reading %s...\n"
 msgstr "Lese %s...\n"
@@ -348,16 +348,16 @@ msgstr "Melde Fehler an <%s>.\n"
 msgid "Restore FILE(s) from a WASTE directory"
 msgstr "DATEI(en) aus einem Papierkorb wiederherstellen"
 
-#: src/main.c:74
+#: src/main.c:89
 msgid "Skipping --undo-last because --most-recent-list was requested"
 msgstr "Überspringe --undo-last weil --most-recent-list verwendet wurde"
 
-#: src/main.c:260
+#: src/main.c:272
 #, c-format
 msgid "Skipping requested ReMoval of %s\n"
 msgstr ""
 
-#: src/main.c:251
+#: src/main.c:263
 msgid "Skipping requested ReMoval of your HOME directory"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgstr ""
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Der Inhalt aller Mülleimer wird gelöscht -"
 
-#: src/main.c:68
+#: src/main.c:83
 msgid "There are no items in the list - please check back later.\n"
 msgstr ""
 "Es sind keine Einträge in der Liste - bitte versuche Sie es später wieder.\n"
@@ -402,16 +402,16 @@ msgstr "Benutze '%s --help' um weitere Hilfe zu erhalten.\n"
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr "Verwende '%s ./%s' um die Datei '%s' zu entferne.\n"
 
-#: src/main.c:603
+#: src/main.c:615
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Es kann nicht weitergemacht werden. Abbruch...\n"
 
-#: src/main.c:525
+#: src/main.c:537
 msgid "Unable to read or write a configuration file."
 msgstr "Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden."
 
-#: src/config_rmw.c:382
+#: src/config_rmw.c:387
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Unbekannte oder ungültige Option: '%s'\n"
@@ -434,17 +434,17 @@ msgstr ""
 "  oder: %s -u\n"
 "  oder: %s -z DATEI...\n"
 
-#: src/restore_rmw.c:386
+#: src/restore_rmw.c:390
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 "Ihr Terminal hat nur %d Zeilen. Es werden mindestens %d Zeilen benötigt.\n"
 
-#: src/config_rmw.c:442
+#: src/config_rmw.c:447
 msgid "attached"
 msgstr "angeschlossen"
 
-#: src/config_rmw.c:442
+#: src/config_rmw.c:447
 msgid "detached"
 msgstr "entfernt"
 
@@ -452,12 +452,12 @@ msgstr "entfernt"
 msgid "dry-run mode enabled."
 msgstr "Testmodus eingeschaltet."
 
-#: src/messages_rmw.c:95
+#: src/messages_rmw.c:96
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "Format von .trashinfo `Datei %s` ist fehlerhaft"
 
-#: src/config_rmw.c:392
+#: src/config_rmw.c:397
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -470,7 +470,7 @@ msgstr ""
 "Wenn Sie weitere Hilfe brauchen oder einen Fehler melden wollen,\n"
 "besuchen die rmw-Webseite unter\n"
 
-#: src/main.c:628
+#: src/main.c:640
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "Papierkorbleerung wurde übersprungen: verwende -f oder --force\n"
@@ -484,12 +484,12 @@ msgstr ""
 "Papierkorbleerung ist deaktiviert ('%s' steht auf '0')\n"
 "\n"
 
-#: src/config_rmw.c:440
+#: src/config_rmw.c:445
 #, c-format
 msgid "removable, "
 msgstr "löschbar, "
 
-#: src/messages_rmw.c:114
+#: src/messages_rmw.c:115
 #, c-format
 msgid "restore() returned %d\n"
 msgstr "Restore() lieferte %d\n"
@@ -515,7 +515,7 @@ msgstr ""
 "weiterverbreiten; siehe <http://www.gnu.org/licenses/gpl.html>\n"
 "für Details.\n"
 
-#: src/main.c:598
+#: src/main.c:610
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -531,7 +531,7 @@ msgstr ""
 msgid "while attempting to allocate memory -- %s:L%d\n"
 msgstr "beim Versuch Speicher zu beziehen -- %s:L%d\n"
 
-#: src/messages_rmw.c:79
+#: src/messages_rmw.c:80
 #, fuzzy, c-format
 msgid ""
 "while closing %s\n"
@@ -539,17 +539,17 @@ msgid ""
 "%s\n"
 msgstr "beim Schließen von %s\n"
 
-#: src/purging_rmw.c:391
+#: src/purging_rmw.c:397
 #, c-format
 msgid "while creating %s\n"
 msgstr "beim Anlegen von %s\n"
 
-#: src/messages_rmw.c:228
+#: src/messages_rmw.c:225
 #, c-format
 msgid "while creating %s (%s)\n"
 msgstr "beim Anlegen von %s (%s)\n"
 
-#: src/main.c:579
+#: src/main.c:591
 msgid "while getting the path to your home directory\n"
 msgstr "beim Ermitteln des Pfades zu Ihrem Home-Verzeichnises.\n"
 
@@ -561,12 +561,14 @@ msgid ""
 "%s\n"
 msgstr "beim Öffnen %s -- %s:L%d\n"
 
-#: src/messages_rmw.c:147
-#, c-format
-msgid "while opening %s -- %s:L%d\n"
+#: src/messages_rmw.c:145
+#, fuzzy, c-format
+msgid ""
+"while opening %s -- %s:L%d\n"
+"%s\n"
 msgstr "beim Öffnen %s -- %s:L%d\n"
 
-#: src/messages_rmw.c:217
+#: src/messages_rmw.c:214
 #, c-format
 msgid "while removing %s\n"
 msgstr "beim Löschen von %s\n"
@@ -576,7 +578,7 @@ msgstr "beim Löschen von %s\n"
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "beim Löschen der .trashinfo-Datei '%s' \n"
 
-#: src/messages_rmw.c:157
+#: src/messages_rmw.c:154
 #, c-format
 msgid ""
 "while trying to move (rename)\n"
