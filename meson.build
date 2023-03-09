@@ -7,7 +7,7 @@ project(
     'warning_level=3',
     'b_sanitize=address,undefined',
     'b_lundef=false',
-    'pkg_config_path=/usr/local/opt/ncurses/lib/pkgconfig'
+    'pkg_config_path=/usr/local/opt/ncurses/lib/pkgconfig,/opt/homebrew/opt/ncurses/lib/pkgconfig'
     ]
   )
 

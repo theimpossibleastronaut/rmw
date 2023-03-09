@@ -32,3 +32,23 @@ arm_task:
     - cd builddir && meson test -v --suite rmw
   test_fake_media_root:
     - cd builddir && meson test -v --setup=fake_media_root --suite rmw
+
+macos_task:
+  name: macOS arm64
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-ventura-xcode:latest
+
+  env:
+    CIRRUS_CLONE_SUBMODULES: true
+
+  pkginstall_script:
+    - brew install meson ninja ncurses
+
+  setup_script:
+    - meson setup builddir -Dnls=false
+  build_script:
+    - cd builddir && ninja -v
+  test_script:
+    - cd builddir && meson test -v --suite rmw
+  test_fake_media_root:
+    - cd builddir && meson test -v --setup=fake_media_root --suite rmw
