@@ -31,7 +31,7 @@ jobs:
       run: |
         meson setup builddir
         cd builddir
-        meson dist
+        meson dist --include-subprojects
         cd meson-dist
         REL_TAR="rmw-${VERSION}.tar"
         xz -d ${REL_TAR}.xz
