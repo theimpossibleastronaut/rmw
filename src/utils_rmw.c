@@ -172,9 +172,6 @@ dispose_waste(st_waste * node)
   if (node != NULL)
   {
     dispose_waste(node->next_node);
-    free(node->parent);
-    free(node->files);
-    free(node->info);
     if (node->media_root != NULL)
       free(node->media_root);
     free(node);
@@ -433,6 +430,35 @@ trim_char(const int c, char *str)
 }
 
 
+void
+real_join_paths2(char *path, size_t size, const char *argv, ...)
+{
+  *path = '\0';
+  va_list ap;
+  char *buf = (char *) argv;
+  va_start(ap, argv);
+
+  while (buf != NULL)
+  {
+    size_t len = 0;
+    char *dup_buf = strdup(buf);
+    if (!dup_buf)
+      fatal_malloc();
+    trim_char('/', dup_buf);
+    len = strlen(path);
+    int max_len = size - len;
+    int r = snprintf(path + len, max_len, "%s/", dup_buf);
+    free(dup_buf);
+    sn_check(r, max_len);
+    buf = va_arg(ap, char *);
+  }
+
+  va_end(ap);
+  trim_char('/', path);
+  return;
+}
+
+
 char *
 real_join_paths(const char *argv, ...)
 {
@@ -627,6 +653,23 @@ test_join_paths(void)
   return;
 }
 
+
+static void
+test_join_paths2(void)
+{
+  char path[LEN_MAX_PATH];
+  *path = '\0';
+  join_paths2(path, LEN_MAX_PATH, "home", "foo//", "bar");
+  assert(strcmp(path, "home/foo/bar") == 0);
+
+  *path = '\0';
+  join_paths2(path, LEN_MAX_PATH, "/home/foo", "bar", "world/");
+  assert(strcmp(path, "/home/foo/bar/world") == 0);
+
+  return;
+}
+
+
 void
 test_trim_char(void)
 {
@@ -737,6 +780,7 @@ main()
   test_rmw_dirname();
   test_make_size_human_readable();
   test_join_paths();
+  test_join_paths2();
   test_trim_char();
   test_check_pathname_state(HOMEDIR);
   test_is_dir_f(HOMEDIR);
