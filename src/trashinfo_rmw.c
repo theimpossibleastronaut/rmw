@@ -180,8 +180,8 @@ parse_trashinfo_file(const char *file, const char *req_value)
           trashinfo_field.f.date_str_ptr = strchr(fp_line, '=');
           trashinfo_field.f.date_str_ptr++;
           if (!(trashinfo_field.value =
-            malloc(strlen(trashinfo_field.f.date_str_ptr) + 1)))
-          fatal_malloc();
+                malloc(strlen(trashinfo_field.f.date_str_ptr) + 1)))
+            fatal_malloc();
           strcpy(trashinfo_field.value, trashinfo_field.f.date_str_ptr);
         }
         break;
