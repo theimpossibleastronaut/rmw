@@ -123,9 +123,7 @@ msg_warn_restore(int result)
 void
 real_fatal_malloc(const char *func, const int line)
 {
-  print_msg_error();
-  fprintf(stderr, _("while attempting to allocate memory -- %s:L%d\n"), func,
-          line);
+  fprintf(stderr, "%s -- %s:L%d\n", strerror(errno), func, line);
   exit(ENOMEM);
 }
 
