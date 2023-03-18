@@ -72,7 +72,7 @@ dep_canfigger = dependency(
 subdir('src')
 config_h = configure_file(output : 'config.h', configuration : conf)
 
-executable(
+main_bin = executable(
   'rmw',
   'src/main.c',
   dependencies: [dep_canfigger, dep_rmw, dep_intl],

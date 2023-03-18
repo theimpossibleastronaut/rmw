@@ -1,5 +1,11 @@
 === rmw ChangeLog ===
 
+2023-03-18
+
+  * tests: build or rebuild binary before running script-based tests (fix for
+  script-based test failures when 'meson test' is run in a clean build
+  directory)
+
 2023-02-27
 
   - on MacOS and *bsd, specifying the PKG_CONFIG_PATH is no longer needed to

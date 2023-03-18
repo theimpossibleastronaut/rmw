@@ -1,3 +1,5 @@
+test('build binary', main_bin, is_parallel : false)
+
 add_test_setup(
   'fake_media_root',
   env: 'RMW_FAKE_MEDIA_ROOT=true'
