@@ -1,3 +1,5 @@
+# Make sure the binary is built before the script-based
+# tests run
 test('build binary', main_bin, is_parallel : false)
 
 add_test_setup(
