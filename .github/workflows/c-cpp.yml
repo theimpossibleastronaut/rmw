@@ -127,11 +127,7 @@ jobs:
 
     - name: Configure
       run: meson setup builddir ${{ matrix.build.setup }}
-    - name: Build
-      run: |
-        cd builddir
-        ninja -v
-    - name: Test
+    - name: Build and Test
       run: cd builddir && meson test -v
     - name: Test fake media root
       run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
