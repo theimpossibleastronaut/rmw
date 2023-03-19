@@ -1,7 +1,3 @@
-# Make sure the binary is built before the script-based
-# tests run
-test('build binary', main_bin, is_parallel : false)
-
 add_test_setup(
   'fake_media_root',
   env: 'RMW_FAKE_MEDIA_ROOT=true'
@@ -39,6 +35,7 @@ foreach s : scripts
       'MESON_SOURCE_ROOT=' + meson.project_source_root(),
       'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
       'MESON_BUILD_ROOT=' + meson.project_build_root()
-      ]
+      ],
+    depends: main_bin
     )
 endforeach
