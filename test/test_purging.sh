@@ -73,8 +73,8 @@ echo "n" | $RMW_TEST_CMD_STRING --purge --empty
 echo "Nqer" | $RMW_TEST_CMD_STRING --purge --empty
 
 echo " == (files should still be present)"
-test -e $PRIMARY_WASTE_DIR/files/read_only_file
-test -e $PRIMARY_WASTE_DIR/files/topdir
+test -e "$PRIMARY_WASTE_DIR"/files/read_only_file
+test -e "$PRIMARY_WASTE_DIR"/files/topdir
 
 echo $SEPARATOR
 echo " == Make sure the correct string (filename) is displayed when using -vvg"
@@ -85,10 +85,10 @@ cmp_substr "$output" "'topdir' will be purged in 90."
 echo $SEPARATOR
 echo " == Empty works with force empty (-fe)"
 echo "y" | $RMW_TEST_CMD_STRING -v --empty -ff
-test ! -e $PRIMARY_WASTE_DIR/files/read_only_file
-test ! -e $PRIMARY_WASTE_DIR/files/topdir
-test ! -e $PRIMARY_WASTE_DIR/info/read_only_file.trashinfo
-test ! -e $PRIMARY_WASTE_DIR/info/topdir.trashinfo
+test ! -e "$PRIMARY_WASTE_DIR"/files/read_only_file
+test ! -e "$PRIMARY_WASTE_DIR"/files/topdir
+test ! -e "$PRIMARY_WASTE_DIR"/info/read_only_file.trashinfo
+test ! -e "$PRIMARY_WASTE_DIR"/info/topdir.trashinfo
 
 echo " == Should work with 'Y' or 'y'"
 create_temp_files
@@ -96,21 +96,21 @@ $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/* && echo "y" | $RMW_T
 
 create_temp_files
 $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/*
-test -e $PRIMARY_WASTE_DIR/files/abc
-test -e $PRIMARY_WASTE_DIR/files/123
-test -e $PRIMARY_WASTE_DIR/files/xyz
+test -e "$PRIMARY_WASTE_DIR"/files/abc
+test -e "$PRIMARY_WASTE_DIR"/files/123
+test -e "$PRIMARY_WASTE_DIR"/files/xyz
 echo "Y" | $RMW_TEST_CMD_STRING --empty
 
 echo
 echo
 echo " == Test that the files are really gone"
 
-test ! -e $PRIMARY_WASTE_DIR/files/abc
-test ! -e $PRIMARY_WASTE_DIR/info/abc.trashinfo
-test ! -e $PRIMARY_WASTE_DIR/files/123
-test ! -e $PRIMARY_WASTE_DIR/info/123.trashinfo
-test ! -e $PRIMARY_WASTE_DIR/files/xyz
-test ! -e $PRIMARY_WASTE_DIR/info/xyz.trashinfo
+test ! -e "$PRIMARY_WASTE_DIR"/files/abc
+test ! -e "$PRIMARY_WASTE_DIR"/info/abc.trashinfo
+test ! -e "$PRIMARY_WASTE_DIR"/files/123
+test ! -e "$PRIMARY_WASTE_DIR"/info/123.trashinfo
+test ! -e "$PRIMARY_WASTE_DIR"/files/xyz
+test ! -e "$PRIMARY_WASTE_DIR"/info/xyz.trashinfo
 
 create_temp_files
 
@@ -120,7 +120,7 @@ echo " == fake year to the .trashinfo files when running rmw"
 echo "-----------------------------------------------------\n"
 
 RMW_FAKE_YEAR=true $RMW_TEST_CMD_STRING --verbose ${RMW_FAKE_HOME}/tmp-files/*
-cmp_substr "$(cat $PRIMARY_WASTE_DIR/info/abc.trashinfo)" \
+cmp_substr "$(cat "$PRIMARY_WASTE_DIR"/info/abc.trashinfo)" \
   "DeletionDate=1999"
 
 echo
@@ -128,12 +128,12 @@ echo
 echo " == The trashinfo records that these files were rmw'ed in 1999"
 echo " == So they will be purged now."
 $RMW_TEST_CMD_STRING --verbose --purge
-test ! -e $PRIMARY_WASTE_DIR/files/abc
-test ! -e $PRIMARY_WASTE_DIR/info/abc.trashinfo
-test ! -e $PRIMARY_WASTE_DIR/files/123
-test ! -e $PRIMARY_WASTE_DIR/info/123.trashinfo
-test ! -e $PRIMARY_WASTE_DIR/files/xyz
-test ! -e $PRIMARY_WASTE_DIR/info/xyz.trashinfo
+test ! -e "$PRIMARY_WASTE_DIR"/files/abc
+test ! -e "$PRIMARY_WASTE_DIR"/info/abc.trashinfo
+test ! -e "$PRIMARY_WASTE_DIR"/files/123
+test ! -e "$PRIMARY_WASTE_DIR"/info/123.trashinfo
+test ! -e "$PRIMARY_WASTE_DIR"/files/xyz
+test ! -e "$PRIMARY_WASTE_DIR"/info/xyz.trashinfo
 
 echo
 echo
@@ -157,8 +157,8 @@ echo
 echo
 echo " == Show that the files are really gone"
 
-test ! -e $PRIMARY_WASTE_DIR/files/somefiles
-test ! -e $PRIMARY_WASTE_DIR/info/somefiles.trashinfo
+test ! -e "$PRIMARY_WASTE_DIR"/files/somefiles
+test ! -e "$PRIMARY_WASTE_DIR"/info/somefiles.trashinfo
 
 $RMW_TEST_CMD_STRING -o
 
