@@ -1,3 +1,4 @@
+#!/bin/sh
 # included by tests scripts
 
 create_some_files() {
@@ -7,7 +8,7 @@ c=1
 while [ $c -lt 25 ]
 do
    touch somefiles/topdir/dir1/dir2/dir3/$c
-   c=`expr $c + 1`
+   c=$(("$c" + 1))
 done
 
 touch somefiles/read_only_file
@@ -15,10 +16,10 @@ chmod ugo-w somefiles/read_only_file
 }
 
 cmp_substr () {
-  if [ -z "$1" -o -z "$2" ]; then
+  if [ -z "$1" ] || [ -z "$2" ]; then
     return 1
   fi
-  [ -z "${1##*$2*}" ]
+  [ -z "${1##*"$2"*}" ]
   return $?
 }
 
@@ -28,7 +29,7 @@ if test -z "${MESON_BUILD_ROOT}" || test -z "${RMW_FAKE_HOME}"; then
   exit 1
 fi
 
-RMW_FAKE_HOME=${RMW_FAKE_HOME}/$(basename $0)_dir
+RMW_FAKE_HOME="${RMW_FAKE_HOME}"/"$(basename "$0")_dir"
 TESTS_DIR="${MESON_SOURCE_ROOT}/test"
 CONFIG="${MESON_SOURCE_ROOT}/test/rmw.testrc"
 ALT_CONFIG="${MESON_SOURCE_ROOT}/test/rmw.alt.testrc"
@@ -37,8 +38,8 @@ BIN_DIR="${MESON_BUILD_ROOT}"
 
 export RMW_FAKE_HOME
 
-if [ -e ${RMW_FAKE_HOME} ]; then
-  rm -rf ${RMW_FAKE_HOME}
+if [ -e "${RMW_FAKE_HOME}" ]; then
+  rm -rf "${RMW_FAKE_HOME}"
 fi
 
 RMW_TEST_CMD_STRING="${BIN_DIR}/rmw -c $CONFIG"
