@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -ve
+
+if [ -e COMMON ]; then
+  . ./COMMON
+else
+  . "${MESON_SOURCE_ROOT}/test/COMMON"
+fi
+
+if [ -e "${RMW_FAKE_HOME}" ]; then
+  rm -rf "${RMW_FAKE_HOME}"
+fi
+
+$RMW_TEST_CMD_STRING
+cd "$RMW_FAKE_HOME"

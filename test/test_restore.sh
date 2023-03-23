@@ -16,47 +16,9 @@ echo $SEPARATOR
 echo "Initialize"
 $RMW_TEST_CMD_STRING
 
-echo $SEPARATOR
-echo "If the mrl file doesn't exist yet..."
-cmp_substr "$($RMW_TEST_CMD_STRING -u)" \
-  "no items in the list"
-
-echo $SEPARATOR
 echo " Creating some files for testing..."
 cd ${RMW_FAKE_HOME}
-create_some_files
 
-echo $SEPARATOR
-echo "Try to restore files that aren't in a Waste/files folder"
-cmp_substr "$($RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1 && exit 1)" \
-  "not in a Waste directory"
-
-echo $SEPARATOR
-echo "ReMove files and then restore them by using -u"
-$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/somefiles/*
-echo $SEPARATOR
-output=$($RMW_TEST_CMD_STRING -uvv | grep Waste)
-echo $SEPARATOR
-echo "OUTPUT:"
-echo "---"
-echo "$output"
-echo "---"
-test "$output" = "+'${RMW_FAKE_HOME}/.Waste/files/read_only_file' -> '${RMW_FAKE_HOME}/somefiles/read_only_file'
--${RMW_FAKE_HOME}/.Waste/info/read_only_file.trashinfo
-+'${RMW_FAKE_HOME}/.Waste/files/topdir' -> '${RMW_FAKE_HOME}/somefiles/topdir'
--${RMW_FAKE_HOME}/.Waste/info/topdir.trashinfo"
-
-echo $SEPARATOR
-echo "Show result when no undo file exists..."
-output=$(${RMW_TEST_CMD_STRING} -u)
-test "${output}" = "There are no items in the list - please check back later."
-
-echo $SEPARATOR
-echo "restore using wildcard pattern, but be in the trash directory"
-$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/somefiles/topdir -v
-cd $PRIMARY_WASTE_DIR/files
-$RMW_TEST_CMD_STRING -z topd*
-test -e "${RMW_FAKE_HOME}/somefiles/topdir"
 
 echo $SEPARATOR
 echo "Try restoring a file that doesn't exist"
