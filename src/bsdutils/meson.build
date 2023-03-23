@@ -1,5 +1,8 @@
 dep_fts = dependency('', required: false)
-if not cc.has_function('fts_open', prefix: '#include <fts.h>')
+if not cc.has_function(
+  'fts_open',
+  prefix: '#include <sys/types.h>\n#include <sys/stat.h>\n#include <fts.h>'
+  )
     dep_fts = cc.find_library('fts')
 endif
 

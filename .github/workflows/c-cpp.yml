@@ -137,3 +137,24 @@ jobs:
       run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
     - if: ${{ contains(matrix.build.name, 'dist') }}
       run: cd builddir && meson dist --include-subprojects
+
+  openbsd:
+    runs-on: macos-12
+    name: A job to run test in OpenBSD
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Test in OpenBSD
+      id: test
+      uses: vmactions/openbsd-vm@v0
+      with:
+        usesh: true
+        prepare: |
+          pkg_add gettext meson ninja
+
+        run: |
+          meson setup builddir -Db_sanitize=none || cat builddir/meson-logs/meson-log.txt
+          cd builddir
+          meson compile -v
+          meson test -v --suite rmw
