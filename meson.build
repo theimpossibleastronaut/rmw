@@ -17,7 +17,6 @@ host_sys = host_machine.system()
 extra_flags = [
   '-fno-common',
   '-fstack-protector-strong',
-  '-fanalyzer',
   '-Wformat-security',
   '-Wformat-overflow=2',
   '-Wshadow',
@@ -26,15 +25,6 @@ extra_flags = [
   ]
 
 add_project_arguments(cc.get_supported_arguments(extra_flags), language: 'c')
-
-# Sometimes false positives are reported. Disabling...
-disable_flag = [
-  '-Wno-analyzer-malloc-leak',
-  '-Wno-analyzer-null-argument'
-  ]
-
-#  if cc.get_id() == 'gcc' and cc.version().startswith('12.')
-add_project_arguments(cc.get_supported_arguments(disable_flag), language: 'c')
 
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
