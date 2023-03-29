@@ -67,3 +67,5 @@ Publish the release
 Close milestone (https://github.com/theimpossibleastronaut/rmw/milestones)
 
 Create Slackbuild tarball and submit to Slackbuilds.org (https://slackbuilds.org/guidelines/)
+
+Update latest release info on /docker/README.md
