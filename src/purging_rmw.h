@@ -1,5 +1,5 @@
 /*
-This file is part of rmw<https://remove-to-waste.info/>
+This file is part of rmw<https://theimpossibleastronaut.github.io/rmw-website/>
 
 Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md

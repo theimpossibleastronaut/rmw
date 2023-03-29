@@ -7,7 +7,7 @@ Build-Depends:  debhelper (>= 12~),
                 libtinfo-dev,
                 meson (>= 0.56.2)
 Standards-Version: 4.6.2
-Homepage: https://remove-to-waste.info/
+Homepage: https://theimpossibleastronaut.github.io/rmw-website/
 
 Package: rmw
 Architecture: any

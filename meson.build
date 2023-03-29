@@ -29,7 +29,7 @@ add_project_arguments(cc.get_supported_arguments(extra_flags), language: 'c')
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_STRING', meson.project_name())
-conf.set_quoted('PACKAGE_URL', 'https://remove-to-waste.info/')
+conf.set_quoted('PACKAGE_URL', 'https://theimpossibleastronaut.github.io/rmw-website/')
 conf.set_quoted('PACKAGE_BUGREPORT', 'https://github.com/theimpossibleastronaut/rmw/issues')
 
 check_headers = [

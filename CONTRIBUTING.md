@@ -30,7 +30,7 @@ arguments:
 
 ## Website
 
-See [Website Design](https://remove-to-waste.info/website-design.html)
+See [Website Design](https://theimpossibleastronaut.github.io/rmw-website/website-design.html)
 for information specific to the rmw website.
 
 ## Patches and Pull Requests

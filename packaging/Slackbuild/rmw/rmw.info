@@ -1,6 +1,6 @@
 PRGNAM="rmw"
 VERSION="0.9.0"
-HOMEPAGE="https://remove-to-waste.info/"
+HOMEPAGE="https://theimpossibleastronaut.github.io/rmw-website/"
 DOWNLOAD="https://github.com/theimpossibleastronaut/rmw/releases/download/v0.9.0/rmw-0.9.0.tar.xz"
 MD5SUM="974e690868c8f86d1b37db89b0df9c0d"
 DOWNLOAD_x86_64=""

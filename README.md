@@ -8,7 +8,7 @@ folder (if your desktop environment uses the FreeDesktop.org Trash
 specification). One of the unique features of rmw is the ability to purge
 items from your waste (or trash) directories after x number of days.
 
-Web site: <https://remove-to-waste.info/>
+Web site: <https://theimpossibleastronaut.github.io/rmw-website/>
 
 [![codeql-badge]][codeql-url]
 [![c-cpp-badge]][c-cpp-url]
@@ -33,13 +33,13 @@ website](https://theimpossibleastronaut.github.io/rmw-website/rmw_man.html)
 
 ## Screenshots
 
-See the [Screenshots](https://remove-to-waste.info/screenshots.html)
+See the [Screenshots](https://theimpossibleastronaut.github.io/rmw-website/screenshots.html)
 page on the website.
 
 ## Contact / Support
 
 * [Bug Reports and Feature Requests](https://github.com/theimpossibleastronaut/rmw/blob/master/CONTRIBUTING.md#bug-reports-and-feature-requests)
-* [General Help, Support, Discussion](https://remove-to-waste.info/#support)
+* [General Help, Support, Discussion](https://theimpossibleastronaut.github.io/rmw-website/#support)
 
 ## Installation
 
