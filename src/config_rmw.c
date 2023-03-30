@@ -141,7 +141,7 @@ realize_str(char *str, const char *homedir, const char *uid)
       if (dest == NULL)
         return -1;
 
-      if (snprintf(str, LEN_MAX_PATH, "%s", dest) >= LEN_MAX_PATH)
+      if (snprintf(str, PATH_MAX, "%s", dest) >= PATH_MAX)
       {
         free(dest);
         return -1;
@@ -180,8 +180,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
     printf("ignoring invalid attribute: '%s'\n", node->attr_node->str);
   }
 
-  bufchk_len(strlen(node->value) + 1, LEN_MAX_PATH, __func__, __LINE__);
-  char tmp_waste_parent_folder[LEN_MAX_PATH];
+  bufchk_len(strlen(node->value) + 1, PATH_MAX, __func__, __LINE__);
+  char tmp_waste_parent_folder[PATH_MAX];
   trim_char('/', node->value);
 
   sn_check(snprintf(tmp_waste_parent_folder, sizeof tmp_waste_parent_folder,
@@ -268,7 +268,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   {
     waste_curr->dev_num = st.st_dev;
 
-    char tmp[LEN_MAX_PATH];
+    char tmp[PATH_MAX];
     strcpy(tmp, waste_curr->parent);
     char *media_root_ptr = rmw_dirname(tmp);
     if (!(waste_curr->media_root = malloc(strlen(media_root_ptr) + 1)))

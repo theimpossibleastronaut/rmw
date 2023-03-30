@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 typedef struct st_removed st_removed;
 struct st_removed
 {
-  char file[LEN_MAX_PATH];
+  char file[PATH_MAX];
   st_removed *next_node;
 };
 
@@ -36,8 +36,8 @@ typedef struct st_dir st_dir;
 struct st_dir
 {
   const char *home;
-  char configroot[LEN_MAX_PATH];
-  char dataroot[LEN_MAX_PATH];
+  char configroot[PATH_MAX];
+  char dataroot[PATH_MAX];
 };
 
 typedef struct st_loc st_loc;

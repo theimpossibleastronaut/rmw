@@ -207,7 +207,7 @@ static char *
 get_pt_basename(const char *purge_target)
 {
   static char *pt_basename;
-  static char pt_tmp[LEN_MAX_PATH];
+  static char pt_tmp[PATH_MAX];
   strcpy(pt_tmp, purge_target);
   pt_basename = basename(pt_tmp);
   return pt_basename;
@@ -218,7 +218,7 @@ static void
 get_purge_target(char *purge_target, const char *tinfo_d_name,
                  const char *files_dir)
 {
-  char temp[LEN_MAX_PATH];
+  char temp[PATH_MAX];
   sn_check(snprintf(temp, sizeof temp, "%s", tinfo_d_name), sizeof temp);
   truncate_str(temp, len_trashinfo_ext);        /* acquire the (basename - trashinfo extension) */
   char *path = join_paths(files_dir, temp);
@@ -305,7 +305,7 @@ purge(st_config * st_config_data,
         || cli_user_options->want_empty_trash;
       if (want_purge || verbose >= 2)
       {
-        char purge_target[LEN_MAX_PATH];
+        char purge_target[PATH_MAX];
         *purge_target = '\0';
         get_purge_target(purge_target, st_trashinfo_dir_entry->d_name,
                          waste_curr->files);
@@ -349,7 +349,7 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
    */
   st_file_properties.is_duplicate = 0;
 
-  char path_to_trashinfo[LEN_MAX_PATH];
+  char path_to_trashinfo[PATH_MAX];
   st_waste *waste_curr = waste_head;
   while (waste_curr != NULL)
   {
@@ -371,9 +371,9 @@ orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
 
       char *tmp_str =
         join_paths(waste_curr->info, st_file_properties.base_name);
-      int r = snprintf(path_to_trashinfo, LEN_MAX_PATH, "%s%s", tmp_str,
+      int r = snprintf(path_to_trashinfo, PATH_MAX, "%s%s", tmp_str,
                        trashinfo_ext);
-      sn_check(r, LEN_MAX_PATH);
+      sn_check(r, PATH_MAX);
 
       free(tmp_str);
 

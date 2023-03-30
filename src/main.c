@@ -209,7 +209,7 @@ remove_to_waste(const int argc,
       continue;
     }
 
-    char tmp[LEN_MAX_PATH];
+    char tmp[PATH_MAX];
     sn_check(snprintf(tmp, sizeof(tmp), "%s", argv[file_arg]), sizeof(tmp));
 
     // If basename() is given an empty string, it returns '.'
@@ -452,9 +452,9 @@ get_locations(const char *alt_config_file)
     return NULL;
 
   const char *enable_test = getenv(ENV_RMW_FAKE_HOME);
-  static char s_data_dir[LEN_MAX_PATH];
+  static char s_data_dir[PATH_MAX];
   char *m_d_str = NULL;
-  static char s_config_dir[LEN_MAX_PATH];
+  static char s_config_dir[PATH_MAX];
 
   if (enable_test == NULL)
   {
@@ -503,7 +503,7 @@ get_locations(const char *alt_config_file)
   else if (p_state == P_STATE_ERR)
     exit(p_state);
 
-  static char s_config_file[LEN_MAX_PATH];
+  static char s_config_file[PATH_MAX];
 
   if (alt_config_file == NULL)
   {
@@ -541,7 +541,7 @@ get_locations(const char *alt_config_file)
   else if (p_state == P_STATE_ERR)
     exit(p_state);
 
-  static char s_mrl_file[LEN_MAX_PATH];
+  static char s_mrl_file[PATH_MAX];
   char *m_tmp_str = join_paths(x.data_dir, mrl_file_basename);
   sn_check(snprintf(s_mrl_file, sizeof s_mrl_file, "%s", m_tmp_str),
            sizeof s_mrl_file);
@@ -549,7 +549,7 @@ get_locations(const char *alt_config_file)
   free(m_tmp_str);
   x.mrl_file = s_mrl_file;
 
-  static char s_purge_time_file[LEN_MAX_PATH];
+  static char s_purge_time_file[PATH_MAX];
   m_tmp_str = join_paths(x.data_dir, purge_time_file_basename);
   sn_check(snprintf
            (s_purge_time_file, sizeof s_purge_time_file, "%s", m_tmp_str),
@@ -582,7 +582,7 @@ main(const int argc, char *const argv[])
   parse_cli_options(argc, argv, &cli_user_options);
 
   if (verbose > 1)
-    printf("PATH_MAX = %d\n", LEN_MAX_PATH - 1);
+    printf("PATH_MAX = %d\n", PATH_MAX - 1);
 
   const st_loc *st_location = get_locations(cli_user_options.alt_config_file);
   if (st_location == NULL)

@@ -61,7 +61,7 @@ create_trashinfo(rmw_target * st_f_props, st_waste * waste_curr,
   size_t req_len =
     strlen(tmp_final_info_dest) + len_trashinfo_ext +
     (st_f_props->is_duplicate ? (LEN_MAX_TIME_STR_SUFFIX - 1) : 0) + 1;
-  bufchk_len(req_len, LEN_MAX_PATH, __func__, __LINE__);
+  bufchk_len(req_len, PATH_MAX, __func__, __LINE__);
   if (!(tmp_final_info_dest = realloc(tmp_final_info_dest, req_len)))
     fatal_malloc();
   if (!tmp_final_info_dest)

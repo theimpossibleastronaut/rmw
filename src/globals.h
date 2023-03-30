@@ -44,19 +44,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define VERSION "unversioned"
 #endif
 
-/*!
- * PATH_MAX is used to set limits on how long a pathname can be.
- * Some systems may not define PATH_MAX so it's defined here if it's
- * not found in limits.h
- */
-#ifndef PATH_MAX                /* for portability */
-#define PATH_MAX 256
+#ifndef PATH_MAX
+#define PATH_MAX 4096
 #endif
 
-/*! The LEN_MAX_PATH macro is used as a shortcut throughout the program. */
-#define LEN_MAX_PATH (PATH_MAX + 1)
-
-#define LEN_MAX_ESCAPED_PATH (PATH_MAX * 3 + 1)
+#define LEN_MAX_ESCAPED_PATH (((PATH_MAX - 1) * 3) + 1)
 
 #define EBUF 11
 

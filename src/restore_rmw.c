@@ -66,7 +66,7 @@ restore(const char *src, st_time * st_time_var,
   int p_state = check_pathname_state(src);
   if (p_state == P_STATE_EXISTS)
   {
-    bufchk_len(strlen(src) + 1, LEN_MAX_PATH, __func__, __LINE__);
+    bufchk_len(strlen(src) + 1, PATH_MAX, __func__, __LINE__);
     char *waste_parent = get_waste_parent(src);
 
     st_waste *waste_curr = waste_head;
@@ -99,12 +99,12 @@ restore(const char *src, st_time * st_time_var,
       return 1;
     }
 
-    char src_tinfo[LEN_MAX_PATH];
+    char src_tinfo[PATH_MAX];
     char *tmp_str = join_paths(waste_parent, lit_info, src_basename);
-    int r = snprintf(src_tinfo, LEN_MAX_PATH, "%s%s", tmp_str, trashinfo_ext);
+    int r = snprintf(src_tinfo, PATH_MAX, "%s%s", tmp_str, trashinfo_ext);
     free(tmp_str);
     tmp_str = NULL;
-    sn_check(r, LEN_MAX_PATH);
+    sn_check(r, PATH_MAX);
 
     char *_dest = parse_trashinfo_file(src_tinfo, path_key);
     if (_dest == NULL)
@@ -114,7 +114,7 @@ restore(const char *src, st_time * st_time_var,
      * being restored resides, get the dirname of that waste folder and prepend it
      * to dest (thereby making the entire path absolute for restoration.
      */
-    char dest[LEN_MAX_PATH];
+    char dest[PATH_MAX];
     strcpy(dest, _dest);
     if (*_dest != '/')
     {
@@ -130,7 +130,7 @@ restore(const char *src, st_time * st_time_var,
      */
     if (check_pathname_state(dest) == P_STATE_EXISTS)
     {
-      bufchk_len(strlen(dest) + LEN_MAX_TIME_STR_SUFFIX, LEN_MAX_PATH,
+      bufchk_len(strlen(dest) + LEN_MAX_TIME_STR_SUFFIX, PATH_MAX,
                  __func__, __LINE__);
       strcat(dest, st_time_var->suffix_added_dup_exists);
 
@@ -139,7 +139,7 @@ restore(const char *src, st_time * st_time_var,
 Duplicate filename at destination - appending time string...\n"));
     }
 
-    static char parent_dir[LEN_MAX_PATH];
+    static char parent_dir[PATH_MAX];
 
     strcpy(parent_dir, dest);
 
@@ -357,8 +357,8 @@ restore_select(st_waste * waste_head, st_time * st_time_var,
       char *m_dir_entry = malloc(strlen(entry->d_name) + 1);
       if (!m_dir_entry)
         fatal_malloc();
-      sn_check(snprintf(m_dir_entry, LEN_MAX_PATH, "%s", entry->d_name),
-               LEN_MAX_PATH);
+      sn_check(snprintf(m_dir_entry, PATH_MAX, "%s", entry->d_name),
+               PATH_MAX);
       char *file_details = create_file_details_str(st.st_size, st.st_mode);
 
       my_items[n_choices] = new_item(m_dir_entry, file_details);

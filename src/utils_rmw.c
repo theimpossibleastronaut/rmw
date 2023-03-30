@@ -331,7 +331,7 @@ char *
 unescape_url(const char *str)
 {
   int pos_str = 0, pos_dest = 0;
-  char *dest = malloc(LEN_MAX_PATH);
+  char *dest = malloc(PATH_MAX);
   if (!dest)
     fatal_malloc();
 
@@ -384,7 +384,7 @@ char *
 resolve_path(const char *file, const char *b)
 {
   int req_len = strlen(file) + 1;
-  bufchk_len(req_len, LEN_MAX_PATH, __func__, __LINE__);
+  bufchk_len(req_len, PATH_MAX, __func__, __LINE__);
   char tmp[req_len];
   strcpy(tmp, file);
 
@@ -436,7 +436,7 @@ trim_char(const int c, char *str)
 char *
 real_join_paths(const char *argv, ...)
 {
-  char *path = calloc(1, LEN_MAX_PATH);
+  char *path = calloc(1, PATH_MAX);
   if (!path)
     fatal_malloc();
 
@@ -452,7 +452,7 @@ real_join_paths(const char *argv, ...)
       fatal_malloc();
     trim_char('/', dup_str);
     len = strlen(path);
-    int max_len = LEN_MAX_PATH - len;
+    int max_len = PATH_MAX - len;
     int r = snprintf(path + len, max_len, "%s/", dup_str);
     free(dup_str);
     sn_check(r, max_len);
@@ -726,10 +726,10 @@ test_count_chars(void)
 int
 main()
 {
-  char tmp[LEN_MAX_PATH];
+  char tmp[PATH_MAX];
   int r =
-    snprintf(tmp, LEN_MAX_PATH, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
-  assert(r < LEN_MAX_PATH);
+    snprintf(tmp, PATH_MAX, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
+  assert(r < PATH_MAX);
   const char *HOMEDIR = tmp;
 
   test_isdotdir();
