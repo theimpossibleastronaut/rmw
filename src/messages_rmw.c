@@ -209,11 +209,10 @@ msg_err_lstat(const char *file, const char *func, const int line)
 void
 msg_err_remove(const char *file, const char *func)
 {
+  int dup_errno = errno;
   print_msg_error();
-  /* TRANSLATORS:  "removing" refers to a file or folder  */
-  fprintf(stderr, _("while removing %s\n"), file);
-  if (errno)
-    perror(func);
+  fprintf(stderr, _("while removing %s:\n%s\n(func:%s)\n"), file,
+          strerror(dup_errno), func);
 }
 
 
