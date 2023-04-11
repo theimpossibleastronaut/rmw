@@ -167,7 +167,7 @@ check_pathname_state(const char *pathname)
 }
 
 void
-dispose_waste(st_waste * node)
+dispose_waste(st_waste *node)
 {
   if (node != NULL)
   {
@@ -727,8 +727,7 @@ int
 main()
 {
   char tmp[PATH_MAX];
-  int r =
-    snprintf(tmp, PATH_MAX, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
+  int r = snprintf(tmp, PATH_MAX, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
   assert(r < PATH_MAX);
   const char *HOMEDIR = tmp;
 

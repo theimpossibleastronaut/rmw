@@ -39,7 +39,7 @@ enum
  * created.
  */
 bool
-is_time_to_purge(st_time * st_time_var, const char *file)
+is_time_to_purge(st_time *st_time_var, const char *file)
 {
   const int BUF_TIME = 80;
 
@@ -124,7 +124,7 @@ print_header(char *files_dir)
 }
 
 static int
-do_file_purge(char *purge_target, const rmw_options * cli_user_options,
+do_file_purge(char *purge_target, const rmw_options *cli_user_options,
               const char *trashinfo_entry_realpath, int *orphan_ctr,
               const char *pt_basename, int *ctr)
 {
@@ -224,9 +224,9 @@ get_purge_target(char *purge_target, const char *tinfo_d_name,
  * 0 in the config file.
  */
 int
-purge(st_config * st_config_data,
-      const rmw_options * cli_user_options,
-      st_time * st_time_var, int *orphan_ctr)
+purge(st_config *st_config_data,
+      const rmw_options *cli_user_options,
+      st_time *st_time_var, int *orphan_ctr)
 {
   if (!st_config_data->expire_age)
   {
@@ -330,7 +330,7 @@ purge(st_config * st_config_data,
 }
 
 short
-orphan_maint(st_waste * waste_head, st_time * st_time_var, int *orphan_ctr)
+orphan_maint(st_waste *waste_head, st_time *st_time_var, int *orphan_ctr)
 {
   rmw_target st_file_properties;
 

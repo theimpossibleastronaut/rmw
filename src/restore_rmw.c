@@ -60,8 +60,8 @@ get_waste_parent(const char *src)
 
 
 int
-restore(const char *src, st_time * st_time_var,
-        const rmw_options * cli_user_options, st_waste * waste_head)
+restore(const char *src, st_time *st_time_var,
+        const rmw_options *cli_user_options, st_waste *waste_head)
 {
   int p_state = check_pathname_state(src);
   if (p_state == P_STATE_EXISTS)
@@ -240,7 +240,7 @@ create_file_details_str(const off_t size, const mode_t mode)
 // where item should be inserted in a[low..high]
 // Adapted from https://www.geeksforgeeks.org/c-program-for-binary-insertion-sort/
 static int
-binary_search(ITEM ** a, ITEM * item, int low, int high)
+binary_search(ITEM **a, ITEM *item, int low, int high)
 {
   if (high <= low)
     return (strcasecmp(item_name(item), item_name(a[low])) >
@@ -258,7 +258,7 @@ binary_search(ITEM ** a, ITEM * item, int low, int high)
 }
 
 static void
-insertion_sort(ITEM ** a, const int n)
+insertion_sort(ITEM **a, const int n)
 {
   ITEM *selected;
   int i, loc, j;
@@ -292,8 +292,8 @@ insertion_sort(ITEM ** a, const int n)
  * @bug <a href="https://github.com/theimpossibleastronaut/rmw/issues/205">In some cases, not all files are displayed when using '-s'</a>
  */
 int
-restore_select(st_waste * waste_head, st_time * st_time_var,
-               const rmw_options * cli_user_options)
+restore_select(st_waste *waste_head, st_time *st_time_var,
+               const rmw_options *cli_user_options)
 {
   st_waste *waste_curr = waste_head;
   const int start_line_bottom = 7;
@@ -507,9 +507,9 @@ restore_select(st_waste * waste_head, st_time * st_time_var,
  * Restores files from the mrl
  */
 int
-undo_last_rmw(st_time * st_time_var, const char *mrl_file, const
-              rmw_options * cli_user_options, char *mrl_contents, st_waste
-              * waste_head)
+undo_last_rmw(st_time *st_time_var, const char *mrl_file, const
+              rmw_options *cli_user_options, char *mrl_contents, st_waste
+              *waste_head)
 {
   int err_ctr = 0;
   char contents_copy[strlen(mrl_contents) + 1];

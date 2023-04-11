@@ -224,7 +224,7 @@ diagnose_leading_hyphen(const int argc, char *const argv[])
 }
 
 void
-init_rmw_options(rmw_options * x)
+init_rmw_options(rmw_options *x)
 {
   verbose = 0;
   x->want_restore = false;
@@ -243,7 +243,7 @@ init_rmw_options(rmw_options * x)
 
 
 void
-parse_cli_options(const int argc, char *const argv[], rmw_options * options)
+parse_cli_options(const int argc, char *const argv[], rmw_options *options)
 {
   const struct option long_options[] = {
     {cli_opt[HELP].str, 0, NULL, 'h'},

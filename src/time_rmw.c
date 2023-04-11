@@ -61,7 +61,7 @@ set_which_deletion_date(char *format)
 
 
 void
-init_time_vars(st_time * x)
+init_time_vars(st_time *x)
 {
   x->now = time(NULL);
 

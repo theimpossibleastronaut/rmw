@@ -38,7 +38,7 @@ const char *expire_age_str = "expire_age";
  * to match
  */
 void
-print_config(FILE * restrict stream)
+print_config(FILE *restrict stream)
 {
   fputs(_("\
 # rmw default waste directory, separate from the desktop trash\n"), stream);
@@ -167,8 +167,8 @@ realize_str(char *str, const char *homedir, const char *uid)
  * folders.
  */
 static st_waste *
-parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
-                 const rmw_options * cli_user_options, bool fake_media_root,
+parse_line_waste(st_waste *waste_curr, st_canfigger_node *node,
+                 const rmw_options *cli_user_options, bool fake_media_root,
                  const char *homedir, const char *uid)
 {
   bool removable = 0;
@@ -185,7 +185,7 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
   trim_char('/', node->value);
 
   sn_check(snprintf(tmp_waste_parent_folder, sizeof tmp_waste_parent_folder,
-    "%s", node->value), sizeof tmp_waste_parent_folder);
+                    "%s", node->value), sizeof tmp_waste_parent_folder);
 
   if (realize_str(tmp_waste_parent_folder, homedir, uid) != 0)
   {
@@ -297,8 +297,8 @@ parse_line_waste(st_waste * waste_curr, st_canfigger_node * node,
  * Get configuration data (parse the config file)
  */
 void
-parse_config_file(const rmw_options * cli_user_options,
-                  st_config * st_config_data, const st_loc * st_location)
+parse_config_file(const rmw_options *cli_user_options,
+                  st_config *st_config_data, const st_loc *st_location)
 {
   st_canfigger_list *cfg_node =
     canfigger_parse_file(st_location->config_file, ',');
@@ -408,7 +408,7 @@ visit the rmw web site at\n"));
 
 
 void
-init_config_data(st_config * x)
+init_config_data(st_config *x)
 {
   x->st_waste_folder_props_head = NULL;
   /*

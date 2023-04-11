@@ -65,7 +65,7 @@ function: <%s>\n\
  * @return an error number, 0 if no error
  */
 int
-close_file(FILE * file_ptr, const char *filename, const char *function_name)
+close_file(FILE *file_ptr, const char *filename, const char *function_name)
 {
   if (file_ptr == NULL)
     return -1;

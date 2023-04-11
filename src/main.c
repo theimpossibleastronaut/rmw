@@ -29,9 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 static int
-process_mrl(st_waste * waste_head,
-            st_time * st_time_var,
-            const char *mrl_file, rmw_options * cli_user_options)
+process_mrl(st_waste *waste_head,
+            st_time *st_time_var,
+            const char *mrl_file, rmw_options *cli_user_options)
 {
   char *contents = NULL;
   FILE *fp = fopen(mrl_file, "r");
@@ -104,7 +104,7 @@ process_mrl(st_waste * waste_head,
  * a linked list.
  */
 static st_removed *
-add_removal(st_removed * removals, const char *file)
+add_removal(st_removed *removals, const char *file)
 {
   if (removals == NULL)
   {
@@ -130,7 +130,7 @@ add_removal(st_removed * removals, const char *file)
  * Create a new undo_file (lastrmw)
  */
 static void
-create_undo_file(st_removed * removals_head, const char *mrl_file)
+create_undo_file(st_removed *removals_head, const char *mrl_file)
 {
   FILE *fd = fopen(mrl_file, "w");
   if (fd)
@@ -154,7 +154,7 @@ create_undo_file(st_removed * removals_head, const char *mrl_file)
  * recursively remove all nodes of an object of type @ref st_removed
  */
 static void
-dispose_removed(st_removed * node)
+dispose_removed(st_removed *node)
 {
   if (node != NULL)
   {
@@ -167,7 +167,7 @@ dispose_removed(st_removed * node)
 
 
 static void
-list_waste_folders(st_waste * waste_head)
+list_waste_folders(st_waste *waste_head)
 {
   // Directories that are not on attached medium are not included in
   // the waste linked list, so we can just assign true here.
@@ -188,10 +188,10 @@ list_waste_folders(st_waste * waste_head)
 static int
 remove_to_waste(const int argc,
                 char *const argv[],
-                st_waste * waste_head,
-                st_time * st_time_var,
-                const st_loc * st_location,
-                const rmw_options * cli_user_options)
+                st_waste *waste_head,
+                st_time *st_time_var,
+                const st_loc *st_location,
+                const rmw_options *cli_user_options)
 {
   rmw_target st_target;
 

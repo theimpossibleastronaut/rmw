@@ -52,8 +52,8 @@ const char *deletion_date_key = "DeletionDate";
 
 
 int
-create_trashinfo(rmw_target * st_f_props, st_waste * waste_curr,
-                 st_time * st_time_var)
+create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
+                 st_time *st_time_var)
 {
   char *tmp_final_info_dest =
     join_paths(waste_curr->info, st_f_props->base_name);
