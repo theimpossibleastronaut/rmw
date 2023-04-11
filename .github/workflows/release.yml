@@ -46,7 +46,7 @@ jobs:
 
   build-appimage:
     runs-on: ubuntu-20.04
-    container: andy5995/rmw-build-env:bionic
+    container: andy5995/rmw-build-env:focal
     env:
       ARCH: x86_64
       WORKSPACE: ${{ github.workspace }}

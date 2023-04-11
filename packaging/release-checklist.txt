@@ -39,9 +39,10 @@ Remove packaging directory from the resulting xz file
 
 Make the AppImage
 
-  To pass the test on https://github.com/AppImage/appimage.github.io, the image must be
-  built on an older system, such Ubuntu bionic. I do that in a docker image.
-  (The process is now in the GitHub workflow)
+  To pass the test on https://github.com/AppImage/appimage.github.io, the
+  image must be built on an older system, such as Ubuntu focal (see
+  https://github.com/AppImage/AppImageKit/discussions/1254). I do that in a
+  docker image. (The process is now in the GitHub workflow)
 
 Check copyright date/year
   packaging/debian/copyright

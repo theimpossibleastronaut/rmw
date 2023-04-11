@@ -27,6 +27,6 @@ docker run -it --rm \
   -e WORKSPACE \
   -e HOSTUID=$UID \
   -v $PWD:$WORKSPACE \
-  andy5995/rmw-build-env:bionic \
+  andy5995/rmw-build-env:focal \
     /bin/bash -c 'usermod -u $HOSTUID rmwbuilder \
     && su rmwbuilder --command "$WORKSPACE/packaging/appimage/workflow.sh"'

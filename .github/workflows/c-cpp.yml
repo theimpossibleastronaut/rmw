@@ -48,9 +48,6 @@ jobs:
           - name: ubuntu-22.04-clang
             os: ubuntu-22.04
             cc: clang
-          - name: ubuntu-18.04
-            os: ubuntu-22.04
-            container: 'andy5995/rmw-build-env:bionic'
           - name: Slackware
             os: ubuntu-20.04
             container: 'andy5995/slackware-build-essential:15.0'
