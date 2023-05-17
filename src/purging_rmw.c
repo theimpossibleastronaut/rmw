@@ -128,8 +128,6 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
               const char *trashinfo_entry_realpath, int *orphan_ctr,
               const char *pt_basename, int *ctr)
 {
-  int status = 0;
-
   int p_state = check_pathname_state(purge_target);
   if (p_state == P_STATE_ENOENT)
   {
@@ -159,18 +157,25 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
 
   bool is_dir = is_dir_f(purge_target);
 
-  status = 0;
+  int status = 0;
+  if (verbose)
+    printf("removing '%s\n", purge_target);
+
   if (!is_dir)
   {
     if (cli_user_options->want_dry_run == false)
       status = remove(purge_target);
+
+    if (status != 0)
+    {
+      msg_err_remove(purge_target, __func__);
+      errno = 0;
+    }
   }
   else
   {
     if (cli_user_options->want_dry_run == false)
       status = bsdutils_rm(purge_target, verbose);
-    else
-      printf("removing '%s\n", purge_target);
   }
 
   if (status == 0)
@@ -187,8 +192,6 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
     else
       msg_err_remove(trashinfo_entry_realpath, __func__);
   }
-  else
-    msg_err_remove(purge_target, __func__);
 
   return 0;
 }

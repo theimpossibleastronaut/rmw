@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2023-05-17
+
+  * bugfix: In some cases, trashinfo file doesn't get removed (#400)
+
 2023-03-18
 
   * tests: build or rebuild binary before running script-based tests (fix for
