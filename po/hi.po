@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-07 05:02-0600\n"
+"POT-Creation-Date: 2023-05-17 12:45-0500\n"
 "PO-Revision-Date: 2020-04-18 12:26+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -201,7 +201,7 @@ msgstr ""
 msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr ""
 
-#: src/purging_rmw.c:335
+#: src/purging_rmw.c:329
 #, fuzzy, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
@@ -220,7 +220,7 @@ msgstr[1] "%d files were removed to the waste folder"
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/purging_rmw.c:323
+#: src/purging_rmw.c:317
 #, fuzzy, c-format
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr "%d failen sudhikaran ki gayi hai"
@@ -258,7 +258,7 @@ msgid_plural "== contains %d files =="
 msgstr[0] "== shamil %d file =="
 msgstr[1] "== failen shamil %d hai =="
 
-#: src/purging_rmw.c:253
+#: src/purging_rmw.c:247
 msgid "Action cancelled."
 msgstr "karya band kiya gaya."
 
@@ -270,12 +270,12 @@ msgstr ""
 msgid "Continue? (y/n): "
 msgstr "Jari rakhen? (haan/na): "
 
-#: src/purging_rmw.c:391
+#: src/purging_rmw.c:385
 #, c-format
 msgid "Created %s\n"
 msgstr "Banaya gaya %s\n"
 
-#: src/messages_rmw.c:231
+#: src/messages_rmw.c:230
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Yeh directory banayi gayi %s\n"
@@ -289,7 +289,7 @@ msgstr "configuration file banate waqt:"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "behrupi file ka naam hai manzil par - sanlagn wakht par string \n"
 
-#: src/main.c:713
+#: src/main.c:714
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -304,12 +304,12 @@ msgstr ""
 msgid "No WASTE folder defined in '%s' that resides on the same filesystem.\n"
 msgstr ""
 
-#: src/purging_rmw.c:260
+#: src/purging_rmw.c:254
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "sari failen ki sudhikaran kiya jayega apshist folders …\n"
 
-#: src/purging_rmw.c:263
+#: src/purging_rmw.c:257
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr "sudhikaran files din ginke ke baad apshist folder se hogi (%u) …\n"
@@ -354,7 +354,7 @@ msgid ""
 "ALL NECESSARY SERVICING, REPAIR OR CORRECTION.\n"
 msgstr ""
 
-#: src/purging_rmw.c:250
+#: src/purging_rmw.c:244
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Apshist folder may jo hai abhi hataya jayega"
 
@@ -439,7 +439,7 @@ msgstr ""
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "sudhikaran nahi kiya gaya: -f or --force ka istemal karen\n"
 
-#: src/purging_rmw.c:244
+#: src/purging_rmw.c:238
 #, fuzzy, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -479,11 +479,6 @@ msgstr ""
 "configuration file and permissions ko dekhe\n"
 "\n"
 
-#: src/messages_rmw.c:127
-#, c-format
-msgid "while attempting to allocate memory -- %s:L%d\n"
-msgstr "memory avantit prayas karte wakht -- %s:L%d\n"
-
 #: src/messages_rmw.c:80
 #, fuzzy, c-format
 msgid ""
@@ -492,12 +487,12 @@ msgid ""
 "%s\n"
 msgstr "band karte waqt %s\n"
 
-#: src/purging_rmw.c:397
+#: src/purging_rmw.c:391
 #, c-format
 msgid "while creating %s\n"
 msgstr "banate wakht %s\n"
 
-#: src/messages_rmw.c:225
+#: src/messages_rmw.c:224
 #, fuzzy, c-format
 msgid "while creating %s (%s)\n"
 msgstr "banate wakht %s\n"
@@ -514,7 +509,7 @@ msgid ""
 "%s\n"
 msgstr "kholte wakht %s -- %sL%d\n"
 
-#: src/messages_rmw.c:145
+#: src/messages_rmw.c:144
 #, fuzzy, c-format
 msgid ""
 "while opening %s -- %s:L%d\n"
@@ -522,8 +517,11 @@ msgid ""
 msgstr "kholte wakht %s -- %sL%d\n"
 
 #: src/messages_rmw.c:214
-#, c-format
-msgid "while removing %s\n"
+#, fuzzy, c-format
+msgid ""
+"while removing %s:\n"
+"%s\n"
+"(func:%s)\n"
 msgstr "hatate wakht %s\n"
 
 #: src/restore_rmw.c:184
@@ -540,6 +538,10 @@ msgstr ""
 "hatane se pehle (rename) karen\n"
 " %s -> %s -- %s:L%d\n"
 "\n"
+
+#, c-format
+#~ msgid "while attempting to allocate memory -- %s:L%d\n"
+#~ msgstr "memory avantit prayas karte wakht -- %s:L%d\n"
 
 #, fuzzy, c-format
 #~ msgid "  :return code: %d\n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-07 05:02-0600\n"
+"POT-Creation-Date: 2023-05-17 12:45-0500\n"
 "PO-Revision-Date: 2022-10-14 23:11+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -221,7 +221,7 @@ msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr ""
 "# rmw Standard Mülleimer-Verzeichnis, unabhängig vom Schreibtisch-Mülleimer\n"
 
-#: src/purging_rmw.c:335
+#: src/purging_rmw.c:329
 #, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
@@ -240,7 +240,7 @@ msgstr[1] "%d Dateien wurden in den Papierkorb verschoben"
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr "%s existiert in einem Mülleimer Ordner und wird ignoriert\n"
 
-#: src/purging_rmw.c:323
+#: src/purging_rmw.c:317
 #, c-format
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr "'%s' wird in %.2lf Tag(en) gelöscht\n"
@@ -278,7 +278,7 @@ msgid_plural "== contains %d files =="
 msgstr[0] "== enthält %d Datei =="
 msgstr[1] "== enthält %d Dateien =="
 
-#: src/purging_rmw.c:253
+#: src/purging_rmw.c:247
 msgid "Action cancelled."
 msgstr "Ausführung abgebrochen."
 
@@ -290,12 +290,12 @@ msgstr "Argumente von --purge müssen Zahlen sein"
 msgid "Continue? (y/n): "
 msgstr "Weitermachen? (y/n): "
 
-#: src/purging_rmw.c:391
+#: src/purging_rmw.c:385
 #, c-format
 msgid "Created %s\n"
 msgstr "%s angelegt\n"
 
-#: src/messages_rmw.c:231
+#: src/messages_rmw.c:230
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Verzeichnis %s angelegt\n"
@@ -309,7 +309,7 @@ msgstr "Erzeuge Standard-Konfigurationsdatei:"
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Doppelte Dateiname im Zielverzeichnis, hänge Zeitstempel an...\n"
 
-#: src/main.c:713
+#: src/main.c:714
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -323,12 +323,12 @@ msgstr ""
 msgid "No WASTE folder defined in '%s' that resides on the same filesystem.\n"
 msgstr ""
 
-#: src/purging_rmw.c:260
+#: src/purging_rmw.c:254
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Lösche alle Dateien aus Papierkörben ...\n"
 
-#: src/purging_rmw.c:263
+#: src/purging_rmw.c:257
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
@@ -383,7 +383,7 @@ msgstr ""
 "DAS PROGRAMM SICH ALS FEHLERHAFT HERAUSSTELLEN, ÜBERNEHMEN SIE DIE KOSTEN\n"
 "FÜR ALLE NOTWENDIGEN WARTUNGSARBEITEN, REPARATUREN ODER VERBESSERUNGEN.\n"
 
-#: src/purging_rmw.c:250
+#: src/purging_rmw.c:244
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Der Inhalt aller Mülleimer wird gelöscht -"
 
@@ -475,7 +475,7 @@ msgstr ""
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "Papierkorbleerung wurde übersprungen: verwende -f oder --force\n"
 
-#: src/purging_rmw.c:244
+#: src/purging_rmw.c:238
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -526,11 +526,6 @@ msgstr ""
 "Bitte überprüfen Sie ihre Konfigurationsdatei und ihre Berechtigungen.\n"
 "\n"
 
-#: src/messages_rmw.c:127
-#, c-format
-msgid "while attempting to allocate memory -- %s:L%d\n"
-msgstr "beim Versuch Speicher zu beziehen -- %s:L%d\n"
-
 #: src/messages_rmw.c:80
 #, fuzzy, c-format
 msgid ""
@@ -539,12 +534,12 @@ msgid ""
 "%s\n"
 msgstr "beim Schließen von %s\n"
 
-#: src/purging_rmw.c:397
+#: src/purging_rmw.c:391
 #, c-format
 msgid "while creating %s\n"
 msgstr "beim Anlegen von %s\n"
 
-#: src/messages_rmw.c:225
+#: src/messages_rmw.c:224
 #, c-format
 msgid "while creating %s (%s)\n"
 msgstr "beim Anlegen von %s (%s)\n"
@@ -561,7 +556,7 @@ msgid ""
 "%s\n"
 msgstr "beim Öffnen %s -- %s:L%d\n"
 
-#: src/messages_rmw.c:145
+#: src/messages_rmw.c:144
 #, fuzzy, c-format
 msgid ""
 "while opening %s -- %s:L%d\n"
@@ -569,8 +564,11 @@ msgid ""
 msgstr "beim Öffnen %s -- %s:L%d\n"
 
 #: src/messages_rmw.c:214
-#, c-format
-msgid "while removing %s\n"
+#, fuzzy, c-format
+msgid ""
+"while removing %s:\n"
+"%s\n"
+"(func:%s)\n"
 msgstr "beim Löschen von %s\n"
 
 #: src/restore_rmw.c:184
@@ -586,6 +584,10 @@ msgid ""
 msgstr ""
 "Beim Versuch zu verschieben bzw. umzubenennen\n"
 "  %s -> %s -- %s:L%d\n"
+
+#, c-format
+#~ msgid "while attempting to allocate memory -- %s:L%d\n"
+#~ msgstr "beim Versuch Speicher zu beziehen -- %s:L%d\n"
 
 #, c-format
 #~ msgid "  :return code: %d\n"

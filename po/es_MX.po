@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.8.0-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-07 05:02-0600\n"
+"POT-Creation-Date: 2023-05-17 12:45-0500\n"
 "PO-Revision-Date: 2018-10-14 20:48+0000\n"
 "Last-Translator: Juan Carlos López <jclopezdev@gmail.com>, 2018\n"
 "Language-Team: Spanish (Mexico) (https://www.transifex.com/aalt/teams/92532/"
@@ -187,7 +187,7 @@ msgstr ""
 msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr ""
 
-#: src/purging_rmw.c:335
+#: src/purging_rmw.c:329
 #, fuzzy, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
@@ -206,7 +206,7 @@ msgstr[1] ""
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/purging_rmw.c:323
+#: src/purging_rmw.c:317
 #, c-format
 msgid "'%s' will be purged in %.2lf days\n"
 msgstr ""
@@ -244,7 +244,7 @@ msgid_plural "== contains %d files =="
 msgstr[0] "== contiene %d archivo =="
 msgstr[1] "== contiene %d archivos =="
 
-#: src/purging_rmw.c:253
+#: src/purging_rmw.c:247
 msgid "Action cancelled."
 msgstr ""
 
@@ -256,12 +256,12 @@ msgstr ""
 msgid "Continue? (y/n): "
 msgstr ""
 
-#: src/purging_rmw.c:391
+#: src/purging_rmw.c:385
 #, c-format
 msgid "Created %s\n"
 msgstr "Creado %s\n"
 
-#: src/messages_rmw.c:231
+#: src/messages_rmw.c:230
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Directorio creado %s\n"
@@ -276,7 +276,7 @@ msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 "Nombre del archivo duplicado en el destino - anexando cadena de tiempo...\n"
 
-#: src/main.c:713
+#: src/main.c:714
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -288,12 +288,12 @@ msgstr ""
 msgid "No WASTE folder defined in '%s' that resides on the same filesystem.\n"
 msgstr ""
 
-#: src/purging_rmw.c:260
+#: src/purging_rmw.c:254
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr ""
 
-#: src/purging_rmw.c:263
+#: src/purging_rmw.c:257
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
@@ -351,7 +351,7 @@ msgstr ""
 "ES SIN USTED.  SI EL PROGRAMA RESULTA DEFECTUOSO, USTED ASUME EL COSTO DE\n"
 "TODO SERVICIO NECESARIO, REPARACIN O CORRECCIN.\n"
 
-#: src/purging_rmw.c:250
+#: src/purging_rmw.c:244
 msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
@@ -430,7 +430,7 @@ msgstr ""
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "eliminacin ha sido omitida: use -f o --force\n"
 
-#: src/purging_rmw.c:244
+#: src/purging_rmw.c:238
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -475,11 +475,6 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/messages_rmw.c:127
-#, c-format
-msgid "while attempting to allocate memory -- %s:L%d\n"
-msgstr ""
-
 #: src/messages_rmw.c:80
 #, c-format
 msgid ""
@@ -488,12 +483,12 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#: src/purging_rmw.c:397
+#: src/purging_rmw.c:391
 #, c-format
 msgid "while creating %s\n"
 msgstr ""
 
-#: src/messages_rmw.c:225
+#: src/messages_rmw.c:224
 #, c-format
 msgid "while creating %s (%s)\n"
 msgstr ""
@@ -510,7 +505,7 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#: src/messages_rmw.c:145
+#: src/messages_rmw.c:144
 #, c-format
 msgid ""
 "while opening %s -- %s:L%d\n"
@@ -519,7 +514,10 @@ msgstr ""
 
 #: src/messages_rmw.c:214
 #, c-format
-msgid "while removing %s\n"
+msgid ""
+"while removing %s:\n"
+"%s\n"
+"(func:%s)\n"
 msgstr ""
 
 #: src/restore_rmw.c:184
