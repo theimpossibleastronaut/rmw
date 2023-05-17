@@ -3,6 +3,7 @@
 2023-05-17
 
   * bugfix: In some cases, trashinfo file doesn't get removed (#400)
+  * rmw v0.9.1 released
 
 2023-03-18
 

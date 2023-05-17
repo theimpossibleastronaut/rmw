@@ -29,6 +29,9 @@ Ex:
 
 Change Month and Year in man/rmw.1
 
+Generate html version of the manual:
+  `roff2html rmw.1  > rmw_man.html` (mv the output to the website directory)
+
 cd ..
 
 commit changes (NOTE: meson dist only packages *committed* changes)

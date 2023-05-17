@@ -1,17 +1,12 @@
 === RMW Release Notes ===
 
-v0.9.0
+v0.9.1
 
-  - When purging, '-ff' is no longer needed to confirm removal of
-  non-writable expired directories and files
-  * replace function used to remove directories with rm from FreeBSD;
-  Thanks to @DiegoMagdaleno and @dcantrell
-  * change message displayed to user when a file being rmw'ed is on a
-  filesystem that doesn't haven't a WASTE folder defined
-  + Ignore requests to ReMove top-level files, add --top-level-bypass option
-  to bypass the protection
-  + Ignore requests to ReMove user's home directory
-    * bugfix: buffer underflow when calling trim_char() with empty
-  string (Thanks to Christopher Wellons)
-  * replace valgrind test setup with asan (-fsanitize)
-  * the 'ESC' key can now be used to quit the restore file selection menu
+  * bugfix: In some cases, trashinfo file doesn't get removed (#400)
+  * tests: build or rebuild binary before running script-based tests (fix for
+  script-based test failures when 'meson test' is run in a clean build
+  directory)
+  - on MacOS and *bsd, specifying the PKG_CONFIG_PATH is no longer needed to
+  find the ncurses menu library
+  * fix build on Alpine Linux (check for and link to musl-fts) Thanks to
+  @eli-schwartz and Hello71 from #musl on Libera IRC.
