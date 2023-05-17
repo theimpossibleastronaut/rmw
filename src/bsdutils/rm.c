@@ -65,7 +65,8 @@ static char sccsid[] = "@(#)rm.c	8.5 (Berkeley) 4/18/94";
 
 #include "compat.h"
 
-static int dflag, eval, fflag, iflag, vflag, stdin_ok;
+int eval;
+static int dflag, fflag, iflag, vflag, stdin_ok;
 static int xflag;
 static uid_t uid;
 static volatile sig_atomic_t info;
@@ -86,6 +87,7 @@ bsdutils_rm(const char *const argv, bool want_verbose)
 {
 	(void)setlocale(LC_ALL, "");
 
+	eval = 0;
 	iflag = dflag = fflag = 0;
 
 	vflag = want_verbose ? true : false;
@@ -280,3 +282,35 @@ siginfo(int sig __attribute__((unused)))
 
 	info = 1;
 }
+
+///////////////////////////////////////////////////////////////////////
+#ifdef TEST_LIB
+
+#include "test.h"
+
+static void
+test_bsdutils_rm(void)
+{
+  const char *dir = "flippity-dip";
+  assert(bsdutils_rm(dir, 1) == 1);
+  int i;
+  for (i = 0; i < 3; i++)
+  {
+    assert(mkdir(dir, 0700) == 0);
+    assert(chdir(dir) == 0);
+  }
+  for (i = 0; i < 3; i++)
+    assert(chdir("..") == 0);
+
+  assert(bsdutils_rm(dir, 1) == 0);
+
+  return;
+}
+
+int main(void)
+{
+  test_bsdutils_rm();
+  return 0;
+}
+
+#endif
