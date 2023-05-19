@@ -10,6 +10,7 @@ RUN DESTDIR=/tmp/rmw ninja install
 FROM alpine
 COPY --from=0 /tmp/rmw/ /
 RUN apk add \
+      libmenuw \
       mandoc \
       musl-fts \
       ncurses
