@@ -33,6 +33,12 @@ arguments:
 See [Website Design](https://theimpossibleastronaut.github.io/rmw-website/website-design.html)
 for information specific to the rmw website.
 
+## Translating
+
+See the [translating
+page](https://theimpossibleastronaut.com/rmw-website/translating.html) on the
+website.
+
 ## Patches and Pull Requests
 
 To prevent work-overlap, please post on a ticket if you'll be working
