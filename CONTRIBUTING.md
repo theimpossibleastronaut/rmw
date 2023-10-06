@@ -1,12 +1,9 @@
 # Contributing to rmw
 
-## Bug Reports and Feature Requests
+## Bug Reports
 
 Anyone may [open an
 issue](https://github.com/theimpossibleastronaut/rmw/issues).
-
-Feature requests should go in [GitHub
-Discussions](https://github.com/theimpossibleastronaut/rmw/discussions).
 
 ## Coding Standards
 

@@ -37,7 +37,7 @@ page on the website.
 
 ## Contact / Support
 
-* [Bug Reports and Feature Requests](https://github.com/theimpossibleastronaut/rmw/blob/master/CONTRIBUTING.md#bug-reports-and-feature-requests)
+* [Bug Reports](https://github.com/theimpossibleastronaut/rmw/blob/master/CONTRIBUTING.md#bug-reports)
 * [General Help, Support, Discussion](https://theimpossibleastronaut.github.io/rmw-website/#support)
 
 ## Installation
