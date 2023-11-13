@@ -144,7 +144,7 @@ jobs:
         submodules: true
     - name: Test in OpenBSD
       id: test
-      uses: vmactions/openbsd-vm@v0
+      uses: vmactions/openbsd-vm@v1
       with:
         usesh: true
         prepare: |
