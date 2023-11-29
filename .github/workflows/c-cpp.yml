@@ -136,7 +136,7 @@ jobs:
       run: cd builddir && meson dist --include-subprojects
 
   openbsd:
-    runs-on: macos-12
+    runs-on: ubuntu-22.04
     name: A job to run test in OpenBSD
     steps:
     - uses: actions/checkout@v4
@@ -144,7 +144,7 @@ jobs:
         submodules: true
     - name: Test in OpenBSD
       id: test
-      uses: vmactions/openbsd-vm@v0
+      uses: vmactions/openbsd-vm@v1
       with:
         usesh: true
         prepare: |
