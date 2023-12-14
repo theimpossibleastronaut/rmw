@@ -39,7 +39,7 @@ jobs:
         xz ${REL_TAR}
         sha256sum ${REL_TAR}.xz > ${REL_TAR}.xz.sha256sum
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: rmw_dist_archive
         path: ${{ github.workspace }}/builddir/meson-dist/*
@@ -58,7 +58,7 @@ jobs:
       run: |
         packaging/appimage/workflow.sh
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: rmw_appimage
         path: ${{ github.workspace }}/packaging/appimage/rmw*.AppImage*
@@ -79,7 +79,7 @@ jobs:
         cd output
         sha256sum rmw_${VERSION}_amd64.deb > ../rmw_${VERSION}_amd64.deb.sha256sum
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: rmw_debian_pkg
         path: |
