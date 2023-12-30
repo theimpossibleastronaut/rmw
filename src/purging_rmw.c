@@ -188,6 +188,9 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
       (*ctr)++;
       if (verbose)
         printf("-%s\n", pt_basename);
+      else
+        if ((*ctr % 50) == 0)
+          putchar('-');
     }
     else
       msg_err_remove(trashinfo_entry_realpath, __func__);
@@ -254,10 +257,11 @@ purge(st_config *st_config_data,
     printf(_("Purging all files in waste folders ...\n"));
   else
     printf(_
-           ("Purging files based on number of days in the waste folders (%u) ...\n"),
+           ("Purging files based on number of days in the waste folders (%u) "),
            st_config_data->expire_age);
 
   int ctr = 0;
+  int n_entries = 0;
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
   while (waste_curr != NULL)
@@ -280,6 +284,13 @@ purge(st_config *st_config_data,
     {
       if (isdotdir(st_trashinfo_dir_entry->d_name))
         continue;
+
+      if (!verbose)
+      {
+        n_entries++;
+        if ((n_entries % 25) == 0)
+          putchar('*');
+      }
 
       char *tmp_str =
         join_paths(waste_curr->info, st_trashinfo_dir_entry->d_name);
@@ -326,6 +337,8 @@ purge(st_config *st_config_data,
     waste_curr = waste_curr->next_node;
   }
 
+  if (!verbose)
+    putchar('\n');
   printf(ngettext("%d item purged", "%d items purged", ctr), ctr);
   putchar('\n');
 

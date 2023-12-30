@@ -167,9 +167,8 @@ create_temp_files
 RMW_FAKE_YEAR=True $RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/tmp-files/*
 output=$($RMW_TEST_CMD_STRING -g)
 echo $output
-test "${output}" = "
-Purging files based on number of days in the waste folders (90) ...
-3 items purged"
+cmp_substr "${output}" "3 items purged"
+cmp_substr "${output}" "Purging files based on number of days in the waste folders (90)"
 
 # filenames with parens
 # THIS TEST DOESN'T WORK.
