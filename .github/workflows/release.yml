@@ -4,6 +4,8 @@ concurrency:
   cancel-in-progress: true
 
 on:
+  pull_request:
+    branches: master
   workflow_dispatch:
     inputs:
       version:
@@ -45,23 +47,51 @@ jobs:
         path: ${{ github.workspace }}/builddir/meson-dist/*
 
   build-appimage:
-    runs-on: ubuntu-20.04
-    container: andy5995/rmw-build-env:focal
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [amd64, arm64]
     env:
-      ARCH: x86_64
-      WORKSPACE: ${{ github.workspace }}
+      VERSION: ${{ inputs.version }}
     steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
-    - name: Prepare AppImage
-      run: |
-        packaging/appimage/workflow.sh
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: rmw_appimage
-        path: ${{ github.workspace }}/packaging/appimage/rmw*.AppImage*
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - if: ${{ inputs.version }} == ''
+        run: echo "VERSION=${{ github.sha }}" >> $GITHUB_ENV
+      - name: Build AppImage
+        uses: andy5995/linuxdeploy-build-helper@v1
+        with:
+          platform: ${{ matrix.platform }}
+          dependency_commands: |
+            sudo apt install -y libncursesw5-dev
+          build_commands: |
+            export -p
+            meson setup _build -Dprefix=/usr
+            cd _build
+            ninja
+          install_to_appdir_commands: |
+            meson install --destdir=$APPDIR --skip-subprojects
+          linuxdeploy_output_version: $VERSION
+          linuxdeploy_args: |
+            -d packaging/rmw.desktop \
+            --icon-file=packaging/rmw_icon_32x32.png \
+            --icon-filename=rmw \
+            --executable=$APPDIR/usr/bin/rmw \
+            -o appimage
+
+      - name: Create sha256sum
+        run: |
+          cd out
+          sha256sum $IMAGE_FILENAME > $IMAGE_FILENAME.sha256sum
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.IMAGE_FILENAME }}
+          path: ./out/*
+          if-no-files-found: error
 
   build-deb:
     runs-on: ubuntu-20.04
