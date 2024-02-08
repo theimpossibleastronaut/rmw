@@ -64,15 +64,7 @@ jobs:
         uses: andy5995/linuxdeploy-build-helper@v1
         with:
           platform: ${{ matrix.platform }}
-          dependency_commands: |
-            sudo apt install -y libncursesw5-dev
-          build_commands: |
-            export -p
-            meson setup _build -Dprefix=/usr
-            cd _build
-            ninja
-          install_to_appdir_commands: |
-            meson install --destdir=$APPDIR --skip-subprojects
+          pre_appimage_script: packaging/appimage/pre-appimage.sh
           linuxdeploy_output_version: $VERSION
           linuxdeploy_args: |
             -d packaging/rmw.desktop \
