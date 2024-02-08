@@ -64,7 +64,6 @@ jobs:
         uses: andy5995/linuxdeploy-build-helper@docs-update
         with:
           platform: ${{ matrix.platform }}
-          source_root: ${{ env.ACTION_WORKSPACE }}
           pre_appimage_script: packaging/appimage/pre-appimage.sh
           linuxdeploy_output_version: $VERSION
           linuxdeploy_args: |
