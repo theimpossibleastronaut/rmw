@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform: [amd64, arm64]
+        platform: ['amd64', 'arm64', 'arm/v7']
     env:
       VERSION: ${{ inputs.version }}
     steps:
@@ -61,9 +61,10 @@ jobs:
       - if: ${{ inputs.version }} == ''
         run: echo "VERSION=${{ github.sha }}" >> $GITHUB_ENV
       - name: Build AppImage
-        uses: andy5995/linuxdeploy-build-helper@v1
+        uses: andy5995/linuxdeploy-build-helper@docs-update
         with:
           platform: ${{ matrix.platform }}
+          source_root: ${{ env.ACTION_WORKSPACE }}
           pre_appimage_script: packaging/appimage/pre-appimage.sh
           linuxdeploy_output_version: $VERSION
           linuxdeploy_args: |
