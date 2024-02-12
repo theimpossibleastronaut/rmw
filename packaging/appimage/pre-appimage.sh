@@ -36,13 +36,8 @@ else
 fi
 
 # Install necessary dependencies
-sudo apt install -y \
-  gettext \
-  liblua5.1-0-dev \
-  libphysfs-dev \
-  libsdl2-dev \
-  libsdl2-mixer-dev \
-  libsdl2-ttf-dev
+sudo apt update && apt upgrade -y && \
+  apt install -y libncursesw5-dev
 
 # Set up build directory
 BUILD_DIR="$SOURCE_ROOT/appimage_build"
