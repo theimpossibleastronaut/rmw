@@ -75,6 +75,7 @@ jobs:
       - name: Build AppImage
         run: |
           docker run -t \
+            --rm \
             --platform=${{ matrix.platform }} \
             -e HOSTUID=$(id -u) \
             -e VERSION \
