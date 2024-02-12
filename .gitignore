@@ -6,4 +6,5 @@
 *.deb
 packaging/appimage/AppDir
 packaging/appimage/squashfs*
-packaging/appimage/*AppImage*
+*AppImage*
+/.vscode
