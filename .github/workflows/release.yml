@@ -50,7 +50,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform: ['amd64', 'arm64', 'arm/v7']
+        platform:
+          - linux/amd64
+          - linux/arm64
+          - linux/arm/v7
+
     env:
       VERSION: ${{ inputs.version }}
     steps:
@@ -58,25 +62,32 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
-      - if: ${{ inputs.version }} == ''
-        run: echo "VERSION=${{ github.sha }}" >> $GITHUB_ENV
+
+      - if: ${{ ! contains(matrix.platform, 'amd64') }}
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set variables
+        run: |
+          if [ -z "$VERSION" ]; then
+            echo "VERSION=${{ github.sha }}" >> $GITHUB_ENV
+          fi
+
       - name: Build AppImage
-        uses: andy5995/linuxdeploy-build-helper@docs-update
-        with:
-          platform: ${{ matrix.platform }}
-          pre_appimage_script: packaging/appimage/pre-appimage.sh
-          linuxdeploy_output_version: $VERSION
-          linuxdeploy_args: |
-            -d packaging/rmw.desktop \
-            --icon-file=packaging/rmw_icon_32x32.png \
-            --icon-filename=rmw \
-            --executable=$APPDIR/usr/bin/rmw \
-            -o appimage
+        run: |
+          docker run -t \
+            --platform=${{ matrix.platform }} \
+            -e HOSTUID=$(id -u) \
+            -e VERSION \
+            -v $GITHUB_WORKSPACE:/workspace \
+            -w /workspace \
+            andy5995/linuxdeploy:latest packaging/appimage/pre-appimage.sh
 
       - name: Create sha256sum
         run: |
+          IMAGE_FILENAME=$(basename `find out/*AppImage`)
+          echo "IMAGE_FILENAME=$IMAGE_FILENAME" >> $GITHUB_ENV
           cd out
-          sha256sum $IMAGE_FILENAME > $IMAGE_FILENAME.sha256sum
+          sha256sum "$IMAGE_FILENAME" > "$IMAGE_FILENAME.sha256sum"
 
       - name: Upload AppImage
         uses: actions/upload-artifact@v4
