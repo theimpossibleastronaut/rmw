@@ -23,7 +23,7 @@ foreach case : test_cases
     'test_' + case,
     '../src/' + case + '.c',
     c_args : ['-DTEST_LIB', '-DRMW_FAKE_HOME="@0@"'.format(RMW_FAKE_HOME)],
-    dependencies: [dep_canfigger, dep_rmw]
+    dependencies: rmw_dep
     )
   test('test_' + case, exe)
 endforeach
