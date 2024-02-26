@@ -111,6 +111,8 @@ refusing to ReMove '.' or '..' directory: skipping 'tmpdot/..'
 else
   expected="2 items were removed to the waste folder"
 fi
+echo output: ${output}
+echo expected: ${expected}
 test "${output}" = "$expected"
 
 expected="0 orphans found"
