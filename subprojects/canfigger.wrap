@@ -2,3 +2,6 @@
 url = https://github.com/andy5995/canfigger.git
 revision = head
 depth = 1
+
+[provide]
+canfigger = canfigger_dep

@@ -53,10 +53,10 @@ localedir = join_paths(get_option('prefix'), get_option('localedir'))
 subdir('po')
 
 # https://mesonbuild.com/Subprojects.html
-dep_canfigger = dependency(
+canfigger_dep = dependency(
   'canfigger',
-  version : '>=0.2.0',
-  fallback : ['canfigger', 'dep_canfigger'], default_options: 'default_library=static',
+  version : '>=0.3.0',
+  fallback : ['canfigger', 'canfigger_dep'], default_options: 'default_library=static',
   )
 
 subdir('src')

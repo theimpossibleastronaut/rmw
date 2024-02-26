@@ -167,17 +167,20 @@ realize_str(char *str, const char *homedir, const char *uid)
  * folders.
  */
 static st_waste *
-parse_line_waste(st_waste *waste_curr, st_canfigger_node *node,
+parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
                  const rmw_options *cli_user_options, bool fake_media_root,
                  const char *homedir, const char *uid)
 {
   bool removable = 0;
-  if (strcmp("removable", node->attr_node->str) == 0)
-    removable = 1;
-  else if (*node->attr_node->str != '\0')
+  if (canfigger_attr)
   {
-    print_msg_warn();
-    printf("ignoring invalid attribute: '%s'\n", node->attr_node->str);
+    if (strcmp("removable", canfigger_attr) == 0)
+      removable = 1;
+    else
+    {
+      print_msg_warn();
+      printf("ignoring invalid attribute: '%s'\n", node->attributes->str);
+    }
   }
 
   bufchk_len(strlen(node->value) + 1, PATH_MAX, __func__, __LINE__);
@@ -300,9 +303,8 @@ void
 parse_config_file(const rmw_options *cli_user_options,
                   st_config *st_config_data, const st_loc *st_location)
 {
-  st_canfigger_list *cfg_node =
+  struct Canfigger *cfg_node =
     canfigger_parse_file(st_location->config_file, ',');
-  st_canfigger_list *root = cfg_node;
 
   if (cfg_node == NULL)
   {
@@ -386,11 +388,8 @@ parse_config_file(const rmw_options *cli_user_options,
       print_msg_warn();
       printf(_("Unknown or invalid option: '%s'\n"), cfg_node->key);
     }
-    canfigger_free_attr(cfg_node->attr_node);
-    cfg_node = cfg_node->next;
+    canfigger_free_current_key_node_advance(&cfg_node);
   }
-
-  canfigger_free(root);
 
   if (waste_curr == NULL)
   {

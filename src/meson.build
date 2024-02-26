@@ -38,7 +38,7 @@ config_h = configure_file(output : 'config.h', configuration : conf)
 
 deps_librmw = [
     dep_intl,
-    dep_canfigger,
+    canfigger_dep,
     dep_menu,
     dep_curses
     ]
