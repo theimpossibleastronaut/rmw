@@ -89,7 +89,8 @@ trim_whitespace(char *str)
 
   char *pos_0 = str;
   /* Advance pointer until NULL terminator is found */
-  str = strchr(str, '\0');
+  while (*str != '\0')
+    str++;
 
   /* set pointer to segment preceding NULL terminator */
   if (str != pos_0)
