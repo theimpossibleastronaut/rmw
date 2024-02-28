@@ -172,9 +172,11 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
                  const char *homedir, const char *uid)
 {
   bool removable = 0;
-  if (canfigger_attr)
+  char *attr = NULL;
+  canfigger_free_current_attr_str_advance(node->attributes, &attr);
+  if (attr)
   {
-    if (strcmp("removable", canfigger_attr) == 0)
+    if (strcmp("removable", attr) == 0)
       removable = 1;
     else
     {
