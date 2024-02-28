@@ -8,7 +8,7 @@ freebsd_task:
 
   pkginstall_script:
     - pkg update -f
-    - pkg install -y meson ninja gettext pkgconf
+    - pkg install -y git meson ninja gettext pkgconf
 
   setup_script:
     - meson setup builddir

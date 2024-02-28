@@ -148,7 +148,7 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg_add gettext meson ninja
+          pkg_add gettext git meson ninja
 
         run: |
           meson setup builddir -Db_sanitize=none || cat builddir/meson-logs/meson-log.txt
