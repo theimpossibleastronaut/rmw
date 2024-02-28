@@ -3,9 +3,6 @@ freebsd_task:
   freebsd_instance:
     image_family: freebsd-13-2
 
-  env:
-    CIRRUS_CLONE_SUBMODULES: true
-
   pkginstall_script:
     - pkg update -f
     - pkg install -y git meson ninja gettext pkgconf

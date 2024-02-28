@@ -77,7 +77,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        submodules: true
+        submodules: false
 
     - if: ${{ env.CC }}
       run: |
@@ -141,7 +141,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        submodules: true
+        submodules: false
     - name: Test in OpenBSD
       id: test
       uses: vmactions/openbsd-vm@v1

@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        submodules: true
+        submodules: false
     - name: Install dependencies
       run: |
         sudo apt install -y \
@@ -61,7 +61,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: false
 
       - if: ${{ ! contains(matrix.platform, 'amd64') }}
         uses: docker/setup-qemu-action@v3
