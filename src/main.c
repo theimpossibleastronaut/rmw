@@ -58,7 +58,7 @@ process_mrl(st_waste *waste_head,
       fprintf(stderr, "while reading %s\n", mrl_file);
       clearerr(fp);
     }
-    close_file(fp, mrl_file, __func__);
+    close_file(&fp, mrl_file, __func__);
     // This fixes a coverity warning, and may be a good idea anyway, since the data read
     // by fread may not be null-terminated.
     contents[f_size] = '\0';
@@ -132,16 +132,16 @@ add_removal(st_removed *removals, const char *file)
 static void
 create_undo_file(st_removed *removals_head, const char *mrl_file)
 {
-  FILE *fd = fopen(mrl_file, "w");
-  if (fd)
+  FILE *fp = fopen(mrl_file, "w");
+  if (fp)
   {
     st_removed *st_removals_list = removals_head;
     while (st_removals_list != NULL)
     {
-      fprintf(fd, "%s\n", st_removals_list->file);
+      fprintf(fp, "%s\n", st_removals_list->file);
       st_removals_list = st_removals_list->next_node;
     }
-    close_file(fd, mrl_file, __func__);
+    close_file(&fp, mrl_file, __func__);
   }
   else
     open_err(mrl_file, __func__);
@@ -522,14 +522,14 @@ get_locations(const char *alt_config_file)
 
   if ((p_state = check_pathname_state(x.config_file)) == P_STATE_ENOENT)
   {
-    FILE *fd = fopen(x.config_file, "w");
-    if (fd)
+    FILE *fp = fopen(x.config_file, "w");
+    if (fp)
     {
       puts(_("Creating default configuration file:"));
       printf("  %s\n\n", x.config_file);
 
-      print_config(fd);
-      close_file(fd, x.config_file, __func__);
+      print_config(fp);
+      close_file(&fp, x.config_file, __func__);
     }
     else
     {

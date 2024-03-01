@@ -83,7 +83,7 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
      **/
     char *escaped_path = escape_url(st_f_props->real_path);
     if (escaped_path == NULL)
-      return close_file(fp, final_info_dest, __func__);
+      return close_file(&fp, final_info_dest, __func__);
 
     char *escaped_path_ptr = escaped_path;
     if (waste_curr->media_root != NULL)
@@ -108,7 +108,7 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
     fprintf(fp, "%s%s\n", st_trashinfo_template[TI_DATE_LINE].str,
             st_time_var->deletion_date);
 
-    return close_file(fp, final_info_dest, __func__);
+    return close_file(&fp, final_info_dest, __func__);
   }
   else
   {
@@ -191,7 +191,7 @@ parse_trashinfo_file(const char *file, const char *req_value)
       }
       line_no++;
     }
-    close_file(fp, file, __func__);
+    close_file(&fp, file, __func__);
 
     if (res && line_no == TI_LINE_COUNT)
       return trashinfo_field.value;

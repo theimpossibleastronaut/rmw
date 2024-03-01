@@ -119,7 +119,7 @@ fi
 # /dev/sda7 on /mnt/sda7 type ext4 (rw,relatime)
 # /dev/sda7 on /home/andy/src type ext4 (rw,relatime)
 
-if test -d /mnt/e2f95a91; then
+if test -d /mnt/918375c2; then
   test_file="media_root_test"
   PREV_RMW_FAKE_HOME=${RMW_FAKE_HOME}
   # needs to be unset so rmw will use $HOME instead

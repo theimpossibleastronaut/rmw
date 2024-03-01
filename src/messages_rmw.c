@@ -65,12 +65,12 @@ function: <%s>\n\
  * @return an error number, 0 if no error
  */
 int
-close_file(FILE *file_ptr, const char *filename, const char *function_name)
+close_file(FILE **fp, const char *filename, const char *function_name)
 {
-  if (file_ptr == NULL)
+  if (*fp == NULL)
     return -1;
 
-  if (fclose(file_ptr) != EOF)
+  if (fclose(*fp) != EOF)
     return 0;
   else
   {
@@ -83,6 +83,7 @@ function: <%s>\n\
     return dup_errno;
   }
 }
+
 
 void
 display_dot_trashinfo_error(const char *dti)

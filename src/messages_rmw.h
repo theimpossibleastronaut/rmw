@@ -33,8 +33,7 @@ void print_msg_warn(void);
 
 void open_err(const char *filename, const char *function_name);
 
-int
-close_file(FILE * file_ptr, const char *filename, const char *function_name);
+int close_file(FILE **fp, const char *filename, const char *function_name);
 
 void display_dot_trashinfo_error(const char *dti);
 

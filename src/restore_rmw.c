@@ -528,11 +528,11 @@ undo_last_rmw(st_time *st_time_var, const char *mrl_file, const
   {
     if (cli_user_options->want_dry_run == false)
     {
-      FILE *fd = fopen(mrl_file, "w");
-      if (fd != NULL)
+      FILE *fp = fopen(mrl_file, "w");
+      if (fp != NULL)
       {
-        fprintf(fd, "%s", mrl_is_empty);
-        close_file(fd, mrl_file, __func__);
+        fprintf(fp, "%s", mrl_is_empty);
+        close_file(&fp, mrl_file, __func__);
       }
       else
         open_err(mrl_file, __func__);
