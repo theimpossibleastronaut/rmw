@@ -54,12 +54,12 @@ is_time_to_purge(st_time *st_time_var, const char *file)
       print_msg_error();
       printf("while getting line from %s\n", file);
       perror(__func__);
-      close_file(fp, file, __func__);
+      close_file(&fp, file, __func__);
       exit(EXIT_FAILURE);
     }
 
     trim_whitespace(time_prev);
-    close_file(fp, file, __func__);
+    close_file(&fp, file, __func__);
 
     if ((st_time_var->now - atoi(time_prev)) < SECONDS_IN_A_DAY)
       return false;
@@ -69,7 +69,7 @@ is_time_to_purge(st_time *st_time_var, const char *file)
   if (fp)
   {
     fprintf(fp, "%ld\n", st_time_var->now);
-    close_file(fp, file, __func__);
+    close_file(&fp, file, __func__);
 
     /*
      * if this is the first time the file got created, it's very likely
