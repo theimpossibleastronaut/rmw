@@ -131,23 +131,23 @@ if test -d /mnt/918375c2; then
   if test -f /home/andy/src/.Trash-1000/files/$test_file; then
     rm /home/andy/src/.Trash-1000/files/$test_file
   fi
-  if test -f /home/andy/src/.Trash-1000/info/$test_file.trashinfo; then
-    rm /home/andy/src/.Trash-1000/info/$test_file.trashinfo
+  if test -f /home/andy/src/rmw-project/.Trash-1000/info/$test_file.trashinfo; then
+    rm /home/andy/src/rmw-project/.Trash-1000/info/$test_file.trashinfo
   fi
   touch $test_file_path
   $BIN_DIR/rmw -c /home/andy/.config/rmwrc $test_file_path
   echo $SEPARATOR
-  output=$(grep Path /home/andy/src/.Trash-1000/info/$test_file.trashinfo)
+  output=$(grep Path /home/andy/src/rmw-project/.Trash-1000/info/$test_file.trashinfo)
   echo $SEPARATOR
   # There should be no leading '/' in the filename.
-  path_expected=$(echo ${MESON_BUILD_ROOT} | sed -e "s/\/home\/andy\/src\///g")
+  path_expected=$(echo ${MESON_BUILD_ROOT} | sed -e "s/\/home\/andy\/src\/rmw-project\///g")
   echo $path_expected
   test "$output" = "Path=${path_expected}/test/rmw-tests-home/test_restore.sh_dir/media_root_test"
   echo $SEPARATOR
   output=$($BIN_DIR/rmw -uvv -c /home/andy/.config/rmwrc | grep media_root_test)
   echo $SEPARATOR
-  test "$output" = "+'/home/andy/src/.Trash-1000/files/media_root_test' -> '${MESON_BUILD_ROOT}/test/rmw-tests-home/test_restore.sh_dir/media_root_test'
--/home/andy/src/.Trash-1000/info/media_root_test.trashinfo"
+  test "$output" = "+'/home/andy/src/rmw-project/.Trash-1000/files/media_root_test' -> '${MESON_BUILD_ROOT}/test/rmw-tests-home/test_restore.sh_dir/media_root_test'
+-/home/andy/src/rmw-project/.Trash-1000/info/media_root_test.trashinfo"
 fi
 echo $SEPARATOR
 echo "restore tests passed"
