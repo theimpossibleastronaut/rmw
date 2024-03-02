@@ -1,5 +1,13 @@
 === rmw ChangeLog ===
 
+2024-03-02
+
+  * Show counter in real-time as items are getting purged
+
+2024-02-28
+
+  * Update for use with canfigger 0.3.0
+
 2023-05-17
 
   * bugfix: In some cases, trashinfo file doesn't get removed (#400)

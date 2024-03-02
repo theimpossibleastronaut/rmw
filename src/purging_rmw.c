@@ -185,9 +185,17 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
 
     if (!status)
     {
+      if (ctr == 0)
+        putchar('\n');
       (*ctr)++;
-      if (verbose)
-        printf("-%s\n", pt_basename);
+      if (!verbose)
+      {
+        printf("\r%d", *ctr);
+        fflush(stdout);
+        // sleep(1);
+      }
+      else
+       printf("-%s\n", pt_basename);
     }
     else
       msg_err_remove(trashinfo_entry_realpath, __func__);
@@ -326,6 +334,7 @@ purge(st_config *st_config_data,
     waste_curr = waste_curr->next_node;
   }
 
+  putchar('\n');
   printf(ngettext("%d item purged", "%d items purged", ctr), ctr);
   putchar('\n');
 
