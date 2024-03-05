@@ -6,6 +6,8 @@ concurrency:
 on:
   pull_request:
     branches: master
+    paths:
+    - '**release.yml'
   workflow_dispatch:
     inputs:
       version:
@@ -53,7 +55,6 @@ jobs:
         platform:
           - linux/amd64
           - linux/arm64
-          - linux/arm/v7
 
     env:
       VERSION: ${{ inputs.version }}
@@ -98,24 +99,36 @@ jobs:
           if-no-files-found: error
 
   build-deb:
-    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        platform:
+          - amd64
+          - arm64
+          - 386
+
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
+
     - name: Copy debian directory
       run: cp -a packaging/debian .
-    - uses: legoktm/gh-action-build-deb@debian-bullseye
-      id: build-debian-bullseye
+
+    - uses: andy5995/gh-action-build-deb@trunk
       with:
         args: --no-sign
-        sources: deb http://deb.debian.org/debian bullseye-backports main
+        platform: ${{ matrix.platform }}
+
     - name: Create sha256sum
       run: |
+        DEB_FILENAME=$(basename `find output/*deb`)
+        echo "DEB_FILENAME=$DEB_FILENAME" >> $GITHUB_ENV
         cd output
-        sha256sum rmw_${VERSION}_amd64.deb > ../rmw_${VERSION}_amd64.deb.sha256sum
+        sha256sum "$DEB_FILENAME" > "../$DEB_FILENAME.sha256sum"
+
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: rmw_debian_pkg
+        name: ${{ env.DEB_FILENAME }}
         path: |
           output/*.deb
           *deb.sha256sum

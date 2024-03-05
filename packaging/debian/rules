@@ -6,5 +6,10 @@ export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 	dh $@
 
 override_dh_auto_configure:
-	apt install -y meson -t bullseye-backports
-	dh_auto_configure -- --buildtype=release --prefix=/usr -Dstrip=true -Db_sanitize=none -Db_pie=true
+	dh_auto_configure -- \
+		--buildtype=release \
+		--wrap-mode forcefallback \
+		--prefix=/usr \
+		-Dstrip=true\
+		-Db_sanitize=none \
+		-Db_pie=true

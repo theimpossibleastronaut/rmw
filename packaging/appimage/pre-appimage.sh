@@ -60,6 +60,7 @@ fi
 # Build project
 cd "$BUILD_DIR"
 ninja
+meson test -v
 meson install --destdir=$APPDIR --skip-subprojects
 
 # Set up output directory
