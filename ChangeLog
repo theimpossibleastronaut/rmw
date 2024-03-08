@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2024-03-08
+
+  * Fix translations not working when using the AppImage
+
 2024-03-02
 
   * Show counter in real-time as items are getting purged

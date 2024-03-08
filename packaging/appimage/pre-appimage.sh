@@ -74,6 +74,7 @@ LINUXDEPLOY_OUTPUT_VERSION="$VERSION"
 # Generate AppImage using linuxdeploy
 linuxdeploy \
   --appdir="$APPDIR" \
+  --custom-apprun=$SOURCE_ROOT/packaging/appimage/AppRun \
   -d $SOURCE_ROOT/packaging/rmw.desktop \
   --icon-file=$SOURCE_ROOT/packaging/rmw_icon_32x32.png \
   --icon-filename=rmw \
