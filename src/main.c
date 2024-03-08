@@ -572,8 +572,13 @@ int
 main(const int argc, char *const argv[])
 {
 #ifdef ENABLE_NLS
+  static char *locale_dir;
+  locale_dir = getenv("RMW_LOCALEDIR");
+  if (!locale_dir)
+    locale_dir = LOCALEDIR;
+
   setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE_STRING, LOCALEDIR);
+  bindtextdomain(PACKAGE_STRING, locale_dir);
   textdomain(PACKAGE_STRING);
   // If the locale directory isn't found, errno is set
   // to 2.

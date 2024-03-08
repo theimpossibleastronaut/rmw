@@ -26,6 +26,8 @@ extra_flags = [
 
 add_project_arguments(cc.get_supported_arguments(extra_flags), language: 'c')
 
+meson.add_devenv({'RMW_LOCALEDIR': join_paths(meson.project_build_root(), 'po')})
+
 conf = configuration_data()
 conf.set_quoted('VERSION', meson.project_version())
 conf.set_quoted('PACKAGE_STRING', meson.project_name())

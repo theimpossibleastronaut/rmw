@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  build-appimage:
+    environment:
+    - HOSTUID=$HOSTUID
+    - HOST_SOURCE_ROOT=$HOST_SOURCE_ROOT
+    container_name: linuxdeploy
+    image: andy5995/linuxdeploy
+    working_dir: /workspace
+    command: packaging/appimage/pre-appimage.sh
+    user: root
+    volumes:
+      - $HOST_SOURCE_ROOT:/workspace
+    restart: "no"

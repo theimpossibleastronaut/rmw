@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+set -e
+
+HERE="$(readlink -f "$(dirname "$0")")"
+BINARY_NAME=$(basename "$ARGV0")
+
+export RMW_LOCALEDIR=$HERE/usr/share/locale
+
+exec "$HERE/usr/bin/rmw" "$@"
+
