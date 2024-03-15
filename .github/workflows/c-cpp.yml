@@ -53,7 +53,7 @@ jobs:
             container: 'andy5995/slackware-build-essential:15.0'
           - name: debian bullseye
             os: ubuntu-20.04
-            container: 'andy5995/rmw-build-env:bullseye'
+            container: 'andy5995/rmw-build-env:bookworm'
           - name: ubuntu-22.04-without-nls
             os: ubuntu-22.04
             setup: -Dnls=false
