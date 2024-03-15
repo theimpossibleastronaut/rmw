@@ -1,13 +1,14 @@
-FROM debian:bullseye
+FROM debian:bookworm
 RUN apt-get update \
   && apt-get upgrade -y \
   && apt-get install -y \
     gettext \
     git \
     libncurses-dev \
+    meson \
+    ninja-build \
     pip \
   && rm -rf /var/lib/apt/lists
-RUN python3 -m pip install meson ninja
 
 WORKDIR /rmw
 RUN useradd -U rmwbuilder

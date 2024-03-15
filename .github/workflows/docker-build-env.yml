@@ -16,7 +16,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        tag: [bullseye, focal, alpine]
+        tag: [bookworm, focal, alpine]
     runs-on: ${{ matrix.os }}
     steps:
       -

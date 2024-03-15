@@ -13,11 +13,11 @@ container if you like.
 ## [andy5995/rmw-build-env](https://hub.docker.com/repository/docker/andy5995/rmw-build-env)
 
 Image with the rmw build environment (meson, ncurses, and gettext) on
-Debian bullseye.
+Debian bookworm.
 
 You can build and test rmw in a docker container:
 
-    docker run -it --rm --entrypoint /rmw/entrypoint-test.sh -v `pwd`:/rmw/src andy5995/rmw-build-env:bullseye
+    docker run --rm --entrypoint /rmw/entrypoint-test.sh -v `pwd`:/rmw/src andy5995/rmw-build-env:bookworm
 
 That will mount the source directory at '/rmw/src', build rmw based on
 your local changes, and run the tests.
