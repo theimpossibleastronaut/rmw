@@ -1,6 +1,6 @@
 name: C/C++ CI
 concurrency:
-  group: build-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 on:
@@ -49,10 +49,10 @@ jobs:
             os: ubuntu-22.04
             cc: clang
           - name: Slackware
-            os: ubuntu-20.04
+            os: ubuntu-latest
             container: 'andy5995/slackware-build-essential:15.0'
-          - name: debian bullseye
-            os: ubuntu-20.04
+          - name: debian bookworm
+            os: ubuntu-latest
             container: 'andy5995/rmw-build-env:bookworm'
           - name: ubuntu-22.04-without-nls
             os: ubuntu-22.04
@@ -101,17 +101,17 @@ jobs:
           pkg-config \
           ${{ matrix.build.install_packages }}
 
-    #- if: ${{ contains(matrix.os, 'ubuntu') }}
-      #run: |
-        #sudo apt-get update -qq
-        #sudo apt-get upgrade -y -qq
+    - if: ${{ contains(matrix.build.os, 'ubuntu') }}
+      run: |
+        sudo apt update -qq
+        sudo apt upgrade -y -qq
 
     #- if: ${{ matrix.cc == 'clang' && matrix.os != 'macos-latest' }}
       #run: sudo apt-get install -y $CC $CXX
 
-    - if: ${{ contains(matrix.build.os, 'ubuntu') && matrix.build.container == null }}
+    - if: ${{ contains(matrix.build.os, 'ubuntu-20.04') }}
       run: |
-        sudo apt-get install -y \
+        sudo apt install -y \
           python3-pip \
           python3-setuptools
         sudo -H python3 -m pip install meson ninja
