@@ -322,7 +322,7 @@ purge(st_config *st_config_data,
         }
         else if (verbose >= 2)
         {
-          printf(_("'%s' will be purged in %.2f days\n"),
+          printf(_("'%s' will be purged in %.2lf days\n"),
                  pt_basename, days_remaining);
         }
       }
