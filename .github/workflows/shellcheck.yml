@@ -1,0 +1,24 @@
+name: shellcheck
+
+on:
+  push:
+    branches: master
+    paths:
+    - '**.sh'
+    - '**/shellcheck.yml'
+  pull_request:
+    branches: master
+    paths:
+    - '**.sh'
+    - '**/shellcheck.yml'
+
+jobs:
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        env:
+          SHELLCHECK_OPTS: -x -P $GITHUB_WORKSPACE
