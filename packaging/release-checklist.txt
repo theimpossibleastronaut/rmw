@@ -8,6 +8,15 @@ Change version number
   packaging/file_id.diz (filegate.net)
   cd packaging and run 'dch -r' (updates the changelog timestamp in debian/
 
+In meson,build, comment out
+  'b_sanitize=address,undefined',
+  'b_lundef=false'
+
+## canfigger.wrap
+
+Make sure the revision points to the last release, or to a revision where
+sanitize is disabled
+
 For later Debian package creation, check standards version
   https://www.debian.org/doc/debian-policy/upgrading-checklist.html
 
