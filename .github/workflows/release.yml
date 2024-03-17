@@ -1,6 +1,6 @@
 name: Release
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 on:
@@ -8,23 +8,21 @@ on:
     branches: master
     paths:
     - '**release.yml'
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'version number'
-        required: true
-        type: string
-
-env:
-  VERSION: ${{ inputs.version }}
 
 jobs:
   dist:
     runs-on: ubuntu-22.04
+    outputs:
+      rmw_version: ${{ steps.get_version.outputs.version }}
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: false
+    - id: get_version
+      run: |
+        VERSION=$(grep "version:" meson.build | awk -F"'" '{print $2}')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
     - name: Install dependencies
       run: |
         sudo apt install -y \
@@ -37,11 +35,11 @@ jobs:
         cd builddir
         meson dist --include-subprojects
         cd meson-dist
-        REL_TAR="rmw-${VERSION}.tar"
-        xz -d ${REL_TAR}.xz
-        tar --delete -f ${REL_TAR} rmw-${VERSION}/packaging
-        xz ${REL_TAR}
-        sha256sum ${REL_TAR}.xz > ${REL_TAR}.xz.sha256sum
+        REL_TAR="rmw-$VERSION.tar"
+        xz -d "$REL_TAR.xz"
+        tar --delete -f "$REL_TAR" "rmw-$VERSION/packaging"
+        xz "$REL_TAR"
+        sha256sum "$REL_TAR.xz" > "$REL_TAR.xz.sha256sum"
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -50,14 +48,13 @@ jobs:
 
   build-appimage:
     runs-on: ubuntu-latest
+    needs: dist
     strategy:
       matrix:
         platform:
           - linux/amd64
           - linux/arm64
 
-    env:
-      VERSION: ${{ inputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -69,9 +66,8 @@ jobs:
 
       - name: Set variables
         run: |
-          if [ -z "$VERSION" ]; then
-            echo "VERSION=${{ github.sha }}" >> $GITHUB_ENV
-          fi
+          VERSION=${{ needs.dist.outputs.rmw_version }}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Build AppImage
         run: |
