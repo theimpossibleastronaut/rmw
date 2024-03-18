@@ -32,6 +32,6 @@ if get_option('nls')
     conf.set_quoted('LOCALEDIR', localedir)
     i18n = import('i18n')
     i18n.gettext(meson.project_name(),
-      args: ['--directory=' + meson.project_source_root(), '--sort-output'])
+      args: ['--directory=' + meson.project_source_root()])
   endif
 endif

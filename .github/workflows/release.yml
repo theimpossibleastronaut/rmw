@@ -1,28 +1,28 @@
 name: Release
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 on:
   pull_request:
     branches: master
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'version number'
-        required: true
-        type: string
-
-env:
-  VERSION: ${{ inputs.version }}
+    paths:
+    - '**release.yml'
 
 jobs:
   dist:
     runs-on: ubuntu-22.04
+    outputs:
+      rmw_version: ${{ steps.get_version.outputs.version }}
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: false
+    - id: get_version
+      run: |
+        VERSION=$(grep "version:" meson.build | awk -F"'" '{print $2}')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
     - name: Install dependencies
       run: |
         sudo apt install -y \
@@ -35,11 +35,11 @@ jobs:
         cd builddir
         meson dist --include-subprojects
         cd meson-dist
-        REL_TAR="rmw-${VERSION}.tar"
-        xz -d ${REL_TAR}.xz
-        tar --delete -f ${REL_TAR} rmw-${VERSION}/packaging
-        xz ${REL_TAR}
-        sha256sum ${REL_TAR}.xz > ${REL_TAR}.xz.sha256sum
+        REL_TAR="rmw-$VERSION.tar"
+        xz -d "$REL_TAR.xz"
+        tar --delete -f "$REL_TAR" "rmw-$VERSION/packaging"
+        xz "$REL_TAR"
+        sha256sum "$REL_TAR.xz" > "$REL_TAR.xz.sha256sum"
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -48,15 +48,13 @@ jobs:
 
   build-appimage:
     runs-on: ubuntu-latest
+    needs: dist
     strategy:
       matrix:
         platform:
           - linux/amd64
           - linux/arm64
-          - linux/arm/v7
 
-    env:
-      VERSION: ${{ inputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -68,9 +66,8 @@ jobs:
 
       - name: Set variables
         run: |
-          if [ -z "$VERSION" ]; then
-            echo "VERSION=${{ github.sha }}" >> $GITHUB_ENV
-          fi
+          VERSION=${{ needs.dist.outputs.rmw_version }}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Build AppImage
         run: |
@@ -98,24 +95,36 @@ jobs:
           if-no-files-found: error
 
   build-deb:
-    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        platform:
+          - amd64
+          - arm64
+          - 386
+
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
+
     - name: Copy debian directory
       run: cp -a packaging/debian .
-    - uses: legoktm/gh-action-build-deb@debian-bullseye
-      id: build-debian-bullseye
+
+    - uses: andy5995/gh-action-build-deb@v1
       with:
         args: --no-sign
-        sources: deb http://deb.debian.org/debian bullseye-backports main
+        platform: ${{ matrix.platform }}
+
     - name: Create sha256sum
       run: |
+        DEB_FILENAME=$(basename `find output/*deb`)
+        echo "DEB_FILENAME=$DEB_FILENAME" >> $GITHUB_ENV
         cd output
-        sha256sum rmw_${VERSION}_amd64.deb > ../rmw_${VERSION}_amd64.deb.sha256sum
+        sha256sum "$DEB_FILENAME" > "../$DEB_FILENAME.sha256sum"
+
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: rmw_debian_pkg
+        name: ${{ env.DEB_FILENAME }}
         path: |
           output/*.deb
           *deb.sha256sum
