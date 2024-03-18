@@ -128,8 +128,8 @@ if test -d /mnt/918375c2; then
   if test -f $test_file_path; then
     rm $test_file_path
   fi
-  if test -f /home/andy/src/.Trash-1000/files/$test_file; then
-    rm /home/andy/src/.Trash-1000/files/$test_file
+  if test -f /home/andy/src/rmw-project/.Trash-1000/files/$test_file; then
+    rm /home/andy/src/rmw-project/.Trash-1000/files/$test_file
   fi
   if test -f /home/andy/src/rmw-project/.Trash-1000/info/$test_file.trashinfo; then
     rm /home/andy/src/rmw-project/.Trash-1000/info/$test_file.trashinfo
