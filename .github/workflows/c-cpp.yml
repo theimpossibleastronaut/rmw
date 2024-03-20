@@ -63,10 +63,11 @@ jobs:
           - name: Alpine
             os: ubuntu-22.04
             container: andy5995/rmw-build-env:alpine
-            setup: -Db_sanitize=none
+            setup_options: -Db_sanitize=none
           - name: macos-latest-brew-canfigger
             os: macos-latest
             install_packages: canfigger
+            setup_options: --wrap-mode nofallback
           - name: macos-latest-bundled-canfigger
             os: macos-latest
 
@@ -96,6 +97,7 @@ jobs:
     - if: ${{ contains(matrix.build.os, 'macos') }}
       run: |
         pip3 install meson ninja
+        brew update
         brew install \
           ncurses \
           pkg-config \
@@ -130,7 +132,7 @@ jobs:
       run: sudo apt install -y gettext
 
     - name: Configure
-      run: meson setup builddir ${{ matrix.build.setup }}
+      run: meson setup builddir ${{ matrix.build.setup_options }}
     - name: Build
       run: |
         cd builddir
