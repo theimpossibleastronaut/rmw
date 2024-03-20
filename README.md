@@ -1,4 +1,4 @@
-# rmw-0.9.2
+# rmw-0.9.3-dev
 ## Description
 
 rmw (ReMove to Waste) is a trashcan/recycle bin utility for the command line.
