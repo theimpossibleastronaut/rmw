@@ -1,6 +1,6 @@
 name: C/C++ CI
 concurrency:
-  group: build-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 on:
@@ -108,6 +108,13 @@ jobs:
 
     #- if: ${{ matrix.cc == 'clang' && matrix.os != 'macos-latest' }}
       #run: sudo apt-get install -y $CC $CXX
+
+    - if: ${{ matrix.build.os == 'ubuntu-22.04' && matrix.build.container == null }}
+      name: Fix kernel mmap rnd bits
+      # Asan in llvm 14 provided in ubuntu 22.04 is incompatible with
+      # high-entropy ASLR in much newer kernels that GitHub runners are
+      # using leading to random crashes: https://reviews.llvm.org/D148280
+      run: sudo sysctl vm.mmap_rnd_bits=28
 
     - if: ${{ contains(matrix.build.os, 'ubuntu') && matrix.build.container == null }}
       run: |
