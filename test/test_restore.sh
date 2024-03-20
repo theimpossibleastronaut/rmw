@@ -108,8 +108,33 @@ done
 cmp_substr "$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/. && exit 1)" \
   "refusing to process"
 
-if [ -n "${TERM}" ] && [ "${TERM}" != "dumb" ]; then
+# I don't want to force anyone to install Xvfb for this single test
+# so I'll only run it if it's already installed
+if [ -n "$(command -v Xvfb)" ]; then
+  # Start Xvfb on display :99
+  Xvfb :99 &
+  XVFB_PID=$!
+
+  # Save the current DISPLAY value and set it to use the virtual display
+  OLD_DISPLAY="$DISPLAY"
+  export DISPLAY=:99
+
+  # This may be needed to prevent a failure on OpenBSD:
+  # Error opening terminal: unknown.
+  export TERM=xterm
+
+  # No visual test here, but when used with llvm sanitize or valgrind,
+  # the chances of spotting any memory leaks are pretty good.
   echo q | ${RMW_TEST_CMD_STRING} -s
+
+  kill $XVFB_PID
+
+  # Restore the original DISPLAY value if it was set
+  if [ -n "$OLD_DISPLAY" ]; then
+    export DISPLAY="$OLD_DISPLAY"
+  else
+    unset DISPLAY
+  fi
 fi
 
 # This test will only work on Andy's workstation.
