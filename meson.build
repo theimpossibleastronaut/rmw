@@ -71,7 +71,10 @@ main_bin = executable(
   )
 
 subdir ('man')
-subdir ('test')
+
+if get_option('build_tests')
+  subdir ('test')
+endif
 
 install_data(
   files(

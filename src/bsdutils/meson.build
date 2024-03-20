@@ -12,13 +12,16 @@ lib_bsdutilsrm = static_library(
   dependencies: [dep_fts]
 )
 
-incdir = include_directories('../../test')
+if get_option('build_tests')
+  incdir = include_directories('../../test')
 
-exe = executable(
-    'rm',
-    'rm.c',
-    link_with : [lib_bsdutilsrm],
-    include_directories : incdir,
-    c_args : ['-DTEST_LIB'],
-  )
+  exe = executable(
+      'rm',
+      'rm.c',
+      link_with : [lib_bsdutilsrm],
+      include_directories : incdir,
+      c_args : ['-DTEST_LIB'],
+    )
+
   test('rm', exe)
+endif
