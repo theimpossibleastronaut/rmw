@@ -3,6 +3,29 @@ add_test_setup(
   env: 'RMW_FAKE_MEDIA_ROOT=true'
   )
 
+#
+# This does not work
+#
+#faketime_lib = cc.find_library(
+#  'faketime',
+#  dirs: [
+#    '/usr/lib/faketime',
+#    '/lib/x86_64-linux-gnu/faketime',
+#    '/lib/aarch64-linux-gnu/faketime'
+#    ],
+#  required: false
+#  )
+
+# TODO: Detect whether ubsan is required or not, determine the path
+add_test_setup(
+    'epochalypse',
+    env: [
+        #'LD_PRELOAD=' + faketime_lib.full_path(),
+        'LD_PRELOAD=/usr/lib/faketime/libfaketime.so.1',
+        'FAKETIME=+14y'
+    ]
+)
+
 test_cases = [
   'strings_rmw',
   'utils_rmw',
