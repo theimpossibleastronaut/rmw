@@ -8,7 +8,7 @@
 
 /* Windows compatibility */
 /* This is experimental
- * Windows compatbility headers
+ * Windows compatibility headers
  */
 #if defined __MINGW32__ || defined _MSC_VER
 #include <inttypes.h>
@@ -26,7 +26,7 @@
  * we need to import this else we are going to get a "declaration expected at
  * line 29"
  *
- * including types.h allows us to fix erros in the mget declaration
+ * including types.h allows us to fix errors in the mget declaration
  *
  */
 
@@ -75,7 +75,7 @@ typedef unsigned long u_long;
 #pragma pop_macro("u_long")
 #endif
 
-/* Primarly musl... */
+/* Primarily musl... */
 #ifndef u_long
 typedef unsigned long u_long;
 #endif

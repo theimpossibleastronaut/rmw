@@ -250,7 +250,7 @@ user_verify(void)
   *
   * - Alphabethics (A-Z and a-z)
   * - Numerics (0-9)
-  * - The following charcters: ~ _ - .
+  * - The following characters: ~ _ - .
   *
   * For purposes of this application we will not convert "/"s, as in
   * this case they correspond to their semantic meaning.
