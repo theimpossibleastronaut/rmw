@@ -40,7 +40,7 @@
 2023-02-15
 
   * change message displayed to user when a file being rmw'ed is on a
-  filesystem that doesn't haven't a WASTE folder defined
+  filesystem that doesn't have a WASTE folder defined
   * rmw v0.9.0 released
 
 2023-02-06
@@ -182,7 +182,7 @@
 
   * When using -s,--select, the number of lines the terminal has will
   be checked. The number of items in the list will be based on that; if
-  it doesn't meet the minumum requirement, rmw will exit.
+  it doesn't meet the minimum requirement, rmw will exit.
 
 2021-02-23
 
@@ -811,7 +811,7 @@ Release issued.
 
 -- August 04, 2016 --
 
-The trash directory string issues seems to be fixed. I'm not sure why. I
+The trash directory string issues seem to be fixed. I'm not sure why. I
 moved some global variables into main() - maybe that helped. ;)
 
 I moved some functions into the main() part of the code.
@@ -844,7 +844,7 @@ caused by too many open files at once. Added fclose(fp) to
 line 353 of funcs.c in Restore Function.
 
 May 03, 2012
-Fixed segfault which ocurred if rmw was built on a 64-bit system
+Fixed segfault which occurred if rmw was built on a 64-bit system
 
 Apr 17, 2012
 

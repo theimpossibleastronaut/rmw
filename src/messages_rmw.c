@@ -160,7 +160,7 @@ msg_err_rename(const char *src_file, const char *dest_file, const char *func,
 
 /*!
  * Used for error-checking calls to fprintf.
- * @param[in] func The function in which the error ocurred
+ * @param[in] func The function in which the error occurred
  * @return exit failure
  */
 void
