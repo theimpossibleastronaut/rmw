@@ -53,12 +53,9 @@ is_time_to_purge(st_time *st_time_var, const char *file)
     if (fgets(time_prev, sizeof(time_prev), fp) != NULL)
     {
       trim_whitespace(time_prev);
-      long prev_time = atol(time_prev);
-      // fprintf(stderr, "%ld\n", prev_time);
-
       // Check if the difference is less than a day
       purge_needed =
-        ((st_time_var->now - prev_time) < SECONDS_IN_A_DAY) ? false : true;
+        ((st_time_var->now - atoll(time_prev)) < SECONDS_IN_A_DAY) ? false : true;
     }
     else
     {
