@@ -61,7 +61,7 @@ is_time_to_purge(st_time *st_time_var, const char *file)
     trim_whitespace(time_prev);
     close_file(&fp, file, __func__);
 
-    if ((st_time_var->now - atoi(time_prev)) < SECONDS_IN_A_DAY)
+    if ((st_time_var->now - atoll(time_prev)) < SECONDS_IN_A_DAY)
       return false;
   }
 
