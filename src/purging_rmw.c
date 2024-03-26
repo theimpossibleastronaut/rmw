@@ -42,49 +42,52 @@ bool
 is_time_to_purge(st_time *st_time_var, const char *file)
 {
   const int BUF_TIME = 80;
+  char time_prev[BUF_TIME];
+  bool purge_needed = true;
 
+  // Open the file for reading
   FILE *fp = fopen(file, "r");
-  bool init = (fp);
   if (fp)
   {
-    char time_prev[BUF_TIME];
-
-    if (fgets(time_prev, sizeof time_prev, fp) == NULL)
+    // Read the previous time from the file
+    if (fgets(time_prev, sizeof(time_prev), fp) != NULL)
+    {
+      trim_whitespace(time_prev);
+      // Check if the difference is less than a day
+      purge_needed =
+        ((st_time_var->now - atoll(time_prev)) < SECONDS_IN_A_DAY) ? false : true;
+    }
+    else
     {
       print_msg_error();
       printf("while getting line from %s\n", file);
       perror(__func__);
-      close_file(&fp, file, __func__);
-      exit(EXIT_FAILURE);
     }
-
-    trim_whitespace(time_prev);
-    close_file(&fp, file, __func__);
-
-    if ((st_time_var->now - atoi(time_prev)) < SECONDS_IN_A_DAY)
-      return false;
+    fclose(fp);                 // Close the file after reading
   }
+  else if (errno == ENOENT)
+    purge_needed = false;
 
+  // Open the file for writing to update the time
   fp = fopen(file, "w");
   if (fp)
   {
     fprintf(fp, "%ld\n", st_time_var->now);
-    close_file(&fp, file, __func__);
 
-    /*
-     * if this is the first time the file got created, it's very likely
-     * indeed that purge does not need to run. Only return FALSE if the
-     * file didn't previously exist.
-     */
-    return init;
+    // Check for errors when closing the file after writing
+    if (fclose(fp) != 0)
+    {
+      perror("Error closing file after write");
+      exit(EXIT_FAILURE);
+    }
+  }
+  else
+  {
+    open_err(file, __func__);
+    exit(errno);                // Exit if unable to write the file
   }
 
-  /*
-   * if we can't even write this file to the config directory, something
-   * is not right. Make it fatal.
-   */
-  open_err(file, __func__);
-  exit(errno);
+  return purge_needed;
 }
 
 
@@ -195,7 +198,7 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
         // sleep(1);
       }
       else
-       printf("-%s\n", pt_basename);
+        printf("-%s\n", pt_basename);
     }
     else
       msg_err_remove(trashinfo_entry_realpath, __func__);

@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2024-03-26
+
+  * Fix for tests failing after the Epochalypse (#439)
+
 2024-03-21
 
   + Add French translation

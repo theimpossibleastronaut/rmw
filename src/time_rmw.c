@@ -32,9 +32,17 @@ set_time_string(char *tm_str, const size_t len, const char *format,
                 time_t time_t_now)
 {
   struct tm result;
-  localtime_r(&time_t_now, &result);
+  if (localtime_r(&time_t_now, &result) == NULL)
+  {
+    fputs
+      ("Error: localtime_r() failed for time_t value beyond 32-bit limit.\n",
+       stderr);
+    exit(EXIT_FAILURE);
+  }
   strftime(tm_str, len, format, &result);
   trim_whitespace(tm_str);
+
+  return;
 }
 
 /*!
@@ -64,6 +72,7 @@ void
 init_time_vars(st_time *x)
 {
   x->now = time(NULL);
+  // x->now = 0x80000000;
 
   set_which_deletion_date(x->t_fmt);
 
