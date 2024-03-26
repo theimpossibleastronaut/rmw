@@ -71,6 +71,7 @@ main_bin = executable(
   )
 
 subdir ('man')
+subdir('completions')
 
 if get_option('build_tests')
   subdir ('test')

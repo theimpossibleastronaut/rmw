@@ -9,3 +9,7 @@ option('docdir', type : 'string', value : 'share/doc/rmw',
 
 option('without-curses', type : 'boolean', value : 'false',
        description : 'build without curses/menu support')
+
+option('install_shell_completions', type: 'boolean', value: true,
+       description: 'Install shell completions')
+
