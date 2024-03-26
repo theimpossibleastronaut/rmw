@@ -72,11 +72,9 @@ just the ncurses packages is needed, and it's often already installed.
 (This examples places the generated files to a separate folder, but you can
 run 'configure' from any directory you like.)
 
-```
     meson setup builddir
     cd builddir
     ninja
-```
 
 Use `meson configure` in the build dir to view or change available
 options.
