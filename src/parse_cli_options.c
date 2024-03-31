@@ -47,7 +47,6 @@ typedef enum
   MOST_RECENT_LIST,
   WARRANTY,
   _VERSION,
-  INTERACTIVE,
   RECURSIVE,
   FORCE,
   EMPTY,
@@ -73,7 +72,6 @@ static struct cli_opt
   {MOST_RECENT_LIST, "most-recent-list"},
   {WARRANTY, "warranty"},
   {_VERSION, "version"},
-  {INTERACTIVE, "interactive"},
   {RECURSIVE, "recursive"},
   {FORCE, "force"},
   {EMPTY, "empty"},
@@ -259,7 +257,6 @@ parse_cli_options(const int argc, char *const argv[], rmw_options *options)
     {cli_opt[MOST_RECENT_LIST].str, 0, NULL, 'm'},
     {cli_opt[WARRANTY].str, 0, NULL, 'w'},
     {cli_opt[_VERSION].str, 0, NULL, 'V'},
-    {cli_opt[INTERACTIVE].str, 0, NULL, 'i'},
     {cli_opt[RECURSIVE].str, 0, NULL, 'r'},
     {cli_opt[FORCE].str, 0, NULL, 'f'},
     {cli_opt[EMPTY].str, 0, NULL, L_EMPTY},
@@ -269,7 +266,7 @@ parse_cli_options(const int argc, char *const argv[], rmw_options *options)
 
   int c;
   while ((c =
-          getopt_long(argc, argv, "hvc:g::oz:lnsumwVfirR", long_options,
+          getopt_long(argc, argv, "hvc:g::oz:lnsumwVfrR", long_options,
                       NULL)) != -1)
   {
     switch (c)
@@ -335,9 +332,6 @@ parse_cli_options(const int argc, char *const argv[], rmw_options *options)
       break;
     case 'V':
       version();
-      break;
-    case 'i':
-      printf(_("-i / --interactive: not implemented\n"));
       break;
     case 'r':
     case 'R':
