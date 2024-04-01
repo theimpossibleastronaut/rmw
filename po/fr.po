@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-21 10:23-0500\n"
+"POT-Creation-Date: 2024-04-01 12:57-0500\n"
 "PO-Revision-Date: 2024-03-21 10:00-0500\n"
 "Last-Translator: Andy <arch_stanton5995@proton.me>\n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/parse_cli_options.c:96
+#: src/parse_cli_options.c:94
 #, c-format
 msgid ""
 "Usage: %s [OPTION]... FILE...\n"
@@ -34,28 +34,28 @@ msgstr ""
 "   ou : %s -u\n"
 "   ou : %s -z FICHIER...\n"
 
-#: src/parse_cli_options.c:103
+#: src/parse_cli_options.c:101
 msgid "Restore FILE(s) from a WASTE directory"
 msgstr "Restaurer le(s) FICHIER(s) depuis un répertoire WASTE"
 
-#: src/parse_cli_options.c:106
+#: src/parse_cli_options.c:104
 #, c-format
 msgid "  -h, --%s                show help for command line options\n"
 msgstr ""
 "  -h, --%s                afficher l'aide pour les options de ligne de "
 "commande\n"
 
-#: src/parse_cli_options.c:109
+#: src/parse_cli_options.c:107
 #, c-format
 msgid "  -c, --%s FILE         use an alternate configuration\n"
 msgstr "  -c, --%s FICHIER      utiliser une configuration alternative\n"
 
-#: src/parse_cli_options.c:112
+#: src/parse_cli_options.c:110
 #, c-format
 msgid "  -l, --%s                list waste directories\n"
 msgstr "  -l, --%s                lister les répertoires WASTE\n"
 
-#: src/parse_cli_options.c:115
+#: src/parse_cli_options.c:113
 #, c-format
 msgid ""
 "  -g[N_DAYS], --%s[=N_DAYS]\n"
@@ -71,17 +71,17 @@ msgstr ""
 "                            du fichier de configuration\n"
 "                            (Exemples : -g90, --purge=90)\n"
 
-#: src/parse_cli_options.c:122
+#: src/parse_cli_options.c:120
 #, c-format
 msgid "  -o, --%s            check for orphaned files (maintenance)\n"
 msgstr "  -o, --%s            vérifier les fichiers orphelins (maintenance)\n"
 
-#: src/parse_cli_options.c:125
+#: src/parse_cli_options.c:123
 #, c-format
 msgid "  -f, --%s               allow purging of expired files\n"
 msgstr "  -f, --%s               autoriser la purge des fichiers expirés\n"
 
-#: src/parse_cli_options.c:128
+#: src/parse_cli_options.c:126
 #, c-format
 msgid ""
 "      --%s               completely empty (purge) all waste directories\n"
@@ -89,7 +89,7 @@ msgstr ""
 "      --%s               vider complètement (purger) tous les répertoires "
 "WASTE\n"
 
-#: src/parse_cli_options.c:131
+#: src/parse_cli_options.c:129
 #, c-format
 msgid ""
 "  -r, -R, --%s       option used for compatibility with rm\n"
@@ -98,29 +98,29 @@ msgstr ""
 "  -r, -R, --%s       option utilisée pour la compatibilité avec rm\n"
 "                            (l'opération récursive est activée par défaut)\n"
 
-#: src/parse_cli_options.c:135
+#: src/parse_cli_options.c:133
 #, c-format
 msgid "      --%s    bypass protection of top-level files\n"
 msgstr ""
 "      --%s    contourner la protection des fichiers de niveau supérieur\n"
 
-#: src/parse_cli_options.c:138
+#: src/parse_cli_options.c:136
 #, c-format
 msgid "  -v, --%s             increase output messages\n"
 msgstr "  -v, --%s             augmenter les messages de sortie\n"
 
-#: src/parse_cli_options.c:141
+#: src/parse_cli_options.c:139
 #, c-format
 msgid "  -w, --%s            display warranty\n"
 msgstr "  -w, --%s            afficher la garantie\n"
 
-#: src/parse_cli_options.c:144
+#: src/parse_cli_options.c:142
 #, c-format
 msgid "  -V, --%s             display version and license information\n"
 msgstr ""
 "  -V, --%s             afficher les informations de version et de licence\n"
 
-#: src/parse_cli_options.c:147
+#: src/parse_cli_options.c:145
 msgid ""
 "\n"
 "\n"
@@ -130,30 +130,30 @@ msgstr ""
 "\n"
 "  \t===] Restauration [===\n"
 
-#: src/parse_cli_options.c:151
+#: src/parse_cli_options.c:149
 #, c-format
 msgid "  -z, --%s FILE(s)     restore FILE(s) (see man page example)\n"
 msgstr ""
 "  -z, --%s FICHIER(s)     restaurer FICHIER(s) (voir l'exemple de la page "
 "man)\n"
 
-#: src/parse_cli_options.c:154
+#: src/parse_cli_options.c:152
 #, c-format
 msgid "  -s, --%s              select files from list to restore\n"
 msgstr ""
 "  -s, --%s              sélectionner des fichiers dans la liste à restaurer\n"
 
-#: src/parse_cli_options.c:157
+#: src/parse_cli_options.c:155
 #, c-format
 msgid "  -u, --%s           undo last move\n"
 msgstr "  -u, --%s           annuler le dernier déplacement\n"
 
-#: src/parse_cli_options.c:160
+#: src/parse_cli_options.c:158
 #, c-format
 msgid "  -m, --%s    list most recently rmw'ed files\n"
 msgstr "  -m, --%s    lister les fichiers les plus récemment rmw'és\n"
 
-#: src/parse_cli_options.c:163
+#: src/parse_cli_options.c:161
 msgid ""
 "  \n"
 "\n"
@@ -165,12 +165,12 @@ msgstr ""
 "Visitez la page d'accueil de rmw pour plus d'aide et d'informations sur\n"
 "comment obtenir de l'aide - <"
 
-#: src/parse_cli_options.c:167
+#: src/parse_cli_options.c:165
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Signaler les bugs à <%s>.\n"
 
-#: src/parse_cli_options.c:173
+#: src/parse_cli_options.c:171
 #, c-format
 msgid ""
 "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY\n"
@@ -195,7 +195,7 @@ msgstr ""
 "VOUS INCOMBE. SI LE PROGRAMME S'AVÉRAIT DÉFECTUEUX, VOUS ASSUMEZ LE COÛT DE\n"
 "TOUS LES SERVICES NÉCESSAIRES, RÉPARATIONS OU CORRECTIONS.\n"
 
-#: src/parse_cli_options.c:189
+#: src/parse_cli_options.c:187
 #, c-format
 msgid ""
 "rmw %s\n"
@@ -215,30 +215,25 @@ msgstr ""
 "sous certaines conditions ; voir <http://www.gnu.org/licenses/gpl.html>\n"
 "pour plus de détails.\n"
 
-#: src/parse_cli_options.c:219
+#: src/parse_cli_options.c:217
 #, c-format
 msgid "Try '%s ./%s' to remove the file '%s'.\n"
 msgstr "Essayez '%s ./%s' pour supprimer le fichier '%s'.\n"
 
-#: src/parse_cli_options.c:288
+#: src/parse_cli_options.c:285
 msgid "dry-run mode enabled."
 msgstr "mode simulation activé."
 
-#: src/parse_cli_options.c:311
+#: src/parse_cli_options.c:308
 msgid "Arguments given to --purge must be numeric only"
 msgstr "Les arguments donnés à --purge doivent être uniquement numériques"
 
-#: src/parse_cli_options.c:340
-#, c-format
-msgid "-i / --interactive: not implemented\n"
-msgstr "-i / --interactive : non implémenté\n"
-
-#: src/parse_cli_options.c:345
+#: src/parse_cli_options.c:339
 #, c-format
 msgid "-r, -R, --recursive: option not required (enabled by default)\n"
 msgstr "-r, -R, --recursive : option non requise (activée par défaut)\n"
 
-#: src/parse_cli_options.c:360
+#: src/parse_cli_options.c:354
 #, c-format
 msgid "Try '%s --help' for more information.\n"
 msgstr "Essayez '%s --help' pour plus d'informations.\n"
@@ -557,7 +552,7 @@ msgstr ""
 msgid "<ESC> - quit"
 msgstr "<ÉCHAP> - quitter"
 
-#: src/purging_rmw.c:246
+#: src/purging_rmw.c:249
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -566,44 +561,44 @@ msgstr ""
 "la purge est désactivée ('%s' est défini sur '0')\n"
 "\n"
 
-#: src/purging_rmw.c:252
+#: src/purging_rmw.c:255
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Le contenu de tous les dossiers de déchets sera supprimé -"
 
-#: src/purging_rmw.c:255
+#: src/purging_rmw.c:258
 msgid "Action cancelled."
 msgstr "Action annulée."
 
-#: src/purging_rmw.c:262
+#: src/purging_rmw.c:265
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Purge de tous les fichiers dans les dossiers de déchets ...\n"
 
-#: src/purging_rmw.c:265
+#: src/purging_rmw.c:268
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Purge des fichiers en fonction du nombre de jours dans les dossiers de "
 "déchets (%u) ...\n"
 
-#: src/purging_rmw.c:325
+#: src/purging_rmw.c:328
 #, c-format
 msgid "'%s' will be purged in %.2f days\n"
 msgstr "'%s' sera purgé dans %.2f jours\n"
 
-#: src/purging_rmw.c:338
+#: src/purging_rmw.c:341
 #, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
 msgstr[0] "%d élément purgé"
 msgstr[1] "%d éléments purgés"
 
-#: src/purging_rmw.c:394
+#: src/purging_rmw.c:397
 #, c-format
 msgid "Created %s\n"
 msgstr "Créé %s\n"
 
-#: src/purging_rmw.c:400
+#: src/purging_rmw.c:403
 #, c-format
 msgid "while creating %s\n"
 msgstr "lors de la création de %s\n"
@@ -611,3 +606,7 @@ msgstr "lors de la création de %s\n"
 #: src/utils_rmw.c:224
 msgid "Continue? (y/n): "
 msgstr "Continuer ? (o/n) : "
+
+#, c-format
+#~ msgid "-i / --interactive: not implemented\n"
+#~ msgstr "-i / --interactive : non implémenté\n"
