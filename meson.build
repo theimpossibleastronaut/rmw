@@ -87,3 +87,10 @@ install_data(
     ),
   install_dir : get_option('docdir')
   )
+
+# Copy completions to docdir
+install_subdir(
+  'completions',
+  install_dir : join_paths(get_option('docdir')),
+  strip_directory : false
+  )
