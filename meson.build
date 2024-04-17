@@ -72,10 +72,6 @@ main_bin = executable(
 
 subdir ('man')
 
-if get_option('install_shell_completions')
-  subdir('completions')
-endif
-
 if get_option('build_tests')
   subdir ('test')
 endif
@@ -90,4 +86,11 @@ install_data(
     'rmwrc.example'
     ),
   install_dir : get_option('docdir')
+  )
+
+# Copy completions to docdir
+install_subdir(
+  'completions',
+  install_dir : join_paths(get_option('docdir')),
+  strip_directory : false
   )
