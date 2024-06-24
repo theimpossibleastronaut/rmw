@@ -50,6 +50,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define LEN_MAX_ESCAPED_PATH (((PATH_MAX - 1) * 3) + 1)
 
+// Get the size of a struct member without creating an instance
+// of the struct
+#define sizeof_memb(a,m) sizeof(((a*)0)->m)
+
 #define EBUF 11
 
 extern int verbose;
