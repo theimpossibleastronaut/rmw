@@ -1,4 +1,3 @@
-# Define a template for tasks
 filter_template: &filter_template
   only_if: "changesInclude(
     'src/**/**',
@@ -6,24 +5,38 @@ filter_template: &filter_template
     '.cirrus.yml'
     )"
 
+common_meson_steps: &common_meson_steps
+  build_script:
+    - cd builddir && ninja -v
+  test_script:
+    - cd builddir && meson test -v --suite rmw
+  test_fake_media_root_script:
+    - cd builddir && meson test -v --setup=fake_media_root --suite rmw
+
+common_freebsd_steps: &common_freebsd_steps
+  pkginstall_script:
+    - pkg update -f
+    - pkg install -y git meson ninja gettext pkgconf
+
 freebsd_task:
   <<: *filter_template
   name: freebsd-13-3
   freebsd_instance:
     image_family: freebsd-13-3
-
-  pkginstall_script:
-    - pkg update -f
-    - pkg install -y git meson ninja gettext pkgconf
-
+  <<: *common_freebsd_steps
   setup_script:
     - meson setup builddir
-  build_script:
-    - cd builddir && ninja -v
-  test_script:
-    - cd builddir && meson test -v --suite rmw
-  test_fake_media_root:
-    - cd builddir && meson test -v --setup=fake_media_root --suite rmw
+  <<: *common_meson_steps
+
+freebsd_task:
+  <<: *filter_template
+  name: freebsd-14-0
+  freebsd_instance:
+    image_family: freebsd-14-0
+  <<: *common_freebsd_steps
+  setup_script:
+    - meson setup builddir
+  <<: *common_meson_steps
 
 arm_task:
   <<: *filter_template
@@ -33,30 +46,17 @@ arm_task:
     CIRRUS_CLONE_SUBMODULES: true
   setup_script:
     - meson setup builddir -Db_sanitize=none
-  build_script:
-    - cd builddir && ninja -v
-  test_script:
-    - cd builddir && meson test -v --suite rmw
-  test_fake_media_root:
-    - cd builddir && meson test -v --setup=fake_media_root --suite rmw
+  <<: *common_meson_steps
 
 macos_task:
   <<: *filter_template
   name: macOS arm64
   macos_instance:
-    image: ghcr.io/cirruslabs/macos-ventura-xcode:latest
-
+    image: ghcr.io/cirruslabs/macos-runner:sonoma
   env:
     CIRRUS_CLONE_SUBMODULES: true
-
   pkginstall_script:
     - brew install meson ninja ncurses
-
   setup_script:
     - meson setup builddir -Dnls=false
-  build_script:
-    - cd builddir && ninja -v
-  test_script:
-    - cd builddir && meson test -v --suite rmw
-  test_fake_media_root:
-    - cd builddir && meson test -v --setup=fake_media_root --suite rmw
+  <<: *common_meson_steps
