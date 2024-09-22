@@ -1,7 +1,16 @@
+# Define a template for tasks
+filter_template: &filter_template
+  only_if: "changesInclude(
+    'src/**/**',
+    '**meson.build',
+    '.cirrus.yml'
+    )"
+
 freebsd_task:
-  name: FreeBSD 13.2
+  <<: *filter_template
+  name: freebsd-13-3
   freebsd_instance:
-    image_family: freebsd-13-2
+    image_family: freebsd-13-3
 
   pkginstall_script:
     - pkg update -f
@@ -17,6 +26,7 @@ freebsd_task:
     - cd builddir && meson test -v --setup=fake_media_root --suite rmw
 
 arm_task:
+  <<: *filter_template
   arm_container:
     image: andy5995/rmw-build-env:bookworm
   env:
@@ -31,6 +41,7 @@ arm_task:
     - cd builddir && meson test -v --setup=fake_media_root --suite rmw
 
 macos_task:
+  <<: *filter_template
   name: macOS arm64
   macos_instance:
     image: ghcr.io/cirruslabs/macos-ventura-xcode:latest
