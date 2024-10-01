@@ -228,13 +228,13 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   waste_curr->removable = removable ? true : false;
 
   /* make the parent... */
-  waste_curr->parent = malloc(strlen(tmp_waste_parent_folder) + 1);
-  if (!waste_curr->parent)
-    fatal_malloc();
-  strcpy(waste_curr->parent, tmp_waste_parent_folder);
+  sn_check(snprintf
+           (waste_curr->parent, sizeof_memb(st_waste, parent), "%s",
+            tmp_waste_parent_folder), sizeof_memb(st_waste, parent));
 
   /* and the files... */
-  waste_curr->files = join_paths(waste_curr->parent, lit_files);
+  join_paths2(waste_curr->files, sizeof_memb(st_waste, files),
+              waste_curr->parent, lit_files);
   waste_curr->len_files = strlen(waste_curr->files);
 
   int p_state = check_pathname_state(waste_curr->files);
@@ -251,7 +251,8 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   else if (p_state == P_STATE_ERR)
     exit(p_state);
 
-  waste_curr->info = join_paths(waste_curr->parent, lit_info);
+  join_paths2(waste_curr->info, sizeof_memb(st_waste, info),
+              waste_curr->parent, lit_info);
   waste_curr->len_info = strlen(waste_curr->info);
 
   if ((p_state = check_pathname_state(waste_curr->info)) == P_STATE_ENOENT)
