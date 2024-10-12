@@ -96,8 +96,8 @@ jobs:
 
     - if: ${{ contains(matrix.build.os, 'macos') }}
       run: |
-        brew update
         brew install \
+          gettext \
           meson \
           ninja \
           ncurses \
