@@ -13,19 +13,19 @@ project(
 cc = meson.get_compiler('c')
 host_sys = host_machine.system()
 
-if host_sys == 'darwin'
-  build_env = environment()
-  pkg_config_path = get_option('pkg_config_path')
-  foreach p : [
-    '/opt/homebrew/opt/gettext/lib/pkgconfig',
-    '/opt/homebrew/opt/ncurses/lib/pkgconfig',
-    '/usr/local/opt/ncurses/lib/pkgconfig',
-    ]
-    pkg_config_path += p
-  endforeach
-  message(pkg_config_path)
-  build_env.set('PKG_CONFIG_PATH', ':'.join(pkg_config_path))
-endif
+#if host_sys == 'darwin'
+#  build_env = environment()
+#  pkg_config_path = get_option('pkg_config_path')
+#  foreach p : [
+#    '/opt/homebrew/opt/gettext/lib/pkgconfig',
+#    '/opt/homebrew/opt/ncurses/lib/pkgconfig',
+#    '/usr/local/opt/ncurses/lib/pkgconfig',
+#    ]
+#    pkg_config_path += p
+#  endforeach
+#  message(pkg_config_path)
+#  build_env.set('PKG_CONFIG_PATH', ':'.join(pkg_config_path))
+#endif
 
 extra_flags = [
   '-fno-common',
