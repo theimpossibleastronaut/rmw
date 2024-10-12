@@ -46,7 +46,7 @@ deps_librmw = [
 lib_rmw = static_library(
   'rmw',
   src,
-  include_directories : include_directories('.'),
+  include_directories : [include_directories('.'), inc_intl_arg],
   dependencies: deps_librmw
   )
 

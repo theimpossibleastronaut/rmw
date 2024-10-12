@@ -1,30 +1,32 @@
 dep_intl = []
+inc_intl_arg = []
 if get_option('nls')
   inc_args = []
   dep_intl = dependency('intl', required: false)
   if not dep_intl.found()
     if host_sys == 'freebsd' or host_sys == 'openbsd' or host_sys == 'dragonfly'
-      inc_args = ['-isystem/usr/local/include']
+      inc_intl_arg = ['/usr/local/include']
       dep_intl = cc.find_library(
         'intl',
         has_headers: ['libintl.h'],
         dirs: ['/usr/local/lib'],
-        header_args: inc_args
+        header_include_directories: include_directories(inc_intl_arg)
         )
     elif host_sys == 'netbsd'
-      inc_args = ['-isystem/usr/pkg/include']
+      inc_intl_arg = ['/usr/pkg/include']
       dep_intl = cc.find_library(
         'intl',
         has_headers: ['libintl.h'],
         dirs: ['/usr/pkg/lib'],
-        header_args: inc_args
+        header_include_directories: include_directories(inc_intl_arg)
         )
     else # darwin, cygwin
+      inc_intl_arg = ['/opt/homebrew/opt/gettext/include']
       dep_intl = cc.find_library(
         'intl',
         dirs: ['/opt/homebrew/opt/gettext/lib'],
         has_headers: ['libintl.h'],
-        header_include_directories: include_directories(['/opt/homebrew/opt/gettext/include'])
+        header_include_directories: include_directories(inc_intl_arg)
         )
     endif
   endif
