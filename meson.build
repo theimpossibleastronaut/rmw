@@ -14,6 +14,7 @@ cc = meson.get_compiler('c')
 host_sys = host_machine.system()
 
 if host_sys == 'darwin'
+  build_env = environment()
   pkg_config_path = get_option('pkg_config_path')
   foreach p : [
     '/usr/local/opt/ncurses/lib/pkgconfig',
@@ -23,6 +24,7 @@ if host_sys == 'darwin'
     pkg_config_path += p
   endforeach
   message(pkg_config_path)
+  build_env.set('PKG_CONFIG_PATH', pkg_config_path)
 endif
 
 extra_flags = [
