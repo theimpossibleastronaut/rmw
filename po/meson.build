@@ -20,12 +20,11 @@ if get_option('nls')
         header_args: inc_args
         )
     else # darwin, cygwin
-      inc_args = ['-i/opt/homebrew/opt/gettext/include']
       dep_intl = cc.find_library(
         'intl',
-        has_headers: ['libintl.h'],
         dirs: ['/opt/homebrew/opt/gettext/lib'],
-        header_args: inc_args
+        has_headers: ['libintl.h'],
+        header_include_directories: include_directories(['/opt/homebrew/opt/gettext/include'])
         )
     endif
   endif
