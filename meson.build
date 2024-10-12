@@ -24,7 +24,7 @@ if host_sys == 'darwin'
     pkg_config_path += p
   endforeach
   message(pkg_config_path)
-  build_env.set('PKG_CONFIG_PATH', pkg_config_path)
+  build_env.set('PKG_CONFIG_PATH', ':'.join(pkg_config_path))
 endif
 
 extra_flags = [
