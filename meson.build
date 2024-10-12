@@ -17,9 +17,9 @@ if host_sys == 'darwin'
   build_env = environment()
   pkg_config_path = get_option('pkg_config_path')
   foreach p : [
-    '/usr/local/opt/ncurses/lib/pkgconfig',
     '/opt/homebrew/opt/gettext/lib/pkgconfig',
-    '/opt/homebrew/opt/ncurses/lib/pkgconfig'
+    '/opt/homebrew/opt/ncurses/lib/pkgconfig',
+    '/usr/local/opt/ncurses/lib/pkgconfig',
     ]
     pkg_config_path += p
   endforeach
