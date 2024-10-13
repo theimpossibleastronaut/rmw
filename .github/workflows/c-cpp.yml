@@ -141,7 +141,7 @@ jobs:
           # "It would be better to pass those in from the outside with a
           # configuration argument. Usually setting build env things from within
           # build files is an antipattern"
-          PKG_CONFIG_ARGS="-Dpkg_config_path=/opt/homebrew/opt/gettext/lib/pkgconfig,/opt/homebrew/opt/ncurses/lib/pkgconfig,/usr/local/opt/ncurses/lib/pkgconfig"
+          PKG_CONFIG_ARGS="-Dpkg_config_path=/opt/homebrew/opt/ncurses/lib/pkgconfig,/usr/local/opt/ncurses/lib/pkgconfig"
         fi
         meson setup builddir ${{ matrix.build.setup_options }} $PKG_CONFIG_ARGS
     - name: Build

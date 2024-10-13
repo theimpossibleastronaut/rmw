@@ -58,5 +58,5 @@ macos_task:
   pkginstall_script:
     - brew install meson ninja ncurses
   setup_script:
-    - meson setup builddir -Dpkg_config_path=/opt/homebrew/opt/gettext/lib/pkgconfig,/opt/homebrew/opt/ncurses/lib/pkgconfig,/usr/local/opt/ncurses/lib/pkgconfig
+    - meson setup builddir -Dpkg_config_path=/opt/homebrew/opt/ncurses/lib/pkgconfig,/usr/local/opt/ncurses/lib/pkgconfig
   <<: *common_meson_steps
