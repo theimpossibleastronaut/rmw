@@ -46,12 +46,12 @@ deps_librmw = [
 lib_rmw = static_library(
   'rmw',
   src,
-  include_directories : include_directories('.'),
+  include_directories : include_directories(['.',  inc_intl_arg]),
   dependencies: deps_librmw
   )
 
 rmw_dep = declare_dependency(
-  link_with: [ lib_rmw, lib_bsdutilsrm ],
-  include_directories : include_directories('.'),
+  link_with: [ lib_rmw, lib_bsdutilsrm],
+  include_directories : include_directories(['.', inc_intl_arg]),
   dependencies: deps_librmw
   )

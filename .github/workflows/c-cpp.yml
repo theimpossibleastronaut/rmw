@@ -97,6 +97,7 @@ jobs:
     - if: ${{ contains(matrix.build.os, 'macos') }}
       run: |
         brew install \
+          gettext \
           meson \
           ninja \
           ncurses \
@@ -133,7 +134,16 @@ jobs:
       run: sudo apt install -y gettext
 
     - name: Configure
-      run: meson setup builddir ${{ matrix.build.setup_options }}
+      run: |
+        if [ "${{ contains(matrix.build.os, 'macos') }}" == "true" ]; then
+          # jpkanne of the Mesonbuild project recommends setting this outside of
+          # the meson.build file.
+          # "It would be better to pass those in from the outside with a
+          # configuration argument. Usually setting build env things from within
+          # build files is an antipattern"
+          PKG_CONFIG_ARGS="-Dpkg_config_path=/opt/homebrew/opt/ncurses/lib/pkgconfig,/usr/local/opt/ncurses/lib/pkgconfig"
+        fi
+        meson setup builddir ${{ matrix.build.setup_options }} $PKG_CONFIG_ARGS
     - name: Build
       run: |
         cd builddir
