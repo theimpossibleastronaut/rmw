@@ -30,120 +30,76 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.build.name }}
+    name: ${{ matrix.name }}-${{ matrix.os }}-${{ matrix.cc }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        build:
-          - name: ubuntu-20.04-gcc
-            os: ubuntu-20.04
-            cc: gcc
-            dist: true
-          - name: ubuntu-20.04-clang
-            os: ubuntu-20.04
-            cc: clang
-          - name: ubuntu-22.04-gcc
-            os: ubuntu-22.04
-            cc: gcc
-          - name: ubuntu-22.04-clang
-            os: ubuntu-22.04
-            cc: clang
-          - name: Slackware
-            os: ubuntu-20.04
-            container: 'andy5995/slackware-build-essential:15.0'
-          - name: debian bullseye
-            os: ubuntu-20.04
-            container: 'andy5995/rmw-build-env:bookworm'
-          - name: ubuntu-22.04-without-nls
-            os: ubuntu-22.04
-            setup: -Dnls=false
-          - name: ubuntu-22.04-without-curses
-            os: ubuntu-22.04
-            setup: -Dwithout-curses=true
-          - name: Alpine
-            os: ubuntu-22.04
-            container: andy5995/rmw-build-env:alpine
-            setup_options: -Db_sanitize=none
-          - name: macos-latest-brew-canfigger
-            os: macos-latest
-            install_packages: canfigger
-            setup_options: --wrap-mode nofallback
-          - name: macos-latest-bundled-canfigger
-            os: macos-latest
+        name: [default]
+        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
+        cc: [gcc, clang]
+        include:
+        - name: dist-test
+          os: ubuntu-latest
+          dist: true
+        - name: Slackware
+          os: ubuntu-latest
+          container: 'andy5995/slackware-build-essential:15.0'
+        - name: without-nls
+          os: ubuntu-latest
+          setup: -Dnls=false
+        - name: without-curses
+          os: ubuntu-latest
+          setup: -Dwithout-curses=true
+        - name: Alpine
+          os: ubuntu-latest
+          container: andy5995/rmw-build-env:alpine
+          setup_options: -Db_sanitize=none
 
-    runs-on: ${{ matrix.build.os }}
-    container: ${{ matrix.build.container }}
-    env:
-      CC: '${{ matrix.build.cc }}'
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: false
 
-    - if: ${{ env.CC }}
+    - name: Set CC
       run: |
-        if [ "$CC" = "gcc" ]; then
+        CC=${{ matrix.cc }}
+        if [ "$CC" = "gcc" ] || [ -z "$CC" ]; then
+          CC=gcc
           CXX=g++
         else
+          CC=clang
           CXX=clang++
         fi
-        echo "CXX=${CXX}" >> $GITHUB_ENV
+        echo "CC=$CC" >> $GITHUB_ENV
+        echo "CXX=$CXX" >> $GITHUB_ENV
 
     - name: Show info
       run: |
         export -p
         echo '${{ toJSON(matrix) }}'
 
-    - if: ${{ contains(matrix.build.os, 'macos') }}
+    - if: ${{ matrix.container == null }}
       run: |
-        brew install \
-          gettext \
-          meson \
-          ninja \
-          ncurses \
-          pkg-config \
-          ${{ matrix.build.install_packages }}
-
-    #- if: ${{ contains(matrix.os, 'ubuntu') }}
-      #run: |
-        #sudo apt-get update -qq
-        #sudo apt-get upgrade -y -qq
-
-    #- if: ${{ matrix.cc == 'clang' && matrix.os != 'macos-latest' }}
-      #run: sudo apt-get install -y $CC $CXX
-
-    - if: ${{ matrix.build.os == 'ubuntu-22.04' && matrix.build.container == null }}
-      name: Fix kernel mmap rnd bits
-      # Asan in llvm 14 provided in ubuntu 22.04 is incompatible with
-      # high-entropy ASLR in much newer kernels that GitHub runners are
-      # using leading to random crashes: https://reviews.llvm.org/D148280
-      run: sudo sysctl vm.mmap_rnd_bits=28
-
-    - if: ${{ contains(matrix.build.os, 'ubuntu') && matrix.build.container == null }}
-      run: |
+        sudo apt update
+        sudo apt remove -y firefox
+        sudo apt upgrade -y
         sudo apt-get install -y \
           python3-pip \
           python3-setuptools \
           xvfb # for test
         sudo -H python3 -m pip install meson ninja
 
-    - if: ${{ contains(matrix.build.name, 'without-nls') && matrix.build.container == null }}
+    - if: ${{ contains(matrix.name, 'without-nls') && matrix.container == null }}
       run: sudo apt remove -y gettext
 
-    - if: ${{ contains(matrix.build.name, 'without-nls') == false && matrix.build.container == null && contains(matrix.build.os, 'macos') == false }}
+    - if: ${{ contains(matrix.name, 'without-nls') == false && matrix.container == null }}
       run: sudo apt install -y gettext
 
     - name: Configure
       run: |
-        if [ "${{ contains(matrix.build.os, 'macos') }}" == "true" ]; then
-          # jpkanne of the Mesonbuild project recommends setting this outside of
-          # the meson.build file.
-          # "It would be better to pass those in from the outside with a
-          # configuration argument. Usually setting build env things from within
-          # build files is an antipattern"
-          PKG_CONFIG_ARGS="-Dpkg_config_path=/opt/homebrew/opt/ncurses/lib/pkgconfig,/usr/local/opt/ncurses/lib/pkgconfig"
-        fi
-        meson setup builddir ${{ matrix.build.setup_options }} $PKG_CONFIG_ARGS
+        meson setup builddir ${{ matrix.setup_options }}
     - name: Build
       run: |
         cd builddir
@@ -152,11 +108,11 @@ jobs:
       run: cd builddir && meson test -v
     - name: Test fake media root
       run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
-    - if: ${{ contains(matrix.build.name, 'dist') }}
+    - if: ${{ contains(matrix.name, 'dist') }}
       run: cd builddir && meson dist --include-subprojects
 
   openbsd:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     name: A job to run test in OpenBSD
     steps:
     - uses: actions/checkout@v4
