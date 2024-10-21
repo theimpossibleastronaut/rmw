@@ -19,11 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <unistd.h>
+#if defined(__APPLE__) && defined(__MACH__)
+#include <sys/mount.h>
+#else
+#include <sys/statfs.h>
+#endif
 
 #include "globals.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
-#include <sys/statfs.h>
 #include "strings_rmw.h"
 #include "main.h"
 
@@ -174,7 +178,12 @@ bool is_btrfs(const char *path) {
       perror("statfs");
       exit(EXIT_FAILURE);
     }
+
+#if defined(__APPLE__) && defined(__MACH__)
+    return strcmp(buf.f_fstypename, "btrfs") == 0;
+#else
     return buf.f_type == BTRFS_SUPER_MAGIC;
+#endif
 }
 
 /*!
