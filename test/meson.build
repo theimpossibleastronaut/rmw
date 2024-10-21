@@ -19,6 +19,7 @@ foreach case : test_cases
     '../src/' + case + '.c',
     c_args: ['-DTEST_LIB', '-DRMW_FAKE_HOME="@0@"'.format(RMW_FAKE_HOME)],
     dependencies: rmw_dep,
+    override_options: ['b_lto=false']
   )
   test('test_' + case, exe)
 endforeach
