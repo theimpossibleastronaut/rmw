@@ -4,9 +4,9 @@ dep_menu = []
 dep_curses = []
 if not get_option('without-curses')
   dep_curses = dependency('curses')
-  dep_menu = dependency('menuw', required : false)
+  dep_menu = dependency('menuw', required: false)
   if not dep_menu.found()
-    dep_menu = dependency('menu', required : false)
+    dep_menu = dependency('menu', required: false)
     if not dep_menu.found()
       dep_menu = cc.find_library('menuw')
       if not dep_menu.found()
@@ -31,27 +31,22 @@ src = [
   'messages_rmw.c',
   'time_rmw.c',
   'trashinfo_rmw.c',
-  'utils_rmw.c'
-  ]
+  'utils_rmw.c',
+]
 
-config_h = configure_file(output : 'config.h', configuration : conf)
+config_h = configure_file(output: 'config.h', configuration: conf)
 
-deps_librmw = [
-    dep_intl,
-    canfigger_dep,
-    dep_menu,
-    dep_curses
-    ]
+deps_librmw = [dep_intl, canfigger_dep, dep_menu, dep_curses]
 
 lib_rmw = static_library(
   'rmw',
   src,
-  include_directories : include_directories(['.',  inc_intl_arg]),
-  dependencies: deps_librmw
-  )
+  include_directories: include_directories(['.', inc_intl_arg]),
+  dependencies: deps_librmw,
+)
 
 rmw_dep = declare_dependency(
-  link_with: [ lib_rmw, lib_bsdutilsrm],
-  include_directories : include_directories(['.', inc_intl_arg]),
-  dependencies: deps_librmw
-  )
+  link_with: [lib_rmw, lib_bsdutilsrm],
+  include_directories: include_directories(['.', inc_intl_arg]),
+  dependencies: deps_librmw,
+)
