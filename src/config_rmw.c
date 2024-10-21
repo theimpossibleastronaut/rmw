@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <unistd.h>
-#if defined(__APPLE__) && defined(__MACH__)
+#if defined(__APPLE__) && defined(__MACH__) || defined(__BSD__)
 #include <sys/mount.h>
 #else
 #include <sys/statfs.h>
@@ -179,7 +179,7 @@ bool is_btrfs(const char *path) {
       exit(EXIT_FAILURE);
     }
 
-#if defined(__APPLE__) && defined(__MACH__)
+#if defined(__APPLE__) && defined(__MACH__) || defined (__BSD__)
     return strcmp(buf.f_fstypename, "btrfs") == 0;
 #else
     return buf.f_type == BTRFS_SUPER_MAGIC;
