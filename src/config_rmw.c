@@ -23,8 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
+#include <sys/statfs.h>
 #include "strings_rmw.h"
 #include "main.h"
+
+// Btrfs filesystem magic number
+#define BTRFS_SUPER_MAGIC 0x9123683E
 
 static const int DEFAULT_EXPIRE_AGE = 0;
 static const char *lit_files = "files";
@@ -161,6 +165,18 @@ realize_str(char *str, const char *homedir, const char *uid)
 }
 
 
+bool is_btrfs(const char *path) {
+    struct statfs buf;
+
+    if (statfs(path, &buf) == -1)
+    {
+      print_msg_error();
+      perror("statfs");
+      exit(EXIT_FAILURE);
+    }
+    return buf.f_type == BTRFS_SUPER_MAGIC;
+}
+
 /*!
  * This function is called when the "WASTE" option is encountered in the
  * config file. The line is parsed and added to the linked list of WASTE
@@ -266,6 +282,8 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   }
   else if (p_state == P_STATE_ERR)
     exit(p_state);
+
+  waste_curr->is_btrfs = is_btrfs(waste_curr->parent);
 
   // get device number to use later for rename
   struct stat st, mp_st;
