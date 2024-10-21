@@ -38,6 +38,10 @@ jobs:
         os: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
         cc: [gcc, clang]
         include:
+        - name: epochalypse
+          os: ubuntu-latest
+          setup_options: -Db_sanitize=none
+          install_packages: faketime
         - name: dist-test
           os: ubuntu-latest
           dist: true
@@ -88,7 +92,10 @@ jobs:
         sudo apt-get install -y \
           python3-pip \
           python3-setuptools \
-          xvfb # for test
+          xvfb
+        if [ -n "${{ matrix.install_packages }}" ]; then
+          sudo apt install -y ${{ matrix.install_packages }}
+        fi
         sudo -H python3 -m pip install meson ninja
 
     - if: ${{ contains(matrix.name, 'without-nls') && matrix.container == null }}
@@ -110,6 +117,9 @@ jobs:
       run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
     - if: ${{ contains(matrix.name, 'dist') }}
       run: cd builddir && meson dist --include-subprojects
+    - if: ${{ matrix.name == 'epochalypse' }}
+      name: Epochalypse test
+      run: meson test -C builddir --setup=epochalypse
 
   openbsd:
     runs-on: ubuntu-latest
