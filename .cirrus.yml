@@ -30,9 +30,9 @@ freebsd_task:
 
 freebsd_task:
   <<: *filter_template
-  name: freebsd-14-0
+  name: freebsd-14-1
   freebsd_instance:
-    image_family: freebsd-14-0
+    image_family: freebsd-14-1
   <<: *common_freebsd_steps
   setup_script:
     - meson setup builddir
