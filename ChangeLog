@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2024-10-21
+
+  * Fix strmode conflicting types error on OpenBSD and FreeBSD
+
 2024-03-26
 
   * Fix for tests failing after the Epochalypse (#439)

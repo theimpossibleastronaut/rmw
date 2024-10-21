@@ -63,7 +63,9 @@ static char sccsid[] = "@(#)rm.c	8.5 (Berkeley) 4/18/94";
 #include <sysexits.h>
 #include <unistd.h>
 
+#ifndef HAVE_STRMODE
 #include "compat.h"
+#endif
 
 int eval;
 static int dflag, fflag, iflag, vflag, stdin_ok;
