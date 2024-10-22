@@ -24,7 +24,6 @@ endif
 src = [
   'globals.c',
   'restore_rmw.c',
-  'btrfs.c',
   'config_rmw.c',
   'parse_cli_options.c',
   'strings_rmw.c',
@@ -34,6 +33,15 @@ src = [
   'trashinfo_rmw.c',
   'utils_rmw.c',
 ]
+
+# Used for btrfs functions
+if cc.has_function(
+  'statfs',
+  prefix: '#include <sys/statfs.h>',
+)
+  conf.set('HAVE_LINUX_BTRFS', 1)
+  src += ['btrfs.c']
+endif
 
 config_h = configure_file(output: 'config.h', configuration: conf)
 
