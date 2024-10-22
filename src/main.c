@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "globals.h"
 #include "main.h"
+#include "btrfs.h"
 #include "utils_rmw.h"
 #include "restore_rmw.h"
 #include "config_rmw.h"

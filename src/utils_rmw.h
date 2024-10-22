@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _INC_UTILS_H
 #define _INC_UTILS_H
 
+#include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
 

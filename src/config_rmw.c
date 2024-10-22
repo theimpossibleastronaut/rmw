@@ -19,20 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <unistd.h>
-#if defined(__APPLE__) && defined(__MACH__) || defined(__BSD__)
-#include <sys/mount.h>
-#else
-#include <sys/statfs.h>
-#endif
 
 #include "globals.h"
+#include "btrfs.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
 #include "strings_rmw.h"
 #include "main.h"
-
-// Btrfs filesystem magic number
-#define BTRFS_SUPER_MAGIC 0x9123683E
 
 static const int DEFAULT_EXPIRE_AGE = 0;
 static const char *lit_files = "files";
@@ -168,23 +161,6 @@ realize_str(char *str, const char *homedir, const char *uid)
   return 0;
 }
 
-
-bool is_btrfs(const char *path) {
-    struct statfs buf;
-
-    if (statfs(path, &buf) == -1)
-    {
-      print_msg_error();
-      perror("statfs");
-      exit(EXIT_FAILURE);
-    }
-
-#if defined(__APPLE__) && defined(__MACH__) || defined (__BSD__)
-    return strcmp(buf.f_fstypename, "btrfs") == 0;
-#else
-    return buf.f_type == BTRFS_SUPER_MAGIC;
-#endif
-}
 
 /*!
  * This function is called when the "WASTE" option is encountered in the
