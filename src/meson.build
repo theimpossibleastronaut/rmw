@@ -24,6 +24,7 @@ endif
 src = [
   'globals.c',
   'restore_rmw.c',
+  'btrfs.c',
   'config_rmw.c',
   'parse_cli_options.c',
   'strings_rmw.c',
