@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://theimpossibleastronaut.github.io/rmw-website/>
 
-Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
+Copyright (C) 2012-2024  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -38,11 +38,7 @@ is_btrfs(const char *path)
     exit(EXIT_FAILURE);
   }
 
-#if defined(__APPLE__) && defined(__MACH__) || defined (__BSD__)
-  return strcmp(buf.f_fstypename, "btrfs") == 0;
-#else
   return buf.f_type == BTRFS_SUPER_MAGIC;
-#endif
 }
 
 
@@ -55,7 +51,7 @@ do_btrfs_move(const char *source, const char *dest)
   if (src_fd == -1)
   {
     perror("open source");
-    exit(EXIT_FAILURE);
+    return src_fd;
   }
 
   // Open or create the destination file
@@ -64,27 +60,27 @@ do_btrfs_move(const char *source, const char *dest)
   {
     perror("open destination");
     close(src_fd);
-    exit(EXIT_FAILURE);
+    return src_fd;
   }
 
-  // Perform the Btrfs clone operation
-  if (ioctl(dest_fd, BTRFS_IOC_CLONE, src_fd) == -1)
+  int res = ioctl(dest_fd, BTRFS_IOC_CLONE, src_fd);
+  if (res == -1)
   {
     perror("BTRFS_IOC_CLONE");
     close(src_fd);
     close(dest_fd);
-    exit(EXIT_FAILURE);
+    return res;
   }
 
   // Close file descriptors
   close(src_fd);
   close(dest_fd);
 
-  // If successful, remove the original file
-  if (unlink(source) == -1)
+  res = unlink(source);
+  if (res == -1)
   {
     perror("unlink source");
-    exit(EXIT_FAILURE);
+    return res;
   }
   return 0;
 }
@@ -106,7 +102,7 @@ is_btrfs_subvolume(const char *path)
   args.treeid = BTRFS_FS_TREE_OBJECTID;
 
   // Use the ioctl to check if the path is a subvolume
-  if (ioctl(fd, BTRFS_IOC_INO_LOOKUP, &args) == -1)
+  if (ioctl(fd, (unsigned long)BTRFS_IOC_INO_LOOKUP, &args) == -1)
   {
     if (errno == ENOTTY)
     {

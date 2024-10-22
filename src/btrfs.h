@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://theimpossibleastronaut.github.io/rmw-website/>
 
-Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
+Copyright (C) 2012-2024  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -25,17 +25,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <linux/btrfs.h>
 #include <linux/btrfs_tree.h>
 #include <sys/ioctl.h>
+#include <sys/statfs.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-#if defined(__APPLE__) && defined(__MACH__) || defined(__BSD__)
-#include <sys/mount.h>
-#else
-#include <sys/statfs.h>
-// Btrfs filesystem magic number
-#define BTRFS_SUPER_MAGIC 0x9123683E
-#endif
 
+#define BTRFS_SUPER_MAGIC 0x9123683E
 
 bool is_btrfs(const char *path);
 
