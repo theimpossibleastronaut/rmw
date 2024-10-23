@@ -69,6 +69,8 @@ struct st_waste
    info */
   char *media_root;
 
+  bool is_btrfs;
+
   /** Points to the previous WASTE directory in the linked list
    */
   st_waste *prev_node;

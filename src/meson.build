@@ -34,6 +34,15 @@ src = [
   'utils_rmw.c',
 ]
 
+# Used for btrfs functions
+if cc.has_function(
+  'statfs',
+  prefix: '#include <sys/statfs.h>',
+)
+  conf.set('HAVE_LINUX_BTRFS', 1)
+  src += ['btrfs.c']
+endif
+
 config_h = configure_file(output: 'config.h', configuration: conf)
 
 deps_librmw = [dep_intl, canfigger_dep, dep_menu, dep_curses]
