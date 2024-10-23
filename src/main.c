@@ -329,9 +329,14 @@ damage of 5000 hp. You feel satisfied.\n"));
      * happens (provided all the tests are passed.
      */
     waste_curr = waste_head;
+    //puts(argv[file_arg]);
+    //if (is_on_subvolume(waste_curr->parent, argv[file_arg]) == 1)
+      //puts("Yes");
+
     while (waste_curr != NULL)
     {
-      if (waste_curr->dev_num == st_orig.st_dev)
+      if (waste_curr->dev_num == st_orig.st_dev ||
+        (waste_curr->is_btrfs && is_btrfs(argv[file_arg])))
       {
         char *tmp_str = join_paths(waste_curr->files, st_target.base_name);
         strcpy(st_target.waste_dest_name, tmp_str);
@@ -354,7 +359,12 @@ damage of 5000 hp. You feel satisfied.\n"));
 
         int r_result = 0;
         if (cli_user_options->want_dry_run == false)
-          r_result = rename(argv[file_arg], st_target.waste_dest_name);
+        {
+          if (waste_curr->dev_num != st_orig.st_dev)
+            r_result = do_btrfs_move(argv[file_arg], st_target.waste_dest_name);
+          else
+            r_result = rename(argv[file_arg], st_target.waste_dest_name);
+        }
 
         if (r_result == 0)
         {

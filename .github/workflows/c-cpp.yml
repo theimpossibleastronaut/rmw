@@ -57,6 +57,7 @@ jobs:
         - name: Alpine
           os: ubuntu-latest
           container: andy5995/rmw:build-env-alpine
+          install_packages: kernel-headers
           setup_options: -Db_sanitize=none
 
     runs-on: ${{ matrix.os }}
@@ -108,9 +109,14 @@ jobs:
       if: ${{ env.CC == 'gcc' }}
       run: echo "SETUP_OPTIONS=-Db_lto=true" >> $GITHUB_ENV
 
-    - name: Configure
+    - if: ${{ contains(matrix.container, 'alpine') }}
       run: |
-        meson setup builddir $SETUP_OPTIONS ${{ matrix.setup_options }}
+        apk update
+        apk upgrade
+        apk add linux-headers
+
+    - name: Configure
+      run: meson setup builddir $SETUP_OPTIONS ${{ matrix.setup_options }}
 
     - name: Build
       run: |
