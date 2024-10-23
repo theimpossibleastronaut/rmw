@@ -84,39 +84,3 @@ do_btrfs_move(const char *source, const char *dest)
   }
   return 0;
 }
-
-int
-is_btrfs_subvolume(const char *path)
-{
-  int fd = open(path, O_RDONLY);
-  if (fd == -1)
-  {
-    perror("open");
-    return -1;
-  }
-
-  struct btrfs_ioctl_ino_lookup_args args;
-  memset(&args, 0, sizeof(args));
-
-  // Root ID of the top-level volume, 5 is the ID for the top-level volume
-  args.treeid = BTRFS_FS_TREE_OBJECTID;
-
-  // Use the ioctl to check if the path is a subvolume
-  if (ioctl(fd, (unsigned long)BTRFS_IOC_INO_LOOKUP, &args) == -1)
-  {
-    if (errno == ENOTTY)
-    {
-      fprintf(stderr, "Not a Btrfs filesystem.\n");
-    }
-    else
-    {
-      perror("ioctl");
-    }
-    close(fd);
-    return -1;
-  }
-
-  close(fd);
-  // If the ioctl is successful, it's a subvolume
-  return 1;                     // Is a subvolume
-}
