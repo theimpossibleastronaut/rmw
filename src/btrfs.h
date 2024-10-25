@@ -35,6 +35,4 @@ bool is_btrfs(const char *path);
 
 int do_btrfs_clone(const char *source, const char *dest, int *save_errno);
 
-int is_on_subvolume(const char *path1, const char *path2);
-
 #endif

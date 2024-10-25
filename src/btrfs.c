@@ -70,6 +70,8 @@ do_btrfs_clone(const char *source, const char *dest, int *save_errno)
   if (res == -1)
   {
     // perror("BTRFS_IOC_CLONE");
+    if (unlink(dest) != 0)
+      fprintf(stderr, "unlink: %s in %s", strerror(errno), __func__);
     return res;
   }
 

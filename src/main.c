@@ -332,7 +332,7 @@ damage of 5000 hp. You feel satisfied.\n"));
     while (waste_curr != NULL)
     {
       if (waste_curr->dev_num == st_orig.st_dev ||
-        (waste_curr->is_btrfs && is_btrfs(argv[file_arg])))
+          (waste_curr->is_btrfs && is_btrfs(argv[file_arg])))
       {
         char *tmp_str = join_paths(waste_curr->files, st_target.base_name);
         strcpy(st_target.waste_dest_name, tmp_str);
@@ -360,7 +360,9 @@ damage of 5000 hp. You feel satisfied.\n"));
         {
           if (waste_curr->dev_num != st_orig.st_dev)
           {
-            r_result = do_btrfs_clone(argv[file_arg], st_target.waste_dest_name, &save_errno);
+            r_result =
+              do_btrfs_clone(argv[file_arg], st_target.waste_dest_name,
+                             &save_errno);
             // printf("save_errno: %d\n", save_errno);
             // puts(strerror(errno));
             if (r_result != 0)

@@ -165,8 +165,13 @@ Duplicate filename at destination - appending time string...\n"));
     }
 
     int rename_res = 0;
+    int save_errno = errno;
     if (cli_user_options->want_dry_run == false)
+    {
       rename_res = rename(src, dest);
+      if (errno == EXDEV)
+        rename_res = do_btrfs_clone(src, dest, &save_errno);
+    }
 
     if (!rename_res)
     {
