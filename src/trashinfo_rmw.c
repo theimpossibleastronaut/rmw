@@ -93,6 +93,9 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
         escaped_path_ptr++;
       else
       {
+        close_file(&fp, final_info_dest, __func__);
+        if (unlink(final_info_dest) != 0)
+          perror("unlink");
         print_msg_error();
         fprintf(stderr, "Expected a leading '/' in the pathname '%s'\n",
                 escaped_path_ptr);
