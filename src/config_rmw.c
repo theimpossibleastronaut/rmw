@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "strings_rmw.h"
 #include "main.h"
 
+// #include <sys/sysmacros.h> // for major() and minor()
+
 static const int DEFAULT_EXPIRE_AGE = 0;
 static const char *lit_files = "files";
 
@@ -276,7 +278,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   if (!lstat(waste_curr->parent, &st))
   {
     waste_curr->dev_num = st.st_dev;
-
+    // printf("actual: %ld |major: %d | minor: %d\n", st.st_dev, major(st.st_dev), minor(st.st_dev));
     char tmp[PATH_MAX];
     strcpy(tmp, waste_curr->parent);
     char *media_root_ptr = rmw_dirname(tmp);

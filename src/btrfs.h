@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <fcntl.h>
 #include <linux/btrfs.h>
-#include <linux/btrfs_tree.h>
 #include <sys/ioctl.h>
 #include <sys/statfs.h>
 #include <sys/stat.h>
@@ -34,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 bool is_btrfs(const char *path);
 
-int do_btrfs_move(const char *source, const char *dest);
+int do_btrfs_clone(const char *source, const char *dest, int *save_errno);
 
 int is_on_subvolume(const char *path1, const char *path2);
 

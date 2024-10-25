@@ -329,10 +329,6 @@ damage of 5000 hp. You feel satisfied.\n"));
      * happens (provided all the tests are passed.
      */
     waste_curr = waste_head;
-    //puts(argv[file_arg]);
-    //if (is_on_subvolume(waste_curr->parent, argv[file_arg]) == 1)
-      //puts("Yes");
-
     while (waste_curr != NULL)
     {
       if (waste_curr->dev_num == st_orig.st_dev ||
@@ -358,12 +354,26 @@ damage of 5000 hp. You feel satisfied.\n"));
         }
 
         int r_result = 0;
+        // int clone_result = 0;
+        int save_errno = errno;
         if (cli_user_options->want_dry_run == false)
         {
           if (waste_curr->dev_num != st_orig.st_dev)
-            r_result = do_btrfs_move(argv[file_arg], st_target.waste_dest_name);
+          {
+            r_result = do_btrfs_clone(argv[file_arg], st_target.waste_dest_name, &save_errno);
+            // printf("save_errno: %d\n", save_errno);
+            // puts(strerror(errno));
+            if (r_result != 0)
+            {
+              waste_curr = waste_curr->next_node;
+              continue;
+            }
+          }
           else
+          {
             r_result = rename(argv[file_arg], st_target.waste_dest_name);
+            save_errno = errno;
+          }
         }
 
         if (r_result == 0)

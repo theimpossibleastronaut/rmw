@@ -43,7 +43,7 @@ is_btrfs(const char *path)
 
 
 int
-do_btrfs_move(const char *source, const char *dest)
+do_btrfs_clone(const char *source, const char *dest, int *save_errno)
 {
   int src_fd, dest_fd;
 
@@ -64,17 +64,14 @@ do_btrfs_move(const char *source, const char *dest)
   }
 
   int res = ioctl(dest_fd, BTRFS_IOC_CLONE, src_fd);
-  if (res == -1)
-  {
-    perror("BTRFS_IOC_CLONE");
-    close(src_fd);
-    close(dest_fd);
-    return res;
-  }
-
-  // Close file descriptors
+  *save_errno = errno;
   close(src_fd);
   close(dest_fd);
+  if (res == -1)
+  {
+    // perror("BTRFS_IOC_CLONE");
+    return res;
+  }
 
   res = unlink(source);
   if (res == -1)
