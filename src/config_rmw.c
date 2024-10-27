@@ -277,7 +277,26 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   struct stat st, mp_st;
   if (!lstat(waste_curr->parent, &st))
   {
-    waste_curr->dev_num = st.st_dev;
+    if (S_ISLNK(st.st_mode))
+    {
+      char *res_path = realpath(waste_curr->parent, NULL);
+      if (res_path != NULL)
+      {
+        int rl = lstat(res_path, &st);
+        free(res_path);
+        if (!rl)
+          waste_curr->dev_num = st.st_dev;
+        else
+          msg_err_lstat(waste_curr->parent, __func__, __LINE__);
+      }
+      else
+      {
+        perror("realpath");
+        exit(EXIT_FAILURE);
+      }
+    }
+    else
+      waste_curr->dev_num = st.st_dev;
     // printf("actual: %ld |major: %d | minor: %d\n", st.st_dev, major(st.st_dev), minor(st.st_dev));
     char tmp[PATH_MAX];
     strcpy(tmp, waste_curr->parent);

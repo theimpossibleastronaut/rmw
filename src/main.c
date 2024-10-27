@@ -335,6 +335,7 @@ damage of 5000 hp. You feel satisfied.\n"));
           (waste_curr->is_btrfs && is_btrfs(argv[file_arg])))
       {
         char *tmp_str = join_paths(waste_curr->files, st_target.base_name);
+        *st_target.waste_dest_name = '\0';
         strcpy(st_target.waste_dest_name, tmp_str);
         free(tmp_str);
         tmp_str = NULL;
