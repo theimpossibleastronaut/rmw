@@ -46,7 +46,9 @@ int
 do_btrfs_clone(const char *source, const char *dest, int *save_errno)
 {
   int src_fd, dest_fd;
+  struct stat src_stat;
 
+  // Open the source file in read-only mode
   src_fd = open(source, O_RDONLY);
   if (src_fd == -1)
   {
@@ -54,24 +56,37 @@ do_btrfs_clone(const char *source, const char *dest, int *save_errno)
     return src_fd;
   }
 
-  // Open or create the destination file
-  dest_fd = open(dest, O_WRONLY | O_CREAT, 0666);
+  // Retrieve source file permissions
+  if (fstat(src_fd, &src_stat) == -1)
+  {
+    perror("fstat source");
+    close(src_fd);
+    return -1;
+  }
+
+  // Ensure no umask setting interferes with the permissions
+  mode_t old_umask = umask(0);
+  // Open or create the destination file with the same permissions as the source
+  dest_fd = open(dest, O_WRONLY | O_CREAT, src_stat.st_mode & 0777);
+  umask(old_umask);
   if (dest_fd == -1)
   {
     perror("open destination");
     close(src_fd);
-    return src_fd;
+    return dest_fd;
   }
 
   int res = ioctl(dest_fd, BTRFS_IOC_CLONE, src_fd);
   *save_errno = errno;
+
   close(src_fd);
   close(dest_fd);
+
   if (res == -1)
   {
-    // perror("BTRFS_IOC_CLONE");
+    // Clone failed, remove the destination file
     if (unlink(dest) != 0)
-      fprintf(stderr, "unlink: %s in %s", strerror(errno), __func__);
+      fprintf(stderr, "unlink: %s in %s\n", strerror(errno), __func__);
     return res;
   }
 
@@ -81,5 +96,6 @@ do_btrfs_clone(const char *source, const char *dest, int *save_errno)
     perror("unlink source");
     return res;
   }
+
   return 0;
 }
