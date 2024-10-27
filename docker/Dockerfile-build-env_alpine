@@ -5,6 +5,7 @@ RUN apk add \
       gcc \
       gettext \
       git \
+      linux-headers \
       meson \
       musl-dev \
       musl-fts-dev \
