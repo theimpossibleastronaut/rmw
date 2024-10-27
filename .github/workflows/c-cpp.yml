@@ -57,7 +57,6 @@ jobs:
         - name: Alpine
           os: ubuntu-latest
           container: andy5995/rmw:build-env-alpine
-          install_packages: kernel-headers
           setup_options: -Db_sanitize=none
 
     runs-on: ${{ matrix.os }}
@@ -113,7 +112,6 @@ jobs:
       run: |
         apk update
         apk upgrade
-        apk add linux-headers
 
     - name: Configure
       run: meson setup builddir $SETUP_OPTIONS ${{ matrix.setup_options }}
