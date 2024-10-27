@@ -56,7 +56,7 @@ jobs:
           setup: -Dwithout-curses=true
         - name: Alpine
           os: ubuntu-latest
-          container: andy5995/rmw-build-env:alpine
+          container: andy5995/rmw:build-env-alpine
           setup_options: -Db_sanitize=none
 
     runs-on: ${{ matrix.os }}

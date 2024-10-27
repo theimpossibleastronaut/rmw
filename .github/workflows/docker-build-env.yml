@@ -11,7 +11,7 @@ on:
 
 jobs:
   docker:
-    name: rmw-build-env_${{ matrix.tag }}
+    name: build-env_${{ matrix.tag }}
     strategy:
       fail-fast: true
       matrix:
@@ -44,4 +44,4 @@ jobs:
           file: ./docker/Dockerfile-build-env_${{ matrix.tag }}
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw-build-env:${{ matrix.tag }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw:build-env-${{ matrix.tag }}

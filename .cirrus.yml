@@ -41,7 +41,7 @@ freebsd_task:
 arm_task:
   <<: *filter_template
   arm_container:
-    image: andy5995/rmw-build-env:bookworm
+    image: andy5995/rmw:build-env-bookworm
   env:
     CIRRUS_CLONE_SUBMODULES: true
   setup_script:

@@ -1,4 +1,4 @@
-FROM andy5995/rmw-build-env:alpine
+FROM andy5995/rmw:build-env-alpine
 
 RUN git clone --depth 1 https://github.com/theimpossibleastronaut/rmw \
     && cd /rmw \
