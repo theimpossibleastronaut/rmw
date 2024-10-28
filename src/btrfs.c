@@ -23,12 +23,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 #endif
 
+#ifdef HAVE_LINUX_BTRFS
+#include <fcntl.h>
+#include <linux/btrfs.h>
+#include <sys/ioctl.h>
+#include <sys/statfs.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#endif
+
 #include "btrfs.h"
 #include "messages_rmw.h"
 
 bool
 is_btrfs(const char *path)
 {
+#ifdef HAVE_LINUX_BTRFS
   struct statfs buf;
 
   if (statfs(path, &buf) == -1)
@@ -39,12 +49,17 @@ is_btrfs(const char *path)
   }
 
   return buf.f_type == BTRFS_SUPER_MAGIC;
+#else
+  (void)path;
+  return false;
+#endif
 }
 
 
 int
 do_btrfs_clone(const char *source, const char *dest, int *save_errno)
 {
+#ifdef HAVE_LINUX_BTRFS
   int src_fd, dest_fd;
   struct stat src_stat;
 
@@ -100,4 +115,10 @@ do_btrfs_clone(const char *source, const char *dest, int *save_errno)
   }
 
   return 0;
+#else
+  (void)source;
+  (void)dest;
+  (void)save_errno;
+  return 0;
+#endif
 }

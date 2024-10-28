@@ -21,13 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _INC_BTRFS_H
 #define _INC_BTRFS_H
 
-#include <fcntl.h>
-#include <linux/btrfs.h>
-#include <sys/ioctl.h>
-#include <sys/statfs.h>
-#include <sys/stat.h>
-#include <unistd.h>
-
+#include <stdbool.h>
 
 #define BTRFS_SUPER_MAGIC 0x9123683E
 

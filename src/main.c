@@ -26,10 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "purging_rmw.h"
 #include "strings_rmw.h"
 #include "messages_rmw.h"
-
-#ifdef HAVE_LINUX_BTRFS
 #include "btrfs.h"
-#endif
 
 static int
 process_mrl(st_waste *waste_head,

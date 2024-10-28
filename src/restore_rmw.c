@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <ctype.h>
 
 #include "parse_cli_options.h"
+#include "btrfs.h"
 #include "config_rmw.h"
 #include "restore_rmw.h"
 #include "utils_rmw.h"

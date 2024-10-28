@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <unistd.h>
+
+#include "btrfs.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
 #include "strings_rmw.h"
@@ -267,11 +269,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   else if (p_state == P_STATE_ERR)
     exit(p_state);
 
-#ifdef HAVE_LINUX_BTRFS
   waste_curr->is_btrfs = is_btrfs(waste_curr->parent);
-#else
-  waste_curr->is_btrfs = false;
-#endif
 
   // get device number to use later for rename
   struct stat st, mp_st;

@@ -21,9 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "globals.h"
-#ifdef HAVE_LINUX_BTRFS
-#include "btrfs.h"
-#endif
 #include "trashinfo_rmw.h"
 #include "parse_cli_options.h"
 #include "messages_rmw.h"

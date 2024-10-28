@@ -23,6 +23,7 @@ endif
 
 src = [
   'globals.c',
+  'btrfs.c',
   'restore_rmw.c',
   'config_rmw.c',
   'parse_cli_options.c',
@@ -35,12 +36,16 @@ src = [
 ]
 
 # Used for btrfs functions
-if cc.has_function(
-  'statfs',
-  prefix: '#include <sys/statfs.h>',
-)
-  conf.set('HAVE_LINUX_BTRFS', 1)
-  src += ['btrfs.c']
+if host_sys == 'linux'
+  if get_option('want_btrfs_clone')
+    has_statfs = cc.has_function(
+        'statfs',
+        prefix: '#include <sys/statfs.h>',
+      )
+    if has_statfs
+      conf.set('HAVE_LINUX_BTRFS', 1)
+    endif
+  endif
 endif
 
 config_h = configure_file(output: 'config.h', configuration: conf)
