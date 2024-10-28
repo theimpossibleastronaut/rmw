@@ -47,4 +47,15 @@ test -f /mnt/btrfs_part/wasteLink/files/foo
 $RMW_TEST_CMD_STRING -c "${MESON_SOURCE_ROOT}/test/rmw.btrfs04.rc" -u
 test -f ../foo
 
+# This script is only designed to work on Andy's workstation.
+if [ ! -d "/mnt/usb_btrfs" ]; then
+  exit 0
+fi
+
+cd /mnt/usb_btrfs
+touch foo
+$RMW_TEST_CMD_STRING foo \
+  -c "${MESON_SOURCE_ROOT}/test/rmw.btrfs_usb.rc"
+test ! -f foo
+
 exit 0
