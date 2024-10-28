@@ -368,8 +368,13 @@ damage of 5000 hp. You feel satisfied.\n"));
             // puts(strerror(errno));
             if (r_result != 0)
             {
-              waste_curr = waste_curr->next_node;
-              continue;
+              if (save_errno == EXDEV)
+              {
+                waste_curr = waste_curr->next_node;
+                continue;
+              }
+              else
+                exit(EXIT_FAILURE);
             }
           }
           else

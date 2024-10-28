@@ -84,6 +84,8 @@ do_btrfs_clone(const char *source, const char *dest, int *save_errno)
 
   if (res == -1)
   {
+    if (*save_errno != EXDEV)
+      fprintf(stderr, "ioctl: %s in %s\n", strerror(*save_errno), __func__);
     // Clone failed, remove the destination file
     if (unlink(dest) != 0)
       fprintf(stderr, "unlink: %s in %s\n", strerror(errno), __func__);
