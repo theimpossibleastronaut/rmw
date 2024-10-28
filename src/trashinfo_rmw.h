@@ -97,6 +97,8 @@ typedef struct
    *  exists in the WASTE folder */
   char waste_dest_name[PATH_MAX];
 
+  dev_t dev_num;
+
   /** Is <tt>true</tt> if the file exists in the destination WASTE/files folder,
    * false otherwise. If it's a duplicate, a string based on the current time
    * will be appended to \ref dest_name

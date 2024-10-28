@@ -256,9 +256,10 @@ damage of 5000 hp. You feel satisfied.\n"));
       continue;
     }
 
-    struct stat st_orig;
-    if (!lstat(argv[file_arg], &st_orig))
+    struct stat st_file_arg;
+    if (!lstat(argv[file_arg], &st_file_arg))
     {
+      st_target.dev_num = st_file_arg.st_dev;
       st_target.real_path = resolve_path(argv[file_arg], st_target.base_name);
       if (st_target.real_path == NULL)
       {
@@ -328,11 +329,11 @@ damage of 5000 hp. You feel satisfied.\n"));
     waste_curr = waste_head;
     while (waste_curr != NULL)
     {
-      if (waste_curr->dev_num == st_orig.st_dev ||
+      if (waste_curr->dev_num == st_target.dev_num ||
           (waste_curr->is_btrfs && is_btrfs(argv[file_arg])))
       {
         char *tmp_str = join_paths(waste_curr->files, st_target.base_name);
-        *st_target.waste_dest_name = '\0';
+        // *st_target.waste_dest_name = '\0';
         strcpy(st_target.waste_dest_name, tmp_str);
         free(tmp_str);
         tmp_str = NULL;
@@ -356,7 +357,7 @@ damage of 5000 hp. You feel satisfied.\n"));
         int save_errno = errno;
         if (cli_user_options->want_dry_run == false)
         {
-          if (waste_curr->dev_num != st_orig.st_dev)
+          if (waste_curr->dev_num != st_target.dev_num)
           {
             r_result =
               do_btrfs_clone(argv[file_arg], st_target.waste_dest_name,
@@ -634,6 +635,13 @@ main(const int argc, char *const argv[])
 
   if (verbose > 1)
     printf("PATH_MAX = %d\n", PATH_MAX - 1);
+
+  if (verbose > 0)
+#ifdef HAVE_LINUX_BTRFS
+    puts("btrfs_clone support: true");
+#else
+    puts("btrfs_clone support: false");
+#endif
 
   const st_loc *st_location = get_locations(cli_user_options.alt_config_file);
   if (st_location == NULL)
