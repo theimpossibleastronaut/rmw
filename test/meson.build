@@ -9,7 +9,7 @@ endif
 
 test_cases = ['strings_rmw', 'utils_rmw', 'trashinfo_rmw', 'restore_rmw']
 
-scripts = ['test_basic.sh', 'test_purging.sh', 'test_restore.sh']
+scripts = ['test_basic.sh', 'test_purging.sh', 'test_restore.sh', 'btrfs_clone.sh']
 
 RMW_FAKE_HOME = join_paths(meson.current_build_dir(), 'rmw-tests-home')
 
