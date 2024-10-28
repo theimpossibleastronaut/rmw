@@ -34,8 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MENU_KEY_ENTER '\n'
 #define MENU_KEY_ESC 27
 
-static char *
-get_waste_parent(const char *src)
+static void
+get_waste_parent(char *waste_parent, const char *src)
 {
   char src_copy[strlen(src) + 1];
   strcpy(src_copy, src);
@@ -43,17 +43,20 @@ get_waste_parent(const char *src)
 
   char *one_dir_level = "/..";
   char *waste_parent_rel_path = join_paths(src_dirname, one_dir_level);
-  char *waste_parent = realpath(waste_parent_rel_path, NULL);
-  // TODO: handle error (on error, realpath return NULL and sets errno)
+  char *tmp = realpath(waste_parent_rel_path, NULL);
   free(waste_parent_rel_path);
 
-  if (waste_parent == NULL)
+  if (tmp == NULL)
   {
     perror("::realpath");
     exit(errno);
   }
 
-  return waste_parent;
+  sn_check(strlen(tmp) + 1, PATH_MAX);
+  strcpy(waste_parent, tmp);
+  free(tmp);
+
+  return;
 }
 
 
@@ -65,7 +68,9 @@ restore(const char *src, st_time *st_time_var,
   if (p_state == P_STATE_EXISTS)
   {
     bufchk_len(strlen(src) + 1, PATH_MAX, __func__, __LINE__);
-    char *waste_parent = get_waste_parent(src);
+    char waste_parent[PATH_MAX];
+    *waste_parent = '\0';
+    get_waste_parent(waste_parent, src);
 
     st_waste *waste_curr = waste_head;
     bool waste_match = false;
@@ -75,6 +80,14 @@ restore(const char *src, st_time *st_time_var,
       {
         waste_match = true;
         break;
+      }
+      else if (waste_curr->resolved_symlink)
+      {
+        if (strcmp(waste_curr->resolved_symlink, waste_parent) == 0)
+        {
+          waste_match = true;
+          break;
+        }
       }
       waste_curr = waste_curr->next_node;
     }
@@ -93,7 +106,7 @@ restore(const char *src, st_time *st_time_var,
     {
       printf("refusing to process '.' or '..' directory: skipping '%s'",
              src_basename);
-      free(waste_parent);
+
       return -1;
     }
 
@@ -121,7 +134,6 @@ restore(const char *src, st_time *st_time_var,
       strcpy(dest, _tmp_str);
       free(_tmp_str);
     }
-    free(waste_parent);
     free(_dest);
 
     /* Check for duplicate filename

@@ -282,8 +282,8 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
       char *res_path = realpath(waste_curr->parent, NULL);
       if (res_path != NULL)
       {
+        waste_curr->resolved_symlink = res_path;
         int rl = lstat(res_path, &st);
-        free(res_path);
         if (!rl)
           waste_curr->dev_num = st.st_dev;
         else
@@ -296,7 +296,10 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
       }
     }
     else
+    {
+      waste_curr->resolved_symlink = NULL;
       waste_curr->dev_num = st.st_dev;
+    }
     // printf("actual: %ld |major: %d | minor: %d\n", st.st_dev, major(st.st_dev), minor(st.st_dev));
     char tmp[PATH_MAX];
     strcpy(tmp, waste_curr->parent);

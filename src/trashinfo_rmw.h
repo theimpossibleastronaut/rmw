@@ -71,6 +71,8 @@ struct st_waste
 
   bool is_btrfs;
 
+  char *resolved_symlink;
+
   /** Points to the previous WASTE directory in the linked list
    */
   st_waste *prev_node;

@@ -175,6 +175,9 @@ dispose_waste(st_waste *node)
     free(node->info);
     if (node->media_root != NULL)
       free(node->media_root);
+    if (node->resolved_symlink != NULL)
+      free(node->resolved_symlink);
+
     free(node);
   }
   return;
