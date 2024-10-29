@@ -1,7 +1,0 @@
-# root volume first
-WASTE = /mnt/btrfs_part/Primary
-WASTE = $HOME/.Waste/
-# subvolume
-waste = /mnt/btrfs_part/Waste
-
-

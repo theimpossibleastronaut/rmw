@@ -1,0 +1,6 @@
+#waste = /tmp/rmw-loop/.Trash-$UID
+waste = /tmp/rmw-loop/three/Waste
+waste = /tmp/rmw-loop/@two/Waste
+waste = /tmp/rmw-loop/trashlink
+
+expire_age = 45

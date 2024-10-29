@@ -30,10 +30,10 @@ fi
 
 RMW_FAKE_HOME=${RMW_FAKE_HOME}/$(basename $0)_dir
 TESTS_DIR="${MESON_SOURCE_ROOT}/test"
-CONFIG="${MESON_SOURCE_ROOT}/test/rmw.testrc"
-ALT_CONFIG="${MESON_SOURCE_ROOT}/test/rmw.alt.testrc"
-PURGE_DISABLED_CONFIG="${MESON_SOURCE_ROOT}/test/rmw.purge_disabled.testrc"
-BIN_DIR="${MESON_BUILD_ROOT}"
+CONFIG="${MESON_SOURCE_ROOT}/test/conf/rmw.testrc"
+ALT_CONFIG="${MESON_SOURCE_ROOT}/test/conf/rmw.alt.testrc"
+PURGE_DISABLED_CONFIG="${MESON_SOURCE_ROOT}/test/conf/rmw.purge_disabled.testrc"
+export BIN_DIR="${MESON_BUILD_ROOT}"
 
 export RMW_FAKE_HOME
 
