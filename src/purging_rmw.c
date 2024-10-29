@@ -185,7 +185,7 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
 
     if (!status)
     {
-      if (ctr == 0)
+      if (*ctr == 0)
         putchar('\n');
       (*ctr)++;
       if (!verbose)

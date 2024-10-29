@@ -93,8 +93,9 @@ process_mrl(st_waste *waste_head,
       undo_last_rmw(st_time_var, mrl_file, cli_user_options, contents,
                     waste_head);
 
-  if (contents != NULL && contents != mrl_is_empty)
-    free(contents);
+  if (contents != NULL)
+    if (contents != mrl_is_empty)
+      free(contents);
   return res;
 }
 
@@ -688,11 +689,16 @@ Please check your configuration file and permissions\
      */
     int file_arg = 0;
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
-      msg_warn_restore(restore_errors += restore(argv[file_arg],
-                                                 &st_time_var,
-                                                 &cli_user_options,
-                                                 st_config_data.
-                                                 st_waste_folder_props_head));
+    {
+      int r =
+        restore(argv[file_arg], &st_time_var, &cli_user_options,
+                st_config_data.st_waste_folder_props_head);
+      if (r != 0)
+      {
+        msg_warn_restore();
+        restore_errors++;
+      }
+    }
 
     dispose_waste(st_config_data.st_waste_folder_props_head);
 

@@ -85,7 +85,7 @@ restore(const char *src, st_time *st_time_var,
     {
       print_msg_error();
       fprintf(stderr, "'%s' is not in a Waste directory.\n", src);
-      return 1;
+      return -1;
     }
 
     char src_copy[strlen(src) + 1];
@@ -96,7 +96,7 @@ restore(const char *src, st_time *st_time_var,
       printf("refusing to process '.' or '..' directory: skipping '%s'",
              src_basename);
       free(waste_parent);
-      return 1;
+      return -1;
     }
 
     char src_tinfo[PATH_MAX];
@@ -108,7 +108,7 @@ restore(const char *src, st_time *st_time_var,
 
     char *_dest = parse_trashinfo_file(src_tinfo, path_key);
     if (_dest == NULL)
-      return 1;
+      return -1;
 
     /* If the path in the Path key is relative, determine which waste folder in which the file
      * being restored resides, get the dirname of that waste folder and prepend it
@@ -468,9 +468,10 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
         {
           char *recover_file =
             join_paths(waste_curr->files, item_name(items[i]));
-          msg_warn_restore(restore
-                           (recover_file, st_time_var, cli_user_options,
-                            waste_head));
+          int r =
+            restore(recover_file, st_time_var, cli_user_options, waste_head);
+          if (r != 0)
+            msg_warn_restore();
           free(recover_file);
         }
       }
@@ -519,9 +520,12 @@ undo_last_rmw(st_time *st_time_var, const char *mrl_file, const
   {
     trim_whitespace(line);
     int result = restore(line, st_time_var, cli_user_options, waste_head);
+    if (result != 0)
+    {
+      err_ctr++;
+      msg_warn_restore();
+    }
     line = strtok(NULL, "\n");
-    msg_warn_restore(result);
-    err_ctr += result;
   }
 
   if (err_ctr == 0)
