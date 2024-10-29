@@ -36,14 +36,19 @@ src = [
 ]
 
 # Used for btrfs functions
+has_statfs = false
+has_btrfs_header = false
 if host_sys == 'linux'
   if get_option('want_btrfs_clone')
     has_statfs = cc.has_function(
         'statfs',
         prefix: '#include <sys/statfs.h>',
       )
-    if has_statfs
+    has_btrfs_header = cc.has_header('linux/btrfs.h')
+    if has_statfs and has_btrfs_header
       conf.set('HAVE_LINUX_BTRFS', 1)
+    else
+      message('Support for cloning files between btrfs root and subvolumes will not be included')
     endif
   endif
 endif
