@@ -315,13 +315,6 @@ damage of 5000 hp. You feel satisfied.\n"));
     }
 
     /**
-     * Make some variables -
-     * get ready for the ReMoval
-     */
-
-    bool waste_folder_on_same_filesystem = 0;
-
-    /**
      * cycle through wasteDirs to see which one matches
      * device number of file.orig. Once found, the ReMoval
      * happens (provided all the tests are passed.
@@ -353,17 +346,14 @@ damage of 5000 hp. You feel satisfied.\n"));
         }
 
         int r_result = 0;
-        // int clone_result = 0;
-        int save_errno = errno;
         if (cli_user_options->want_dry_run == false)
         {
           if (waste_curr->dev_num != st_target.dev_num)
           {
+            int save_errno = errno;
             r_result =
               do_btrfs_clone(argv[file_arg], st_target.waste_dest_name,
                              &save_errno);
-            // printf("save_errno: %d\n", save_errno);
-            // puts(strerror(errno));
             if (r_result != 0)
             {
               if (save_errno == EXDEV)
@@ -378,7 +368,6 @@ damage of 5000 hp. You feel satisfied.\n"));
           else
           {
             r_result = rename(argv[file_arg], st_target.waste_dest_name);
-            save_errno = errno;
           }
         }
 
@@ -408,9 +397,8 @@ damage of 5000 hp. You feel satisfied.\n"));
     /**
      * If we get to this point, it means a WASTE folder was found
      * that matches the file system that file->orig was on.
-     * Setting match to 1 and breaking from the for loop
+     * breaking from the for loop
      */
-        waste_folder_on_same_filesystem = 1;
         break;
       }
 
@@ -419,7 +407,7 @@ damage of 5000 hp. You feel satisfied.\n"));
       waste_curr = waste_curr->next_node;
     }
 
-    if (!waste_folder_on_same_filesystem)
+    if (!waste_curr)
     {
       printf(_(" :'%s' not ReMoved:\n"), argv[file_arg]);
       printf(_

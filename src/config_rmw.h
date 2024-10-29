@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "globals.h"
 #include "trashinfo_rmw.h"
 #include "parse_cli_options.h"
 #include "messages_rmw.h"

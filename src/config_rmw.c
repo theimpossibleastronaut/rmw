@@ -281,8 +281,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
       if (res_path != NULL)
       {
         waste_curr->resolved_symlink = res_path;
-        int rl = lstat(res_path, &st);
-        if (!rl)
+        if (!lstat(res_path, &st))
           waste_curr->dev_num = st.st_dev;
         else
           msg_err_lstat(waste_curr->parent, __func__, __LINE__);
