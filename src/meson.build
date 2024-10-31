@@ -48,7 +48,12 @@ if host_sys == 'linux'
     if has_statfs and has_btrfs_header
       conf.set('HAVE_LINUX_BTRFS', 1)
     else
-      message('Support for cloning files between btrfs root and subvolumes will not be included')
+      error('''
+
+  : Requirements not met for btrfs clone support.
+  : If missing linux/btrfs.h, you probably need to install the linux-headers package.
+  : To build without btrfs clone support and skip this check, add
+  : "-Dwant_btrfs_clone=false" to the meson setup options.''')
     endif
   endif
 endif
