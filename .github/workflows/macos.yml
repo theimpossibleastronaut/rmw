@@ -59,14 +59,8 @@ jobs:
           ${{ matrix.build.install_packages }}
 
     - name: Configure
-      run: |
-        # jpkanne of the Mesonbuild project recommends setting this outside of
-        # the meson.build file.
-        # "It would be better to pass those in from the outside with a
-        # configuration argument. Usually setting build env things from within
-        # build files is an antipattern"
-        PKG_CONFIG_ARGS="-Dpkg_config_path=/opt/homebrew/opt/ncurses/lib/pkgconfig,/usr/local/opt/ncurses/lib/pkgconfig"
-        meson setup builddir ${{ matrix.build.setup_options }} $PKG_CONFIG_ARGS
+      run: meson setup builddir ${{ matrix.build.setup_options }}
+
     - name: Build
       run: |
         cd builddir
