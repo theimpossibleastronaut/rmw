@@ -33,6 +33,10 @@ process_mrl(st_waste *waste_head,
             st_time *st_time_var,
             const char *mrl_file, rmw_options *cli_user_options)
 {
+  enum
+  {
+    MRL_IS_EMPTY = 10,
+  };
   char *contents = NULL;
   FILE *fp = fopen(mrl_file, "r");
   if (fp != NULL)
@@ -59,8 +63,6 @@ process_mrl(st_waste *waste_head,
       clearerr(fp);
     }
     close_file(&fp, mrl_file, __func__);
-    // This fixes a coverity warning, and may be a good idea anyway, since the data read
-    // by fread may not be null-terminated.
     contents[f_size] = '\0';
   }
   else
@@ -68,7 +70,6 @@ process_mrl(st_waste *waste_head,
     if (errno == ENOENT)
     {
       contents = (char *) mrl_is_empty;
-      errno = 0;
     }
     else
     {
@@ -80,7 +81,12 @@ process_mrl(st_waste *waste_head,
   int res = 0;
 
   if (!strcmp(contents, mrl_is_empty))
+  {
+    if (errno != ENOENT)
+      free(contents);
     puts(_("There are no items in the list - please check back later.\n"));
+    return MRL_IS_EMPTY;
+  }
   else if (cli_user_options->most_recent_list)
   {
     printf("%s", contents);
@@ -89,13 +95,26 @@ process_mrl(st_waste *waste_head,
            ("Skipping --undo-last because --most-recent-list was requested"));
   }
   else
-    res =
-      undo_last_rmw(st_time_var, mrl_file, cli_user_options, contents,
-                    waste_head);
+  {
+    res = undo_last_rmw(st_time_var, cli_user_options, contents, waste_head);
 
-  if (contents != NULL)
-    if (contents != mrl_is_empty)
-      free(contents);
+    if (res == 0)
+    {
+      if (cli_user_options->want_dry_run == false)
+      {
+        fp = fopen(mrl_file, "w");
+        if (fp != NULL)
+        {
+          fprintf(fp, "%s", mrl_is_empty);
+          close_file(&fp, mrl_file, __func__);
+        }
+        else
+          open_err(mrl_file, __func__);
+      }
+    }
+  }
+
+  free(contents);
   return res;
 }
 
@@ -683,26 +702,20 @@ Please check your configuration file and permissions\
 
   if (cli_user_options.want_restore)
   {
-    int restore_errors = 0;
+    int r = 0;
     /* subtract 1 from optind otherwise the first file in the list isn't
      * restored
      */
     int file_arg = 0;
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
     {
-      int r =
-        restore(argv[file_arg], &st_time_var, &cli_user_options,
-                st_config_data.st_waste_folder_props_head);
-      if (r != 0)
-      {
-        msg_warn_restore();
-        restore_errors++;
-      }
+      r += restore(argv[file_arg], &st_time_var, &cli_user_options,
+                   st_config_data.st_waste_folder_props_head);
     }
 
     dispose_waste(st_config_data.st_waste_folder_props_head);
 
-    return restore_errors;
+    return r;
   }
 
   if (optind < argc)

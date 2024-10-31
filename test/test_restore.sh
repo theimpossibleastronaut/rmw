@@ -48,7 +48,7 @@ test "$output" = "+'${RMW_FAKE_HOME}/.Waste/files/read_only_file' -> '${RMW_FAKE
 
 echo $SEPARATOR
 echo "Show result when no undo file exists..."
-output=$(${RMW_TEST_CMD_STRING} -u)
+output=$(${RMW_TEST_CMD_STRING} -u || true)
 test "${output}" = "There are no items in the list - please check back later."
 
 echo $SEPARATOR

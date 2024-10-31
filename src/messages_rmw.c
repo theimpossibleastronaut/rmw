@@ -99,17 +99,6 @@ display_dot_trashinfo_error(const char *dti)
   return;
 }
 
-void
-msg_warn_restore(void)
-{
-  if (errno != ENOENT)
-  {
-    print_msg_warn();
-    perror("restore");
-  }
-  return;
-}
-
 
 void
 real_fatal_malloc(const char *func, const int line)

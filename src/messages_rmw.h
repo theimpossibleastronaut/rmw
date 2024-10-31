@@ -37,8 +37,6 @@ int close_file(FILE **fp, const char *filename, const char *function_name);
 
 void display_dot_trashinfo_error(const char *dti);
 
-void msg_warn_restore(void);
-
 void real_fatal_malloc(const char *func, const int line);
 
 void msg_err_close_dir(const char *dir, const char *func, const int line);

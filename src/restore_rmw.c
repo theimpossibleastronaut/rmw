@@ -299,7 +299,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
   const int start_line_bottom = 7;
   const int min_lines_required = start_line_bottom + 3;
   int c = 0;
-
+  int r = 0;
   do
   {
     int n_choices = 0;
@@ -450,6 +450,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
         break;
       }
     }
+
     while (c != KEY_RIGHT && c != KEY_LEFT && c != MENU_KEY_ENTER
            && c != MENU_KEY_ESC && c != 'q');
     // using 'q' to exit will be deprecated some day
@@ -468,10 +469,8 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
         {
           char *recover_file =
             join_paths(waste_curr->files, item_name(items[i]));
-          int r =
+          r +=
             restore(recover_file, st_time_var, cli_user_options, waste_head);
-          if (r != 0)
-            msg_warn_restore();
           free(recover_file);
         }
       }
@@ -500,7 +499,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
   }
   while (c != MENU_KEY_ESC && c != 'q' && c != MENU_KEY_ENTER);
 
-  return 0;
+  return r;
 }
 #endif
 
@@ -508,41 +507,22 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
  * Restores files from the mrl
  */
 int
-undo_last_rmw(st_time *st_time_var, const char *mrl_file, const
+undo_last_rmw(st_time *st_time_var, const
               rmw_options *cli_user_options, char *mrl_contents, st_waste
               *waste_head)
 {
-  int err_ctr = 0;
   char contents_copy[strlen(mrl_contents) + 1];
   strcpy(contents_copy, mrl_contents);
   char *line = strtok(contents_copy, "\n");
+  int r = 0;
   while (line != NULL)
   {
     trim_whitespace(line);
-    int result = restore(line, st_time_var, cli_user_options, waste_head);
-    if (result != 0)
-    {
-      err_ctr++;
-      msg_warn_restore();
-    }
+    r += restore(line, st_time_var, cli_user_options, waste_head);
     line = strtok(NULL, "\n");
   }
 
-  if (err_ctr == 0)
-  {
-    if (cli_user_options->want_dry_run == false)
-    {
-      FILE *fp = fopen(mrl_file, "w");
-      if (fp != NULL)
-      {
-        fprintf(fp, "%s", mrl_is_empty);
-        close_file(&fp, mrl_file, __func__);
-      }
-      else
-        open_err(mrl_file, __func__);
-    }
-  }
-  return err_ctr;
+  return r;
 }
 
 ///////////////////////////////////////////////////////////////////////
