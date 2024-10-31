@@ -24,8 +24,10 @@ test "${output}" = "/mnt/fs/Trash-$(id -u)
 
 echo $SEPARATOR
 
+cd "${RMW_FAKE_HOME}"
 # Make some temporary files
-mkdir ${RMW_FAKE_HOME}/tmp-files && cd ${RMW_FAKE_HOME}/tmp-files
+mkdir tmp-files
+cd "${RMW_FAKE_HOME}/tmp-files"
 
 echo "\n\n == creating temporary files to be deleted"
 for file in 1 2 3; do

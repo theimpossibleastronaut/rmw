@@ -1,6 +1,10 @@
 option('build_tests', type : 'boolean', value : true,
        description : 'build tests')
-
+option(
+    'want_btrfs_clone',
+    type : 'boolean',
+    value: 'true',
+    description: 'Include support for cloning files between btrfs root volumes and subvolumes')
 option('nls', type : 'boolean', value : true,
        description : 'include native language support (install translations)')
 

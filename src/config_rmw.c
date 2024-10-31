@@ -20,11 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <unistd.h>
 
-#include "globals.h"
+#include "btrfs.h"
 #include "config_rmw.h"
 #include "utils_rmw.h"
 #include "strings_rmw.h"
 #include "main.h"
+
+// #include <sys/sysmacros.h> // for major() and minor()
 
 static const int DEFAULT_EXPIRE_AGE = 0;
 static const char *lit_files = "files";
@@ -267,12 +269,35 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   else if (p_state == P_STATE_ERR)
     exit(p_state);
 
+  waste_curr->is_btrfs = is_btrfs(waste_curr->parent);
+
   // get device number to use later for rename
   struct stat st, mp_st;
   if (!lstat(waste_curr->parent, &st))
   {
-    waste_curr->dev_num = st.st_dev;
-
+    if (S_ISLNK(st.st_mode))
+    {
+      char *res_path = realpath(waste_curr->parent, NULL);
+      if (res_path != NULL)
+      {
+        waste_curr->resolved_symlink = res_path;
+        if (!lstat(res_path, &st))
+          waste_curr->dev_num = st.st_dev;
+        else
+          msg_err_lstat(waste_curr->parent, __func__, __LINE__);
+      }
+      else
+      {
+        perror("realpath");
+        exit(EXIT_FAILURE);
+      }
+    }
+    else
+    {
+      waste_curr->resolved_symlink = NULL;
+      waste_curr->dev_num = st.st_dev;
+    }
+    // printf("actual: %ld |major: %d | minor: %d\n", st.st_dev, major(st.st_dev), minor(st.st_dev));
     char tmp[PATH_MAX];
     strcpy(tmp, waste_curr->parent);
     char *media_root_ptr = rmw_dirname(tmp);

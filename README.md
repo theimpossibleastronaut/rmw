@@ -56,7 +56,7 @@ the [releases section][releases-url].
 
 ## Installing from source
 
-### Required libraries
+### Dependencies
 
 * libncursesw (ncurses-devel on some systems, such as CentOS)
 * gettext (or use '-Dnls=false' when configuring with meson if you only need English language support)
@@ -64,6 +64,20 @@ the [releases section][releases-url].
 If you're building from source, you will need the libncursesw(5 or
 6)-dev package from your operating system distribution. On some systems
 just the ncurses packages is needed, and it's often already installed.
+
+#### Linux only
+
+* linux-headers
+
+`linux/btrfs.h` from the headers package is required for btrfs clone support.
+`meson setup` will fail if the header is missing. To bypass the check and
+exclude support for for btrfs (which is not needed for btrfs normally, but
+needed if you want to use `rmw` for rmw'ing files across btrfs root and
+subvolumes), add
+
+    -Dwant_btrfs_clone=false
+
+to the meson setup options.
 
 ### Compiling
 

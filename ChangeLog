@@ -1,5 +1,10 @@
 === rmw ChangeLog ===
 
+2024-10-31
+
+  * Add support for cloning(moving) files across btrfs root and subvolumes
+    Thanks to @luigir-it for suggesting this feature and testing
+
 2024-10-21
 
   * Fix strmode conflicting types error on OpenBSD and FreeBSD

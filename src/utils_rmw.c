@@ -21,8 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
 
-#include <fcntl.h>
-
 #include "globals.h"
 #endif
 
@@ -177,6 +175,9 @@ dispose_waste(st_waste *node)
     free(node->info);
     if (node->media_root != NULL)
       free(node->media_root);
+    if (node->resolved_symlink != NULL)
+      free(node->resolved_symlink);
+
     free(node);
   }
   return;

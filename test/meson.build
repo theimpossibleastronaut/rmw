@@ -11,6 +11,10 @@ test_cases = ['strings_rmw', 'utils_rmw', 'trashinfo_rmw', 'restore_rmw']
 
 scripts = ['test_basic.sh', 'test_purging.sh', 'test_restore.sh']
 
+if has_statfs and has_btrfs_header
+  scripts += ['test_btrfs_clone.sh']
+endif
+
 RMW_FAKE_HOME = join_paths(meson.current_build_dir(), 'rmw-tests-home')
 
 foreach case : test_cases

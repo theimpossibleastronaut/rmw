@@ -16,3 +16,4 @@ subprojects/**
 # wrap files required
 !subprojects/**/*.wrap
 /packaging/appimage/.env
+/test/rmw-btrfs-test.img

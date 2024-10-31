@@ -69,6 +69,10 @@ struct st_waste
    info */
   char *media_root;
 
+  bool is_btrfs;
+
+  char *resolved_symlink;
+
   /** Points to the previous WASTE directory in the linked list
    */
   st_waste *prev_node;
@@ -92,6 +96,8 @@ typedef struct
   /** The destination file name. This may be different if a file of the same name already
    *  exists in the WASTE folder */
   char waste_dest_name[PATH_MAX];
+
+  dev_t dev_num;
 
   /** Is <tt>true</tt> if the file exists in the destination WASTE/files folder,
    * false otherwise. If it's a duplicate, a string based on the current time

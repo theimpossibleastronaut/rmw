@@ -38,6 +38,8 @@ jobs:
         os: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
         cc: [gcc, clang]
         include:
+        - name: btrfs-clone
+          os: ubuntu-latest
         - name: epochalypse
           os: ubuntu-latest
           setup_options: -Db_sanitize=none
@@ -108,9 +110,23 @@ jobs:
       if: ${{ env.CC == 'gcc' }}
       run: echo "SETUP_OPTIONS=-Db_lto=true" >> $GITHUB_ENV
 
-    - name: Configure
+    - if: ${{ contains(matrix.container, 'alpine') }}
       run: |
-        meson setup builddir $SETUP_OPTIONS ${{ matrix.setup_options }}
+        apk update
+        apk upgrade
+
+    - if: ${{ matrix.name == 'btrfs-clone' }}
+      uses: actions/cache@v4
+      id: btrfs-img-cache
+      with:
+        path: test/rmw-btrfs-test.img
+        key: ${{ matrix.name }}-${{ hashFiles('test/rmw-btrfs-test.img.sha256sum') }}
+
+    - if: ${{ steps.btrfs-img-cache.outputs.cache-hit != 'true' && matrix.name == 'btrfs-clone' }}
+      run: curl -L -o test/rmw-btrfs-test.img 'https://www.dropbox.com/scl/fi/57g3ixd3w3tuz4qoc2zp1/rmw-btrfs-test.img?rlkey=yc7krtntswsa1bwz0sbugy4gi&st=hkgrht05&dl=0'
+
+    - name: Configure
+      run: meson setup builddir $SETUP_OPTIONS ${{ matrix.setup_options }}
 
     - name: Build
       run: |
