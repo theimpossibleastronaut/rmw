@@ -127,14 +127,12 @@ msg_err_open_dir(const char *dir, const char *func, const int line)
 }
 
 void
-msg_err_rename(const char *src_file, const char *dest_file, const char *func,
-               const int line)
+msg_err_rename(const char *src_file, const char *dest_file)
 {
   print_msg_error();
-  printf(_("while trying to move (rename)\n\
-  %s -> %s -- %s:L%d\n"), src_file, dest_file, func, line);
-  perror("rename()");
-  exit(errno);
+  fprintf(stderr, "%s -> %s\n\
+rename: %s\n", src_file, dest_file, strerror(errno));
+  exit(EXIT_FAILURE);
 }
 
 /*!

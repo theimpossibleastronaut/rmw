@@ -204,7 +204,7 @@ Duplicate filename at destination - appending time string...\n"));
     }
     else
     {
-      msg_err_rename(src, dest, __func__, __LINE__);
+      msg_err_rename(src, dest);
       return rename_res;
     }
   }

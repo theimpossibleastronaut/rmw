@@ -391,8 +391,7 @@ damage of 5000 hp. You feel satisfied.\n"));
             }
         }
         else
-          msg_err_rename(argv[file_arg],
-                         st_target.waste_dest_name, __func__, __LINE__);
+          msg_err_rename(argv[file_arg], st_target.waste_dest_name);
 
     /**
      * If we get to this point, it means a WASTE folder was found
