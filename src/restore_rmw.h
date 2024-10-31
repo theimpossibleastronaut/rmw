@@ -52,8 +52,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define CTRLD 4
 
-extern const char *mrl_is_empty;
-
 int
 restore(const char *src, st_time * st_time_var,
         const rmw_options * cli_user_options, st_waste * waste_head);

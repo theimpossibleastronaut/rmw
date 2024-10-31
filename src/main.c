@@ -38,7 +38,10 @@ process_mrl(st_waste *waste_head,
     MRL_IS_EMPTY = 10,
   };
   char *contents = NULL;
+  // fprintf(stderr, "mrl_file: %s\n", mrl_file);
+  bool backwards_compat_empty_header = false;
   FILE *fp = fopen(mrl_file, "r");
+
   if (fp != NULL)
   {
     fseek(fp, 0, SEEK_END);     // move to the end of the file so we can use ftell()
@@ -64,12 +67,16 @@ process_mrl(st_waste *waste_head,
     }
     close_file(&fp, mrl_file, __func__);
     contents[f_size] = '\0';
+    if (!strcmp(contents, "[Empty]\n"))
+      backwards_compat_empty_header = true;
   }
   else
   {
     if (errno == ENOENT)
     {
-      contents = (char *) mrl_is_empty;
+      // fprintf(stderr, "%d %s\n", errno, strerror(ENOENT));
+      puts(_("There are no items in the list - please check back later.\n"));
+      return MRL_IS_EMPTY;
     }
     else
     {
@@ -80,14 +87,7 @@ process_mrl(st_waste *waste_head,
 
   int res = 0;
 
-  if (!strcmp(contents, mrl_is_empty))
-  {
-    if (errno != ENOENT)
-      free(contents);
-    puts(_("There are no items in the list - please check back later.\n"));
-    return MRL_IS_EMPTY;
-  }
-  else if (cli_user_options->most_recent_list)
+  if (cli_user_options->most_recent_list)
   {
     printf("%s", contents);
     if (cli_user_options->want_undo)
@@ -96,21 +96,16 @@ process_mrl(st_waste *waste_head,
   }
   else
   {
-    res = undo_last_rmw(st_time_var, cli_user_options, contents, waste_head);
+    if (backwards_compat_empty_header == false)
+      res =
+        undo_last_rmw(st_time_var, cli_user_options, contents, waste_head);
 
     if (res == 0)
     {
       if (cli_user_options->want_dry_run == false)
-      {
-        fp = fopen(mrl_file, "w");
-        if (fp != NULL)
-        {
-          fprintf(fp, "%s", mrl_is_empty);
-          close_file(&fp, mrl_file, __func__);
-        }
-        else
-          open_err(mrl_file, __func__);
-      }
+        if (unlink(mrl_file) != 0)
+          fprintf(stderr, "unlink: %s \n%s in %s\n", mrl_file,
+                  strerror(errno), __func__);
     }
   }
 

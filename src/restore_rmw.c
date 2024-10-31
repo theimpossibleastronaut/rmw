@@ -31,8 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils_rmw.h"
 #include "messages_rmw.h"
 
-const char *mrl_is_empty = "[Empty]\n";
-
 #define MENU_KEY_ENTER '\n'
 #define MENU_KEY_ESC 27
 
