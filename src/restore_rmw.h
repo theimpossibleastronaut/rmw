@@ -18,11 +18,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <dirent.h>
-
 #if defined HAVE_NCURSESW_MENU_H
 #include <ncursesw/menu.h>
 #elif defined HAVE_NCURSES_MENU_H

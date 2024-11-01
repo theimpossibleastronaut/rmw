@@ -103,8 +103,9 @@ display_dot_trashinfo_error(const char *dti)
 void
 real_fatal_malloc(const char *func, const int line)
 {
+  int save_errno = errno;
   fprintf(stderr, "%s -- %s:L%d\n", strerror(errno), func, line);
-  exit(ENOMEM);
+  exit(save_errno);
 }
 
 
