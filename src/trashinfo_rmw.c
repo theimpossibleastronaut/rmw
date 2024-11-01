@@ -86,7 +86,8 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
       return close_file(&fp, final_info_dest, __func__);
 
     char *escaped_path_ptr = escaped_path;
-    if (waste_curr->media_root != NULL && (waste_curr->dev_num == st_f_props->dev_num))
+    if (waste_curr->media_root != NULL
+        && (waste_curr->dev_num == st_f_props->dev_num))
     {
       escaped_path_ptr = &escaped_path[strlen(waste_curr->media_root)];
       if (*escaped_path_ptr == '/')

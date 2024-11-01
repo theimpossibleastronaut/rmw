@@ -33,7 +33,7 @@ void print_msg_warn(void);
 
 void open_err(const char *filename, const char *function_name);
 
-int close_file(FILE **fp, const char *filename, const char *function_name);
+int close_file(FILE ** fp, const char *filename, const char *function_name);
 
 void display_dot_trashinfo_error(const char *dti);
 
@@ -43,8 +43,7 @@ void msg_err_close_dir(const char *dir, const char *func, const int line);
 
 void msg_err_open_dir(const char *dir, const char *func, const int line);
 
-void
-msg_err_rename(const char *src_file, const char *dest_file);
+void msg_err_rename(const char *src_file, const char *dest_file);
 
 void msg_err_fatal_fprintf(const char *func);
 

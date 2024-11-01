@@ -50,7 +50,7 @@ is_btrfs(const char *path)
 
   return buf.f_type == BTRFS_SUPER_MAGIC;
 #else
-  (void)path;
+  (void) path;
   return false;
 #endif
 }
@@ -116,9 +116,9 @@ do_btrfs_clone(const char *source, const char *dest, int *save_errno)
 
   return 0;
 #else
-  (void)source;
-  (void)dest;
-  (void)save_errno;
+  (void) source;
+  (void) dest;
+  (void) save_errno;
   return 0;
 #endif
 }
