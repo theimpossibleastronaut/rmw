@@ -24,6 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include <ctype.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "parse_cli_options.h"
 #include "btrfs.h"
@@ -362,27 +366,26 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
       if (isdotdir(entry->d_name))
         continue;
 
-      // dir_entry_list = add_entry (dir_entry_list, waste_curr, entry->d_name);
       char *tmp_path = join_paths(waste_curr->files, entry->d_name);
-
       // this is used to get the size and mode of the file
       struct stat st;
       if (lstat(tmp_path, &st))
         msg_err_lstat(tmp_path, __func__, __LINE__);
       free(tmp_path);
+
       char *m_dir_entry = malloc(strlen(entry->d_name) + 1);
       if (!m_dir_entry)
         fatal_malloc();
-      sn_check(snprintf(m_dir_entry, PATH_MAX, "%s", entry->d_name),
-               PATH_MAX);
+      strcpy(m_dir_entry, entry->d_name);
+
       char *file_details = create_file_details_str(st.st_size, st.st_mode);
 
       my_items[n_choices] = new_item(m_dir_entry, file_details);
       if (my_items[n_choices] == NULL)
       {
         endwin();
-        perror(m_dir_entry);
-        perror("new_item");
+        fprintf(stderr, "new_item: %s\n\
+%s\n", strerror(errno), m_dir_entry);
         if (closedir(waste_dir))
           perror("closedir");
         free(my_items);

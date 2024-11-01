@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "messages_rmw.h"
 #include "utils_rmw.h"
 
+
+bool r_buffer_overrun = false;
 /*!
  * Verify that len doesn't exceed boundary, otherwise exit with an error code.
  * Usually used before concatenating 2 or more strings. Program will exit
@@ -45,15 +47,15 @@ bufchk_len(const size_t len, const size_t dest_boundary, const char *func,
 #ifndef TEST_LIB
   exit(EBUF);
 #endif
-  errno = 1;
+  r_buffer_overrun = true;
   return;
 }
 
 void
-real_sn_check(const size_t len, const size_t dest_boundary, const char *func,
-              const int line)
+real_sn_check(const ssize_t len, const ssize_t dest_boundary,
+              const char *func, const int line)
 {
-  if (len < dest_boundary)
+  if (len < dest_boundary && len != -1)
     return;
 
   msg_err_buffer_overrun(func, line);
@@ -61,7 +63,7 @@ real_sn_check(const size_t len, const size_t dest_boundary, const char *func,
 #ifndef TEST_LIB
   exit(EBUF);
 #endif
-  errno = 1;
+  r_buffer_overrun = true;
   return;
 }
 
@@ -135,26 +137,32 @@ truncate_str(char *str, const size_t pos)
 static void
 test_bufchk_len(void)
 {
-  errno = 0;
+  r_buffer_overrun = false;
   bufchk_len(12, 12, __func__, __LINE__);
-  assert(!errno);
+  assert(!r_buffer_overrun);
 
   bufchk_len(12, 11, __func__, __LINE__);
-  assert(errno);
-  errno = 0;
+  assert(r_buffer_overrun);
+  r_buffer_overrun = false;
   return;
 }
 
 static void
 test_sn_check(void)
 {
-  errno = 0;
+  r_buffer_overrun = false;
   sn_check(24, 24);
-  assert(errno);
-  errno = 0;
+  assert(r_buffer_overrun);
+  r_buffer_overrun = false;
 
   sn_check(33, 34);
-  assert(!errno);
+  assert(!r_buffer_overrun);
+
+  char helpme[] = "what a very long and boring string";
+  char no[PATH_MAX];
+
+  sn_check(snprintf(no, sizeof no, "%s", helpme), sizeof no);
+  assert(!r_buffer_overrun);
   return;
 }
 
