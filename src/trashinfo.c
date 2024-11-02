@@ -18,9 +18,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "trashinfo_rmw.h"
-#include "utils_rmw.h"
-#include "messages_rmw.h"
+#include "trashinfo.h"
+#include "utils.h"
+#include "messages.h"
 
 #define TI_LINE_COUNT 3
 

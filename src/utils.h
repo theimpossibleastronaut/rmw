@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "trashinfo_rmw.h"
+#include "trashinfo.h"
 
 enum
 {

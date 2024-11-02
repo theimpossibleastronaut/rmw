@@ -18,11 +18,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma once
+
+#include <ctype.h>
 #include <libgen.h>
 #include <stdarg.h>
 #include <stddef.h>
 #include <string.h>
 #include <stdbool.h>
+#include <sys/types.h>
 
 #define sn_check(a, b) real_sn_check(a, b, __func__, __LINE__)
 

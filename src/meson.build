@@ -24,15 +24,15 @@ endif
 src = [
   'globals.c',
   'btrfs.c',
-  'restore_rmw.c',
+  'restore.c',
   'config_rmw.c',
   'parse_cli_options.c',
   'strings_rmw.c',
-  'purging_rmw.c',
-  'messages_rmw.c',
+  'purging.c',
+  'messages.c',
   'time_rmw.c',
-  'trashinfo_rmw.c',
-  'utils_rmw.c',
+  'trashinfo.c',
+  'utils.c',
 ]
 
 # Used for btrfs functions
