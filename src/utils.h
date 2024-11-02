@@ -41,7 +41,7 @@ enum
 
 char *rmw_dirname(char *path);
 
-int rmw_mkdir(const char *dir, mode_t mode);
+int rmw_mkdir(const char *dir);
 
 int make_dir(const char *dir);
 

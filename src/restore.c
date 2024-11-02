@@ -164,7 +164,7 @@ Duplicate filename at destination - appending time string...\n"));
       int p_state_parent = check_pathname_state(parent_dir);
       if (p_state_parent == P_STATE_ENOENT)
       {
-        if (!rmw_mkdir(parent_dir, S_IRWXU))
+        if (!rmw_mkdir(parent_dir))
         {
           if (verbose)
           {

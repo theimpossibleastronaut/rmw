@@ -586,7 +586,7 @@ get_locations(const char *alt_config_file)
   int p_state = check_pathname_state(x.config_dir);
   if (p_state == P_STATE_ENOENT)
   {
-    if (!rmw_mkdir(x.config_dir, S_IRWXU))
+    if (!rmw_mkdir(x.config_dir))
       msg_success_mkdir(x.config_dir);
     else
     {
@@ -709,7 +709,7 @@ main(const int argc, char *const argv[])
 
   if (init_data_dir)
   {
-    if (!rmw_mkdir(st_location->data_dir, S_IRWXU))
+    if (!rmw_mkdir(st_location->data_dir))
     {
       msg_success_mkdir(st_location->data_dir);
     }

@@ -241,7 +241,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   int p_state = check_pathname_state(waste_curr->files);
   if (p_state == P_STATE_ENOENT)
   {
-    if (!rmw_mkdir(waste_curr->files, S_IRWXU))
+    if (!rmw_mkdir(waste_curr->files))
       msg_success_mkdir(waste_curr->files);
     else
     {
@@ -257,7 +257,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
 
   if ((p_state = check_pathname_state(waste_curr->info)) == P_STATE_ENOENT)
   {
-    if (!rmw_mkdir(waste_curr->info, S_IRWXU))
+    if (!rmw_mkdir(waste_curr->info))
       msg_success_mkdir(waste_curr->info);
     else
     {
