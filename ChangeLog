@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2024-11-02
+
+  * Ensure directories respect umask settings upon creation
+
 2024-10-31
 
   * Add support for cloning(moving) files across btrfs root and subvolumes

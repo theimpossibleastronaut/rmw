@@ -92,7 +92,7 @@ rmw_dirname(char *path)
  * Also creates parent directories.
  */
 int
-rmw_mkdir(const char *dir, mode_t mode)
+rmw_mkdir(const char *dir)
 {
   if (!dir)
     return -1;
@@ -111,14 +111,14 @@ rmw_mkdir(const char *dir, mode_t mode)
     return -1;
   int p_state = check_pathname_state(parent);
   if (p_state == P_STATE_ENOENT)
-    res = rmw_mkdir(parent, mode);
+    res = rmw_mkdir(parent);
   else if (p_state == P_STATE_ERR)
     exit(p_state);
 
   if (res)
     return res;
 
-  return mkdir(dir, mode);
+  return mkdir(dir, 0777);
 }
 
 
@@ -522,7 +522,7 @@ test_rmw_mkdir(const char *h)
   char *dir = join_paths(h, subdirs);
   if (check_pathname_state(dir) == P_STATE_EXISTS)
     assert(bsdutils_rm(dir, verbose) == 0);
-  assert(rmw_mkdir(dir, S_IRWXU) == 0);
+  assert(rmw_mkdir(dir) == 0);
   assert(dir);
   printf("%s\n", dir);
   assert(check_pathname_state(dir) == P_STATE_EXISTS);
