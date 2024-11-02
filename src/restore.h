@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma once
+
 #if defined HAVE_NCURSESW_MENU_H
 #include <ncursesw/menu.h>
 #elif defined HAVE_NCURSES_MENU_H
@@ -42,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #error "SysV or X/Open-compatible Curses header file required"
 #endif
 
-#include "trashinfo_rmw.h"
+#include "trashinfo.h"
 #include "parse_cli_options.h"
 
 #define CTRLD 4

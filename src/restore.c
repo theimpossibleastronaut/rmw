@@ -31,10 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "parse_cli_options.h"
 #include "btrfs.h"
-#include "config_rmw.h"
-#include "restore_rmw.h"
-#include "utils_rmw.h"
-#include "messages_rmw.h"
+#include "restore.h"
+#include "utils.h"
+#include "messages.h"
 
 #define MENU_KEY_ENTER '\n'
 #define MENU_KEY_ESC 27

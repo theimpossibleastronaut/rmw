@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include "btrfs.h"
-#include "messages_rmw.h"
+#include "messages.h"
 
 bool
 is_btrfs(const char *path)

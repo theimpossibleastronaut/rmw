@@ -22,8 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "btrfs.h"
 #include "config_rmw.h"
-#include "utils_rmw.h"
-#include "strings_rmw.h"
+#include "utils.h"
 #include "main.h"
 
 // #include <sys/sysmacros.h> // for major() and minor()

@@ -7,7 +7,7 @@ if faketime.found()
   add_test_setup('epochalypse', exe_wrapper: [faketime, '-f', '+14y'])
 endif
 
-test_cases = ['strings_rmw', 'utils_rmw', 'trashinfo_rmw', 'restore_rmw']
+test_cases = ['strings_rmw', 'utils', 'trashinfo', 'restore']
 
 scripts = ['test_basic.sh', 'test_purging.sh', 'test_restore.sh']
 

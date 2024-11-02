@@ -20,9 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "globals.h"
 #include "time_rmw.h"
-#include "strings_rmw.h"
-#include "trashinfo_rmw.h"
-#include "messages_rmw.h"
+#include "trashinfo.h"
+#include "messages.h"
 
 /*!
  * Assigns a time string to *tm_str based on the format requested
