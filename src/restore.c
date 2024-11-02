@@ -135,7 +135,7 @@ restore(const char *src, st_time *st_time_var,
     {
       char *media_root = rmw_dirname(waste_parent);
       char *_tmp_str = join_paths(media_root, _dest);
-      strcpy(dest, _tmp_str);
+      sn_check(snprintf(dest, sizeof dest, "%s", _tmp_str), sizeof dest);
       free(_tmp_str);
     }
     free(_dest);
