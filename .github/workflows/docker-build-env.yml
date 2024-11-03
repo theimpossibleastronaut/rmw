@@ -7,7 +7,6 @@ on:
     paths:
       - '.github/workflows/docker-build-env.yml'
       - 'docker/Dockerfile-build-env_**'
-      - 'docker/entrypoint-test.sh'
 
 jobs:
   docker:

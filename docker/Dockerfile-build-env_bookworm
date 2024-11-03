@@ -10,12 +10,8 @@ RUN apt-get update \
     pip \
   && rm -rf /var/lib/apt/lists
 
-WORKDIR /rmw
 RUN useradd -U rmwbuilder
 RUN passwd -d rmwbuilder
 RUN chown rmwbuilder:rmwbuilder /rmw
-
-COPY ./docker/entrypoint-test.sh .
-RUN chown rmwbuilder:rmwbuilder entrypoint-test.sh
 
 CMD ["/bin/bash","-l"]
