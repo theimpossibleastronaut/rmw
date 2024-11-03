@@ -1,12 +1,12 @@
 project(
   'rmw',
   'c',
-  version: '0.9.3-dev',
+  version: '0.9.3',
   meson_version: '>= 0.59.0',
   default_options: [
     'warning_level=3',
-    'b_sanitize=address,undefined',
-    'b_lundef=false',
+#    'b_sanitize=address,undefined',
+#    'b_lundef=false',
     'pkg_config_path=/opt/homebrew/opt/gettext/lib/pkgconfig,/opt/homebrew/opt/ncurses/lib/pkgconfig,/usr/local/opt/ncurses/lib/pkgconfig',
   ],
 )

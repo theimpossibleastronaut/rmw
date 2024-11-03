@@ -8,7 +8,8 @@ url = https://github.com/andy5995/canfigger.git
 # warning: Could not find remote branch HEAD to clone.
 #fatal: Remote branch HEAD not found in upstream origin
 #
-revision = trunk
+#revision = trunk
+revision = v0.3.0
 depth = 1
 
 [provide]

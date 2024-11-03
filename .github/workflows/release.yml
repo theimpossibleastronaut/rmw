@@ -111,7 +111,9 @@ jobs:
 
     - uses: andy5995/gh-action-build-deb@v1
       with:
-        args: --no-sign
+        args: |
+          --no-sign
+          --compression=xz
         platform: ${{ matrix.platform }}
 
     - name: Create sha256sum

@@ -12,4 +12,5 @@ override_dh_auto_configure:
 		--prefix=/usr \
 		-Dstrip=true\
 		-Db_sanitize=none \
-		-Db_pie=true
+		-Db_pie=true \
+		-Db_lto=true

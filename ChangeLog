@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2024-11-06
+
+  * Release v0.9.3
+
 2024-11-02
 
   * Ensure directories respect umask settings upon creation
@@ -31,7 +35,7 @@
 
 2024-03-21
 
-  + Add French translation
+  + Add French translation (partial)
 
 2024-03-18
 
