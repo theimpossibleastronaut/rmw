@@ -1,7 +1,15 @@
 === RMW Release Notes ===
 
-v0.9.2
+v0.9.3
 
-* Show counter in real-time as items are getting purged
-* Update for use with canfigger 0.3.0
-* Fix translations not working when using the AppImage
++ Add support for cloning(moving) files across btrfs root and subvolumes;
+  thanks to @luigir-it for suggesting this feature and testing
+* Ensure directories respect umask settings upon creation
+* bugfix: In some cases, 'rmw -s' crashed with message "*** buffer overflow
+detected ***: terminated". This could happen if compiled with
+'-D_FORTIFY_SOURCE=3' and set up with 'b_sanitize=none', and depending on
+the filenames in the waste directories
+* Add completion for fishshell; thanks to @ccoVeille
+* Fix strmode conflicting types error on OpenBSD and FreeBSD
+* Fix for tests failing after the Epochalypse (#439); thanks to @bmwiedemann
++ Add French translation (partial)
