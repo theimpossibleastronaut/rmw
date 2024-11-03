@@ -12,6 +12,5 @@ RUN apt-get update \
 
 RUN useradd -U rmwbuilder
 RUN passwd -d rmwbuilder
-RUN chown rmwbuilder:rmwbuilder /rmw
 
 CMD ["/bin/bash","-l"]
