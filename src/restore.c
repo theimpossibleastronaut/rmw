@@ -318,7 +318,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
   const int start_line_bottom = 7;
   const int min_lines_required = start_line_bottom + 3;
   int c = 0;
-  int r = 0;
+  int restore_err_ctr = 0;
   do
   {
     int n_choices = 0;
@@ -487,8 +487,8 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
         {
           char *recover_file =
             join_paths(waste_curr->files, item_name(items[i]));
-          r +=
-            restore(recover_file, st_time_var, cli_user_options, waste_head);
+          if (restore(recover_file, st_time_var, cli_user_options, waste_head) != 0)
+            restore_err_ctr++;
           free(recover_file);
         }
       }
@@ -517,7 +517,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
   }
   while (c != MENU_KEY_ESC && c != 'q' && c != MENU_KEY_ENTER);
 
-  return r;
+  return restore_err_ctr;
 }
 #endif
 
@@ -536,7 +536,8 @@ undo_last_rmw(st_time *st_time_var, const
   while (line != NULL)
   {
     trim_whitespace(line);
-    r += restore(line, st_time_var, cli_user_options, waste_head);
+    if (restore(line, st_time_var, cli_user_options, waste_head) != 0)
+      r++;
     line = strtok(NULL, "\n");
   }
 
