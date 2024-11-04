@@ -3,10 +3,10 @@
 src/parse_cli_options.c
 src/main.c
 src/config_rmw.c
-src/messages_rmw.c
-src/restore_rmw.c
-src/purging_rmw.c
+src/messages.c
+src/restore.c
+src/purging.c
 src/time_rmw.c
 src/strings_rmw.c
-src/trashinfo_rmw.c
-src/utils_rmw.c
+src/trashinfo.c
+src/utils.c
