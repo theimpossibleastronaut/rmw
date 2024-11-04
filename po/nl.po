@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-01 12:57-0500\n"
+"POT-Creation-Date: 2024-11-04 12:24-0600\n"
 "PO-Revision-Date: 2018-10-14 20:48+0000\n"
 "Last-Translator: Martijn de Boer, 2022\n"
 "Language-Team: Dutch (https://www.transifex.com/aalt/teams/92532/nl/)\n"
@@ -237,15 +237,15 @@ msgstr ""
 msgid "Try '%s --help' for more information.\n"
 msgstr "Probeer '%s --help' voor meer informatie.\n"
 
-#: src/main.c:83
+#: src/main.c:141
 msgid "There are no items in the list - please check back later.\n"
 msgstr "Er staan geen items in de lijst - kom later terug.\n"
 
-#: src/main.c:89
+#: src/main.c:158
 msgid "Skipping --undo-last because --most-recent-list was requested"
 msgstr "Sla --undo-last over omdat --most-recent-list meegegeven is"
 
-#: src/main.c:227
+#: src/main.c:305
 msgid ""
 "\n"
 "Your single slash has been ignored. You walk to the market\n"
@@ -259,50 +259,50 @@ msgstr ""
 "het bos en treft je vijand aan. Je valt aan, en deelt 5000 hp schade.\n"
 "Je voelt je voldaan.\n"
 
-#: src/main.c:263
+#: src/main.c:342
 msgid "Skipping requested ReMoval of your HOME directory"
 msgstr ""
 
-#: src/main.c:272
+#: src/main.c:351
 #, c-format
 msgid "Skipping requested ReMoval of %s\n"
 msgstr ""
 
-#: src/main.c:288
+#: src/main.c:367
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr "%s staat in een afval map en is genegeerd\n"
 
-#: src/main.c:380
+#: src/main.c:474
 #, c-format
 msgid " :'%s' not ReMoved:\n"
 msgstr ""
 
-#: src/main.c:382
+#: src/main.c:476
 #, c-format
 msgid "No WASTE folder defined in '%s' that resides on the same filesystem.\n"
 msgstr ""
 
-#: src/main.c:395
+#: src/main.c:489
 #, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
 msgstr[0] "%d item is verplaatst naar de afval map"
 msgstr[1] "%d items zijn verplaatst naar de afval map"
 
-#: src/main.c:528
+#: src/main.c:622
 msgid "Creating default configuration file:"
 msgstr "Aanmaken van standaard configuratie bestand:"
 
-#: src/main.c:537
+#: src/main.c:631
 msgid "Unable to read or write a configuration file."
 msgstr "Kan een configuratie bestand niet lezen of schrijven."
 
-#: src/main.c:599
+#: src/main.c:700
 msgid "while getting the path to your home directory\n"
 msgstr "bij het ophalen van het pad naar je thuismap\n"
 
-#: src/main.c:618
+#: src/main.c:719
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -313,17 +313,17 @@ msgstr ""
 "Controleer alstublieft uw configuratie bestand en permissies\n"
 "\n"
 
-#: src/main.c:623
+#: src/main.c:724
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr "Kan niet doorgaan. Afsluiten...\n"
 
-#: src/main.c:648
+#: src/main.c:749
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr "purge is overgeslagen: gebruik -f of force\n"
 
-#: src/main.c:722
+#: src/main.c:823
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
@@ -332,11 +332,11 @@ msgstr ""
 "Geen bestandsnamen of commando lijn opties werden gegeven;\n"
 "Geef '%s -h' op voor meer informatie\n"
 
-#: src/config_rmw.c:43
+#: src/config_rmw.c:44
 msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr "# rmw standaard afval map, separaat van de desktop afvalemmer\n"
 
-#: src/config_rmw.c:47
+#: src/config_rmw.c:48
 msgid ""
 "\n"
 "# The directory used by the FreeDesktop.org Trash spec\n"
@@ -348,11 +348,11 @@ msgstr ""
 "# Let op macOS en Windows gebruikers: bestanden naar de 'bureaublad'\n"
 "# afvalemmer verplaatsen werkt nog niet\n"
 
-#: src/config_rmw.c:54
+#: src/config_rmw.c:55
 msgid "# A folder can use the $UID variable.\n"
 msgstr "# Een map kan de $UID variable gebruiken.\n"
 
-#: src/config_rmw.c:56
+#: src/config_rmw.c:57
 msgid ""
 "# See the README or man page for details about using the 'removable' "
 "attribute\n"
@@ -360,7 +360,7 @@ msgstr ""
 "# Bekijk de README of man pagina voor details over het 'removable' "
 "attribuut\n"
 
-#: src/config_rmw.c:60
+#: src/config_rmw.c:61
 msgid ""
 "\n"
 "# How many days should items be allowed to stay in the waste\n"
@@ -377,7 +377,7 @@ msgstr ""
 "purge=N_DAYS)\n"
 "#\n"
 
-#: src/config_rmw.c:68
+#: src/config_rmw.c:69
 msgid ""
 "\n"
 "# purge is allowed to run without the '-f' option. If you'd rather\n"
@@ -390,12 +390,12 @@ msgstr ""
 "inschakelen\n"
 "#\n"
 
-#: src/config_rmw.c:391
+#: src/config_rmw.c:422
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
 
-#: src/config_rmw.c:398
+#: src/config_rmw.c:429
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -408,28 +408,28 @@ msgstr ""
 "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
 "rapporteren, bezoek de website van rmw op\n"
 
-#: src/config_rmw.c:446
+#: src/config_rmw.c:477
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
 
-#: src/config_rmw.c:448
+#: src/config_rmw.c:479
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:448
+#: src/config_rmw.c:479
 msgid "detached"
 msgstr "ontkoppeld"
 
-#: src/messages_rmw.c:28
+#: src/messages.c:28
 msgid "  :error: "
 msgstr " :fout: "
 
-#: src/messages_rmw.c:36
+#: src/messages.c:36
 msgid " :warning: "
 msgstr " :waarschuwing: "
 
-#: src/messages_rmw.c:51
+#: src/messages.c:51
 #, fuzzy, c-format
 msgid ""
 "while opening %s\n"
@@ -437,7 +437,7 @@ msgid ""
 "%s\n"
 msgstr "bij het openen van %s - %s:L%d\n"
 
-#: src/messages_rmw.c:80
+#: src/messages.c:80
 #, fuzzy, c-format
 msgid ""
 "while closing %s\n"
@@ -445,33 +445,19 @@ msgid ""
 "%s\n"
 msgstr "bij sluiten van %s\n"
 
-#: src/messages_rmw.c:97
+#: src/messages.c:97
 #, c-format
 msgid "format of .trashinfo `file %s` is incorrect"
 msgstr "formaat van .trashinfo `bestand %s` is incorrect"
 
-#: src/messages_rmw.c:116
-#, c-format
-msgid "restore() returned %d\n"
-msgstr "restore() gaf %d\n"
-
-#: src/messages_rmw.c:145
+#: src/messages.c:125
 #, fuzzy, c-format
 msgid ""
 "while opening %s -- %s:L%d\n"
 "%s\n"
 msgstr "bij het openen van %s - %s:L%d\n"
 
-#: src/messages_rmw.c:155
-#, c-format
-msgid ""
-"while trying to move (rename)\n"
-"  %s -> %s -- %s:L%d\n"
-msgstr ""
-"tijdens het verplaatsen (hernoemen)\n"
-" %s -> %s - %s:L%d\n"
-
-#: src/messages_rmw.c:215
+#: src/messages.c:193
 #, fuzzy, c-format
 msgid ""
 "while removing %s:\n"
@@ -479,60 +465,60 @@ msgid ""
 "(func:%s)\n"
 msgstr "bij het verwijderen van %s\n"
 
-#: src/messages_rmw.c:225
+#: src/messages.c:203
 #, c-format
 msgid "while creating %s (%s)\n"
 msgstr "tijdens maken %s (%s)\n"
 
-#: src/messages_rmw.c:231
+#: src/messages.c:209
 #, c-format
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/restore_rmw.c:138
+#: src/restore.c:152
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 
-#: src/restore_rmw.c:184
+#: src/restore.c:203
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "bij het verwijderen van .trashinfo bestand: '%s'\n"
 
-#: src/restore_rmw.c:321
+#: src/restore.c:340
 #, c-format
 msgid "Reading %s...\n"
 msgstr "Lezen %s...\n"
 
-#: src/restore_rmw.c:390
+#: src/restore.c:408
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 "Je terminal heeft enkel %d regels. Een minimum van %d regels is vereist.\n"
 
-#: src/restore_rmw.c:406
+#: src/restore.c:424
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== bevat %d bestanden"
 msgstr[1] "== bevat %d bestanden =="
 
-#: src/restore_rmw.c:412
+#: src/restore.c:430
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RECHTS / CURSOR-LINKS> - wissel afval mappen"
 
-#: src/restore_rmw.c:413
+#: src/restore.c:431
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<SPATIE> - selecteer of deselecteer een bestand. / <ENTER> - zet "
 "geselecteerde bestanden terug"
 
-#: src/restore_rmw.c:415
+#: src/restore.c:433
 msgid "<ESC> - quit"
 msgstr "<ESC> - afsluiten"
 
-#: src/purging_rmw.c:249
+#: src/purging.c:245
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -541,50 +527,62 @@ msgstr ""
 "verwijderen is uitgeschakeld ('%s' is ingesteld op '0')\n"
 "\n"
 
-#: src/purging_rmw.c:255
+#: src/purging.c:251
 msgid "The contents of all waste folders will be deleted -"
 msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 
-#: src/purging_rmw.c:258
+#: src/purging.c:254
 msgid "Action cancelled."
 msgstr "Actie geannuleerd."
 
-#: src/purging_rmw.c:265
+#: src/purging.c:261
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Purgen van alle bestanden in afval mappen ...\n"
 
-#: src/purging_rmw.c:268
+#: src/purging.c:264
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Purgen van bestanden gebaseerd op het aantal dagen in de afval map (%u)...\n"
 
-#: src/purging_rmw.c:328
+#: src/purging.c:324
 #, fuzzy, c-format
 msgid "'%s' will be purged in %.2f days\n"
 msgstr "'%s' zal worden weggegooid over %.2lf dagen\n"
 
-#: src/purging_rmw.c:341
+#: src/purging.c:337
 #, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
 msgstr[0] "%d bestand gepurged"
 msgstr[1] "%d bestanden gepurged"
 
-#: src/purging_rmw.c:397
+#: src/purging.c:393
 #, c-format
 msgid "Created %s\n"
 msgstr "Aangemaakt %s\n"
 
-#: src/purging_rmw.c:403
+#: src/purging.c:399
 #, c-format
 msgid "while creating %s\n"
 msgstr "bij het maken van %s\n"
 
-#: src/utils_rmw.c:224
+#: src/utils.c:224
 msgid "Continue? (y/n): "
 msgstr "Doorgaan? (y/n): "
+
+#, c-format
+#~ msgid "restore() returned %d\n"
+#~ msgstr "restore() gaf %d\n"
+
+#, c-format
+#~ msgid ""
+#~ "while trying to move (rename)\n"
+#~ "  %s -> %s -- %s:L%d\n"
+#~ msgstr ""
+#~ "tijdens het verplaatsen (hernoemen)\n"
+#~ " %s -> %s - %s:L%d\n"
 
 #, c-format
 #~ msgid "-i / --interactive: not implemented\n"
