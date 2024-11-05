@@ -42,6 +42,13 @@ test -f "$WASTE_USED/files/foo"
 $RMW_TEST_CMD_STRING -g
 test ! -f "$WASTE_USED/files/foo"
 
+cd "$RMW_FAKE_HOME"
+touch foo
+$RMW_TEST_CMD_STRING foo
+test ! -f food
+$RMW_TEST_CMD_STRING -u
+test -f foo
+
 cd
 
 if [ -n "$(mount | grep rmw-btrfs)" ]; then
