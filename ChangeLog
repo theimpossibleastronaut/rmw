@@ -4,18 +4,30 @@
 
   * Ensure directories respect umask settings upon creation
 
+2024-11-01
+
+  * bugfix: In some cases, 'rmw -s' crashed with message "*** buffer overflow
+  detected ***: terminated". This could happen if compiled with
+  '-D_FORTIFY_SOURCE=3' and set up with 'b_sanitize=none', and depending on
+  the filenames in the waste directories
+
 2024-10-31
 
-  * Add support for cloning(moving) files across btrfs root and subvolumes
-    Thanks to @luigir-it for suggesting this feature and testing
+  + Add support for cloning(moving) files across btrfs root and subvolumes;
+    thanks to @luigir-it for suggesting this feature and testing
 
 2024-10-21
 
   * Fix strmode conflicting types error on OpenBSD and FreeBSD
 
+2024-04-17
+
+  * Add completion for fishshell; thanks to @ccoVeille
+
 2024-03-26
 
-  * Fix for tests failing after the Epochalypse (#439)
+  * Fix for tests failing after the Epochalypse (#439); thanks to @bmwiedemann
+
 
 2024-03-21
 
