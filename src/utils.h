@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://theimpossibleastronaut.github.io/rmw-website/>
 
-Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
+Copyright (C) 2012-2024  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -31,8 +31,7 @@ enum
 {
   P_STATE_ERR = -1,
   P_STATE_ENOENT,
-  P_STATE_EXISTS,
-  P_STATE_SYMLINK
+  P_STATE_EXISTS
 };
 
 #define join_paths(...) real_join_paths(__VA_ARGS__, NULL)
