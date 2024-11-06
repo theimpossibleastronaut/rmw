@@ -23,13 +23,13 @@ fi
 # This test will only work on Andy's workstation.
 # The media root, /home/andy/src is on a different partition than /home/andy
 # It's mounted with 'bind' and therefore has a different device id
-#
-# /dev/sda7 on /mnt/sda7 type ext4 (rw,relatime)
-# /dev/sda7 on /home/andy/src type ext4 (rw,relatime)
+test ! -d /mnt/918375c2 && exit 0;
 
-if test ! -d /mnt/918375c2; then
-  exit 0
-fi
+# This test use Andy's regular config, outside of the test sandbox, so don't
+# run it if the epoch test setup is being used. Otherwise all the waste dirs
+# will be purged.
+test -n "$RMW_TEST_EPOCHALYPSE" && exit 0;
+echo "hello"
 
 test_file="media_root_test"
 PREV_RMW_FAKE_HOME=${RMW_FAKE_HOME}
