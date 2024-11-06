@@ -169,7 +169,7 @@ realize_str(char *str, const char *homedir, const char *uid)
  */
 static st_waste *
 parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
-                 const rmw_options *cli_user_options, bool fake_media_root,
+                 const rmw_options *cli_user_options,
                  const char *homedir, const char *uid)
 {
   bool removable = 0;
@@ -310,10 +310,11 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
     if (!(waste_curr->media_root = malloc(strlen(media_root_ptr) + 1)))
       fatal_malloc();
     strcpy(waste_curr->media_root, media_root_ptr);
-    sn_check(snprintf(tmp, sizeof tmp, "%s", waste_curr->media_root), sizeof tmp);
+    sn_check(snprintf(tmp, sizeof tmp, "%s", waste_curr->media_root),
+             sizeof tmp);
     if (!lstat(rmw_dirname(tmp), &mp_st))
     {
-      if (mp_st.st_dev == waste_curr->dev_num && !fake_media_root)
+      if (mp_st.st_dev == waste_curr->dev_num)
       {
         free(waste_curr->media_root);
         waste_curr->media_root = NULL;
@@ -407,7 +408,6 @@ parse_config_file(const rmw_options *cli_user_options,
       {
         st_waste *st_new_waste_ptr =
           parse_line_waste(waste_curr, cfg_node, cli_user_options,
-                           st_config_data->fake_media_root,
                            st_location->home_dir, st_config_data->uid);
         if (st_new_waste_ptr != NULL)
         {
@@ -452,15 +452,6 @@ init_config_data(st_config *x)
 
   // get the UID
   sn_check(snprintf(x->uid, sizeof x->uid, "%d", getuid()), sizeof x->uid);
-
-  const char *f = getenv("RMW_FAKE_MEDIA_ROOT");
-  if (f != NULL)
-    x->fake_media_root = (strcasecmp(f, "true") == 0) ? true : false;
-  else
-    x->fake_media_root = false;
-  if (verbose)
-    printf("RMW_FAKE_MEDIA_ROOT:%s\n",
-           x->fake_media_root == false ? "false" : "true");
 }
 
 void

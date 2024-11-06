@@ -1,5 +1,3 @@
-add_test_setup('fake_media_root', env: 'RMW_FAKE_MEDIA_ROOT=true')
-
 # The tests must be configured with 'b_sanitize=none' for this to work
 # unless faketime has been built with sanitizer
 faketime = find_program('faketime', required: false)
@@ -9,7 +7,7 @@ endif
 
 test_cases = ['strings_rmw', 'utils', 'trashinfo', 'restore']
 
-scripts = ['test_basic.sh', 'test_purging.sh', 'test_restore.sh']
+scripts = ['test_basic.sh', 'test_media_root.sh', 'test_purging.sh', 'test_restore.sh']
 
 if has_statfs and has_btrfs_header
   scripts += ['test_btrfs_clone.sh']

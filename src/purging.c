@@ -209,7 +209,8 @@ get_pt_basename(const char *purge_target)
 {
   static char *pt_basename;
   static char pt_tmp[PATH_MAX];
-  sn_check(snprintf(pt_tmp, sizeof pt_tmp, "%s", purge_target), sizeof pt_tmp);
+  sn_check(snprintf(pt_tmp, sizeof pt_tmp, "%s", purge_target),
+           sizeof pt_tmp);
   pt_basename = basename(pt_tmp);
   return pt_basename;
 }

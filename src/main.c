@@ -791,7 +791,7 @@ Please check your configuration file and permissions\
     for (file_arg = optind - 1; file_arg < argc; file_arg++)
     {
       if (restore(argv[file_arg], &st_time_var, &cli_user_options,
-                   st_config_data.st_waste_folder_props_head) != 0)
+                  st_config_data.st_waste_folder_props_head) != 0)
         r++;
     }
 
