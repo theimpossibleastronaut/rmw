@@ -1,0 +1,17 @@
+FROM opensuse/tumbleweed
+
+RUN zypper --non-interactive refresh && \
+    zypper --non-interactive update && \
+    zypper --non-interactive install \
+    gettext \
+    gcc \
+    git \
+    ncurses-devel \
+    meson \
+    ninja && \
+    zypper clean
+
+RUN useradd -U rmwbuilder && \
+    passwd -d rmwbuilder
+
+CMD ["/bin/bash", "-l"]

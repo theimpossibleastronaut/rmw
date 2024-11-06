@@ -60,6 +60,9 @@ jobs:
           os: ubuntu-latest
           container: andy5995/rmw:build-env-alpine
           setup_options: -Db_sanitize=none
+        - name: OpenSuse-Tumbleweed
+          os: ubuntu-latest
+          container: andy5995/rmw:build-env-tumbleweed
 
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.container }}
