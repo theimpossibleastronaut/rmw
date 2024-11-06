@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-04 12:24-0600\n"
+"POT-Creation-Date: 2024-11-05 22:34-0600\n"
 "PO-Revision-Date: 2024-03-21 10:00-0500\n"
 "Last-Translator: Andy <arch_stanton5995@proton.me>\n"
 "Language: fr\n"
@@ -397,7 +397,15 @@ msgstr ""
 "dessous.\n"
 "#\n"
 
-#: src/config_rmw.c:422
+#: src/config_rmw.c:240
+#, c-format
+msgid ""
+"symbolic link: %s\n"
+" :In the future, rmw will not allow using symbolic links\n"
+" :as waste parent folders.\n"
+msgstr ""
+
+#: src/config_rmw.c:410
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
@@ -407,7 +415,7 @@ msgstr ""
 "potentiel,\n"
 "visitez le site web de rmw à\n"
 
-#: src/config_rmw.c:429
+#: src/config_rmw.c:417
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -416,16 +424,16 @@ msgid ""
 "visit the rmw web site at\n"
 msgstr ""
 
-#: src/config_rmw.c:477
+#: src/config_rmw.c:456
 #, c-format
 msgid "removable, "
 msgstr "amovible, "
 
-#: src/config_rmw.c:479
+#: src/config_rmw.c:458
 msgid "attached"
 msgstr "attaché"
 
-#: src/config_rmw.c:479
+#: src/config_rmw.c:458
 msgid "detached"
 msgstr "détaché"
 
@@ -494,51 +502,51 @@ msgstr "lors de la création de %s (%s)\n"
 msgid "Created directory %s\n"
 msgstr "Répertoire créé %s\n"
 
-#: src/restore.c:152
+#: src/restore.c:144
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 "Nom de fichier en double à la destination - ajout d'une chaîne de temps...\n"
 
-#: src/restore.c:203
+#: src/restore.c:195
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "lors de la suppression du fichier .trashinfo : '%s'\n"
 
-#: src/restore.c:340
+#: src/restore.c:332
 #, c-format
 msgid "Reading %s...\n"
 msgstr "Lecture de %s...\n"
 
-#: src/restore.c:408
+#: src/restore.c:400
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 "Votre terminal n'a que %d lignes. Un minimum de %d lignes est requis.\n"
 
-#: src/restore.c:424
+#: src/restore.c:416
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== contient %d fichier =="
 msgstr[1] "== contient %d fichiers =="
 
-#: src/restore.c:430
+#: src/restore.c:422
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSEUR-DROIT / CURSEUR-GAUCHE> - changer de dossier de déchets"
 
-#: src/restore.c:431
+#: src/restore.c:423
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<ESPACE> - sélectionner ou désélectionner un élément. / <ENTRÉE> - restaurer "
 "les éléments sélectionnés"
 
-#: src/restore.c:433
+#: src/restore.c:425
 msgid "<ESC> - quit"
 msgstr "<ÉCHAP> - quitter"
 
-#: src/purging.c:245
+#: src/purging.c:246
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -547,49 +555,49 @@ msgstr ""
 "la purge est désactivée ('%s' est défini sur '0')\n"
 "\n"
 
-#: src/purging.c:251
+#: src/purging.c:252
 msgid "The contents of all waste folders will be deleted -"
 msgstr "Le contenu de tous les dossiers de déchets sera supprimé -"
 
-#: src/purging.c:254
+#: src/purging.c:255
 msgid "Action cancelled."
 msgstr "Action annulée."
 
-#: src/purging.c:261
+#: src/purging.c:262
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Purge de tous les fichiers dans les dossiers de déchets ...\n"
 
-#: src/purging.c:264
+#: src/purging.c:265
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Purge des fichiers en fonction du nombre de jours dans les dossiers de "
 "déchets (%u) ...\n"
 
-#: src/purging.c:324
+#: src/purging.c:325
 #, c-format
 msgid "'%s' will be purged in %.2f days\n"
 msgstr "'%s' sera purgé dans %.2f jours\n"
 
-#: src/purging.c:337
+#: src/purging.c:338
 #, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
 msgstr[0] "%d élément purgé"
 msgstr[1] "%d éléments purgés"
 
-#: src/purging.c:393
+#: src/purging.c:394
 #, c-format
 msgid "Created %s\n"
 msgstr "Créé %s\n"
 
-#: src/purging.c:399
+#: src/purging.c:400
 #, c-format
 msgid "while creating %s\n"
 msgstr "lors de la création de %s\n"
 
-#: src/utils.c:224
+#: src/utils.c:237
 msgid "Continue? (y/n): "
 msgstr "Continuer ? (o/n) : "
 

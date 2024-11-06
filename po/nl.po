@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-04 12:24-0600\n"
+"POT-Creation-Date: 2024-11-05 22:34-0600\n"
 "PO-Revision-Date: 2018-10-14 20:48+0000\n"
 "Last-Translator: Martijn de Boer, 2022\n"
 "Language-Team: Dutch (https://www.transifex.com/aalt/teams/92532/nl/)\n"
@@ -390,12 +390,20 @@ msgstr ""
 "inschakelen\n"
 "#\n"
 
-#: src/config_rmw.c:422
+#: src/config_rmw.c:240
+#, c-format
+msgid ""
+"symbolic link: %s\n"
+" :In the future, rmw will not allow using symbolic links\n"
+" :as waste parent folders.\n"
+msgstr ""
+
+#: src/config_rmw.c:410
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr "Onbekende of invalide optie: '%s'\n"
 
-#: src/config_rmw.c:429
+#: src/config_rmw.c:417
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -408,16 +416,16 @@ msgstr ""
 "Indien je meer hulp nodig hebt of je een mogelijke bug wilt\n"
 "rapporteren, bezoek de website van rmw op\n"
 
-#: src/config_rmw.c:477
+#: src/config_rmw.c:456
 #, c-format
 msgid "removable, "
 msgstr "verwijderbaar, "
 
-#: src/config_rmw.c:479
+#: src/config_rmw.c:458
 msgid "attached"
 msgstr "gekoppeld"
 
-#: src/config_rmw.c:479
+#: src/config_rmw.c:458
 msgid "detached"
 msgstr "ontkoppeld"
 
@@ -475,50 +483,50 @@ msgstr "tijdens maken %s (%s)\n"
 msgid "Created directory %s\n"
 msgstr "Map %s aangemaakt\n"
 
-#: src/restore.c:152
+#: src/restore.c:144
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 
-#: src/restore.c:203
+#: src/restore.c:195
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "bij het verwijderen van .trashinfo bestand: '%s'\n"
 
-#: src/restore.c:340
+#: src/restore.c:332
 #, c-format
 msgid "Reading %s...\n"
 msgstr "Lezen %s...\n"
 
-#: src/restore.c:408
+#: src/restore.c:400
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 "Je terminal heeft enkel %d regels. Een minimum van %d regels is vereist.\n"
 
-#: src/restore.c:424
+#: src/restore.c:416
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== bevat %d bestanden"
 msgstr[1] "== bevat %d bestanden =="
 
-#: src/restore.c:430
+#: src/restore.c:422
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-RECHTS / CURSOR-LINKS> - wissel afval mappen"
 
-#: src/restore.c:431
+#: src/restore.c:423
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<SPATIE> - selecteer of deselecteer een bestand. / <ENTER> - zet "
 "geselecteerde bestanden terug"
 
-#: src/restore.c:433
+#: src/restore.c:425
 msgid "<ESC> - quit"
 msgstr "<ESC> - afsluiten"
 
-#: src/purging.c:245
+#: src/purging.c:246
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
@@ -527,48 +535,48 @@ msgstr ""
 "verwijderen is uitgeschakeld ('%s' is ingesteld op '0')\n"
 "\n"
 
-#: src/purging.c:251
+#: src/purging.c:252
 msgid "The contents of all waste folders will be deleted -"
 msgstr "De inhoud van alle afval mappen zal worden verwijderd -"
 
-#: src/purging.c:254
+#: src/purging.c:255
 msgid "Action cancelled."
 msgstr "Actie geannuleerd."
 
-#: src/purging.c:261
+#: src/purging.c:262
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr "Purgen van alle bestanden in afval mappen ...\n"
 
-#: src/purging.c:264
+#: src/purging.c:265
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 "Purgen van bestanden gebaseerd op het aantal dagen in de afval map (%u)...\n"
 
-#: src/purging.c:324
+#: src/purging.c:325
 #, fuzzy, c-format
 msgid "'%s' will be purged in %.2f days\n"
 msgstr "'%s' zal worden weggegooid over %.2lf dagen\n"
 
-#: src/purging.c:337
+#: src/purging.c:338
 #, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
 msgstr[0] "%d bestand gepurged"
 msgstr[1] "%d bestanden gepurged"
 
-#: src/purging.c:393
+#: src/purging.c:394
 #, c-format
 msgid "Created %s\n"
 msgstr "Aangemaakt %s\n"
 
-#: src/purging.c:399
+#: src/purging.c:400
 #, c-format
 msgid "while creating %s\n"
 msgstr "bij het maken van %s\n"
 
-#: src/utils.c:224
+#: src/utils.c:237
 msgid "Continue? (y/n): "
 msgstr "Doorgaan? (y/n): "
 

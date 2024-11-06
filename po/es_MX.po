@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.8.0-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-04 12:24-0600\n"
+"POT-Creation-Date: 2024-11-05 22:34-0600\n"
 "PO-Revision-Date: 2018-10-14 20:48+0000\n"
 "Last-Translator: Juan Carlos López <jclopezdev@gmail.com>, 2018\n"
 "Language-Team: Spanish (Mexico) (https://www.transifex.com/aalt/teams/92532/"
@@ -339,12 +339,20 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/config_rmw.c:422
+#: src/config_rmw.c:240
+#, c-format
+msgid ""
+"symbolic link: %s\n"
+" :In the future, rmw will not allow using symbolic links\n"
+" :as waste parent folders.\n"
+msgstr ""
+
+#: src/config_rmw.c:410
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
 
-#: src/config_rmw.c:429
+#: src/config_rmw.c:417
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -353,16 +361,16 @@ msgid ""
 "visit the rmw web site at\n"
 msgstr ""
 
-#: src/config_rmw.c:477
+#: src/config_rmw.c:456
 #, c-format
 msgid "removable, "
 msgstr ""
 
-#: src/config_rmw.c:479
+#: src/config_rmw.c:458
 msgid "attached"
 msgstr ""
 
-#: src/config_rmw.c:479
+#: src/config_rmw.c:458
 msgid "detached"
 msgstr ""
 
@@ -420,98 +428,98 @@ msgstr ""
 msgid "Created directory %s\n"
 msgstr "Directorio creado %s\n"
 
-#: src/restore.c:152
+#: src/restore.c:144
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 "Nombre del archivo duplicado en el destino - anexando cadena de tiempo...\n"
 
-#: src/restore.c:203
+#: src/restore.c:195
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr ""
 
-#: src/restore.c:340
+#: src/restore.c:332
 #, c-format
 msgid "Reading %s...\n"
 msgstr ""
 
-#: src/restore.c:408
+#: src/restore.c:400
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#: src/restore.c:424
+#: src/restore.c:416
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] "== contiene %d archivo =="
 msgstr[1] "== contiene %d archivos =="
 
-#: src/restore.c:430
+#: src/restore.c:422
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr "<CURSOR-DERECHO / CURSOR-IZQUIERDO> - cambiar carpetas de reciclaje"
 
-#: src/restore.c:431
+#: src/restore.c:423
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 "<ESPACIO> - seleccionar o deseleccionar un elemento. / <ENTRAR> - restaurar "
 "elementos seleccionados"
 
-#: src/restore.c:433
+#: src/restore.c:425
 #, fuzzy
 msgid "<ESC> - quit"
 msgstr "'q' - salir"
 
-#: src/purging.c:245
+#: src/purging.c:246
 #, c-format
 msgid ""
 "purging is disabled ('%s' is set to '0')\n"
 "\n"
 msgstr ""
 
-#: src/purging.c:251
+#: src/purging.c:252
 msgid "The contents of all waste folders will be deleted -"
 msgstr ""
 
-#: src/purging.c:254
+#: src/purging.c:255
 msgid "Action cancelled."
 msgstr ""
 
-#: src/purging.c:261
+#: src/purging.c:262
 #, c-format
 msgid "Purging all files in waste folders ...\n"
 msgstr ""
 
-#: src/purging.c:264
+#: src/purging.c:265
 #, c-format
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 
-#: src/purging.c:324
+#: src/purging.c:325
 #, c-format
 msgid "'%s' will be purged in %.2f days\n"
 msgstr ""
 
-#: src/purging.c:337
+#: src/purging.c:338
 #, fuzzy, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
 msgstr[0] "%d archivo eliminado"
 msgstr[1] "%d archivos eliminados"
 
-#: src/purging.c:393
+#: src/purging.c:394
 #, c-format
 msgid "Created %s\n"
 msgstr "Creado %s\n"
 
-#: src/purging.c:399
+#: src/purging.c:400
 #, c-format
 msgid "while creating %s\n"
 msgstr ""
 
-#: src/utils.c:224
+#: src/utils.c:237
 msgid "Continue? (y/n): "
 msgstr ""
 
