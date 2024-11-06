@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://theimpossibleastronaut.github.io/rmw-website/>
 
-Copyright (C) 2012-2021  Andy Alt (arch_stanton5995@proton.me)
+Copyright (C) 2012-2024  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -70,8 +70,6 @@ struct st_waste
   char *media_root;
 
   bool is_btrfs;
-
-  char *resolved_symlink;
 
   /** Points to the previous WASTE directory in the linked list
    */

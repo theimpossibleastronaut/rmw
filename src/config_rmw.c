@@ -234,6 +234,14 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
     fatal_malloc();
   strcpy(waste_curr->parent, tmp_waste_parent_folder);
 
+  if (is_symlink(waste_curr->parent))
+  {
+    print_msg_warn();
+    printf(_("symbolic link: %s\n\
+ :In the future, rmw will not allow using symbolic links\n\
+ :as waste parent folders.\n"), waste_curr->parent);
+  }
+
   /* and the files... */
   waste_curr->files = join_paths(waste_curr->parent, lit_files);
   waste_curr->len_files = strlen(waste_curr->files);
@@ -274,28 +282,8 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   struct stat st, mp_st;
   if (!lstat(waste_curr->parent, &st))
   {
-    if (S_ISLNK(st.st_mode))
-    {
-      char *res_path = realpath(waste_curr->parent, NULL);
-      if (res_path != NULL)
-      {
-        waste_curr->resolved_symlink = res_path;
-        if (!lstat(res_path, &st))
-          waste_curr->dev_num = st.st_dev;
-        else
-          msg_err_lstat(waste_curr->parent, __func__, __LINE__);
-      }
-      else
-      {
-        perror("realpath");
-        exit(EXIT_FAILURE);
-      }
-    }
-    else
-    {
-      waste_curr->resolved_symlink = NULL;
-      waste_curr->dev_num = st.st_dev;
-    }
+    waste_curr->dev_num = st.st_dev;
+
     // printf("actual: %ld |major: %d | minor: %d\n", st.st_dev, major(st.st_dev), minor(st.st_dev));
     char tmp[PATH_MAX];
     strcpy(tmp, waste_curr->parent);

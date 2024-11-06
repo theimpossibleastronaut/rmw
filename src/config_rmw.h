@@ -35,7 +35,6 @@ typedef struct
   char uid[10];
   st_waste *st_waste_folder_props_head;
   bool force_required;
-  bool fake_media_root;
   int expire_age;
 } st_config;
 
