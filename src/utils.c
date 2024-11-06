@@ -27,6 +27,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utils.h"
 #include "messages.h"
 
+bool
+is_symlink(const char *path)
+{
+  int fd = open(path, O_RDONLY | O_NOFOLLOW);
+  if (fd != -1)
+  {
+    close(fd);
+    return false;
+  }
+  else if (errno == ELOOP)
+    return true;
+
+  return false;
+}
+
 
 /*
  * name: rmw_dirname
@@ -174,8 +189,6 @@ dispose_waste(st_waste *node)
     free(node->info);
     if (node->media_root != NULL)
       free(node->media_root);
-    if (node->resolved_symlink != NULL)
-      free(node->resolved_symlink);
 
     free(node);
   }

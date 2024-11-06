@@ -31,13 +31,16 @@ enum
 {
   P_STATE_ERR = -1,
   P_STATE_ENOENT,
-  P_STATE_EXISTS
+  P_STATE_EXISTS,
+  P_STATE_SYMLINK
 };
 
 #define join_paths(...) real_join_paths(__VA_ARGS__, NULL)
 
 #define LEN_MAX_HUMAN_READABLE_SIZE (sizeof "xxxx.y GiB")
 #define LEN_MAX_FILE_DETAILS (LEN_MAX_HUMAN_READABLE_SIZE + sizeof "[] (D)" - 1)
+
+bool is_symlink(const char *path);
 
 char *rmw_dirname(char *path);
 

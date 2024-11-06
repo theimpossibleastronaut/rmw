@@ -85,14 +85,6 @@ restore(const char *src, st_time *st_time_var,
         waste_match = true;
         break;
       }
-      else if (waste_curr->resolved_symlink)
-      {
-        if (strcmp(waste_curr->resolved_symlink, waste_parent) == 0)
-        {
-          waste_match = true;
-          break;
-        }
-      }
       waste_curr = waste_curr->next_node;
     }
 
