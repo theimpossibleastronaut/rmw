@@ -118,6 +118,11 @@ jobs:
         apk update
         apk upgrade
 
+    - if: ${{ contains(matrix.container, 'tumbleweed') }}
+      run: |
+        zypper --non-interactive refresh
+        zypper --non-interactive update
+
     - if: ${{ matrix.name == 'btrfs-clone' }}
       uses: actions/cache@v4
       id: btrfs-img-cache
