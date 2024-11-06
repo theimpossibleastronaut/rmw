@@ -2,7 +2,11 @@
 # unless faketime has been built with sanitizer
 faketime = find_program('faketime', required: false)
 if faketime.found()
-  add_test_setup('epochalypse', exe_wrapper: [faketime, '-f', '+14y'])
+    add_test_setup(
+        'epochalypse',
+        exe_wrapper: [faketime, '-f', '+14y'],
+        env: ['RMW_TEST_EPOCHALYPSE=true'],
+    )
 endif
 
 test_cases = ['strings_rmw', 'utils', 'trashinfo', 'restore']
