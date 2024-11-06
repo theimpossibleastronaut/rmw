@@ -2,6 +2,6 @@
 waste = /tmp/rmw-loop/three/Waste
 waste = /tmp/rmw-loop/@two/Waste
 waste = /tmp/rmw-loop/trashlink
-waste = $HOME/local/share/.Waste
+WASTE = $HOME/.local/share/Waste
 
 expire_age = 45

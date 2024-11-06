@@ -487,7 +487,8 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
         {
           char *recover_file =
             join_paths(waste_curr->files, item_name(items[i]));
-          if (restore(recover_file, st_time_var, cli_user_options, waste_head) != 0)
+          if (restore(recover_file, st_time_var, cli_user_options, waste_head)
+              != 0)
             restore_err_ctr++;
           free(recover_file);
         }

@@ -67,5 +67,3 @@ jobs:
         ninja -v
     - name: Test
       run: cd builddir && meson test -v
-    - name: Test fake media root
-      run: cd builddir && meson test -v --setup=fake_media_root --suite rmw

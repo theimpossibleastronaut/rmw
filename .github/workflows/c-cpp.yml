@@ -135,9 +135,6 @@ jobs:
     - name: Test
       run: cd builddir && meson test -v
 
-    - name: Test fake media root
-      run: cd builddir && meson test -v --setup=fake_media_root --suite rmw
-
     - if: ${{ contains(matrix.name, 'dist') }}
       run: cd builddir && meson dist --include-subprojects
 

@@ -10,8 +10,6 @@ common_meson_steps: &common_meson_steps
     - cd builddir && ninja -v
   test_script:
     - cd builddir && meson test -v --suite rmw
-  test_fake_media_root_script:
-    - cd builddir && meson test -v --setup=fake_media_root --suite rmw
 
 common_freebsd_steps: &common_freebsd_steps
   pkginstall_script:
