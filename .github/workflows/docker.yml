@@ -5,6 +5,12 @@ concurrency:
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'version number'
+        required: true
+        type: string
+        default: 'latest'
   push:
     branches: [ "master" ]
     paths:
@@ -41,4 +47,4 @@ jobs:
           file: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw:${{ inputs.version }}
