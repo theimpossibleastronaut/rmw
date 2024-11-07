@@ -87,6 +87,7 @@ cd build
     --buildtype=release \
     -Dstrip=true \
     -Db_sanitize=none \
+    -Db_lto=true \
     --mandir=/usr/man \
     --prefix=/usr \
     --localedir=/usr/share/locale \
