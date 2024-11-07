@@ -148,7 +148,7 @@ jobs:
 
     - if: ${{ matrix.name == 'epochalypse' }}
       name: Epochalypse test
-      run: meson test -C builddir --setup=epochalypse
+      run: meson test -C builddir --setup=epochalypse --suite=rmw
 
   openbsd:
     runs-on: ubuntu-latest
