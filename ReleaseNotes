@@ -2,8 +2,8 @@
 
 v0.9.3
 
-+ Add support for cloning(moving) files across btrfs root and subvolumes;
-  thanks to @luigir-it for suggesting this feature and testing
++ Add support for cloning(moving) files across btrfs root and subvolumes
+  (Linux-only); thanks to @luigir-it for suggesting this feature and testing
 * Ensure directories respect umask settings upon creation
 * bugfix: In some cases, 'rmw -s' crashed with message "*** buffer overflow
 detected ***: terminated". This could happen if compiled with

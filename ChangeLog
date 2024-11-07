@@ -1,5 +1,9 @@
 === rmw ChangeLog ===
 
+2024-11-07
+
+  * Update ChangeLog to note btrfs cloning is supported only on Linux
+
 2024-11-06
 
   * Release v0.9.3
@@ -17,7 +21,8 @@
 
 2024-10-31
 
-  + Add support for cloning(moving) files across btrfs root and subvolumes;
+  + Add support for cloning(moving) files across btrfs root and subvolumes
+    (Linux only);
     thanks to @luigir-it for suggesting this feature and testing
 
 2024-10-21
