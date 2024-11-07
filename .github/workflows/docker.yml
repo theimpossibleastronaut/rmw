@@ -21,7 +21,16 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ inputs.version }}
     steps:
+      - name: Set version
+        run: |
+        # If this workflow isn't run manually through a dispatch event
+        # the version will be blank
+        if [ -z "$VERSION" ]; then
+          echo "VERSION=latest" >> $GITHUB_ENV
+        fi
       -
         name: Checkout
         uses: actions/checkout@v4
@@ -47,4 +56,4 @@ jobs:
           file: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw:${{ github.event.inputs.version }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/rmw:${{ env.VERSION }}
