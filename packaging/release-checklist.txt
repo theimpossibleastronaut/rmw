@@ -78,6 +78,8 @@ Publish the release
 Close milestone (https://github.com/theimpossibleastronaut/rmw/milestones)
 
 Create Slackbuild tarball and submit to Slackbuilds.org (https://slackbuilds.org/guidelines/)
+Use sbo-maintainer-tools to check for problems.
+https://slackbuilds.org/repository/15.0/system/sbo-maintainer-tools/
 
 Update latest release info on /docker/README.md
 
