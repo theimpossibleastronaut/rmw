@@ -2,6 +2,7 @@ AppImages
 bli
 BSDCoreUtils
 bsdutils
+btrfs
 builddir
 CentOS
 cli
@@ -10,6 +11,7 @@ dev
 devel
 Dnls
 Dprefix
+Dwant
 entrypoint
 env
 env
@@ -41,6 +43,7 @@ rmw'ing
 rmwrc
 sexualized
 src
+subvolumes
 theimpossibleastronaut
 trashinfo
 UID
