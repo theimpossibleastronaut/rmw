@@ -13,6 +13,7 @@ on:
     - '!**.md'
     - '!docker/**'
     - '!packaging/**'
+    - '!**.txt'
     - '**/c-cpp.yml'
   pull_request:
     branches: master
@@ -23,6 +24,7 @@ on:
     - '!**.md'
     - '!docker/**'
     - '!packaging/**'
+    - '!**.txt'
     - '**/c-cpp.yml'
 
 env:
