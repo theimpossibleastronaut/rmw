@@ -1,7 +1,7 @@
 project(
   'rmw',
   'c',
-  version: '0.9.3',
+  version: '0.9.4-dev',
   meson_version: '>= 0.59.0',
   default_options: [
     'warning_level=3',
