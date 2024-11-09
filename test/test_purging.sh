@@ -80,8 +80,8 @@ echo $SEPARATOR
 echo " == Make sure the correct string (filename) is displayed when using -vvg"
 output="$($RMW_TEST_CMD_STRING -vvg)"
 echo $output
-cmp_substr "$output"  "'read_only_file' will be purged in 90."
-cmp_substr "$output" "'topdir' will be purged in 90."
+cmp_substr "$output"  "'read_only_file' will be purged in 90$(locale decimal_point)"
+cmp_substr "$output" "'topdir' will be purged in 90$(locale decimal_point)"
 
 echo $SEPARATOR
 echo " == Empty works with force empty (-fe)"
