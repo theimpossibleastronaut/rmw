@@ -2,7 +2,8 @@ filter_template: &filter_template
   only_if: "changesInclude(
     'src/**/**',
     '**meson.build',
-    '.cirrus.yml'
+    '.cirrus.yml',
+    '/subprojects/**.wrap'
     )"
 
 common_meson_steps: &common_meson_steps
