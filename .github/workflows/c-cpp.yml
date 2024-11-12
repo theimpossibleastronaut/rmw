@@ -40,24 +40,9 @@ jobs:
         os: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
         cc: [gcc, clang]
         include:
-        - name: btrfs-clone
-          os: ubuntu-latest
-        - name: epochalypse
-          os: ubuntu-latest
-          setup_options: -Db_sanitize=none
-          install_packages: faketime
-        - name: dist-test
-          os: ubuntu-latest
-          dist: true
         - name: Slackware
           os: ubuntu-latest
           container: 'andy5995/slackware-build-essential:15.0'
-        - name: without-nls
-          os: ubuntu-latest
-          setup: -Dnls=false
-        - name: without-curses
-          os: ubuntu-latest
-          setup: -Dwithout-curses=true
         - name: Alpine
           os: ubuntu-latest
           container: andy5995/rmw:build-env-alpine
@@ -67,6 +52,8 @@ jobs:
           container: andy5995/rmw:build-env-tumbleweed
 
     runs-on: ${{ matrix.os }}
+    needs:
+      - various
     container: ${{ matrix.container }}
     steps:
     - uses: actions/checkout@v4
@@ -97,23 +84,10 @@ jobs:
         sudo apt remove -y firefox
         sudo apt upgrade -y
         sudo apt-get install -y \
+          gettext \
           python3-pip \
-          python3-setuptools \
-          xvfb
-        if [ -n "${{ matrix.install_packages }}" ]; then
-          sudo apt install -y ${{ matrix.install_packages }}
-        fi
+          python3-setuptools
         sudo -H python3 -m pip install meson ninja
-
-    - if: ${{ contains(matrix.name, 'without-nls') && matrix.container == null }}
-      run: sudo apt remove -y gettext
-
-    - if: ${{ contains(matrix.name, 'without-nls') == false && matrix.container == null }}
-      run: sudo apt install -y gettext
-
-    - name: Add lto
-      if: ${{ env.CC == 'gcc' }}
-      run: echo "SETUP_OPTIONS=-Db_lto=true" >> $GITHUB_ENV
 
     - if: ${{ contains(matrix.container, 'alpine') }}
       run: |
@@ -125,16 +99,6 @@ jobs:
         zypper --non-interactive refresh
         zypper --non-interactive update
 
-    - if: ${{ matrix.name == 'btrfs-clone' }}
-      uses: actions/cache@v4
-      id: btrfs-img-cache
-      with:
-        path: test/rmw-btrfs-test.img
-        key: ${{ matrix.name }}-${{ hashFiles('test/rmw-btrfs-test.img.sha256sum') }}
-
-    - if: ${{ steps.btrfs-img-cache.outputs.cache-hit != 'true' && matrix.name == 'btrfs-clone' }}
-      run: curl -L -o test/rmw-btrfs-test.img 'https://www.dropbox.com/scl/fi/57g3ixd3w3tuz4qoc2zp1/rmw-btrfs-test.img?rlkey=yc7krtntswsa1bwz0sbugy4gi&st=hkgrht05&dl=0'
-
     - name: Configure
       run: meson setup builddir $SETUP_OPTIONS ${{ matrix.setup_options }}
 
@@ -145,20 +109,13 @@ jobs:
     - name: Test
       run: cd builddir && meson test -v
 
-    - if: ${{ contains(matrix.name, 'dist') }}
-      run: cd builddir && meson dist --include-subprojects
-
-    - if: ${{ matrix.name == 'epochalypse' }}
-      name: Epochalypse test
-      run: meson test -C builddir --setup=epochalypse --suite=rmw
-
   openbsd:
     runs-on: ubuntu-latest
-    name: A job to run test in OpenBSD
+    needs:
+      - build
+    name: OpenBSD
     steps:
     - uses: actions/checkout@v4
-      with:
-        submodules: false
     - name: Test in OpenBSD
       id: test
       uses: vmactions/openbsd-vm@v1
@@ -172,3 +129,114 @@ jobs:
           cd builddir
           meson compile -v
           meson test -v --suite rmw
+
+  macos:
+    name: macos-${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - name: brew-canfigger
+          install_packages: canfigger
+          setup_options: --wrap-mode nofallback
+        - name: bundled-canfigger
+
+    runs-on: macos-latest
+    needs:
+      - build
+    steps:
+    - uses: actions/checkout@v4
+    - name: Show info
+      run: |
+        export -p
+        echo '${{ toJSON(matrix) }}'
+
+    - run: |
+        brew update
+        brew install \
+          gettext \
+          meson \
+          ninja \
+          ncurses \
+          pkg-config \
+          ${{ matrix.build.install_packages }}
+
+    - name: Configure
+      run: meson setup builddir ${{ matrix.build.setup_options }}
+
+    - name: Build
+      run: |
+        cd builddir
+        ninja -v
+    - name: Test
+      run: cd builddir && meson test -v
+
+  various:
+    name: Test Various Build Configurations
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Cache btrfs Image
+      uses: actions/cache@v4
+      id: btrfs-img-cache
+      with:
+        path: test/rmw-btrfs-test.img
+        key: ${{ hashFiles('test/rmw-btrfs-test.img.sha256sum') }}
+
+    - if: ${{ steps.btrfs-img-cache.outputs.cache-hit != 'true' }}
+      run: curl -L -o test/rmw-btrfs-test.img 'https://www.dropbox.com/scl/fi/57g3ixd3w3tuz4qoc2zp1/rmw-btrfs-test.img?rlkey=yc7krtntswsa1bwz0sbugy4gi&st=hkgrht05&dl=0'
+
+    - name: Test btrfs image existence
+      run: test -f test/rmw-btrfs-test.img
+
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt remove -y firefox
+        sudo apt upgrade -y
+        sudo apt-get install -y \
+          faketime \
+          gettext \
+          meson \
+          ninja-build \
+          xvfb
+
+    - name: Configure with nls
+      run: meson setup builddir
+
+    - name: Build
+      run: meson compile -C builddir
+
+    - name: meson dist
+      run: cd builddir && meson dist --include-subprojects
+
+    - name: meson dist without gettext installed
+      run: |
+        sudo apt remove -y gettext
+        cd builddir
+        meson setup --wipe -Dnls=false
+        meson dist --include-subprojects
+
+    - name: Without curses or nls
+      run: |
+        cd builddir
+        meson configure -Dwithout-curses=true -Dnls=false
+        meson test -v
+
+    - name: Epochalypse test
+      run: |
+        rm -rf builddir
+        meson setup builddir -Db_sanitize=none
+        cd builddir
+        meson test -v --setup=epochalypse --suite=rmw
+
+    - name: with lto and FORTIFY
+      run: |
+        cd builddir
+        meson setup --wipe \
+          -Db_sanitize=none \
+          -Dc_args=-D_FORTIFY_SOURCE=3 \
+          -Dbuildtype=debugoptimized \
+          -Db_lto=true
+        meson test -v
