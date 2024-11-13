@@ -128,7 +128,7 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
               const char *pt_basename, int *ctr)
 {
   int p_state = check_pathname_state(purge_target);
-  if (p_state == P_STATE_ENOENT)
+  if (p_state == ENOENT)
   {
     if (cli_user_options->want_orphan_chk && cli_user_options->force >= 2)
     {
@@ -151,7 +151,7 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
       msg_warn_file_not_found(purge_target);
     }
   }
-  else if (p_state == P_STATE_ERR)
+  else if (p_state == -1)
     exit(p_state);
 
   bool is_dir = is_dir_f(purge_target);
@@ -307,8 +307,7 @@ purge(st_config *st_config_data,
         || cli_user_options->want_empty_trash;
       if (want_purge || verbose >= 2)
       {
-        char purge_target[PATH_MAX];
-        *purge_target = '\0';
+        char purge_target[PATH_MAX] = { 0 };
         get_purge_target(purge_target, st_trashinfo_dir_entry->d_name,
                          waste_curr->files);
         char *pt_basename = get_pt_basename(purge_target);
@@ -380,7 +379,7 @@ orphan_maint(st_waste *waste_head, st_time *st_time_var, int *orphan_ctr)
 
       free(tmp_str);
 
-      if (check_pathname_state(path_to_trashinfo) == P_STATE_EXISTS)
+      if (check_pathname_state(path_to_trashinfo) == EEXIST)
         continue;
 
       /* destination if restored */

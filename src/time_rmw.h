@@ -42,8 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 typedef struct
 {
-  time_t now;                               // Largest member, placed first to avoid alignment padding issues.
-  char deletion_date[LEN_MAX_DELETION_DATE]; // Grouped char arrays together.
+  time_t now;                   // Largest member, placed first to avoid alignment padding issues.
+  char deletion_date[LEN_MAX_DELETION_DATE];    // Grouped char arrays together.
   char t_fmt[LEN_MAX_DELETION_DATE];
   char suffix_added_dup_exists[LEN_MAX_TIME_STR_SUFFIX];
 } st_time;

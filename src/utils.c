@@ -111,11 +111,8 @@ rmw_mkdir(const char *dir)
 {
   if (!dir)
     return -1;
-  if (check_pathname_state(dir) == P_STATE_EXISTS)
-  {
-    errno = EEXIST;
+  if (check_pathname_state(dir) == EEXIST)
     return -1;
-  }
 
   int res = 0;
 
@@ -125,9 +122,9 @@ rmw_mkdir(const char *dir)
   if (!parent)
     return -1;
   int p_state = check_pathname_state(parent);
-  if (p_state == P_STATE_ENOENT)
+  if (p_state == ENOENT)
     res = rmw_mkdir(parent);
-  else if (p_state == P_STATE_ERR)
+  else if (p_state == -1)
     exit(p_state);
 
   if (res)
@@ -144,38 +141,29 @@ int
 check_pathname_state(const char *pathname)
 {
   if (!pathname)
-    return false;
+    return -1;
 
-  int fd = open(pathname, O_RDONLY);
+  int fd = open(pathname, O_RDONLY | O_NOFOLLOW);
   if (fd != -1)
   {
-    if (close(fd) == -1)
-    {
-      perror("close");
-      errno = 0;
-    }
-    return P_STATE_EXISTS;
+    close(fd);
+    return EEXIST;
   }
 
-  // open() returns ENOENT in the case of dangling symbolic links
-  // check if it's a link or not:
-  if (errno == ENOENT)
-  {
-    static char buf[1];
-    ssize_t f = readlink(pathname, buf, 1);
-    *buf = '\0';
-    if (f != -1)
-      return P_STATE_EXISTS;
-    else
-    {
-      errno = 0;
-      return P_STATE_ENOENT;
-    }
-  }
+/* FreeBSD sets  errno  to	 EMLINK	instead	of ELOOP as specified by POSIX
+       when O_NOFOLLOW is set in flags and the final component of pathname  is
+       a  symbolic  link  to distinguish it from the case of too many symbolic
+       link traversals in one of its non-final components.
+       https://man.freebsd.org/cgi/man.cgi?query=open
+*/
 
-  printf("open %s: %s\n", pathname, strerror(errno));
-  errno = 0;
-  return P_STATE_ERR;
+  if (errno == ELOOP || errno == EMLINK)
+    return EEXIST;
+  else if (errno == ENOENT)
+    return ENOENT;
+
+  fprintf(stderr, "open %s: %s\n", pathname, strerror(errno));
+  return -1;
 }
 
 void
@@ -533,12 +521,12 @@ test_rmw_mkdir(const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths(h, subdirs);
-  if (check_pathname_state(dir) == P_STATE_EXISTS)
+  if (check_pathname_state(dir) == EEXIST)
     assert(bsdutils_rm(dir, verbose) == 0);
   assert(rmw_mkdir(dir) == 0);
   assert(dir);
   printf("%s\n", dir);
-  assert(check_pathname_state(dir) == P_STATE_EXISTS);
+  assert(check_pathname_state(dir) == EEXIST);
   assert(bsdutils_rm(dir, verbose) == 0);
   free(dir);
 
@@ -691,30 +679,30 @@ test_check_pathname_state(const char *const homedir)
   FILE *fp = fopen(foobar, "w");
   assert(fp != NULL);
   assert(fclose(fp) != EOF);
-  assert(check_pathname_state(foobar) == P_STATE_EXISTS);
+  assert(check_pathname_state(foobar) == EEXIST);
 
   char *snafu = join_paths(homedir, "snafu");
   assert(symlink(foobar, snafu) == 0);
-  assert(check_pathname_state(snafu) == P_STATE_EXISTS);
+  assert(check_pathname_state(snafu) == EEXIST);
   assert(remove(foobar) == 0);
   free(foobar);
   assert(remove(snafu) == 0);
   free(snafu);
 
   char *home_link = join_paths(homedir, "home_1234");
-  assert(check_pathname_state(homedir) == P_STATE_EXISTS);
-  if (check_pathname_state(home_link) == P_STATE_EXISTS)
+  assert(check_pathname_state(homedir) == EEXIST);
+  if (check_pathname_state(home_link) == EEXIST)
     assert(remove(home_link) == 0);
   assert(symlink(homedir, home_link) == 0);
-  assert(check_pathname_state(home_link) == P_STATE_EXISTS);
+  assert(check_pathname_state(home_link) == EEXIST);
   assert(remove(home_link) == 0);
   free(home_link);
 
   const char *dlink = "dangling_link";
-  if (check_pathname_state(dlink) == P_STATE_EXISTS)
+  if (check_pathname_state(dlink) == EEXIST)
     assert(remove(dlink) == 0);
   assert(symlink("dangler", dlink) == 0);
-  assert(check_pathname_state(dlink) == P_STATE_EXISTS);
+  assert(check_pathname_state(dlink) == EEXIST);
   assert(remove(dlink) == 0);
 
   return;

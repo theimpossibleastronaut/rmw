@@ -27,13 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "trashinfo.h"
 
-enum
-{
-  P_STATE_ERR = -1,
-  P_STATE_ENOENT,
-  P_STATE_EXISTS
-};
-
 #define join_paths(...) real_join_paths(__VA_ARGS__, NULL)
 
 #define LEN_MAX_HUMAN_READABLE_SIZE (sizeof "xxxx.y GiB")

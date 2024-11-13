@@ -51,6 +51,5 @@ struct st_loc
   const char *purge_time_file;
   const char *mrl_file;
 
-  const st_dir *st_directory;  // Pointer to another struct, placed at the end for clarity
+  const st_dir *st_directory;   // Pointer to another struct, placed at the end for clarity
 };
-
