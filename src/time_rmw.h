@@ -42,11 +42,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 typedef struct
 {
-  char suffix_added_dup_exists[LEN_MAX_TIME_STR_SUFFIX];
+  time_t now;                               // Largest member, placed first to avoid alignment padding issues.
+  char deletion_date[LEN_MAX_DELETION_DATE]; // Grouped char arrays together.
   char t_fmt[LEN_MAX_DELETION_DATE];
-  char deletion_date[LEN_MAX_DELETION_DATE];
-  time_t now;
+  char suffix_added_dup_exists[LEN_MAX_TIME_STR_SUFFIX];
 } st_time;
+
 
 void init_time_vars(st_time * st_time_var);
 

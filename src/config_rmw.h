@@ -32,11 +32,14 @@ extern const char *expire_age_str;
 
 typedef struct
 {
-  char uid[10];
-  st_waste *st_waste_folder_props_head;
-  bool force_required;
-  int expire_age;
+  st_waste *st_waste_folder_props_head; // Pointer with high alignment requirements
+
+  int expire_age;                        // 4-byte alignment, placed next
+
+  bool force_required;                   // Minimal alignment, placed after the int
+  char uid[10];                          // Character array, lower alignment, placed last
 } st_config;
+
 
 void print_config(FILE * restrict stream);
 

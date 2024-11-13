@@ -41,14 +41,23 @@ struct st_waste
   /** The parent directory, e.g. $HOME/.local/share/Trash */
   char *parent;
 
-  /*! The info directory (where .trashinfo files are written) will be appended to the parent directory */
+  /** The info directory (where .trashinfo files are written) will be appended to the parent directory */
   char *info;
-  int len_info;
 
-  /** Appended to the parent directory, where files are moved to when they are rmw'ed
-   */
+  /** Appended to the parent directory, where files are moved to when they are rmw'ed */
   char *files;
-  int len_files;
+
+  /** If a waste folder is at the top level, a relative path will be
+   * used (per the Freedesktop trash spec). See
+   * https://github.com/theimpossibleastronaut/rmw/issues/299 for more
+   * info */
+  char *media_root;
+
+  /** Points to the previous WASTE directory in the linked list */
+  st_waste *prev_node;
+
+  /** Points to the next WASTE directory in the linked list */
+  st_waste *next_node;
 
   /** The device number of the filesystem on which the file resides. rmw does
    * not copy files from one filesystem to another, but rather only moves them.
@@ -57,28 +66,17 @@ struct st_waste
    */
   dev_t dev_num;
 
-  /** set to <tt>true</tt> if the parent directory is on a removable device,
+  int len_info;
+  int len_files;
+
+  /** Set to <tt>true</tt> if the parent directory is on a removable device,
    * <tt>false</tt> otherwise.
    */
   bool removable;
 
-  /*
-   * If a waste folder is at the top level, a relative path will be
-   * used (per the Freedesktop trash spec). See
-   https://github.com/theimpossibleastronaut/rmw/issues/299 for more
-   info */
-  char *media_root;
-
   bool is_btrfs;
-
-  /** Points to the previous WASTE directory in the linked list
-   */
-  st_waste *prev_node;
-
-  /** Points to the next WASTE directory in the linked list
-   */
-  st_waste *next_node;
 };
+
 
 /** Holds information about a file that was specified for rmw'ing
  */
@@ -87,15 +85,16 @@ typedef struct
   /** The absolute path to the file, stored later in a .trashinfo file */
   char *real_path;
 
-  /** The basename of the target file, and used for the basename of it's corresponding
+  /** The basename of the target file, and used for the basename of its corresponding
    * .trashinfo file */
   const char *base_name;
 
-  /** The destination file name. This may be different if a file of the same name already
-   *  exists in the WASTE folder */
-  char waste_dest_name[PATH_MAX];
-
+  /** The device number of the filesystem on which the file resides */
   dev_t dev_num;
+
+  /** The destination file name. This may be different if a file of the same name already
+   * exists in the WASTE folder */
+  char waste_dest_name[PATH_MAX];
 
   /** Is <tt>true</tt> if the file exists in the destination WASTE/files folder,
    * false otherwise. If it's a duplicate, a string based on the current time
@@ -103,6 +102,7 @@ typedef struct
    */
   bool is_duplicate;
 } rmw_target;
+
 
 extern const char *lit_info;
 extern const char *path_key;

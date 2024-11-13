@@ -46,8 +46,11 @@ struct st_loc
   const char *home_dir;
   const char *config_dir;
   const char *config_file;
+
   const char *data_dir;
   const char *purge_time_file;
   const char *mrl_file;
-  const st_dir *st_directory;
+
+  const st_dir *st_directory;  // Pointer to another struct, placed at the end for clarity
 };
+

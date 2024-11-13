@@ -25,8 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /** CLI option switches for rmw. */
 typedef struct
 {
-  bool want_restore;
   int want_purge;
+  int force;
+
+  /*! Alternate configuration file given at the command line with -c */
+  const char *alt_config_file;
+
+  bool want_restore;
   bool want_empty_trash;
   bool want_top_level_bypass;
   bool want_orphan_chk;
@@ -34,12 +39,11 @@ typedef struct
   bool want_undo;
   bool most_recent_list;
   bool want_dry_run;
-  int force;
+
   /*! list waste folder option */
   bool list;
-  /*! Alternate configuration file given at the command line with -c */
-  const char *alt_config_file;
 } rmw_options;
+
 
 
 void init_rmw_options(rmw_options * options);
