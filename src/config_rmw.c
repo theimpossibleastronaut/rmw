@@ -200,7 +200,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   }
 
   bool is_attached =
-    check_pathname_state(tmp_waste_parent_folder) == P_STATE_EXISTS;
+    (check_pathname_state(tmp_waste_parent_folder) == EEXIST);
   if (removable && !is_attached)
   {
     if (cli_user_options->list)
@@ -247,7 +247,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   waste_curr->len_files = strlen(waste_curr->files);
 
   int p_state = check_pathname_state(waste_curr->files);
-  if (p_state == P_STATE_ENOENT)
+  if (p_state == ENOENT)
   {
     if (!rmw_mkdir(waste_curr->files))
       msg_success_mkdir(waste_curr->files);
@@ -257,13 +257,13 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
       exit(errno);
     }
   }
-  else if (p_state == P_STATE_ERR)
+  else if (p_state == -1)
     exit(p_state);
 
   waste_curr->info = join_paths(waste_curr->parent, lit_info);
   waste_curr->len_info = strlen(waste_curr->info);
 
-  if ((p_state = check_pathname_state(waste_curr->info)) == P_STATE_ENOENT)
+  if ((p_state = check_pathname_state(waste_curr->info)) == ENOENT)
   {
     if (!rmw_mkdir(waste_curr->info))
       msg_success_mkdir(waste_curr->info);
@@ -273,7 +273,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
       exit(errno);
     }
   }
-  else if (p_state == P_STATE_ERR)
+  else if (p_state == -1)
     exit(p_state);
 
   waste_curr->is_btrfs = is_btrfs(waste_curr->parent);

@@ -69,11 +69,10 @@ restore(const char *src, st_time *st_time_var,
         const rmw_options *cli_user_options, st_waste *waste_head)
 {
   int p_state = check_pathname_state(src);
-  if (p_state == P_STATE_EXISTS)
+  if (p_state == EEXIST)
   {
     bufchk_len(strlen(src) + 1, PATH_MAX, __func__, __LINE__);
-    char waste_parent[PATH_MAX];
-    *waste_parent = '\0';
+    char waste_parent[PATH_MAX] = { 0 };
     get_waste_parent(waste_parent, src);
 
     st_waste *waste_curr = waste_head;
@@ -134,7 +133,7 @@ restore(const char *src, st_time *st_time_var,
 
     /* Check for duplicate filename
      */
-    if (check_pathname_state(dest) == P_STATE_EXISTS)
+    if (check_pathname_state(dest) == EEXIST)
     {
       bufchk_len(strlen(dest) + LEN_MAX_TIME_STR_SUFFIX, PATH_MAX,
                  __func__, __LINE__);
@@ -154,7 +153,7 @@ Duplicate filename at destination - appending time string...\n"));
     if (cli_user_options->want_dry_run == false)
     {
       int p_state_parent = check_pathname_state(parent_dir);
-      if (p_state_parent == P_STATE_ENOENT)
+      if (p_state_parent == ENOENT)
       {
         if (!rmw_mkdir(parent_dir))
         {
@@ -168,7 +167,7 @@ Duplicate filename at destination - appending time string...\n"));
           msg_err_mkdir(waste_curr->files, __func__);
         }
       }
-      else if (p_state_parent == P_STATE_ERR)
+      else if (p_state_parent == -1)
         return p_state_parent;
     }
 
@@ -205,7 +204,7 @@ Duplicate filename at destination - appending time string...\n"));
   }
   else
   {
-    if (p_state == P_STATE_ENOENT)
+    if (p_state == ENOENT)
     {
       print_msg_warn();
       msg_warn_file_not_found(src);
@@ -565,8 +564,6 @@ test_create_file_details_str(void)
   int i = 0;
   while (i < data_size)
   {
-    //char file_details[LEN_MAX_FILE_DETAILS];
-    //*file_details = '\0';
     char *file_details = create_file_details_str(data[i].size, data[i].mode);
     fprintf(stderr, "file_details: %s\nExpected: %s\n\n", file_details,
             data[i].out);

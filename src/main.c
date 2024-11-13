@@ -311,9 +311,9 @@ damage of 5000 hp. You feel satisfied.\n"));
     }
 
     int p_state = check_pathname_state(argv[file_arg]);
-    if (p_state != P_STATE_EXISTS)
+    if (p_state != EEXIST)
     {
-      if (p_state == P_STATE_ENOENT)
+      if (p_state == ENOENT)
         msg_warn_file_not_found(argv[file_arg]);
 
       continue;
@@ -397,8 +397,7 @@ damage of 5000 hp. You feel satisfied.\n"));
         /* If a duplicate file exists
          */
         if ((st_target.is_duplicate =
-             check_pathname_state(st_target.waste_dest_name)) ==
-            P_STATE_EXISTS)
+             (check_pathname_state(st_target.waste_dest_name)) == EEXIST))
         {
           // append a time string
           bufchk_len(strlen(st_target.waste_dest_name) +
@@ -584,7 +583,7 @@ get_locations(const char *alt_config_file)
   }
 
   int p_state = check_pathname_state(x.config_dir);
-  if (p_state == P_STATE_ENOENT)
+  if (p_state == ENOENT)
   {
     if (!rmw_mkdir(x.config_dir))
       msg_success_mkdir(x.config_dir);
@@ -594,7 +593,7 @@ get_locations(const char *alt_config_file)
       exit(errno);
     }
   }
-  else if (p_state == P_STATE_ERR)
+  else if (p_state == -1)
     exit(p_state);
 
   static char s_config_file[PATH_MAX];
@@ -614,7 +613,7 @@ get_locations(const char *alt_config_file)
   if (verbose)
     printf("config_file: %s\n", x.config_file);
 
-  if ((p_state = check_pathname_state(x.config_file)) == P_STATE_ENOENT)
+  if ((p_state = check_pathname_state(x.config_file)) == ENOENT)
   {
     FILE *fp = fopen(x.config_file, "w");
     if (fp)
@@ -632,7 +631,7 @@ get_locations(const char *alt_config_file)
       exit(errno);
     }
   }
-  else if (p_state == P_STATE_ERR)
+  else if (p_state == -1)
     exit(p_state);
 
   static char s_mrl_file[PATH_MAX];
@@ -702,10 +701,10 @@ main(const int argc, char *const argv[])
   }
 
   int p_state = 0;
-  if ((p_state = check_pathname_state(st_location->data_dir)) == P_STATE_ERR)
+  if ((p_state = check_pathname_state(st_location->data_dir)) == -1)
     exit(p_state);
 
-  bool init_data_dir = p_state == P_STATE_ENOENT;
+  bool init_data_dir = (p_state == ENOENT);
 
   if (init_data_dir)
   {
