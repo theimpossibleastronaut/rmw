@@ -110,7 +110,7 @@ cmp_substr "$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/. && exit 1)"
 
 # I don't want to force anyone to install Xvfb for this single test
 # so I'll only run it if it's already installed
-if [ -n "$(command -v Xvfb)" ]; then
+if [ -n "$(command -v Xvfb)" ] && [ ! $(grep "DISABLE_CURSES" "$MESON_BUILD_ROOT/src/config.h") ]; then
   # Start Xvfb on display :99
   Xvfb :99 &
   XVFB_PID=$!
@@ -133,7 +133,6 @@ if [ -n "$(command -v Xvfb)" ]; then
   ${RMW_TEST_CMD_STRING} -s &
   RMW_PID=$!
   sleep 1s && kill $RMW_PID
-
   kill $XVFB_PID
 
   # Restore the original DISPLAY value if it was set
