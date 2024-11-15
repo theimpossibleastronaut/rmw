@@ -123,7 +123,9 @@ if [ -n "$(command -v Xvfb)" ] && [ ! $(grep "DISABLE_CURSES" "$MESON_BUILD_ROOT
   # Error opening terminal: unknown.
   export TERM=xterm
 
+  cd "$RMW_FAKE_HOME"
   for file in "foo(1)far" "far side" "clippity-clap"; do
+    touch "$file"
     ${RMW_TEST_CMD_STRING} "$file"
   done
   # No visual test here, but when used with llvm sanitize or valgrind,
