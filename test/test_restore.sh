@@ -123,9 +123,16 @@ if [ -n "$(command -v Xvfb)" ]; then
   # Error opening terminal: unknown.
   export TERM=xterm
 
+  for file in "foo(1)far" "far side" "clippity-clap"; do
+    ${RMW_TEST_CMD_STRING} "$file"
+  done
   # No visual test here, but when used with llvm sanitize or valgrind,
   # the chances of spotting any memory leaks are pretty good.
-  echo q | ${RMW_TEST_CMD_STRING} -s
+  # https://github.com/theimpossibleastronaut/rmw/issues/464
+  # rmw -s in some cases, when built using _FORTIFY=3, results in an immediate crash
+  ${RMW_TEST_CMD_STRING} -s &
+  RMW_PID=$!
+  sleep 1s && kill $RMW_PID
 
   kill $XVFB_PID
 
