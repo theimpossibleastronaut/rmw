@@ -673,9 +673,6 @@ main(const int argc, char *const argv[])
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE_STRING, locale_dir);
   textdomain(PACKAGE_STRING);
-  // If the locale directory isn't found, errno is set
-  // to 2.
-  errno = 0;
 #endif
 
   rmw_options cli_user_options;
