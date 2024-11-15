@@ -146,17 +146,17 @@ check_pathname_state(const char *pathname)
   int fd = open(pathname, O_RDONLY | O_NOFOLLOW);
   if (fd != -1)
   {
-    close(fd);
+    if (close(fd) != 0)
+      fprintf(stderr, "close: %s\n%s", pathname, strerror(errno));
     return EEXIST;
   }
 
 /* FreeBSD sets  errno  to	 EMLINK	instead	of ELOOP as specified by POSIX
-       when O_NOFOLLOW is set in flags and the final component of pathname  is
-       a  symbolic  link  to distinguish it from the case of too many symbolic
-       link traversals in one of its non-final components.
-       https://man.freebsd.org/cgi/man.cgi?query=open
+   when O_NOFOLLOW is set in flags and the final component of pathname  is
+   a  symbolic  link  to distinguish it from the case of too many symbolic
+   link traversals in one of its non-final components.
+   https://man.freebsd.org/cgi/man.cgi?query=open
 */
-
   if (errno == ELOOP || errno == EMLINK)
     return EEXIST;
   else if (errno == ENOENT)

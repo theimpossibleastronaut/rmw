@@ -94,8 +94,7 @@ display_dot_trashinfo_error(const char *dti)
    *               "format" refers to the layout of the file
    *                contents
    */
-  printf(_("format of .trashinfo `file %s` is incorrect"), dti);
-  putchar('\n');
+  printf(_("format of .trashinfo file '%s' is incorrect\n"), dti);
   return;
 }
 
