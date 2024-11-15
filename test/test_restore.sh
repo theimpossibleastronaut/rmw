@@ -132,7 +132,7 @@ if [ -n "$(command -v Xvfb)" ] && [ ! $(grep "DISABLE_CURSES" "$MESON_BUILD_ROOT
   # rmw -s in some cases, when built using _FORTIFY=3, results in an immediate crash
   ${RMW_TEST_CMD_STRING} -s &
   RMW_PID=$!
-  sleep 1s && kill $RMW_PID
+  sleep 1 && kill $RMW_PID # OpenBSD sleep doesn't accept '1s'
   kill $XVFB_PID
 
   # Restore the original DISPLAY value if it was set
