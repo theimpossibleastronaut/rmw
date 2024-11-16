@@ -110,7 +110,7 @@ cmp_substr "$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/. && exit 1)"
 
 # I don't want to force anyone to install Xvfb for this single test
 # so I'll only run it if it's already installed
-if [ -n "$(command -v Xvfb)" ]; then
+if [ -n "$(command -v Xvfb)" ] && [ ! $(grep "DISABLE_CURSES" "$MESON_BUILD_ROOT/src/config.h") ]; then
   # Start Xvfb on display :99
   Xvfb :99 &
   XVFB_PID=$!
@@ -123,10 +123,18 @@ if [ -n "$(command -v Xvfb)" ]; then
   # Error opening terminal: unknown.
   export TERM=xterm
 
+  cd "$RMW_FAKE_HOME"
+  for file in "foo(1)far" "far side" "clippity-clap"; do
+    touch "$file"
+    ${RMW_TEST_CMD_STRING} "$file"
+  done
   # No visual test here, but when used with llvm sanitize or valgrind,
   # the chances of spotting any memory leaks are pretty good.
-  echo q | ${RMW_TEST_CMD_STRING} -s
-
+  # https://github.com/theimpossibleastronaut/rmw/issues/464
+  # rmw -s in some cases, when built using _FORTIFY=3, results in an immediate crash
+  ${RMW_TEST_CMD_STRING} -s &
+  RMW_PID=$!
+  sleep 1 && kill $RMW_PID # OpenBSD sleep doesn't accept '1s'
   kill $XVFB_PID
 
   # Restore the original DISPLAY value if it was set
