@@ -97,10 +97,32 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
       }
     }
 
-    fprintf(fp, "%s\n%s%s\n%s%s\n", trashinfo_template.header,
-            trashinfo_template.path_key, escaped_path_ptr,
-            trashinfo_template.deletion_date_key, st_time_var->deletion_date);
+    ssize_t want_size = strlen(trashinfo_template.header) + 1 +
+      strlen(trashinfo_template.path_key) +
+      strlen(escaped_path_ptr) + 1 +
+      strlen(trashinfo_template.deletion_date_key) +
+      strlen(st_time_var->deletion_date) + 1;
+
+    int n = fprintf(fp, "%s\n%s%s\n%s%s\n", trashinfo_template.header,
+                    trashinfo_template.path_key, escaped_path_ptr,
+                    trashinfo_template.deletion_date_key,
+                    st_time_var->deletion_date);
+
     free(escaped_path);
+
+    if (n < 0)
+    {
+      print_msg_error();
+      fprintf(stderr, "fprintf() failed due to an error writing to %s\n",
+              final_info_dest);
+    }
+    else if (n != want_size)
+    {
+      print_msg_error();
+      fprintf(stderr,
+              "Expected to write %zu bytes, but wrote %d bytes to %s\n",
+              want_size, n, final_info_dest);
+    }
     return close_file(&fp, final_info_dest, __func__);
   }
   else
