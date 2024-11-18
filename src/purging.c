@@ -94,8 +94,7 @@ is_time_to_purge(st_time *st_time_var, const char *file)
 static time_t
 get_then_time(const char *tinfo_file)
 {
-  char *raw_deletion_date =
-    parse_trashinfo_file(tinfo_file, trashinfo_template.deletion_date_key);
+  char *raw_deletion_date = parse_trashinfo_file(tinfo_file, DATE_KEY);
   if (raw_deletion_date != NULL)
   {
     struct tm tm_then;

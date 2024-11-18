@@ -18,6 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <stdint.h>
+
 #include "trashinfo.h"
 #include "utils.h"
 #include "messages.h"
@@ -25,27 +27,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LEN_MAX_TRASHINFO_PATH_LINE (sizeof "Path=" + LEN_MAX_ESCAPED_PATH - 1)
 #define LEN_DELETION_DATE_KEY_WITH_VALUE 32
 
-#define TI_LINE_COUNT 3
-
-typedef enum
+enum
 {
   TI_HEADER,
   TI_PATH_LINE,
-  TI_DATE_LINE
-} ti_line;
+  TI_DATE_LINE,
+  TI_LINE_COUNT
+};
 
 const struct trashinfo_template trashinfo_template =
   { "[Trash Info]", "Path=", "DeletionDate=" };
-
-struct trashinfo_field
-{
-  char *value;
-  union
-  {
-    char *path_ptr;
-    char *date_str_ptr;
-  } f;
-};
 
 const char *lit_info = "info";
 const char trashinfo_ext[] = ".trashinfo";
@@ -123,37 +114,25 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
 /*
  * name: parse_trashinfo_file
  *
- * Checks the integrity of a trashinfo file and returns req_value for
+ * Checks the integrity of a trashinfo file and returns value for
  * either the Path or DeletionDate key
  *
  */
 char *
-parse_trashinfo_file(const char *file, const char *req_value)
+parse_trashinfo_file(const char *file, ti_key key)
 {
-  struct trashinfo_field trashinfo_field;
-
-  if (strcmp(req_value, trashinfo_template.path_key) != 0
-      && strcmp(req_value, trashinfo_template.deletion_date_key) != 0)
-  {
-    print_msg_error();
-    fprintf(stderr, "Required arg for %s can be either \"%s\" or \"%s\".",
-            __func__, trashinfo_template.path_key,
-            trashinfo_template.deletion_date_key);
-    return NULL;
-  }
-
-  ti_line line_n = 0;
   FILE *fp = fopen(file, "r");
   if (fp != NULL)
   {
-    trashinfo_field.value = NULL;
-    bool res = true;
+    bool res = false;
+    char *key_value;
     char fp_line[LEN_MAX_TRASHINFO_PATH_LINE];
+    uint8_t line_n = 0;
     while (fgets(fp_line, LEN_MAX_TRASHINFO_PATH_LINE, fp) != NULL
-           && res == true)
+           && line_n <= TI_LINE_COUNT)
     {
       trim_whitespace(fp_line);
-
+      char *val_ptr;
       switch (line_n)
       {
       case TI_HEADER:
@@ -164,12 +143,14 @@ parse_trashinfo_file(const char *file, const char *req_value)
           (strncmp
            (fp_line, trashinfo_template.path_key,
             strlen(trashinfo_template.path_key)) == 0);
-        if (res && strcmp(req_value, trashinfo_template.path_key) == 0)
+        if (res && key == PATH_KEY)
         {
-          trashinfo_field.f.path_ptr = strchr(fp_line, '=');
-          trashinfo_field.f.path_ptr++; /* move past the '=' sign */
-          char *unescaped_path = unescape_url(trashinfo_field.f.path_ptr);
-          trashinfo_field.value = unescaped_path;
+          val_ptr = strchr(fp_line, '=');
+          val_ptr++;            /* move past the '=' sign */
+          char *unescaped_path = unescape_url(val_ptr);
+          if (!unescaped_path)
+            fatal_malloc();
+          key_value = unescaped_path;
         }
         break;
       case TI_DATE_LINE:
@@ -177,13 +158,12 @@ parse_trashinfo_file(const char *file, const char *req_value)
           (strncmp(fp_line, trashinfo_template.deletion_date_key,
                    strlen(trashinfo_template.deletion_date_key)) == 0)
           && strlen(fp_line) == LEN_DELETION_DATE_KEY_WITH_VALUE;
-        if (res
-            && strcmp(req_value, trashinfo_template.deletion_date_key) == 0)
+        if (res && key == DATE_KEY)
         {
-          trashinfo_field.f.date_str_ptr = strchr(fp_line, '=');
-          trashinfo_field.f.date_str_ptr++;
-          trashinfo_field.value = strdup(trashinfo_field.f.date_str_ptr);
-          if (!trashinfo_field.value)
+          val_ptr = strchr(fp_line, '=');
+          val_ptr++;
+          key_value = strdup(val_ptr);
+          if (!key_value)
             fatal_malloc();
         }
         break;
@@ -195,17 +175,14 @@ parse_trashinfo_file(const char *file, const char *req_value)
     }
     close_file(&fp, file, __func__);
 
-    if (res && line_n == TI_LINE_COUNT)
-      return trashinfo_field.value;
+    if (res)
+      return key_value;
 
-    if (trashinfo_field.value != NULL)
-      free(trashinfo_field.value);
+    if (key_value != NULL)
+      free(key_value);
     display_dot_trashinfo_error(file);
     return NULL;
   }
-  else
-  {
-    open_err(file, __func__);
-    return NULL;
-  }
+  open_err(file, __func__);
+  return NULL;
 }

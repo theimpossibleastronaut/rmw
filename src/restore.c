@@ -112,8 +112,7 @@ restore(const char *src, st_time *st_time_var,
     tmp_str = NULL;
     sn_check(r, PATH_MAX);
 
-    char *_dest =
-      parse_trashinfo_file(src_tinfo, trashinfo_template.path_key);
+    char *_dest = parse_trashinfo_file(src_tinfo, PATH_KEY);
     if (_dest == NULL)
       return -1;
 

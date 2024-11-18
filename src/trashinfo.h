@@ -109,9 +109,14 @@ extern const struct trashinfo_template
   const char *deletion_date_key;
 } trashinfo_template;
 
+typedef enum
+{
+  PATH_KEY,
+  DATE_KEY
+} ti_key;
 
 int
 create_trashinfo(rmw_target * st_f_props, st_waste * waste_curr,
                  st_time * st_time_var);
 
-char *parse_trashinfo_file(const char *file, const char *req_value);
+char *parse_trashinfo_file(const char *file, ti_key key);
