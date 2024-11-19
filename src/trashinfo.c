@@ -27,14 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LEN_MAX_TRASHINFO_PATH_LINE (sizeof "Path=" + LEN_MAX_ESCAPED_PATH - 1)
 #define LEN_DELETION_DATE_KEY_WITH_VALUE 32
 
-enum
-{
-  TI_HEADER,
-  TI_PATH_LINE,
-  TI_DATE_LINE,
-  TI_LINE_COUNT
-};
-
 const struct trashinfo_template trashinfo_template =
   { "[Trash Info]", "Path=", "DeletionDate=" };
 
@@ -151,7 +143,7 @@ parse_trashinfo_file(const char *file, ti_key key)
     char fp_line[LEN_MAX_TRASHINFO_PATH_LINE];
     uint8_t line_n = 0;
     while (fgets(fp_line, LEN_MAX_TRASHINFO_PATH_LINE, fp) != NULL
-           && line_n <= TI_LINE_COUNT)
+           && line_n <= TI_LINE_MAX)
     {
       trim_whitespace(fp_line);
       char *val_ptr;
@@ -160,7 +152,7 @@ parse_trashinfo_file(const char *file, ti_key key)
       case TI_HEADER:
         res = (strcmp(fp_line, trashinfo_template.header) == 0);
         break;
-      case TI_PATH_LINE:
+      case PATH_KEY:
         res =
           (strncmp
            (fp_line, trashinfo_template.path_key,
@@ -175,12 +167,12 @@ parse_trashinfo_file(const char *file, ti_key key)
           key_value = unescaped_path;
         }
         break;
-      case TI_DATE_LINE:
+      case DELETIONDATE_KEY:
         res =
           (strncmp(fp_line, trashinfo_template.deletion_date_key,
                    strlen(trashinfo_template.deletion_date_key)) == 0)
           && strlen(fp_line) == LEN_DELETION_DATE_KEY_WITH_VALUE;
-        if (res && key == DATE_KEY)
+        if (res && key == DELETIONDATE_KEY)
         {
           val_ptr = strchr(fp_line, '=');
           val_ptr++;

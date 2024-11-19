@@ -111,8 +111,10 @@ extern const struct trashinfo_template
 
 typedef enum
 {
+  TI_HEADER,
   PATH_KEY,
-  DATE_KEY
+  DELETIONDATE_KEY,
+  TI_LINE_MAX
 } ti_key;
 
 int
