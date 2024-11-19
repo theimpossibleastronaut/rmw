@@ -51,6 +51,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define EBUF 11
 
+typedef enum
+{
+  TI_HEADER,
+  PATH_KEY,
+  DELETIONDATE_KEY,
+  TI_LINE_MAX
+} ti_key;
+
 extern int verbose;
 extern const char *lit_info;
 extern const char trashinfo_ext[];

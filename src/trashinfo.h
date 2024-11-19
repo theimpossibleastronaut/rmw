@@ -103,13 +103,6 @@ extern const struct trashinfo_template
   const char *deletion_date_key;
 } trashinfo_template;
 
-typedef enum
-{
-  TI_HEADER,
-  PATH_KEY,
-  DELETIONDATE_KEY,
-  TI_LINE_MAX
-} ti_key;
 
 int
 create_trashinfo(rmw_target * st_f_props, st_waste * waste_curr,
