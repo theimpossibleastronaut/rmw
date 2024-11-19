@@ -122,15 +122,8 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
 }
 
 
-/*
- * name: parse_trashinfo_file
- *
- * Checks the integrity of a trashinfo file and returns value for
- * either the Path or DeletionDate key
- *
- */
 char *
-parse_trashinfo_file(const char *file, ti_key key)
+validate_and_get_value(const char *file, ti_key key)
 {
   struct
   {

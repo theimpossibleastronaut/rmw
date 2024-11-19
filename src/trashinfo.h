@@ -108,4 +108,4 @@ int
 create_trashinfo(rmw_target * st_f_props, st_waste * waste_curr,
                  st_time * st_time_var);
 
-char *parse_trashinfo_file(const char *file, ti_key key);
+char *validate_and_get_value(const char *file, ti_key key);
