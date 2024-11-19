@@ -21,3 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 
 int verbose = 0;
+const char *lit_info = "info";
+const char trashinfo_ext[] = ".trashinfo";
+const int len_trashinfo_ext = sizeof trashinfo_ext - 1; /* Subtract 1 for the terminating NULL */

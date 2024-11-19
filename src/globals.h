@@ -52,3 +52,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define EBUF 11
 
 extern int verbose;
+extern const char *lit_info;
+extern const char trashinfo_ext[];
+extern const int len_trashinfo_ext;

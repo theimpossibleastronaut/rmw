@@ -30,10 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const struct trashinfo_template trashinfo_template =
   { "[Trash Info]", "Path=", "DeletionDate=" };
 
-const char *lit_info = "info";
-const char trashinfo_ext[] = ".trashinfo";
-const int len_trashinfo_ext = sizeof trashinfo_ext - 1; /* Subtract 1 for the terminating NULL */
-
 
 int
 create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,

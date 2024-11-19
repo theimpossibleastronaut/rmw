@@ -25,9 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "time_rmw.h"
 
-extern const char trashinfo_ext[];
-extern const int len_trashinfo_ext;
-
 /** Each waste directory is added to a linked list and has the data
  * from this structure associated with it.
  */
@@ -98,9 +95,6 @@ typedef struct
    */
   bool is_duplicate;
 } rmw_target;
-
-
-extern const char *lit_info;
 
 extern const struct trashinfo_template
 {
