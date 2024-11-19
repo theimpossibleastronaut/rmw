@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 const size_t LEN_MAX_TRASHINFO_PATH_LINE =
   sizeof "Path=" + LEN_MAX_ESCAPED_PATH - 1;
-const uint8_t LEN_DELETION_DATE_KEY_WITH_VALUE = 32;
 
 const struct trashinfo_template trashinfo_template =
   { "[Trash Info]", "Path=", "DeletionDate=" };
@@ -125,6 +124,7 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
 char *
 validate_and_get_value(const char *file, ti_key key)
 {
+  const uint8_t LEN_DELETION_DATE_KEY_WITH_VALUE = 32;
   struct
   {
     bool header_ok;
