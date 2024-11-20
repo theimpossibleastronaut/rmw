@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #include <sys/sysmacros.h> // for major() and minor()
 
 static const int DEFAULT_EXPIRE_AGE = 0;
-static const char *lit_files = "files";
 
 const char *expire_age_str = "expire_age";
 
@@ -243,7 +242,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   }
 
   /* and the files... */
-  waste_curr->files = join_paths(waste_curr->parent, lit_files);
+  waste_curr->files = join_paths(waste_curr->parent, "files");
   waste_curr->len_files = strlen(waste_curr->files);
 
   int p_state = check_pathname_state(waste_curr->files);

@@ -47,12 +47,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define VERSION "unversioned"
 #endif
 
-#ifndef PATH_MAX
-#define PATH_MAX 4096
-#endif
-
-#define LEN_MAX_ESCAPED_PATH (((PATH_MAX - 1) * 3) + 1)
+#define LEN_MAX_ESCAPED_PATH (PATH_MAX * 3)
 
 #define EBUF 11
 
+typedef enum
+{
+  TI_HEADER,
+  PATH_KEY,
+  DELETIONDATE_KEY,
+  TI_LINE_MAX
+} ti_key;
+
 extern int verbose;
+extern const char *lit_info;
+extern const char trashinfo_ext[];
+extern const int len_trashinfo_ext;

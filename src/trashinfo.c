@@ -18,37 +18,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <stdint.h>
+
 #include "trashinfo.h"
 #include "utils.h"
 #include "messages.h"
 
-#define TI_LINE_COUNT 3
+const size_t LEN_MAX_TRASHINFO_PATH_LINE =
+  sizeof "Path=" + LEN_MAX_ESCAPED_PATH - 1;
 
-enum
-{
-  TI_HEADER,
-  TI_PATH_LINE,
-  TI_DATE_LINE
-};
-
-static const char ti_header[] = "[Trash Info]";
-static const char ti_path[] = "Path=";
-static const char ti_date[] = "DeletionDate=";
-
-static const struct st__trashinfo st_trashinfo_template[] = {
-  {ti_header, sizeof ti_header - 1},
-  {ti_path, sizeof ti_path - 1},
-  {ti_date, sizeof ti_date - 1},
-};
-
-const char trashinfo_ext[] = ".trashinfo";
-const int len_trashinfo_ext = sizeof trashinfo_ext - 1; /* Subtract 1 for the terminating NULL */
-const int LEN_MAX_TRASHINFO_PATH_LINE =
-  (sizeof ti_path - 1) + LEN_MAX_ESCAPED_PATH;
-
-const char *lit_info = "info";
-const char *path_key = "Path";
-const char *deletion_date_key = "DeletionDate";
+const struct trashinfo_template trashinfo_template =
+  { "[Trash Info]", "Path=", "DeletionDate=" };
 
 
 int
@@ -105,13 +85,32 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
       }
     }
 
-    fprintf(fp, "%s\n", st_trashinfo_template[TI_HEADER].str);
-    fprintf(fp, "%s%s\n", st_trashinfo_template[TI_PATH_LINE].str,
-            escaped_path_ptr);
-    free(escaped_path);
-    fprintf(fp, "%s%s\n", st_trashinfo_template[TI_DATE_LINE].str,
-            st_time_var->deletion_date);
+    ssize_t want_size = strlen(trashinfo_template.header) + 1 +
+      strlen(trashinfo_template.path_key) +
+      strlen(escaped_path_ptr) + 1 +
+      strlen(trashinfo_template.deletion_date_key) +
+      strlen(st_time_var->deletion_date) + 1;
 
+    int n = fprintf(fp, "%s\n%s%s\n%s%s\n", trashinfo_template.header,
+                    trashinfo_template.path_key, escaped_path_ptr,
+                    trashinfo_template.deletion_date_key,
+                    st_time_var->deletion_date);
+
+    free(escaped_path);
+
+    if (n < 0)
+    {
+      print_msg_error();
+      fprintf(stderr, "fprintf() failed due to an error writing to %s\n",
+              final_info_dest);
+    }
+    else if (n != want_size)
+    {
+      print_msg_error();
+      fprintf(stderr,
+              "Expected to write %zu bytes, but wrote %d bytes to %s\n",
+              want_size, n, final_info_dest);
+    }
     return close_file(&fp, final_info_dest, __func__);
   }
   else
@@ -122,108 +121,96 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
 }
 
 
-/*
- * name: parse_trashinfo_file
- *
- * Checks the integrity of a trashinfo file and returns req_value for
- * either the Path or DeletionDate key
- *
- */
 char *
-parse_trashinfo_file(const char *file, const char *req_value)
+validate_and_get_value(const char *file, ti_key key)
 {
-  struct trashinfo_field trashinfo_field;
-  if (strcmp(req_value, path_key) != 0
-      && strcmp(req_value, deletion_date_key) != 0)
+  const uint8_t LEN_DELETION_DATE_KEY_WITH_VALUE = 32;
+  struct
   {
-    print_msg_error();
-    fprintf(stderr, "Required arg for %s can be either \"%s\" or \"%s\".",
-            __func__, path_key, deletion_date_key);
-    return NULL;
-  }
+    bool header_ok;
+    bool path_ok;
+    bool date_ok;
+  } ti_status = { false, false, false };
 
-  int line_no = 0;
   FILE *fp = fopen(file, "r");
   if (fp != NULL)
   {
-    trashinfo_field.value = NULL;
-    bool res = true;
+    char *key_value = NULL;
+    uint8_t line_n = 0;
+
     char fp_line[LEN_MAX_TRASHINFO_PATH_LINE];
     while (fgets(fp_line, LEN_MAX_TRASHINFO_PATH_LINE, fp) != NULL
-           && res == true)
+           && line_n < TI_LINE_MAX)
     {
       trim_whitespace(fp_line);
-
-      switch (line_no)
+      char *val_ptr;
+      switch (line_n)
       {
       case TI_HEADER:
-        res =
-          strncmp(fp_line, st_trashinfo_template[TI_HEADER].str,
-                  st_trashinfo_template[TI_HEADER].len) == 0;
+        ti_status.header_ok =
+          (strcmp(fp_line, trashinfo_template.header) == 0);
         break;
-      case TI_PATH_LINE:
-        res =
-          strncmp(fp_line, st_trashinfo_template[TI_PATH_LINE].str,
-                  st_trashinfo_template[TI_PATH_LINE].len) == 0;
-        if (res && strcmp(req_value, path_key) == 0)
+      case PATH_KEY:
+        ti_status.path_ok =
+          (strncmp
+           (fp_line, trashinfo_template.path_key,
+            strlen(trashinfo_template.path_key)) == 0);
+        if (ti_status.path_ok && key == PATH_KEY)
         {
-          trashinfo_field.f.path_ptr = strchr(fp_line, '=');
-          trashinfo_field.f.path_ptr++; /* move past the '=' sign */
-          char *unescaped_path = unescape_url(trashinfo_field.f.path_ptr);
-          trashinfo_field.value = unescaped_path;
+          val_ptr = strchr(fp_line, '=');
+          if (val_ptr)
+          {
+            val_ptr++;          /* move past the '=' sign */
+            char *unescaped_path = unescape_url(val_ptr);
+            if (!unescaped_path)
+              fatal_malloc();
+            key_value = unescaped_path;
+          }
         }
         break;
-      case TI_DATE_LINE:
-        res =
-          strncmp(fp_line, st_trashinfo_template[TI_DATE_LINE].str,
-                  st_trashinfo_template[TI_DATE_LINE].len) == 0
-          && strlen(fp_line) == 32;
-
-        if (res && strcmp(req_value, deletion_date_key) == 0)
+      case DELETIONDATE_KEY:
+        ti_status.date_ok =
+          (strncmp(fp_line, trashinfo_template.deletion_date_key,
+                   strlen(trashinfo_template.deletion_date_key)) == 0)
+          && strlen(fp_line) == LEN_DELETION_DATE_KEY_WITH_VALUE;
+        if (ti_status.date_ok && key == DELETIONDATE_KEY)
         {
-          trashinfo_field.f.date_str_ptr = strchr(fp_line, '=');
-          trashinfo_field.f.date_str_ptr++;
-          trashinfo_field.value = strdup(trashinfo_field.f.date_str_ptr);
-          if (!trashinfo_field.value)
-            fatal_malloc();
+          val_ptr = strchr(fp_line, '=');
+          if (val_ptr)
+          {
+            val_ptr++;
+            key_value = strdup(val_ptr);
+            if (!key_value)
+              fatal_malloc();
+          }
         }
-        break;
-      default:
-        res = false;
         break;
       }
-      line_no++;
+      line_n++;
     }
     close_file(&fp, file, __func__);
 
-    if (res && line_no == TI_LINE_COUNT)
-      return trashinfo_field.value;
+    if (ti_status.header_ok && ti_status.path_ok && ti_status.date_ok
+        && key_value)
+      return key_value;
 
-    if (trashinfo_field.value != NULL)
-      free(trashinfo_field.value);
+    if (key_value != NULL)
+      free(key_value);
     display_dot_trashinfo_error(file);
     return NULL;
   }
-  else
-  {
-    open_err(file, __func__);
-    return NULL;
-  }
+  open_err(file, __func__);
+  return NULL;
 }
 
-///////////////////////////////////////////////////////////////////////
-#ifdef TEST_LIB
-
-#include "test.h"
-
-int
-main()
-{
-  assert(strcmp(st_trashinfo_template[TI_HEADER].str, "[Trash Info]") == 0);
-  assert(strcmp(st_trashinfo_template[TI_PATH_LINE].str, "Path=") == 0);
-  assert(strcmp(st_trashinfo_template[TI_DATE_LINE].str, "DeletionDate=") ==
-         0);
-
-  return 0;
-}
-#endif
+//const char *ti_key_to_string(ti_key key)
+//{
+    //switch (key)
+    //{
+        //case TI_HEADER: return "TI_HEADER";
+        //case PATH_KEY: return "PATH_KEY";
+        //case DELETIONDATE_KEY: return "DELETIONDATE_KEY";
+        //case TI_LINE_MAX: return "TI_LINE_MAX";
+        //default: return "UNKNOWN_KEY";
+    //}
+//}

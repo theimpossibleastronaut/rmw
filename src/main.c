@@ -680,7 +680,7 @@ main(const int argc, char *const argv[])
   parse_cli_options(argc, argv, &cli_user_options);
 
   if (verbose > 1)
-    printf("PATH_MAX = %d\n", PATH_MAX - 1);
+    printf("PATH_MAX = %d\n", PATH_MAX);
 
   if (verbose > 0)
 #ifdef HAVE_LINUX_BTRFS

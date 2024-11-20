@@ -25,13 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "time_rmw.h"
 
-extern const char trashinfo_ext[];
-extern const int len_trashinfo_ext;
-
-extern const int TI_LINE_COUNT;
-
-extern const int LEN_MAX_TRASHINFO_PATH_LINE;
-
 /** Each waste directory is added to a linked list and has the data
  * from this structure associated with it.
  */
@@ -103,30 +96,16 @@ typedef struct
   bool is_duplicate;
 } rmw_target;
 
-
-extern const char *lit_info;
-extern const char *path_key;
-extern const char *deletion_date_key;
-
-struct st__trashinfo
+extern const struct trashinfo_template
 {
-  const char *str;
-  const unsigned short int len;
-};
+  const char *header;
+  const char *path_key;
+  const char *deletion_date_key;
+} trashinfo_template;
 
-
-struct trashinfo_field
-{
-  char *value;
-  union
-  {
-    char *path_ptr;
-    char *date_str_ptr;
-  } f;
-};
 
 int
 create_trashinfo(rmw_target * st_f_props, st_waste * waste_curr,
                  st_time * st_time_var);
 
-char *parse_trashinfo_file(const char *file, const char *req_value);
+char *validate_and_get_value(const char *file, ti_key key);
