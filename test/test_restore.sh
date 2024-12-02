@@ -12,79 +12,79 @@ else
   . "${MESON_SOURCE_ROOT}/test/COMMON"
 fi
 
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo "Initialize"
 $RMW_TEST_CMD_STRING
 
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo "If the mrl file doesn't exist yet..."
 cmp_substr "$($RMW_TEST_CMD_STRING -u)" \
   "no items in the list"
 
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo " Creating some files for testing..."
-cd ${RMW_FAKE_HOME}
+cd "${RMW_FAKE_HOME}"
 create_some_files
 
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo "Try to restore files that aren't in a Waste/files folder"
-cmp_substr "$($RMW_TEST_CMD_STRING -z ${RMW_FAKE_HOME}/somefiles/* 2>&1 && exit 1)" \
+cmp_substr "$($RMW_TEST_CMD_STRING -z "${RMW_FAKE_HOME}"/somefiles/* 2>&1 && exit 1)" \
   "not in a Waste directory"
 
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo "ReMove files and then restore them by using -u"
-$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/somefiles/*
-echo $SEPARATOR
+$RMW_TEST_CMD_STRING "${RMW_FAKE_HOME}"/somefiles/*
+echo "$SEPARATOR"
 output=$($RMW_TEST_CMD_STRING -uvv | grep Waste)
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo "OUTPUT:"
 echo "---"
 echo "$output"
 echo "---"
-test "$output" = "+'${RMW_FAKE_HOME}/.Waste/files/read_only_file' -> '${RMW_FAKE_HOME}/somefiles/read_only_file'
--${RMW_FAKE_HOME}/.Waste/info/read_only_file.trashinfo
-+'${RMW_FAKE_HOME}/.Waste/files/topdir' -> '${RMW_FAKE_HOME}/somefiles/topdir'
--${RMW_FAKE_HOME}/.Waste/info/topdir.trashinfo"
+test "$output" = "+'"${RMW_FAKE_HOME}"/.Waste/files/read_only_file' -> '"${RMW_FAKE_HOME}"/somefiles/read_only_file'
+-"${RMW_FAKE_HOME}"/.Waste/info/read_only_file.trashinfo
++'"${RMW_FAKE_HOME}"/.Waste/files/topdir' -> '"${RMW_FAKE_HOME}"/somefiles/topdir'
+-"${RMW_FAKE_HOME}"/.Waste/info/topdir.trashinfo"
 
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo "Show result when no undo file exists..."
 output=$(${RMW_TEST_CMD_STRING} -u || true)
 test "${output}" = "There are no items in the list - please check back later."
 
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo "restore using wildcard pattern, but be in the trash directory"
-$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/somefiles/topdir -v
-cd $PRIMARY_WASTE_DIR/files
+$RMW_TEST_CMD_STRING "${RMW_FAKE_HOME}"/somefiles/topdir -v
+cd "$PRIMARY_WASTE_DIR"/files
 $RMW_TEST_CMD_STRING -z topd*
-test -e "${RMW_FAKE_HOME}/somefiles/topdir"
+test -e "${RMW_FAKE_HOME}"/somefiles/topdir
 
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo "Try restoring a file that doesn't exist"
 $RMW_TEST_CMD_STRING -z nonexistent_fil* && exit 1
 
 # This test is inaccurate when run with superuser privileges.
 
-#echo $SEPARATOR
+#echo "$SEPARATOR"
 #echo "What happens when trying to ReMove file inside dir with no write permissions..."
-#mkdir ${RMW_FAKE_HOME}/no_write_perms
-#touch ${RMW_FAKE_HOME}/no_write_perms/test.tmp
-#chmod -R -w ${RMW_FAKE_HOME}/no_write_perms
-#$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/no_write_perms
+#mkdir "${RMW_FAKE_HOME}"/no_write_perms
+#touch "${RMW_FAKE_HOME}"/no_write_perms/test.tmp
+#chmod -R -w "${RMW_FAKE_HOME}"/no_write_perms
+#$RMW_TEST_CMD_STRING "${RMW_FAKE_HOME}"/no_write_perms
 #test_result_want_fail $?
 
-echo $SEPARATOR
+echo "$SEPARATOR"
 echo "Symlinks"
-ln -s ${RMW_FAKE_HOME} ${RMW_FAKE_HOME}/link_test
+ln -s ${RMW_FAKE_HOME} "${RMW_FAKE_HOME}"/link_test
 # broken link
-ln -s broken_symlink_test ${RMW_FAKE_HOME}/link_test2
-$RMW_TEST_CMD_STRING ${RMW_FAKE_HOME}/link_test ${RMW_FAKE_HOME}/link_test2
+ln -s broken_symlink_test "${RMW_FAKE_HOME}"/link_test2
+$RMW_TEST_CMD_STRING "${RMW_FAKE_HOME}"/link_test "${RMW_FAKE_HOME}"/link_test2
 test -h "${PRIMARY_WASTE_DIR}/files/link_test"
 
 ${RMW_TEST_CMD_STRING} -u
-test -h "${RMW_FAKE_HOME}/link_test2"
+test -h "${RMW_FAKE_HOME}"/link_test2
 
 # test using relative path and dotfiles
-cd ${RMW_FAKE_HOME}
+cd "${RMW_FAKE_HOME}"
 mkdir tmpfoo
 for t in "foo" "bar" ".boo" ".far"; do
   touch tmpfoo/$t
@@ -92,7 +92,7 @@ for t in "foo" "bar" ".boo" ".far"; do
   cat ${PRIMARY_WASTE_DIR}/info/$t.trashinfo
   cd ${PRIMARY_WASTE_DIR}
   ${RMW_TEST_CMD_STRING} -z files/$t
-  cd ${RMW_FAKE_HOME}
+  cd "${RMW_FAKE_HOME}"
   test -f tmpfoo/$t
 done
 
