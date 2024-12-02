@@ -71,7 +71,7 @@ fi
 cd "$OUT_DIR"
 
 # Set LinuxDeploy output version
-LINUXDEPLOY_OUTPUT_VERSION="$VERSION"
+export LINUXDEPLOY_OUTPUT_VERSION="$VERSION"
 # Generate AppImage using linuxdeploy
 linuxdeploy \
   --appdir="$APPDIR" \
