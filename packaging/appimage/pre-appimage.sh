@@ -7,6 +7,7 @@ set -ev
 
 # Set default workspace if not provided
 WORKSPACE=${WORKSPACE:-$(pwd)}
+echo $WORKSPACE
 # Check if the workspace path is absolute
 if [[ "$WORKSPACE" != /* ]]; then
   echo "The workspace path must be absolute"
