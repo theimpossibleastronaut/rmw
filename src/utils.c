@@ -495,6 +495,98 @@ count_chars(const char c, const char *str)
 }
 
 
+static long
+get_pathconf_limit(const char *path, int name, long fallback,
+                   const char *limit_name)
+{
+  if (!path)
+  {
+    fprintf(stderr, "Error: Path is NULL.\n");
+    return -1;
+  }
+
+  const char *actual_path =
+#ifdef TEST_LIB
+    "/"
+#else
+    path
+#endif
+    ;
+
+  long limit = pathconf(actual_path, name);
+  if (limit == -1)
+  {
+    if (errno == 0)
+      limit = fallback;         // Use fallback if no limit is defined
+    else
+    {
+      fprintf(stderr, "Error querying %s: ", limit_name);
+      perror("pathconf");
+      return -1;
+    }
+  }
+
+  return limit;
+}
+
+
+long
+get_name_max(const char *path)
+{
+  return get_pathconf_limit(path, _PC_NAME_MAX, NAME_MAX, "NAME_MAX");
+}
+
+
+long
+get_path_max(const char *path)
+{
+  return get_pathconf_limit(path, _PC_PATH_MAX, PATH_MAX, "PATH_MAX");
+}
+
+int
+validate_path(const char *path)
+{
+  if (!path)
+  {
+    fprintf(stderr, "Error: Path is NULL.\n");
+    return -1;                  // Invalid input
+  }
+
+  long path_max = get_path_max(path);
+  long name_max = get_name_max(path);
+  size_t path_len = strlen(path);
+  if (path_len > (size_t) path_max)
+  {
+    fprintf(stderr, "Error: Path length (%zu) exceeds PATH_MAX (%ld).\n",
+            path_len, path_max);
+    return -1;
+  }
+
+  // Check individual component lengths
+  const char *start = path;
+  while (*start)
+  {
+    const char *end = strchr(start, '/');
+    size_t component_len = end ? (size_t) (end - start) : strlen(start);
+
+    if (component_len > (size_t) name_max)
+    {
+      fprintf(stderr,
+              "Error: Path component '%.*s' exceeds NAME_MAX (%ld).\n",
+              (int) component_len, start, name_max);
+      return -1;
+    }
+
+    if (!end)
+      break;
+
+    start = end + 1;
+  }
+
+  return 0;
+}
+
+
 ///////////////////////////////////////////////////////////////////////
 #ifdef TEST_LIB
 
@@ -723,6 +815,15 @@ test_count_chars(void)
   return;
 }
 
+void
+test_validate_path(void)
+{
+  assert(validate_path
+         ("/dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd/foo")
+         != 0);
+  return;
+}
+
 
 int
 main()
@@ -756,6 +857,8 @@ main()
   free(escaped_path);
 
   test_count_chars();
+
+  test_validate_path();
   return 0;
 }
 #endif

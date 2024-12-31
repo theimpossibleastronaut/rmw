@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 typedef struct st_waste st_waste;
 struct st_waste
 {
+  long path_max;
+  long name_max;
   /** The parent directory, e.g. $HOME/.local/share/Trash */
   char *parent;
 

@@ -64,4 +64,10 @@ bool is_dir_f(const char *pathname);
 
 int count_chars(const char c, const char *str);
 
+long get_path_max(const char *path);
+
+long get_name_max(const char *path);
+
+int validate_path(const char *path);
+
 #endif

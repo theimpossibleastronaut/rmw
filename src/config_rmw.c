@@ -275,6 +275,15 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   else if (p_state == -1)
     exit(p_state);
 
+  waste_curr->path_max =
+    (waste_curr->removable == false) ? get_path_max(waste_curr->parent) : 0;
+  waste_curr->name_max =
+    (waste_curr->removable == false) ? get_name_max(waste_curr->parent) : 0;
+
+  //if (verbose)
+    //printf("path_max: %ld; name_max %ld", waste_curr->path_max,
+           //waste_curr->name_max);
+
   waste_curr->is_btrfs = is_btrfs(waste_curr->parent);
 
   // get device number to use later for rename
