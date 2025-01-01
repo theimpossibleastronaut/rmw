@@ -160,6 +160,58 @@ realize_str(char *str, const char *homedir, const char *uid)
   return 0;
 }
 
+static long
+get_single_pathconf_limit(const char *path, int name, long fallback,
+                          const char *limit_name)
+{
+  if (!path)
+  {
+    fprintf(stderr, "Error: Path is NULL.\n");
+    return -1;
+  }
+
+  long limit = pathconf(path, name);
+  if (limit == -1)
+  {
+    if (errno == 0)
+      limit = fallback;         // Use fallback if no limit is defined
+    else
+    {
+      fprintf(stderr, "Error querying %s: ", limit_name);
+      perror("pathconf");
+      return -1;
+    }
+  }
+
+  return limit;
+}
+
+
+static long
+get_name_max(const char *path)
+{
+  return get_single_pathconf_limit(path, _PC_NAME_MAX, NAME_MAX, "NAME_MAX");
+}
+
+
+static long
+get_path_max(const char *path)
+{
+  return get_single_pathconf_limit(path, _PC_PATH_MAX, PATH_MAX, "PATH_MAX");
+}
+
+
+static int
+get_pathconf_limits(const char *path, struct pathconf_limits *pathconf_limits)
+{
+  if ((pathconf_limits->path_max = get_path_max(path)) == -1)
+    return -1;
+  if ((pathconf_limits->name_max = get_name_max(path)) == -1)
+    return -1;
+
+  return 0;
+}
+
 
 /*!
  * This function is called when the "WASTE" option is encountered in the
@@ -275,14 +327,21 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   else if (p_state == -1)
     exit(p_state);
 
-  waste_curr->path_max =
-    (waste_curr->removable == false) ? get_path_max(waste_curr->parent) : 0;
-  waste_curr->name_max =
-    (waste_curr->removable == false) ? get_name_max(waste_curr->parent) : 0;
+  if (!waste_curr->removable)
+  {
+    if (get_pathconf_limits(waste_curr->parent, &waste_curr->pathconf_limits)
+        == -1)
+      exit(EXIT_FAILURE);
+  }
+  else
+  {
+    waste_curr->pathconf_limits.path_max = 0;
+    waste_curr->pathconf_limits.name_max = 0;
+  }
 
   //if (verbose)
-    //printf("path_max: %ld; name_max %ld", waste_curr->path_max,
-           //waste_curr->name_max);
+  //printf("path_max: %ld; name_max %ld", waste_curr->pathconf_limits.path_max,
+  //waste_curr->pathconf_limits.name_max);
 
   waste_curr->is_btrfs = is_btrfs(waste_curr->parent);
 
@@ -468,3 +527,69 @@ show_folder_line(const char *folder, const bool is_r, const bool is_attached)
 
   putchar('\n');
 }
+
+
+int
+validate_path(const char *path, struct pathconf_limits *pathconf_limits)
+{
+  if (!path)
+  {
+    fprintf(stderr, "Error: Path is NULL.\n");
+    return -1;                  // Invalid input
+  }
+
+  size_t path_len = strlen(path);
+  if (path_len > (size_t) pathconf_limits->path_max)
+  {
+    fprintf(stderr, "Error: Path length (%zu) exceeds PATH_MAX (%ld).\n",
+            path_len, pathconf_limits->path_max);
+    return -1;
+  }
+
+  // Check individual component lengths
+  const char *start = path;
+  while (*start)
+  {
+    const char *end = strchr(start, '/');
+    size_t component_len = end ? (size_t) (end - start) : strlen(start);
+
+    if (component_len > (size_t) pathconf_limits->name_max)
+    {
+      fprintf(stderr,
+              "Error: Path component '%.*s' exceeds NAME_MAX (%ld).\n",
+              (int) component_len, start, pathconf_limits->name_max);
+      return -1;
+    }
+
+    if (!end)
+      break;
+
+    start = end + 1;
+  }
+
+  return 0;
+}
+
+///////////////////////////////////////////////////////////////////////
+#ifdef TEST_LIB
+
+#include "test.h"
+
+void
+test_validate_path(void)
+{
+  struct pathconf_limits pathconf_limits;
+  get_pathconf_limits("/", &pathconf_limits);
+  assert(validate_path
+         ("/dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd/foo",
+          &pathconf_limits) != 0);
+  return;
+}
+
+int
+main(void)
+{
+  test_validate_path();
+}
+
+#endif

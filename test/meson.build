@@ -9,7 +9,7 @@ if faketime.found()
     )
 endif
 
-test_cases = ['strings_rmw', 'utils', 'restore']
+test_cases = ['config_rmw', 'strings_rmw', 'utils', 'restore']
 
 scripts = [
     'test_basic.sh',

@@ -25,14 +25,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "time_rmw.h"
 
+struct pathconf_limits
+{
+  long path_max;
+  long name_max;
+};
+
 /** Each waste directory is added to a linked list and has the data
  * from this structure associated with it.
  */
 typedef struct st_waste st_waste;
 struct st_waste
 {
-  long path_max;
-  long name_max;
+  struct pathconf_limits pathconf_limits;
+
   /** The parent directory, e.g. $HOME/.local/share/Trash */
   char *parent;
 
