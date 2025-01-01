@@ -327,17 +327,11 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   else if (p_state == -1)
     exit(p_state);
 
-  if (!waste_curr->removable)
-  {
-    if (get_pathconf_limits(waste_curr->parent, &waste_curr->pathconf_limits)
-        == -1)
-      exit(EXIT_FAILURE);
-  }
-  else
-  {
-    waste_curr->pathconf_limits.path_max = 0;
-    waste_curr->pathconf_limits.name_max = 0;
-  }
+  struct pathconf_limits temp = { 0, 0 };
+  waste_curr->pathconf_limits = temp;
+  if (get_pathconf_limits(waste_curr->parent, &waste_curr->pathconf_limits)
+      == -1)
+    exit(EXIT_FAILURE);
 
   //if (verbose)
   //printf("path_max: %ld; name_max %ld", waste_curr->pathconf_limits.path_max,
@@ -539,10 +533,10 @@ validate_path(const char *path, struct pathconf_limits *pathconf_limits)
   }
 
   size_t path_len = strlen(path);
-  if (path_len > (size_t) pathconf_limits->path_max)
+  if (path_len > (size_t) pathconf_limits->path_max - 1)
   {
-    fprintf(stderr, "Error: Path length (%zu) exceeds PATH_MAX (%ld).\n",
-            path_len, pathconf_limits->path_max);
+    fprintf(stderr, "Error: Path length (%zu) exceeds PATH_MAX-1 (%ld).\n",
+            path_len, pathconf_limits->path_max - 1);
     return -1;
   }
 
@@ -556,8 +550,8 @@ validate_path(const char *path, struct pathconf_limits *pathconf_limits)
     if (component_len > (size_t) pathconf_limits->name_max)
     {
       fprintf(stderr,
-              "Error: Path component '%.*s' exceeds NAME_MAX (%ld).\n",
-              (int) component_len, start, pathconf_limits->name_max);
+              "Error: Path component '%.*s' exceeds NAME_MAX-1 (%ld).\n",
+              (int) component_len, start, pathconf_limits->name_max - 1);
       return -1;
     }
 
@@ -579,10 +573,59 @@ void
 test_validate_path(void)
 {
   struct pathconf_limits pathconf_limits;
-  get_pathconf_limits("/", &pathconf_limits);
+  long ret = get_pathconf_limits("/", &pathconf_limits);
+  assert(ret != -1);
+
+// This should be true on most systems, and if it's ever false, the test
+// needs to be changed.
+  assert(pathconf_limits.path_max >= 128 && pathconf_limits.name_max >= 128);
+  assert(pathconf_limits.path_max <= 4096
+         && pathconf_limits.name_max <= 4096);
   assert(validate_path
          ("/dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd/foo",
           &pathconf_limits) != 0);
+
+  long i, k;
+  long separators = pathconf_limits.path_max / pathconf_limits.name_max;
+  char tmp[pathconf_limits.path_max + separators + 1];
+  fprintf(stderr, "sizeof tmp: %ld\n", sizeof(tmp));
+
+  memset(tmp, 0, sizeof(tmp));
+  char *ptr = tmp;
+  for (k = 0; k < separators; k++)
+  {
+    *ptr++ = '/';
+    for (i = 0; i < pathconf_limits.name_max; i++)
+      *ptr++ = 'a';
+  }
+  ptr--;
+  *ptr = '\0';
+  fprintf(stderr, "tmp: %ld\n", strlen(tmp));
+  assert(validate_path(tmp, &pathconf_limits) == 0);
+
+  // Exceed path_max
+  *ptr++ = 'a';
+  *ptr = '\0';
+  fprintf(stderr, "tmp: %ld\n", strlen(tmp));
+  assert(validate_path(tmp, &pathconf_limits) == -1);
+
+  // Exceed name_max
+  memset(tmp, 0, sizeof(tmp));
+  ptr = tmp;
+  for (k = 0; k < separators; k++)
+  {
+    *ptr++ = '/';
+    for (i = 0; i < pathconf_limits.name_max - 2; i++)
+      *ptr++ = 'a';
+  }
+
+  for (k = 0; k < 5; k++)
+    *ptr++ = 'a';
+  *ptr = '\0';
+
+  fprintf(stderr, "tmp: %ld\n", strlen(tmp));
+  assert(validate_path(tmp, &pathconf_limits) != 0);
+
   return;
 }
 
