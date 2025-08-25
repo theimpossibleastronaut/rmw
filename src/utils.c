@@ -756,6 +756,7 @@ main()
   free(escaped_path);
 
   test_count_chars();
+
   return 0;
 }
 #endif
