@@ -63,12 +63,12 @@ test "$output" = "6"
 
 echo "$SEPARATOR"
 echo "  == rmw should refuse to move a waste folder or a file that resides within a waste folder"
-output="$($RMW_TEST_CMD_STRING "$PRIMARY_WASTE_DIR"/info)"
+output="$($RMW_TEST_CMD_STRING "$PRIMARY_WASTE_DIR"/info || true)"
 test "${output}" = " :warning: "$PRIMARY_WASTE_DIR"/info resides within a waste folder and has been ignored
 0 items were removed to the waste folder"
 
 # If the file gets removed (which it shouldn't), then the test that follows it will fail
-$RMW_TEST_CMD_STRING "$PRIMARY_WASTE_DIR"/info/1.trashinfo
+$RMW_TEST_CMD_STRING "$PRIMARY_WASTE_DIR"/info/1.trashinfo || true
 
 echo "\n\n == Display contents of 1.trashinfo "
 cat "$PRIMARY_WASTE_DIR"/info/1.trashinfo
