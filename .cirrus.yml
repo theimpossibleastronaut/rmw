@@ -20,9 +20,9 @@ common_freebsd_steps: &common_freebsd_steps
 
 freebsd_task:
   <<: *filter_template
-  name: freebsd-14-2
+  name: freebsd-14-3
   freebsd_instance:
-    image_family: freebsd-14-2
+    image_family: freebsd-14-3
   <<: *common_freebsd_steps
   setup_script:
     - meson setup builddir
