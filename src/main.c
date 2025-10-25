@@ -367,6 +367,8 @@ damage of 5000 hp. You feel satisfied.\n"));
         printf(_("%s resides within a waste folder and has been ignored\n"),
                argv[file_arg]);
         is_protected = 1;
+        if (getenv("RMW_FAKE_HOME"))
+          n_err++;
         break;
       }
       waste_curr = waste_curr->next_node;
@@ -410,7 +412,7 @@ damage of 5000 hp. You feel satisfied.\n"));
         int r_result = 0;
         if (cli_user_options->want_dry_run == false)
         {
-          if (waste_curr->dev_num != st_target.dev_num)
+          if ((waste_curr->dev_num != st_target.dev_num) && !S_ISDIR(st_file_arg.st_mode))
           {
             int save_errno = errno;
             r_result =
@@ -805,7 +807,7 @@ Please check your configuration file and permissions\
                                  st_location,
                                  &cli_user_options);
 
-    if (result > 1)
+    if (result)
     {
       dispose_waste(st_config_data.st_waste_folder_props_head);
       /* Don't need to print any messages here. Any warnings or errors

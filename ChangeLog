@@ -1,5 +1,8 @@
 === rmw ChangeLog ===
 
+2025-10-20
+  * (bugfix) Allow rmw to move directories to waste folder on btrfs filesystems
+
 2024-11-07
 
   * Update ChangeLog to note btrfs cloning is supported only on Linux
