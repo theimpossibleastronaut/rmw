@@ -42,7 +42,7 @@ jobs:
         xz "$REL_TAR"
         sha256sum "$REL_TAR.xz" > "$REL_TAR.xz.sha256sum"
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: rmw_dist_archive
         path: ${{ github.workspace }}/builddir/meson-dist/*
@@ -89,7 +89,7 @@ jobs:
           sha256sum "$IMAGE_FILENAME" > "$IMAGE_FILENAME.sha256sum"
 
       - name: Upload AppImage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ env.IMAGE_FILENAME }}
           path: ./out/*
@@ -125,7 +125,7 @@ jobs:
         sha256sum "$DEB_FILENAME" > "../$DEB_FILENAME.sha256sum"
 
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: ${{ env.DEB_FILENAME }}
         path: |
