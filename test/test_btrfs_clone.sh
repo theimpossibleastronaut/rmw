@@ -41,9 +41,12 @@ if [ -d "$TEST_DIR" ]; then
 fi
 
 mkdir "$TEST_DIR"
+touch "$TEST_DIR/bar"
 $RMW_TEST_CMD_STRING "$TEST_DIR"
+test ! -d "$TEST_DIR"
 
 $RMW_TEST_CMD_STRING -u
+test -d "$TEST_DIR"
 
 touch foo
 $RMW_TEST_CMD_STRING foo
