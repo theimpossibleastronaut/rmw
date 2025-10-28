@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://theimpossibleastronaut.github.io/rmw-website/>
 
-Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
+Copyright (C) 2012-2025  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -262,7 +262,6 @@ list_waste_folders(st_waste *waste_head)
   return;
 }
 
-
 static int
 remove_to_waste(const int argc,
                 char *const argv[],
@@ -412,12 +411,26 @@ damage of 5000 hp. You feel satisfied.\n"));
         int r_result = 0;
         if (cli_user_options->want_dry_run == false)
         {
-          if ((waste_curr->dev_num != st_target.dev_num) && !S_ISDIR(st_file_arg.st_mode))
+          int save_errno = errno;
+          const char *src = argv[file_arg];
+          const char *dst = st_target.waste_dest_name;
+
+          if (waste_curr->dev_num != st_target.dev_num)
           {
-            int save_errno = errno;
-            r_result =
-              do_btrfs_clone(argv[file_arg], st_target.waste_dest_name,
-                             &save_errno);
+            /* cross-device: different device numbers */
+            if (!S_ISDIR(st_file_arg.st_mode))
+            {
+              /* attempt btrfs clone if not a directory */
+              r_result = do_btrfs_clone(src, dst, &save_errno);
+              errno = save_errno;
+            }
+            else
+            {
+              /* directory on different device: call /bin/mv safely */
+              r_result = safe_mv_via_exec(src, dst, &save_errno);
+              errno = save_errno;
+            }
+
             if (r_result != 0)
             {
               if (save_errno == EXDEV)
@@ -426,12 +439,16 @@ damage of 5000 hp. You feel satisfied.\n"));
                 continue;
               }
               else
+              {
                 exit(EXIT_FAILURE);
+              }
             }
           }
           else
           {
-            r_result = rename(argv[file_arg], st_target.waste_dest_name);
+            /* same device: simple rename */
+            r_result = rename(src, dst);
+            /* rename sets errno on failure */
           }
         }
 

@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://theimpossibleastronaut.github.io/rmw-website/>
 
-Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
+Copyright (C) 2012-2025  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
+
+#include <sys/wait.h>
 
 #include "globals.h"
 #endif
@@ -492,6 +494,67 @@ count_chars(const char c, const char *str)
       n++;
   }
   return n;
+}
+
+
+/* returns 0 on success, non-zero on failure.
+   On error sets *out_errno when out_errno != NULL. */
+int
+safe_mv_via_exec(const char *src, const char *dst, int *out_errno)
+{
+  pid_t pid;
+  int status;
+  int saved_errno = 0;
+
+  pid = fork();
+  if (pid < 0)
+  {
+    saved_errno = errno;
+    if (out_errno)
+      *out_errno = saved_errno;
+    return -1;
+  }
+
+  if (pid == 0)
+  {
+    /* child: exec /bin/mv directly (argv[0] is "mv") */
+    char *const argv_mv[] = { "mv", (char *) src, (char *) dst, NULL };
+    execv("/bin/mv", argv_mv);
+    /* if execv fails, set errno and exit with a distinct code */
+    _exit(127);
+  }
+
+  /* parent: wait for child */
+  if (waitpid(pid, &status, 0) < 0)
+  {
+    saved_errno = errno;
+    if (out_errno)
+      *out_errno = saved_errno;
+    return -1;
+  }
+
+  if (WIFEXITED(status))
+  {
+    int code = WEXITSTATUS(status);
+    if (code == 0)
+    {
+      if (out_errno)
+        *out_errno = 0;
+      return 0;
+    }
+    /* child program returned nonzero. we cannot see its errno.
+       map common mv exit codes to errno conservatively. */
+    saved_errno = EIO;
+    if (out_errno)
+      *out_errno = saved_errno;
+    return code;
+  }
+
+  /* child was terminated by signal */
+  saved_errno = EINTR;
+  if (out_errno)
+    *out_errno = saved_errno;
+  return -1;
 }
 
 

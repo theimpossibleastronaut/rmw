@@ -1,5 +1,4 @@
 #waste = /tmp/rmw-loop/.Trash-$UID
-waste = /tmp/rmw-loop/three/Waste
 waste = /tmp/rmw-loop/@two/Waste
 waste = /tmp/rmw-loop/trashlink
 WASTE = $HOME/.local/share/Waste
