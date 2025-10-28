@@ -28,20 +28,22 @@ fi
 cd "$BTRFS_IMAGE_MOUNTPOINT"
 RMW_TEST_CMD_STRING="$BIN_DIR/rmw -c ${MESON_SOURCE_ROOT}/test/conf/btrfs_img.testrc"
 
-SUBVOLUME_USED="/tmp/rmw-loop/three"
+SUBVOLUME_USED="/tmp/rmw-loop/@two"
 
 WASTE_USED="$SUBVOLUME_USED/Waste"
 if [ -d "$WASTE_USED" ]; then
   rm -rf "$WASTE_USED"
 fi
 
-TEST_DIR="$SUBVOLUME_USED/test_dir"
+TEST_DIR="$BTRFS_IMAGE_MOUNTPOINT/test_dir"
 if [ -d "$TEST_DIR" ]; then
   rm -rf "$TEST_DIR"
 fi
 
 mkdir "$TEST_DIR"
-$RMW_TEST_CMD_STRING -v "$TEST_DIR"
+$RMW_TEST_CMD_STRING "$TEST_DIR"
+
+$RMW_TEST_CMD_STRING -u
 
 touch foo
 $RMW_TEST_CMD_STRING foo

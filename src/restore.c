@@ -1,7 +1,7 @@
 /*
 This file is part of rmw<https://theimpossibleastronaut.github.io/rmw-website/>
 
-Copyright (C) 2012-2023  Andy Alt (arch_stanton5995@proton.me)
+Copyright (C) 2012-2025  Andy Alt (arch_stanton5995@proton.me)
 Other authors: https://github.com/theimpossibleastronaut/rmw/blob/master/AUTHORS.md
 
 This program is free software: you can redistribute it and/or modify
@@ -61,6 +61,67 @@ get_waste_parent(char *waste_parent, const char *src)
   free(tmp);
 
   return;
+}
+
+static int
+move_back(const char *src, const char *dest, bool want_dry_run)
+{
+  int rename_res = 0;
+  int save_errno = 0;
+  int clone_errno = 0;
+
+  if (want_dry_run)
+    return 0;
+
+  rename_res = rename(src, dest);
+  if (rename_res == 0)
+    return 0;                   /* success */
+
+  /* rename failed; preserve errno immediately */
+  save_errno = errno;
+
+  struct stat st_src;
+
+  /* rename already failed and save_errno == errno from rename() */
+  if (save_errno == EXDEV)
+  {
+    /* get file type without following symlinks */
+    if (lstat(src, &st_src) != 0)
+    {
+      /* cannot stat. restore rename's errno and fail */
+      errno = save_errno;
+      return -1;
+    }
+
+    if (S_ISDIR(st_src.st_mode))
+    {
+      /* directory on different device -> execv mv */
+      int mv_ret = safe_mv_via_exec(src, dest, &clone_errno);
+      if (mv_ret == 0)
+      {
+        errno = 0;
+        return 0;
+      }
+      errno = clone_errno ? clone_errno : save_errno;
+      return -1;
+    }
+    else
+    {
+      /* regular file on different device -> try btrfs clone */
+      int clone_res = do_btrfs_clone(src, dest, &clone_errno);
+      if (clone_res == 0)
+      {
+        errno = 0;
+        return 0;
+      }
+      errno = clone_errno ? clone_errno : save_errno;
+      return -1;
+    }
+  }
+
+  /* other rename error */
+  errno = save_errno;
+  return -1;
 }
 
 
@@ -171,16 +232,10 @@ Duplicate filename at destination - appending time string...\n"));
         return p_state_parent;
     }
 
-    int rename_res = 0;
-    int save_errno = errno;
-    if (cli_user_options->want_dry_run == false)
-    {
-      rename_res = rename(src, dest);
-      if (errno == EXDEV)
-        rename_res = do_btrfs_clone(src, dest, &save_errno);
-    }
+    int res = move_back(src, dest, cli_user_options->want_dry_run);
 
-    if (!rename_res)
+
+    if (!res)
     {
       printf("+'%s' -> '%s'\n", src, dest);
 
@@ -199,7 +254,7 @@ Duplicate filename at destination - appending time string...\n"));
     else
     {
       msg_err_rename(src, dest);
-      return rename_res;
+      return res;
     }
   }
   else
