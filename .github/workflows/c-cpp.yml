@@ -37,7 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         name: [default]
-        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
         cc: [gcc, clang]
         include:
         - name: Slackware
