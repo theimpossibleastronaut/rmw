@@ -79,7 +79,7 @@ jobs:
             -e VERSION \
             -v $GITHUB_WORKSPACE:/workspace \
             -w /workspace \
-            andy5995/linuxdeploy:latest packaging/appimage/pre-appimage.sh
+            andy5995/linuxdeploy:v3-jammy packaging/appimage/pre-appimage.sh
 
       - name: Create sha256sum
         run: |
