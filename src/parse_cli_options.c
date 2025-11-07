@@ -186,12 +186,12 @@ version(void)
 {
   printf(_("\
 rmw %s\n\
-Author: Andy Alt (arch_stanton5995@proton.me)\n\
+Author: Andy Alt (%s)\n\
 The RMW team: see AUTHORS file\n\
 This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n\
 This is free software, and you are welcome to redistribute it\n\
-under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n\
-for details.\n"), RMW_VERSION_STRING);
+under certain conditions; see <%s>\n\
+for details.\n"), RMW_VERSION_STRING, "arch_stanton5995@proton.me", "http://www.gnu.org/licenses/gpl.html");
   exit(0);
 }
 
