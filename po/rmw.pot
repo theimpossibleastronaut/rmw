@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-05 22:34-0600\n"
+"POT-Creation-Date: 2025-11-06 21:23-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -158,11 +158,11 @@ msgstr ""
 #, c-format
 msgid ""
 "rmw %s\n"
-"Author: Andy Alt (arch_stanton5995@proton.me)\n"
+"Author: Andy Alt (%s)\n"
 "The RMW team: see AUTHORS file\n"
 "This program comes with ABSOLUTELY NO WARRANTY; for details type 'rmw -w.'\n"
 "This is free software, and you are welcome to redistribute it\n"
-"under certain conditions; see <http://www.gnu.org/licenses/gpl.html>\n"
+"under certain conditions; see <%s>\n"
 "for details.\n"
 msgstr ""
 
@@ -197,7 +197,7 @@ msgstr ""
 msgid "Skipping --undo-last because --most-recent-list was requested"
 msgstr ""
 
-#: src/main.c:305
+#: src/main.c:304
 msgid ""
 "\n"
 "Your single slash has been ignored. You walk to the market\n"
@@ -206,50 +206,50 @@ msgid ""
 "damage of 5000 hp. You feel satisfied.\n"
 msgstr ""
 
-#: src/main.c:342
+#: src/main.c:341
 msgid "Skipping requested ReMoval of your HOME directory"
 msgstr ""
 
-#: src/main.c:351
+#: src/main.c:350
 #, c-format
 msgid "Skipping requested ReMoval of %s\n"
 msgstr ""
 
-#: src/main.c:367
+#: src/main.c:366
 #, c-format
 msgid "%s resides within a waste folder and has been ignored\n"
 msgstr ""
 
-#: src/main.c:474
+#: src/main.c:492
 #, c-format
 msgid " :'%s' not ReMoved:\n"
 msgstr ""
 
-#: src/main.c:476
+#: src/main.c:494
 #, c-format
 msgid "No WASTE folder defined in '%s' that resides on the same filesystem.\n"
 msgstr ""
 
-#: src/main.c:489
+#: src/main.c:507
 #, c-format
 msgid "%d item was removed to the waste folder"
 msgid_plural "%d items were removed to the waste folder"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/main.c:622
+#: src/main.c:640
 msgid "Creating default configuration file:"
 msgstr ""
 
-#: src/main.c:631
+#: src/main.c:649
 msgid "Unable to read or write a configuration file."
 msgstr ""
 
-#: src/main.c:700
+#: src/main.c:715
 msgid "while getting the path to your home directory\n"
 msgstr ""
 
-#: src/main.c:719
+#: src/main.c:734
 #, c-format
 msgid ""
 "unable to create config and data directory\n"
@@ -257,28 +257,28 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:724
+#: src/main.c:739
 #, c-format
 msgid "Unable to continue. Exiting...\n"
 msgstr ""
 
-#: src/main.c:749
+#: src/main.c:764
 #, c-format
 msgid "purge has been skipped: use -f or --force\n"
 msgstr ""
 
-#: src/main.c:823
+#: src/main.c:838
 #, c-format
 msgid ""
 "Insufficient command line arguments given;\n"
 "Enter '%s -h' for more information\n"
 msgstr ""
 
-#: src/config_rmw.c:44
+#: src/config_rmw.c:43
 msgid "# rmw default waste directory, separate from the desktop trash\n"
 msgstr ""
 
-#: src/config_rmw.c:48
+#: src/config_rmw.c:47
 msgid ""
 "\n"
 "# The directory used by the FreeDesktop.org Trash spec\n"
@@ -286,17 +286,17 @@ msgid ""
 "# doesn't work yet\n"
 msgstr ""
 
-#: src/config_rmw.c:55
+#: src/config_rmw.c:54
 msgid "# A folder can use the $UID variable.\n"
 msgstr ""
 
-#: src/config_rmw.c:57
+#: src/config_rmw.c:56
 msgid ""
 "# See the README or man page for details about using the 'removable' "
 "attribute\n"
 msgstr ""
 
-#: src/config_rmw.c:61
+#: src/config_rmw.c:60
 msgid ""
 "\n"
 "# How many days should items be allowed to stay in the waste\n"
@@ -306,7 +306,7 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/config_rmw.c:69
+#: src/config_rmw.c:68
 msgid ""
 "\n"
 "# purge is allowed to run without the '-f' option. If you'd rather\n"
@@ -314,7 +314,7 @@ msgid ""
 "#\n"
 msgstr ""
 
-#: src/config_rmw.c:240
+#: src/config_rmw.c:239
 #, c-format
 msgid ""
 "symbolic link: %s\n"
@@ -322,12 +322,12 @@ msgid ""
 " :as waste parent folders.\n"
 msgstr ""
 
-#: src/config_rmw.c:410
+#: src/config_rmw.c:409
 #, c-format
 msgid "Unknown or invalid option: '%s'\n"
 msgstr ""
 
-#: src/config_rmw.c:417
+#: src/config_rmw.c:416
 #, c-format
 msgid ""
 "no usable WASTE folder could be found\n"
@@ -336,16 +336,16 @@ msgid ""
 "visit the rmw web site at\n"
 msgstr ""
 
-#: src/config_rmw.c:456
+#: src/config_rmw.c:455
 #, c-format
 msgid "removable, "
 msgstr ""
 
-#: src/config_rmw.c:458
+#: src/config_rmw.c:457
 msgid "attached"
 msgstr ""
 
-#: src/config_rmw.c:458
+#: src/config_rmw.c:457
 msgid "detached"
 msgstr ""
 
@@ -375,17 +375,17 @@ msgstr ""
 
 #: src/messages.c:97
 #, c-format
-msgid "format of .trashinfo `file %s` is incorrect"
+msgid "format of .trashinfo file '%s' is incorrect\n"
 msgstr ""
 
-#: src/messages.c:125
+#: src/messages.c:124
 #, c-format
 msgid ""
 "while opening %s -- %s:L%d\n"
 "%s\n"
 msgstr ""
 
-#: src/messages.c:193
+#: src/messages.c:192
 #, c-format
 msgid ""
 "while removing %s:\n"
@@ -393,53 +393,53 @@ msgid ""
 "(func:%s)\n"
 msgstr ""
 
-#: src/messages.c:203
+#: src/messages.c:202
 #, c-format
 msgid "while creating %s (%s)\n"
 msgstr ""
 
-#: src/messages.c:209
+#: src/messages.c:208
 #, c-format
 msgid "Created directory %s\n"
 msgstr ""
 
-#: src/restore.c:144
+#: src/restore.c:204
 #, c-format
 msgid "Duplicate filename at destination - appending time string...\n"
 msgstr ""
 
-#: src/restore.c:195
+#: src/restore.c:249
 #, c-format
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr ""
 
-#: src/restore.c:332
+#: src/restore.c:386
 #, c-format
 msgid "Reading %s...\n"
 msgstr ""
 
-#: src/restore.c:400
+#: src/restore.c:454
 #, c-format
 msgid "Your terminal only has %d lines. A minimum of %d lines is required.\n"
 msgstr ""
 
-#: src/restore.c:416
+#: src/restore.c:470
 #, c-format
 msgid "== contains %d file =="
 msgid_plural "== contains %d files =="
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/restore.c:422
+#: src/restore.c:476
 msgid "<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"
 msgstr ""
 
-#: src/restore.c:423
+#: src/restore.c:477
 msgid ""
 "<SPACE> - select or unselect an item. / <ENTER> - restore selected items"
 msgstr ""
 
-#: src/restore.c:425
+#: src/restore.c:479
 msgid "<ESC> - quit"
 msgstr ""
 
@@ -468,28 +468,28 @@ msgstr ""
 msgid "Purging files based on number of days in the waste folders (%u) ...\n"
 msgstr ""
 
-#: src/purging.c:325
+#: src/purging.c:324
 #, c-format
 msgid "'%s' will be purged in %.2f days\n"
 msgstr ""
 
-#: src/purging.c:338
+#: src/purging.c:337
 #, c-format
 msgid "%d item purged"
 msgid_plural "%d items purged"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/purging.c:394
+#: src/purging.c:393
 #, c-format
 msgid "Created %s\n"
 msgstr ""
 
-#: src/purging.c:400
+#: src/purging.c:399
 #, c-format
 msgid "while creating %s\n"
 msgstr ""
 
-#: src/utils.c:237
+#: src/utils.c:227
 msgid "Continue? (y/n): "
 msgstr ""
