@@ -23,7 +23,7 @@ For later Debian package creation, check standards version
 
 update po and pot files
   meson compile rmw-pot
-  meson rmw-update-po
+  ninja rmw-update-po
 
 Copy ChangeLog entries that apply to current release to ReleaseNotes
 (remove dates and reorder entries in in order of important or interest)
