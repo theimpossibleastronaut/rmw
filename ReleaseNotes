@@ -1,15 +1,6 @@
 === RMW Release Notes ===
 
-v0.9.3
+v0.9.4
 
-+ Add support for cloning(moving) files across btrfs root and subvolumes
-  (Linux-only); thanks to @luigir-it for suggesting this feature and testing
-* Ensure directories respect umask settings upon creation
-* bugfix: In some cases, 'rmw -s' crashed with message "*** buffer overflow
-detected ***: terminated". This could happen if compiled with
-'-D_FORTIFY_SOURCE=3' and set up with 'b_sanitize=none', and depending on
-the filenames in the waste directories
-* Add completion for fishshell; thanks to @ccoVeille
-* Fix strmode conflicting types error on OpenBSD and FreeBSD
-* Fix for tests failing after the Epochalypse (#439); thanks to @bmwiedemann
-+ Add French translation (partial)
+* (bugfix) Allow rmw to move directories to waste folder on btrfs filesystems
+  (#497)
