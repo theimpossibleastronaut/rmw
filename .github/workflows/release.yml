@@ -16,7 +16,7 @@ jobs:
     outputs:
       rmw_version: ${{ steps.get_version.outputs.version }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         submodules: false
     - id: get_version
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: false
 
@@ -105,7 +105,7 @@ jobs:
 
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
 
     - name: Copy debian directory
       run: cp -a packaging/debian .
