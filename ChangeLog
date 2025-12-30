@@ -1,11 +1,15 @@
 === rmw ChangeLog ===
 
+2025-12-29
+
+  * bugfix: Get path to 'mv' using meson (fixes #509)
+
 2025-11-06
 
   * Release v0.9.4
 
 2025-10-20
-  * (bugfix) Allow rmw to move directories to waste folder on btrfs filesystems
+  * bugfix: Allow rmw to move directories to waste folder on btrfs filesystems
     (#497)
 
 2024-11-07
