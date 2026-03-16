@@ -517,12 +517,18 @@ safe_mv_via_exec(const char *src, const char *dst, int *out_errno)
 
   if (pid == 0)
   {
-    /* child: exec /bin/mv directly (argv[0] is "mv") */
-    char *const argv_mv[] = { "mv", (char *) src, (char *) dst, NULL };
-    execv("/bin/mv", argv_mv);
-    /* if execv fails, set errno and exit with a distinct code */
-    _exit(127);
+    /* child: exec mv using path discovered by Meson */
+    char *const argv_mv[] = {
+      MV_PATH,                  /* argv[0] should match the executed path */
+      (char *) src,
+      (char *) dst,
+      NULL
+    };
+
+    execv(MV_PATH, argv_mv);
+    _exit(127);                 /* only reached on execv failure */
   }
+
 
   /* parent: wait for child */
   if (waitpid(pid, &status, 0) < 0)

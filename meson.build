@@ -60,6 +60,9 @@ foreach h : check_headers
   endif
 endforeach
 
+mv_prog = find_program('mv', required: true)
+add_project_arguments('-DMV_PATH="' + mv_prog.full_path() + '"', language: 'c')
+
 localedir = join_paths(get_option('prefix'), get_option('localedir'))
 subdir('po')
 
