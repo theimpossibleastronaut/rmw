@@ -125,3 +125,4 @@ cmp_substr "$output" "Skipping"
 
 echo "Basic tests passed"
 exit 0
+
