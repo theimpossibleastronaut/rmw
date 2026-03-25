@@ -59,7 +59,8 @@ printf "\n\n == Show contents of the files and info directories\n"
 test -n "$(ls -A "$PRIMARY_WASTE_DIR"/files)"
 test -n "$(ls -A "$PRIMARY_WASTE_DIR"/info)"
 
-output="$(find "$PRIMARY_WASTE_DIR"/files -maxdepth 1 -mindepth 1 | wc -l | tr -d ' ')"
+# shellcheck disable=SC2012
+output="$(ls -A "$PRIMARY_WASTE_DIR"/files | wc -l | sed 's/ //g')"
 test "$output" = "6"
 
 echo "$SEPARATOR"
