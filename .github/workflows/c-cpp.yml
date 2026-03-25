@@ -85,9 +85,8 @@ jobs:
         sudo apt upgrade -y
         sudo apt-get install -y \
           gettext \
-          python3-pip \
-          python3-setuptools
-        sudo -H python3 -m pip install meson ninja
+          meson \
+          ninja-build
 
     - if: ${{ contains(matrix.container, 'alpine') }}
       run: |
@@ -100,7 +99,7 @@ jobs:
         zypper --non-interactive update
 
     - name: Configure
-      run: meson setup builddir $SETUP_OPTIONS ${{ matrix.setup_options }}
+      run: meson setup builddir ${SETUP_OPTIONS:-} ${{ matrix.setup_options }}
 
     - name: Build
       run: |
@@ -122,10 +121,10 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg_add gettext git meson ninja
+          pkg_add gettext-tools git meson ninja
 
         run: |
-          meson setup builddir -Db_sanitize=none $SETUP_OPTIONS || cat builddir/meson-logs/meson-log.txt
+          meson setup builddir -Db_sanitize=none -Dnls=false ${SETUP_OPTIONS:-} || cat builddir/meson-logs/meson-log.txt
           cd builddir
           meson compile -v
           meson test -v --suite rmw
@@ -159,10 +158,10 @@ jobs:
           ninja \
           ncurses \
           pkg-config \
-          ${{ matrix.build.install_packages }}
+          ${{ matrix.install_packages }}
 
     - name: Configure
-      run: meson setup builddir ${{ matrix.build.setup_options }}
+      run: meson setup builddir ${{ matrix.setup_options }}
 
     - name: Build
       run: |
