@@ -28,16 +28,6 @@ freebsd_task:
     - meson setup builddir
   <<: *common_meson_steps
 
-freebsd_task:
-  <<: *filter_template
-  name: freebsd-15-0-snap
-  freebsd_instance:
-    image_family: freebsd-15-0-snap
-  <<: *common_freebsd_steps
-  setup_script:
-    - meson setup builddir
-  <<: *common_meson_steps
-
 arm_task:
   <<: *filter_template
   arm_container:
