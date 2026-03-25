@@ -41,10 +41,11 @@ echo "OUTPUT:"
 echo "---"
 echo "$output"
 echo "---"
-test "$output" = "+'"${RMW_FAKE_HOME}"/.Waste/files/read_only_file' -> '"${RMW_FAKE_HOME}"/somefiles/read_only_file'
--"${RMW_FAKE_HOME}"/.Waste/info/read_only_file.trashinfo
-+'"${RMW_FAKE_HOME}"/.Waste/files/topdir' -> '"${RMW_FAKE_HOME}"/somefiles/topdir'
--"${RMW_FAKE_HOME}"/.Waste/info/topdir.trashinfo"
+expected="+'${RMW_FAKE_HOME}/.Waste/files/read_only_file' -> '${RMW_FAKE_HOME}/somefiles/read_only_file'
+-${RMW_FAKE_HOME}/.Waste/info/read_only_file.trashinfo
++'${RMW_FAKE_HOME}/.Waste/files/topdir' -> '${RMW_FAKE_HOME}/somefiles/topdir'
+-${RMW_FAKE_HOME}/.Waste/info/topdir.trashinfo"
+test "$output" = "$expected"
 
 echo "$SEPARATOR"
 echo "Show result when no undo file exists..."
@@ -74,7 +75,7 @@ $RMW_TEST_CMD_STRING -z nonexistent_fil* && exit 1
 
 echo "$SEPARATOR"
 echo "Symlinks"
-ln -s ${RMW_FAKE_HOME} "${RMW_FAKE_HOME}"/link_test
+ln -s "${RMW_FAKE_HOME}" "${RMW_FAKE_HOME}"/link_test
 # broken link
 ln -s broken_symlink_test "${RMW_FAKE_HOME}"/link_test2
 $RMW_TEST_CMD_STRING "${RMW_FAKE_HOME}"/link_test "${RMW_FAKE_HOME}"/link_test2
@@ -89,8 +90,8 @@ mkdir tmpfoo
 for t in "foo" "bar" ".boo" ".far"; do
   touch tmpfoo/$t
   ${RMW_TEST_CMD_STRING} tmpfoo/$t
-  cat ${PRIMARY_WASTE_DIR}/info/$t.trashinfo
-  cd ${PRIMARY_WASTE_DIR}
+  cat "${PRIMARY_WASTE_DIR}/info/$t.trashinfo"
+  cd "${PRIMARY_WASTE_DIR}"
   ${RMW_TEST_CMD_STRING} -z files/$t
   cd "${RMW_FAKE_HOME}"
   test -f tmpfoo/$t
@@ -100,17 +101,17 @@ done
 for t in ".boo" ".far"; do
   touch tmpfoo/$t
   ${RMW_TEST_CMD_STRING} tmpfoo/.*
-  ${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/$t
+  ${RMW_TEST_CMD_STRING} -z "${PRIMARY_WASTE_DIR}/files/$t"
   test -f tmpfoo/$t
 done
 
 # a dot dir
-cmp_substr "$(${RMW_TEST_CMD_STRING} -z ${PRIMARY_WASTE_DIR}/files/. && exit 1)" \
+cmp_substr "$(${RMW_TEST_CMD_STRING} -z "${PRIMARY_WASTE_DIR}/files/." && exit 1)" \
   "refusing to process"
 
 # I don't want to force anyone to install Xvfb for this single test
 # so I'll only run it if it's already installed
-if [ -n "$(command -v Xvfb)" ] && [ ! $(grep "DISABLE_CURSES" "$MESON_BUILD_ROOT/src/config.h") ]; then
+if [ -n "$(command -v Xvfb)" ] && ! grep -q "DISABLE_CURSES" "$MESON_BUILD_ROOT/src/config.h"; then
   # Start Xvfb on display :99
   Xvfb :99 &
   XVFB_PID=$!

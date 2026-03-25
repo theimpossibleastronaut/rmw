@@ -26,14 +26,14 @@ cd "${RMW_FAKE_HOME}"/tmp-files
 create_temp_files() {
   cd "${RMW_FAKE_HOME}"/tmp-files
 
-  echo "\n\n == creating temporary files to be rmw'ed"
+  printf "\n\n == creating temporary files to be rmw'ed\n"
 
   for file in abc 123 xyz; do
     i=0
     while [ "$i" -lt 8 ]
     do
-      echo "0000" >> $file
-      i=`expr $i + 1`
+      echo "0000" >> "$file"
+      i=$((i + 1))
     done
   done
 }
@@ -53,13 +53,12 @@ $RMW_TEST_CMD_STRING --verbose "${RMW_FAKE_HOME}"/somefiles/*
 
 echo "$SEPARATOR"
 echo '  == purging disabled should output a message that purging is disabled'
-output=`$RMW_PURGE_DISABLED_CMD --empty -f`
-expected=`echo "purging is disabled ('expire_age' is set to '0')" | cut -b1-20`
-output=`echo $output | cut -b1-20`
+output=$($RMW_PURGE_DISABLED_CMD --empty -f)
+expected=$(echo "purging is disabled ('expire_age' is set to '0')" | cut -b1-20)
+output=$(echo "$output" | cut -b1-20)
 test "${output}" = "${expected}"
 
 # Should not work if '-f' isn't used"
-substring=
 cmp_substr "$(echo y | $RMW_ALT_TEST_CMD_STRING --purge --empty)" \
   "purge has been skipped"
 
@@ -79,7 +78,7 @@ test -e "$PRIMARY_WASTE_DIR"/files/topdir
 echo "$SEPARATOR"
 echo " == Make sure the correct string (filename) is displayed when using -vvg"
 output="$($RMW_TEST_CMD_STRING -vvg)"
-echo $output
+echo "$output"
 cmp_substr "$output"  "'read_only_file' will be purged in 90$(locale decimal_point)"
 cmp_substr "$output" "'topdir' will be purged in 90$(locale decimal_point)"
 
@@ -116,9 +115,9 @@ test ! -e "$PRIMARY_WASTE_DIR"/info/xyz.trashinfo
 create_temp_files
 
 cd "${RMW_FAKE_HOME}"/..
-echo "\n\n == use a built-in environmental variable to write a"
+printf "\n\n == use a built-in environmental variable to write a\n"
 echo " == fake year to the .trashinfo files when running rmw"
-echo "-----------------------------------------------------\n"
+echo "-----------------------------------------------------"
 
 RMW_FAKE_YEAR=true $RMW_TEST_CMD_STRING --verbose "${RMW_FAKE_HOME}"/tmp-files/*
 cmp_substr "$(cat "$PRIMARY_WASTE_DIR"/info/abc.trashinfo)" \
@@ -167,7 +166,7 @@ echo " == Test 'show_purge_stats' == "
 create_temp_files
 RMW_FAKE_YEAR=True $RMW_TEST_CMD_STRING "${RMW_FAKE_HOME}"/tmp-files/*
 output=$($RMW_TEST_CMD_STRING -g)
-echo $output
+echo "$output"
 cmp_substr "$output" "Purging files based"
 cmp_substr "$output" "3 items purged"
 

@@ -7,7 +7,7 @@ set -ev
 
 # Set default workspace if not provided
 WORKSPACE=${WORKSPACE:-$(pwd)}
-echo $WORKSPACE
+echo "$WORKSPACE"
 # Check if the workspace path is absolute
 if [[ "$WORKSPACE" != /* ]]; then
   echo "The workspace path must be absolute"
@@ -23,7 +23,7 @@ if [[ "$SOURCE_ROOT" != /* ]]; then
   exit 1
 fi
 # Verify that you're in the source root
-echo $SOURCE_ROOT
+echo "$SOURCE_ROOT"
 test -f "$SOURCE_ROOT/src/main.c"
 
 # Define and create application directory if it doesn't exist
@@ -62,7 +62,7 @@ fi
 cd "$BUILD_DIR"
 ninja
 meson test -v
-meson install --destdir=$APPDIR --skip-subprojects
+meson install --destdir="$APPDIR" --skip-subprojects
 
 # Set up output directory
 OUT_DIR="$WORKSPACE/out"
@@ -76,9 +76,9 @@ export LINUXDEPLOY_OUTPUT_VERSION="$VERSION"
 # Generate AppImage using linuxdeploy
 linuxdeploy \
   --appdir="$APPDIR" \
-  --custom-apprun=$SOURCE_ROOT/packaging/appimage/AppRun \
-  -d $SOURCE_ROOT/packaging/rmw.desktop \
-  --icon-file=$SOURCE_ROOT/packaging/rmw_icon_32x32.png \
+  --custom-apprun="$SOURCE_ROOT"/packaging/appimage/AppRun \
+  -d "$SOURCE_ROOT"/packaging/rmw.desktop \
+  --icon-file="$SOURCE_ROOT"/packaging/rmw_icon_32x32.png \
   --icon-filename=rmw \
-  --executable=$APPDIR/usr/bin/rmw \
+  --executable="$APPDIR"/usr/bin/rmw \
   -o appimage

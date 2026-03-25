@@ -22,7 +22,7 @@ IS_BTRFS_MOUNTED="$(mount | grep rmw-btrfs)" || true
 if [ -z "$IS_BTRFS_MOUNTED" ]; then
   sudo mount -o loop "$IMAGE_PATH" \
     "$BTRFS_IMAGE_MOUNTPOINT"
-  sudo chown $(id -u) -R "$BTRFS_IMAGE_MOUNTPOINT"
+  sudo chown "$(id -u)" -R "$BTRFS_IMAGE_MOUNTPOINT"
 fi
 
 cd "$BTRFS_IMAGE_MOUNTPOINT"
@@ -70,7 +70,7 @@ test -f foo
 
 cd
 
-if [ -n "$(mount | grep rmw-btrfs)" ]; then
+if mount | grep -q rmw-btrfs; then
   sudo umount "$BTRFS_IMAGE_MOUNTPOINT"
 fi
 
