@@ -517,16 +517,11 @@ safe_mv_via_exec(const char *src, const char *dst, int *out_errno)
 
   if (pid == 0)
   {
-    /* child: exec mv using path discovered by Meson */
-    char *const argv_mv[] = {
-      MV_PATH,                  /* argv[0] should match the executed path */
-      (char *) src,
-      (char *) dst,
-      NULL
-    };
-
-    execv(MV_PATH, argv_mv);
-    _exit(127);                 /* only reached on execv failure */
+    /* child: exec mv, searching PATH at runtime so this works on
+       non-FHS systems (e.g. NixOS) and in AppImages */
+    char *const argv_mv[] = { "mv", (char *) src, (char *) dst, NULL };
+    execvp("mv", argv_mv);
+    _exit(127);                 /* only reached on execvp failure */
   }
 
 
