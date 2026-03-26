@@ -20,18 +20,15 @@ else
   . "${MESON_SOURCE_ROOT}/test/COMMON"
 fi
 
-# This test needs a file and waste folder on the same device, but a different
-# device than $HOME. Use a hard-link probe to detect this portably: hard links
-# only succeed within the same filesystem, so a failure means different devices.
-mkdir -p "$RMW_FAKE_HOME"
-probe="/tmp/.rmw-media-root-probe"
-touch "$probe"
-if ln "$probe" "$RMW_FAKE_HOME/.rmw-probe" 2>/dev/null; then
-  rm -f "$probe" "$RMW_FAKE_HOME/.rmw-probe"
-  echo "/tmp is on the same device as home; skipping"
+# This test requires /tmp to be a top-level mount point on its own device so
+# that rmw will write a relative Path in the trashinfo. Skip if that condition
+# isn't met (e.g. containers where /tmp is on the root filesystem, or macOS
+# where /tmp is a symlink into the root partition).
+tmp_mount=$(df -P /tmp 2>/dev/null | awk 'NR==2 {print $NF}')
+if [ "$tmp_mount" != "/tmp" ]; then
+  echo "/tmp is not a top-level mount point (got: ${tmp_mount:-unavailable}); skipping"
   exit 0
 fi
-rm -f "$probe"
 
 # /tmp is on a different device — use it as the simulated media root.
 TRASH_DIR="/tmp/.Trash-$(id -u)"
@@ -43,6 +40,7 @@ test_file_path="$TEST_DIR/$test_file"
 rm -rf "$TRASH_DIR" "$TEST_DIR"
 
 # Create test config pointing the waste folder to /tmp
+mkdir -p "$RMW_FAKE_HOME"
 TEST_CONFIG="$RMW_FAKE_HOME/media-root.testrc"
 printf 'WASTE = /tmp/.Trash-%s, removable\nexpire_age = 90\n' "$(id -u)" > "$TEST_CONFIG"
 
