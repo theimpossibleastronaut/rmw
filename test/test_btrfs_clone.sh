@@ -11,7 +11,12 @@ BTRFS_IMAGE_MOUNTPOINT="/tmp/rmw-loop"
 IMAGE_PATH="${MESON_SOURCE_ROOT}/test/rmw-btrfs-test.img"
 
 if [ ! -f "$IMAGE_PATH" ]; then
-  echo "Test image not found, but exiting with zero anyway."
+  echo "Test image not found; skipping."
+  exit 0
+fi
+
+if ! sudo -n true 2>/dev/null; then
+  echo "sudo not available without password; skipping btrfs test."
   exit 0
 fi
 
