@@ -35,15 +35,23 @@ foreach case : test_cases
     test('test_' + case, exe)
 endforeach
 
+# Set HOME to the fake home so rmw falls back safely if RMW_FAKE_HOME is ever
+# unset mid-script, preventing accidental writes to the real home directory.
+test_env = [
+    'MESON_SOURCE_ROOT=' + meson.project_source_root(),
+    'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
+    'HOME=' + RMW_FAKE_HOME,
+    'XDG_DATA_HOME=' + RMW_FAKE_HOME + '/.local/share',
+    'XDG_CONFIG_HOME=' + RMW_FAKE_HOME + '/.config',
+    'MESON_BUILD_ROOT=' + meson.project_build_root(),
+]
+
 foreach s : scripts
     test(
         s,
         files(s),
-        env: [
-            'MESON_SOURCE_ROOT=' + meson.project_source_root(),
-            'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
-            'MESON_BUILD_ROOT=' + meson.project_build_root(),
-        ],
+        env: test_env,
         depends: main_bin,
     )
 endforeach
+
