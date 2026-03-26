@@ -34,6 +34,7 @@ TEST_DIR="/tmp/rmw-media-root-test"
 test_file="media_root_test"
 test_file_path="$TEST_DIR/$test_file"
 
+# shellcheck disable=SC2329
 cleanup() {
   rm -rf "$TRASH_DIR" "$TEST_DIR"
 }
