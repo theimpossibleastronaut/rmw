@@ -13,7 +13,6 @@ test_cases = ['strings_rmw', 'utils', 'restore']
 
 scripts = [
     'test_basic.sh',
-    'test_media_root.sh',
     'test_purging.sh',
     'test_restore.sh',
 ]
@@ -35,15 +34,33 @@ foreach case : test_cases
     test('test_' + case, exe)
 endforeach
 
+# Set HOME to the fake home so rmw falls back safely if RMW_FAKE_HOME is ever
+# unset mid-script, preventing accidental writes to the real home directory.
+test_env = [
+    'MESON_SOURCE_ROOT=' + meson.project_source_root(),
+    'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
+    'HOME=' + RMW_FAKE_HOME,
+    'MESON_BUILD_ROOT=' + meson.project_build_root(),
+]
+
 foreach s : scripts
     test(
         s,
         files(s),
-        env: [
-            'MESON_SOURCE_ROOT=' + meson.project_source_root(),
-            'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
-            'MESON_BUILD_ROOT=' + meson.project_build_root(),
-        ],
+        env: test_env,
         depends: main_bin,
     )
 endforeach
+
+# test_media_root.sh intentionally unsets RMW_FAKE_HOME and operates under the
+# real HOME (it skips automatically on machines without the expected mount point).
+test(
+    'test_media_root.sh',
+    files('test_media_root.sh'),
+    env: [
+        'MESON_SOURCE_ROOT=' + meson.project_source_root(),
+        'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
+        'MESON_BUILD_ROOT=' + meson.project_build_root(),
+    ],
+    depends: main_bin,
+)
