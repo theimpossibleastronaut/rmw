@@ -13,6 +13,7 @@ test_cases = ['strings_rmw', 'utils', 'restore']
 
 scripts = [
     'test_basic.sh',
+    'test_media_root.sh',
     'test_purging.sh',
     'test_restore.sh',
 ]
@@ -52,15 +53,3 @@ foreach s : scripts
     )
 endforeach
 
-# test_media_root.sh intentionally unsets RMW_FAKE_HOME and operates under the
-# real HOME (it skips automatically on machines without the expected mount point).
-test(
-    'test_media_root.sh',
-    files('test_media_root.sh'),
-    env: [
-        'MESON_SOURCE_ROOT=' + meson.project_source_root(),
-        'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
-        'MESON_BUILD_ROOT=' + meson.project_build_root(),
-    ],
-    depends: main_bin,
-)
