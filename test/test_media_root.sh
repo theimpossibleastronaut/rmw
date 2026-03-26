@@ -21,14 +21,17 @@ else
 fi
 
 # This test needs a file and waste folder on the same device, but a different
-# device than $HOME. Check whether /tmp qualifies.
-tmp_dev=$(stat -c %d /tmp 2>/dev/null || stat -f %d /tmp 2>/dev/null || echo "")
-home_dev=$(stat -c %d "$RMW_FAKE_HOME" 2>/dev/null || stat -f %d "$RMW_FAKE_HOME" 2>/dev/null || echo "")
-
-if [ -z "$tmp_dev" ] || [ "$tmp_dev" = "$home_dev" ]; then
-  echo "/tmp is on the same device as home, or stat is unavailable; skipping"
+# device than $HOME. Use a hard-link probe to detect this portably: hard links
+# only succeed within the same filesystem, so a failure means different devices.
+mkdir -p "$RMW_FAKE_HOME"
+probe="/tmp/.rmw-media-root-probe"
+touch "$probe"
+if ln "$probe" "$RMW_FAKE_HOME/.rmw-probe" 2>/dev/null; then
+  rm -f "$probe" "$RMW_FAKE_HOME/.rmw-probe"
+  echo "/tmp is on the same device as home; skipping"
   exit 0
 fi
+rm -f "$probe"
 
 # /tmp is on a different device — use it as the simulated media root.
 TRASH_DIR="/tmp/.Trash-$(id -u)"
@@ -40,7 +43,6 @@ test_file_path="$TEST_DIR/$test_file"
 rm -rf "$TRASH_DIR" "$TEST_DIR"
 
 # Create test config pointing the waste folder to /tmp
-mkdir -p "$RMW_FAKE_HOME"
 TEST_CONFIG="$RMW_FAKE_HOME/media-root.testrc"
 printf 'WASTE = /tmp/.Trash-%s, removable\nexpire_age = 90\n' "$(id -u)" > "$TEST_CONFIG"
 
