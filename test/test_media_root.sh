@@ -21,12 +21,10 @@ else
 fi
 
 # This test requires /tmp to be a top-level mount point on its own device so
-# that rmw will write a relative Path in the trashinfo. Skip if that condition
-# isn't met (e.g. containers where /tmp is on the root filesystem, or macOS
-# where /tmp is a symlink into the root partition).
-tmp_mount=$(df -P /tmp 2>/dev/null | awk 'NR==2 {print $NF}')
-if [ "$tmp_mount" != "/tmp" ]; then
-  echo "/tmp is not a top-level mount point (got: ${tmp_mount:-unavailable}); skipping"
+# that rmw will write a relative Path in the trashinfo. Check /proc/mounts
+# (Linux); on macOS/BSD where it doesn't exist the grep fails and we skip.
+if ! grep -q '^[^ ]* /tmp ' /proc/mounts 2>/dev/null; then
+  echo "/tmp is not a top-level mount point; skipping"
   exit 0
 fi
 
