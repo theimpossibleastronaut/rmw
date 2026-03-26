@@ -41,6 +41,8 @@ test_env = [
     'MESON_SOURCE_ROOT=' + meson.project_source_root(),
     'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
     'HOME=' + RMW_FAKE_HOME,
+    'XDG_DATA_HOME=' + RMW_FAKE_HOME + '/.local/share',
+    'XDG_CONFIG_HOME=' + RMW_FAKE_HOME + '/.config',
     'MESON_BUILD_ROOT=' + meson.project_build_root(),
 ]
 

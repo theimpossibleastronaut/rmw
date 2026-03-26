@@ -34,6 +34,11 @@ TEST_DIR="/tmp/rmw-media-root-test"
 test_file="media_root_test"
 test_file_path="$TEST_DIR/$test_file"
 
+cleanup() {
+  rm -rf "$TRASH_DIR" "$TEST_DIR"
+}
+trap cleanup EXIT
+
 # Clean up any leftovers from a previous run
 rm -rf "$TRASH_DIR" "$TEST_DIR"
 
@@ -76,8 +81,6 @@ esac
 test -f "$test_file_path"
 test ! -f "$TRASH_DIR/info/$test_file.trashinfo"
 
-# Cleanup
 rm -f "$TEST_CONFIG"
-rm -rf "$TRASH_DIR" "$TEST_DIR"
 
 exit 0
