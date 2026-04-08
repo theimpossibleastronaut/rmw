@@ -214,6 +214,7 @@ msgstr ""
 msgid "Try '%s --help' for more information.\n"
 msgstr ""
 
+#. fprintf(stderr, "%d %s\n", errno, strerror(ENOENT));
 #: src/main.c:141
 msgid "There are no items in the list - please check back later.\n"
 msgstr ""
@@ -368,6 +369,7 @@ msgstr ""
 msgid "removable, "
 msgstr ""
 
+#. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
 #: src/config_rmw.c:457
 msgid "attached"
 msgstr ""
@@ -376,14 +378,19 @@ msgstr ""
 msgid "detached"
 msgstr ""
 
+#. TRANSLATORS: this precedes a string which informs the user of a more
+#. * serious error, sometimes a fatal one
 #: src/messages.c:28
 msgid "  :error: "
 msgstr "  :ошибка: "
 
+#. TRANSLATORS: this precedes a string which warns the user of some minor
+#. * but not fatal problem
 #: src/messages.c:36
 msgid " :warning: "
 msgstr " :предупреждение: "
 
+#. TRANSLATORS:  "opening" refers to a file
 #: src/messages.c:51
 #, c-format
 msgid ""
@@ -400,6 +407,11 @@ msgid ""
 "%s\n"
 msgstr ""
 
+#. TRANSLATORS:  ".trashinfo" should remain untranslated
+#. *
+#. *               "format" refers to the layout of the file
+#. *                contents
+#.
 #: src/messages.c:97
 #, c-format
 msgid "format of .trashinfo file '%s' is incorrect\n"
@@ -440,6 +452,11 @@ msgstr "Файл с таким именем уже существует - доб
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr ""
 
+#.
+#. *  Sometimes there is a pause before the next waste folder is read.
+#. * This message should help fill the time before curses is initialized
+#. * and the list appears
+#.
 #: src/restore.c:386
 #, c-format
 msgid "Reading %s...\n"
@@ -475,6 +492,8 @@ msgstr ""
 msgid "<ESC> - quit"
 msgstr "'q' - выход"
 
+#. TRANSLATORS:  "purging" refers to permanently deleting a file or a
+#. * directory
 #: src/purging.c:246
 #, c-format
 msgid ""
@@ -514,6 +533,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
+#. TRANSLATORS:  "created" refers to a file
 #: src/purging.c:393
 #, c-format
 msgid "Created %s\n"

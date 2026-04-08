@@ -19,7 +19,7 @@ lib_bsdutilsrm = static_library(
   'bsdutilsrm',
   src_lib_bsdutilsrm,
   dependencies: [dep_fts],
-  c_args: args_lib_bsdutilsrm
+  c_args: args_lib_bsdutilsrm,
 )
 
 if get_option('build_tests')
