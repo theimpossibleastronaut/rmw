@@ -517,12 +517,13 @@ safe_mv_via_exec(const char *src, const char *dst, int *out_errno)
 
   if (pid == 0)
   {
-    /* child: exec /bin/mv directly (argv[0] is "mv") */
+    /* child: exec mv, searching PATH at runtime so this works on
+       non-FHS systems (e.g. NixOS) and in AppImages */
     char *const argv_mv[] = { "mv", (char *) src, (char *) dst, NULL };
-    execv("/bin/mv", argv_mv);
-    /* if execv fails, set errno and exit with a distinct code */
-    _exit(127);
+    execvp("mv", argv_mv);
+    _exit(127);                 /* only reached on execvp failure */
   }
+
 
   /* parent: wait for child */
   if (waitpid(pid, &status, 0) < 0)

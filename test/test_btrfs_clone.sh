@@ -7,10 +7,10 @@ else
   . "${MESON_SOURCE_ROOT}/test/COMMON"
 fi
 
-BTRFS_IMAGE_MOUNTPOINT="/tmp/rmw-loop"
-IMAGE_PATH="${MESON_SOURCE_ROOT}/test/rmw-btrfs-test.img"
+BTRFS_MOUNTPOINT="/tmp/rmw-loop"
+BTRFS_IMAGE="${MESON_SOURCE_ROOT}/test/rmw-btrfs-test.img"
 
-if [ ! -f "$IMAGE_PATH" ]; then
+if [ ! -f "$BTRFS_IMAGE" ]; then
   echo "Test image not found; skipping."
   exit 0
 fi
@@ -20,63 +20,102 @@ if ! sudo -n true 2>/dev/null; then
   exit 0
 fi
 
-if [ ! -d "$BTRFS_IMAGE_MOUNTPOINT" ]; then
-  sudo mkdir "$BTRFS_IMAGE_MOUNTPOINT"
-fi
-IS_BTRFS_MOUNTED="$(mount | grep rmw-btrfs)" || true
-if [ -z "$IS_BTRFS_MOUNTED" ]; then
-  sudo mount -o loop "$IMAGE_PATH" \
-    "$BTRFS_IMAGE_MOUNTPOINT"
-  sudo chown "$(id -u)" -R "$BTRFS_IMAGE_MOUNTPOINT"
+if [ ! -d "$BTRFS_MOUNTPOINT" ]; then
+  sudo mkdir "$BTRFS_MOUNTPOINT"
 fi
 
-cd "$BTRFS_IMAGE_MOUNTPOINT"
-RMW_TEST_CMD_STRING="$BIN_DIR/rmw -c ${MESON_SOURCE_ROOT}/test/conf/btrfs_img.testrc"
-
-SUBVOLUME_USED="/tmp/rmw-loop/@two"
-
-WASTE_USED="$SUBVOLUME_USED/Waste"
-if [ -d "$WASTE_USED" ]; then
-  rm -rf "$WASTE_USED"
+if ! mount | grep -q rmw-btrfs; then
+  sudo mount -o loop "$BTRFS_IMAGE" "$BTRFS_MOUNTPOINT"
+  sudo chown "$(id -u)" -R "$BTRFS_MOUNTPOINT"
 fi
 
-TEST_DIR="$BTRFS_IMAGE_MOUNTPOINT/test_dir"
-if [ -d "$TEST_DIR" ]; then
-  rm -rf "$TEST_DIR"
+cd "$BTRFS_MOUNTPOINT"
+BTRFS_RMW_CMD="$BIN_DIR/rmw -c ${MESON_SOURCE_ROOT}/test/conf/btrfs_img.testrc"
+
+BTRFS_SUBVOLUME="$BTRFS_MOUNTPOINT/@two"
+BTRFS_WASTE_DIR="$BTRFS_SUBVOLUME/Waste"
+
+if [ -d "$BTRFS_WASTE_DIR" ]; then
+  rm -rf "$BTRFS_WASTE_DIR"
 fi
 
-mkdir "$TEST_DIR"
-touch "$TEST_DIR/bar"
-$RMW_TEST_CMD_STRING "$TEST_DIR"
-test ! -d "$TEST_DIR"
+# --- Test: move a directory with contents across btrfs subvolumes ---
+echo "== Test: move a directory with contents across btrfs subvolumes"
+BTRFS_TEST_DIR="$BTRFS_MOUNTPOINT/test_dir"
+if [ -d "$BTRFS_TEST_DIR" ]; then
+  rm -rf "$BTRFS_TEST_DIR"
+fi
+mkdir "$BTRFS_TEST_DIR"
+touch "$BTRFS_TEST_DIR/bar"
+$BTRFS_RMW_CMD "$BTRFS_TEST_DIR"
+test ! -d "$BTRFS_TEST_DIR"
+test -d "$BTRFS_WASTE_DIR/files/test_dir"
+test -f "$BTRFS_WASTE_DIR/files/test_dir/bar"
+test -f "$BTRFS_WASTE_DIR/info/test_dir.trashinfo"
 
-$RMW_TEST_CMD_STRING -u
-test -d "$TEST_DIR"
+echo "== Test: restore the moved directory"
+$BTRFS_RMW_CMD -u
+test -d "$BTRFS_TEST_DIR"
+test -f "$BTRFS_TEST_DIR/bar"
+test ! -f "$BTRFS_WASTE_DIR/info/test_dir.trashinfo"
 
+# --- Test: move a deeply nested directory across btrfs subvolumes ---
+echo "== Test: move a deeply nested directory across btrfs subvolumes"
+BTRFS_NESTED_DIR="$BTRFS_MOUNTPOINT/nested_dir"
+if [ -d "$BTRFS_NESTED_DIR" ]; then
+  rm -rf "$BTRFS_NESTED_DIR"
+fi
+mkdir -p "$BTRFS_NESTED_DIR/a/b/c"
+touch "$BTRFS_NESTED_DIR/a/b/c/deep_file"
+$BTRFS_RMW_CMD "$BTRFS_NESTED_DIR"
+test ! -d "$BTRFS_NESTED_DIR"
+test -d "$BTRFS_WASTE_DIR/files/nested_dir"
+test -f "$BTRFS_WASTE_DIR/files/nested_dir/a/b/c/deep_file"
+test -f "$BTRFS_WASTE_DIR/info/nested_dir.trashinfo"
+
+echo "== Test: restore the nested directory"
+$BTRFS_RMW_CMD -u
+test -d "$BTRFS_NESTED_DIR/a/b/c"
+test -f "$BTRFS_NESTED_DIR/a/b/c/deep_file"
+test ! -f "$BTRFS_WASTE_DIR/info/nested_dir.trashinfo"
+
+# --- Test: move a file across btrfs subvolumes ---
+echo "== Test: move a file across btrfs subvolumes"
 touch foo
-$RMW_TEST_CMD_STRING foo
-test -f "$WASTE_USED/files/foo"
-test -f "$WASTE_USED/info/foo.trashinfo"
+$BTRFS_RMW_CMD foo
+test -f "$BTRFS_WASTE_DIR/files/foo"
+test -f "$BTRFS_WASTE_DIR/info/foo.trashinfo"
 test ! -f foo
-$RMW_TEST_CMD_STRING -u
+
+echo "== Test: restore the moved file"
+$BTRFS_RMW_CMD -u
 test -f foo
+test ! -f "$BTRFS_WASTE_DIR/info/foo.trashinfo"
 
-RMW_FAKE_YEAR=true $RMW_TEST_CMD_STRING foo
-test -f "$WASTE_USED/files/foo"
-$RMW_TEST_CMD_STRING -g
-test ! -f "$WASTE_USED/files/foo"
+# --- Test: purge an expired file from btrfs waste ---
+echo "== Test: purge an expired file from btrfs waste"
+RMW_FAKE_YEAR=true $BTRFS_RMW_CMD foo
+test -f "$BTRFS_WASTE_DIR/files/foo"
+test -f "$BTRFS_WASTE_DIR/info/foo.trashinfo"
+$BTRFS_RMW_CMD -g
+test ! -f "$BTRFS_WASTE_DIR/files/foo"
+test ! -f "$BTRFS_WASTE_DIR/info/foo.trashinfo"
 
+# --- Test: cross-subvolume move from a non-btrfs home directory ---
+echo "== Test: move file from non-btrfs home to btrfs waste"
 cd "$RMW_FAKE_HOME"
 touch foo
-$RMW_TEST_CMD_STRING foo -v
+$BTRFS_RMW_CMD foo -v
 test ! -f foo
-$RMW_TEST_CMD_STRING -u
+
+echo "== Test: restore file to non-btrfs home from btrfs waste"
+$BTRFS_RMW_CMD -u
 test -f foo
 
 cd
 
 if mount | grep -q rmw-btrfs; then
-  sudo umount "$BTRFS_IMAGE_MOUNTPOINT"
+  sudo umount "$BTRFS_MOUNTPOINT"
 fi
 
 exit 0
