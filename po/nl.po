@@ -237,6 +237,7 @@ msgstr ""
 msgid "Try '%s --help' for more information.\n"
 msgstr "Probeer '%s --help' voor meer informatie.\n"
 
+#. fprintf(stderr, "%d %s\n", errno, strerror(ENOENT));
 #: src/main.c:141
 msgid "There are no items in the list - please check back later.\n"
 msgstr "Er staan geen items in de lijst - kom later terug.\n"
@@ -421,6 +422,7 @@ msgstr ""
 msgid "removable, "
 msgstr "verwijderbaar, "
 
+#. TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted"
 #: src/config_rmw.c:457
 msgid "attached"
 msgstr "gekoppeld"
@@ -429,14 +431,19 @@ msgstr "gekoppeld"
 msgid "detached"
 msgstr "ontkoppeld"
 
+#. TRANSLATORS: this precedes a string which informs the user of a more
+#. * serious error, sometimes a fatal one
 #: src/messages.c:28
 msgid "  :error: "
 msgstr " :fout: "
 
+#. TRANSLATORS: this precedes a string which warns the user of some minor
+#. * but not fatal problem
 #: src/messages.c:36
 msgid " :warning: "
 msgstr " :waarschuwing: "
 
+#. TRANSLATORS:  "opening" refers to a file
 #: src/messages.c:51
 #, fuzzy, c-format
 msgid ""
@@ -453,6 +460,11 @@ msgid ""
 "%s\n"
 msgstr "bij sluiten van %s\n"
 
+#. TRANSLATORS:  ".trashinfo" should remain untranslated
+#. *
+#. *               "format" refers to the layout of the file
+#. *                contents
+#.
 #: src/messages.c:97
 #, fuzzy, c-format
 msgid "format of .trashinfo file '%s' is incorrect\n"
@@ -493,6 +505,11 @@ msgstr "Dubbele bestandsnaam op doel - voeg tijdstempel toe\n"
 msgid "while removing .trashinfo file: '%s'\n"
 msgstr "bij het verwijderen van .trashinfo bestand: '%s'\n"
 
+#.
+#. *  Sometimes there is a pause before the next waste folder is read.
+#. * This message should help fill the time before curses is initialized
+#. * and the list appears
+#.
 #: src/restore.c:386
 #, c-format
 msgid "Reading %s...\n"
@@ -526,6 +543,8 @@ msgstr ""
 msgid "<ESC> - quit"
 msgstr "<ESC> - afsluiten"
 
+#. TRANSLATORS:  "purging" refers to permanently deleting a file or a
+#. * directory
 #: src/purging.c:246
 #, c-format
 msgid ""
@@ -566,6 +585,7 @@ msgid_plural "%d items purged"
 msgstr[0] "%d bestand gepurged"
 msgstr[1] "%d bestanden gepurged"
 
+#. TRANSLATORS:  "created" refers to a file
 #: src/purging.c:393
 #, c-format
 msgid "Created %s\n"

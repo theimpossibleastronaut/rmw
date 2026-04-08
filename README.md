@@ -1,4 +1,4 @@
-# rmw-0.9.5-dev
+# rmw-0.9.5
 ## Description
 
 rmw (ReMove to Waste) is a trashcan/recycle bin utility for the command line.
@@ -52,7 +52,7 @@ available.
 AppImages and maintainer-created amd64 Debian packages are available in
 the [releases section][releases-url].
 
-[releases-url]: https://github.com/theimpossibleastronaut/rmw/releases
+[releases-url]: https://github.com/theimpossibleastronaut/rmw/releases/latest
 
 ## Installing from source
 
