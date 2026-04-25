@@ -1,6 +1,14 @@
 
-2026-04-24
-
+rmw (in-progress):
+  * BREAKING: The meson build option `want_btrfs_clone` has been renamed to
+    `want_ficlone`. Update any build scripts that pass `-Dwant_btrfs_clone=`
+    to use `-Dwant_ficlone=` instead.
+  * refactor: Rename btrfs.c/btrfs.h to ficlone.c/ficlone.h; rename
+    do_btrfs_clone() to do_ficlone() and is_btrfs() to is_ficlone_fs();
+    rename HAVE_LINUX_BTRFS macro to HAVE_FICLONE
+  * Add bcachefs test (test_bcachefs.sh); uses a pre-existing image and
+    skips if kernel bcachefs support or the image is absent
+  * docs: Add BTRFS AND BCACHEFS section to man page
   * bugfix: Fix "Invalid cross-device link" error on bcachefs when source and
     waste folder are on separate subvolumes (#526); use generic FICLONE ioctl
     (linux/fs.h) instead of BTRFS_IOC_CLONE, and fall back to 'mv' when

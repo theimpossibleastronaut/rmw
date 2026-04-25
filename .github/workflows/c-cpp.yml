@@ -29,6 +29,8 @@ on:
 
 env:
   TERM: xterm
+  BTRFS_IMG: test/rmw-btrfs-test.img
+  BCACHEFS_IMG: test/rmw-bcachefs-test.img
 
 jobs:
   build:
@@ -180,27 +182,27 @@ jobs:
       uses: actions/cache@v5
       id: btrfs-img-cache
       with:
-        path: test/rmw-btrfs-test.img
+        path: ${{ env.BTRFS_IMG }}
         key: ${{ hashFiles('test/rmw-btrfs-test.img.sha256sum') }}
 
     - if: ${{ steps.btrfs-img-cache.outputs.cache-hit != 'true' }}
-      run: curl -L -o test/rmw-btrfs-test.img 'https://www.dropbox.com/scl/fi/57g3ixd3w3tuz4qoc2zp1/rmw-btrfs-test.img?rlkey=yc7krtntswsa1bwz0sbugy4gi&st=hkgrht05&dl=0'
+      run: curl -L -o "$BTRFS_IMG" 'https://www.dropbox.com/scl/fi/57g3ixd3w3tuz4qoc2zp1/rmw-btrfs-test.img?rlkey=yc7krtntswsa1bwz0sbugy4gi&st=hkgrht05&dl=0'
 
     - name: Test btrfs image existence
-      run: test -f test/rmw-btrfs-test.img
+      run: test -f "$BTRFS_IMG"
 
     - name: Cache bcachefs Image
       uses: actions/cache@v5
       id: bcachefs-img-cache
       with:
-        path: test/rmw-bcachefs-test.img
+        path: ${{ env.BCACHEFS_IMG }}
         key: ${{ hashFiles('test/rmw-bcachefs-test.img.sha256sum') }}
 
     - if: ${{ steps.bcachefs-img-cache.outputs.cache-hit != 'true' }}
-      run: curl -L -o test/rmw-bcachefs-test.img '<BCACHEFS_IMAGE_URL>'
+      run: curl -L -o "$BCACHEFS_IMG" 'https://www.dropbox.com/scl/fi/key20cj08ca9engqt5kzi/rmw-bcachefs-test.img?rlkey=th6zw1ar7t0dy9m7qzah5wvq9&st=nrwczcqn&dl=0'
 
     - name: Test bcachefs image existence
-      run: test -f test/rmw-bcachefs-test.img
+      run: test -f "$BCACHEFS_IMG"
 
     - name: Install Dependencies
       run: |
