@@ -1,7 +1,7 @@
 option('build_tests', type : 'boolean', value : true,
        description : 'build tests')
 option(
-    'want_btrfs_clone',
+    'want_ficlone',
     type : 'boolean',
     value: 'true',
     description: 'Include support for cloning files between subvolumes using FICLONE (btrfs, bcachefs, xfs, etc.)')

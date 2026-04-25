@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <unistd.h>
 
-#include "btrfs.h"
+#include "ficlone.h"
 #include "config_rmw.h"
 #include "utils.h"
 #include "main.h"
@@ -275,7 +275,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   else if (p_state == -1)
     exit(p_state);
 
-  waste_curr->is_btrfs = is_btrfs(waste_curr->parent);
+  waste_curr->is_ficlone_fs = is_ficlone_fs(waste_curr->parent);
 
   // get device number to use later for rename
   struct stat st, mp_st;

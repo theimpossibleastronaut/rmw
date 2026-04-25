@@ -18,15 +18,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _INC_BTRFS_H
-#define _INC_BTRFS_H
+#ifndef _INC_FICLONE_H
+#define _INC_FICLONE_H
 
 #include <stdbool.h>
 
 #define BTRFS_SUPER_MAGIC 0x9123683E
 
-bool is_btrfs(const char *path);
+bool is_ficlone_fs(const char *path);
 
-int do_btrfs_clone(const char *source, const char *dest, int *save_errno);
+int do_ficlone(const char *source, const char *dest, int *save_errno);
 
 #endif

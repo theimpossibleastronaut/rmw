@@ -189,6 +189,19 @@ jobs:
     - name: Test btrfs image existence
       run: test -f test/rmw-btrfs-test.img
 
+    - name: Cache bcachefs Image
+      uses: actions/cache@v5
+      id: bcachefs-img-cache
+      with:
+        path: test/rmw-bcachefs-test.img
+        key: ${{ hashFiles('test/rmw-bcachefs-test.img.sha256sum') }}
+
+    - if: ${{ steps.bcachefs-img-cache.outputs.cache-hit != 'true' }}
+      run: curl -L -o test/rmw-bcachefs-test.img '<BCACHEFS_IMAGE_URL>'
+
+    - name: Test bcachefs image existence
+      run: test -f test/rmw-bcachefs-test.img
+
     - name: Install Dependencies
       run: |
         sudo apt update

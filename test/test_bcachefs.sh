@@ -8,37 +8,50 @@ else
 fi
 
 BCACHEFS_MOUNTPOINT="/tmp/rmw-bcachefs-loop"
-BCACHEFS_IMAGE="/tmp/rmw-bcachefs-test.img"
+BCACHEFS_IMAGE="${MESON_SOURCE_ROOT}/test/rmw-bcachefs-test.img"
 
 if ! command -v bcachefs >/dev/null 2>&1; then
   echo "bcachefs userspace tools not found; skipping."
-  exit 0
+  exit $SKIP
 fi
 
 if ! sudo -n true 2>/dev/null; then
   echo "sudo not available without password; skipping bcachefs test."
-  exit 0
+  exit $SKIP
 fi
 
 # Load the module if available, then confirm kernel support
 sudo modprobe bcachefs 2>/dev/null || true
 if ! grep -qw 'bcachefs' /proc/filesystems 2>/dev/null; then
   echo "bcachefs not supported by kernel; skipping."
-  exit 0
+  exit $SKIP
 fi
 
-# Create a fresh bcachefs image
-rm -f "$BCACHEFS_IMAGE"
-truncate -s 32M "$BCACHEFS_IMAGE"
-mkfs.bcachefs "$BCACHEFS_IMAGE"
+if [ ! -f "$BCACHEFS_IMAGE" ]; then
+  echo "bcachefs test image not found at $BCACHEFS_IMAGE; skipping."
+  exit $SKIP
+fi
 
 if [ ! -d "$BCACHEFS_MOUNTPOINT" ]; then
   sudo mkdir "$BCACHEFS_MOUNTPOINT"
 fi
 
+if mountpoint -q "$BCACHEFS_MOUNTPOINT" 2>/dev/null; then
+  echo "bcachefs mountpoint already mounted from a previous run; cleaning up."
+  sudo umount "$BCACHEFS_MOUNTPOINT"
+fi
+
+STALE_LOOP=$(sudo losetup -j "$BCACHEFS_IMAGE" -O NAME --noheadings 2>/dev/null)
+if [ -n "$STALE_LOOP" ]; then
+  echo "bcachefs image already on loop device $STALE_LOOP from a previous run; cleaning up."
+  sudo losetup -d "$STALE_LOOP"
+fi
+
 LOOP=$(sudo losetup -f --show "$BCACHEFS_IMAGE")
 sudo mount -t bcachefs "$LOOP" "$BCACHEFS_MOUNTPOINT"
-sudo bcachefs subvolume create "$BCACHEFS_MOUNTPOINT/@two"
+if [ ! -d "$BCACHEFS_MOUNTPOINT/@two" ]; then
+  sudo bcachefs subvolume create "$BCACHEFS_MOUNTPOINT/@two"
+fi
 sudo chown "$(id -u)" -R "$BCACHEFS_MOUNTPOINT"
 
 cd "$BCACHEFS_MOUNTPOINT"
@@ -46,6 +59,8 @@ BCACHEFS_RMW_CMD="$BIN_DIR/rmw -c ${MESON_SOURCE_ROOT}/test/conf/bcachefs_img.te
 
 BCACHEFS_SUBVOLUME="$BCACHEFS_MOUNTPOINT/@two"
 BCACHEFS_WASTE_DIR="$BCACHEFS_SUBVOLUME/Waste"
+
+rm -rf "$BCACHEFS_WASTE_DIR"
 
 # --- Test: move a file across bcachefs subvolumes (issue #526) ---
 echo "== Test: move a file across bcachefs subvolumes"
@@ -63,6 +78,7 @@ test ! -f "$BCACHEFS_WASTE_DIR/info/foo.trashinfo"
 # --- Test: move a directory across bcachefs subvolumes ---
 echo "== Test: move a directory across bcachefs subvolumes"
 BCACHEFS_TEST_DIR="$BCACHEFS_MOUNTPOINT/test_dir"
+rm -rf "$BCACHEFS_TEST_DIR"
 mkdir "$BCACHEFS_TEST_DIR"
 touch "$BCACHEFS_TEST_DIR/bar"
 $BCACHEFS_RMW_CMD "$BCACHEFS_TEST_DIR"
@@ -90,6 +106,5 @@ cd
 
 sudo umount "$BCACHEFS_MOUNTPOINT"
 sudo losetup -d "$LOOP"
-rm -f "$BCACHEFS_IMAGE"
 
 exit 0

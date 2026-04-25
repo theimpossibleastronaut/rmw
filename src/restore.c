@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 
 #include "parse_cli_options.h"
-#include "btrfs.h"
+#include "ficlone.h"
 #include "restore.h"
 #include "utils.h"
 #include "messages.h"
@@ -108,7 +108,7 @@ move_back(const char *src, const char *dest, bool want_dry_run)
     else
     {
       /* regular file on different device -> try btrfs clone */
-      int clone_res = do_btrfs_clone(src, dest, &clone_errno);
+      int clone_res = do_ficlone(src, dest, &clone_errno);
       if (clone_res == 0)
       {
         errno = 0;

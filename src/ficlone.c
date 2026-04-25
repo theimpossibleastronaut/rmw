@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 #endif
 
-#ifdef HAVE_LINUX_BTRFS
+#ifdef HAVE_FICLONE
 #include <fcntl.h>
 #include <linux/fs.h>
 #include <sys/ioctl.h>
@@ -32,13 +32,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 #endif
 
-#include "btrfs.h"
+#include "ficlone.h"
 #include "messages.h"
 
 bool
-is_btrfs(const char *path)
+is_ficlone_fs(const char *path)
 {
-#ifdef HAVE_LINUX_BTRFS
+#ifdef HAVE_FICLONE
   struct statfs buf;
 
   if (statfs(path, &buf) == -1)
@@ -57,9 +57,9 @@ is_btrfs(const char *path)
 
 
 int
-do_btrfs_clone(const char *source, const char *dest, int *save_errno)
+do_ficlone(const char *source, const char *dest, int *save_errno)
 {
-#ifdef HAVE_LINUX_BTRFS
+#ifdef HAVE_FICLONE
   int src_fd, dest_fd;
   struct stat src_stat;
 

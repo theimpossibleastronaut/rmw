@@ -23,7 +23,7 @@ endif
 
 src = [
   'globals.c',
-  'btrfs.c',
+  'ficlone.c',
   'restore.c',
   'config_rmw.c',
   'parse_cli_options.c',
@@ -35,18 +35,18 @@ src = [
   'utils.c',
 ]
 
-# Used for btrfs functions
+# Used for FICLONE support
 has_statfs = false
-has_btrfs_header = false
+has_linux_fs_header = false
 if host_sys == 'linux'
-  if get_option('want_btrfs_clone')
+  if get_option('want_ficlone')
     has_statfs = cc.has_function(
       'statfs',
       prefix: '#include <sys/statfs.h>',
     )
-    has_btrfs_header = cc.has_header('linux/fs.h')
-    if has_statfs and has_btrfs_header
-      conf.set('HAVE_LINUX_BTRFS', 1)
+    has_linux_fs_header = cc.has_header('linux/fs.h')
+    if has_statfs and has_linux_fs_header
+      conf.set('HAVE_FICLONE', 1)
     else
       error(
         '''
@@ -54,7 +54,7 @@ if host_sys == 'linux'
   : Requirements not met for reflink clone support.
   : If missing linux/fs.h, you probably need to install the linux-headers package.
   : To build without reflink clone support and skip this check, add
-  : "-Dwant_btrfs_clone=false" to the meson setup options.''',
+  : "-Dwant_ficlone=false" to the meson setup options.''',
       )
     endif
   endif

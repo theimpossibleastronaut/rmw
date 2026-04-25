@@ -67,7 +67,7 @@ struct st_waste
    */
   bool removable;
 
-  bool is_btrfs;
+  bool is_ficlone_fs;
 };
 
 

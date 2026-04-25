@@ -19,7 +19,7 @@ scripts = [
 ]
 
 if host_sys == 'linux'
-  if has_statfs and has_btrfs_header
+  if has_statfs and has_linux_fs_header
     scripts += ['test_btrfs_clone.sh']
   endif
   scripts += ['test_bcachefs.sh']
