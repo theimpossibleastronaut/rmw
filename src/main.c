@@ -448,7 +448,13 @@ damage of 5000 hp. You feel satisfied.\n"));
           {
             /* same device: simple rename */
             r_result = rename(src, dst);
-            /* rename sets errno on failure */
+            if (r_result != 0 && errno == EXDEV)
+            {
+              /* rename failed with EXDEV even though st_dev matched (e.g.,
+                 bcachefs cross-subvolume). Fall back to copy+delete. */
+              r_result = safe_mv_via_exec(src, dst, &save_errno);
+              errno = save_errno;
+            }
           }
         }
 

@@ -18,8 +18,11 @@ scripts = [
   'test_restore.sh',
 ]
 
-if has_statfs and has_btrfs_header
-  scripts += ['test_btrfs_clone.sh']
+if host_sys == 'linux'
+  if has_statfs and has_btrfs_header
+    scripts += ['test_btrfs_clone.sh']
+  endif
+  scripts += ['test_bcachefs.sh']
 endif
 
 RMW_FAKE_HOME = join_paths(meson.current_build_dir(), 'rmw-tests-home')
@@ -54,4 +57,3 @@ foreach s : scripts
     depends: main_bin,
   )
 endforeach
-

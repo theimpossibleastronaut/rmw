@@ -4,7 +4,7 @@ option(
     'want_btrfs_clone',
     type : 'boolean',
     value: 'true',
-    description: 'Include support for cloning files between btrfs root volumes and subvolumes')
+    description: 'Include support for cloning files between subvolumes using FICLONE (btrfs, bcachefs, xfs, etc.)')
 option('nls', type : 'boolean', value : true,
        description : 'include native language support (install translations)')
 

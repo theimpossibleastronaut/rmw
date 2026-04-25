@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef HAVE_LINUX_BTRFS
 #include <fcntl.h>
-#include <linux/btrfs.h>
+#include <linux/fs.h>
 #include <sys/ioctl.h>
 #include <sys/statfs.h>
 #include <sys/stat.h>
@@ -91,7 +91,7 @@ do_btrfs_clone(const char *source, const char *dest, int *save_errno)
     return dest_fd;
   }
 
-  int res = ioctl(dest_fd, BTRFS_IOC_CLONE, src_fd);
+  int res = ioctl(dest_fd, FICLONE, src_fd);
   *save_errno = errno;
 
   close(src_fd);

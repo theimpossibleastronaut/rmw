@@ -1,0 +1,4 @@
+waste = /tmp/rmw-bcachefs-loop/@two/Waste
+WASTE = $HOME/.local/share/Waste
+
+expire_age = 45

@@ -1,4 +1,11 @@
 
+2026-04-24
+
+  * bugfix: Fix "Invalid cross-device link" error on bcachefs when source and
+    waste folder are on separate subvolumes (#526); use generic FICLONE ioctl
+    (linux/fs.h) instead of BTRFS_IOC_CLONE, and fall back to 'mv' when
+    rename() returns EXDEV on a same-device move
+
 2026-04-07
 
 - rmw 0.9.5:

@@ -44,16 +44,16 @@ if host_sys == 'linux'
       'statfs',
       prefix: '#include <sys/statfs.h>',
     )
-    has_btrfs_header = cc.has_header('linux/btrfs.h')
+    has_btrfs_header = cc.has_header('linux/fs.h')
     if has_statfs and has_btrfs_header
       conf.set('HAVE_LINUX_BTRFS', 1)
     else
       error(
         '''
 
-  : Requirements not met for btrfs clone support.
-  : If missing linux/btrfs.h, you probably need to install the linux-headers package.
-  : To build without btrfs clone support and skip this check, add
+  : Requirements not met for reflink clone support.
+  : If missing linux/fs.h, you probably need to install the linux-headers package.
+  : To build without reflink clone support and skip this check, add
   : "-Dwant_btrfs_clone=false" to the meson setup options.''',
       )
     endif
