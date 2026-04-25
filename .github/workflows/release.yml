@@ -101,7 +101,6 @@ jobs:
         platform:
           - amd64
           - arm64
-          - 386
 
     runs-on: ubuntu-22.04
     steps:
