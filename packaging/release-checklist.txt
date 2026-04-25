@@ -33,49 +33,50 @@ Ex:
 
 
 Change Month and Year in man/rmw.1
-
-Generate html version of the manual:
-  `groff -Thtml -mandoc < rmw.1 > rmw_man.html` (mv the output to the website repo)
-
-commit changes (NOTE: meson dist only packages *committed* changes)
-meson dist --include-subprojects
-
-Remove packaging directory from the resulting xz file
-  (The process is now in the GitHub workflow)
-
-Make the AppImage
-
-  To pass the test on https://github.com/AppImage/appimage.github.io, the
-  image must be built on an older system, such as Ubuntu focal (see
-  https://github.com/AppImage/AppImageKit/discussions/1254). I do that in a
-  docker image. (The process is now in the GitHub workflow)
-
 Check copyright date/year
   packaging/debian/copyright
   packaging/Slackbuild/rmw/rmw.Slackbuild
 
+Generate html version of the manual:
+  `groff -Thtml -mandoc < rmw.1 > rmw_man.html` (mv the output to the website repo)
+
+commit changes (NOTE: meson dist only packages *committed* changes), push,
+open PR
+
+Trigger release builds by using the dispatch event (select the unmerged branch
+as the target)
+
+Make the AppImage
+  Done in the CI using https://github.com/andy5995/linuxdeploy-build-helper-container/
+
 Make Debian package
-  cd packaging
-  tar xf rmw-<version>.tar.gz
-  cd rmw-<version>
-  cp -a <rmwsrcdir>/packaging/debian .
-  dpkg-buildpackage -us -uc -tc (The resulting package will be one level up)
+  Done in the CI using https://github.com/andy5995/gh-action-build-deb
 
-  Check the Debian package
-    lintian -i -I --show-overrides rmw_0.7.07_amd64.changes
+Test package creation with PKGBUILD and Slackbuild.
 
-push all changes
-
-Get the sha256sum of the source tarball, AppImage, and Debian package
+MERGE PR to master
 
 Publish the release
-  paste in the ReleaseNotes file and the 'sums of the two files listed above.
+  Download the artifacts from the release workflow
+  paste in the Changelog and attach the artifacts
 
 Close milestone (https://github.com/theimpossibleastronaut/rmw/milestones)
 
 Create Slackbuild tarball and submit to Slackbuilds.org (https://slackbuilds.org/guidelines/)
 Use sbo-maintainer-tools to check for problems.
 https://slackbuilds.org/repository/15.0/system/sbo-maintainer-tools/
+
+sbo-maintainer-tools (sbolint and sbopkglint for SBo maintainers)
+
+These are "lint" tools to make life easier for SlackBuilds.org
+maintainers and admins:
+
+sbolint: checks your SlackBuild, README, .info file, and slack-desc.
+sbopkglint: checks your package, after it's built.
+sbofixinfo: attempts to fix common problems with SBo .info files.
+pre-commit-sbolint: git hook you should use, that automatically calls
+sbolint and stops you from committing bad code.
+sbodl: downloads source URLs, optionally using the SBo source archive.
 
 Update latest release info on /docker/README.md
 
