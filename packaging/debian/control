@@ -3,8 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: Andy Alt <arch_stanton5995@proton.me>
 Build-Depends:  debhelper (>= 12~),
-                libncursesw5-dev,
-                libtinfo-dev,
+                libncurses-dev,
                 meson (>= 0.59.0)
 Standards-Version: 4.6.2
 Homepage: https://theimpossibleastronaut.github.io/rmw-website/
