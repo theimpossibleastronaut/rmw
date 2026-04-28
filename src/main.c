@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "purging.h"
 #include "strings_rmw.h"
 #include "messages.h"
-#include "btrfs.h"
+#include "ficlone.h"
 #include "trashinfo.h"
 
 
@@ -387,7 +387,7 @@ damage of 5000 hp. You feel satisfied.\n"));
     while (waste_curr != NULL)
     {
       if (waste_curr->dev_num == st_target.dev_num ||
-          (waste_curr->is_btrfs && is_btrfs(argv[file_arg])))
+          (waste_curr->is_ficlone_fs && is_ficlone_fs(argv[file_arg])))
       {
         char *tmp_str = join_paths(waste_curr->files, st_target.base_name);
         // *st_target.waste_dest_name = '\0';
@@ -421,7 +421,7 @@ damage of 5000 hp. You feel satisfied.\n"));
             if (!S_ISDIR(st_file_arg.st_mode))
             {
               /* attempt btrfs clone if not a directory */
-              r_result = do_btrfs_clone(src, dst, &save_errno);
+              r_result = do_ficlone(src, dst, &save_errno);
               errno = save_errno;
             }
             else
@@ -448,7 +448,13 @@ damage of 5000 hp. You feel satisfied.\n"));
           {
             /* same device: simple rename */
             r_result = rename(src, dst);
-            /* rename sets errno on failure */
+            if (r_result != 0 && errno == EXDEV)
+            {
+              /* rename failed with EXDEV even though st_dev matched (e.g.,
+                 bcachefs cross-subvolume). Fall back to copy+delete. */
+              r_result = safe_mv_via_exec(src, dst, &save_errno);
+              errno = save_errno;
+            }
           }
         }
 
@@ -702,10 +708,10 @@ main(const int argc, char *const argv[])
     printf("PATH_MAX = %d\n", PATH_MAX);
 
   if (verbose > 0)
-#ifdef HAVE_LINUX_BTRFS
-    puts("btrfs_clone support: true");
+#ifdef HAVE_FICLONE
+    puts("ficlone support: true");
 #else
-    puts("btrfs_clone support: false");
+    puts("ficlone support: false");
 #endif
 
   const st_loc *st_location = get_locations(cli_user_options.alt_config_file);

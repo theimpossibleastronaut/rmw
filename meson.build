@@ -1,7 +1,7 @@
 project(
   'rmw',
   'c',
-  version: '0.9.5',
+  version: '0.10.0-dev',
   meson_version: '>= 0.59.0',
   default_options: [
     'c_std=gnu99',

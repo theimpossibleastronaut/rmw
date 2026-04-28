@@ -17,3 +17,4 @@ subprojects/**
 !subprojects/**/*.wrap
 /packaging/appimage/.env
 /test/rmw-btrfs-test.img
+/test/rmw-bcachefs-test.img

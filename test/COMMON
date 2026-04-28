@@ -1,6 +1,8 @@
 # shellcheck shell=sh
 # included by test scripts
 
+SKIP=77
+
 create_some_files() {
 mkdir -p somefiles/topdir/dir1/dir2/dir3
 
