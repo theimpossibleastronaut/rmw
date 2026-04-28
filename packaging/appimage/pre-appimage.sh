@@ -38,7 +38,7 @@ fi
 
 # Install necessary dependencies
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y libncursesw5-dev
+sudo apt install -y libglib2.0-dev libncursesw5-dev
 
 # Set up build directory
 BUILD_DIR="$SOURCE_ROOT/appimage_build"

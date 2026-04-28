@@ -284,22 +284,20 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
     waste_curr->dev_num = st.st_dev;
 
     // printf("actual: %ld |major: %d | minor: %d\n", st.st_dev, major(st.st_dev), minor(st.st_dev));
-    char tmp[PATH_MAX];
-    strcpy(tmp, waste_curr->parent);
-    char *media_root_ptr = rmw_dirname(tmp);
+    gchar *media_root_ptr = g_path_get_dirname(waste_curr->parent);
     if (!media_root_ptr)
     {
-      fputs("Error getting media root pointer.\n\
-  char *media_root_ptr = rmw_dirname(tmp)\n", stderr);
+      fputs("Error getting media root pointer.\n", stderr);
       exit(EXIT_FAILURE);
     }
 
     if (!(waste_curr->media_root = malloc(strlen(media_root_ptr) + 1)))
       fatal_malloc();
     strcpy(waste_curr->media_root, media_root_ptr);
-    sn_check(snprintf(tmp, sizeof tmp, "%s", waste_curr->media_root),
-             sizeof tmp);
-    if (!lstat(rmw_dirname(tmp), &mp_st))
+    g_free(media_root_ptr);
+
+    gchar *media_root_parent = g_path_get_dirname(waste_curr->media_root);
+    if (!lstat(media_root_parent, &mp_st))
     {
       if (mp_st.st_dev == waste_curr->dev_num)
       {
@@ -309,6 +307,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
     }
     else
       msg_err_lstat(waste_curr->parent, __func__, __LINE__);
+    g_free(media_root_parent);
   }
   else
     msg_err_lstat(waste_curr->parent, __func__, __LINE__);

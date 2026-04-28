@@ -87,6 +87,7 @@ jobs:
         sudo apt upgrade -y
         sudo apt-get install -y \
           gettext \
+          libglib2.0-dev \
           meson \
           ninja-build
 
@@ -123,7 +124,7 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg_add gettext-tools git meson ninja
+          pkg_add gettext-tools git glib2 meson ninja
 
         run: |
           meson setup builddir -Db_sanitize=none -Dnls=false ${SETUP_OPTIONS:-} || cat builddir/meson-logs/meson-log.txt
@@ -156,6 +157,7 @@ jobs:
         brew update
         brew install \
           gettext \
+          glib \
           meson \
           ninja \
           ncurses \
@@ -212,6 +214,7 @@ jobs:
         sudo apt-get install -y \
           faketime \
           gettext \
+          libglib2.0-dev \
           meson \
           ninja-build \
           xvfb

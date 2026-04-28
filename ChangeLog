@@ -13,6 +13,9 @@ rmw (in-progress):
     waste folder are on separate subvolumes (#526); use generic FICLONE ioctl
     (linux/fs.h) instead of BTRFS_IOC_CLONE, and fall back to 'mv' when
     rename() returns EXDEV on a same-device move
+  * Add GLib/GIO as a dependency; use GLib for directory moves across btrfs
+    and bcachefs subvolumes (requires glib2 >= 2.50); replace several
+    internal utility functions with GLib equivalents
 
 2026-04-07
 

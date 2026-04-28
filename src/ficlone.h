@@ -29,4 +29,6 @@ bool is_ficlone_fs(const char *path);
 
 int do_ficlone(const char *source, const char *dest, int *save_errno);
 
+int do_ficlone_dir(const char *src, const char *dst, int *save_errno);
+
 #endif

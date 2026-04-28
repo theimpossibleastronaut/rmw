@@ -5,11 +5,11 @@ RUN apk update && apk upgrade && \
       gcc \
       gettext \
       git \
+      glib-dev \
       linux-headers \
       meson \
       musl-dev \
       musl-fts-dev \
-      musl-libintl \
       ncurses-dev
 
 CMD ["/bin/sh","-l"]

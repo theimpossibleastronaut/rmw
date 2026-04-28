@@ -58,6 +58,7 @@ the [releases section][releases-url].
 
 ### Dependencies
 
+* glib2
 * libncursesw (ncurses-devel on some systems, such as CentOS)
 * gettext (or use '-Dnls=false' when configuring with meson if you only need English language support)
 

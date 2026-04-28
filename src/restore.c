@@ -41,12 +41,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 static void
 get_waste_parent(char *waste_parent, const char *src)
 {
-  char src_copy[strlen(src) + 1];
-  strcpy(src_copy, src);
-  char *src_dirname = rmw_dirname(src_copy);
-
+  gchar *src_dirname = g_path_get_dirname(src);
   char *one_dir_level = "/..";
   char *waste_parent_rel_path = join_paths(src_dirname, one_dir_level);
+  g_free(src_dirname);
   char *tmp = realpath(waste_parent_rel_path, NULL);
   free(waste_parent_rel_path);
 
@@ -95,14 +93,13 @@ move_back(const char *src, const char *dest, bool want_dry_run)
 
     if (S_ISDIR(st_src.st_mode))
     {
-      /* directory on different device -> execv mv */
-      int mv_ret = safe_mv_via_exec(src, dest, &clone_errno);
-      if (mv_ret == 0)
+      /* directory on different device: g_file_move handles cross-device natively */
+      if (rmw_move(src, dest) == 0)
       {
         errno = 0;
         return 0;
       }
-      errno = clone_errno ? clone_errno : save_errno;
+      errno = save_errno;
       return -1;
     }
     else
@@ -185,8 +182,9 @@ restore(const char *src, st_time *st_time_var,
     strcpy(dest, _dest);
     if (*_dest != '/')
     {
-      char *media_root = rmw_dirname(waste_parent);
+      gchar *media_root = g_path_get_dirname(waste_parent);
       char *_tmp_str = join_paths(media_root, _dest);
+      g_free(media_root);
       sn_check(snprintf(dest, sizeof dest, "%s", _tmp_str), sizeof dest);
       free(_tmp_str);
     }

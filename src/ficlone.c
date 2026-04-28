@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifdef HAVE_FICLONE
+#include <dirent.h>
 #include <fcntl.h>
 #include <linux/fs.h>
 #include <sys/ioctl.h>
@@ -120,5 +121,76 @@ do_ficlone(const char *source, const char *dest, int *save_errno)
   (void) dest;
   (void) save_errno;
   return 0;
+#endif
+}
+
+
+/* Recursively move a directory using FICLONE per file.
+   Returns 0 on success. On failure sets *save_errno and returns -1.
+   If FICLONE is not available, sets *save_errno = EXDEV (skip signal). */
+int
+do_ficlone_dir(const char *src, const char *dst, int *save_errno)
+{
+#ifdef HAVE_FICLONE
+  if (mkdir(dst, 0777) != 0)
+  {
+    *save_errno = errno;
+    return -1;
+  }
+
+  DIR *dir = opendir(src);
+  if (!dir)
+  {
+    *save_errno = errno;
+    rmdir(dst);
+    return -1;
+  }
+
+  int result = 0;
+  struct dirent *entry;
+  while ((entry = readdir(dir)) != NULL)
+  {
+    if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+      continue;
+
+    char src_child[PATH_MAX], dst_child[PATH_MAX];
+    snprintf(src_child, sizeof src_child, "%s/%s", src, entry->d_name);
+    snprintf(dst_child, sizeof dst_child, "%s/%s", dst, entry->d_name);
+
+    struct stat st;
+    if (lstat(src_child, &st) != 0)
+    {
+      *save_errno = errno;
+      result = -1;
+    }
+    else if (S_ISDIR(st.st_mode))
+    {
+      result = do_ficlone_dir(src_child, dst_child, save_errno);
+    }
+    else
+    {
+      result = do_ficlone(src_child, dst_child, save_errno);
+    }
+
+    if (result != 0)
+      break;
+  }
+
+  closedir(dir);
+
+  if (result != 0)
+    return -1;
+
+  if (rmdir(src) != 0)
+  {
+    *save_errno = errno;
+    return -1;
+  }
+  return 0;
+#else
+  (void) src;
+  (void) dst;
+  *save_errno = EXDEV;
+  return -1;
 #endif
 }

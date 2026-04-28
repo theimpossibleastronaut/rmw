@@ -25,16 +25,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <glib.h>
+
 #include "trashinfo.h"
 
-#define join_paths(...) real_join_paths(__VA_ARGS__, NULL)
+#define join_paths(...) g_build_filename(__VA_ARGS__, NULL)
 
 #define LEN_MAX_HUMAN_READABLE_SIZE (sizeof "xxxx.y GiB")
 #define LEN_MAX_FILE_DETAILS (LEN_MAX_HUMAN_READABLE_SIZE + sizeof "[] (D)" - 1)
 
 bool is_symlink(const char *path);
-
-char *rmw_dirname(char *path);
 
 int rmw_mkdir(const char *dir);
 
@@ -58,12 +58,10 @@ char *resolve_path(const char *file, const char *b);
 
 void trim_char(const int c, char *str);
 
-char *real_join_paths(const char *argv, ...);
-
 bool is_dir_f(const char *pathname);
 
 int count_chars(const char c, const char *str);
 
-int safe_mv_via_exec(const char *src, const char *dst, int *out_errno);
+int rmw_move(const char *src, const char *dst);
 
 #endif

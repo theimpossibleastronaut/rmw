@@ -6,6 +6,7 @@ RUN zypper --non-interactive refresh && \
     gettext \
     gcc \
     git \
+    glib2-devel \
     ncurses-devel \
     meson \
     ninja && \

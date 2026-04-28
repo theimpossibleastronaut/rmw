@@ -426,9 +426,10 @@ damage of 5000 hp. You feel satisfied.\n"));
             }
             else
             {
-              /* directory on different device: call /bin/mv safely */
-              r_result = safe_mv_via_exec(src, dst, &save_errno);
-              errno = save_errno;
+              /* directory on different device: try FICLONE-based recursive move;
+                 returns EXDEV (via errno) if filesystem doesn't support clone */
+              r_result = rmw_move(src, dst);
+              save_errno = errno;
             }
 
             if (r_result != 0)
@@ -451,9 +452,8 @@ damage of 5000 hp. You feel satisfied.\n"));
             if (r_result != 0 && errno == EXDEV)
             {
               /* rename failed with EXDEV even though st_dev matched (e.g.,
-                 bcachefs cross-subvolume). Fall back to copy+delete. */
-              r_result = safe_mv_via_exec(src, dst, &save_errno);
-              errno = save_errno;
+                 bcachefs cross-subvolume). Fall back to g_file_move. */
+              r_result = rmw_move(src, dst);
             }
           }
         }
