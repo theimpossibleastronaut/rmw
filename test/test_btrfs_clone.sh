@@ -20,14 +20,42 @@ if ! sudo -n true 2>/dev/null; then
   exit $SKIP
 fi
 
+if ! grep -qw 'btrfs' /proc/filesystems 2>/dev/null; then
+  echo "btrfs not supported by kernel; skipping."
+  exit $SKIP
+fi
+
+LOOP=""
+# shellcheck disable=SC2329
+cleanup() {
+  cd /
+  if mountpoint -q "$BTRFS_MOUNTPOINT" 2>/dev/null; then
+    sudo umount "$BTRFS_MOUNTPOINT"
+  fi
+  if [ -n "$LOOP" ]; then
+    sudo losetup -d "$LOOP" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+
+# Clean up any stale state from a previous run
+if mountpoint -q "$BTRFS_MOUNTPOINT" 2>/dev/null; then
+  echo "btrfs mountpoint already mounted from a previous run; cleaning up."
+  sudo umount "$BTRFS_MOUNTPOINT"
+fi
+STALE_LOOP=$(sudo losetup -j "$BTRFS_IMAGE" -O NAME --noheadings 2>/dev/null)
+if [ -n "$STALE_LOOP" ]; then
+  echo "btrfs image already on loop device $STALE_LOOP from a previous run; cleaning up."
+  sudo losetup -d "$STALE_LOOP"
+fi
+
 if [ ! -d "$BTRFS_MOUNTPOINT" ]; then
   sudo mkdir "$BTRFS_MOUNTPOINT"
 fi
 
-if ! mount | grep -q rmw-btrfs; then
-  sudo mount -o loop "$BTRFS_IMAGE" "$BTRFS_MOUNTPOINT"
-  sudo chown "$(id -u)" -R "$BTRFS_MOUNTPOINT"
-fi
+LOOP=$(sudo losetup -f --show "$BTRFS_IMAGE")
+sudo mount -t btrfs "$LOOP" "$BTRFS_MOUNTPOINT"
+sudo chown "$(id -u)" -R "$BTRFS_MOUNTPOINT"
 
 cd "$BTRFS_MOUNTPOINT"
 BTRFS_RMW_CMD="$BIN_DIR/rmw -c ${MESON_SOURCE_ROOT}/test/conf/btrfs_img.testrc"
@@ -35,16 +63,12 @@ BTRFS_RMW_CMD="$BIN_DIR/rmw -c ${MESON_SOURCE_ROOT}/test/conf/btrfs_img.testrc"
 BTRFS_SUBVOLUME="$BTRFS_MOUNTPOINT/@two"
 BTRFS_WASTE_DIR="$BTRFS_SUBVOLUME/Waste"
 
-if [ -d "$BTRFS_WASTE_DIR" ]; then
-  rm -rf "$BTRFS_WASTE_DIR"
-fi
+rm -rf "$BTRFS_WASTE_DIR"
 
 # --- Test: move a directory with contents across btrfs subvolumes ---
 echo "== Test: move a directory with contents across btrfs subvolumes"
 BTRFS_TEST_DIR="$BTRFS_MOUNTPOINT/test_dir"
-if [ -d "$BTRFS_TEST_DIR" ]; then
-  rm -rf "$BTRFS_TEST_DIR"
-fi
+rm -rf "$BTRFS_TEST_DIR"
 mkdir "$BTRFS_TEST_DIR"
 touch "$BTRFS_TEST_DIR/bar"
 $BTRFS_RMW_CMD "$BTRFS_TEST_DIR"
@@ -62,9 +86,7 @@ test ! -f "$BTRFS_WASTE_DIR/info/test_dir.trashinfo"
 # --- Test: move a deeply nested directory across btrfs subvolumes ---
 echo "== Test: move a deeply nested directory across btrfs subvolumes"
 BTRFS_NESTED_DIR="$BTRFS_MOUNTPOINT/nested_dir"
-if [ -d "$BTRFS_NESTED_DIR" ]; then
-  rm -rf "$BTRFS_NESTED_DIR"
-fi
+rm -rf "$BTRFS_NESTED_DIR"
 mkdir -p "$BTRFS_NESTED_DIR/a/b/c"
 touch "$BTRFS_NESTED_DIR/a/b/c/deep_file"
 $BTRFS_RMW_CMD "$BTRFS_NESTED_DIR"
@@ -79,6 +101,27 @@ test -d "$BTRFS_NESTED_DIR/a/b/c"
 test -f "$BTRFS_NESTED_DIR/a/b/c/deep_file"
 test ! -f "$BTRFS_WASTE_DIR/info/nested_dir.trashinfo"
 
+# --- Test: move a directory containing a symlink across btrfs subvolumes ---
+echo "== Test: move a directory containing a symlink across btrfs subvolumes"
+BTRFS_SYM_DIR="$BTRFS_MOUNTPOINT/sym_dir"
+rm -rf "$BTRFS_SYM_DIR"
+mkdir "$BTRFS_SYM_DIR"
+touch "$BTRFS_SYM_DIR/real_file"
+ln -s real_file "$BTRFS_SYM_DIR/link_file"
+$BTRFS_RMW_CMD "$BTRFS_SYM_DIR"
+test ! -d "$BTRFS_SYM_DIR"
+test -d "$BTRFS_WASTE_DIR/files/sym_dir"
+test -f "$BTRFS_WASTE_DIR/files/sym_dir/real_file"
+test -L "$BTRFS_WASTE_DIR/files/sym_dir/link_file"
+test -f "$BTRFS_WASTE_DIR/info/sym_dir.trashinfo"
+
+echo "== Test: restore directory containing a symlink"
+$BTRFS_RMW_CMD -u
+test -d "$BTRFS_SYM_DIR"
+test -f "$BTRFS_SYM_DIR/real_file"
+test -L "$BTRFS_SYM_DIR/link_file"
+test ! -f "$BTRFS_WASTE_DIR/info/sym_dir.trashinfo"
+
 # --- Test: move a file across btrfs subvolumes ---
 echo "== Test: move a file across btrfs subvolumes"
 touch foo
@@ -91,6 +134,19 @@ echo "== Test: restore the moved file"
 $BTRFS_RMW_CMD -u
 test -f foo
 test ! -f "$BTRFS_WASTE_DIR/info/foo.trashinfo"
+
+# --- Test: move a symlink across btrfs subvolumes ---
+echo "== Test: move a symlink across btrfs subvolumes"
+ln -s foo sym_link
+$BTRFS_RMW_CMD sym_link
+test ! -L sym_link
+test -L "$BTRFS_WASTE_DIR/files/sym_link"
+test -f "$BTRFS_WASTE_DIR/info/sym_link.trashinfo"
+
+echo "== Test: restore the moved symlink"
+$BTRFS_RMW_CMD -u
+test -L sym_link
+test ! -f "$BTRFS_WASTE_DIR/info/sym_link.trashinfo"
 
 # --- Test: purge an expired file from btrfs waste ---
 echo "== Test: purge an expired file from btrfs waste"
@@ -111,11 +167,5 @@ test ! -f foo
 echo "== Test: restore file to non-btrfs home from btrfs waste"
 $BTRFS_RMW_CMD -u
 test -f foo
-
-cd
-
-if mount | grep -q rmw-btrfs; then
-  sudo umount "$BTRFS_MOUNTPOINT"
-fi
 
 exit 0

@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ctype.h>
 #include <dirent.h>
+#include <limits.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -100,6 +101,21 @@ move_back(const char *src, const char *dest, bool want_dry_run)
         return 0;
       }
       errno = save_errno;
+      return -1;
+    }
+    else if (S_ISLNK(st_src.st_mode))
+    {
+      char target[PATH_MAX];
+      ssize_t len = readlink(src, target, sizeof(target) - 1);
+      if (len != -1)
+      {
+        target[len] = '\0';
+        if (symlink(target, dest) == 0 && unlink(src) == 0)
+        {
+          errno = 0;
+          return 0;
+        }
+      }
       return -1;
     }
     else
