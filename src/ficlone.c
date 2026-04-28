@@ -27,10 +27,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <dirent.h>
 #include <fcntl.h>
 #include <linux/fs.h>
+#include <linux/magic.h>
 #include <sys/ioctl.h>
 #include <sys/statfs.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+#ifndef BCACHEFS_SUPER_MAGIC
+#define BCACHEFS_SUPER_MAGIC 0xca451a4e
+#endif
 #endif
 
 #include "ficlone.h"
@@ -49,7 +54,8 @@ is_ficlone_fs(const char *path)
     exit(EXIT_FAILURE);
   }
 
-  return buf.f_type == BTRFS_SUPER_MAGIC;
+  return buf.f_type == BTRFS_SUPER_MAGIC ||
+    buf.f_type == BCACHEFS_SUPER_MAGIC;
 #else
   (void) path;
   return false;
@@ -64,36 +70,44 @@ do_ficlone(const char *source, const char *dest, int *save_errno)
   int src_fd, dest_fd;
   struct stat src_stat;
 
-  // Open the source file in read-only mode
   src_fd = open(source, O_RDONLY);
   if (src_fd == -1)
   {
+    *save_errno = errno;
     perror("open source");
-    return src_fd;
+    return -1;
   }
 
-  // Retrieve source file permissions
   if (fstat(src_fd, &src_stat) == -1)
   {
+    *save_errno = errno;
     perror("fstat source");
     close(src_fd);
     return -1;
   }
 
-  // Ensure no umask setting interferes with the permissions
   mode_t old_umask = umask(0);
-  // Open or create the destination file with the same permissions as the source
   dest_fd = open(dest, O_WRONLY | O_CREAT, src_stat.st_mode & 0777);
   umask(old_umask);
   if (dest_fd == -1)
   {
+    *save_errno = errno;
     perror("open destination");
     close(src_fd);
-    return dest_fd;
+    return -1;
   }
 
   int res = ioctl(dest_fd, FICLONE, src_fd);
   *save_errno = errno;
+
+  if (res != -1)
+  {
+    struct timespec times[2] = { src_stat.st_atim, src_stat.st_mtim };
+    if (futimens(dest_fd, times) == -1)
+      perror("futimens");
+    if (fchown(dest_fd, src_stat.st_uid, src_stat.st_gid) == -1)
+      perror("fchown");
+  }
 
   close(src_fd);
   close(dest_fd);
@@ -102,25 +116,24 @@ do_ficlone(const char *source, const char *dest, int *save_errno)
   {
     if (*save_errno != EXDEV)
       fprintf(stderr, "ioctl: %s in %s\n", strerror(*save_errno), __func__);
-    // Clone failed, remove the destination file
     if (unlink(dest) != 0)
       fprintf(stderr, "unlink: %s in %s\n", strerror(errno), __func__);
-    return res;
+    return -1;
   }
 
-  res = unlink(source);
-  if (res == -1)
+  if (unlink(source) == -1)
   {
+    *save_errno = errno;
     perror("unlink source");
-    return res;
+    return -1;
   }
 
   return 0;
 #else
   (void) source;
   (void) dest;
-  (void) save_errno;
-  return 0;
+  *save_errno = EXDEV;
+  return -1;
 #endif
 }
 
@@ -167,9 +180,39 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
     {
       result = do_ficlone_dir(src_child, dst_child, save_errno);
     }
-    else
+    else if (S_ISLNK(st.st_mode))
+    {
+      char link_target[PATH_MAX];
+      ssize_t len = readlink(src_child, link_target, sizeof(link_target) - 1);
+      if (len == -1)
+      {
+        *save_errno = errno;
+        result = -1;
+      }
+      else
+      {
+        link_target[len] = '\0';
+        if (symlink(link_target, dst_child) != 0)
+        {
+          *save_errno = errno;
+          result = -1;
+        }
+        else if (unlink(src_child) != 0)
+        {
+          *save_errno = errno;
+          result = -1;
+        }
+      }
+    }
+    else if (S_ISREG(st.st_mode))
     {
       result = do_ficlone(src_child, dst_child, save_errno);
+    }
+    else
+    {
+      /* special files (FIFOs, sockets, devices) can't be cloned */
+      *save_errno = ENOTSUP;
+      result = -1;
     }
 
     if (result != 0)

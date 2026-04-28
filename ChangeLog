@@ -16,6 +16,10 @@ rmw (in-progress):
   * Add GLib/GIO as a dependency; use GLib for directory moves across btrfs
     and bcachefs subvolumes (requires glib2 >= 2.50); replace several
     internal utility functions with GLib equivalents
+  * ficlone: Add bcachefs filesystem detection; directories containing
+    special files (FIFOs, sockets, devices) now fail gracefully instead
+    of hanging; fix missing errno propagation on early failures; preserve
+    timestamps and ownership after clone
 
 2026-04-07
 
