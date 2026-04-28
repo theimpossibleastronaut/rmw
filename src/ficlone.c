@@ -23,6 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 #endif
 
+#include <limits.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #ifdef HAVE_FICLONE
 #include <dirent.h>
 #include <fcntl.h>
@@ -30,8 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <linux/magic.h>
 #include <sys/ioctl.h>
 #include <sys/statfs.h>
-#include <sys/stat.h>
-#include <unistd.h>
 
 #ifndef BCACHEFS_SUPER_MAGIC
 #define BCACHEFS_SUPER_MAGIC 0xca451a4e
@@ -145,17 +147,17 @@ int
 do_ficlone_dir(const char *src, const char *dst, int *save_errno)
 {
 #ifdef HAVE_FICLONE
-  if (mkdir(dst, 0777) != 0)
+  DIR *dir = opendir(src);
+  if (!dir)
   {
     *save_errno = errno;
     return -1;
   }
 
-  DIR *dir = opendir(src);
-  if (!dir)
+  if (mkdir(dst, 0777) != 0)
   {
     *save_errno = errno;
-    rmdir(dst);
+    closedir(dir);
     return -1;
   }
 
@@ -236,4 +238,43 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
   *save_errno = EXDEV;
   return -1;
 #endif
+}
+
+
+/* Move src to dst on a FICLONE-capable filesystem.
+   Directories use do_ficlone_dir (returns EXDEV if clone not supported).
+   Symlinks are recreated at dst and unlinked from src.
+   Returns 0 on success, -1 on failure with errno set. */
+int
+ficlone_move(const char *src, const char *dst)
+{
+  struct stat st;
+  if (lstat(src, &st) == -1)
+    return -1;
+
+  if (S_ISDIR(st.st_mode))
+  {
+    int clone_errno = 0;
+    int r = do_ficlone_dir(src, dst, &clone_errno);
+    if (r != 0)
+      errno = clone_errno;
+    return r;
+  }
+
+  if (S_ISLNK(st.st_mode))
+  {
+    char target[PATH_MAX];
+    ssize_t len = readlink(src, target, sizeof(target) - 1);
+    if (len == -1)
+      return -1;
+    target[len] = '\0';
+    if (symlink(target, dst) != 0)
+      return -1;
+    if (unlink(src) != 0)
+      return -1;
+    return 0;
+  }
+
+  errno = ENOTSUP;
+  return -1;
 }

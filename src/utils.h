@@ -62,6 +62,5 @@ bool is_dir_f(const char *pathname);
 
 int count_chars(const char c, const char *str);
 
-int rmw_move(const char *src, const char *dst);
 
 #endif

@@ -93,8 +93,8 @@ move_back(const char *src, const char *dest, bool want_dry_run)
 
     if (S_ISDIR(st_src.st_mode))
     {
-      /* directory on different device: g_file_move handles cross-device natively */
-      if (rmw_move(src, dest) == 0)
+      /* directory on different device: use FICLONE-based recursive move */
+      if (ficlone_move(src, dest) == 0)
       {
         errno = 0;
         return 0;

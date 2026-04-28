@@ -417,18 +417,24 @@ damage of 5000 hp. You feel satisfied.\n"));
 
           if (waste_curr->dev_num != st_target.dev_num)
           {
-            /* cross-device: different device numbers */
-            if (!S_ISDIR(st_file_arg.st_mode))
+            struct stat st_src;
+            if (lstat(src, &st_src) == -1)
             {
-              /* attempt btrfs clone if not a directory */
+              save_errno = errno;
+              perror("lstat");
+              exit(EXIT_FAILURE);
+            }
+            if (S_ISREG(st_src.st_mode))
+            {
               r_result = do_ficlone(src, dst, &save_errno);
               errno = save_errno;
             }
             else
             {
-              /* directory on different device: try FICLONE-based recursive move;
-                 returns EXDEV (via errno) if filesystem doesn't support clone */
-              r_result = rmw_move(src, dst);
+              /* directory (or symlink) on different device: try FICLONE-based
+                 recursive move; returns EXDEV (via errno) if filesystem
+                 doesn't support clone */
+              r_result = ficlone_move(src, dst);
               save_errno = errno;
             }
 
@@ -452,8 +458,11 @@ damage of 5000 hp. You feel satisfied.\n"));
             if (r_result != 0 && errno == EXDEV)
             {
               /* rename failed with EXDEV even though st_dev matched (e.g.,
-                 bcachefs cross-subvolume). Fall back to g_file_move. */
-              r_result = rmw_move(src, dst);
+                 bcachefs cross-subvolume). */
+              if (S_ISREG(st_file_arg.st_mode))
+                r_result = do_ficlone(src, dst, &save_errno);
+              else
+                r_result = ficlone_move(src, dst);
             }
           }
         }

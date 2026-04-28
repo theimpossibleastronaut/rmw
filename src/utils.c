@@ -303,44 +303,6 @@ count_chars(const char c, const char *str)
 }
 
 
-/* Move src to dst. For regular files uses g_file_move (rename or copy_file_range).
-   For directories, falls back to FICLONE per-file (fails with EXDEV if the
-   filesystem does not support clone, signalling the caller to skip this waste folder).
-   Returns 0 on success, -1 on failure; sets errno on failure. */
-int
-rmw_move(const char *src, const char *dst)
-{
-  GFile *gsrc = g_file_new_for_path(src);
-  GFile *gdst = g_file_new_for_path(dst);
-  GError *error = NULL;
-  gboolean ok = g_file_move(gsrc, gdst,
-                            G_FILE_COPY_ALL_METADATA |
-                            G_FILE_COPY_NOFOLLOW_SYMLINKS,
-                            NULL, NULL, NULL, &error);
-  g_object_unref(gsrc);
-  g_object_unref(gdst);
-
-  if (!ok && g_error_matches(error, G_IO_ERROR, G_IO_ERROR_WOULD_RECURSE))
-  {
-    g_error_free(error);
-    int clone_errno = 0;
-    int r = do_ficlone_dir(src, dst, &clone_errno);
-    if (r != 0)
-      errno = clone_errno;
-    return r;
-  }
-
-  if (!ok)
-  {
-    if (error)
-    {
-      fprintf(stderr, _("move failed: %s\n"), error->message);
-      g_error_free(error);
-    }
-    return -1;
-  }
-  return 0;
-}
 
 
 ///////////////////////////////////////////////////////////////////////
