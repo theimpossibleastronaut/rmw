@@ -90,6 +90,7 @@ test ! -f "$BCACHEFS_WASTE_DIR/info/foo.trashinfo"
 
 # --- Test: move a symlink across bcachefs subvolumes ---
 echo "== Test: move a symlink across bcachefs subvolumes"
+[ -L sym_link ] && rm sym_link
 ln -s foo sym_link
 $BCACHEFS_RMW_CMD sym_link
 test ! -L sym_link

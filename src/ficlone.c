@@ -168,9 +168,8 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
     if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
       continue;
 
-    char src_child[PATH_MAX], dst_child[PATH_MAX];
+    char src_child[PATH_MAX];
     snprintf(src_child, sizeof src_child, "%s/%s", src, entry->d_name);
-    snprintf(dst_child, sizeof dst_child, "%s/%s", dst, entry->d_name);
 
     struct stat st;
     if (lstat(src_child, &st) != 0)
@@ -178,43 +177,49 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
       *save_errno = errno;
       result = -1;
     }
-    else if (S_ISDIR(st.st_mode))
+    else
     {
-      result = do_ficlone_dir(src_child, dst_child, save_errno);
-    }
-    else if (S_ISLNK(st.st_mode))
-    {
-      char link_target[PATH_MAX];
-      ssize_t len = readlink(src_child, link_target, sizeof(link_target) - 1);
-      if (len == -1)
+      char dst_child[PATH_MAX];
+      snprintf(dst_child, sizeof dst_child, "%s/%s", dst, entry->d_name);
+
+      if (S_ISDIR(st.st_mode))
       {
-        *save_errno = errno;
-        result = -1;
+        result = do_ficlone_dir(src_child, dst_child, save_errno);
+      }
+      else if (S_ISLNK(st.st_mode))
+      {
+        char link_target[PATH_MAX];
+        ssize_t len = readlink(src_child, link_target, sizeof(link_target) - 1);
+        if (len == -1)
+        {
+          *save_errno = errno;
+          result = -1;
+        }
+        else
+        {
+          link_target[len] = '\0';
+          if (symlink(link_target, dst_child) != 0)
+          {
+            *save_errno = errno;
+            result = -1;
+          }
+          else if (unlink(src_child) != 0)
+          {
+            *save_errno = errno;
+            result = -1;
+          }
+        }
+      }
+      else if (S_ISREG(st.st_mode))
+      {
+        result = do_ficlone(src_child, dst_child, save_errno);
       }
       else
       {
-        link_target[len] = '\0';
-        if (symlink(link_target, dst_child) != 0)
-        {
-          *save_errno = errno;
-          result = -1;
-        }
-        else if (unlink(src_child) != 0)
-        {
-          *save_errno = errno;
-          result = -1;
-        }
+        /* special files (FIFOs, sockets, devices) can't be cloned */
+        *save_errno = ENOTSUP;
+        result = -1;
       }
-    }
-    else if (S_ISREG(st.st_mode))
-    {
-      result = do_ficlone(src_child, dst_child, save_errno);
-    }
-    else
-    {
-      /* special files (FIFOs, sockets, devices) can't be cloned */
-      *save_errno = ENOTSUP;
-      result = -1;
     }
 
     if (result != 0)

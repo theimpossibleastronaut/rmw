@@ -137,6 +137,7 @@ test ! -f "$BTRFS_WASTE_DIR/info/foo.trashinfo"
 
 # --- Test: move a symlink across btrfs subvolumes ---
 echo "== Test: move a symlink across btrfs subvolumes"
+[ -L sym_link ] && rm sym_link
 ln -s foo sym_link
 $BTRFS_RMW_CMD sym_link
 test ! -L sym_link
