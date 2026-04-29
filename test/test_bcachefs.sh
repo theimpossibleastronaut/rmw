@@ -159,6 +159,11 @@ test -f "$BCACHEFS_SYM_DIR/real_file"
 test -L "$BCACHEFS_SYM_DIR/link_file"
 test ! -f "$BCACHEFS_WASTE_DIR/info/sym_dir.trashinfo"
 
+FS_MOUNTPOINT="$BCACHEFS_MOUNTPOINT"
+FS_RMW_CMD="$BCACHEFS_RMW_CMD"
+FS_WASTE_DIR="$BCACHEFS_WASTE_DIR"
+. "${MESON_SOURCE_ROOT}/test/test_ficlone_safeguards.sh"
+
 # --- Test: purge an expired file from bcachefs waste ---
 echo "== Test: purge an expired file from bcachefs waste"
 RMW_FAKE_YEAR=true $BCACHEFS_RMW_CMD foo

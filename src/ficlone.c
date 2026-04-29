@@ -127,6 +127,10 @@ do_ficlone(const char *source, const char *dest, int *save_errno)
   {
     *save_errno = errno;
     perror("unlink source");
+    /* dest is a valid clone but source couldn't be removed; clean up dest
+       so the caller can retry rather than leaving an orphan in the waste folder */
+    if (unlink(dest) != 0)
+      fprintf(stderr, "unlink: %s in %s\n", strerror(errno), __func__);
     return -1;
   }
 
@@ -162,6 +166,7 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
   }
 
   int result = 0;
+  int files_moved = 0;
   struct dirent *entry;
   while ((entry = readdir(dir)) != NULL)
   {
@@ -175,6 +180,7 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
     if (lstat(src_child, &st) != 0)
     {
       *save_errno = errno;
+      fprintf(stderr, "lstat '%s': %s\n", src_child, strerror(*save_errno));
       result = -1;
     }
     else
@@ -193,6 +199,7 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
         if (len == -1)
         {
           *save_errno = errno;
+          fprintf(stderr, "readlink '%s': %s\n", src_child, strerror(*save_errno));
           result = -1;
         }
         else
@@ -201,11 +208,15 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
           if (symlink(link_target, dst_child) != 0)
           {
             *save_errno = errno;
+            fprintf(stderr, "symlink '%s': %s\n", dst_child, strerror(*save_errno));
             result = -1;
           }
           else if (unlink(src_child) != 0)
           {
             *save_errno = errno;
+            fprintf(stderr, "unlink '%s': %s\n", src_child, strerror(*save_errno));
+            /* src_child is still intact; remove dst_child to avoid duplicate */
+            unlink(dst_child);
             result = -1;
           }
         }
@@ -224,12 +235,19 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
 
     if (result != 0)
       break;
+    files_moved++;
   }
 
   closedir(dir);
 
   if (result != 0)
+  {
+    if (files_moved > 0)
+      fprintf(stderr,
+              "partial move: check both '%s' and '%s' -- some files may have already been moved\n",
+              src, dst);
     return -1;
+  }
 
   if (rmdir(src) != 0)
   {

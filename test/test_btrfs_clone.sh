@@ -122,6 +122,11 @@ test -f "$BTRFS_SYM_DIR/real_file"
 test -L "$BTRFS_SYM_DIR/link_file"
 test ! -f "$BTRFS_WASTE_DIR/info/sym_dir.trashinfo"
 
+FS_MOUNTPOINT="$BTRFS_MOUNTPOINT"
+FS_RMW_CMD="$BTRFS_RMW_CMD"
+FS_WASTE_DIR="$BTRFS_WASTE_DIR"
+. "${MESON_SOURCE_ROOT}/test/test_ficlone_safeguards.sh"
+
 # --- Test: move a file across btrfs subvolumes ---
 echo "== Test: move a file across btrfs subvolumes"
 touch foo
