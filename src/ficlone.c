@@ -65,26 +65,27 @@ is_ficlone_fs(const char *path)
 }
 
 
-int
-do_ficlone(const char *source, const char *dest, int *save_errno)
+static int
+do_ficlone(const char *source, const char *dest)
 {
 #ifdef HAVE_FICLONE
   int src_fd, dest_fd;
   struct stat src_stat;
+  int err;
 
   src_fd = open(source, O_RDONLY);
   if (src_fd == -1)
   {
-    *save_errno = errno;
     perror("open source");
     return -1;
   }
 
   if (fstat(src_fd, &src_stat) == -1)
   {
-    *save_errno = errno;
+    err = errno;
     perror("fstat source");
     close(src_fd);
+    errno = err;
     return -1;
   }
 
@@ -93,14 +94,15 @@ do_ficlone(const char *source, const char *dest, int *save_errno)
   umask(old_umask);
   if (dest_fd == -1)
   {
-    *save_errno = errno;
+    err = errno;
     perror("open destination");
     close(src_fd);
+    errno = err;
     return -1;
   }
 
   int res = ioctl(dest_fd, FICLONE, src_fd);
-  *save_errno = errno;
+  err = errno;
 
   if (res != -1)
   {
@@ -116,21 +118,23 @@ do_ficlone(const char *source, const char *dest, int *save_errno)
 
   if (res == -1)
   {
-    if (*save_errno != EXDEV)
-      fprintf(stderr, "ioctl: %s in %s\n", strerror(*save_errno), __func__);
+    if (err != EXDEV)
+      fprintf(stderr, "ioctl: %s in %s\n", strerror(err), __func__);
     if (unlink(dest) != 0)
       fprintf(stderr, "unlink: %s in %s\n", strerror(errno), __func__);
+    errno = err;
     return -1;
   }
 
   if (unlink(source) == -1)
   {
-    *save_errno = errno;
+    err = errno;
     perror("unlink source");
     /* dest is a valid clone but source couldn't be removed; clean up dest
        so the caller can retry rather than leaving an orphan in the waste folder */
     if (unlink(dest) != 0)
       fprintf(stderr, "unlink: %s in %s\n", strerror(errno), __func__);
+    errno = err;
     return -1;
   }
 
@@ -138,30 +142,25 @@ do_ficlone(const char *source, const char *dest, int *save_errno)
 #else
   (void) source;
   (void) dest;
-  *save_errno = EXDEV;
+  errno = EXDEV;
   return -1;
 #endif
 }
 
 
-/* Recursively move a directory using FICLONE per file.
-   Returns 0 on success. On failure sets *save_errno and returns -1.
-   If FICLONE is not available, sets *save_errno = EXDEV (skip signal). */
-int
-do_ficlone_dir(const char *src, const char *dst, int *save_errno)
+static int
+do_ficlone_dir(const char *src, const char *dst)
 {
 #ifdef HAVE_FICLONE
   DIR *dir = opendir(src);
   if (!dir)
-  {
-    *save_errno = errno;
     return -1;
-  }
 
   if (mkdir(dst, 0777) != 0)
   {
-    *save_errno = errno;
+    int err = errno;
     closedir(dir);
+    errno = err;
     return -1;
   }
 
@@ -179,8 +178,7 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
     struct stat st;
     if (lstat(src_child, &st) != 0)
     {
-      *save_errno = errno;
-      fprintf(stderr, "lstat '%s': %s\n", src_child, strerror(*save_errno));
+      fprintf(stderr, "lstat '%s': %s\n", src_child, strerror(errno));
       result = -1;
     }
     else
@@ -190,7 +188,7 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
 
       if (S_ISDIR(st.st_mode))
       {
-        result = do_ficlone_dir(src_child, dst_child, save_errno);
+        result = do_ficlone_dir(src_child, dst_child);
       }
       else if (S_ISLNK(st.st_mode))
       {
@@ -198,8 +196,7 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
         ssize_t len = readlink(src_child, link_target, sizeof(link_target) - 1);
         if (len == -1)
         {
-          *save_errno = errno;
-          fprintf(stderr, "readlink '%s': %s\n", src_child, strerror(*save_errno));
+          fprintf(stderr, "readlink '%s': %s\n", src_child, strerror(errno));
           result = -1;
         }
         else
@@ -207,14 +204,12 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
           link_target[len] = '\0';
           if (symlink(link_target, dst_child) != 0)
           {
-            *save_errno = errno;
-            fprintf(stderr, "symlink '%s': %s\n", dst_child, strerror(*save_errno));
+            fprintf(stderr, "symlink '%s': %s\n", dst_child, strerror(errno));
             result = -1;
           }
           else if (unlink(src_child) != 0)
           {
-            *save_errno = errno;
-            fprintf(stderr, "unlink '%s': %s\n", src_child, strerror(*save_errno));
+            fprintf(stderr, "unlink '%s': %s\n", src_child, strerror(errno));
             /* src_child is still intact; remove dst_child to avoid duplicate */
             unlink(dst_child);
             result = -1;
@@ -223,12 +218,12 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
       }
       else if (S_ISREG(st.st_mode))
       {
-        result = do_ficlone(src_child, dst_child, save_errno);
+        result = do_ficlone(src_child, dst_child);
       }
       else
       {
         /* special files (FIFOs, sockets, devices) can't be cloned */
-        *save_errno = ENOTSUP;
+        errno = ENOTSUP;
         result = -1;
       }
     }
@@ -250,23 +245,20 @@ do_ficlone_dir(const char *src, const char *dst, int *save_errno)
   }
 
   if (rmdir(src) != 0)
-  {
-    *save_errno = errno;
     return -1;
-  }
+
   return 0;
 #else
   (void) src;
   (void) dst;
-  *save_errno = EXDEV;
+  errno = EXDEV;
   return -1;
 #endif
 }
 
 
-/* Move src to dst on a FICLONE-capable filesystem.
-   Directories use do_ficlone_dir (returns EXDEV if clone not supported).
-   Symlinks are recreated at dst and unlinked from src.
+/* Move src to dst using FICLONE where possible.
+   Handles regular files, directories, and symlinks.
    Returns 0 on success, -1 on failure with errno set. */
 int
 ficlone_move(const char *src, const char *dst)
@@ -275,14 +267,11 @@ ficlone_move(const char *src, const char *dst)
   if (lstat(src, &st) == -1)
     return -1;
 
+  if (S_ISREG(st.st_mode))
+    return do_ficlone(src, dst);
+
   if (S_ISDIR(st.st_mode))
-  {
-    int clone_errno = 0;
-    int r = do_ficlone_dir(src, dst, &clone_errno);
-    if (r != 0)
-      errno = clone_errno;
-    return r;
-  }
+    return do_ficlone_dir(src, dst);
 
   if (S_ISLNK(st.st_mode))
   {

@@ -411,29 +411,15 @@ damage of 5000 hp. You feel satisfied.\n"));
         int r_result = 0;
         if (cli_user_options->want_dry_run == false)
         {
-          int save_errno = errno;
           const char *src = argv[file_arg];
           const char *dst = st_target.waste_dest_name;
 
           if (waste_curr->dev_num != st_target.dev_num)
           {
-            if (S_ISREG(st_file_arg.st_mode))
-            {
-              r_result = do_ficlone(src, dst, &save_errno);
-              errno = save_errno;
-            }
-            else
-            {
-              /* directory (or symlink) on different device: try FICLONE-based
-                 recursive move; returns EXDEV (via errno) if filesystem
-                 doesn't support clone */
-              r_result = ficlone_move(src, dst);
-              save_errno = errno;
-            }
-
+            r_result = ficlone_move(src, dst);
             if (r_result != 0)
             {
-              if (save_errno == EXDEV)
+              if (errno == EXDEV)
               {
                 waste_curr = waste_curr->next_node;
                 continue;
@@ -449,14 +435,7 @@ damage of 5000 hp. You feel satisfied.\n"));
             /* same device: simple rename */
             r_result = rename(src, dst);
             if (r_result != 0 && errno == EXDEV)
-            {
-              /* rename failed with EXDEV even though st_dev matched (e.g.,
-                 bcachefs cross-subvolume). */
-              if (S_ISREG(st_file_arg.st_mode))
-                r_result = do_ficlone(src, dst, &save_errno);
-              else
-                r_result = ficlone_move(src, dst);
-            }
+              r_result = ficlone_move(src, dst);
           }
         }
 

@@ -27,10 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 bool is_ficlone_fs(const char *path);
 
-int do_ficlone(const char *source, const char *dest, int *save_errno);
-
-int do_ficlone_dir(const char *src, const char *dst, int *save_errno);
-
 int ficlone_move(const char *src, const char *dst);
 
 #endif

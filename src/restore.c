@@ -65,55 +65,24 @@ get_waste_parent(char *waste_parent, const char *src)
 static int
 move_back(const char *src, const char *dest, bool want_dry_run)
 {
-  int rename_res = 0;
-  int save_errno = 0;
-  int clone_errno = 0;
-
   if (want_dry_run)
     return 0;
 
-  rename_res = rename(src, dest);
-  if (rename_res == 0)
-    return 0;                   /* success */
+  if (rename(src, dest) == 0)
+    return 0;
 
-  /* rename failed; preserve errno immediately */
-  save_errno = errno;
+  int save_errno = errno;
 
-  struct stat st_src;
-
-  /* rename already failed and save_errno == errno from rename() */
   if (save_errno == EXDEV)
   {
-    /* get file type without following symlinks */
-    if (lstat(src, &st_src) != 0)
-    {
-      /* cannot stat. restore rename's errno and fail */
-      errno = save_errno;
-      return -1;
-    }
-
-    if (S_ISREG(st_src.st_mode))
-    {
-      int clone_res = do_ficlone(src, dest, &clone_errno);
-      if (clone_res == 0)
-      {
-        errno = 0;
-        return 0;
-      }
-      errno = clone_errno ? clone_errno : save_errno;
-      return -1;
-    }
-    /* directory or symlink */
     if (ficlone_move(src, dest) == 0)
     {
       errno = 0;
       return 0;
     }
-    errno = save_errno;
     return -1;
   }
 
-  /* other rename error */
   errno = save_errno;
   return -1;
 }
