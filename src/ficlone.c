@@ -209,9 +209,11 @@ do_ficlone_dir(const char *src, const char *dst)
           }
           else if (unlink(src_child) != 0)
           {
-            fprintf(stderr, "unlink '%s': %s\n", src_child, strerror(errno));
+            int err = errno;
+            fprintf(stderr, "unlink '%s': %s\n", src_child, strerror(err));
             /* src_child is still intact; remove dst_child to avoid duplicate */
             unlink(dst_child);
+            errno = err;
             result = -1;
           }
         }
@@ -233,10 +235,12 @@ do_ficlone_dir(const char *src, const char *dst)
     files_moved++;
   }
 
+  int saved_err = errno;
   closedir(dir);
 
   if (result != 0)
   {
+    errno = saved_err;
     if (files_moved > 0)
       fprintf(stderr,
               _("partial move: check both '%s' and '%s' -- some files may have already been moved\n"),
@@ -283,7 +287,12 @@ ficlone_move(const char *src, const char *dst)
     if (symlink(target, dst) != 0)
       return -1;
     if (unlink(src) != 0)
+    {
+      int err = errno;
+      unlink(dst);
+      errno = err;
       return -1;
+    }
     return 0;
   }
 
