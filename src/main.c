@@ -417,14 +417,7 @@ damage of 5000 hp. You feel satisfied.\n"));
 
           if (waste_curr->dev_num != st_target.dev_num)
           {
-            struct stat st_src;
-            if (lstat(src, &st_src) == -1)
-            {
-              save_errno = errno;
-              perror("lstat");
-              exit(EXIT_FAILURE);
-            }
-            if (S_ISREG(st_src.st_mode))
+            if (S_ISREG(st_file_arg.st_mode))
             {
               r_result = do_ficlone(src, dst, &save_errno);
               errno = save_errno;

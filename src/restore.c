@@ -92,35 +92,8 @@ move_back(const char *src, const char *dest, bool want_dry_run)
       return -1;
     }
 
-    if (S_ISDIR(st_src.st_mode))
+    if (S_ISREG(st_src.st_mode))
     {
-      /* directory on different device: use FICLONE-based recursive move */
-      if (ficlone_move(src, dest) == 0)
-      {
-        errno = 0;
-        return 0;
-      }
-      errno = save_errno;
-      return -1;
-    }
-    else if (S_ISLNK(st_src.st_mode))
-    {
-      char target[PATH_MAX];
-      ssize_t len = readlink(src, target, sizeof(target) - 1);
-      if (len != -1)
-      {
-        target[len] = '\0';
-        if (symlink(target, dest) == 0 && unlink(src) == 0)
-        {
-          errno = 0;
-          return 0;
-        }
-      }
-      return -1;
-    }
-    else
-    {
-      /* regular file on different device -> try btrfs clone */
       int clone_res = do_ficlone(src, dest, &clone_errno);
       if (clone_res == 0)
       {
@@ -130,6 +103,14 @@ move_back(const char *src, const char *dest, bool want_dry_run)
       errno = clone_errno ? clone_errno : save_errno;
       return -1;
     }
+    /* directory or symlink */
+    if (ficlone_move(src, dest) == 0)
+    {
+      errno = 0;
+      return 0;
+    }
+    errno = save_errno;
+    return -1;
   }
 
   /* other rename error */
