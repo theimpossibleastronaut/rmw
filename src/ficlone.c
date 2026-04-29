@@ -239,7 +239,7 @@ do_ficlone_dir(const char *src, const char *dst)
   {
     if (files_moved > 0)
       fprintf(stderr,
-              "partial move: check both '%s' and '%s' -- some files may have already been moved\n",
+              _("partial move: check both '%s' and '%s' -- some files may have already been moved\n"),
               src, dst);
     return -1;
   }
