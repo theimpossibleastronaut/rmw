@@ -227,6 +227,12 @@ resolve_path(const char *file, const char *b)
   char tmp[req_len];
   strcpy(tmp, file);
 
+  /* g_path_get_dirname("foo/") returns "foo", not "." — strip trailing slash
+     so it behaves like POSIX dirname */
+  size_t tlen = strlen(tmp);
+  if (tlen > 1 && tmp[tlen - 1] == '/')
+    tmp[tlen - 1] = '\0';
+
   gchar *dir = g_path_get_dirname(tmp);
   char *orig_dirname = realpath(dir, NULL);
   g_free(dir);

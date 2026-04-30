@@ -146,4 +146,26 @@ if [ -n "$(command -v Xvfb)" ] && ! grep -q "DISABLE_CURSES" "$MESON_BUILD_ROOT/
   fi
 fi
 
+# Regression test: rmw file/ (trailing slash on regular file) must not move it
+echo "$SEPARATOR"
+echo "Trailing slash on regular file: must be rejected cleanly"
+cd "${RMW_FAKE_HOME}"
+touch trailing_slash_file.txt
+${RMW_TEST_CMD_STRING} trailing_slash_file.txt/ || true
+test -f "${RMW_FAKE_HOME}/trailing_slash_file.txt"
+
+# Regression test: rmw dir/ (trailing slash) then restore must not create dir/dir
+echo "$SEPARATOR"
+echo "Trailing slash: rmw dir/ then restore"
+cd "${RMW_FAKE_HOME}"
+mkdir -p trailing_slash_test
+touch trailing_slash_test/canary
+${RMW_TEST_CMD_STRING} trailing_slash_test/
+test ! -d trailing_slash_test
+test -d "${PRIMARY_WASTE_DIR}/files/trailing_slash_test"
+${RMW_TEST_CMD_STRING} -u
+test -d "${RMW_FAKE_HOME}/trailing_slash_test"
+test -f "${RMW_FAKE_HOME}/trailing_slash_test/canary"
+test ! -d "${RMW_FAKE_HOME}/trailing_slash_test/trailing_slash_test"
+
 exit 0
