@@ -72,6 +72,9 @@ canfigger_dep = dependency(
   default_options: 'default_library=static',
 )
 
+glib_dep = dependency('glib-2.0', version: '>=2.50')
+gio_dep  = dependency('gio-2.0',  version: '>=2.50')
+
 subdir('src')
 
 main_bin = executable('rmw', 'src/main.c', dependencies: rmw_dep, install: true)

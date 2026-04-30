@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef INC_GLOBALS_H
 #define INC_GLOBALS_H
-
-#include <sys/wait.h>
-
 #include "globals.h"
 #endif
 
+#include <gio/gio.h>
+
+#include "ficlone.h"
 #include "utils.h"
 #include "messages.h"
 
@@ -45,62 +45,6 @@ is_symlink(const char *path)
 }
 
 
-/*
- * name: rmw_dirname
- * return a pointer to the parent directory of *path
- * (mimics the behavior of dirname())
- *
- * This function may alter path
- *
- * (Using dirname() was causing errors on osx and OpenBSD 6.5
- * https://travis-ci.com/github/theimpossibleastronaut/rmw/builds/224722056
- * -andy5995 2021-05-02)
- */
-char *
-rmw_dirname(char *path)
-{
-  if (path == NULL || *path == '\0')
-    return NULL;
-
-  int len = strlen(path);
-  if (len > 1 && path[len - 1] == '/')
-  {
-    path[len - 1] = '\0';
-    len--;
-  }
-
-  char *ptr = path + len - 1;
-
-  while (*ptr != '/' && ptr != &path[0])
-    ptr--;
-
-  if (*ptr == '/')
-  {
-    if (len > 1)
-    {
-      if (ptr != &path[0])
-      {
-        *ptr = '\0';
-      }
-      else
-      {
-        path[1] = '\0';
-      }
-    }
-    return path;
-  }
-
-  if (isdotdir(path))
-    if (path[1] == '.')
-      path[1] = '\0';
-
-  // No slashes were found
-  if (ptr == &path[0] && len >= 1)
-    strcpy(path, ".");
-
-  return path;
-}
-
 
 /**
  * rmw_mkdir()
@@ -115,24 +59,7 @@ rmw_mkdir(const char *dir)
     return -1;
   if (check_pathname_state(dir) == EEXIST)
     return -1;
-
-  int res = 0;
-
-  char tmp[strlen(dir) + 1];
-  strcpy(tmp, dir);
-  char *parent = rmw_dirname(tmp);
-  if (!parent)
-    return -1;
-  int p_state = check_pathname_state(parent);
-  if (p_state == ENOENT)
-    res = rmw_mkdir(parent);
-  else if (p_state == -1)
-    exit(p_state);
-
-  if (res)
-    return res;
-
-  return mkdir(dir, 0777);
+  return g_mkdir_with_parents(dir, 0777);
 }
 
 
@@ -246,82 +173,17 @@ user_verify(void)
 
 
 /*!
-  *
-  * According to RFC2396, we must escape any character that's
-  * reserved or not available in US-ASCII, for simplification, here's
-  * the character that we must accept:
-  *
-  * - Alphabethics (A-Z and a-z)
-  * - Numerics (0-9)
-  * - The following characters: ~ _ - .
-  *
-  * For purposes of this application we will not convert "/"s, as in
-  * this case they correspond to their semantic meaning.
-  * @param[in] c the character to check
-  * returns true if the character c is unreserved
-  * @see escape_url
-  * @see unescape_url
- */
-static bool
-is_unreserved(char c)
-{
-  if (('A' <= c && c <= 'Z') ||
-      ('a' <= c && c <= 'z') || ('0' <= c && c <= '9'))
-    return 1;
-
-  switch (c)
-  {
-  case '-':
-  case '_':
-  case '~':
-  case '.':
-  case '/':
-    return 1;
-
-  default:
-    return 0;
-  }
-}
-
-
-/*!
- * Convert str into a URL valid string, escaping when necessary
+ * Convert str into a URL valid string, escaping when necessary.
+ * "/" is treated as unreserved per RFC2396 for this application.
  * returns an allocated string which must be freed later
  */
 char *
 escape_url(const char *str)
 {
-  int pos_str = 0, pos_dest = 0;
-  char *dest = malloc(LEN_MAX_ESCAPED_PATH);
-  if (!dest)
+  char *result = (char *) g_uri_escape_string(str, "/", FALSE);
+  if (!result)
     fatal_malloc();
-  *dest = '\0';
-
-  while (str[pos_str])
-  {
-    if (is_unreserved(str[pos_str]))
-    {
-      bufchk_len(pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
-      dest[pos_dest] = str[pos_str];
-      pos_dest += 1;
-    }
-    else
-    {
-      bufchk_len(pos_dest + 4, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
-      /* A quick explanation to this printf
-       * %% - print a '%'
-       * 0  - pad with left '0'
-       * 2  - width of string should be 2 (pad if it's just 1 char)
-       * hh - this is a byte
-       * X  - print hexadecimal form with uppercase letters
-       */
-      sprintf(dest + pos_dest, "%%%02hhX", str[pos_str]);
-      pos_dest += 3;
-    }
-    pos_str++;
-  }
-  dest[pos_dest] = '\0';
-  return dest;
+  return result;
 }
 
 
@@ -333,33 +195,10 @@ escape_url(const char *str)
 char *
 unescape_url(const char *str)
 {
-  int pos_str = 0, pos_dest = 0;
-  char *dest = malloc(PATH_MAX);
-  if (!dest)
+  char *result = (char *) g_uri_unescape_string(str, NULL);
+  if (!result)
     fatal_malloc();
-
-  while (str[pos_str])
-  {
-    if (str[pos_str] == '%')
-    {
-      /* skip the '%' */
-      pos_str += 1;
-      bufchk_len(pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
-      // Is casting dest to unsigned char* ok here? Is there a better way to
-      // do the conversion?
-      sscanf(str + pos_str, "%2hhx", (unsigned char *) dest + pos_dest);
-      pos_str += 2;
-    }
-    else
-    {
-      bufchk_len(pos_dest + 2, LEN_MAX_ESCAPED_PATH, __func__, __LINE__);
-      dest[pos_dest] = str[pos_str];
-      pos_str += 1;
-    }
-    pos_dest++;
-  }
-  dest[pos_dest] = '\0';
-  return dest;
+  return result;
 }
 
 
@@ -391,7 +230,15 @@ resolve_path(const char *file, const char *b)
   char tmp[req_len];
   strcpy(tmp, file);
 
-  char *orig_dirname = realpath(rmw_dirname(tmp), NULL);
+  /* g_path_get_dirname("foo/") returns "foo", not "." — strip trailing slash
+     so it behaves like POSIX dirname */
+  size_t tlen = strlen(tmp);
+  if (tlen > 1 && tmp[tlen - 1] == '/')
+    tmp[tlen - 1] = '\0';
+
+  gchar *dir = g_path_get_dirname(tmp);
+  char *orig_dirname = realpath(dir, NULL);
+  g_free(dir);
   if (orig_dirname == NULL)
   {
     print_msg_error();
@@ -436,38 +283,6 @@ trim_char(const int c, char *str)
 }
 
 
-char *
-real_join_paths(const char *argv, ...)
-{
-  char *path = calloc(1, PATH_MAX);
-  if (!path)
-    fatal_malloc();
-
-  va_list ap;
-  char *str = (char *) argv;
-  va_start(ap, argv);
-
-  while (str != NULL)
-  {
-    size_t len = 0;
-    char *dup_str = strdup(str);
-    if (!dup_str)
-      fatal_malloc();
-    trim_char('/', dup_str);
-    len = strlen(path);
-    int max_len = PATH_MAX - len;
-    int r = snprintf(path + len, max_len, "%s/", dup_str);
-    free(dup_str);
-    sn_check(r, max_len);
-    str = va_arg(ap, char *);
-  }
-
-  va_end(ap);
-  trim_char('/', path);
-  if (!(path = realloc(path, strlen(path) + 1)))
-    fatal_malloc();
-  return path;
-}
 
 bool
 is_dir_f(const char *pathname)
@@ -497,66 +312,6 @@ count_chars(const char c, const char *str)
 }
 
 
-/* returns 0 on success, non-zero on failure.
-   On error sets *out_errno when out_errno != NULL. */
-int
-safe_mv_via_exec(const char *src, const char *dst, int *out_errno)
-{
-  pid_t pid;
-  int status;
-  int saved_errno = 0;
-
-  pid = fork();
-  if (pid < 0)
-  {
-    saved_errno = errno;
-    if (out_errno)
-      *out_errno = saved_errno;
-    return -1;
-  }
-
-  if (pid == 0)
-  {
-    /* child: exec mv, searching PATH at runtime so this works on
-       non-FHS systems (e.g. NixOS) and in AppImages */
-    char *const argv_mv[] = { "mv", (char *) src, (char *) dst, NULL };
-    execvp("mv", argv_mv);
-    _exit(127);                 /* only reached on execvp failure */
-  }
-
-
-  /* parent: wait for child */
-  if (waitpid(pid, &status, 0) < 0)
-  {
-    saved_errno = errno;
-    if (out_errno)
-      *out_errno = saved_errno;
-    return -1;
-  }
-
-  if (WIFEXITED(status))
-  {
-    int code = WEXITSTATUS(status);
-    if (code == 0)
-    {
-      if (out_errno)
-        *out_errno = 0;
-      return 0;
-    }
-    /* child program returned nonzero. we cannot see its errno.
-       map common mv exit codes to errno conservatively. */
-    saved_errno = EIO;
-    if (out_errno)
-      *out_errno = saved_errno;
-    return code;
-  }
-
-  /* child was terminated by signal */
-  saved_errno = EINTR;
-  if (out_errno)
-    *out_errno = saved_errno;
-  return -1;
-}
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -597,51 +352,6 @@ test_rmw_mkdir(const char *h)
   return;
 }
 
-static void
-test_rmw_dirname(void)
-{
-  char dir[BUFSIZ];
-  strcpy(dir, "/");
-  assert(strcmp(rmw_dirname(dir), "/") == 0);
-
-  strcpy(dir, "./foo");
-  assert(strcmp(rmw_dirname(dir), ".") == 0);
-
-  strcpy(dir, "../foo");
-  assert(strcmp(rmw_dirname(dir), "..") == 0);
-
-  strcpy(dir, "./foo/");
-  assert(strcmp(rmw_dirname(dir), ".") == 0);
-
-  strcpy(dir, "./foo/bar/");
-  assert(strcmp(rmw_dirname(dir), "./foo") == 0);
-
-  strcpy(dir, "foo/bar/42");
-  assert(strcmp(rmw_dirname(dir), "foo/bar") == 0);
-
-  strcpy(dir, "/foo/bar/42");
-  assert(strcmp(rmw_dirname(dir), "/foo/bar") == 0);
-
-  strcpy(dir, "..");
-  assert(strcmp(rmw_dirname(dir), ".") == 0);
-
-  strcpy(dir, ".");
-  assert(strcmp(rmw_dirname(dir), ".") == 0);
-
-  strcpy(dir, "usr");
-  assert(strcmp(rmw_dirname(dir), ".") == 0);
-
-  strcpy(dir, "/usr/");
-  assert(strcmp(rmw_dirname(dir), "/") == 0);
-
-  strcpy(dir, "//");
-  assert(strcmp(rmw_dirname(dir), "/") == 0);
-
-  strcpy(dir, "");
-  assert(rmw_dirname(dir) == NULL);
-
-  return;
-}
 
 static void
 test_make_size_human_readable(void)
@@ -684,7 +394,7 @@ test_join_paths(void)
   assert(strcmp(path, "home/foo/bar") == 0);
   free(path);
 
-  path = join_paths("/home/foo", "bar", "world/");
+  path = join_paths("/home/foo", "bar", "world");
   assert(path != NULL);
   assert(strcmp(path, "/home/foo/bar/world") == 0);
   free(path);
@@ -798,7 +508,6 @@ main()
 
   test_isdotdir();
   test_rmw_mkdir(HOMEDIR);
-  test_rmw_dirname();
   test_make_size_human_readable();
   test_join_paths();
   test_trim_char();

@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ctype.h>
 #include <dirent.h>
+#include <limits.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -41,12 +42,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 static void
 get_waste_parent(char *waste_parent, const char *src)
 {
-  char src_copy[strlen(src) + 1];
-  strcpy(src_copy, src);
-  char *src_dirname = rmw_dirname(src_copy);
-
+  gchar *src_dirname = g_path_get_dirname(src);
   char *one_dir_level = "/..";
   char *waste_parent_rel_path = join_paths(src_dirname, one_dir_level);
+  g_free(src_dirname);
   char *tmp = realpath(waste_parent_rel_path, NULL);
   free(waste_parent_rel_path);
 
@@ -66,60 +65,24 @@ get_waste_parent(char *waste_parent, const char *src)
 static int
 move_back(const char *src, const char *dest, bool want_dry_run)
 {
-  int rename_res = 0;
-  int save_errno = 0;
-  int clone_errno = 0;
-
   if (want_dry_run)
     return 0;
 
-  rename_res = rename(src, dest);
-  if (rename_res == 0)
-    return 0;                   /* success */
+  if (rename(src, dest) == 0)
+    return 0;
 
-  /* rename failed; preserve errno immediately */
-  save_errno = errno;
+  int save_errno = errno;
 
-  struct stat st_src;
-
-  /* rename already failed and save_errno == errno from rename() */
   if (save_errno == EXDEV)
   {
-    /* get file type without following symlinks */
-    if (lstat(src, &st_src) != 0)
+    if (ficlone_move(src, dest) == 0)
     {
-      /* cannot stat. restore rename's errno and fail */
-      errno = save_errno;
-      return -1;
+      errno = 0;
+      return 0;
     }
-
-    if (S_ISDIR(st_src.st_mode))
-    {
-      /* directory on different device -> execv mv */
-      int mv_ret = safe_mv_via_exec(src, dest, &clone_errno);
-      if (mv_ret == 0)
-      {
-        errno = 0;
-        return 0;
-      }
-      errno = clone_errno ? clone_errno : save_errno;
-      return -1;
-    }
-    else
-    {
-      /* regular file on different device -> try btrfs clone */
-      int clone_res = do_ficlone(src, dest, &clone_errno);
-      if (clone_res == 0)
-      {
-        errno = 0;
-        return 0;
-      }
-      errno = clone_errno ? clone_errno : save_errno;
-      return -1;
-    }
+    return -1;
   }
 
-  /* other rename error */
   errno = save_errno;
   return -1;
 }
@@ -185,8 +148,9 @@ restore(const char *src, st_time *st_time_var,
     strcpy(dest, _dest);
     if (*_dest != '/')
     {
-      char *media_root = rmw_dirname(waste_parent);
+      gchar *media_root = g_path_get_dirname(waste_parent);
       char *_tmp_str = join_paths(media_root, _dest);
+      g_free(media_root);
       sn_check(snprintf(dest, sizeof dest, "%s", _tmp_str), sizeof dest);
       free(_tmp_str);
     }

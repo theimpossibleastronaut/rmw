@@ -62,7 +62,7 @@ endif
 
 config_h = configure_file(output: 'config.h', configuration: conf)
 
-deps_librmw = [dep_intl, canfigger_dep, dep_menu, dep_curses]
+deps_librmw = [dep_intl, canfigger_dep, dep_menu, dep_curses, glib_dep, gio_dep]
 
 lib_rmw = static_library(
   'rmw',

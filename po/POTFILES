@@ -2,6 +2,7 @@
 
 src/parse_cli_options.c
 src/main.c
+src/ficlone.c
 src/config_rmw.c
 src/messages.c
 src/restore.c

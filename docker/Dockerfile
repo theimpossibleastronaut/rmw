@@ -11,6 +11,7 @@ RUN git clone --depth 1 https://github.com/theimpossibleastronaut/rmw \
 FROM alpine
 COPY --from=0 /tmp/rmw/ /
 RUN apk add \
+      glib \
       libmenuw \
       mandoc \
       musl-fts \
