@@ -180,7 +180,10 @@ user_verify(void)
 char *
 escape_url(const char *str)
 {
-  return (char *) g_uri_escape_string(str, "/", FALSE);
+  char *result = (char *) g_uri_escape_string(str, "/", FALSE);
+  if (!result)
+    fatal_malloc();
+  return result;
 }
 
 
