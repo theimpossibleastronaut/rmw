@@ -42,6 +42,8 @@ print_config(FILE *restrict stream)
 {
   fputs(_("\
 # rmw default waste directory, separate from the desktop trash\n"), stream);
+  fputs(_("\
+# To use multiple waste folders, specify each on a separate line\n"), stream);
   fputs("\
 WASTE = $HOME/.local/share/Waste\n", stream);
   fputs(_("\n\

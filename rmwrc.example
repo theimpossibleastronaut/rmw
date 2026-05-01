@@ -1,4 +1,5 @@
 # rmw default waste directory, separate from the desktop trash
+# To use multiple waste folders, specify each on a separate line
 WASTE = $HOME/.local/share/Waste
 
 # The directory used by the FreeDesktop.org Trash spec
