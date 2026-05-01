@@ -111,6 +111,16 @@ Restores files that were last rmw'ed
 .TP
 \fB\-m\fR, \fB\-\-most\-recent\-list\fR
 list most recently rmw'ed files
+.SH CONFIGURATION
+Each WASTE folder must be on its own line in the configuration file.
+Two WASTE folders cannot be specified on the same line.
+.TP
+WASTE=/mnt/flash/.Trash-$UID, removable
+When using the removable attribute, you must also manually create the directory
+.TP
+expire_age = 45
+rmw will permanently delete files that have been in the waste (or
+trash) for more than 45 days.
 .SH ENVIRONMENT
 These variables are intended only to be used for testing. See the
 code-testing page on the rmw website for more details.
@@ -208,14 +218,6 @@ remove, rmw will handle the move transparently.
 rmw -z ~/.local/share/Waste/files/foo
 .br
 rmw -z ~/.local/share/Waste/files/bars*
-.SS CONFIGURATION
-.TP
-WASTE=/mnt/flash/.Trash-$UID, removable
-When using the removable attribute, you must also manually create the directory
-.TP
-expire_age = 45
-rmw will permanently delete files that have been in the waste (or
-trash) for more than 45 days.
 .SH AUTHORS
 Project Manager: Andy Alt
 .br
