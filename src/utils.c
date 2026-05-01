@@ -261,25 +261,23 @@ resolve_path(const char *file, const char *b)
 void
 trim_char(const int c, char *str)
 {
-  char *dup_str = str;
-  trim_whitespace(dup_str);
-  if (*dup_str == '\0')
+  char *p = str;
+  trim_whitespace(p);
+  if (*p == '\0')
     return;
 
-  while (*dup_str != '\0')
-    dup_str++;
+  while (*p != '\0')
+    p++;
 
-  dup_str--;
+  p--;
 
-  while (*dup_str == c)
+  while (*p == c)
   {
-    *dup_str = '\0';
-    if (dup_str == str)
+    *p = '\0';
+    if (p == str)
       return;
-    dup_str--;
+    p--;
   }
-
-  return;
 }
 
 

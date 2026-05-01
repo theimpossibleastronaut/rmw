@@ -289,6 +289,12 @@ remove_to_waste(const int argc,
     char tmp[PATH_MAX];
     sn_check(snprintf(tmp, sizeof(tmp), "%s", argv[file_arg]), sizeof(tmp));
 
+    trim_char('/', tmp);
+
+    /* keep a copy before basename() may clobber tmp */
+    char arg[PATH_MAX];
+    sn_check(snprintf(arg, sizeof(arg), "%s", tmp), sizeof(arg));
+
     // If basename() is given an empty string, it returns '.'
     st_target.base_name = basename(tmp);
     if (isdotdir(st_target.base_name))
@@ -309,7 +315,7 @@ damage of 5000 hp. You feel satisfied.\n"));
       continue;
     }
 
-    int p_state = check_pathname_state(argv[file_arg]);
+    int p_state = check_pathname_state(arg);
     if (p_state != EEXIST)
     {
       if (p_state == ENOENT)
@@ -319,10 +325,10 @@ damage of 5000 hp. You feel satisfied.\n"));
     }
 
     struct stat st_file_arg;
-    if (!lstat(argv[file_arg], &st_file_arg))
+    if (!lstat(arg, &st_file_arg))
     {
       st_target.dev_num = st_file_arg.st_dev;
-      st_target.real_path = resolve_path(argv[file_arg], st_target.base_name);
+      st_target.real_path = resolve_path(arg, st_target.base_name);
       if (st_target.real_path == NULL)
       {
         n_err++;
@@ -411,7 +417,7 @@ damage of 5000 hp. You feel satisfied.\n"));
         int r_result = 0;
         if (cli_user_options->want_dry_run == false)
         {
-          const char *src = argv[file_arg];
+          const char *src = arg;
           const char *dst = st_target.waste_dest_name;
 
           if (waste_curr->dev_num != st_target.dev_num)
