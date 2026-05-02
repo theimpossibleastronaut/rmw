@@ -56,7 +56,7 @@ jobs:
         # previous "token" section for more information.
         #
         # REQUIRED.
-        email: 'andy400-dev@yahoo.com'
+        email: ${{ secrets.COVERITY_EMAIL_TOKEN }}
 
         # Which Coverity Scan language pack to download.
         #
