@@ -23,13 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 #endif
 
+#include <fcntl.h>
+#include <libgen.h>
 #include <limits.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
 #ifdef HAVE_FICLONE
 #include <dirent.h>
-#include <fcntl.h>
 #include <linux/fs.h>
 #include <linux/magic.h>
 #include <sys/ioctl.h>
@@ -173,18 +174,20 @@ do_ficlone_dir(const char *src, const char *dst)
       continue;
 
     char src_child[PATH_MAX];
-    snprintf(src_child, sizeof src_child, "%s/%s", src, entry->d_name);
+    sn_check(snprintf(src_child, sizeof src_child, "%s/%s", src, entry->d_name),
+             sizeof src_child);
 
     struct stat st;
-    if (lstat(src_child, &st) != 0)
+    if (fstatat(dirfd(dir), entry->d_name, &st, AT_SYMLINK_NOFOLLOW) != 0)
     {
-      fprintf(stderr, "lstat '%s': %s\n", src_child, strerror(errno));
+      fprintf(stderr, "fstatat '%s': %s\n", src_child, strerror(errno));
       result = -1;
     }
     else
     {
       char dst_child[PATH_MAX];
-      snprintf(dst_child, sizeof dst_child, "%s/%s", dst, entry->d_name);
+      sn_check(snprintf(dst_child, sizeof dst_child, "%s/%s", dst, entry->d_name),
+               sizeof dst_child);
 
       if (S_ISDIR(st.st_mode))
       {
@@ -193,10 +196,12 @@ do_ficlone_dir(const char *src, const char *dst)
       else if (S_ISLNK(st.st_mode))
       {
         char link_target[PATH_MAX];
-        ssize_t len = readlink(src_child, link_target, sizeof(link_target) - 1);
+        ssize_t len =
+          readlinkat(dirfd(dir), entry->d_name, link_target,
+                     sizeof(link_target) - 1);
         if (len == -1)
         {
-          fprintf(stderr, "readlink '%s': %s\n", src_child, strerror(errno));
+          fprintf(stderr, "readlinkat '%s': %s\n", src_child, strerror(errno));
           result = -1;
         }
         else
@@ -207,10 +212,10 @@ do_ficlone_dir(const char *src, const char *dst)
             fprintf(stderr, "symlink '%s': %s\n", dst_child, strerror(errno));
             result = -1;
           }
-          else if (unlink(src_child) != 0)
+          else if (unlinkat(dirfd(dir), entry->d_name, 0) != 0)
           {
             int err = errno;
-            fprintf(stderr, "unlink '%s': %s\n", src_child, strerror(err));
+            fprintf(stderr, "unlinkat '%s': %s\n", src_child, strerror(err));
             /* src_child is still intact; remove dst_child to avoid duplicate */
             unlink(dst_child);
             errno = err;
@@ -279,20 +284,40 @@ ficlone_move(const char *src, const char *dst)
 
   if (S_ISLNK(st.st_mode))
   {
-    char target[PATH_MAX];
-    ssize_t len = readlink(src, target, sizeof(target) - 1);
-    if (len == -1)
+    char src_dir_buf[PATH_MAX];
+    sn_check(snprintf(src_dir_buf, sizeof src_dir_buf, "%s", src),
+             sizeof src_dir_buf);
+    int src_dir_fd = open(dirname(src_dir_buf), O_RDONLY | O_DIRECTORY);
+    if (src_dir_fd == -1)
       return -1;
+
+    char src_base_buf[PATH_MAX];
+    sn_check(snprintf(src_base_buf, sizeof src_base_buf, "%s", src),
+             sizeof src_base_buf);
+    const char *src_name = basename(src_base_buf);
+
+    char target[PATH_MAX];
+    ssize_t len = readlinkat(src_dir_fd, src_name, target, sizeof(target) - 1);
+    if (len == -1)
+    {
+      close(src_dir_fd);
+      return -1;
+    }
     target[len] = '\0';
     if (symlink(target, dst) != 0)
+    {
+      close(src_dir_fd);
       return -1;
-    if (unlink(src) != 0)
+    }
+    if (unlinkat(src_dir_fd, src_name, 0) != 0)
     {
       int err = errno;
       unlink(dst);
+      close(src_dir_fd);
       errno = err;
       return -1;
     }
+    close(src_dir_fd);
     return 0;
   }
 
