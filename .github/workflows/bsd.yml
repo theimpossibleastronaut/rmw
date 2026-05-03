@@ -1,0 +1,49 @@
+name: BSD
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ master ]
+    paths: &shared_paths
+    - '**'
+    - '!**.yml'
+    - '!**/.github'
+    - '!**.md'
+    - '!docker/**'
+    - '!packaging/**'
+    - '!**.txt'
+    - '**/bsd.yml'
+
+  pull_request:
+    branches: [ master ]
+    paths: *shared_paths
+
+jobs:
+  BSD:
+    name: ${{ matrix.os }} ${{ matrix.version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: freebsd
+            version: '15.0'
+            install: sudo pkg install -y git meson ninja gettext pkgconf glib
+          - os: openbsd
+            version: '7.8'
+            install: sudo pkg_add gettext-tools git glib2 meson ninj
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Test
+      uses: cross-platform-actions/action@v1
+      with:
+        operating_system: ${{ matrix.os }}
+        version: ${{ matrix.version }}
+        run: |
+          ${{ matrix.install }}
+          CFLAGS="-Werror" meson setup _build
+          meson compile -C _build
+          meson test --no-stdsplit -v -C _build

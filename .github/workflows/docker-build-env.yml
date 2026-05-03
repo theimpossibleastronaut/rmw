@@ -15,7 +15,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        tag: [bookworm, alpine, tumbleweed]
+        tag: [alpine, tumbleweed]
     runs-on: ${{ matrix.os }}
     env:
       REGISTRY_IMAGE: andy5995/rmw
