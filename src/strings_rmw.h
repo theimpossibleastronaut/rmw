@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <ctype.h>
-#include <libgen.h>
 #include <stdarg.h>
 #include <stddef.h>
 #include <string.h>
