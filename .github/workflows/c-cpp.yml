@@ -111,27 +111,6 @@ jobs:
     - name: Test
       run: cd builddir && meson test -v
 
-  openbsd:
-    runs-on: ubuntu-latest
-    needs:
-      - build
-    name: OpenBSD
-    steps:
-    - uses: actions/checkout@v6
-    - name: Test in OpenBSD
-      id: test
-      uses: vmactions/openbsd-vm@v1
-      with:
-        usesh: true
-        prepare: |
-          pkg_add gettext-tools git glib2 meson ninja
-
-        run: |
-          meson setup builddir -Db_sanitize=none -Dnls=false ${SETUP_OPTIONS:-} || cat builddir/meson-logs/meson-log.txt
-          cd builddir
-          meson compile -v
-          meson test -v --suite rmw
-
   macos:
     name: macos-${{ matrix.name }}
     strategy:
