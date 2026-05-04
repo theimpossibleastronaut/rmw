@@ -441,7 +441,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
              _("<CURSOR-RIGHT / CURSOR-LEFT> - switch waste folders"));
     mvprintw(LINES - (start_line_bottom - 4), 0, _("\
 <SPACE> - select or unselect an item. / <ENTER> - restore selected items"));
-    mvprintw(LINES - (start_line_bottom - 5), 0, _("<ESC> - quit"));
+    mvprintw(LINES - (start_line_bottom - 5), 0, _("q, x, or <ESC> - quit"));
     post_menu(my_menu);
     refresh();
 
@@ -481,7 +481,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
     }
 
     while (c != KEY_RIGHT && c != KEY_LEFT && c != MENU_KEY_ENTER
-           && c != MENU_KEY_ESC && c != 'q');
+           && c != MENU_KEY_ESC && c != 'q' && c != 'x');
     // using 'q' to exit will be deprecated some day
 
     if (c == MENU_KEY_ENTER)
@@ -527,7 +527,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
     free(my_items);
 
   }
-  while (c != MENU_KEY_ESC && c != 'q' && c != MENU_KEY_ENTER);
+  while (c != MENU_KEY_ESC && c != 'q' && c != 'x' && c != MENU_KEY_ENTER);
 
   return restore_err_ctr;
 }

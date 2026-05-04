@@ -18,6 +18,7 @@ rmw (in-progress):
     do_btrfs_clone() to do_ficlone() and is_btrfs() to is_ficlone_fs();
     rename HAVE_LINUX_BTRFS macro to HAVE_FICLONE
   * docs: Add BTRFS AND BCACHEFS section to man page
+  * Add 'x' to exit keys at ncurses screen
 
 2026-04-07
 
