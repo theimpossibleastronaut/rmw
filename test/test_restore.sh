@@ -54,9 +54,11 @@ test "${output}" = "There are no items in the list - please check back later."
 
 echo "$SEPARATOR"
 echo "restore using wildcard pattern, but be in the trash directory"
-$RMW_TEST_CMD_STRING "${RMW_FAKE_HOME}"/somefiles/topdir -v
+# shellcheck disable=SC2086
+strace_check "renam" $RMW_TEST_CMD_STRING "${RMW_FAKE_HOME}"/somefiles/topdir -v
 cd "$PRIMARY_WASTE_DIR"/files
-$RMW_TEST_CMD_STRING -z topd*
+# shellcheck disable=SC2086
+strace_check "renam" $RMW_TEST_CMD_STRING -z topd*
 test -e "${RMW_FAKE_HOME}"/somefiles/topdir
 
 echo "$SEPARATOR"
