@@ -343,12 +343,24 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
       exit(errno);
     }
 
-    /*
-     *  Sometimes there is a pause before the next waste folder is read.
-     * This message should help fill the time before curses is initialized
-     * and the list appears
-     */
-    printf(_("Reading %s...\n"), waste_curr->files);
+    initscr();
+    if (LINES < min_lines_required)
+    {
+      endwin();
+      printf(_
+             (_
+              ("Your terminal only has %d lines. A minimum of %d lines is required.\n")),
+             LINES, min_lines_required);
+      dispose_waste(waste_head);
+      exit(EXIT_FAILURE);
+    }
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    clear();
+    mvprintw(0, 0, _("Reading %s..."), waste_curr->files);
+    refresh();
+
     struct dirent *entry = NULL;
     // First, get the number of directory entries...
     while ((entry = readdir(waste_dir)) != NULL)
@@ -410,22 +422,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
       msg_err_close_dir(waste_curr->files, __func__, __LINE__);
 
     insertion_sort(my_items, n_choices);
-    /* Initialize curses */
-    initscr();
-    if (LINES < min_lines_required)
-    {
-      endwin();
-      printf(_
-             ("Your terminal only has %d lines. A minimum of %d lines is required.\n"),
-             LINES, min_lines_required);
-      dispose_waste(waste_head);
-      exit(EXIT_FAILURE);
-    }
-
     clear();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
     MENU *my_menu = new_menu((ITEM **) my_items);
     set_menu_format(my_menu, LINES - start_line_bottom - 1, 1);
     menu_opts_off(my_menu, O_ONEVALUE);
