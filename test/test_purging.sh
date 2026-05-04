@@ -127,6 +127,7 @@ echo
 echo
 echo " == The trashinfo records that these files were rmw'ed in 1999"
 echo " == So they will be purged now."
+# shellcheck disable=SC2086
 strace_check "unlink" $RMW_TEST_CMD_STRING --verbose --purge
 test ! -e "$PRIMARY_WASTE_DIR"/files/abc
 test ! -e "$PRIMARY_WASTE_DIR"/info/abc.trashinfo

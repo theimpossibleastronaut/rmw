@@ -37,6 +37,7 @@ done
 cd "${RMW_FAKE_HOME}"/..
 
 printf "\n\n == rmw should be able to operate on multiple files\n"
+# shellcheck disable=SC2086
 strace_check "renam" $RMW_TEST_CMD_STRING --verbose "${RMW_FAKE_HOME}"/tmp-files/*
 
 test -f "${PRIMARY_WASTE_DIR}/files/1"
@@ -86,6 +87,7 @@ cmp_substr "$output" ".Waste/files/3_"
 echo "$SEPARATOR"
 echo "  == test undo/restore feature"
 
+# shellcheck disable=SC2086
 strace_check "renam" $RMW_TEST_CMD_STRING --verbose -u
 $RMW_TEST_CMD_STRING --verbose -z "$PRIMARY_WASTE_DIR"/files/1
 $RMW_TEST_CMD_STRING --verbose -z "$PRIMARY_WASTE_DIR"/files/2
