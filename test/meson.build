@@ -49,6 +49,11 @@ test_env = [
   'MESON_BUILD_ROOT=' + meson.project_build_root(),
 ]
 
+strace = find_program('strace', required: false)
+if strace.found()
+  test_env += ['STRACE=' + strace.full_path()]
+endif
+
 foreach s : scripts
   test(
     s,

@@ -71,14 +71,14 @@ BTRFS_TEST_DIR="$BTRFS_MOUNTPOINT/test_dir"
 rm -rf "$BTRFS_TEST_DIR"
 mkdir "$BTRFS_TEST_DIR"
 touch "$BTRFS_TEST_DIR/bar"
-$BTRFS_RMW_CMD "$BTRFS_TEST_DIR"
+strace_check -t "ioctl" "FICLONE" $BTRFS_RMW_CMD "$BTRFS_TEST_DIR"
 test ! -d "$BTRFS_TEST_DIR"
 test -d "$BTRFS_WASTE_DIR/files/test_dir"
 test -f "$BTRFS_WASTE_DIR/files/test_dir/bar"
 test -f "$BTRFS_WASTE_DIR/info/test_dir.trashinfo"
 
 echo "== Test: restore the moved directory"
-$BTRFS_RMW_CMD -u
+strace_check -t "ioctl" "FICLONE" $BTRFS_RMW_CMD -u
 test -d "$BTRFS_TEST_DIR"
 test -f "$BTRFS_TEST_DIR/bar"
 test ! -f "$BTRFS_WASTE_DIR/info/test_dir.trashinfo"
@@ -159,7 +159,7 @@ echo "== Test: purge an expired file from btrfs waste"
 RMW_FAKE_YEAR=true $BTRFS_RMW_CMD foo
 test -f "$BTRFS_WASTE_DIR/files/foo"
 test -f "$BTRFS_WASTE_DIR/info/foo.trashinfo"
-$BTRFS_RMW_CMD -g
+strace_check "unlink" $BTRFS_RMW_CMD -g
 test ! -f "$BTRFS_WASTE_DIR/files/foo"
 test ! -f "$BTRFS_WASTE_DIR/info/foo.trashinfo"
 

@@ -89,7 +89,8 @@ jobs:
           gettext \
           libglib2.0-dev \
           meson \
-          ninja-build
+          ninja-build \
+          strace
 
     - if: ${{ contains(matrix.container, 'alpine') }}
       run: |
@@ -196,6 +197,7 @@ jobs:
           libglib2.0-dev \
           meson \
           ninja-build \
+          strace \
           xvfb
 
     - name: Configure with nls
@@ -226,6 +228,14 @@ jobs:
         meson setup builddir -Db_sanitize=none
         cd builddir
         meson test -v --setup=epochalypse --suite=rmw
+
+    - name: with sanitizers
+      run: |
+        cd builddir
+        meson setup --wipe \
+          -Db_sanitize=address,undefined \
+          -Db_lundef=false
+        meson test -v
 
     - name: with lto and FORTIFY
       run: |
