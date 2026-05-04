@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include <fcntl.h>
-#include <libgen.h>
 #include <limits.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -43,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ficlone.h"
 #include "messages.h"
+#include "utils.h"
 
 bool
 is_ficlone_fs(const char *path)
@@ -284,28 +284,26 @@ ficlone_move(const char *src, const char *dst)
 
   if (S_ISLNK(st.st_mode))
   {
-    char src_dir_buf[PATH_MAX];
-    sn_check(snprintf(src_dir_buf, sizeof src_dir_buf, "%s", src),
-             sizeof src_dir_buf);
-    int src_dir_fd = open(dirname(src_dir_buf), O_RDONLY | O_DIRECTORY);
+    gchar *src_dir = g_path_get_dirname(src);
+    int src_dir_fd = open(src_dir, O_RDONLY | O_DIRECTORY);
+    g_free(src_dir);
     if (src_dir_fd == -1)
       return -1;
 
-    char src_base_buf[PATH_MAX];
-    sn_check(snprintf(src_base_buf, sizeof src_base_buf, "%s", src),
-             sizeof src_base_buf);
-    const char *src_name = basename(src_base_buf);
+    gchar *src_name = g_path_get_basename(src);
 
     char target[PATH_MAX];
     ssize_t len = readlinkat(src_dir_fd, src_name, target, sizeof(target) - 1);
     if (len == -1)
     {
+      g_free(src_name);
       close(src_dir_fd);
       return -1;
     }
     target[len] = '\0';
     if (symlink(target, dst) != 0)
     {
+      g_free(src_name);
       close(src_dir_fd);
       return -1;
     }
@@ -313,10 +311,12 @@ ficlone_move(const char *src, const char *dst)
     {
       int err = errno;
       unlink(dst);
+      g_free(src_name);
       close(src_dir_fd);
       errno = err;
       return -1;
     }
+    g_free(src_name);
     close(src_dir_fd);
     return 0;
   }

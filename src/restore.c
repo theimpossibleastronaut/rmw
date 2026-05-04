@@ -118,19 +118,18 @@ restore(const char *src, st_time *st_time_var,
       return -1;
     }
 
-    char src_copy[strlen(src) + 1];
-    strcpy(src_copy, src);
-    char *src_basename = basename(src_copy);
+    gchar *src_basename = g_path_get_basename(src);
     if (isdotdir(src_basename))
     {
       printf("refusing to process '.' or '..' directory: skipping '%s'",
              src_basename);
-
+      g_free(src_basename);
       return -1;
     }
 
     char src_tinfo[PATH_MAX];
     char *tmp_str = join_paths(waste_parent, lit_info, src_basename);
+    g_free(src_basename);
     int r = snprintf(src_tinfo, PATH_MAX, "%s%s", tmp_str, trashinfo_ext);
     free(tmp_str);
     tmp_str = NULL;
@@ -173,7 +172,9 @@ Duplicate filename at destination - appending time string...\n"));
 
     strcpy(parent_dir, dest);
 
-    truncate_str(parent_dir, strlen(basename(dest)));
+    gchar *_dest_bn = g_path_get_basename(dest);
+    truncate_str(parent_dir, strlen(_dest_bn));
+    g_free(_dest_bn);
 
     if (cli_user_options->want_dry_run == false)
     {
@@ -598,7 +599,7 @@ test_create_file_details_str(void)
 #endif
 
 int
-main()
+main(void)
 {
 #if !defined DISABLE_CURSES
   test_create_file_details_str();

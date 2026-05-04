@@ -291,12 +291,13 @@ remove_to_waste(const int argc,
 
     trim_char('/', tmp);
 
-    /* keep a copy before basename() may clobber tmp */
     char arg[PATH_MAX];
     sn_check(snprintf(arg, sizeof(arg), "%s", tmp), sizeof(arg));
 
-    // If basename() is given an empty string, it returns '.'
-    st_target.base_name = basename(tmp);
+    gchar *_bn = g_path_get_basename(tmp);
+    sn_check(snprintf(tmp, sizeof(tmp), "%s", _bn), sizeof(tmp));
+    g_free(_bn);
+    st_target.base_name = tmp;
     if (isdotdir(st_target.base_name))
     {
       printf("refusing to ReMove '.' or '..' directory: skipping '%s'\n",

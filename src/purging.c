@@ -67,7 +67,7 @@ is_time_to_purge(st_time *st_time_var, const char *file)
   fp = fopen(file, "w");
   if (fp)
   {
-    fprintf(fp, "%ld\n", st_time_var->now);
+    fprintf(fp, "%lld\n", (long long)st_time_var->now);
     close_file(&fp, file, __func__);
 
     /*
@@ -207,11 +207,27 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
 static char *
 get_pt_basename(const char *purge_target)
 {
-  static char *pt_basename;
-  static char pt_tmp[PATH_MAX];
-  sn_check(snprintf(pt_tmp, sizeof pt_tmp, "%s", purge_target),
-           sizeof pt_tmp);
-  pt_basename = basename(pt_tmp);
+  /*
+   * Use g_path_get_basename() instead of POSIX basename() for two reasons:
+   *
+   * 1. On FreeBSD, basename() is a macro that expands to a _Generic
+   *    expression, which triggers -Werror,-Wc11-extensions when building
+   *    in C99 mode.
+   *
+   * 2. POSIX basename() has hazardous semantics: it may return a pointer
+   *    into its argument (which must then not be modified or freed until the
+   *    result is no longer needed) or a pointer to static storage that is
+   *    overwritten on the next call.  g_path_get_basename() always returns
+   *    a fresh allocation, making ownership unambiguous.
+   *
+   * We copy the result into a static buffer here so callers see the same
+   * interface they did before.
+   */
+  static char pt_basename[PATH_MAX];
+  gchar *tmp = g_path_get_basename(purge_target);
+  sn_check(snprintf(pt_basename, sizeof pt_basename, "%s", tmp),
+           sizeof pt_basename);
+  g_free(tmp);
   return pt_basename;
 }
 
@@ -369,7 +385,7 @@ orphan_maint(st_waste *waste_head, st_time *st_time_var, int *orphan_ctr)
       if (isdotdir(entry->d_name))
         continue;
 
-      st_file_properties.base_name = basename(entry->d_name);
+      st_file_properties.base_name = entry->d_name;
 
       char *tmp_str =
         join_paths(waste_curr->info, st_file_properties.base_name);

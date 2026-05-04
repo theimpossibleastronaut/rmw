@@ -166,7 +166,7 @@ test_sn_check(void)
 }
 
 static void
-test_trim_whitespace()
+test_trim_whitespace(void)
 {
   // handle strings that are NULL
   errno = 0;
@@ -202,7 +202,7 @@ test_trim_whitespace()
 
 
 int
-main()
+main(void)
 {
   test_trim_whitespace();
   test_bufchk_len();

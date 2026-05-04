@@ -497,7 +497,7 @@ test_count_chars(void)
 
 
 int
-main()
+main(void)
 {
   char tmp[PATH_MAX];
   int r = snprintf(tmp, PATH_MAX, "%s/%s", RMW_FAKE_HOME, "test_utils_dir");
