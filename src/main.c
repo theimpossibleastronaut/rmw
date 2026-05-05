@@ -390,11 +390,12 @@ damage of 5000 hp. You feel satisfied.\n"));
      * device number of file.orig. Once found, the ReMoval
      * happens (provided all the tests are passed.
      */
+    bool src_is_ficlone = is_ficlone_fs(arg);
     waste_curr = waste_head;
     while (waste_curr != NULL)
     {
       if (waste_curr->dev_num == st_target.dev_num ||
-          (waste_curr->is_ficlone_fs && is_ficlone_fs(argv[file_arg])))
+          (waste_curr->is_ficlone_fs && src_is_ficlone))
       {
         char *tmp_str = join_paths(waste_curr->files, st_target.base_name);
         // *st_target.waste_dest_name = '\0';
@@ -426,15 +427,8 @@ damage of 5000 hp. You feel satisfied.\n"));
             r_result = ficlone_move(src, dst);
             if (r_result != 0)
             {
-              if (errno == EXDEV)
-              {
-                waste_curr = waste_curr->next_node;
-                continue;
-              }
-              else
-              {
-                exit(EXIT_FAILURE);
-              }
+              waste_curr = waste_curr->next_node;
+              continue;
             }
           }
           else
