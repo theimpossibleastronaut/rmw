@@ -156,6 +156,40 @@ $BTRFS_RMW_CMD -u
 test -L sym_link
 test ! -f "$BTRFS_WASTE_DIR/info/sym_link.trashinfo"
 
+# --- Test: dangling symlink on btrfs is not followed by is_ficlone_fs ---
+# If is_ficlone_fs followed the symlink it would crash (ENOENT) or return false,
+# and the symlink would not reach the btrfs waste dir.
+echo "== Test: dangling symlink on btrfs goes to btrfs waste (symlink not followed)"
+ln -s nonexistent_ficlone_target dangling_link
+$BTRFS_RMW_CMD dangling_link
+test ! -L dangling_link
+test -L "$BTRFS_WASTE_DIR/files/dangling_link"
+test -f "$BTRFS_WASTE_DIR/info/dangling_link.trashinfo"
+
+echo "== Test: restore the dangling symlink"
+$BTRFS_RMW_CMD -u
+test -L dangling_link
+test ! -f "$BTRFS_WASTE_DIR/info/dangling_link.trashinfo"
+rm dangling_link
+
+# --- Test: xattr preservation across btrfs subvolumes ---
+if command -v setfattr >/dev/null 2>&1 && command -v getfattr >/dev/null 2>&1; then
+  echo "== Test: xattr preserved after ficlone move"
+  touch xattr_file
+  setfattr -n user.rmwtest -v hello xattr_file
+  $BTRFS_RMW_CMD xattr_file
+  test ! -f xattr_file
+  test -f "$BTRFS_WASTE_DIR/files/xattr_file"
+  getfattr -n user.rmwtest --only-values "$BTRFS_WASTE_DIR/files/xattr_file" | grep -qx hello
+
+  echo "== Test: xattr preserved after ficlone restore"
+  $BTRFS_RMW_CMD -u
+  test -f xattr_file
+  getfattr -n user.rmwtest --only-values xattr_file | grep -qx hello
+else
+  echo "setfattr/getfattr not available; skipping xattr test."
+fi
+
 # --- Test: purge an expired file from btrfs waste ---
 echo "== Test: purge an expired file from btrfs waste"
 RMW_FAKE_YEAR=true $BTRFS_RMW_CMD foo
