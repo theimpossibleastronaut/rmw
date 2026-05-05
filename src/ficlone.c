@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <linux/magic.h>
 #include <sys/ioctl.h>
 #include <sys/statfs.h>
+#include <sys/xattr.h>
 
 #ifndef BCACHEFS_SUPER_MAGIC
 #define BCACHEFS_SUPER_MAGIC 0xca451a4e
@@ -50,7 +51,19 @@ is_ficlone_fs(const char *path)
 #ifdef HAVE_FICLONE
   struct statfs buf;
 
-  if (statfs(path, &buf) == -1)
+  struct stat st;
+  int r;
+  if (lstat(path, &st) == 0 && S_ISLNK(st.st_mode))
+  {
+    gchar *dir = g_path_get_dirname(path);
+    r = statfs(dir, &buf);
+    g_free(dir);
+  }
+  else
+  {
+    r = statfs(path, &buf);
+  }
+  if (r == -1)
   {
     print_msg_error();
     perror("statfs");
@@ -58,7 +71,8 @@ is_ficlone_fs(const char *path)
   }
 
   return buf.f_type == BTRFS_SUPER_MAGIC ||
-    buf.f_type == BCACHEFS_SUPER_MAGIC;
+    buf.f_type == BCACHEFS_SUPER_MAGIC ||
+    buf.f_type == XFS_SUPER_MAGIC;
 #else
   (void) path;
   return false;
@@ -112,6 +126,35 @@ do_ficlone(const char *source, const char *dest)
       perror("futimens");
     if (fchown(dest_fd, src_stat.st_uid, src_stat.st_gid) == -1)
       perror("fchown");
+
+    ssize_t names_len = flistxattr(src_fd, NULL, 0);
+    if (names_len > 0)
+    {
+      char *names = malloc(names_len);
+      if (names == NULL)
+        fatal_malloc();
+      if (flistxattr(src_fd, names, names_len) == names_len)
+      {
+        for (char *name = names; name < names + names_len; name += strlen(name) + 1)
+        {
+          ssize_t val_len = fgetxattr(src_fd, name, NULL, 0);
+          if (val_len < 0)
+            continue;
+          if (val_len == 0)
+          {
+            fsetxattr(dest_fd, name, "", 0, 0);
+            continue;
+          }
+          char *val = malloc(val_len);
+          if (val == NULL)
+            fatal_malloc();
+          if (fgetxattr(src_fd, name, val, val_len) == val_len)
+            fsetxattr(dest_fd, name, val, val_len, 0);
+          free(val);
+        }
+      }
+      free(names);
+    }
   }
 
   close(src_fd);

@@ -31,6 +31,7 @@ env:
   TERM: xterm
   BTRFS_IMG: test/rmw-btrfs-test.img
   BCACHEFS_IMG: test/rmw-bcachefs-test.img
+  XFS_IMG: test/rmw-xfs-test.img
 
 jobs:
   build:
@@ -186,12 +187,25 @@ jobs:
     - name: Test bcachefs image existence
       run: test -f "$BCACHEFS_IMG"
 
+    - name: Cache xfs Image
+      uses: actions/cache@v5
+      id: xfs-img-cache
+      with:
+        path: ${{ env.XFS_IMG }}
+        key: ${{ hashFiles('test/rmw-xfs-test.img.sha256sum') }}
+
+    - if: ${{ steps.xfs-img-cache.outputs.cache-hit != 'true' }}
+      run: curl -L -o "$XFS_IMG" 'https://www.dropbox.com/scl/fi/a1ho70d9vh4lgncrs8pr8/rmw-xfs-test.img?rlkey=wveifm08mjqjgvtriocz8srdl&st=2c9iq8xg&dl=0'
+
+    - name: Test xfs image existence
+      run: test -f "$XFS_IMG"
+
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt remove -y firefox
         sudo apt upgrade -y
-        sudo apt-get install -y \
+        sudo apt-get install --no-install-recommends -y \
+          attr \
           faketime \
           gettext \
           libglib2.0-dev \
