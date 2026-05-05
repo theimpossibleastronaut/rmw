@@ -58,7 +58,8 @@ is_ficlone_fs(const char *path)
   }
 
   return buf.f_type == BTRFS_SUPER_MAGIC ||
-    buf.f_type == BCACHEFS_SUPER_MAGIC;
+    buf.f_type == BCACHEFS_SUPER_MAGIC ||
+    buf.f_type == XFS_SUPER_MAGIC;
 #else
   (void) path;
   return false;

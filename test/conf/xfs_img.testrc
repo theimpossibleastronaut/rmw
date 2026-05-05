@@ -1,0 +1,4 @@
+waste = /tmp/rmw-xfs-loop/Waste
+WASTE = $HOME/.local/share/Waste
+
+expire_age = 45
