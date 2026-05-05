@@ -9,16 +9,21 @@ rmw (in-progress):
   * ficlone: Add bcachefs filesystem detection; directories containing
     special files (FIFOs, sockets, devices) now fail gracefully instead
     of hanging; fix missing errno propagation on early failures; preserve
-    timestamps and ownership after clone
+    timestamps and ownership after clone; fix is_ficlone_fs() to not follow
+    symlinks and to handle trailing-slash paths correctly
   * bugfix: Fix "Invalid cross-device link" error on bcachefs when source and
     waste folder are on separate subvolumes (#526); use generic FICLONE ioctl
     (linux/fs.h) instead of BTRFS_IOC_CLONE, and fall back to 'mv' when
-    rename() returns EXDEV on a same-device move
+    rename() returns EXDEV on a same-device move; cross-device ficlone failure
+    now tries the next waste directory instead of exiting
   * refactor: Rename btrfs.c/btrfs.h to ficlone.c/ficlone.h; rename
     do_btrfs_clone() to do_ficlone() and is_btrfs() to is_ficlone_fs();
     rename HAVE_LINUX_BTRFS macro to HAVE_FICLONE
   * docs: Add BTRFS AND BCACHEFS section to man page
   * Add 'x' to exit keys at ncurses screen
+  * ficlone: Add XFS filesystem detection (XFS_SUPER_MAGIC); update man page
+    NOTES section to include XFS
+  * ficlone: Preserve extended attributes (xattrs) after a successful FICLONE
 
 2026-04-07
 
