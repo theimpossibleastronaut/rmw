@@ -202,17 +202,18 @@ directory will not be used for the current run of rmw.
 With the media mounted, once you manually create the waste directory
 for that device (e.g. "/mnt/flash/.Trash-$UID") and run rmw, it will
 automatically create the two required child directories "files" and "info".
-.SS BTRFS AND BCACHEFS
+.SS BTRFS, BCACHEFS, AND XFS
 rmw supports moving files across subvolumes on btrfs and bcachefs
-filesystems. Because the kernel treats subvolumes as separate
-filesystems, a cross-subvolume move would normally fail; rmw detects
-this case and performs a copy-then-delete instead, preserving the
-expected trash semantics.
+filesystems, and across separate XFS filesystems. Because the kernel
+treats subvolumes (and different mounts) as separate filesystems, a
+cross-boundary move would normally fail; rmw detects this case and
+performs a reflink clone-then-delete instead, preserving the expected
+trash semantics.
 
 To use this feature, define a WASTE directory on the destination
-subvolume in your configuration file. For example, if your waste
-directory is on a different subvolume than the files you want to
-remove, rmw will handle the move transparently.
+subvolume or filesystem in your configuration file. For example, if
+your waste directory is on a different subvolume or XFS mount than the
+files you want to remove, rmw will handle the move transparently.
 .SH EXAMPLES
 .SS RESTORING
 rmw -z ~/.local/share/Waste/files/foo
