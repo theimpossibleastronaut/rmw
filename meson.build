@@ -72,8 +72,8 @@ canfigger_dep = dependency(
   default_options: 'default_library=static',
 )
 
-glib_dep = dependency('glib-2.0', version: '>=2.50')
-gio_dep  = dependency('gio-2.0',  version: '>=2.50')
+glib_dep = dependency('glib-2.0', version: '>=2.52')
+gio_dep  = dependency('gio-2.0',  version: '>=2.52')
 
 subdir('src')
 

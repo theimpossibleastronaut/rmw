@@ -31,6 +31,7 @@ src = [
   'purging.c',
   'messages.c',
   'time_rmw.c',
+  'topdir_trash.c',
   'trashinfo.c',
   'utils.c',
 ]
@@ -62,7 +63,9 @@ endif
 
 config_h = configure_file(output: 'config.h', configuration: conf)
 
-deps_librmw = [dep_intl, canfigger_dep, dep_menu, dep_curses, glib_dep, gio_dep]
+gio_unix_dep = dependency('gio-unix-2.0')
+
+deps_librmw = [dep_intl, canfigger_dep, dep_menu, dep_curses, glib_dep, gio_dep, gio_unix_dep]
 
 lib_rmw = static_library(
   'rmw',
