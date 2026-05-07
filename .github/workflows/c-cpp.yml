@@ -83,8 +83,6 @@ jobs:
     - if: ${{ matrix.container == null }}
       run: |
         sudo apt update
-        sudo apt remove -y firefox
-        sudo apt upgrade -y
         sudo apt-get install -y \
           gettext \
           libglib2.0-dev \
@@ -124,10 +122,19 @@ jobs:
         - name: bundled-canfigger
 
     runs-on: macos-latest
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: 1
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
     needs:
       - build
     steps:
     - uses: actions/checkout@v6
+    - name: Cache Homebrew packages
+      uses: actions/cache@v5
+      with:
+        path: ~/Library/Caches/Homebrew
+        key: ${{ runner.os }}-${{ matrix.name }}-brew-${{ hashFiles('.github/workflows/c-cpp.yml') }}
+        restore-keys: ${{ runner.os }}-${{ matrix.name }}-brew-
     - name: Show info
       run: |
         export -p
@@ -189,8 +196,6 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt remove -y firefox
-        sudo apt upgrade -y
         sudo apt-get install -y \
           faketime \
           gettext \

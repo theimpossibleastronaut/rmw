@@ -36,8 +36,6 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt remove -y firefox
-        sudo apt upgrade -y
         sudo apt-get install -y gettext libglib2.0-dev meson
 
     # Initializes the CodeQL tools for scanning.
