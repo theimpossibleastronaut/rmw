@@ -54,6 +54,15 @@ if strace.found()
   test_env += ['STRACE=' + strace.full_path()]
 endif
 
+exe = executable(
+  'test_topdir_trash',
+  'test_topdir_trash.c',
+  c_args: ['-DRMW_FAKE_HOME="@0@"'.format(RMW_FAKE_HOME)],
+  dependencies: rmw_dep,
+  override_options: ['b_lto=false'],
+)
+test('test_topdir_trash', exe, env: test_env)
+
 foreach s : scripts
   test(
     s,
