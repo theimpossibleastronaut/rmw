@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <unistd.h>
+#include <gio/gunixmounts.h>
 
 #include "ficlone.h"
 #include "config_rmw.h"
@@ -280,39 +281,33 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   waste_curr->is_ficlone_fs = is_ficlone_fs(waste_curr->parent);
 
   // get device number to use later for rename
-  struct stat st, mp_st;
+  struct stat st;
   if (!lstat(waste_curr->parent, &st))
-  {
     waste_curr->dev_num = st.st_dev;
-
-    // printf("actual: %ld |major: %d | minor: %d\n", st.st_dev, major(st.st_dev), minor(st.st_dev));
-    gchar *media_root_ptr = g_path_get_dirname(waste_curr->parent);
-    if (!media_root_ptr)
-    {
-      fputs("Error getting media root pointer.\n", stderr);
-      exit(EXIT_FAILURE);
-    }
-
-    if (!(waste_curr->media_root = malloc(strlen(media_root_ptr) + 1)))
-      fatal_malloc();
-    strcpy(waste_curr->media_root, media_root_ptr);
-    g_free(media_root_ptr);
-
-    gchar *media_root_parent = g_path_get_dirname(waste_curr->media_root);
-    if (!lstat(media_root_parent, &mp_st))
-    {
-      if (mp_st.st_dev == waste_curr->dev_num)
-      {
-        free(waste_curr->media_root);
-        waste_curr->media_root = NULL;
-      }
-    }
-    else
-      msg_err_lstat(waste_curr->parent, __func__, __LINE__);
-    g_free(media_root_parent);
-  }
   else
     msg_err_lstat(waste_curr->parent, __func__, __LINE__);
+
+  waste_curr->media_root = NULL;
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+  GUnixMountEntry *entry = g_unix_mount_for(waste_curr->parent, NULL);
+  G_GNUC_END_IGNORE_DEPRECATIONS
+  if (entry)
+  {
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    const char *mount_path = g_unix_mount_get_mount_path(entry);
+    G_GNUC_END_IGNORE_DEPRECATIONS
+    gchar *parent_dir = g_path_get_dirname(waste_curr->parent);
+    if (strcmp(mount_path, parent_dir) == 0)
+    {
+      if (!(waste_curr->media_root = malloc(strlen(mount_path) + 1)))
+        fatal_malloc();
+      strcpy(waste_curr->media_root, mount_path);
+    }
+    g_free(parent_dir);
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    g_unix_mount_free(entry);
+    G_GNUC_END_IGNORE_DEPRECATIONS
+  }
 
   return waste_curr;
 }
