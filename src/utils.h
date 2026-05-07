@@ -62,5 +62,6 @@ bool is_dir_f(const char *pathname);
 
 int count_chars(const char c, const char *str);
 
+st_waste *get_nearest_waste(st_waste *waste_head, const char *path);
 
 #endif
