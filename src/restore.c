@@ -325,7 +325,7 @@ int
 restore_select(st_waste *waste_head, st_time *st_time_var,
                const rmw_options *cli_user_options)
 {
-  st_waste *waste_curr = get_nearest_waste(waste_head, NULL);
+  st_waste *waste_curr = get_nearest_waste(waste_head);
   if (waste_curr == NULL)
     waste_curr = waste_head;
   const int start_line_bottom = 7;
