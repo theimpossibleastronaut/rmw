@@ -70,7 +70,8 @@ test_trash_path_for_topdir(const char *tmpdir, const char *uid)
 
   /* .Trash with sticky bit, not a symlink → .Trash/$uid */
   {
-    assert(mkdir(dot_trash, 01755) == 0);
+    assert(mkdir(dot_trash, 0755) == 0);
+    assert(chmod(dot_trash, 01755) == 0); /* mkdir strips sticky bit on macOS */
     char *result = trash_path_for_topdir(tmpdir, uid);
     sn_check(snprintf(expected, sizeof expected, "%s/.Trash/%s", tmpdir, uid),
              sizeof expected);
