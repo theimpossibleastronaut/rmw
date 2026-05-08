@@ -70,13 +70,12 @@ just the ncurses packages is needed, and it's often already installed.
 
 * linux-headers
 
-`linux/btrfs.h` from the headers package is required for btrfs clone support.
-`meson setup` will fail if the header is missing. To bypass the check and
-exclude support for for btrfs (which is not needed for btrfs normally, but
-needed if you want to use `rmw` for rmw'ing files across btrfs root and
-subvolumes), add
+`linux/fs.h` from the headers package is required for btrfs/bcachefs
+reflink support.  `meson setup` will fail if the header is missing. To
+bypass the check and exclude support (which is only necessary
+if you want `rmw` to be able to move files between subvolumes) add
 
-    -Dwant_btrfs_clone=false
+    -Dwant_ficlone_clone=false
 
 to the meson setup options.
 
