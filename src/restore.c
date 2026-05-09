@@ -330,6 +330,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
   const int min_lines_required = start_line_bottom + 3;
   int c = 0;
   int restore_err_ctr = 0;
+  initscr();
   do
   {
     int n_choices = 0;
@@ -339,11 +340,11 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
     {
       /* we don't want errno to be changed because it's used in msg_error_open_dir()
        * but afaik, endwin() doesn't change errno */
+      endwin();
       msg_err_open_dir(waste_curr->files, __func__, __LINE__);
       exit(errno);
     }
 
-    initscr();
     if (LINES < min_lines_required)
     {
       endwin();
@@ -502,8 +503,6 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
         }
       }
     }
-    if (c != MENU_KEY_ENTER)
-      endwin();
 
     // Some demo menu code at
     // https://github.com/ThomasDickey/ncurses-snapshots/blob/master/test/demo_menus.c
@@ -525,6 +524,9 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
 
   }
   while (c != MENU_KEY_ESC && c != 'q' && c != 'x' && c != MENU_KEY_ENTER);
+
+  if (c != MENU_KEY_ENTER)
+    endwin();
 
   return restore_err_ctr;
 }
