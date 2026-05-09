@@ -482,9 +482,9 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
            && c != MENU_KEY_ESC && c != 'q' && c != 'x');
     // using 'q' to exit will be deprecated some day
 
+    endwin();
     if (c == MENU_KEY_ENTER)
     {
-      endwin();
       putchar('\n');
       ITEM **items;
       items = menu_items(my_menu);
@@ -525,9 +525,6 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
   }
   while (c != MENU_KEY_ESC && c != 'q' && c != 'x' && c != MENU_KEY_ENTER);
 
-  if (c != MENU_KEY_ENTER) {
-    endwin();
-  }
   return restore_err_ctr;
 }
 #endif
