@@ -507,121 +507,89 @@ damage of 5000 hp. You feel satisfied.\n"));
 }
 
 
-// Returns a struct containing the absolute path of the user's home,
-// dataroot, and configroot directories. If $XDG_DATA_HOME or $XDG_CONFIG_HOME
-// exist as environmental variables, those will be used. Otherwise dataroot
-// will be appended to $HOME as '/.local/share' and configroot will be
-// appended as '/.config'.
-//
-// TODO: make it compatible with Windows systems.
-static const st_dir *
-get_directories(void)
-{
-  static st_dir st_directory;
-  st_directory.home = getenv("HOME");
-  if (st_directory.home == NULL)
-    return NULL;
-
-  const char *xdg_configroot = getenv("XDG_CONFIG_HOME");
-  if (xdg_configroot == NULL)
-    snprintf(st_directory.configroot,
-             sizeof st_directory.configroot, "%s/.config", st_directory.home);
-  else
-    snprintf(st_directory.configroot,
-             sizeof st_directory.configroot, "%s", xdg_configroot);
-
-  const char *xdg_dataroot = getenv("XDG_DATA_HOME");
-  if (xdg_dataroot == NULL)
-    snprintf(st_directory.dataroot,
-             sizeof st_directory.dataroot,
-             "%s/.local/share", st_directory.home);
-  else
-    snprintf(st_directory.dataroot,
-             sizeof st_directory.dataroot, "%s", xdg_dataroot);
-
-  return &st_directory;
-}
-
-
 static const st_loc *
 get_locations(const char *alt_config_file)
 {
-  const char rel_default_data_dir[] = ".local/share/rmw";
-  const char rel_default_config_dir[] = ".config";
-  const char config_file_basename[] = "rmwrc";
   const char mrl_file_basename[] = "mrl";
   const char purge_time_file_basename[] = "purge-time";
 
   static st_loc x;
-  x.st_directory = get_directories();
-  if (x.st_directory == NULL)
-    return NULL;
 
   const char *enable_test = getenv(ENV_RMW_FAKE_HOME);
-  static char s_data_dir[PATH_MAX];
-  char *m_d_str = NULL;
-  static char s_config_dir[PATH_MAX];
-
-  if (enable_test == NULL)
+  if (enable_test != NULL)
   {
-    x.home_dir = x.st_directory->home;
-    m_d_str = join_paths(x.st_directory->dataroot, PACKAGE_STRING);
-    x.config_dir = x.st_directory->configroot;
-  }
-  else
-  {
-    if (verbose)
-      printf("%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
-    x.home_dir = enable_test;
-    m_d_str = join_paths(x.home_dir, rel_default_data_dir);
-    char *m_c_str = join_paths(x.home_dir, rel_default_config_dir);
-    sn_check(snprintf(s_config_dir, sizeof s_config_dir, "%s", m_c_str),
-             sizeof s_config_dir);
-
-    free(m_c_str);
-    x.config_dir = s_config_dir;
+    static char s_xdg_data[PATH_MAX];
+    static char s_xdg_config[PATH_MAX];
+    sn_check(snprintf(s_xdg_data, sizeof s_xdg_data,
+                      "%s/.local/share", enable_test), sizeof s_xdg_data);
+    sn_check(snprintf(s_xdg_config, sizeof s_xdg_config,
+                      "%s/.config", enable_test), sizeof s_xdg_config);
+    setenv("HOME", enable_test, 1);
+    setenv("XDG_DATA_HOME", s_xdg_data, 1);
+    setenv("XDG_CONFIG_HOME", s_xdg_config, 1);
   }
 
-  sn_check(snprintf(s_data_dir, sizeof s_data_dir, "%s", m_d_str),
-           sizeof s_data_dir);
-
-  free(m_d_str);
-  x.data_dir = s_data_dir;
+  x.home_dir = getenv("HOME");
+  if (x.home_dir == NULL)
+    return NULL;
 
   if (verbose)
   {
+    if (enable_test)
+      printf("%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
     printf("home_dir: %s\n", x.home_dir);
-    printf("data_dir: %s\n", x.data_dir);
-    printf("config_dir: %s\n", x.config_dir);
   }
 
-  int p_state = check_pathname_state(x.config_dir);
+  static char s_data_dir[PATH_MAX];
+  char *tmp = canfigger_data_dir(PACKAGE_STRING);
+  if (!tmp)
+    return NULL;
+  sn_check(snprintf(s_data_dir, sizeof s_data_dir, "%s", tmp),
+           sizeof s_data_dir);
+  free(tmp);
+  x.data_dir = s_data_dir;
+
+  if (verbose)
+    printf("data_dir: %s\n", x.data_dir);
+
+  char *default_config_file = canfigger_config_file("rmwrc");
+  if (!default_config_file)
+    return NULL;
+
+  gchar *config_dir = g_path_get_dirname(default_config_file);
+
+  if (verbose)
+    printf("config_dir: %s\n", config_dir);
+
+  int p_state = check_pathname_state(config_dir);
   if (p_state == ENOENT)
   {
-    if (!rmw_mkdir(x.config_dir))
-      msg_success_mkdir(x.config_dir);
+    if (!rmw_mkdir(config_dir))
+      msg_success_mkdir(config_dir);
     else
     {
-      msg_err_mkdir(x.config_dir, __func__);
+      msg_err_mkdir(config_dir, __func__);
       exit(errno);
     }
   }
   else if (p_state == -1)
     exit(p_state);
 
+  g_free(config_dir);
+
   static char s_config_file[PATH_MAX];
 
   if (alt_config_file == NULL)
   {
-    char *tmp_str = join_paths(x.config_dir, config_file_basename);
-    sn_check(snprintf(s_config_file, sizeof s_config_file, "%s", tmp_str),
+    sn_check(snprintf
+             (s_config_file, sizeof s_config_file, "%s", default_config_file),
              sizeof s_config_file);
-
-    free(tmp_str);
     x.config_file = s_config_file;
   }
   else
     x.config_file = alt_config_file;
+
+  free(default_config_file);
 
   if (verbose)
     printf("config_file: %s\n", x.config_file);

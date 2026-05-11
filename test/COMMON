@@ -32,6 +32,10 @@ if test -z "${MESON_BUILD_ROOT}" || test -z "${RMW_FAKE_HOME}"; then
 fi
 
 RMW_FAKE_HOME="${RMW_FAKE_HOME}/$(basename "$0")_dir"
+HOME="${RMW_FAKE_HOME}"
+XDG_DATA_HOME="${RMW_FAKE_HOME}/.local/share"
+XDG_CONFIG_HOME="${RMW_FAKE_HOME}/.config"
+export HOME XDG_DATA_HOME XDG_CONFIG_HOME
 # shellcheck disable=SC2034
 CONFIG="${MESON_SOURCE_ROOT}/test/conf/rmw.testrc"
 # shellcheck disable=SC2034
