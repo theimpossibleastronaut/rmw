@@ -75,7 +75,7 @@ just the ncurses packages is needed, and it's often already installed.
 bypass the check and exclude support (which is only necessary
 if you want `rmw` to be able to move files between subvolumes) add
 
-    -Dwant_ficlone_clone=false
+    -Dwith-reflink=false
 
 to the meson setup options.
 
