@@ -19,6 +19,7 @@ entrypoint
 env
 env
 filesystem
+fs
 FreeDesktop
 gettext
 gpl
