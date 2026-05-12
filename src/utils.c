@@ -310,52 +310,6 @@ count_chars(const char c, const char *str)
 }
 
 
-/*
- * Returns the waste node whose parent path best matches the current
- * working directory, using longest common path-component prefix.
- * Returns NULL if waste_head is NULL or no match is found.
- */
-st_waste *
-get_nearest_waste(st_waste *waste_head)
-{
-  char cwdbuf[PATH_MAX];
-
-  if (getcwd(cwdbuf, sizeof cwdbuf) == NULL)
-  {
-    perror("getcwd");
-    return NULL;
-  }
-
-  st_waste *best = NULL;
-  size_t best_len = 0;
-
-  for (st_waste * curr = waste_head; curr != NULL; curr = curr->next_node)
-  {
-    size_t i = 0;
-    size_t last_sep = 0;
-
-    while (curr->parent[i] && cwdbuf[i] && curr->parent[i] == cwdbuf[i])
-    {
-      if (cwdbuf[i] == '/')
-        last_sep = i;
-      i++;
-    }
-
-    /* ensure we matched on a full component boundary */
-    if (cwdbuf[i] == '/' || cwdbuf[i] == '\0')
-      last_sep = i;
-
-    if (last_sep > best_len)
-    {
-      best_len = last_sep;
-      best = curr;
-    }
-  }
-
-  return best;
-}
-
-
 ///////////////////////////////////////////////////////////////////////
 #ifdef TEST_LIB
 
