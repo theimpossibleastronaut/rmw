@@ -71,7 +71,7 @@ just the ncurses packages is needed, and it's often already installed.
 * linux-headers
 
 `linux/fs.h` from the headers package is required for btrfs/bcachefs
-reflink support.  `meson setup` will fail if the header is missing. To
+[reflink](https://www.rubdos.be/2017/07/30/about-reflinks.html) support.  `meson setup` will fail if the header is missing. To
 bypass the check and exclude support (which is only necessary
 if you want `rmw` to be able to move files between subvolumes) add
 
