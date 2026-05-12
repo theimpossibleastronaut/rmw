@@ -1,10 +1,7 @@
 name: "Coverity Scan"
 
 on:
-  push:
-    branches: coverity_scan
-#  pull_request:
-#    branches: master
+  workflow_dispatch:
 
 jobs:
   ubuntu:
