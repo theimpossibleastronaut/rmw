@@ -1,8 +1,10 @@
 AppImages
 bli
 BSDCoreUtils
+bcachefs
 bsdutils
 btrfs
+reflink
 builddir
 CentOS
 cli
@@ -12,10 +14,12 @@ devel
 Dnls
 Dprefix
 Dwant
+Dwith
 entrypoint
 env
 env
 filesystem
+fs
 FreeDesktop
 gettext
 gpl

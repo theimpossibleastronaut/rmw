@@ -4,8 +4,8 @@ rmw (in-progress):
     and bcachefs subvolumes (requires glib2 >= 2.50); replace several
     internal utility functions with GLib equivalents
   * BREAKING: The meson build option `want_btrfs_clone` has been renamed to
-    `want_ficlone`. Update any build scripts that pass `-Dwant_btrfs_clone=`
-    to use `-Dwant_ficlone=` instead.
+    `with-reflink`. Update any build scripts that pass `-Dwant_btrfs_clone=`
+    to use `-Dwith-reflink=` instead.
   * ficlone: Add bcachefs filesystem detection; directories containing
     special files (FIFOs, sockets, devices) now fail gracefully instead
     of hanging; fix missing errno propagation on early failures; preserve

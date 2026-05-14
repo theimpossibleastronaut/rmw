@@ -39,7 +39,7 @@ src = [
 has_statfs = false
 has_linux_fs_header = false
 if host_sys == 'linux'
-  if get_option('want_ficlone')
+  if get_option('with-reflink')
     has_statfs = cc.has_function(
       'statfs',
       prefix: '#include <sys/statfs.h>',
@@ -54,7 +54,7 @@ if host_sys == 'linux'
   : Requirements not met for reflink clone support.
   : If missing linux/fs.h, you probably need to install the linux-headers package.
   : To build without reflink clone support and skip this check, add
-  : "-Dwant_ficlone=false" to the meson setup options.''',
+  : "-Dwith-reflink=false" to the meson setup options.''',
       )
     endif
   endif
