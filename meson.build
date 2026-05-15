@@ -67,7 +67,7 @@ subdir('po')
 # https://mesonbuild.com/Subprojects.html
 canfigger_dep = dependency(
   'canfigger',
-  version: '>=0.3.0',
+  version: '>=0.3.2',
   fallback: ['canfigger', 'canfigger_dep'],
   default_options: 'default_library=static',
 )

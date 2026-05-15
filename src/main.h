@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "canfigger.h"
+#include <canfigger.h>
 
 /*!
  * Holds a list of files that rmw will be ReMoving.
@@ -32,24 +32,13 @@ struct st_removed
   st_removed *next_node;
 };
 
-typedef struct st_dir st_dir;
-struct st_dir
-{
-  const char *home;
-  char configroot[PATH_MAX];
-  char dataroot[PATH_MAX];
-};
-
 typedef struct st_loc st_loc;
 struct st_loc
 {
   const char *home_dir;
-  const char *config_dir;
   const char *config_file;
 
   const char *data_dir;
   const char *purge_time_file;
   const char *mrl_file;
-
-  const st_dir *st_directory;   // Pointer to another struct, placed at the end for clarity
 };
