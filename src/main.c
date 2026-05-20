@@ -550,6 +550,103 @@ damage of 5000 hp. You feel satisfied.\n"));
 }
 
 
+/* Returns a newly-malloc'd path to $XDG_DATA_HOME/Trash (or
+ * $home_dir/.local/share/Trash if XDG_DATA_HOME is unset). */
+static char *
+home_trash_dir_for(const char *home_dir)
+{
+  const char *xdg_data = getenv("XDG_DATA_HOME");
+  if (xdg_data != NULL && *xdg_data != '\0')
+    return join_paths(xdg_data, "Trash");
+  char *xdg_default = join_paths(home_dir, ".local/share");
+  char *trash = join_paths(xdg_default, "Trash");
+  free(xdg_default);
+  return trash;
+}
+
+
+/* After parse_config_file(), augment the in-memory waste list with any
+ * spec-compliant topdir trash directories that already exist on disk.
+ * This lets restore/list/purge/orphan_maint discover trashes that were
+ * created by the remove_to_waste() fallback in earlier invocations
+ * (i.e. trash dirs not listed in rmwrc). */
+static void
+discover_existing_topdir_trashes(st_config *st_config_data,
+                                 const st_loc *st_location)
+{
+  char *home_trash_dir = home_trash_dir_for(st_location->home_dir);
+
+  struct stat st;
+  dev_t home_dev = 0;
+  if (lstat(st_location->home_dir, &st) == 0)
+    home_dev = st.st_dev;
+
+  st_mount_trash *mts =
+    build_mount_trash_list(st_config_data->uid, home_trash_dir, home_dev);
+
+  for (st_mount_trash *n = mts; n != NULL; n = n->next)
+  {
+    if (check_pathname_state(n->trash_dir) != EEXIST)
+      continue;
+    if (check_pathname_state(n->files_dir) != EEXIST)
+      continue;
+    if (check_pathname_state(n->info_dir) != EEXIST)
+      continue;
+
+    bool already = false;
+    for (st_waste *w = st_config_data->st_waste_folder_props_head;
+         w != NULL; w = w->next_node)
+    {
+      if (strcmp(w->parent, n->trash_dir) == 0)
+      {
+        already = true;
+        break;
+      }
+    }
+    if (already)
+      continue;
+
+    struct stat tst;
+    if (lstat(n->trash_dir, &tst) != 0)
+      continue;
+
+    st_waste *new_node = malloc(sizeof *new_node);
+    if (!new_node)
+      fatal_malloc();
+    new_node->parent = strdup(n->trash_dir);
+    new_node->files = strdup(n->files_dir);
+    new_node->info = strdup(n->info_dir);
+    new_node->len_files = strlen(new_node->files);
+    new_node->len_info = strlen(new_node->info);
+    new_node->media_root = (n->mount_path != NULL)
+      ? strdup(n->mount_path) : NULL;
+    new_node->removable = false;
+    new_node->is_ficlone_fs = n->is_ficlone_fs;
+    new_node->dev_num = tst.st_dev;
+    new_node->next_node = NULL;
+
+    st_waste *tail = st_config_data->st_waste_folder_props_head;
+    if (tail == NULL)
+    {
+      new_node->prev_node = NULL;
+      st_config_data->st_waste_folder_props_head = new_node;
+    }
+    else
+    {
+      while (tail->next_node != NULL)
+        tail = tail->next_node;
+      new_node->prev_node = tail;
+      tail->next_node = new_node;
+    }
+
+    verbose_printf(1, "discovered topdir trash: %s\n", n->trash_dir);
+  }
+
+  free_mount_trash_list(mts);
+  free(home_trash_dir);
+}
+
+
 static const st_loc *
 get_locations(const char *alt_config_file)
 {
@@ -737,6 +834,10 @@ Please check your configuration file and permissions\
   st_config st_config_data;
   init_config_data(&st_config_data);
   parse_config_file(&cli_user_options, &st_config_data, st_location);
+  /* RMW_FAKE_HOME isolates $HOME but not real mount points, so
+   * discovery would pick up host-machine topdir trashes during tests. */
+  if (getenv(ENV_RMW_FAKE_HOME) == NULL)
+    discover_existing_topdir_trashes(&st_config_data, st_location);
 
   if (cli_user_options.list)
   {
@@ -746,16 +847,7 @@ Please check your configuration file and permissions\
 
   if (cli_user_options.list_all_trash)
   {
-    const char *xdg_data = getenv("XDG_DATA_HOME");
-    char *home_trash_dir;
-    if (xdg_data != NULL && *xdg_data != '\0')
-      home_trash_dir = join_paths(xdg_data, "Trash");
-    else
-    {
-      char *xdg_default = join_paths(st_location->home_dir, ".local/share");
-      home_trash_dir = join_paths(xdg_default, "Trash");
-      free(xdg_default);
-    }
+    char *home_trash_dir = home_trash_dir_for(st_location->home_dir);
 
     struct stat st;
     dev_t home_dev = 0;
