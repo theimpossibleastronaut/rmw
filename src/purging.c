@@ -308,7 +308,7 @@ purge(st_config *st_config_data,
       if (!cli_user_options->want_empty_trash && !then)
         continue;
 
-      if (++checked % 250 == 0)
+      if (checked++ % 100 == 0)
       {
         putchar('.');
         fflush(stdout);
