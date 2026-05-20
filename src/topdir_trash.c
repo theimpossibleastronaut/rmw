@@ -218,8 +218,12 @@ trash_path_for_topdir(const char *topdir, const char *uid)
 
 
 char *
-find_topdir_trash(const char *file_path, const char *uid)
+find_topdir_trash(const char *file_path, const char *uid,
+                  char **mount_path_out)
 {
+  if (mount_path_out != NULL)
+    *mount_path_out = NULL;
+
   /* g_unix_mount_for/g_unix_mount_get_mount_path/g_unix_mount_free were
    * deprecated in GLib 2.78 in favour of g_unix_mount_entry_* equivalents.
    * Suppress warnings until we can set the project minimum to 2.78. */
@@ -230,6 +234,8 @@ find_topdir_trash(const char *file_path, const char *uid)
 
   const char *topdir = g_unix_mount_get_mount_path(entry);
   char *result = trash_path_for_topdir(topdir, uid);
+  if (result != NULL && mount_path_out != NULL)
+    *mount_path_out = strdup(topdir);
   g_unix_mount_free(entry);
   G_GNUC_END_IGNORE_DEPRECATIONS
 

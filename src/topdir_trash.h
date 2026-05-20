@@ -31,8 +31,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Returns NULL if the mount point cannot be determined or on error.
  * The caller must free the returned string.
+ *
+ * If mount_path_out is non-NULL, on success *mount_path_out is set to a
+ * newly-malloc'd copy of the mount path that contains file_path (the
+ * caller must free it). On failure *mount_path_out is set to NULL.
  */
-char *find_topdir_trash(const char *file_path, const char *uid);
+char *find_topdir_trash(const char *file_path, const char *uid,
+                        char **mount_path_out);
 
 
 typedef struct st_mount_trash st_mount_trash;

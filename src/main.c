@@ -470,8 +470,12 @@ damage of 5000 hp. You feel satisfied.\n"));
     if (!waste_curr)
     {
       /* No configured WASTE matched. Fall back to the spec-compliant
-       * $topdir trash for this file's mount, creating it on demand. */
-      char *fb_trash = find_topdir_trash(arg, get_user_uid_str());
+       * $topdir trash for this file's mount, creating it on demand.
+       * Use real_path: g_unix_mount_for() needs an absolute path. */
+      char *fb_mount = NULL;
+      char *fb_trash =
+        find_topdir_trash(st_target.real_path, get_user_uid_str(),
+                          &fb_mount);
       char *fb_files = NULL;
       char *fb_info = NULL;
       bool fb_ok = false;
@@ -504,7 +508,8 @@ damage of 5000 hp. You feel satisfied.\n"));
           new_node->info = fb_info;
           new_node->len_files = strlen(fb_files);
           new_node->len_info = strlen(fb_info);
-          new_node->media_root = NULL;
+          new_node->media_root = fb_mount;       /* takes ownership */
+          fb_mount = NULL;
           new_node->removable = false;
           new_node->is_ficlone_fs = is_ficlone_fs(fb_trash);
           new_node->dev_num = fb_st.st_dev;
@@ -526,6 +531,7 @@ damage of 5000 hp. You feel satisfied.\n"));
       free(fb_trash);
       free(fb_files);
       free(fb_info);
+      free(fb_mount);
       printf(_(" :'%s' not ReMoved:\n"), argv[file_arg]);
       printf(_
              ("No WASTE folder defined in '%s' that resides on the same filesystem.\n"),
