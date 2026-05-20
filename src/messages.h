@@ -28,6 +28,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define fatal_malloc() real_fatal_malloc(__func__, __LINE__)
 
+typedef enum
+{
+  DIAG_ERR,
+  DIAG_WARN
+} diag_level;
+
+void diag(diag_level level, const char *fmt, ...)
+  __attribute__((format(printf, 2, 3)));
+
+void diag_fatal(const int exit_code, const char *fmt, ...)
+  __attribute__((noreturn, format(printf, 2, 3)));
+
 void print_msg_error(void);
 
 void print_msg_warn(void);
@@ -59,3 +71,6 @@ void msg_err_mkdir(const char *dir, const char *func);
 void msg_success_mkdir(const char *dir);
 
 void msg_warn_file_not_found(const char *file);
+
+void verbose_printf(const int min_level, const char *fmt, ...)
+  __attribute__((format(printf, 2, 3)));

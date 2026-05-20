@@ -20,6 +20,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "messages.h"
 
+#include <stdarg.h>
+
+void
+diag(diag_level level, const char *fmt, ...)
+{
+  switch (level)
+  {
+  case DIAG_ERR:
+    fputs(_("  :error: "), stderr);
+    break;
+  case DIAG_WARN:
+    fputs(_(" :warning: "), stderr);
+    break;
+  }
+
+  va_list args;
+  va_start(args, fmt);
+  vfprintf(stderr, fmt, args);
+  va_end(args);
+}
+
+void
+diag_fatal(const int exit_code, const char *fmt, ...)
+{
+  fputs(_("  :error: "), stderr);
+
+  va_list args;
+  va_start(args, fmt);
+  vfprintf(stderr, fmt, args);
+  va_end(args);
+
+  exit(exit_code);
+}
+
 void
 print_msg_error(void)
 {
@@ -214,4 +248,16 @@ void
 msg_warn_file_not_found(const char *file)
 {
   printf("'%s': %s\n", file, strerror(ENOENT));
+}
+
+void
+verbose_printf(const int min_level, const char *fmt, ...)
+{
+  if (verbose < min_level)
+    return;
+
+  va_list args;
+  va_start(args, fmt);
+  vfprintf(stdout, fmt, args);
+  va_end(args);
 }
