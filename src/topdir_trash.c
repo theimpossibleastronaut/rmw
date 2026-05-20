@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include <sys/stat.h>
+#include <unistd.h>
 #include <gio/gunixmounts.h>
 
 #include "ficlone.h"
@@ -55,7 +56,7 @@ static const char *const fs_type_exclude_list[] = {
   "proc", "sysfs", "devtmpfs", "devpts", "tmpfs",
   "cgroup", "cgroup2", "bpf", "securityfs", "debugfs", "tracefs",
   "pstore", "mqueue", "hugetlbfs", "fusectl", "configfs", "autofs",
-  "binfmt_misc", "rpc_pipefs", "nsfs",
+  "binfmt_misc", "rpc_pipefs", "nsfs", "efivarfs",
   "overlay", "squashfs",
   "cifs", "smbfs", "smb3",
   NULL,
@@ -82,10 +83,17 @@ mount_is_eligible(GUnixMountEntry *entry)
   G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   bool readonly = g_unix_mount_is_readonly(entry);
   const char *fs_type = g_unix_mount_get_fs_type(entry);
+  const char *mount_path = g_unix_mount_get_mount_path(entry);
   G_GNUC_END_IGNORE_DEPRECATIONS
   if (readonly)
     return false;
-  return fs_type_is_eligible(fs_type);
+  if (!fs_type_is_eligible(fs_type))
+    return false;
+  /* Skip mounts the current user cannot write to (e.g. /boot/efi).
+   * access() resolves effective uid/gid against the actual ACL. */
+  if (access(mount_path, W_OK) != 0)
+    return false;
+  return true;
 }
 
 static st_mount_trash *

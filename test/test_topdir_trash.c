@@ -95,6 +95,7 @@ test_fs_type_is_eligible(void)
   assert(fs_type_is_eligible("cgroup2") == false);
   assert(fs_type_is_eligible("overlay") == false);
   assert(fs_type_is_eligible("squashfs") == false);
+  assert(fs_type_is_eligible("efivarfs") == false);
 
   /* network shares the spec leaves undefined */
   assert(fs_type_is_eligible("cifs") == false);
