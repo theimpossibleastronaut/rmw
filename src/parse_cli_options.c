@@ -39,6 +39,7 @@ typedef enum
   CONFIG,
   DRY_RUN,
   LIST,
+  LIST_ALL_TRASH,
   PURGE,
   ORPHANED,
   RESTORE,
@@ -64,6 +65,7 @@ static struct cli_opt
   {CONFIG, "config"},
   {DRY_RUN, "dry-run"},
   {LIST, "list"},
+  {LIST_ALL_TRASH, "list-all-trash"},
   {PURGE, "purge"},
   {ORPHANED, "orphaned"},
   {RESTORE, "restore"},
@@ -110,6 +112,10 @@ Restore FILE(s) from a WASTE directory"));
   printf(_("\
   -l, --%s                list waste directories\n\
 "), cli_opt[LIST].str);
+  printf(_("\
+  -L, --%s      list all candidate trash folders (temporary)\n\
+                            (* prefix = directory exists)\n\
+"), cli_opt[LIST_ALL_TRASH].str);
   printf(_("\
   -g[N_DAYS], --%s[=N_DAYS]\n\
                             purge expired files;\n\
@@ -235,6 +241,7 @@ init_rmw_options(rmw_options *x)
   x->most_recent_list = false;
   x->force = 0;
   x->list = false;
+  x->list_all_trash = false;
   x->alt_config_file = NULL;
 }
 
@@ -248,6 +255,7 @@ parse_cli_options(const int argc, char *const argv[], rmw_options *options)
     {cli_opt[CONFIG].str, 1, NULL, 'c'},
     {cli_opt[DRY_RUN].str, 0, NULL, 'n'},
     {cli_opt[LIST].str, 0, NULL, 'l'},
+    {cli_opt[LIST_ALL_TRASH].str, 0, NULL, 'L'},
     {cli_opt[PURGE].str, 2, NULL, 'g'},
     {cli_opt[ORPHANED].str, 0, NULL, 'o'},
     {cli_opt[RESTORE].str, 1, NULL, 'z'},
@@ -265,7 +273,7 @@ parse_cli_options(const int argc, char *const argv[], rmw_options *options)
 
   int c;
   while ((c =
-          getopt_long(argc, argv, "hvc:g::oz:lnsumwVfrR", long_options,
+          getopt_long(argc, argv, "hvc:g::oz:lLnsumwVfrR", long_options,
                       NULL)) != -1)
   {
     switch (c)
@@ -288,6 +296,9 @@ parse_cli_options(const int argc, char *const argv[], rmw_options *options)
       break;
     case 'l':
       options->list = true;
+      break;
+    case 'L':
+      options->list_all_trash = true;
       break;
     case 'g':
       /* Ignore if used twice, but parse it if --purge was given no argument the first time */

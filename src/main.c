@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "messages.h"
 #include "ficlone.h"
 #include "trashinfo.h"
+#include "topdir_trash.h"
 
 
 /*!
@@ -468,6 +469,63 @@ damage of 5000 hp. You feel satisfied.\n"));
 
     if (!waste_curr)
     {
+      /* No configured WASTE matched. Fall back to the spec-compliant
+       * $topdir trash for this file's mount, creating it on demand. */
+      char *fb_trash = find_topdir_trash(arg, get_user_uid_str());
+      char *fb_files = NULL;
+      char *fb_info = NULL;
+      bool fb_ok = false;
+      if (fb_trash != NULL)
+      {
+        fb_files = join_paths(fb_trash, "files");
+        fb_info = join_paths(fb_trash, "info");
+        fb_ok = true;
+        if (check_pathname_state(fb_files) == ENOENT
+            && rmw_mkdir(fb_files) != 0)
+          fb_ok = false;
+        if (fb_ok
+            && check_pathname_state(fb_info) == ENOENT
+            && rmw_mkdir(fb_info) != 0)
+          fb_ok = false;
+      }
+
+      if (fb_ok)
+      {
+        struct stat fb_st;
+        if (lstat(fb_trash, &fb_st) != 0)
+          fb_ok = false;
+        else
+        {
+          st_waste *new_node = malloc(sizeof *new_node);
+          if (!new_node)
+            fatal_malloc();
+          new_node->parent = fb_trash;
+          new_node->files = fb_files;
+          new_node->info = fb_info;
+          new_node->len_files = strlen(fb_files);
+          new_node->len_info = strlen(fb_info);
+          new_node->media_root = NULL;
+          new_node->removable = false;
+          new_node->is_ficlone_fs = is_ficlone_fs(fb_trash);
+          new_node->dev_num = fb_st.st_dev;
+          new_node->next_node = NULL;
+
+          st_waste *tail = waste_head;
+          while (tail->next_node != NULL)
+            tail = tail->next_node;
+          new_node->prev_node = tail;
+          tail->next_node = new_node;
+
+          verbose_printf(1, "fallback trash: %s\n", fb_trash);
+          free(st_target.real_path);
+          file_arg--;
+          continue;
+        }
+      }
+
+      free(fb_trash);
+      free(fb_files);
+      free(fb_info);
       printf(_(" :'%s' not ReMoved:\n"), argv[file_arg]);
       printf(_
              ("No WASTE folder defined in '%s' that resides on the same filesystem.\n"),
@@ -683,6 +741,37 @@ Please check your configuration file and permissions\
   if (cli_user_options.list)
   {
     list_waste_folders(st_config_data.st_waste_folder_props_head);
+    return 0;
+  }
+
+  if (cli_user_options.list_all_trash)
+  {
+    const char *xdg_data = getenv("XDG_DATA_HOME");
+    char *home_trash_dir;
+    if (xdg_data != NULL && *xdg_data != '\0')
+      home_trash_dir = join_paths(xdg_data, "Trash");
+    else
+    {
+      char *xdg_default = join_paths(st_location->home_dir, ".local/share");
+      home_trash_dir = join_paths(xdg_default, "Trash");
+      free(xdg_default);
+    }
+
+    struct stat st;
+    dev_t home_dev = 0;
+    if (lstat(st_location->home_dir, &st) == 0)
+      home_dev = st.st_dev;
+
+    st_mount_trash *head =
+      build_mount_trash_list(st_config_data.uid, home_trash_dir, home_dev);
+    for (st_mount_trash *n = head; n != NULL; n = n->next)
+    {
+      bool exists = (check_pathname_state(n->trash_dir) == EEXIST);
+      printf("%c %s\n", exists ? '*' : ' ', n->trash_dir);
+    }
+    free_mount_trash_list(head);
+    free(home_trash_dir);
+    dispose_waste(st_config_data.st_waste_folder_props_head);
     return 0;
   }
 
