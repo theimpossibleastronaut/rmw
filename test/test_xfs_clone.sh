@@ -148,6 +148,46 @@ test -f "$XFS_SYM_DIR/real_file"
 test -L "$XFS_SYM_DIR/link_file"
 test ! -f "$XFS_WASTE_DIR/info/sym_dir.trashinfo"
 
+FS_MOUNTPOINT="$XFS_MOUNTPOINT"
+FS_RMW_CMD="$XFS_RMW_CMD"
+FS_WASTE_DIR="$XFS_WASTE_DIR"
+. "${MESON_SOURCE_ROOT}/test/test_ficlone_safeguards.sh"
+
+# --- Test: dangling symlink on xfs is not followed by is_ficlone_fs ---
+# If is_ficlone_fs followed the symlink it would crash (ENOENT) or return false,
+# and the symlink would not reach the xfs waste dir.
+echo "== Test: dangling symlink on xfs goes to xfs waste (symlink not followed)"
+ln -s nonexistent_ficlone_target dangling_link
+$XFS_RMW_CMD dangling_link
+test ! -L dangling_link
+test -L "$XFS_WASTE_DIR/files/dangling_link"
+test -f "$XFS_WASTE_DIR/info/dangling_link.trashinfo"
+
+echo "== Test: restore the dangling symlink"
+$XFS_RMW_CMD -u
+test -L dangling_link
+test ! -f "$XFS_WASTE_DIR/info/dangling_link.trashinfo"
+rm dangling_link
+
+# --- Test: xattr preservation on xfs ---
+if command -v setfattr >/dev/null 2>&1 && command -v getfattr >/dev/null 2>&1; then
+  echo "== Test: xattr preserved after xfs move"
+  touch xattr_file
+  setfattr -n user.rmwtest -v hello xattr_file
+  $XFS_RMW_CMD xattr_file
+  test ! -f xattr_file
+  test -f "$XFS_WASTE_DIR/files/xattr_file"
+  getfattr -n user.rmwtest --only-values "$XFS_WASTE_DIR/files/xattr_file" | grep -qx hello
+
+  echo "== Test: xattr preserved after xfs restore"
+  $XFS_RMW_CMD -u
+  test -f xattr_file
+  getfattr -n user.rmwtest --only-values xattr_file | grep -qx hello
+  rm -f xattr_file
+else
+  echo "setfattr/getfattr not available; skipping xattr test."
+fi
+
 # --- Test: purge an expired file from xfs waste ---
 echo "== Test: purge an expired file from xfs waste"
 RMW_FAKE_YEAR=true $XFS_RMW_CMD foo

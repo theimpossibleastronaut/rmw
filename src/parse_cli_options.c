@@ -23,11 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"
 #endif
 
-#include <sys/stat.h>
 #include <ctype.h>
 
 #include "parse_cli_options.h"
 #include "config_rmw.h"
+#include "utils.h"
 
 #define RMW_VERSION_STRING VERSION
 
@@ -209,9 +209,8 @@ diagnose_leading_hyphen(const int argc, char *const argv[])
   for (i = 1; i < argc; i++)
   {
     char const *arg = argv[i];
-    struct stat st;
 
-    if (arg[0] == '-' && arg[1] && lstat(arg, &st) == 0)
+    if (arg[0] == '-' && arg[1] && check_pathname_state(arg) == EEXIST)
     {
       fprintf(stderr,
               _("Try '%s ./%s' to remove the file '%s'.\n"),

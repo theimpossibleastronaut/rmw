@@ -51,24 +51,15 @@ is_ficlone_fs(const char *path)
 #ifdef HAVE_FICLONE
   struct statfs buf;
 
-  struct stat st;
-  int r;
-  if (lstat(path, &st) == 0 && S_ISLNK(st.st_mode))
-  {
-    gchar *dir = g_path_get_dirname(path);
-    r = statfs(dir, &buf);
-    g_free(dir);
-  }
-  else
-  {
-    r = statfs(path, &buf);
-  }
+  gchar *dir = g_path_get_dirname(path);
+  int r = statfs(dir, &buf);
   if (r == -1)
   {
-    print_msg_error();
-    perror("statfs");
-    exit(EXIT_FAILURE);
+    fprintf(stderr, "statfs '%s': %s\n", dir, strerror(errno));
+    g_free(dir);
+    return false;
   }
+  g_free(dir);
 
   return buf.f_type == BTRFS_SUPER_MAGIC ||
     buf.f_type == BCACHEFS_SUPER_MAGIC ||
@@ -142,14 +133,20 @@ do_ficlone(const char *source, const char *dest)
             continue;
           if (val_len == 0)
           {
-            fsetxattr(dest_fd, name, "", 0, 0);
+            if (fsetxattr(dest_fd, name, "", 0, 0) == -1)
+              fprintf(stderr, "fsetxattr '%s' on '%s': %s\n",
+                      name, dest, strerror(errno));
             continue;
           }
           char *val = malloc(val_len);
           if (val == NULL)
             fatal_malloc();
           if (fgetxattr(src_fd, name, val, val_len) == val_len)
-            fsetxattr(dest_fd, name, val, val_len, 0);
+          {
+            if (fsetxattr(dest_fd, name, val, val_len, 0) == -1)
+              fprintf(stderr, "fsetxattr '%s' on '%s': %s\n",
+                      name, dest, strerror(errno));
+          }
           free(val);
         }
       }
