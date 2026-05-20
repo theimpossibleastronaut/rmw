@@ -184,16 +184,8 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
 
     if (!status)
     {
-      if (*ctr == 0)
-        putchar('\n');
       (*ctr)++;
-      if (!verbose)
-      {
-        printf("\r%d", *ctr);
-        fflush(stdout);
-        // sleep(1);
-      }
-      else
+      if (verbose)
         printf("-%s\n", pt_basename);
     }
     else
@@ -282,6 +274,7 @@ purge(st_config *st_config_data,
            st_config_data->expire_age);
 
   int ctr = 0;
+  int checked = 0;
 
   st_waste *waste_curr = st_config_data->st_waste_folder_props_head;
   while (waste_curr != NULL)
@@ -314,6 +307,12 @@ purge(st_config *st_config_data,
       time_t then = get_then_time(trashinfo_entry_realpath);
       if (!cli_user_options->want_empty_trash && !then)
         continue;
+
+      if (++checked % 250 == 0)
+      {
+        putchar('.');
+        fflush(stdout);
+      }
 
       double days_remaining =
         ((double) then + (SECONDS_IN_A_DAY * st_config_data->expire_age) -
