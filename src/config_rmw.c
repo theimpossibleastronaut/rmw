@@ -434,7 +434,8 @@ init_config_data(st_config *x)
   x->force_required = 0;
 
   // get the UID
-  sn_check(snprintf(x->uid, sizeof x->uid, "%d", getuid()), sizeof x->uid);
+  sn_check(snprintf(x->uid, sizeof x->uid, "%s", get_user_uid_str()),
+           sizeof x->uid);
 }
 
 void

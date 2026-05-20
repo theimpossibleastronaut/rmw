@@ -62,4 +62,10 @@ bool is_dir_f(const char *pathname);
 
 int count_chars(const char c, const char *str);
 
+/*
+ * Returns the current user's uid as a decimal string. The returned pointer
+ * refers to a process-wide static buffer; do not free.
+ */
+const char *get_user_uid_str(void);
+
 #endif

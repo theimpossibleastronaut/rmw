@@ -95,6 +95,21 @@ check_pathname_state(const char *pathname)
   return -1;
 }
 
+const char *
+get_user_uid_str(void)
+{
+  static char buf[11];          /* uid_t fits in 10 decimal digits + NUL */
+  static bool ready = false;
+  if (!ready)
+  {
+    sn_check(snprintf(buf, sizeof buf, "%u", (unsigned) getuid()),
+             sizeof buf);
+    ready = true;
+  }
+  return buf;
+}
+
+
 void
 dispose_waste(st_waste *node)
 {
