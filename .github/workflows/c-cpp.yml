@@ -192,7 +192,8 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt-get install -y \
+        sudo apt-get install --no-install-recommends -y \
+          attr \
           faketime \
           gettext \
           libglib2.0-dev \

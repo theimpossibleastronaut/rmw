@@ -18,3 +18,4 @@ subprojects/**
 /packaging/appimage/.env
 /test/rmw-btrfs-test.img
 /test/rmw-bcachefs-test.img
+/test/rmw-xfs-test.img
