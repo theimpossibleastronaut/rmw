@@ -24,9 +24,14 @@ rmw (in-progress):
     rename HAVE_LINUX_BTRFS macro to HAVE_FICLONE
   * docs: Add BTRFS AND BCACHEFS section to man page
   * Add 'x' to exit keys at ncurses screen
-  * ficlone: Add XFS filesystem detection (XFS_SUPER_MAGIC); update man page
-    NOTES section to include XFS
+  * ficlone: Add XFS_SUPER_MAGIC to is_ficlone_fs (currently has no
+    functional effect since FICLONE is rejected across separate XFS
+    mounts and same-mount moves use rename())
   * ficlone: Preserve extended attributes (xattrs) after a successful FICLONE
+  * ficlone: Log fsetxattr failures so dropped xattrs aren't silent;
+    return false from is_ficlone_fs on statfs error instead of aborting
+  * tests: extend test_xfs_clone.sh with safeguards, dangling-symlink,
+    and xattr preservation cases
 
 2026-04-07
 

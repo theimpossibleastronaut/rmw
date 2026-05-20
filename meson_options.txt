@@ -4,7 +4,7 @@ option(
     'with-reflink',
     type : 'boolean',
     value: 'true',
-    description: 'Include support for cloning files between subvolumes using FICLONE (btrfs, bcachefs, xfs, etc.)')
+    description: 'Include FICLONE-based reflink support for cross-subvolume moves on btrfs and bcachefs')
 option('nls', type : 'boolean', value : true,
        description : 'include native language support (install translations)')
 
