@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "trashinfo.h"
 #include "parse_cli_options.h"
 #include "messages.h"
-#include "canfigger.h"
+#include <canfigger.h>
 #include "main.h"
 
 #define ENV_RMW_FAKE_HOME "RMW_FAKE_HOME"

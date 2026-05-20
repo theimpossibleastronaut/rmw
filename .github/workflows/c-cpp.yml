@@ -111,17 +111,12 @@ jobs:
       run: cd builddir && meson test -v
 
   macos:
-    name: macos-${{ matrix.name }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-        - name: brew-canfigger
-          install_packages: canfigger
-          setup_options: --wrap-mode nofallback
-        - name: bundled-canfigger
+        os: [macos-14, macos-latest]
 
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     env:
       HOMEBREW_NO_AUTO_UPDATE: 1
       HOMEBREW_NO_INSTALL_CLEANUP: 1
@@ -133,8 +128,8 @@ jobs:
       uses: actions/cache@v5
       with:
         path: ~/Library/Caches/Homebrew
-        key: ${{ runner.os }}-${{ matrix.name }}-brew-${{ hashFiles('.github/workflows/c-cpp.yml') }}
-        restore-keys: ${{ runner.os }}-${{ matrix.name }}-brew-
+        key: ${{ runner.os }}-${{ matrix.os }}-brew-${{ hashFiles('.github/workflows/c-cpp.yml') }}
+        restore-keys: ${{ runner.os }}-${{ matrix.os }}-brew-
     - name: Show info
       run: |
         export -p
@@ -143,23 +138,24 @@ jobs:
     - run: |
         brew update
         brew install \
+          canfigger \
           gettext \
           glib \
           meson \
           ninja \
           ncurses \
           pkg-config \
-          ${{ matrix.install_packages }}
 
     - name: Configure
-      run: meson setup builddir ${{ matrix.setup_options }}
+      run: meson setup builddir
 
     - name: Build
       run: |
-        cd builddir
-        ninja -v
+        meson compile -v -C builddir
+
     - name: Test
-      run: cd builddir && meson test -v
+      run: |
+        meson test -v -C builddir
 
   various:
     name: Test Various Build Configurations
