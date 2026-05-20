@@ -83,6 +83,86 @@ test_trash_path_for_topdir(const char *tmpdir, const char *uid)
 }
 
 
+static void
+test_fs_type_is_eligible(void)
+{
+  assert(fs_type_is_eligible(NULL) == false);
+
+  /* pseudo / system fs */
+  assert(fs_type_is_eligible("proc") == false);
+  assert(fs_type_is_eligible("sysfs") == false);
+  assert(fs_type_is_eligible("tmpfs") == false);
+  assert(fs_type_is_eligible("cgroup2") == false);
+  assert(fs_type_is_eligible("overlay") == false);
+  assert(fs_type_is_eligible("squashfs") == false);
+
+  /* network shares the spec leaves undefined */
+  assert(fs_type_is_eligible("cifs") == false);
+  assert(fs_type_is_eligible("smbfs") == false);
+  assert(fs_type_is_eligible("smb3") == false);
+
+  /* fuse.* prefix → excluded */
+  assert(fs_type_is_eligible("fuse.sshfs") == false);
+  assert(fs_type_is_eligible("fuse.rclone") == false);
+  assert(fs_type_is_eligible("fuse.gvfsd-fuse") == false);
+
+  /* eligible: real on-disk filesystems and nfs */
+  assert(fs_type_is_eligible("ext4") == true);
+  assert(fs_type_is_eligible("btrfs") == true);
+  assert(fs_type_is_eligible("xfs") == true);
+  assert(fs_type_is_eligible("bcachefs") == true);
+  assert(fs_type_is_eligible("vfat") == true);
+  assert(fs_type_is_eligible("ntfs") == true);
+  assert(fs_type_is_eligible("nfs") == true);
+  assert(fs_type_is_eligible("nfs4") == true);
+}
+
+
+static void
+test_build_mount_trash_list(const char *tmpdir, const char *uid)
+{
+  char home_trash[PATH_MAX];
+  sn_check(snprintf(home_trash, sizeof home_trash, "%s/Trash", tmpdir),
+           sizeof home_trash);
+
+  struct stat st;
+  assert(lstat(tmpdir, &st) == 0);
+  dev_t home_dev = st.st_dev;
+
+  st_mount_trash *head = build_mount_trash_list(uid, home_trash, home_dev);
+  assert(head != NULL);
+
+  /* Head is the home-trash node. */
+  assert(head->is_home_trash == true);
+  assert(head->mount_path == NULL);
+  assert(strcmp(head->trash_dir, home_trash) == 0);
+  assert(head->dev_num == home_dev);
+
+  char expected_files[PATH_MAX];
+  char expected_info[PATH_MAX];
+  sn_check(snprintf(expected_files, sizeof expected_files, "%s/files",
+                    home_trash), sizeof expected_files);
+  sn_check(snprintf(expected_info, sizeof expected_info, "%s/info",
+                    home_trash), sizeof expected_info);
+  assert(strcmp(head->files_dir, expected_files) == 0);
+  assert(strcmp(head->info_dir, expected_info) == 0);
+
+  /* No subsequent node should duplicate the home volume, and none should
+   * be flagged as the home trash. */
+  for (st_mount_trash *n = head->next; n != NULL; n = n->next)
+  {
+    assert(n->is_home_trash == false);
+    assert(n->mount_path != NULL);
+    assert(n->trash_dir != NULL);
+    assert(n->files_dir != NULL);
+    assert(n->info_dir != NULL);
+    assert(n->dev_num != home_dev);
+  }
+
+  free_mount_trash_list(head);
+}
+
+
 int
 main(void)
 {
@@ -92,6 +172,8 @@ main(void)
   assert(rmw_mkdir(tmpdir) == 0);
 
   test_trash_path_for_topdir(tmpdir, "1000");
+  test_fs_type_is_eligible();
+  test_build_mount_trash_list(tmpdir, "1000");
 
   assert(bsdutils_rm(tmpdir, false) == 0);
   return 0;

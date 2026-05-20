@@ -33,3 +33,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * The caller must free the returned string.
  */
 char *find_topdir_trash(const char *file_path, const char *uid);
+
+
+typedef struct st_mount_trash st_mount_trash;
+
+struct st_mount_trash
+{
+  char *mount_path;             /* NULL for the home-trash node */
+  char *trash_dir;              /* $topdir/.Trash{,-}/$uid, or home trash dir */
+  char *files_dir;              /* trash_dir/files */
+  char *info_dir;               /* trash_dir/info  */
+  dev_t dev_num;                /* st_dev of mount_path (or of home-trash volume) */
+  bool is_home_trash;
+  bool is_ficlone_fs;
+  st_mount_trash *next;
+};
+
+/*
+ * Build a linked list of candidate trash locations:
+ *   head: the home-trash node ($XDG_DATA_HOME/Trash semantics)
+ *   tail: one node per eligible mounted filesystem (FreeDesktop topdir rules)
+ *
+ * Mounts whose fs type is in the pseudo/network exclusion list, or that are
+ * read-only, are skipped. The mount that shares dev_num with home_dev is
+ * skipped to avoid duplicating the home-trash node.
+ *
+ * No directories are created; nodes record the spec-compliant paths only.
+ * Returns NULL if even the home-trash node cannot be allocated.
+ * Free with free_mount_trash_list().
+ */
+st_mount_trash *build_mount_trash_list(const char *uid,
+                                       const char *home_trash_dir,
+                                       dev_t home_dev);
+
+void free_mount_trash_list(st_mount_trash *head);
