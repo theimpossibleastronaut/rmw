@@ -76,12 +76,10 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
       {
         close_file(&fp, final_info_dest, __func__);
         if (unlink(final_info_dest) != 0)
-          perror("unlink");
-        print_msg_error();
-        fprintf(stderr, "Expected a leading '/' in the pathname '%s'\n",
-                escaped_path_ptr);
-        free(escaped_path);
-        exit(EXIT_FAILURE);
+          diag(DIAG_ERR, "unlink: %s\n", strerror(errno));
+        diag_fatal(EXIT_FAILURE,
+                   "Expected a leading '/' in the pathname '%s'\n",
+                   escaped_path_ptr);
       }
     }
 
@@ -99,18 +97,12 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
     free(escaped_path);
 
     if (n < 0)
-    {
-      print_msg_error();
-      fprintf(stderr, "fprintf() failed due to an error writing to %s\n",
-              final_info_dest);
-    }
+      diag(DIAG_ERR, "fprintf() failed due to an error writing to %s\n",
+           final_info_dest);
     else if (n != want_size)
-    {
-      print_msg_error();
-      fprintf(stderr,
-              "Expected to write %zu bytes, but wrote %d bytes to %s\n",
-              want_size, n, final_info_dest);
-    }
+      diag(DIAG_ERR,
+           "Expected to write %zu bytes, but wrote %d bytes to %s\n",
+           want_size, n, final_info_dest);
     return close_file(&fp, final_info_dest, __func__);
   }
   else

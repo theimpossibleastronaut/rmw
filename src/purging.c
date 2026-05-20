@@ -50,8 +50,7 @@ is_time_to_purge(st_time *st_time_var, const char *file)
 
     if (fgets(time_prev, sizeof time_prev, fp) == NULL)
     {
-      print_msg_error();
-      printf("while getting line from %s\n", file);
+      diag(DIAG_ERR, "while getting line from %s\n", file);
       perror(__func__);
       close_file(&fp, file, __func__);
       exit(EXIT_FAILURE);
@@ -104,8 +103,7 @@ get_then_time(const char *tinfo_file)
     free(raw_deletion_date);
     return mktime(&tm_then);
   }
-  print_msg_error();
-  fprintf(stderr, "while getting deletion date from %s.\n", tinfo_file);
+  diag(DIAG_ERR, "while getting deletion date from %s.\n", tinfo_file);
   return 0;
 }
 
@@ -157,8 +155,7 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
   bool is_dir = is_dir_f(purge_target);
 
   int status = 0;
-  if (verbose)
-    printf("removing '%s\n", purge_target);
+  verbose_printf(1, "removing '%s'\n", purge_target);
 
   if (!is_dir)
   {
@@ -185,8 +182,7 @@ do_file_purge(char *purge_target, const rmw_options *cli_user_options,
     if (!status)
     {
       (*ctr)++;
-      if (verbose)
-        printf("-%s\n", pt_basename);
+      verbose_printf(1, "-%s\n", pt_basename);
     }
     else
       msg_err_remove(trashinfo_entry_realpath, __func__);
@@ -409,10 +405,7 @@ orphan_maint(st_waste *waste_head, st_time *st_time_var, int *orphan_ctr)
         (*orphan_ctr)++;
       }
       else
-      {
-        print_msg_error();
-        printf(_("while creating %s\n"), path_to_trashinfo);
-      }
+        diag(DIAG_ERR, _("while creating %s\n"), path_to_trashinfo);
       free(st_file_properties.real_path);
 
     }

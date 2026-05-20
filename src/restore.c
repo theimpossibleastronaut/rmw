@@ -50,10 +50,7 @@ get_waste_parent(char *waste_parent, const char *src)
   free(waste_parent_rel_path);
 
   if (tmp == NULL)
-  {
-    perror("::realpath");
-    exit(errno);
-  }
+    diag_fatal(errno, "realpath: %s\n", strerror(errno));
 
   sn_check(strlen(tmp) + 1, PATH_MAX);
   strcpy(waste_parent, tmp);
@@ -113,8 +110,7 @@ restore(const char *src, st_time *st_time_var,
 
     if (!waste_match)
     {
-      print_msg_error();
-      fprintf(stderr, "'%s' is not in a Waste directory.\n", src);
+      diag(DIAG_ERR, "'%s' is not in a Waste directory.\n", src);
       return -1;
     }
 
@@ -163,8 +159,7 @@ restore(const char *src, st_time *st_time_var,
                  __func__, __LINE__);
       strcat(dest, st_time_var->suffix_added_dup_exists);
 
-      if (verbose)
-        printf(_("\
+      verbose_printf(1, _("\
 Duplicate filename at destination - appending time string...\n"));
     }
 
@@ -209,12 +204,9 @@ Duplicate filename at destination - appending time string...\n"));
         result = remove(src_tinfo);
 
       if (result != 0)
-      {
-        print_msg_error();
-        printf(_("while removing .trashinfo file: '%s'\n"), src_tinfo);
-      }
-      else if (verbose >= 2)
-        printf("-%s\n", src_tinfo);
+        diag(DIAG_ERR, _("while removing .trashinfo file: '%s'\n"), src_tinfo);
+      else
+        verbose_printf(2, "-%s\n", src_tinfo);
     }
     else
     {
@@ -226,8 +218,7 @@ Duplicate filename at destination - appending time string...\n"));
   {
     if (p_state == ENOENT)
     {
-      print_msg_warn();
-      msg_warn_file_not_found(src);
+      diag(DIAG_WARN, "'%s': %s\n", src, strerror(ENOENT));
       return ENOENT;
     }
     else
@@ -325,7 +316,7 @@ get_nearest_waste(st_waste *waste_head)
 
   if (getcwd(cwdbuf, sizeof cwdbuf) == NULL)
   {
-    perror("getcwd");
+    diag(DIAG_ERR, "getcwd: %s\n", strerror(errno));
     return NULL;
   }
 
@@ -455,10 +446,9 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
       if (my_items[n_choices] == NULL)
       {
         endwin();
-        fprintf(stderr, "new_item: %s\n\
-%s\n", strerror(errno), m_dir_entry);
+        diag(DIAG_ERR, "new_item: %s\n%s\n", strerror(errno), m_dir_entry);
         if (closedir(waste_dir))
-          perror("closedir");
+          diag(DIAG_ERR, "closedir: %s\n", strerror(errno));
         free(my_items);
         dispose_waste(waste_head);
         exit(EXIT_FAILURE);

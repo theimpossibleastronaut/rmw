@@ -55,7 +55,7 @@ is_ficlone_fs(const char *path)
   int r = statfs(dir, &buf);
   if (r == -1)
   {
-    fprintf(stderr, "statfs '%s': %s\n", dir, strerror(errno));
+    diag(DIAG_WARN, "statfs '%s': %s\n", dir, strerror(errno));
     g_free(dir);
     return false;
   }
@@ -81,14 +81,16 @@ do_ficlone(const char *source, const char *dest)
   src_fd = open(source, O_RDONLY);
   if (src_fd == -1)
   {
-    perror("open source");
+    err = errno;
+    diag(DIAG_ERR, "open source: %s\n", strerror(err));
+    errno = err;
     return -1;
   }
 
   if (fstat(src_fd, &src_stat) == -1)
   {
     err = errno;
-    perror("fstat source");
+    diag(DIAG_ERR, "fstat source: %s\n", strerror(err));
     close(src_fd);
     errno = err;
     return -1;
@@ -100,7 +102,7 @@ do_ficlone(const char *source, const char *dest)
   if (dest_fd == -1)
   {
     err = errno;
-    perror("open destination");
+    diag(DIAG_ERR, "open destination: %s\n", strerror(err));
     close(src_fd);
     errno = err;
     return -1;
@@ -113,9 +115,9 @@ do_ficlone(const char *source, const char *dest)
   {
     struct timespec times[2] = { src_stat.st_atim, src_stat.st_mtim };
     if (futimens(dest_fd, times) == -1)
-      perror("futimens");
+      diag(DIAG_ERR, "futimens: %s\n", strerror(errno));
     if (fchown(dest_fd, src_stat.st_uid, src_stat.st_gid) == -1)
-      perror("fchown");
+      diag(DIAG_ERR, "fchown: %s\n", strerror(errno));
 
     ssize_t names_len = flistxattr(src_fd, NULL, 0);
     if (names_len > 0)
@@ -133,8 +135,8 @@ do_ficlone(const char *source, const char *dest)
           if (val_len == 0)
           {
             if (fsetxattr(dest_fd, name, "", 0, 0) == -1)
-              fprintf(stderr, "fsetxattr '%s' on '%s': %s\n",
-                      name, dest, strerror(errno));
+              diag(DIAG_WARN, "fsetxattr '%s' on '%s': %s\n",
+                   name, dest, strerror(errno));
             continue;
           }
           char *val = malloc(val_len);
@@ -143,8 +145,8 @@ do_ficlone(const char *source, const char *dest)
           if (fgetxattr(src_fd, name, val, val_len) == val_len)
           {
             if (fsetxattr(dest_fd, name, val, val_len, 0) == -1)
-              fprintf(stderr, "fsetxattr '%s' on '%s': %s\n",
-                      name, dest, strerror(errno));
+              diag(DIAG_WARN, "fsetxattr '%s' on '%s': %s\n",
+                   name, dest, strerror(errno));
           }
           free(val);
         }
@@ -159,9 +161,9 @@ do_ficlone(const char *source, const char *dest)
   if (res == -1)
   {
     if (err != EXDEV)
-      fprintf(stderr, "ioctl: %s in %s\n", strerror(err), __func__);
+      diag(DIAG_ERR, "ioctl: %s in %s\n", strerror(err), __func__);
     if (unlink(dest) != 0)
-      fprintf(stderr, "unlink: %s in %s\n", strerror(errno), __func__);
+      diag(DIAG_ERR, "unlink: %s in %s\n", strerror(errno), __func__);
     errno = err;
     return -1;
   }
@@ -169,11 +171,11 @@ do_ficlone(const char *source, const char *dest)
   if (unlink(source) == -1)
   {
     err = errno;
-    perror("unlink source");
+    diag(DIAG_ERR, "unlink source: %s\n", strerror(err));
     /* dest is a valid clone but source couldn't be removed; clean up dest
        so the caller can retry rather than leaving an orphan in the waste folder */
     if (unlink(dest) != 0)
-      fprintf(stderr, "unlink: %s in %s\n", strerror(errno), __func__);
+      diag(DIAG_ERR, "unlink: %s in %s\n", strerror(errno), __func__);
     errno = err;
     return -1;
   }
@@ -219,7 +221,7 @@ do_ficlone_dir(const char *src, const char *dst)
     struct stat st;
     if (fstatat(dirfd(dir), entry->d_name, &st, AT_SYMLINK_NOFOLLOW) != 0)
     {
-      fprintf(stderr, "fstatat '%s': %s\n", src_child, strerror(errno));
+      diag(DIAG_ERR, "fstatat '%s': %s\n", src_child, strerror(errno));
       result = -1;
     }
     else
@@ -240,7 +242,7 @@ do_ficlone_dir(const char *src, const char *dst)
                      sizeof(link_target) - 1);
         if (len == -1)
         {
-          fprintf(stderr, "readlinkat '%s': %s\n", src_child, strerror(errno));
+          diag(DIAG_ERR, "readlinkat '%s': %s\n", src_child, strerror(errno));
           result = -1;
         }
         else
@@ -248,13 +250,13 @@ do_ficlone_dir(const char *src, const char *dst)
           link_target[len] = '\0';
           if (symlink(link_target, dst_child) != 0)
           {
-            fprintf(stderr, "symlink '%s': %s\n", dst_child, strerror(errno));
+            diag(DIAG_ERR, "symlink '%s': %s\n", dst_child, strerror(errno));
             result = -1;
           }
           else if (unlinkat(dirfd(dir), entry->d_name, 0) != 0)
           {
             int err = errno;
-            fprintf(stderr, "unlinkat '%s': %s\n", src_child, strerror(err));
+            diag(DIAG_ERR, "unlinkat '%s': %s\n", src_child, strerror(err));
             /* src_child is still intact; remove dst_child to avoid duplicate */
             unlink(dst_child);
             errno = err;
@@ -286,9 +288,9 @@ do_ficlone_dir(const char *src, const char *dst)
   {
     errno = saved_err;
     if (files_moved > 0)
-      fprintf(stderr,
-              _("partial move: check both '%s' and '%s' -- some files may have already been moved\n"),
-              src, dst);
+      diag(DIAG_WARN,
+           _("partial move: check both '%s' and '%s' -- some files may have already been moved\n"),
+           src, dst);
     return -1;
   }
 

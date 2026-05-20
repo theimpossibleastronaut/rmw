@@ -39,12 +39,8 @@ set_time_string(char *tm_str, const size_t len, const char *format,
 {
   struct tm result;
   if (localtime_r(&time_t_now, &result) == NULL)
-  {
-    fputs
-      ("Error: localtime_r() failed for time_t value beyond 32-bit limit.\n",
-       stderr);
-    exit(EXIT_FAILURE);
-  }
+    diag_fatal(EXIT_FAILURE,
+               "localtime_r() failed for time_t value beyond 32-bit limit.\n");
   strftime(tm_str, len, format, &result);
   trim_whitespace(tm_str);
 
@@ -117,15 +113,11 @@ process_mrl(st_waste *waste_head,
 
     int n_items = fread(contents, 1, f_size + 1, fp);
     if (n_items != f_size)
-    {
-      print_msg_warn();
-      fprintf(stdout, "ftell() returned %d, but fread() returned %d", f_size,
-              n_items);
-    }
+      diag(DIAG_WARN, "ftell() returned %d, but fread() returned %d", f_size,
+           n_items);
     if (feof(fp) == 0)
     {
-      print_msg_error();
-      fprintf(stderr, "while reading %s\n", mrl_file);
+      diag(DIAG_ERR, "while reading %s\n", mrl_file);
       clearerr(fp);
     }
     close_file(&fp, mrl_file, __func__);
@@ -338,8 +330,7 @@ damage of 5000 hp. You feel satisfied.\n"));
     }
     else
     {
-      print_msg_warn();
-      printf("lstat: (argv[file_arg]) %s\n", strerror(errno));
+      diag(DIAG_WARN, "lstat: (argv[file_arg]) %s\n", strerror(errno));
       continue;
     }
 
@@ -369,9 +360,9 @@ damage of 5000 hp. You feel satisfied.\n"));
           (waste_curr->parent, st_target.real_path,
            strlen(waste_curr->parent)) == 0)
       {
-        print_msg_warn();
-        printf(_("%s resides within a waste folder and has been ignored\n"),
-               argv[file_arg]);
+        diag(DIAG_WARN,
+             _("%s resides within a waste folder and has been ignored\n"),
+             argv[file_arg]);
         is_protected = 1;
         if (getenv("RMW_FAKE_HOME"))
           n_err++;
@@ -442,9 +433,8 @@ damage of 5000 hp. You feel satisfied.\n"));
 
         if (r_result == 0)
         {
-          if (verbose)
-            printf("'%s' -> '%s'\n", argv[file_arg],
-                   st_target.waste_dest_name);
+          verbose_printf(1, "'%s' -> '%s'\n", argv[file_arg],
+                         st_target.waste_dest_name);
 
           removed_files_ctr++;
 
@@ -527,12 +517,9 @@ get_locations(const char *alt_config_file)
   if (x.home_dir == NULL)
     return NULL;
 
-  if (verbose)
-  {
-    if (enable_test)
-      printf("%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
-    printf("home_dir: %s\n", x.home_dir);
-  }
+  if (enable_test)
+    verbose_printf(1, "%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
+  verbose_printf(1, "home_dir: %s\n", x.home_dir);
 
   static char s_data_dir[PATH_MAX];
   char *tmp = canfigger_data_dir(PACKAGE_STRING);
@@ -543,8 +530,7 @@ get_locations(const char *alt_config_file)
   free(tmp);
   x.data_dir = s_data_dir;
 
-  if (verbose)
-    printf("data_dir: %s\n", x.data_dir);
+  verbose_printf(1, "data_dir: %s\n", x.data_dir);
 
   char *default_config_file = canfigger_config_file("rmwrc");
   if (!default_config_file)
@@ -552,8 +538,7 @@ get_locations(const char *alt_config_file)
 
   gchar *config_dir = g_path_get_dirname(default_config_file);
 
-  if (verbose)
-    printf("config_dir: %s\n", config_dir);
+  verbose_printf(1, "config_dir: %s\n", config_dir);
 
   int p_state = check_pathname_state(config_dir);
   if (p_state == ENOENT)
@@ -585,8 +570,7 @@ get_locations(const char *alt_config_file)
 
   free(default_config_file);
 
-  if (verbose)
-    printf("config_file: %s\n", x.config_file);
+  verbose_printf(1, "config_file: %s\n", x.config_file);
 
   if ((p_state = check_pathname_state(x.config_file)) == ENOENT)
   {
@@ -626,11 +610,8 @@ get_locations(const char *alt_config_file)
   free(m_tmp_str);
   x.purge_time_file = s_purge_time_file;
 
-  if (verbose)
-  {
-    printf("mrl_file: %s\n", x.mrl_file);
-    printf("purge_time_file: %s\n", x.purge_time_file);
-  }
+  verbose_printf(1, "mrl_file: %s\n", x.mrl_file);
+  verbose_printf(1, "purge_time_file: %s\n", x.purge_time_file);
 
   return &x;
 }
@@ -654,21 +635,18 @@ main(const int argc, char *const argv[])
   init_rmw_options(&cli_user_options);
   parse_cli_options(argc, argv, &cli_user_options);
 
-  if (verbose > 1)
-    printf("PATH_MAX = %d\n", PATH_MAX);
+  verbose_printf(2, "PATH_MAX = %d\n", PATH_MAX);
 
-  if (verbose > 0)
 #ifdef HAVE_FICLONE
-    puts("ficlone support: true");
+  verbose_printf(1, "ficlone support: true\n");
 #else
-    puts("ficlone support: false");
+  verbose_printf(1, "ficlone support: false\n");
 #endif
 
   const st_loc *st_location = get_locations(cli_user_options.alt_config_file);
   if (st_location == NULL)
   {
-    print_msg_error();
-    fputs(_("while getting the path to your home directory\n"), stderr);
+    diag(DIAG_ERR, "%s", _("while getting the path to your home directory\n"));
     return 1;
   }
 
