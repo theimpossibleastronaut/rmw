@@ -181,17 +181,11 @@ trash_path_for_topdir(const char *topdir, const char *uid)
   if (lstat(dot_trash, &st) == 0)
   {
     if (S_ISLNK(st.st_mode))
-    {
-      print_msg_warn();
-      fprintf(stderr, "%s is a symbolic link; ignoring per trash spec\n",
-              dot_trash);
-    }
+      diag(DIAG_WARN, "%s is a symbolic link; ignoring per trash spec\n",
+           dot_trash);
     else if (!(st.st_mode & S_ISVTX))
-    {
-      print_msg_warn();
-      fprintf(stderr, "%s lacks the sticky bit; ignoring per trash spec\n",
-              dot_trash);
-    }
+      diag(DIAG_WARN, "%s lacks the sticky bit; ignoring per trash spec\n",
+           dot_trash);
     else
     {
       char *result = join_paths(dot_trash, uid);
@@ -201,8 +195,8 @@ trash_path_for_topdir(const char *topdir, const char *uid)
   }
   else if (errno != ENOENT)
   {
+    diag(DIAG_ERR, "lstat %s: %s\n", dot_trash, strerror(errno));
     free(dot_trash);
-    perror("lstat");
     return NULL;
   }
 
