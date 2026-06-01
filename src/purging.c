@@ -245,9 +245,12 @@ purge(st_config *st_config_data,
 {
   if (!st_config_data->expire_age)
   {
-    /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
-     * directory  */
-    printf(_("purging is disabled ('%s' is set to '0')\n\n"), expire_age_str);
+    /* Only announce the disabled state for an explicit purge request
+       (-g/--purge/--empty); stay quiet during an automatic time-based run. */
+    if (cli_user_options->want_purge)
+      /* TRANSLATORS:  "purging" refers to permanently deleting a file or a
+       * directory  */
+      printf(_("purging is disabled ('%s' is set to '0')\n\n"), expire_age_str);
     return 0;
   }
 
