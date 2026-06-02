@@ -410,6 +410,13 @@ test_trim_char(void)
   strcpy(foo, "ccc");
   trim_char('c', foo);
   assert(*foo == '\0');
+  /* a lone "/" (or all slashes) collapses to "" -- the root-arg case */
+  strcpy(foo, "/");
+  trim_char('/', foo);
+  assert(*foo == '\0');
+  strcpy(foo, "//");
+  trim_char('/', foo);
+  assert(*foo == '\0');
   return;
 }
 
