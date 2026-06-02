@@ -23,8 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdbool.h>
 
-#define BTRFS_SUPER_MAGIC 0x9123683E
-
 bool is_ficlone_fs(const char *path);
 
 int ficlone_move(const char *src, const char *dst);
