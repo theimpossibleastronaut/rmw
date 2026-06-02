@@ -39,6 +39,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BCACHEFS_SUPER_MAGIC
 #define BCACHEFS_SUPER_MAGIC 0xca451a4e
 #endif
+
+#ifndef BTRFS_SUPER_MAGIC
+#define BTRFS_SUPER_MAGIC 0x9123683E
+#endif
 #endif
 
 #include "ficlone.h"
