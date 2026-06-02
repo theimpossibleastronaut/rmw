@@ -173,23 +173,10 @@ validate_and_get_value(const char *file, ti_key key)
         && key_value)
       return key_value;
 
-    if (key_value != NULL)
-      free(key_value);
+    free(key_value);
     display_dot_trashinfo_error(file);
     return NULL;
   }
   open_err(file, __func__);
   return NULL;
 }
-
-//const char *ti_key_to_string(ti_key key)
-//{
-    //switch (key)
-    //{
-        //case TI_HEADER: return "TI_HEADER";
-        //case PATH_KEY: return "PATH_KEY";
-        //case DELETIONDATE_KEY: return "DELETIONDATE_KEY";
-        //case TI_LINE_MAX: return "TI_LINE_MAX";
-        //default: return "UNKNOWN_KEY";
-    //}
-//}
