@@ -283,6 +283,18 @@ remove_to_waste(const int argc,
 
     trim_char('/', tmp);
 
+    /* an argument that's all slashes (e.g. "/", "//") trims to nothing:
+       that's the root directory */
+    if (*tmp == '\0')
+    {
+      puts(_("\n\
+Your single slash has been ignored. You walk to the market\n\
+in the town square and purchase a Spear of Destiny. You walk to\n\
+the edge of the forest and find your enemy. You attack, causing\n\
+damage of 5000 hp. You feel satisfied.\n"));
+      continue;
+    }
+
     char arg[PATH_MAX];
     sn_check(snprintf(arg, sizeof(arg), "%s", tmp), sizeof(arg));
 
@@ -294,17 +306,6 @@ remove_to_waste(const int argc,
     {
       printf("refusing to ReMove '.' or '..' directory: skipping '%s'\n",
              argv[file_arg]);
-      continue;
-    }
-
-    /* leave "/" or "\" alone */
-    if (strcmp(argv[file_arg], "/") == 0 || strcmp(argv[file_arg], "/") == 0)
-    {
-      puts(_("\n\
-Your single slash has been ignored. You walk to the market\n\
-in the town square and purchase a Spear of Destiny. You walk to\n\
-the edge of the forest and find your enemy. You attack, causing\n\
-damage of 5000 hp. You feel satisfied.\n"));
       continue;
     }
 
