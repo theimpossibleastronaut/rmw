@@ -191,7 +191,7 @@ add_removal(st_removed *removals, const char *file)
   }
   removals->next_node = NULL;
   bufchk_len(strlen(file) + 1, sizeof removals->file, __func__, __LINE__);
-  strcpy(removals->file, file);
+  snprintf(removals->file, sizeof removals->file, "%s", file);
   return removals;
 }
 
@@ -390,7 +390,7 @@ damage of 5000 hp. You feel satisfied.\n"));
       {
         char *tmp_str = join_paths(waste_curr->files, st_target.base_name);
         // *st_target.waste_dest_name = '\0';
-        strcpy(st_target.waste_dest_name, tmp_str);
+        snprintf(st_target.waste_dest_name, sizeof st_target.waste_dest_name, "%s", tmp_str);
         free(tmp_str);
         tmp_str = NULL;
 
@@ -403,8 +403,10 @@ damage of 5000 hp. You feel satisfied.\n"));
           bufchk_len(strlen(st_target.waste_dest_name) +
                      LEN_MAX_TIME_STR_SUFFIX,
                      sizeof st_target.waste_dest_name, __func__, __LINE__);
-          strcat(st_target.waste_dest_name,
-                 st_time_var->suffix_added_dup_exists);
+          size_t wdn_len = strlen(st_target.waste_dest_name);
+          snprintf(st_target.waste_dest_name + wdn_len,
+                   sizeof st_target.waste_dest_name - wdn_len,
+                   "%s", st_time_var->suffix_added_dup_exists);
         }
 
         int r_result = 0;
