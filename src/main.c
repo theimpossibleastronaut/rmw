@@ -247,7 +247,8 @@ list_waste_folders(st_waste *waste_head)
   st_waste *waste_curr = waste_head;
   while (waste_curr != NULL)
   {
-    show_folder_line(waste_curr->parent, waste_curr->removable, is_attached);
+    show_folder_line(waste_curr->parent, waste_curr->removable, is_attached,
+                     waste_curr->no_deposit);
     waste_curr = waste_curr->next_node;
   }
 
@@ -391,6 +392,12 @@ damage of 5000 hp. You feel satisfied.\n"));
     waste_curr = waste_head;
     while (waste_curr != NULL)
     {
+      /* "!WASTE" folders are never a removal destination */
+      if (waste_curr->no_deposit)
+      {
+        waste_curr = waste_curr->next_node;
+        continue;
+      }
       if (waste_curr->dev_num == st_target.dev_num ||
           (waste_curr->is_ficlone_fs && src_is_ficlone))
       {
@@ -527,6 +534,7 @@ damage of 5000 hp. You feel satisfied.\n"));
           new_node->media_root = fb_mount;       /* takes ownership */
           fb_mount = NULL;
           new_node->removable = false;
+          new_node->no_deposit = false;
           new_node->is_ficlone_fs = is_ficlone_fs(fb_trash);
           new_node->dev_num = fb_st.st_dev;
           new_node->next_node = NULL;
@@ -644,6 +652,7 @@ discover_existing_topdir_trashes(st_config *st_config_data,
     new_node->media_root = (n->mount_path != NULL)
       ? strdup(n->mount_path) : NULL;
     new_node->removable = false;
+    new_node->no_deposit = false;
     new_node->is_ficlone_fs = n->is_ficlone_fs;
     new_node->dev_num = tst.st_dev;
     new_node->next_node = NULL;

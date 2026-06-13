@@ -67,6 +67,12 @@ struct st_waste
    */
   bool removable;
 
+  /** Set to <tt>true</tt> when the folder was configured with "!WASTE":
+   * it is never selected as a destination when removing files, but still
+   * participates in listing, restoring, purging, and orphan maintenance.
+   */
+  bool no_deposit;
+
   bool is_ficlone_fs;
 };
 

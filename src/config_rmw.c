@@ -49,7 +49,7 @@ print_config(FILE *restrict stream)
 WASTE = $HOME/.local/share/Waste\n", stream);
   fputs(_("\n\
 # The directory used by the FreeDesktop.org Trash spec\n\
-# Note to macOS and Windows users: moving files to 'Desktop' trash\n\
+# Note to macOS users: moving files to 'Desktop' trash\n\
 # doesn't work yet\n"), stream);
   fputs("\
 # WASTE=$HOME/.local/share/Trash\n", stream);
@@ -60,6 +60,11 @@ WASTE = $HOME/.local/share/Waste\n", stream);
 # See the README or man page for details about using the 'removable' attribute\n"), stream);
   fputs("\
 # WASTE=/mnt/flash/.Trash-$UID, removable\n", stream);
+  fputs(_("\n\
+# A folder marked with '!' never receives files when you remove them.\n\
+# rmw can still list, restore, and purge files that are already in it.\n"), stream);
+  fputs("\
+# !WASTE = $HOME/.local/share/Trash\n", stream);
   fputs(_("\n\
 # How many days should items be allowed to stay in the waste\n\
 # directories before they are permanently deleted\n\
@@ -172,7 +177,8 @@ realize_str(char *str, const char *homedir, const char *uid)
 static st_waste *
 parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
                  const rmw_options *cli_user_options,
-                 const char *homedir, const char *uid)
+                 const char *homedir, const char *uid,
+                 const bool no_deposit)
 {
   bool removable = 0;
   char *attr = NULL;
@@ -203,10 +209,13 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
 
   bool is_attached =
     (check_pathname_state(tmp_waste_parent_folder) == EEXIST);
-  if (removable && !is_attached)
+  /* A "!WASTE" folder that doesn't exist is skipped rather than created:
+   * it can never receive files, and purge exits on an unopenable info dir. */
+  if ((removable || no_deposit) && !is_attached)
   {
     if (cli_user_options->list)
-      show_folder_line(tmp_waste_parent_folder, removable, is_attached);
+      show_folder_line(tmp_waste_parent_folder, removable, is_attached,
+                       no_deposit);
 
     return NULL;
   }
@@ -229,6 +238,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   waste_curr->next_node = NULL;
 
   waste_curr->removable = removable ? true : false;
+  waste_curr->no_deposit = no_deposit;
 
   /* make the parent... */
   waste_curr->parent = malloc(strlen(tmp_waste_parent_folder) + 1);
@@ -333,6 +343,7 @@ parse_config_file(const rmw_options *cli_user_options,
   {
     EXPIRE_AGE,
     WASTE,
+    WASTE_NEGATED,
     FORCE_REQUIRED,
     PURGE_AFTER,
     INVALID_OPTION
@@ -346,6 +357,7 @@ parse_config_file(const rmw_options *cli_user_options,
 
   struct opt st_opt[] = {
     {"WASTE", WASTE},
+    {"!WASTE", WASTE_NEGATED},
     {expire_age_str, EXPIRE_AGE},
     {"force_required", FORCE_REQUIRED},
     {"purge_after", PURGE_AFTER},
@@ -388,10 +400,12 @@ parse_config_file(const rmw_options *cli_user_options,
       st_config_data->force_required = 1;
       break;
     case WASTE:
+    case WASTE_NEGATED:
       {
         st_waste *st_new_waste_ptr =
           parse_line_waste(waste_curr, cfg_node, cli_user_options,
-                           st_location->home_dir, st_config_data->uid);
+                           st_location->home_dir, st_config_data->uid,
+                           st_opt[i].id == WASTE_NEGATED);
         if (st_new_waste_ptr != NULL)
         {
           waste_curr = st_new_waste_ptr;
@@ -439,9 +453,11 @@ init_config_data(st_config *x)
 }
 
 void
-show_folder_line(const char *folder, const bool is_r, const bool is_attached)
+show_folder_line(const char *folder, const bool is_r, const bool is_attached,
+                 const bool no_deposit)
 {
-  printf("%s", folder);
+  /* mirror the config syntax: a leading '!' marks a no-deposit folder */
+  printf("%s%s", no_deposit ? "!" : "", folder);
   if (is_r && verbose)
   {
     /*

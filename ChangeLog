@@ -2,6 +2,8 @@
 rmw (in-progress):
   * restore: 'rmw -s' now opens at the waste folder closest to the current
     directory (longest path match) instead of the first one listed (#532)
+  * config: add "!WASTE" — the folder never receives removed files but is
+    still listed, restored from, and purged
   * purge: print a progress dot per 100 trashinfo files checked for
     expiration; show a leading dot immediately so feedback is visible
     on the first iteration
