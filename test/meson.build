@@ -19,6 +19,7 @@ scripts = [
   'test_waste_negation.sh',
   'test_discovery.sh',
   'test_config_optional.sh',
+  'test_file_bind_mount.sh',
 ]
 
 if host_sys == 'linux'
