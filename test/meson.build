@@ -17,6 +17,7 @@ scripts = [
   'test_purging.sh',
   'test_restore.sh',
   'test_waste_negation.sh',
+  'test_discovery.sh',
 ]
 
 if host_sys == 'linux'

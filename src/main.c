@@ -910,16 +910,20 @@ Please check your configuration file and permissions\
   st_config st_config_data;
   init_config_data(&st_config_data);
   parse_config_file(&cli_user_options, &st_config_data, st_location);
-  /* RMW_FAKE_HOME isolates $HOME but not real mount points, so
-   * discovery would pick up host-machine topdir trashes during tests. */
-  if (getenv(ENV_RMW_FAKE_HOME) == NULL)
+  /* RMW_FAKE_HOME isolates $HOME but not real mount points, so discovery
+   * would pick up host-machine topdir trashes during tests. A test that
+   * specifically exercises discovery sets RMW_CHECK_DISCOVERY to re-enable
+   * it against mounts it controls. */
+  bool run_discovery = getenv(ENV_RMW_FAKE_HOME) == NULL
+    || getenv(ENV_RMW_CHECK_DISCOVERY) != NULL;
+  if (run_discovery)
     discover_existing_topdir_trashes(&st_config_data, st_location);
 
   if (cli_user_options.list)
   {
     list_waste_folders(st_config_data.st_waste_folder_props_head);
     /* gated like discovery above, so tests don't see host mounts */
-    if (verbose && getenv(ENV_RMW_FAKE_HOME) == NULL)
+    if (verbose && run_discovery)
       list_candidate_topdirs(&st_config_data, st_location);
     dispose_waste(st_config_data.st_waste_folder_props_head);
     return 0;
