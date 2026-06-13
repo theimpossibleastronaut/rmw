@@ -249,6 +249,7 @@ find_topdir_trash(const char *file_path, const char *uid,
   G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   GList *mounts = g_unix_mounts_get(NULL);
 
+  GUnixMountEntry *best = NULL;
   const char *topdir = NULL;
   size_t best_len = 0;
   for (GList *l = mounts; l != NULL; l = l->next)
@@ -259,12 +260,17 @@ find_topdir_trash(const char *file_path, const char *uid,
     if (len >= best_len && mount_path_prefixes(mp, len, real))
     {
       best_len = len;
+      best = l->data;
       topdir = mp;
     }
   }
 
+  /* Never create a trash dir on an excluded filesystem (tmpfs, network
+   * shares, ...). Desktop file managers refuse to trash there too; the
+   * caller reports that no suitable waste folder exists. A pre-existing
+   * trash on such a mount is honored via build_mount_trash_list instead. */
   char *result = NULL;
-  if (topdir != NULL)
+  if (best != NULL && mount_is_eligible(best))
   {
     result = trash_path_for_topdir(topdir, uid);
     if (result != NULL && mount_path_out != NULL)
@@ -294,12 +300,24 @@ build_mount_trash_list(const char *uid,
   for (GList *l = mounts; l != NULL; l = l->next)
   {
     GUnixMountEntry *entry = l->data;
-    if (!mount_is_eligible(entry))
-      continue;
 
     G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     const char *mount_path = g_unix_mount_get_mount_path(entry);
     G_GNUC_END_IGNORE_DEPRECATIONS
+
+    if (!mount_is_eligible(entry))
+    {
+      /* New trash dirs are never created on excluded filesystems, but an
+       * existing, writable one is evidence of intent (configured by the
+       * user in the past, or created by an older rmw): keep it visible so
+       * restore and purge can still reach its contents. access(W_OK)
+       * covers existence, writability, and readonly mounts in one call. */
+      char *t = trash_path_for_topdir(mount_path, uid);
+      bool keep = (t != NULL && access(t, W_OK) == 0);
+      free(t);
+      if (!keep)
+        continue;
+    }
 
     struct stat st;
     if (lstat(mount_path, &st) != 0)
