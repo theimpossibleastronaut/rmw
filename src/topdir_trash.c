@@ -311,7 +311,11 @@ build_mount_trash_list(const char *uid,
        * existing, writable one is evidence of intent (configured by the
        * user in the past, or created by an older rmw): keep it visible so
        * restore and purge can still reach its contents. access(W_OK)
-       * covers existence, writability, and readonly mounts in one call. */
+       * covers existence, writability, and readonly mounts in one call.
+       * Skip mount roots we can't read (/sys/fs/pstore, docker overlays,
+       * ...) before probing, or the probe spams lstat errors. */
+      if (access(mount_path, R_OK | X_OK) != 0)
+        continue;
       char *t = trash_path_for_topdir(mount_path, uid);
       bool keep = (t != NULL && access(t, W_OK) == 0);
       free(t);
