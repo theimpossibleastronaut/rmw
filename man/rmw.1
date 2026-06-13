@@ -47,6 +47,22 @@ config file to a value greater than '0'
 
 You can use '-vvg' to see when the remaining files in the waste
 directories will expire.
+
+The argument must be attached to the option, as in the examples
+above. If a space separates them, rmw reads 'N_DAYS' as the name of
+a file to remove.
+
+To purge from a scheduled job, keep 'expire_age' at '0' so that
+normal runs never purge, and let a cron job give the number of days:
+
+.RS
+.nf
+30 4 * * 0 rmw -g45 >> "$HOME/.local/state/rmw-purge.log" 2>&1
+.fi
+.RE
+.IP
+See the FAQ for the full example, including log rotation:
+<https://theimpossibleastronaut.github.io/rmw-website/faq.html#can-rmw-be-run-as-a-scheduled-job-to-purge-expired-files>
 .TP
 \fB\-o\fR, \fB\-\-orphaned\fR
 check for orphaned files (maintenance)
