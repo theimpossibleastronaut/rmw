@@ -33,7 +33,11 @@ show help for command line options
 use an alternate configuration
 .TP
 \fB\-l\fR, \fB\-\-list\fR
-list waste directories
+list waste directories, one path per line
+.IP
+Add \fB\-v\fR to also show each folder's attributes (such as "no-add")
+and a list of candidate trash locations that rmw would create on other
+file systems when needed.
 .TP
 \fB\-g[N_DAYS]\fR, \fB\-\-purge\fR[=\fI\,N_DAYS\/\fR]
 purge expired files;
@@ -140,6 +144,12 @@ Two WASTE folders cannot be specified on the same line.
 WASTE=/mnt/flash/.Trash-$UID, removable
 When using the removable attribute, you must also manually create the directory
 .TP
+WASTE = /path, no-add
+The "no-add" attribute tells rmw to never move files into this folder.
+rmw still lists it, restores files from it, and purges old files in it.
+This is useful for a folder you want to empty over time but no longer add
+to. You can combine attributes, for example "removable, no-add".
+.TP
 expire_age = 45
 rmw will permanently delete files that have been in the waste (or
 trash) for more than 45 days.
@@ -163,10 +173,19 @@ text file that stores the time of the last purge
 .I $HOME/.local/share/rmw/mrl
 text file containing a list of items that were last rmw'ed
 .SH NOTES
-rmw will not move items from one file system to another. If you try to rmw a
-file but don't have a waste directory defined in your configuration file that
-matches the file system on which it resides, rmw will refuse to do anything
-with it.
+rmw does not move items from one file system to another. When you rmw a
+file, it looks for a waste directory on the same file system. It checks
+the waste directories in your configuration file first. If none match, it
+looks for a trash directory at the top of that file system, as described
+by the FreeDesktop.org Trash specification (for example,
+"/mnt/disk/.Trash-1000"). If one already exists, rmw uses it; if not, rmw
+creates one.
+.PP
+rmw does not create a trash directory on file systems that are not meant
+to hold one, such as temporary (tmpfs) or network file systems. On those,
+if no configured waste directory matches, rmw refuses to remove the file,
+the same way desktop file managers do. A trash directory that already
+exists on such a file system is still used.
 .SS DESKTOP INTEGRATION
 Items will be moved to a waste basket in the same manner as when using
 the "move to trash" option from your desktop GUI. They will be
