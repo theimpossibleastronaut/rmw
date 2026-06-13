@@ -305,6 +305,13 @@ build_mount_trash_list(const char *uid,
     const char *mount_path = g_unix_mount_get_mount_path(entry);
     G_GNUC_END_IGNORE_DEPRECATIONS
 
+    /* Skip mount points that aren't directories. Containers (and some
+     * systemd setups) bind-mount single files like /etc/resolv.conf;
+     * a trash dir can't live under a file, and probing one would error. */
+    struct stat mp_st;
+    if (lstat(mount_path, &mp_st) != 0 || !S_ISDIR(mp_st.st_mode))
+      continue;
+
     if (!mount_is_eligible(entry))
     {
       /* New trash dirs are never created on excluded filesystems, but an
@@ -323,15 +330,11 @@ build_mount_trash_list(const char *uid,
         continue;
     }
 
-    struct stat st;
-    if (lstat(mount_path, &st) != 0)
-      continue;
-
     /* The mount that hosts the home trash already has a node at the head. */
-    if (st.st_dev == home_dev)
+    if (mp_st.st_dev == home_dev)
       continue;
 
-    st_mount_trash *node = new_topdir_node(mount_path, uid, st.st_dev);
+    st_mount_trash *node = new_topdir_node(mount_path, uid, mp_st.st_dev);
     if (node == NULL)
       continue;
 
