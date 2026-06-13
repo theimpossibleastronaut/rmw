@@ -57,4 +57,4 @@ void init_config_data(st_config * x);
 
 void
 show_folder_line(const char *folder, const bool is_r, const bool is_attached,
-                 const bool no_deposit);
+                 const bool no_add);

@@ -1,6 +1,7 @@
 #!/bin/sh
-# "!WASTE = /path" marks a waste folder that never receives files when
-# removing, but still participates in listing, restoring, and purging.
+# The "no-add" attribute (WASTE = /path, no-add) marks a waste folder that
+# never receives files when removing, but still participates in listing,
+# restoring, and purging.
 
 set -ve
 
@@ -15,7 +16,7 @@ WASTE_OK="$RMW_FAKE_HOME/.Waste"
 TEST_CONFIG="$RMW_FAKE_HOME/negation.testrc"
 
 mkdir -p "$RMW_FAKE_HOME"
-printf '!WASTE = %s\nWASTE = %s\nexpire_age = 1\n' \
+printf 'WASTE = %s, no-add\nWASTE = %s\nexpire_age = 1\n' \
   "$WASTE_NEG" "$WASTE_OK" > "$TEST_CONFIG"
 RMW="$BIN_DIR/rmw -c $TEST_CONFIG"
 
@@ -41,20 +42,20 @@ test ! -e newfile
 test -f "$WASTE_OK/files/newfile"
 test ! -e "$WASTE_NEG/files/newfile"
 
-# --- plain -l stays a bare, pipeable list of paths ---
+# --- plain -l stays a bare, pipeable list of paths (no annotations) ---
 out=$($RMW -l)
 echo "$out"
 cmp_substr "$out" "$WASTE_NEG"
 cmp_substr "$out" "$WASTE_OK"
-if cmp_substr "$out" "!$WASTE_NEG"; then
-  echo "FAIL: '!' marker must not appear in the bare -l list"
+if cmp_substr "$out" "no-add"; then
+  echo "FAIL: annotations must not appear in the bare -l list"
   exit 1
 fi
 
-# --- with -v, the negated folder is marked with the config's '!' syntax ---
+# --- with -v, the folder carries a (no-add) annotation ---
 outv=$($RMW -l -v)
 echo "$outv"
-cmp_substr "$outv" "!$WASTE_NEG"
+cmp_substr "$outv" "no-add"
 
 # --- restore from the negated folder works ---
 $RMW -z "$WASTE_NEG/files/restoreme"
@@ -69,5 +70,5 @@ test ! -e "$WASTE_NEG/info/purgeme.trashinfo"
 # the file just removed today is not expired and must survive the purge
 test -f "$WASTE_OK/files/newfile"
 
-echo "PASS: !WASTE folder skipped for removals, honored for list/restore/purge"
+echo "PASS: no-add folder skipped for removals, honored for list/restore/purge"
 exit 0

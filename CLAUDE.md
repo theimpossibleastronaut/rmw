@@ -168,7 +168,7 @@ C unit tests (`test_strings_rmw`, `test_utils`, `test_restore`) are compiled wit
 Shell integration tests run against the built `rmw` binary using `RMW_FAKE_HOME` (set to `_build-debug/test/rmw-tests-home/`) to avoid touching the real home directory. `RMW_FAKE_HOME` also suppresses topdir discovery (it would scan the host's real mounts); a test that needs discovery sets `RMW_CHECK_DISCOVERY` to re-enable it against mounts the test controls.
 
 - `test_basic.sh`, `test_purging.sh`, `test_restore.sh` — core flows, no special requirements
-- `test_waste_negation.sh` (iss-525) — `!WASTE` is skipped for removals but listed/restored/purged
+- `test_waste_negation.sh` (iss-525) — the `no-add` WASTE attribute is skipped for removals but listed/restored/purged
 - `test_media_root.sh` — needs `/tmp` to be a top-level mount on its own device; skips otherwise
 - `test_exdev_fallback.sh` (iss-525) — bind-mount EXDEV regression test; builds a 2 MiB tmpfs ramdisk with a bind mount inside it. Needs passwordless `sudo`; SKIPs otherwise
 - `test_discovery.sh` (iss-525) — discovery's excluded-fs rule, run inside an unprivileged mount namespace (`unshare --mount --map-root-user`, no sudo); SKIPs if unprivileged userns is unavailable

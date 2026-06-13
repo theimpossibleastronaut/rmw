@@ -61,10 +61,11 @@ WASTE = $HOME/.local/share/Waste\n", stream);
   fputs("\
 # WASTE=/mnt/flash/.Trash-$UID, removable\n", stream);
   fputs(_("\n\
-# A folder marked with '!' never receives files when you remove them.\n\
-# rmw can still list, restore, and purge files that are already in it.\n"), stream);
+# The 'no-add' attribute means rmw never puts files in this folder when\n\
+# you remove them. rmw can still list, restore, and purge what is\n\
+# already inside it.\n"), stream);
   fputs("\
-# !WASTE = $HOME/.local/share/Trash\n", stream);
+# WASTE = $HOME/.local/share/Trash, no-add\n", stream);
   fputs(_("\n\
 # How many days should items be allowed to stay in the waste\n\
 # directories before they are permanently deleted\n\
@@ -177,21 +178,24 @@ realize_str(char *str, const char *homedir, const char *uid)
 static st_waste *
 parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
                  const rmw_options *cli_user_options,
-                 const char *homedir, const char *uid,
-                 const bool no_deposit)
+                 const char *homedir, const char *uid)
 {
   bool removable = 0;
+  bool no_add = 0;
   char *attr = NULL;
   canfigger_free_current_attr_str_advance(node->attributes, &attr);
-  if (attr)
+  while (attr)
   {
     if (strcmp("removable", attr) == 0)
       removable = 1;
+    else if (strcmp("no-add", attr) == 0)
+      no_add = 1;
     else
     {
       print_msg_warn();
-      printf("ignoring invalid attribute: '%s'\n", node->attributes->str);
+      printf("ignoring invalid attribute: '%s'\n", attr);
     }
+    canfigger_free_current_attr_str_advance(node->attributes, &attr);
   }
 
   bufchk_len(strlen(node->value) + 1, PATH_MAX, __func__, __LINE__);
@@ -209,13 +213,13 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
 
   bool is_attached =
     (check_pathname_state(tmp_waste_parent_folder) == EEXIST);
-  /* A "!WASTE" folder that doesn't exist is skipped rather than created:
+  /* A "no-add" folder that doesn't exist is skipped rather than created:
    * it can never receive files, and purge exits on an unopenable info dir. */
-  if ((removable || no_deposit) && !is_attached)
+  if ((removable || no_add) && !is_attached)
   {
     if (cli_user_options->list)
       show_folder_line(tmp_waste_parent_folder, removable, is_attached,
-                       no_deposit);
+                       no_add);
 
     return NULL;
   }
@@ -238,7 +242,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   waste_curr->next_node = NULL;
 
   waste_curr->removable = removable ? true : false;
-  waste_curr->no_deposit = no_deposit;
+  waste_curr->no_add = no_add;
 
   /* make the parent... */
   waste_curr->parent = malloc(strlen(tmp_waste_parent_folder) + 1);
@@ -343,7 +347,6 @@ parse_config_file(const rmw_options *cli_user_options,
   {
     EXPIRE_AGE,
     WASTE,
-    WASTE_NEGATED,
     FORCE_REQUIRED,
     PURGE_AFTER,
     INVALID_OPTION
@@ -357,7 +360,6 @@ parse_config_file(const rmw_options *cli_user_options,
 
   struct opt st_opt[] = {
     {"WASTE", WASTE},
-    {"!WASTE", WASTE_NEGATED},
     {expire_age_str, EXPIRE_AGE},
     {"force_required", FORCE_REQUIRED},
     {"purge_after", PURGE_AFTER},
@@ -400,12 +402,10 @@ parse_config_file(const rmw_options *cli_user_options,
       st_config_data->force_required = 1;
       break;
     case WASTE:
-    case WASTE_NEGATED:
       {
         st_waste *st_new_waste_ptr =
           parse_line_waste(waste_curr, cfg_node, cli_user_options,
-                           st_location->home_dir, st_config_data->uid,
-                           st_opt[i].id == WASTE_NEGATED);
+                           st_location->home_dir, st_config_data->uid);
         if (st_new_waste_ptr != NULL)
         {
           waste_curr = st_new_waste_ptr;
@@ -454,22 +454,28 @@ init_config_data(st_config *x)
 
 void
 show_folder_line(const char *folder, const bool is_r, const bool is_attached,
-                 const bool no_deposit)
+                 const bool no_add)
 {
-  /* mirror the config syntax: a leading '!' marks a no-deposit folder.
-   * Only under -v: plain -l stays a bare list of paths, fit for piping
-   * to du and friends. */
-  printf("%s%s", (no_deposit && verbose) ? "!" : "", folder);
-  if (is_r && verbose)
+  /* Plain -l stays a bare list of paths, fit for piping to du and friends;
+   * annotations are shown only under -v. */
+  printf("%s", folder);
+  if (verbose)
   {
-    /*
-     * These lines are separated to ease translation
-     *
-     */
-    printf(" (");
-    printf(_("removable, "));
-    /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
-    printf("%s)", is_attached == true ? _("attached") : _("detached"));
+    if (is_r)
+    {
+      /*
+       * These lines are separated to ease translation
+       *
+       */
+      printf(" (");
+      printf(_("removable, "));
+      /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
+      printf("%s)", is_attached == true ? _("attached") : _("detached"));
+    }
+    if (no_add)
+      /* TRANSLATORS: marks a waste folder that never receives new files
+       * (configured with the 'no-add' attribute) */
+      printf(" (%s)", _("no-add"));
   }
 
   putchar('\n');
