@@ -271,6 +271,10 @@ remove_to_waste(const int argc,
   int n_err = 0;
   int removed_files_ctr = 0;
   int file_arg;
+  /* The topdir fallback retries via file_arg--; cap it to one attempt per
+     file so a fallback trash that still can't receive the file (e.g. an
+     unresolvable mount) can't loop forever. */
+  int fb_attempted_arg = -1;
   for (file_arg = optind; file_arg < argc; file_arg++)
   {
     if (*argv[file_arg] == '\0')
@@ -429,7 +433,19 @@ damage of 5000 hp. You feel satisfied.\n"));
             /* same device: simple rename */
             r_result = rename(src, dst);
             if (r_result != 0 && errno == EXDEV)
-              r_result = ficlone_move(src, dst);
+            {
+              /* Same device but a different mount (e.g. a bind mount):
+                 rename can't cross it. Try reflink only where it can
+                 work; otherwise skip this waste so the $topdir fallback
+                 below runs. */
+              if (src_is_ficlone)
+                r_result = ficlone_move(src, dst);
+              if (r_result != 0)
+              {
+                waste_curr = waste_curr->next_node;
+                continue;
+              }
+            }
           }
         }
 
@@ -493,7 +509,7 @@ damage of 5000 hp. You feel satisfied.\n"));
           fb_ok = false;
       }
 
-      if (fb_ok)
+      if (fb_ok && fb_attempted_arg != file_arg)
       {
         struct stat fb_st;
         if (lstat(fb_trash, &fb_st) != 0)
@@ -522,6 +538,7 @@ damage of 5000 hp. You feel satisfied.\n"));
           tail->next_node = new_node;
 
           verbose_printf(1, "fallback trash: %s\n", fb_trash);
+          fb_attempted_arg = file_arg;
           free(st_target.real_path);
           file_arg--;
           continue;
