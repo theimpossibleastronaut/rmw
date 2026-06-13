@@ -41,11 +41,20 @@ test ! -e newfile
 test -f "$WASTE_OK/files/newfile"
 test ! -e "$WASTE_NEG/files/newfile"
 
-# --- -l lists the negated folder, marked with the config's '!' syntax ---
+# --- plain -l stays a bare, pipeable list of paths ---
 out=$($RMW -l)
 echo "$out"
-cmp_substr "$out" "!$WASTE_NEG"
+cmp_substr "$out" "$WASTE_NEG"
 cmp_substr "$out" "$WASTE_OK"
+if cmp_substr "$out" "!$WASTE_NEG"; then
+  echo "FAIL: '!' marker must not appear in the bare -l list"
+  exit 1
+fi
+
+# --- with -v, the negated folder is marked with the config's '!' syntax ---
+outv=$($RMW -l -v)
+echo "$outv"
+cmp_substr "$outv" "!$WASTE_NEG"
 
 # --- restore from the negated folder works ---
 $RMW -z "$WASTE_NEG/files/restoreme"

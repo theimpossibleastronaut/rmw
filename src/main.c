@@ -252,7 +252,6 @@ list_waste_folders(st_waste *waste_head)
     waste_curr = waste_curr->next_node;
   }
 
-  dispose_waste(waste_head);
   return;
 }
 
@@ -679,6 +678,51 @@ discover_existing_topdir_trashes(st_config *st_config_data,
 }
 
 
+/* With -l -v: show spec $topdir locations on eligible mounts that aren't in
+ * the waste list yet — where a trash dir would be created on demand. */
+static void
+list_candidate_topdirs(const st_config *st_config_data,
+                       const st_loc *st_location)
+{
+  char *home_trash_dir = home_trash_dir_for(st_location->home_dir);
+
+  struct stat st;
+  dev_t home_dev = 0;
+  if (lstat(st_location->home_dir, &st) == 0)
+    home_dev = st.st_dev;
+
+  st_mount_trash *mts =
+    build_mount_trash_list(st_config_data->uid, home_trash_dir, home_dev);
+
+  bool have_header = false;
+  for (st_mount_trash *n = mts; n != NULL; n = n->next)
+  {
+    bool listed = false;
+    for (st_waste *w = st_config_data->st_waste_folder_props_head;
+         w != NULL; w = w->next_node)
+    {
+      if (strcmp(w->parent, n->trash_dir) == 0)
+      {
+        listed = true;
+        break;
+      }
+    }
+    if (listed)
+      continue;
+
+    if (!have_header)
+    {
+      printf(_("\nCandidate trash locations (created when needed):\n"));
+      have_header = true;
+    }
+    printf("  %s\n", n->trash_dir);
+  }
+
+  free_mount_trash_list(mts);
+  free(home_trash_dir);
+}
+
+
 static const st_loc *
 get_locations(const char *alt_config_file)
 {
@@ -874,27 +918,9 @@ Please check your configuration file and permissions\
   if (cli_user_options.list)
   {
     list_waste_folders(st_config_data.st_waste_folder_props_head);
-    return 0;
-  }
-
-  if (cli_user_options.list_all_trash)
-  {
-    char *home_trash_dir = home_trash_dir_for(st_location->home_dir);
-
-    struct stat st;
-    dev_t home_dev = 0;
-    if (lstat(st_location->home_dir, &st) == 0)
-      home_dev = st.st_dev;
-
-    st_mount_trash *head =
-      build_mount_trash_list(st_config_data.uid, home_trash_dir, home_dev);
-    for (st_mount_trash *n = head; n != NULL; n = n->next)
-    {
-      bool exists = (check_pathname_state(n->trash_dir) == EEXIST);
-      printf("%c %s\n", exists ? '*' : ' ', n->trash_dir);
-    }
-    free_mount_trash_list(head);
-    free(home_trash_dir);
+    /* gated like discovery above, so tests don't see host mounts */
+    if (verbose && getenv(ENV_RMW_FAKE_HOME) == NULL)
+      list_candidate_topdirs(&st_config_data, st_location);
     dispose_waste(st_config_data.st_waste_folder_props_head);
     return 0;
   }

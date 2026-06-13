@@ -42,10 +42,6 @@ typedef struct
 
   /*! list waste folder option */
   bool list;
-
-  /*! list all candidate trash folders (FreeDesktop topdir enumeration);
-   * temporary diagnostic flag while iss-525 work is in progress */
-  bool list_all_trash;
 } rmw_options;
 
 

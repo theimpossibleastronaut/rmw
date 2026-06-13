@@ -456,8 +456,10 @@ void
 show_folder_line(const char *folder, const bool is_r, const bool is_attached,
                  const bool no_deposit)
 {
-  /* mirror the config syntax: a leading '!' marks a no-deposit folder */
-  printf("%s%s", no_deposit ? "!" : "", folder);
+  /* mirror the config syntax: a leading '!' marks a no-deposit folder.
+   * Only under -v: plain -l stays a bare list of paths, fit for piping
+   * to du and friends. */
+  printf("%s%s", (no_deposit && verbose) ? "!" : "", folder);
   if (is_r && verbose)
   {
     /*
