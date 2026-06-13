@@ -26,6 +26,7 @@ if host_sys == 'linux'
   endif
   scripts += ['test_bcachefs.sh']
   scripts += ['test_exdev_fallback.sh']
+  scripts += ['test_discovery_loopback.sh']
 endif
 
 RMW_FAKE_HOME = join_paths(meson.current_build_dir(), 'rmw-tests-home')

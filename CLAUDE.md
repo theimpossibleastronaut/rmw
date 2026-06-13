@@ -172,6 +172,7 @@ Shell integration tests run against the built `rmw` binary using `RMW_FAKE_HOME`
 - `test_media_root.sh` — needs `/tmp` to be a top-level mount on its own device; skips otherwise
 - `test_exdev_fallback.sh` (iss-525) — bind-mount EXDEV regression test; builds a 2 MiB tmpfs ramdisk with a bind mount inside it. Needs passwordless `sudo`; SKIPs otherwise
 - `test_discovery.sh` (iss-525) — discovery's excluded-fs rule, run inside an unprivileged mount namespace (`unshare --mount --map-root-user`, no sudo); SKIPs if unprivileged userns is unavailable
+- `test_discovery_loopback.sh` (iss-525) — discovery of an eligible fs on its own device (candidate listing + fresh-trash auto-create); generates an ext4 loop image at run time. Needs passwordless `sudo` + `mkfs.ext4`; SKIPs otherwise
 - `test_btrfs_clone.sh`, `test_bcachefs.sh` — reflink tests against prebuilt loopback images (`test/*.img`, not in the repo; CI downloads them, sha256sums are committed). Need the image + passwordless `sudo`; SKIP otherwise
 
 To test Year 2038 (epochalypse) behavior when `faketime` is installed:
