@@ -2,6 +2,11 @@
 rmw (in-progress):
   * restore: 'rmw -s' now opens at the waste folder closest to the current
     directory (longest path match) instead of the first one listed (#532)
+  * config: configuring waste folders is now optional. With nothing
+    configured, rmw moves each file to the trash on the file's own
+    filesystem — the desktop trash (~/.local/share/Trash) for files on
+    your home filesystem, and a trash folder on the filesystem itself
+    for files elsewhere, such as on a removable drive
   * config: add the "no-add" WASTE attribute — the folder never receives
     removed files but is still listed, restored from, and purged
   * purge: print a progress dot per 100 trashinfo files checked for
