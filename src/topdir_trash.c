@@ -217,6 +217,17 @@ trash_path_for_topdir(const char *topdir, const char *uid)
 }
 
 
+/* True if mount_path is "/" or a whole-component prefix of real_path
+ * ("/a/b" prefixes "/a/b/c" but not "/a/bc"). */
+static bool
+mount_path_prefixes(const char *mount_path, size_t len,
+                    const char *real_path)
+{
+  if (strncmp(real_path, mount_path, len) != 0)
+    return false;
+  return len == 1 || real_path[len] == '/' || real_path[len] == '\0';
+}
+
 char *
 find_topdir_trash(const char *file_path, const char *uid,
                   char **mount_path_out)
@@ -224,20 +235,45 @@ find_topdir_trash(const char *file_path, const char *uid,
   if (mount_path_out != NULL)
     *mount_path_out = NULL;
 
-  /* g_unix_mount_for/g_unix_mount_get_mount_path/g_unix_mount_free were
+  /* g_unix_mount_for() locates a path's mount by walking up until st_dev
+   * changes, which walks straight past a bind mount (same device as its
+   * source) and lands on the parent mount. Instead, take the mount table
+   * entry whose path is the longest prefix of the file's canonical path. */
+  char *real = realpath(file_path, NULL);
+  if (real == NULL)
+    return NULL;
+
+  /* g_unix_mounts_get/g_unix_mount_get_mount_path/g_unix_mount_free were
    * deprecated in GLib 2.78 in favour of g_unix_mount_entry_* equivalents.
    * Suppress warnings until we can set the project minimum to 2.78. */
   G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-  GUnixMountEntry *entry = g_unix_mount_for(file_path, NULL);
-  if (!entry)
-    return NULL;
+  GList *mounts = g_unix_mounts_get(NULL);
 
-  const char *topdir = g_unix_mount_get_mount_path(entry);
-  char *result = trash_path_for_topdir(topdir, uid);
-  if (result != NULL && mount_path_out != NULL)
-    *mount_path_out = strdup(topdir);
-  g_unix_mount_free(entry);
+  const char *topdir = NULL;
+  size_t best_len = 0;
+  for (GList *l = mounts; l != NULL; l = l->next)
+  {
+    const char *mp = g_unix_mount_get_mount_path(l->data);
+    size_t len = strlen(mp);
+    /* >= so the most recent entry wins when a path is overmounted */
+    if (len >= best_len && mount_path_prefixes(mp, len, real))
+    {
+      best_len = len;
+      topdir = mp;
+    }
+  }
+
+  char *result = NULL;
+  if (topdir != NULL)
+  {
+    result = trash_path_for_topdir(topdir, uid);
+    if (result != NULL && mount_path_out != NULL)
+      *mount_path_out = strdup(topdir);
+  }
+
+  g_list_free_full(mounts, (GDestroyNotify) g_unix_mount_free);
   G_GNUC_END_IGNORE_DEPRECATIONS
+  free(real);
 
   return result;
 }
