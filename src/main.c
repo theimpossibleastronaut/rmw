@@ -31,6 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "topdir_trash.h"
 
 
+static char *home_trash_dir_for(const char *home_dir);
+
+
 /*!
  * Assigns a time string to *tm_str based on the format requested
  */
@@ -258,7 +261,7 @@ list_waste_folders(st_waste *waste_head)
 static int
 remove_to_waste(const int argc,
                 char *const argv[],
-                st_waste *waste_head,
+                st_waste **waste_head,
                 st_time *st_time_var,
                 const st_loc *st_location,
                 const rmw_options *cli_user_options)
@@ -359,7 +362,7 @@ damage of 5000 hp. You feel satisfied.\n"));
 
     /* Make sure the file isn't a waste folder or a file within a waste folder */
     bool is_protected = 0;
-    st_waste *waste_curr = waste_head;
+    st_waste *waste_curr = *waste_head;
     while (waste_curr != NULL)
     {
       if (strncmp
@@ -388,7 +391,7 @@ damage of 5000 hp. You feel satisfied.\n"));
      * happens (provided all the tests are passed.
      */
     bool src_is_ficlone = is_ficlone_fs(arg);
-    waste_curr = waste_head;
+    waste_curr = *waste_head;
     while (waste_curr != NULL)
     {
       /* "no-add" folders are never a removal destination */
@@ -491,13 +494,22 @@ damage of 5000 hp. You feel satisfied.\n"));
 
     if (!waste_curr)
     {
-      /* No configured WASTE matched. Fall back to the spec-compliant
-       * $topdir trash for this file's mount, creating it on demand.
+      /* No configured or discovered WASTE matched. Fall back to the
+       * spec trash for this file's filesystem, created on demand:
+       *   - home filesystem  -> the home trash ($XDG_DATA_HOME/Trash),
+       *     which uses absolute paths (fb_mount stays NULL)
+       *   - other filesystem -> the $topdir trash for its mount
        * Use real_path: g_unix_mount_for() needs an absolute path. */
       char *fb_mount = NULL;
-      char *fb_trash =
-        find_topdir_trash(st_target.real_path, get_user_uid_str(),
-                          &fb_mount);
+      char *fb_trash;
+      struct stat home_st;
+      if (lstat(st_location->home_dir, &home_st) == 0
+          && st_target.dev_num == home_st.st_dev)
+        fb_trash = home_trash_dir_for(st_location->home_dir);
+      else
+        fb_trash =
+          find_topdir_trash(st_target.real_path, get_user_uid_str(),
+                            &fb_mount);
       char *fb_files = NULL;
       char *fb_info = NULL;
       bool fb_ok = false;
@@ -538,11 +550,19 @@ damage of 5000 hp. You feel satisfied.\n"));
           new_node->dev_num = fb_st.st_dev;
           new_node->next_node = NULL;
 
-          st_waste *tail = waste_head;
-          while (tail->next_node != NULL)
-            tail = tail->next_node;
-          new_node->prev_node = tail;
-          tail->next_node = new_node;
+          if (*waste_head == NULL)
+          {
+            new_node->prev_node = NULL;
+            *waste_head = new_node;
+          }
+          else
+          {
+            st_waste *tail = *waste_head;
+            while (tail->next_node != NULL)
+              tail = tail->next_node;
+            new_node->prev_node = tail;
+            tail->next_node = new_node;
+          }
 
           verbose_printf(1, "fallback trash: %s\n", fb_trash);
           fb_attempted_arg = file_arg;
@@ -814,6 +834,15 @@ get_locations(const char *alt_config_file)
 
       print_config(fp);
       close_file(&fp, x.config_file, __func__);
+
+      /* First-run notice: rmw now works with no configuration, so tell the
+       * user where files go by default and how to keep them separate. Shown
+       * only on the run that creates the config. */
+      puts(_("\
+rmw moves each file to the trash on its own filesystem. Files on your\n\
+home filesystem go to ~/.local/share/Trash, the same trash your desktop\n\
+uses. To keep rmw's files in a separate folder instead, uncomment\n\
+'WASTE = $HOME/.local/share/Waste' in the configuration file above.\n"));
     }
     else
     {
@@ -997,7 +1026,7 @@ Please check your configuration file and permissions\
   {
     int result = remove_to_waste(argc,
                                  argv,
-                                 st_config_data.st_waste_folder_props_head,
+                                 &st_config_data.st_waste_folder_props_head,
                                  &st_time_var,
                                  st_location,
                                  &cli_user_options);

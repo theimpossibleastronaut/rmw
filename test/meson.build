@@ -18,6 +18,7 @@ scripts = [
   'test_restore.sh',
   'test_waste_negation.sh',
   'test_discovery.sh',
+  'test_config_optional.sh',
 ]
 
 if host_sys == 'linux'

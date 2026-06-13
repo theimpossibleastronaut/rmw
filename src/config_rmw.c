@@ -42,30 +42,26 @@ void
 print_config(FILE *restrict stream)
 {
   fputs(_("\
-# rmw default waste directory, separate from the desktop trash\n"), stream);
-  fputs(_("\
-# To use multiple waste folders, specify each on a separate line\n"), stream);
-  fputs("\
-WASTE = $HOME/.local/share/Waste\n", stream);
+# rmw works with no configuration. By default it moves each file to the\n\
+# trash on the file's own filesystem; for files on your home filesystem\n\
+# that is the FreeDesktop trash at $HOME/.local/share/Trash.\n\
+#\n\
+# Add WASTE lines below only for special cases. Each waste folder goes\n\
+# on its own line, and a folder can use the $UID variable.\n"), stream);
   fputs(_("\n\
-# The directory used by the FreeDesktop.org Trash spec\n\
-# Note to macOS users: moving files to 'Desktop' trash\n\
-# doesn't work yet\n"), stream);
+# Keep rmw's files separate from the desktop trash:\n"), stream);
   fputs("\
-# WASTE=$HOME/.local/share/Trash\n", stream);
-  fputs("\n", stream);
-  fputs(_("\
-# A folder can use the $UID variable.\n"), stream);
-  fputs(_("\
-# See the README or man page for details about using the 'removable' attribute\n"), stream);
+# WASTE = $HOME/.local/share/Waste\n", stream);
+  fputs(_("\n\
+# A folder on a removable device (you must create the directory yourself):\n"), stream);
   fputs("\
-# WASTE=/mnt/flash/.Trash-$UID, removable\n", stream);
+# WASTE = /mnt/flash/.Trash-$UID, removable\n", stream);
   fputs(_("\n\
 # The 'no-add' attribute means rmw never puts files in this folder when\n\
 # you remove them. rmw can still list, restore, and purge what is\n\
-# already inside it.\n"), stream);
+# already inside it:\n"), stream);
   fputs("\
-# WASTE = $HOME/.local/share/Trash, no-add\n", stream);
+# WASTE = /mnt/archive/.Trash-$UID, no-add\n", stream);
   fputs(_("\n\
 # How many days should items be allowed to stay in the waste\n\
 # directories before they are permanently deleted\n\
@@ -421,17 +417,10 @@ parse_config_file(const rmw_options *cli_user_options,
     canfigger_free_current_key_node_advance(&cfg_node);
   }
 
-  if (waste_curr == NULL)
-  {
-    printf(_("no usable WASTE folder could be found\n\
-Please check your configuration file and permissions\n\
-If you need further help, or to report a possible bug,\n\
-visit the rmw web site at\n"));
-    printf("  " PACKAGE_URL "\n");
-    printf("Unable to continue. Exiting...\n");
-    exit(EXIT_FAILURE);
-  }
-
+  /* An empty waste list is no longer fatal: configuring waste folders is
+     optional. When nothing is configured, remove_to_waste() falls back to
+     the spec trash for each file's filesystem (the home trash for home-
+     filesystem files), creating it on demand. */
   return;
 }
 
