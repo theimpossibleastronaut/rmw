@@ -32,18 +32,29 @@ jobs:
             install: sudo pkg install -y git meson ninja gettext pkgconf glib
           - os: openbsd
             version: '7.8'
-            install: sudo pkg_add gettext-tools git glib2 meson ninj
+            install: sudo pkg_add gettext-tools git glib2 meson ninja
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
 
-    - name: Test
+    - name: Start VM
       uses: cross-platform-actions/action@v1
       with:
         operating_system: ${{ matrix.os }}
         version: ${{ matrix.version }}
-        run: |
-          ${{ matrix.install }}
-          CFLAGS="-Werror" meson setup _build
-          meson compile -C _build
-          meson test --no-stdsplit -v -C _build
+
+    - name: Install dependencies
+      shell: cpa.sh {0}
+      run: ${{ matrix.install }}
+
+    - name: Meson setup
+      shell: cpa.sh {0}
+      run: CFLAGS="-Werror" meson setup _build
+
+    - name: Compile
+      shell: cpa.sh {0}
+      run: meson compile -C _build
+
+    - name: Test
+      shell: cpa.sh {0}
+      run: meson test --no-stdsplit -v -C _build
