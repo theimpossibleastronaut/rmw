@@ -305,38 +305,39 @@ insertion_sort(ITEM **a, const int n)
 
 
 /*
- * Returns the waste node whose parent path best matches the current
- * working directory, using longest common path-component prefix.
- * Returns NULL if waste_head is NULL or no match is found.
+ * Returns the waste node whose parent path is "nearest" to dir: the one
+ * sharing the longest path-component prefix with it. A waste nested below
+ * dir is not eligible -- such a trash serves a subdirectory, not the
+ * location dir is in (this matters now that discovery can add trashes from
+ * deep in the tree). Returns NULL if waste_head is NULL or nothing shares a
+ * path component with dir.
  */
 static st_waste *
-get_nearest_waste(st_waste *waste_head)
+get_nearest_waste(st_waste *waste_head, const char *dir)
 {
-  char cwdbuf[PATH_MAX];
-
-  if (getcwd(cwdbuf, sizeof cwdbuf) == NULL)
-  {
-    diag(DIAG_ERR, "getcwd: %s\n", strerror(errno));
-    return NULL;
-  }
-
   st_waste *best = NULL;
   size_t best_len = 0;
 
   for (st_waste * curr = waste_head; curr != NULL; curr = curr->next_node)
   {
+    const char *p = curr->parent;
     size_t i = 0;
     size_t last_sep = 0;
 
-    while (curr->parent[i] && cwdbuf[i] && curr->parent[i] == cwdbuf[i])
+    while (p[i] && dir[i] && p[i] == dir[i])
     {
-      if (cwdbuf[i] == '/')
+      if (dir[i] == '/')
         last_sep = i;
       i++;
     }
 
-    /* ensure we matched on a full component boundary */
-    if (cwdbuf[i] == '/' || cwdbuf[i] == '\0')
+    /* Skip a waste nested below dir (dir is a path prefix of the waste's
+     * parent): it serves a subdirectory, not where we are. */
+    if (dir[i] == '\0' && p[i] == '/')
+      continue;
+
+    /* The waste's parent is itself a path prefix of dir: count all of it. */
+    if (p[i] == '\0' && (dir[i] == '/' || dir[i] == '\0'))
       last_sep = i;
 
     if (last_sep > best_len)
@@ -362,7 +363,12 @@ int
 restore_select(st_waste *waste_head, st_time *st_time_var,
                const rmw_options *cli_user_options)
 {
-  st_waste *waste_curr = get_nearest_waste(waste_head);
+  char cwdbuf[PATH_MAX];
+  st_waste *waste_curr = NULL;
+  if (getcwd(cwdbuf, sizeof cwdbuf) != NULL)
+    waste_curr = get_nearest_waste(waste_head, cwdbuf);
+  else
+    diag(DIAG_ERR, "getcwd: %s\n", strerror(errno));
   if (waste_curr == NULL)
     waste_curr = waste_head;
   const int start_line_bottom = 7;
@@ -633,6 +639,38 @@ test_create_file_details_str(void)
 
   return;
 }
+
+static void
+test_get_nearest_waste(void)
+{
+  /* Only ->parent and ->next_node are read by get_nearest_waste(). */
+  st_waste home = { 0 };
+  st_waste child = { 0 };
+  st_waste flash = { 0 };
+  home.parent = "/home/andy/.local/share/Trash";
+  child.parent = "/home/andy/src/rmw-project/.Trash-1000";
+  flash.parent = "/mnt/flash/.Trash-1000";
+
+  /* List the deep child first -- the order that exposed the bug. */
+  child.next_node = &home;
+  home.next_node = &flash;
+  st_waste *head = &child;
+
+  /* From ~/src the child trash is *below* the cwd, so it must be skipped;
+   * the home trash wins even though the child is listed first. */
+  assert(get_nearest_waste(head, "/home/andy/src") == &home);
+
+  /* Inside the child's own subtree, the child trash is nearest. */
+  assert(get_nearest_waste(head, "/home/andy/src/rmw-project/sub") == &child);
+
+  /* On the flash mount, its trash is nearest. */
+  assert(get_nearest_waste(head, "/mnt/flash/docs") == &flash);
+
+  /* An unrelated directory shares no path component: no match. */
+  assert(get_nearest_waste(head, "/var/tmp") == NULL);
+
+  return;
+}
 #endif
 
 int
@@ -640,6 +678,7 @@ main(void)
 {
 #if !defined DISABLE_CURSES
   test_create_file_details_str();
+  test_get_nearest_waste();
 #endif
   return 0;
 }
