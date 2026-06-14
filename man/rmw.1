@@ -71,6 +71,12 @@ An orphan is an item in a waste directory that has no corresponding
 \fB.trashinfo\fR file, or vice versa. This option is intended primarily
 for developers. Orphans may happen while testing code changes or if rmw
 is unintentionally released with a bug.
+.IP
+A file that has no \fB.trashinfo\fR is repaired by \fB\-o\fR alone (a new
+\fB.trashinfo\fR is created for it). Deleting the opposite kind of orphan, a
+\fB.trashinfo\fR with no matching file, is only done during a purge and
+requires force to be given twice, as in \fBrmw \-offg\fR (\fB\-o \-f \-f
+\-g\fR).
 .br
 (see also: <https://theimpossibleastronaut.github.io/rmw-website/faq.html#dot_trashinfo>)
 .TP
