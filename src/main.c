@@ -317,7 +317,8 @@ damage of 5000 hp. You feel satisfied.\n"));
       continue;
     }
 
-    int p_state = check_pathname_state(arg);
+    struct stat st_file_arg;
+    int p_state = stat_path(arg, &st_file_arg);
     if (p_state != EEXIST)
     {
       if (p_state == ENOENT)
@@ -326,20 +327,11 @@ damage of 5000 hp. You feel satisfied.\n"));
       continue;
     }
 
-    struct stat st_file_arg;
-    if (!lstat(arg, &st_file_arg))
+    st_target.dev_num = st_file_arg.st_dev;
+    st_target.real_path = resolve_path(arg, st_target.base_name);
+    if (st_target.real_path == NULL)
     {
-      st_target.dev_num = st_file_arg.st_dev;
-      st_target.real_path = resolve_path(arg, st_target.base_name);
-      if (st_target.real_path == NULL)
-      {
-        n_err++;
-        continue;
-      }
-    }
-    else
-    {
-      diag(DIAG_WARN, "lstat: (argv[file_arg]) %s\n", strerror(errno));
+      n_err++;
       continue;
     }
 

@@ -32,16 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 bool
 is_symlink(const char *path)
 {
-  int fd = open(path, O_RDONLY | O_NOFOLLOW);
-  if (fd != -1)
-  {
-    close(fd);
-    return false;
-  }
-  else if (errno == ELOOP)
-    return true;
-
-  return false;
+  struct stat st;
+  return stat_path(path, &st) == EEXIST && S_ISLNK(st.st_mode);
 }
 
 
@@ -64,35 +56,40 @@ rmw_mkdir(const char *dir)
 
 
 /*!
- * Determine whether a file or directory exists, and is accessible.
+ * lstat() a pathname, optionally returning the stat buffer.
+ *
+ * @param[in]  pathname the path to check
+ * @param[out] st if non-NULL, filled with the lstat result on success
+ * @return EEXIST if the pathname exists (symlinks are not followed, so a
+ *   symlink — even a dangling one — counts as existing), ENOENT if it does
+ *   not exist, or -1 on any other error.
  */
 int
-check_pathname_state(const char *pathname)
+stat_path(const char *pathname, struct stat *st)
 {
   if (!pathname)
     return -1;
 
-  int fd = open(pathname, O_RDONLY | O_NOFOLLOW);
-  if (fd != -1)
-  {
-    if (close(fd) != 0)
-      fprintf(stderr, "close: %s\n%s", pathname, strerror(errno));
+  struct stat scratch;
+  if (lstat(pathname, st ? st : &scratch) == 0)
     return EEXIST;
-  }
 
-/* FreeBSD sets  errno  to	 EMLINK	instead	of ELOOP as specified by POSIX
-   when O_NOFOLLOW is set in flags and the final component of pathname  is
-   a  symbolic  link  to distinguish it from the case of too many symbolic
-   link traversals in one of its non-final components.
-   https://man.freebsd.org/cgi/man.cgi?query=open
-*/
-  if (errno == ELOOP || errno == EMLINK)
-    return EEXIST;
-  else if (errno == ENOENT)
+  if (errno == ENOENT)
     return ENOENT;
 
-  fprintf(stderr, "open %s: %s\n", pathname, strerror(errno));
+  fprintf(stderr, "lstat %s: %s\n", pathname, strerror(errno));
   return -1;
+}
+
+
+/*!
+ * Determine whether a file or directory exists. Thin wrapper around
+ * stat_path() for callers that need only the existence state.
+ */
+int
+check_pathname_state(const char *pathname)
+{
+  return stat_path(pathname, NULL);
 }
 
 const char *
