@@ -49,7 +49,7 @@ rmw_mkdir(const char *dir)
 {
   if (!dir)
     return -1;
-  if (check_pathname_state(dir) == EEXIST)
+  if (path_status(dir) == EEXIST)
     return -1;
   return g_mkdir_with_parents(dir, 0777);
 }
@@ -87,7 +87,7 @@ stat_path(const char *pathname, struct stat *st)
  * stat_path() for callers that need only the existence state.
  */
 int
-check_pathname_state(const char *pathname)
+path_status(const char *pathname)
 {
   return stat_path(pathname, NULL);
 }
@@ -347,12 +347,12 @@ test_rmw_mkdir(const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths(h, subdirs);
-  if (check_pathname_state(dir) == EEXIST)
+  if (path_status(dir) == EEXIST)
     assert(bsdutils_rm(dir, verbose) == 0);
   assert(rmw_mkdir(dir) == 0);
   assert(dir);
   printf("%s\n", dir);
-  assert(check_pathname_state(dir) == EEXIST);
+  assert(path_status(dir) == EEXIST);
   assert(bsdutils_rm(dir, verbose) == 0);
   free(dir);
 
@@ -461,36 +461,36 @@ test_is_dir_f(const char *const homedir)
 
 
 static void
-test_check_pathname_state(const char *const homedir)
+test_path_status(const char *const homedir)
 {
   char *foobar = join_paths(homedir, "foobar");
   FILE *fp = fopen(foobar, "w");
   assert(fp != NULL);
   assert(fclose(fp) != EOF);
-  assert(check_pathname_state(foobar) == EEXIST);
+  assert(path_status(foobar) == EEXIST);
 
   char *snafu = join_paths(homedir, "snafu");
   assert(symlink(foobar, snafu) == 0);
-  assert(check_pathname_state(snafu) == EEXIST);
+  assert(path_status(snafu) == EEXIST);
   assert(remove(foobar) == 0);
   free(foobar);
   assert(remove(snafu) == 0);
   free(snafu);
 
   char *home_link = join_paths(homedir, "home_1234");
-  assert(check_pathname_state(homedir) == EEXIST);
-  if (check_pathname_state(home_link) == EEXIST)
+  assert(path_status(homedir) == EEXIST);
+  if (path_status(home_link) == EEXIST)
     assert(remove(home_link) == 0);
   assert(symlink(homedir, home_link) == 0);
-  assert(check_pathname_state(home_link) == EEXIST);
+  assert(path_status(home_link) == EEXIST);
   assert(remove(home_link) == 0);
   free(home_link);
 
   const char *dlink = "dangling_link";
-  if (check_pathname_state(dlink) == EEXIST)
+  if (path_status(dlink) == EEXIST)
     assert(remove(dlink) == 0);
   assert(symlink("dangler", dlink) == 0);
-  assert(check_pathname_state(dlink) == EEXIST);
+  assert(path_status(dlink) == EEXIST);
   assert(remove(dlink) == 0);
 
   return;
@@ -525,7 +525,7 @@ main(void)
   test_make_size_human_readable();
   test_join_paths();
   test_trim_char();
-  test_check_pathname_state(HOMEDIR);
+  test_path_status(HOMEDIR);
   test_is_dir_f(HOMEDIR);
 
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";

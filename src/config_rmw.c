@@ -208,7 +208,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   }
 
   bool is_attached =
-    (check_pathname_state(tmp_waste_parent_folder) == EEXIST);
+    (path_status(tmp_waste_parent_folder) == EEXIST);
   /* A "no-add" folder that doesn't exist is skipped rather than created:
    * it can never receive files, and purge exits on an unopenable info dir. */
   if ((removable || no_add) && !is_attached)
@@ -258,7 +258,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   waste_curr->files = join_paths(waste_curr->parent, "files");
   waste_curr->len_files = strlen(waste_curr->files);
 
-  int p_state = check_pathname_state(waste_curr->files);
+  int p_state = path_status(waste_curr->files);
   if (p_state == ENOENT)
   {
     if (!rmw_mkdir(waste_curr->files))
@@ -275,7 +275,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   waste_curr->info = join_paths(waste_curr->parent, lit_info);
   waste_curr->len_info = strlen(waste_curr->info);
 
-  if ((p_state = check_pathname_state(waste_curr->info)) == ENOENT)
+  if ((p_state = path_status(waste_curr->info)) == ENOENT)
   {
     if (!rmw_mkdir(waste_curr->info))
       msg_success_mkdir(waste_curr->info);
