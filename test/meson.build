@@ -20,6 +20,7 @@ scripts = [
   'test_discovery.sh',
   'test_config_optional.sh',
   'test_file_bind_mount.sh',
+  'test_media_root_space.sh',
 ]
 
 if host_sys == 'linux'

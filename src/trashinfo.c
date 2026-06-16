@@ -61,30 +61,39 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
     /* Worst case scenario: whole path is escaped, so 3 chars per
      * actual character
      **/
-    char *escaped_path = escape_url(st_f_props->real_path);
-    if (escaped_path == NULL)
-      return close_file(&fp, final_info_dest, __func__);
-
-    char *escaped_path_ptr = escaped_path;
+    /* For a top-level (media_root) waste folder the spec wants a path
+       relative to the mount. Strip media_root from the real path BEFORE
+       escaping, so a mount path containing bytes that get percent-escaped
+       (a space, non-ASCII, ...) can't desync a byte offset. */
+    const char *rel = st_f_props->real_path;
     if (waste_curr->media_root != NULL
-        && (waste_curr->dev_num == st_f_props->dev_num))
+        && waste_curr->dev_num == st_f_props->dev_num)
     {
-      escaped_path_ptr = &escaped_path[strlen(waste_curr->media_root)];
-      if (*escaped_path_ptr == '/')
-        escaped_path_ptr++;
+      size_t mr_len = strlen(waste_curr->media_root);
+      bool under_root = strcmp(waste_curr->media_root, "/") == 0;
+      if (strncmp(rel, waste_curr->media_root, mr_len) == 0
+          && (under_root || rel[mr_len] == '/' || rel[mr_len] == '\0'))
+      {
+        rel += mr_len;
+        if (*rel == '/')
+          rel++;
+      }
       else
       {
         close_file(&fp, final_info_dest, __func__);
         if (unlink(final_info_dest) != 0)
           diag(DIAG_ERR, "unlink: %s\n", strerror(errno));
-        diag_fatal(EXIT_FAILURE,
-                   "Expected a leading '/' in the pathname '%s'\n",
-                   escaped_path_ptr);
+        diag_fatal(EXIT_FAILURE, "'%s' is not under media root '%s'\n",
+                   st_f_props->real_path, waste_curr->media_root);
       }
     }
 
+    char *escaped_path = escape_url(rel);
+    if (escaped_path == NULL)
+      return close_file(&fp, final_info_dest, __func__);
+
     fprintf(fp, "%s\n%s%s\n%s%s\n", trashinfo_template.header,
-            trashinfo_template.path_key, escaped_path_ptr,
+            trashinfo_template.path_key, escaped_path,
             trashinfo_template.deletion_date_key,
             st_time_var->deletion_date);
 
