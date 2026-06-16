@@ -8,7 +8,7 @@
 
 complete rmw -s h -l help -d 'show help for command line options' -f
 complete rmw -s c -l config -d 'use an alternate configuration' -r
-complete rmw -s l -l list -d 'list waste directories' -f
+complete rmw -s l -l list -d 'list waste directories (add -v for attributes)' -f
 complete rmw -s g -l purge -d 'purge expired files'
 complete rmw -s o -l orphaned -d 'check for orphaned files (maintenance)'  -f
 complete rmw -s f -l force -d 'allow purging of expired files' -f
