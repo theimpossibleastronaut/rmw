@@ -99,9 +99,10 @@ install_data(
 # Third-party licenses
 install_subdir('licenses', install_dir: get_option('docdir'))
 
-# Copy completions to docdir
-install_subdir(
-  'completions',
-  install_dir: join_paths(get_option('docdir')),
-  strip_directory: false,
-)
+# Shell completions
+if get_option('install_shell_completions')
+  install_data(
+    'completions/fish/rmw.fish',
+    install_dir: get_option('datadir') / 'fish' / 'vendor_completions.d',
+  )
+endif
