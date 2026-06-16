@@ -139,7 +139,7 @@ process_mrl(st_waste *waste_head,
     }
     else
     {
-      fprintf(stderr, "open mrl failed: %s\n", strerror(errno));
+      diag(DIAG_ERR, "open mrl failed: %s\n", strerror(errno));
       return -1;
     }
   }
@@ -163,8 +163,8 @@ process_mrl(st_waste *waste_head,
     {
       if (cli_user_options->want_dry_run == false)
         if (unlink(mrl_file) != 0)
-          fprintf(stderr, "unlink: %s \n%s in %s\n", mrl_file,
-                  strerror(errno), __func__);
+          diag(DIAG_ERR, "unlink: %s\n%s in %s\n", mrl_file,
+               strerror(errno), __func__);
     }
   }
 

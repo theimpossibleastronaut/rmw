@@ -54,22 +54,6 @@ diag_fatal(const int exit_code, const char *fmt, ...)
   exit(exit_code);
 }
 
-void
-print_msg_error(void)
-{
-  /* TRANSLATORS: this precedes a string which informs the user of a more
-   * serious error, sometimes a fatal one */
-  fputs(_("  :error: "), stderr);
-}
-
-void
-print_msg_warn(void)
-{
-  /* TRANSLATORS: this precedes a string which warns the user of some minor
-   * but not fatal problem */
-  fputs(_(" :warning: "), stdout);
-}
-
 /**
  * Called if fopen() returns NULL. prints an error message and some
  * extra info about the cause.
@@ -80,9 +64,8 @@ print_msg_warn(void)
 void
 open_err(const char *filename, const char *function_name)
 {
-  print_msg_error();
   /* TRANSLATORS:  "opening" refers to a file  */
-  fprintf(stderr, _("while opening %s\n\
+  diag(DIAG_ERR, _("while opening %s\n\
 function: <%s>\n\
 %s\n"), filename, function_name, strerror(errno));
 
@@ -110,8 +93,7 @@ close_file(FILE **fp, const char *filename, const char *function_name)
   {
     int dup_errno = errno;
     /* TRANSLATORS:  "closing" refers to a file  */
-    print_msg_error();
-    fprintf(stderr, _("while closing %s\n\
+    diag(DIAG_ERR, _("while closing %s\n\
 function: <%s>\n\
 %s\n"), filename, function_name, strerror(dup_errno));
     return dup_errno;
@@ -122,13 +104,12 @@ function: <%s>\n\
 void
 display_dot_trashinfo_error(const char *dti)
 {
-  print_msg_error();
   /* TRANSLATORS:  ".trashinfo" should remain untranslated
    *
    *               "format" refers to the layout of the file
    *                contents
    */
-  printf(_("format of .trashinfo file '%s' is incorrect\n"), dti);
+  diag(DIAG_ERR, _("format of .trashinfo file '%s' is incorrect\n"), dti);
   return;
 }
 
@@ -145,8 +126,7 @@ real_fatal_malloc(const char *func, const int line)
 void
 msg_err_close_dir(const char *dir, const char *func, const int line)
 {
-  print_msg_error();
-  fprintf(stderr, "while closing %s -- %s:L%d\n", dir, func, line);
+  diag(DIAG_ERR, "while closing %s -- %s:L%d\n", dir, func, line);
   perror("closedir()");
   exit(errno);
 }
@@ -154,19 +134,16 @@ msg_err_close_dir(const char *dir, const char *func, const int line)
 void
 msg_err_open_dir(const char *dir, const char *func, const int line)
 {
-  print_msg_error();
-  fprintf(stderr, _("while opening %s -- %s:L%d\n%s\n"), dir, func, line,
-          strerror(errno));
+  diag(DIAG_ERR, _("while opening %s -- %s:L%d\n%s\n"), dir, func, line,
+       strerror(errno));
   return;
 }
 
 void
 msg_err_rename(const char *src_file, const char *dest_file)
 {
-  print_msg_error();
-  fprintf(stderr, "%s -> %s\n\
+  diag_fatal(EXIT_FAILURE, "%s -> %s\n\
 rename: %s\n", src_file, dest_file, strerror(errno));
-  exit(EXIT_FAILURE);
 }
 
 /*!
@@ -177,9 +154,7 @@ rename: %s\n", src_file, dest_file, strerror(errno));
 void
 msg_err_fatal_fprintf(const char *func)
 {
-  print_msg_error();
-  fprintf(stderr, "fprintf returned an error in %s.\n", func);
-  exit(EXIT_FAILURE);
+  diag_fatal(EXIT_FAILURE, "fprintf returned an error in %s.\n", func);
 }
 
 /*!
@@ -193,8 +168,7 @@ msg_err_fatal_fprintf(const char *func)
 void
 msg_err_buffer_overrun(const char *func, const int line)
 {
-  print_msg_error();
-  fprintf(stderr, "func = %s:L%d\n", func, line);
+  diag(DIAG_ERR, "func = %s:L%d\n", func, line);
   /* TRANSLATORS:  "buffer" in the following instances refers to the amount
    * of memory allocated for a string  */
   fputs("Buffer length exceeded.\n", stderr);
@@ -212,19 +186,17 @@ msg_err_buffer_overrun(const char *func, const int line)
 void
 msg_err_lstat(const char *file, const char *func, const int line)
 {
-  print_msg_error();
-  perror("lstat()");
-  fprintf(stderr, "%s in %s:L%d\n", file, func, line);
-  exit(errno);
+  int dup_errno = errno;
+  diag_fatal(dup_errno, "lstat(): %s\n%s in %s:L%d\n", strerror(dup_errno),
+             file, func, line);
 }
 
 void
 msg_err_remove(const char *file, const char *func)
 {
   int dup_errno = errno;
-  print_msg_error();
-  fprintf(stderr, _("while removing %s:\n%s\n(func:%s)\n"), file,
-          strerror(dup_errno), func);
+  diag(DIAG_ERR, _("while removing %s:\n%s\n(func:%s)\n"), file,
+       strerror(dup_errno), func);
 }
 
 
@@ -232,8 +204,7 @@ void
 msg_err_mkdir(const char *dir, const char *func)
 {
   perror("rmw_mkdir()");
-  print_msg_error();
-  fprintf(stderr, _("while creating %s (%s)\n"), dir, func);
+  diag(DIAG_ERR, _("while creating %s (%s)\n"), dir, func);
 }
 
 void

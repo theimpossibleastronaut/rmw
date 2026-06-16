@@ -79,9 +79,7 @@ trim_whitespace(char *str)
   if (str == NULL)
   {
 #ifndef TEST_LIB
-    print_msg_error();
-    fprintf(stderr, "%s received a NULL", __func__);
-    exit(EXIT_FAILURE);
+    diag_fatal(EXIT_FAILURE, "%s received a NULL\n", __func__);
 #else
     errno = 1;
     return;

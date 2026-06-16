@@ -188,8 +188,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
       no_add = 1;
     else
     {
-      print_msg_warn();
-      printf("ignoring invalid attribute: '%s'\n", attr);
+      diag(DIAG_WARN, "ignoring invalid attribute: '%s'\n", attr);
     }
     canfigger_free_current_attr_str_advance(node->attributes, &attr);
   }
@@ -203,8 +202,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
 
   if (realize_str(tmp_waste_parent_folder, homedir, uid) != 0)
   {
-    print_msg_error();
-    fprintf(stderr, "truncated: %s\n", tmp_waste_parent_folder);
+    diag(DIAG_ERR, "truncated: %s\n", tmp_waste_parent_folder);
   }
 
   bool is_attached =
@@ -248,8 +246,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
 
   if (is_symlink(waste_curr->parent))
   {
-    print_msg_warn();
-    printf(_("symbolic link: %s\n\
+    diag(DIAG_WARN, _("symbolic link: %s\n\
  :In the future, rmw will not allow using symbolic links\n\
  :as waste parent folders.\n"), waste_curr->parent);
   }
@@ -383,8 +380,7 @@ parse_config_file(const rmw_options *cli_user_options,
         if (i == PURGE_AFTER)
         {
           putchar('\n');
-          print_msg_warn();
-          printf("\
+          diag(DIAG_WARN, "\
   The configuration option 'purge_after' will be deprecated.\n\
   Please replace it with '%s' instead.\n\n", expire_age_str);
         }
@@ -411,8 +407,7 @@ parse_config_file(const rmw_options *cli_user_options,
       }
       break;
     default:
-      print_msg_warn();
-      printf(_("Unknown or invalid option: '%s'\n"), cfg_node->key);
+      diag(DIAG_WARN, _("Unknown or invalid option: '%s'\n"), cfg_node->key);
     }
     canfigger_free_current_key_node_advance(&cfg_node);
   }

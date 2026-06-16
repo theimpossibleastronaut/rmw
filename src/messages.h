@@ -40,10 +40,6 @@ void diag(diag_level level, const char *fmt, ...)
 void diag_fatal(const int exit_code, const char *fmt, ...)
   __attribute__((noreturn, format(printf, 2, 3)));
 
-void print_msg_error(void);
-
-void print_msg_warn(void);
-
 void open_err(const char *filename, const char *function_name);
 
 int close_file(FILE ** fp, const char *filename, const char *function_name);

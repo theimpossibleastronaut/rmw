@@ -117,8 +117,8 @@ expected="0 orphans found"
 output="$($RMW_TEST_CMD_STRING -o)"
 test "${output}" = "${expected}"
 
-cmp_substr "$($RMW_ALT_TEST_CMD_STRING -l)" \
-  "invalid option"
+cmp_substr "$($RMW_ALT_TEST_CMD_STRING -l 2>&1)" \
+  "invalid_or_unknown_option"
 
 cmp_substr "$($RMW_TEST_CMD_STRING '')" \
   "skipping"

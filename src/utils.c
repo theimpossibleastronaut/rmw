@@ -77,7 +77,7 @@ stat_path(const char *pathname, struct stat *st)
   if (errno == ENOENT)
     return ENOENT;
 
-  fprintf(stderr, "lstat %s: %s\n", pathname, strerror(errno));
+  diag(DIAG_ERR, "lstat %s: %s\n", pathname, strerror(errno));
   return -1;
 }
 
@@ -252,8 +252,7 @@ resolve_path(const char *file, const char *b)
   g_free(dir);
   if (orig_dirname == NULL)
   {
-    print_msg_error();
-    perror("realpath()");
+    diag(DIAG_ERR, "realpath(): %s\n", strerror(errno));
     return NULL;
   }
 
