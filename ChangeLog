@@ -15,6 +15,10 @@ rmw (in-progress):
   * purge: print a progress dot per 100 trashinfo files checked for
     expiration; show a leading dot immediately so feedback is visible
     on the first iteration
+  * ficlone: a failed cross-subvolume directory move now rolls back cleanly --
+    the whole tree is copied before the source is removed, so a clone failure
+    leaves the source intact rather than a partial copy plus a half-removed
+    source
   * install: fish completions install to fish's vendor_completions.d so
     they load automatically, and now honor the install_shell_completions
     option; previously they went to docdir and the option was ignored
