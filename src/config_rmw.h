@@ -28,6 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define ENV_RMW_FAKE_HOME "RMW_FAKE_HOME"
 
+/* Discovery scans real mount points, so it is suppressed under
+ * RMW_FAKE_HOME. Setting RMW_CHECK_DISCOVERY re-enables it so a test can
+ * exercise discovery against mounts it controls (e.g. in a private mount
+ * namespace). */
+#define ENV_RMW_CHECK_DISCOVERY "RMW_CHECK_DISCOVERY"
+
 extern const char *expire_age_str;
 
 typedef struct
@@ -50,4 +56,5 @@ parse_config_file(const rmw_options * cli_user_options,
 void init_config_data(st_config * x);
 
 void
-show_folder_line(const char *folder, const bool is_r, const bool is_attached);
+show_folder_line(const char *folder, const bool is_r, const bool is_attached,
+                 const bool no_add);

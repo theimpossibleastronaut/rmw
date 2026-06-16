@@ -28,6 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "messages.h"
 #include "ficlone.h"
 #include "trashinfo.h"
+#include "topdir_trash.h"
+
+
+static char *home_trash_dir_for(const char *home_dir);
 
 
 /*!
@@ -246,18 +250,18 @@ list_waste_folders(st_waste *waste_head)
   st_waste *waste_curr = waste_head;
   while (waste_curr != NULL)
   {
-    show_folder_line(waste_curr->parent, waste_curr->removable, is_attached);
+    show_folder_line(waste_curr->parent, waste_curr->removable, is_attached,
+                     waste_curr->no_add);
     waste_curr = waste_curr->next_node;
   }
 
-  dispose_waste(waste_head);
   return;
 }
 
 static int
 remove_to_waste(const int argc,
                 char *const argv[],
-                st_waste *waste_head,
+                st_waste **waste_head,
                 st_time *st_time_var,
                 const st_loc *st_location,
                 const rmw_options *cli_user_options)
@@ -270,6 +274,10 @@ remove_to_waste(const int argc,
   int n_err = 0;
   int removed_files_ctr = 0;
   int file_arg;
+  /* The topdir fallback retries via file_arg--; cap it to one attempt per
+     file so a fallback trash that still can't receive the file (e.g. an
+     unresolvable mount) can't loop forever. */
+  int fb_attempted_arg = -1;
   for (file_arg = optind; file_arg < argc; file_arg++)
   {
     if (*argv[file_arg] == '\0')
@@ -354,7 +362,7 @@ damage of 5000 hp. You feel satisfied.\n"));
 
     /* Make sure the file isn't a waste folder or a file within a waste folder */
     bool is_protected = 0;
-    st_waste *waste_curr = waste_head;
+    st_waste *waste_curr = *waste_head;
     while (waste_curr != NULL)
     {
       if (strncmp
@@ -383,9 +391,15 @@ damage of 5000 hp. You feel satisfied.\n"));
      * happens (provided all the tests are passed.
      */
     bool src_is_ficlone = is_ficlone_fs(arg);
-    waste_curr = waste_head;
+    waste_curr = *waste_head;
     while (waste_curr != NULL)
     {
+      /* "no-add" folders are never a removal destination */
+      if (waste_curr->no_add)
+      {
+        waste_curr = waste_curr->next_node;
+        continue;
+      }
       if (waste_curr->dev_num == st_target.dev_num ||
           (waste_curr->is_ficlone_fs && src_is_ficlone))
       {
@@ -428,7 +442,19 @@ damage of 5000 hp. You feel satisfied.\n"));
             /* same device: simple rename */
             r_result = rename(src, dst);
             if (r_result != 0 && errno == EXDEV)
-              r_result = ficlone_move(src, dst);
+            {
+              /* Same device but a different mount (e.g. a bind mount):
+                 rename can't cross it. Try reflink only where it can
+                 work; otherwise skip this waste so the $topdir fallback
+                 below runs. */
+              if (src_is_ficlone)
+                r_result = ficlone_move(src, dst);
+              if (r_result != 0)
+              {
+                waste_curr = waste_curr->next_node;
+                continue;
+              }
+            }
           }
         }
 
@@ -468,6 +494,88 @@ damage of 5000 hp. You feel satisfied.\n"));
 
     if (!waste_curr)
     {
+      /* No configured or discovered WASTE matched. Fall back to the
+       * spec trash for this file's filesystem, created on demand:
+       *   - home filesystem  -> the home trash ($XDG_DATA_HOME/Trash),
+       *     which uses absolute paths (fb_mount stays NULL)
+       *   - other filesystem -> the $topdir trash for its mount
+       * Use real_path: g_unix_mount_for() needs an absolute path. */
+      char *fb_mount = NULL;
+      char *fb_trash;
+      struct stat home_st;
+      if (lstat(st_location->home_dir, &home_st) == 0
+          && st_target.dev_num == home_st.st_dev)
+        fb_trash = home_trash_dir_for(st_location->home_dir);
+      else
+        fb_trash =
+          find_topdir_trash(st_target.real_path, get_user_uid_str(),
+                            &fb_mount);
+      char *fb_files = NULL;
+      char *fb_info = NULL;
+      bool fb_ok = false;
+      if (fb_trash != NULL)
+      {
+        fb_files = join_paths(fb_trash, "files");
+        fb_info = join_paths(fb_trash, "info");
+        fb_ok = true;
+        if (check_pathname_state(fb_files) == ENOENT
+            && rmw_mkdir(fb_files) != 0)
+          fb_ok = false;
+        if (fb_ok
+            && check_pathname_state(fb_info) == ENOENT
+            && rmw_mkdir(fb_info) != 0)
+          fb_ok = false;
+      }
+
+      if (fb_ok && fb_attempted_arg != file_arg)
+      {
+        struct stat fb_st;
+        if (lstat(fb_trash, &fb_st) != 0)
+          fb_ok = false;
+        else
+        {
+          st_waste *new_node = malloc(sizeof *new_node);
+          if (!new_node)
+            fatal_malloc();
+          new_node->parent = fb_trash;
+          new_node->files = fb_files;
+          new_node->info = fb_info;
+          new_node->len_files = strlen(fb_files);
+          new_node->len_info = strlen(fb_info);
+          new_node->media_root = fb_mount;       /* takes ownership */
+          fb_mount = NULL;
+          new_node->removable = false;
+          new_node->no_add = false;
+          new_node->is_ficlone_fs = is_ficlone_fs(fb_trash);
+          new_node->dev_num = fb_st.st_dev;
+          new_node->next_node = NULL;
+
+          if (*waste_head == NULL)
+          {
+            new_node->prev_node = NULL;
+            *waste_head = new_node;
+          }
+          else
+          {
+            st_waste *tail = *waste_head;
+            while (tail->next_node != NULL)
+              tail = tail->next_node;
+            new_node->prev_node = tail;
+            tail->next_node = new_node;
+          }
+
+          verbose_printf(1, "fallback trash: %s\n", fb_trash);
+          fb_attempted_arg = file_arg;
+          free(st_target.real_path);
+          file_arg--;
+          continue;
+        }
+      }
+
+      free(fb_trash);
+      free(fb_files);
+      free(fb_info);
+      free(fb_mount);
       printf(_(" :'%s' not ReMoved:\n"), argv[file_arg]);
       printf(_
              ("No WASTE folder defined in '%s' that resides on the same filesystem.\n"),
@@ -489,6 +597,149 @@ damage of 5000 hp. You feel satisfied.\n"));
   putchar('\n');
 
   return n_err;
+}
+
+
+/* Returns a newly-malloc'd path to $XDG_DATA_HOME/Trash (or
+ * $home_dir/.local/share/Trash if XDG_DATA_HOME is unset). */
+static char *
+home_trash_dir_for(const char *home_dir)
+{
+  const char *xdg_data = getenv("XDG_DATA_HOME");
+  if (xdg_data != NULL && *xdg_data != '\0')
+    return join_paths(xdg_data, "Trash");
+  char *xdg_default = join_paths(home_dir, ".local/share");
+  char *trash = join_paths(xdg_default, "Trash");
+  free(xdg_default);
+  return trash;
+}
+
+
+/* After parse_config_file(), augment the in-memory waste list with any
+ * spec-compliant topdir trash directories that already exist on disk.
+ * This lets restore/list/purge/orphan_maint discover trashes that were
+ * created by the remove_to_waste() fallback in earlier invocations
+ * (i.e. trash dirs not listed in rmwrc). */
+static void
+discover_existing_topdir_trashes(st_config *st_config_data,
+                                 const st_loc *st_location)
+{
+  char *home_trash_dir = home_trash_dir_for(st_location->home_dir);
+
+  struct stat st;
+  dev_t home_dev = 0;
+  if (lstat(st_location->home_dir, &st) == 0)
+    home_dev = st.st_dev;
+
+  st_mount_trash *mts =
+    build_mount_trash_list(st_config_data->uid, home_trash_dir, home_dev);
+
+  for (st_mount_trash *n = mts; n != NULL; n = n->next)
+  {
+    if (check_pathname_state(n->trash_dir) != EEXIST)
+      continue;
+    if (check_pathname_state(n->files_dir) != EEXIST)
+      continue;
+    if (check_pathname_state(n->info_dir) != EEXIST)
+      continue;
+
+    bool already = false;
+    for (st_waste *w = st_config_data->st_waste_folder_props_head;
+         w != NULL; w = w->next_node)
+    {
+      if (strcmp(w->parent, n->trash_dir) == 0)
+      {
+        already = true;
+        break;
+      }
+    }
+    if (already)
+      continue;
+
+    struct stat tst;
+    if (lstat(n->trash_dir, &tst) != 0)
+      continue;
+
+    st_waste *new_node = malloc(sizeof *new_node);
+    if (!new_node)
+      fatal_malloc();
+    new_node->parent = strdup(n->trash_dir);
+    new_node->files = strdup(n->files_dir);
+    new_node->info = strdup(n->info_dir);
+    new_node->len_files = strlen(new_node->files);
+    new_node->len_info = strlen(new_node->info);
+    new_node->media_root = (n->mount_path != NULL)
+      ? strdup(n->mount_path) : NULL;
+    new_node->removable = false;
+    new_node->no_add = false;
+    new_node->is_ficlone_fs = n->is_ficlone_fs;
+    new_node->dev_num = tst.st_dev;
+    new_node->next_node = NULL;
+
+    st_waste *tail = st_config_data->st_waste_folder_props_head;
+    if (tail == NULL)
+    {
+      new_node->prev_node = NULL;
+      st_config_data->st_waste_folder_props_head = new_node;
+    }
+    else
+    {
+      while (tail->next_node != NULL)
+        tail = tail->next_node;
+      new_node->prev_node = tail;
+      tail->next_node = new_node;
+    }
+
+    verbose_printf(1, "discovered topdir trash: %s\n", n->trash_dir);
+  }
+
+  free_mount_trash_list(mts);
+  free(home_trash_dir);
+}
+
+
+/* With -l -v: show spec $topdir locations on eligible mounts that aren't in
+ * the waste list yet — where a trash dir would be created on demand. */
+static void
+list_candidate_topdirs(const st_config *st_config_data,
+                       const st_loc *st_location)
+{
+  char *home_trash_dir = home_trash_dir_for(st_location->home_dir);
+
+  struct stat st;
+  dev_t home_dev = 0;
+  if (lstat(st_location->home_dir, &st) == 0)
+    home_dev = st.st_dev;
+
+  st_mount_trash *mts =
+    build_mount_trash_list(st_config_data->uid, home_trash_dir, home_dev);
+
+  bool have_header = false;
+  for (st_mount_trash *n = mts; n != NULL; n = n->next)
+  {
+    bool listed = false;
+    for (st_waste *w = st_config_data->st_waste_folder_props_head;
+         w != NULL; w = w->next_node)
+    {
+      if (strcmp(w->parent, n->trash_dir) == 0)
+      {
+        listed = true;
+        break;
+      }
+    }
+    if (listed)
+      continue;
+
+    if (!have_header)
+    {
+      printf(_("\nCandidate trash locations (created when needed):\n"));
+      have_header = true;
+    }
+    printf("  %s\n", n->trash_dir);
+  }
+
+  free_mount_trash_list(mts);
+  free(home_trash_dir);
 }
 
 
@@ -583,6 +834,15 @@ get_locations(const char *alt_config_file)
 
       print_config(fp);
       close_file(&fp, x.config_file, __func__);
+
+      /* First-run notice: rmw now works with no configuration, so tell the
+       * user where files go by default and how to keep them separate. Shown
+       * only on the run that creates the config. */
+      puts(_("\
+rmw moves each file to the trash on its own filesystem. Files on your\n\
+home filesystem go to ~/.local/share/Trash, the same trash your desktop\n\
+uses. To keep rmw's files in a separate folder instead, uncomment\n\
+'WASTE = $HOME/.local/share/Waste' in the configuration file above.\n"));
     }
     else
     {
@@ -679,10 +939,22 @@ Please check your configuration file and permissions\
   st_config st_config_data;
   init_config_data(&st_config_data);
   parse_config_file(&cli_user_options, &st_config_data, st_location);
+  /* RMW_FAKE_HOME isolates $HOME but not real mount points, so discovery
+   * would pick up host-machine topdir trashes during tests. A test that
+   * specifically exercises discovery sets RMW_CHECK_DISCOVERY to re-enable
+   * it against mounts it controls. */
+  bool run_discovery = getenv(ENV_RMW_FAKE_HOME) == NULL
+    || getenv(ENV_RMW_CHECK_DISCOVERY) != NULL;
+  if (run_discovery)
+    discover_existing_topdir_trashes(&st_config_data, st_location);
 
   if (cli_user_options.list)
   {
     list_waste_folders(st_config_data.st_waste_folder_props_head);
+    /* gated like discovery above, so tests don't see host mounts */
+    if (verbose && run_discovery)
+      list_candidate_topdirs(&st_config_data, st_location);
+    dispose_waste(st_config_data.st_waste_folder_props_head);
     return 0;
   }
 
@@ -754,7 +1026,7 @@ Please check your configuration file and permissions\
   {
     int result = remove_to_waste(argc,
                                  argv,
-                                 st_config_data.st_waste_folder_props_head,
+                                 &st_config_data.st_waste_folder_props_head,
                                  &st_time_var,
                                  st_location,
                                  &cli_user_options);

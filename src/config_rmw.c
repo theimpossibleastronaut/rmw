@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <unistd.h>
+#include <gio/gunixmounts.h>
 
 #include "ficlone.h"
 #include "config_rmw.h"
@@ -41,24 +42,26 @@ void
 print_config(FILE *restrict stream)
 {
   fputs(_("\
-# rmw default waste directory, separate from the desktop trash\n"), stream);
-  fputs(_("\
-# To use multiple waste folders, specify each on a separate line\n"), stream);
-  fputs("\
-WASTE = $HOME/.local/share/Waste\n", stream);
+# rmw works with no configuration. By default it moves each file to the\n\
+# trash on the file's own filesystem; for files on your home filesystem\n\
+# that is the FreeDesktop trash at $HOME/.local/share/Trash.\n\
+#\n\
+# Add WASTE lines below only for special cases. Each waste folder goes\n\
+# on its own line, and a folder can use the $UID variable.\n"), stream);
   fputs(_("\n\
-# The directory used by the FreeDesktop.org Trash spec\n\
-# Note to macOS and Windows users: moving files to 'Desktop' trash\n\
-# doesn't work yet\n"), stream);
+# Keep rmw's files separate from the desktop trash:\n"), stream);
   fputs("\
-# WASTE=$HOME/.local/share/Trash\n", stream);
-  fputs("\n", stream);
-  fputs(_("\
-# A folder can use the $UID variable.\n"), stream);
-  fputs(_("\
-# See the README or man page for details about using the 'removable' attribute\n"), stream);
+# WASTE = $HOME/.local/share/Waste\n", stream);
+  fputs(_("\n\
+# A folder on a removable device (you must create the directory yourself):\n"), stream);
   fputs("\
-# WASTE=/mnt/flash/.Trash-$UID, removable\n", stream);
+# WASTE = /mnt/flash/.Trash-$UID, removable\n", stream);
+  fputs(_("\n\
+# The 'no-add' attribute means rmw never puts files in this folder when\n\
+# you remove them. rmw can still list, restore, and purge what is\n\
+# already inside it:\n"), stream);
+  fputs("\
+# WASTE = /mnt/archive/.Trash-$UID, no-add\n", stream);
   fputs(_("\n\
 # How many days should items be allowed to stay in the waste\n\
 # directories before they are permanently deleted\n\
@@ -174,17 +177,21 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
                  const char *homedir, const char *uid)
 {
   bool removable = 0;
+  bool no_add = 0;
   char *attr = NULL;
   canfigger_free_current_attr_str_advance(node->attributes, &attr);
-  if (attr)
+  while (attr)
   {
     if (strcmp("removable", attr) == 0)
       removable = 1;
+    else if (strcmp("no-add", attr) == 0)
+      no_add = 1;
     else
     {
       print_msg_warn();
-      printf("ignoring invalid attribute: '%s'\n", node->attributes->str);
+      printf("ignoring invalid attribute: '%s'\n", attr);
     }
+    canfigger_free_current_attr_str_advance(node->attributes, &attr);
   }
 
   bufchk_len(strlen(node->value) + 1, PATH_MAX, __func__, __LINE__);
@@ -202,10 +209,13 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
 
   bool is_attached =
     (check_pathname_state(tmp_waste_parent_folder) == EEXIST);
-  if (removable && !is_attached)
+  /* A "no-add" folder that doesn't exist is skipped rather than created:
+   * it can never receive files, and purge exits on an unopenable info dir. */
+  if ((removable || no_add) && !is_attached)
   {
     if (cli_user_options->list)
-      show_folder_line(tmp_waste_parent_folder, removable, is_attached);
+      show_folder_line(tmp_waste_parent_folder, removable, is_attached,
+                       no_add);
 
     return NULL;
   }
@@ -228,6 +238,7 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   waste_curr->next_node = NULL;
 
   waste_curr->removable = removable ? true : false;
+  waste_curr->no_add = no_add;
 
   /* make the parent... */
   waste_curr->parent = malloc(strlen(tmp_waste_parent_folder) + 1);
@@ -280,39 +291,33 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
   waste_curr->is_ficlone_fs = is_ficlone_fs(waste_curr->parent);
 
   // get device number to use later for rename
-  struct stat st, mp_st;
+  struct stat st;
   if (!lstat(waste_curr->parent, &st))
-  {
     waste_curr->dev_num = st.st_dev;
-
-    // printf("actual: %ld |major: %d | minor: %d\n", st.st_dev, major(st.st_dev), minor(st.st_dev));
-    gchar *media_root_ptr = g_path_get_dirname(waste_curr->parent);
-    if (!media_root_ptr)
-    {
-      fputs("Error getting media root pointer.\n", stderr);
-      exit(EXIT_FAILURE);
-    }
-
-    if (!(waste_curr->media_root = malloc(strlen(media_root_ptr) + 1)))
-      fatal_malloc();
-    strcpy(waste_curr->media_root, media_root_ptr);
-    g_free(media_root_ptr);
-
-    gchar *media_root_parent = g_path_get_dirname(waste_curr->media_root);
-    if (!lstat(media_root_parent, &mp_st))
-    {
-      if (mp_st.st_dev == waste_curr->dev_num)
-      {
-        free(waste_curr->media_root);
-        waste_curr->media_root = NULL;
-      }
-    }
-    else
-      msg_err_lstat(waste_curr->parent, __func__, __LINE__);
-    g_free(media_root_parent);
-  }
   else
     msg_err_lstat(waste_curr->parent, __func__, __LINE__);
+
+  waste_curr->media_root = NULL;
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+  GUnixMountEntry *entry = g_unix_mount_for(waste_curr->parent, NULL);
+  G_GNUC_END_IGNORE_DEPRECATIONS
+  if (entry)
+  {
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    const char *mount_path = g_unix_mount_get_mount_path(entry);
+    G_GNUC_END_IGNORE_DEPRECATIONS
+    gchar *parent_dir = g_path_get_dirname(waste_curr->parent);
+    if (strcmp(mount_path, parent_dir) == 0)
+    {
+      if (!(waste_curr->media_root = malloc(strlen(mount_path) + 1)))
+        fatal_malloc();
+      strcpy(waste_curr->media_root, mount_path);
+    }
+    g_free(parent_dir);
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    g_unix_mount_free(entry);
+    G_GNUC_END_IGNORE_DEPRECATIONS
+  }
 
   return waste_curr;
 }
@@ -412,17 +417,10 @@ parse_config_file(const rmw_options *cli_user_options,
     canfigger_free_current_key_node_advance(&cfg_node);
   }
 
-  if (waste_curr == NULL)
-  {
-    printf(_("no usable WASTE folder could be found\n\
-Please check your configuration file and permissions\n\
-If you need further help, or to report a possible bug,\n\
-visit the rmw web site at\n"));
-    printf("  " PACKAGE_URL "\n");
-    printf("Unable to continue. Exiting...\n");
-    exit(EXIT_FAILURE);
-  }
-
+  /* An empty waste list is no longer fatal: configuring waste folders is
+     optional. When nothing is configured, remove_to_waste() falls back to
+     the spec trash for each file's filesystem (the home trash for home-
+     filesystem files), creating it on demand. */
   return;
 }
 
@@ -439,23 +437,34 @@ init_config_data(st_config *x)
   x->force_required = 0;
 
   // get the UID
-  sn_check(snprintf(x->uid, sizeof x->uid, "%d", getuid()), sizeof x->uid);
+  sn_check(snprintf(x->uid, sizeof x->uid, "%s", get_user_uid_str()),
+           sizeof x->uid);
 }
 
 void
-show_folder_line(const char *folder, const bool is_r, const bool is_attached)
+show_folder_line(const char *folder, const bool is_r, const bool is_attached,
+                 const bool no_add)
 {
+  /* Plain -l stays a bare list of paths, fit for piping to du and friends;
+   * annotations are shown only under -v. */
   printf("%s", folder);
-  if (is_r && verbose)
+  if (verbose)
   {
-    /*
-     * These lines are separated to ease translation
-     *
-     */
-    printf(" (");
-    printf(_("removable, "));
-    /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
-    printf("%s)", is_attached == true ? _("attached") : _("detached"));
+    if (is_r)
+    {
+      /*
+       * These lines are separated to ease translation
+       *
+       */
+      printf(" (");
+      printf(_("removable, "));
+      /* TRANSLATORS: context - "a mounted device or filesystem is presently attached or mounted" */
+      printf("%s)", is_attached == true ? _("attached") : _("detached"));
+    }
+    if (no_add)
+      /* TRANSLATORS: marks a waste folder that never receives new files
+       * (configured with the 'no-add' attribute) */
+      printf(" (%s)", _("no-add"));
   }
 
   putchar('\n');

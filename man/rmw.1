@@ -33,7 +33,11 @@ show help for command line options
 use an alternate configuration
 .TP
 \fB\-l\fR, \fB\-\-list\fR
-list waste directories
+list waste directories, one path per line
+.IP
+Add \fB\-v\fR to also show each folder's attributes (such as "no-add")
+and a list of candidate trash locations that rmw would create on other
+file systems when needed.
 .TP
 \fB\-g[N_DAYS]\fR, \fB\-\-purge\fR[=\fI\,N_DAYS\/\fR]
 purge expired files;
@@ -134,11 +138,28 @@ Restores files that were last rmw'ed
 \fB\-m\fR, \fB\-\-most\-recent\-list\fR
 list most recently rmw'ed files
 .SH CONFIGURATION
-Each WASTE folder must be on its own line in the configuration file.
-Two WASTE folders cannot be specified on the same line.
+Configuration is optional. With no configured WASTE folder, rmw moves each
+file to the trash on the file's own filesystem: files on the home filesystem
+go to the FreeDesktop home trash (~/.local/share/Trash, the same trash your
+desktop uses), and files on other filesystems go to a trash at the top of
+that filesystem. These are created when first needed.
+.PP
+Add WASTE lines only for special cases, such as keeping rmw's files separate
+from the desktop trash (uncomment the
+.B WASTE = $HOME/.local/share/Waste
+line in the generated config), a folder on removable media, or a
+.B no-add
+folder. Each WASTE folder must be on its own line; two WASTE folders cannot
+be specified on the same line.
 .TP
 WASTE=/mnt/flash/.Trash-$UID, removable
 When using the removable attribute, you must also manually create the directory
+.TP
+WASTE = /path, no-add
+The "no-add" attribute tells rmw to never move files into this folder.
+rmw still lists it, restores files from it, and purges old files in it.
+This is useful for a folder you want to empty over time but no longer add
+to. You can combine attributes, for example "removable, no-add".
 .TP
 expire_age = 45
 rmw will permanently delete files that have been in the waste (or
@@ -163,39 +184,43 @@ text file that stores the time of the last purge
 .I $HOME/.local/share/rmw/mrl
 text file containing a list of items that were last rmw'ed
 .SH NOTES
-rmw will not move items from one file system to another. If you try to rmw a
-file but don't have a waste directory defined in your configuration file that
-matches the file system on which it resides, rmw will refuse to do anything
-with it.
+rmw does not move items from one file system to another. When you rmw a
+file, it looks for a waste directory on the same file system. It checks
+the waste directories in your configuration file first. If none match, it
+uses the trash for that file system, as described by the FreeDesktop.org
+Trash specification: the home trash (~/.local/share/Trash) for files on the
+home file system, or a trash at the top of the file system (for example,
+"/mnt/disk/.Trash-1000") for other file systems. If one already exists, rmw
+uses it; if not, rmw creates it.
+.PP
+rmw does not create a trash directory on file systems that are not meant
+to hold one, such as temporary (tmpfs) or network file systems. On those,
+if no configured waste directory matches, rmw refuses to remove the file,
+the same way desktop file managers do. A trash directory that already
+exists on such a file system is still used.
+.PP
+Because the default home trash is the same one your desktop uses, enabling
+purging (an
+.B expire_age
+greater than 0) lets rmw permanently delete old items that your file manager
+placed in the trash too, not only items removed with rmw. Purging is off by
+default.
 .SS DESKTOP INTEGRATION
-Items will be moved to a waste basket in the same manner as when using
-the "move to trash" option from your desktop GUI. They will be
-separated from your desktop trash by default; or if you wish for them
-to share the same "trash" directory, uncomment the line (in your config
-file):
-
-(Note that this does not apply to MacOS; while rmw is yet unable to
-integrate with the desktop trash directory, you'll still be able to use
-the default Waste directory.)
-
-.RS
-WASTE = $HOME/.local/share/Trash
-.RE
-
-then comment out the line
+Items are moved to the trash in the same manner as the "move to trash"
+option in your desktop file manager. By default rmw uses the same trash
+your desktop uses (the FreeDesktop home trash, ~/.local/share/Trash), so an
+item removed with rmw appears in your desktop trash and can be restored from
+either one.
+.PP
+To keep rmw's files separate from the desktop trash instead, uncomment this
+line in your configuration file:
 
 .RS
 WASTE = $HOME/.local/share/Waste
 .RE
 
-You can reverse which directories are enabled at any time if you ever
-change your mind. If both directories are on the same filesystem, rmw will
-use the directory listed first in your config file.
-
-It can be beneficial to have them both uncommented. If your desktop
-trash directory (~/.local/share/Trash) is listed after the rmw default
-(~/.local/share/Waste) and uncommented, rmw will place newly rmw'ed
-items into the default, and it will purge expired files from both.
+(On macOS rmw does not integrate with the system trash; the default
+~/.local/share/Trash is used.)
 
 When rmw'ing an item, if a file or directory with the same name already
 exists in the waste (or trash) directory, it will not be overwritten;

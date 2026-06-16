@@ -109,6 +109,7 @@ Restore FILE(s) from a WASTE directory"));
 "), cli_opt[CONFIG].str);
   printf(_("\
   -l, --%s                list waste directories\n\
+                            (with -v: also candidate trash locations)\n\
 "), cli_opt[LIST].str);
   printf(_("\
   -g[N_DAYS], --%s[=N_DAYS]\n\

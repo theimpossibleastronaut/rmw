@@ -16,6 +16,11 @@ scripts = [
   'test_media_root.sh',
   'test_purging.sh',
   'test_restore.sh',
+  'test_waste_negation.sh',
+  'test_discovery.sh',
+  'test_config_optional.sh',
+  'test_file_bind_mount.sh',
+  'test_media_root_space.sh',
 ]
 
 if host_sys == 'linux'
@@ -23,6 +28,8 @@ if host_sys == 'linux'
     scripts += ['test_btrfs_clone.sh']
   endif
   scripts += ['test_bcachefs.sh']
+  scripts += ['test_exdev_fallback.sh']
+  scripts += ['test_discovery_loopback.sh']
 endif
 
 RMW_FAKE_HOME = join_paths(meson.current_build_dir(), 'rmw-tests-home')
@@ -53,6 +60,15 @@ strace = find_program('strace', required: false)
 if strace.found()
   test_env += ['STRACE=' + strace.full_path()]
 endif
+
+exe = executable(
+  'test_topdir_trash',
+  'test_topdir_trash.c',
+  c_args: ['-DRMW_FAKE_HOME="@0@"'.format(RMW_FAKE_HOME)],
+  dependencies: rmw_dep,
+  override_options: ['b_lto=false'],
+)
+test('test_topdir_trash', exe, env: test_env)
 
 foreach s : scripts
   test(
