@@ -40,7 +40,9 @@ int rmw_mkdir(const char *dir);
 
 int make_dir(const char *dir);
 
-int check_pathname_state(const char *pathname);
+int stat_path(const char *pathname, struct stat *st);
+
+int path_status(const char *pathname);
 
 void dispose_waste(st_waste * node);
 

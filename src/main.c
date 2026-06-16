@@ -317,7 +317,8 @@ damage of 5000 hp. You feel satisfied.\n"));
       continue;
     }
 
-    int p_state = check_pathname_state(arg);
+    struct stat st_file_arg;
+    int p_state = stat_path(arg, &st_file_arg);
     if (p_state != EEXIST)
     {
       if (p_state == ENOENT)
@@ -326,20 +327,11 @@ damage of 5000 hp. You feel satisfied.\n"));
       continue;
     }
 
-    struct stat st_file_arg;
-    if (!lstat(arg, &st_file_arg))
+    st_target.dev_num = st_file_arg.st_dev;
+    st_target.real_path = resolve_path(arg, st_target.base_name);
+    if (st_target.real_path == NULL)
     {
-      st_target.dev_num = st_file_arg.st_dev;
-      st_target.real_path = resolve_path(arg, st_target.base_name);
-      if (st_target.real_path == NULL)
-      {
-        n_err++;
-        continue;
-      }
-    }
-    else
-    {
-      diag(DIAG_WARN, "lstat: (argv[file_arg]) %s\n", strerror(errno));
+      n_err++;
       continue;
     }
 
@@ -412,7 +404,7 @@ damage of 5000 hp. You feel satisfied.\n"));
         /* If a duplicate file exists
          */
         if ((st_target.is_duplicate =
-             (check_pathname_state(st_target.waste_dest_name)) == EEXIST))
+             (path_status(st_target.waste_dest_name)) == EEXIST))
         {
           // append a time string
           bufchk_len(strlen(st_target.waste_dest_name) +
@@ -518,11 +510,11 @@ damage of 5000 hp. You feel satisfied.\n"));
         fb_files = join_paths(fb_trash, "files");
         fb_info = join_paths(fb_trash, "info");
         fb_ok = true;
-        if (check_pathname_state(fb_files) == ENOENT
+        if (path_status(fb_files) == ENOENT
             && rmw_mkdir(fb_files) != 0)
           fb_ok = false;
         if (fb_ok
-            && check_pathname_state(fb_info) == ENOENT
+            && path_status(fb_info) == ENOENT
             && rmw_mkdir(fb_info) != 0)
           fb_ok = false;
       }
@@ -636,11 +628,11 @@ discover_existing_topdir_trashes(st_config *st_config_data,
 
   for (st_mount_trash *n = mts; n != NULL; n = n->next)
   {
-    if (check_pathname_state(n->trash_dir) != EEXIST)
+    if (path_status(n->trash_dir) != EEXIST)
       continue;
-    if (check_pathname_state(n->files_dir) != EEXIST)
+    if (path_status(n->files_dir) != EEXIST)
       continue;
-    if (check_pathname_state(n->info_dir) != EEXIST)
+    if (path_status(n->info_dir) != EEXIST)
       continue;
 
     bool already = false;
@@ -792,7 +784,7 @@ get_locations(const char *alt_config_file)
 
   verbose_printf(1, "config_dir: %s\n", config_dir);
 
-  int p_state = check_pathname_state(config_dir);
+  int p_state = path_status(config_dir);
   if (p_state == ENOENT)
   {
     if (!rmw_mkdir(config_dir))
@@ -824,7 +816,7 @@ get_locations(const char *alt_config_file)
 
   verbose_printf(1, "config_file: %s\n", x.config_file);
 
-  if ((p_state = check_pathname_state(x.config_file)) == ENOENT)
+  if ((p_state = path_status(x.config_file)) == ENOENT)
   {
     FILE *fp = fopen(x.config_file, "w");
     if (fp)
@@ -912,7 +904,7 @@ main(const int argc, char *const argv[])
   }
 
   int p_state = 0;
-  if ((p_state = check_pathname_state(st_location->data_dir)) == -1)
+  if ((p_state = path_status(st_location->data_dir)) == -1)
     exit(p_state);
 
   bool init_data_dir = (p_state == ENOENT);

@@ -211,7 +211,7 @@ diagnose_leading_hyphen(const int argc, char *const argv[])
   {
     char const *arg = argv[i];
 
-    if (arg[0] == '-' && arg[1] && check_pathname_state(arg) == EEXIST)
+    if (arg[0] == '-' && arg[1] && path_status(arg) == EEXIST)
     {
       fprintf(stderr,
               _("Try '%s ./%s' to remove the file '%s'.\n"),

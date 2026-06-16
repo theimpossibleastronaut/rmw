@@ -32,16 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 bool
 is_symlink(const char *path)
 {
-  int fd = open(path, O_RDONLY | O_NOFOLLOW);
-  if (fd != -1)
-  {
-    close(fd);
-    return false;
-  }
-  else if (errno == ELOOP)
-    return true;
-
-  return false;
+  struct stat st;
+  return stat_path(path, &st) == EEXIST && S_ISLNK(st.st_mode);
 }
 
 
@@ -57,42 +49,47 @@ rmw_mkdir(const char *dir)
 {
   if (!dir)
     return -1;
-  if (check_pathname_state(dir) == EEXIST)
+  if (path_status(dir) == EEXIST)
     return -1;
   return g_mkdir_with_parents(dir, 0777);
 }
 
 
 /*!
- * Determine whether a file or directory exists, and is accessible.
+ * lstat() a pathname, optionally returning the stat buffer.
+ *
+ * @param[in]  pathname the path to check
+ * @param[out] st if non-NULL, filled with the lstat result on success
+ * @return EEXIST if the pathname exists (symlinks are not followed, so a
+ *   symlink — even a dangling one — counts as existing), ENOENT if it does
+ *   not exist, or -1 on any other error.
  */
 int
-check_pathname_state(const char *pathname)
+stat_path(const char *pathname, struct stat *st)
 {
   if (!pathname)
     return -1;
 
-  int fd = open(pathname, O_RDONLY | O_NOFOLLOW);
-  if (fd != -1)
-  {
-    if (close(fd) != 0)
-      fprintf(stderr, "close: %s\n%s", pathname, strerror(errno));
+  struct stat scratch;
+  if (lstat(pathname, st ? st : &scratch) == 0)
     return EEXIST;
-  }
 
-/* FreeBSD sets  errno  to	 EMLINK	instead	of ELOOP as specified by POSIX
-   when O_NOFOLLOW is set in flags and the final component of pathname  is
-   a  symbolic  link  to distinguish it from the case of too many symbolic
-   link traversals in one of its non-final components.
-   https://man.freebsd.org/cgi/man.cgi?query=open
-*/
-  if (errno == ELOOP || errno == EMLINK)
-    return EEXIST;
-  else if (errno == ENOENT)
+  if (errno == ENOENT)
     return ENOENT;
 
-  fprintf(stderr, "open %s: %s\n", pathname, strerror(errno));
+  fprintf(stderr, "lstat %s: %s\n", pathname, strerror(errno));
   return -1;
+}
+
+
+/*!
+ * Determine whether a file or directory exists. Thin wrapper around
+ * stat_path() for callers that need only the existence state.
+ */
+int
+path_status(const char *pathname)
+{
+  return stat_path(pathname, NULL);
 }
 
 const char *
@@ -350,12 +347,12 @@ test_rmw_mkdir(const char *h)
 {
   const char *subdirs = "foo/bar/21/42";
   char *dir = join_paths(h, subdirs);
-  if (check_pathname_state(dir) == EEXIST)
+  if (path_status(dir) == EEXIST)
     assert(bsdutils_rm(dir, verbose) == 0);
   assert(rmw_mkdir(dir) == 0);
   assert(dir);
   printf("%s\n", dir);
-  assert(check_pathname_state(dir) == EEXIST);
+  assert(path_status(dir) == EEXIST);
   assert(bsdutils_rm(dir, verbose) == 0);
   free(dir);
 
@@ -464,36 +461,36 @@ test_is_dir_f(const char *const homedir)
 
 
 static void
-test_check_pathname_state(const char *const homedir)
+test_path_status(const char *const homedir)
 {
   char *foobar = join_paths(homedir, "foobar");
   FILE *fp = fopen(foobar, "w");
   assert(fp != NULL);
   assert(fclose(fp) != EOF);
-  assert(check_pathname_state(foobar) == EEXIST);
+  assert(path_status(foobar) == EEXIST);
 
   char *snafu = join_paths(homedir, "snafu");
   assert(symlink(foobar, snafu) == 0);
-  assert(check_pathname_state(snafu) == EEXIST);
+  assert(path_status(snafu) == EEXIST);
   assert(remove(foobar) == 0);
   free(foobar);
   assert(remove(snafu) == 0);
   free(snafu);
 
   char *home_link = join_paths(homedir, "home_1234");
-  assert(check_pathname_state(homedir) == EEXIST);
-  if (check_pathname_state(home_link) == EEXIST)
+  assert(path_status(homedir) == EEXIST);
+  if (path_status(home_link) == EEXIST)
     assert(remove(home_link) == 0);
   assert(symlink(homedir, home_link) == 0);
-  assert(check_pathname_state(home_link) == EEXIST);
+  assert(path_status(home_link) == EEXIST);
   assert(remove(home_link) == 0);
   free(home_link);
 
   const char *dlink = "dangling_link";
-  if (check_pathname_state(dlink) == EEXIST)
+  if (path_status(dlink) == EEXIST)
     assert(remove(dlink) == 0);
   assert(symlink("dangler", dlink) == 0);
-  assert(check_pathname_state(dlink) == EEXIST);
+  assert(path_status(dlink) == EEXIST);
   assert(remove(dlink) == 0);
 
   return;
@@ -528,7 +525,7 @@ main(void)
   test_make_size_human_readable();
   test_join_paths();
   test_trim_char();
-  test_check_pathname_state(HOMEDIR);
+  test_path_status(HOMEDIR);
   test_is_dir_f(HOMEDIR);
 
   char *str = "reserved    = ; | / | ? | : | @ | & | = | + | $ \n\t\v  \f\r";

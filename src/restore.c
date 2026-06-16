@@ -89,7 +89,7 @@ int
 restore(const char *src, st_time *st_time_var,
         const rmw_options *cli_user_options, st_waste *waste_head)
 {
-  int p_state = check_pathname_state(src);
+  int p_state = path_status(src);
   if (p_state == EEXIST)
   {
     bufchk_len(strlen(src) + 1, PATH_MAX, __func__, __LINE__);
@@ -153,7 +153,7 @@ restore(const char *src, st_time *st_time_var,
 
     /* Check for duplicate filename
      */
-    if (check_pathname_state(dest) == EEXIST)
+    if (path_status(dest) == EEXIST)
     {
       bufchk_len(strlen(dest) + LEN_MAX_TIME_STR_SUFFIX, PATH_MAX,
                  __func__, __LINE__);
@@ -173,7 +173,7 @@ Duplicate filename at destination - appending time string...\n"));
 
     if (cli_user_options->want_dry_run == false)
     {
-      int p_state_parent = check_pathname_state(parent_dir);
+      int p_state_parent = path_status(parent_dir);
       if (p_state_parent == ENOENT)
       {
         if (!rmw_mkdir(parent_dir))
