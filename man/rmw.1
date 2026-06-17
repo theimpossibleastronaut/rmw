@@ -165,8 +165,10 @@ expire_age = 45
 rmw will permanently delete files that have been in the waste (or
 trash) for more than 45 days.
 .SH ENVIRONMENT
-These variables are intended only to be used for testing. See the
-code-testing page on the rmw website for more details.
+These variables are set by rmw's meson test suite to run the code in a
+controlled environment. They are not meant for normal use, and setting them
+yourself is strongly discouraged. See the code-testing page on the rmw
+website for more details.
 .TP
 .B RMW_DISCOVERY
 Set to "off" to stop rmw from scanning real mount points for
