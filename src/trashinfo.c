@@ -89,8 +89,6 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
     }
 
     char *escaped_path = escape_url(rel);
-    if (escaped_path == NULL)
-      return close_file(&fp, final_info_dest, __func__);
 
     fprintf(fp, "%s\n%s%s\n%s%s\n", trashinfo_template.header,
             trashinfo_template.path_key, escaped_path,
@@ -99,7 +97,15 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
 
     free(escaped_path);
 
-    return close_file(&fp, final_info_dest, __func__);
+    int close_result = close_file(&fp, final_info_dest, __func__);
+    if (close_result != 0)
+    {
+      /* fclose reported a write error, so the .trashinfo on disk is
+         incomplete; remove it rather than leave a corrupt entry behind */
+      if (unlink(final_info_dest) != 0)
+        diag(DIAG_ERR, "unlink: %s\n", strerror(errno));
+    }
+    return close_result;
   }
   else
   {

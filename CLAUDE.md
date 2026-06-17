@@ -183,5 +183,4 @@ meson test -C _build-debug --setup epochalypse
 ## Known deferred items
 
 - `--empty` is currently blocked entirely when `expire_age = 0`; intended behavior is `--empty -f` overrides (task tracked)
-- A failed `fclose` in `create_trashinfo` leaves a partial `.trashinfo` on disk (task tracked)
 - Scattered commented-out debug lines (`main.c`, `config_rmw.c`, `time_rmw.c`) — optional sweep, low priority
