@@ -1,18 +1,28 @@
 #!/bin/sh
-# If a waste folder is in $topdir of a partition or device, the
-# Path should be relative
+# A waste folder at the $topdir of a mount (media_root) must store a
+# *relative* Path in the .trashinfo, per the FreeDesktop trash spec:
+# https://specifications.freedesktop.org/trash-spec/1.0/#id-1.6.10.1
+# (absolute pathnames are only for the home trash, not for $topdir trashes).
 #
-#https://specifications.freedesktop.org/trash-spec/1.0/#id-1.6.10.1 The key
-#"Path" contains the original location of the file/directory, as either an
-#absolute pathname (starting with the slash character "/") or a relative
-#pathname (starting with any other character). A relative pathname is to be
-#from the directory in which the trash directory resides (for example, from
-#$XDG_DATA_HOME for the "home trash" directory); it MUST not include a ".."
-#directory, and for files not "under" that directory, absolute pathnames must
-#be used. The system SHOULD support absolute pathnames only in the "home trash"
-#directory, not in the directories under $topdir.
+# The mount path here deliberately contains a space. create_trashinfo()
+# strips media_root from the UNESCAPED real path before percent-escaping; an
+# earlier bug stripped it from the escaped path by raw byte length, so a space
+# (escaped to %20) desynced the offset and aborted. Testing a spaced mount
+# therefore covers both the relative-Path rule and that escape regression.
+#
+# Self-contained: runs inside an unprivileged mount namespace (no sudo) with a
+# dedicated tmpfs, so it never assumes the host's mount layout and never writes
+# to the real /tmp. The mount vanishes when the namespace exits.
 
 set -ve
+
+if [ -z "$RMW_MEDIA_ROOT_NS" ]; then
+  if ! unshare --mount --map-root-user true 2>/dev/null; then
+    echo "unprivileged mount namespace unavailable; skipping."
+    exit 77
+  fi
+  RMW_MEDIA_ROOT_NS=1 exec unshare --mount --map-root-user "$0" "$@"
+fi
 
 if [ -e COMMON ]; then
   . ./COMMON
@@ -20,68 +30,34 @@ else
   . "${MESON_SOURCE_ROOT}/test/COMMON"
 fi
 
-# This test requires /tmp to be a top-level mount point on its own device so
-# that rmw will write a relative Path in the trashinfo. Check /proc/mounts
-# (Linux); on macOS/BSD where it doesn't exist the grep fails and we skip.
-if ! grep -q '^[^ ]* /tmp ' /proc/mounts 2>/dev/null; then
-  echo "/tmp is not a top-level mount point; skipping"
-  exit 0
-fi
+MNT="/tmp/rmw media root"        # mount path with a space
+WASTE="$MNT/.Trash-$(id -u)"     # top-level waste -> media_root gets set
+rm -rf "$MNT"
+mkdir -p "$MNT"
+mount -t tmpfs none "$MNT"
 
-# /tmp is on a different device — use it as the simulated media root.
-TRASH_DIR="/tmp/.Trash-$(id -u)"
-TEST_DIR="/tmp/rmw-media-root-test"
-test_file="media_root_test"
-test_file_path="$TEST_DIR/$test_file"
-
-# shellcheck disable=SC2329
-cleanup() {
-  rm -rf "$TRASH_DIR" "$TEST_DIR"
-}
-trap cleanup EXIT
-
-# Clean up any leftovers from a previous run
-rm -rf "$TRASH_DIR" "$TEST_DIR"
-
-# Create test config pointing the waste folder to /tmp
+CONFIG="$RMW_FAKE_HOME/media-root.rc"
 mkdir -p "$RMW_FAKE_HOME"
-TEST_CONFIG="$RMW_FAKE_HOME/media-root.testrc"
-printf 'WASTE = /tmp/.Trash-%s, removable\nexpire_age = 90\n' "$(id -u)" > "$TEST_CONFIG"
+printf 'WASTE = %s\nexpire_age = 30\n' "$WASTE" > "$CONFIG"
 
-# Create waste dir manually (required because it is marked removable)
-mkdir -p "$TRASH_DIR/files" "$TRASH_DIR/info"
-mkdir -p "$TEST_DIR"
+echo data > "$MNT/victim"
 
-touch "$test_file_path"
-"$BIN_DIR"/rmw -c "$TEST_CONFIG" "$test_file_path"
+# Must not crash; the file must land in the spaced-path waste.
+"$BIN_DIR"/rmw -c "$CONFIG" "$MNT/victim"
+test ! -e "$MNT/victim"
+test -f "$WASTE/files/victim"
+test -f "$WASTE/info/victim.trashinfo"
 
-test -f "$TRASH_DIR/info/$test_file.trashinfo"
-test -f "$TRASH_DIR/files/$test_file"
-test ! -f "$test_file_path"
+# Path= must be the correct *relative* path (no leading '/', no %20 mangling).
+path_line=$(grep '^Path=' "$WASTE/info/victim.trashinfo")
+echo "$path_line"
+test "$path_line" = "Path=victim"
 
-# The Path must be relative (no leading '/') since the waste folder is at
-# the topdir of /tmp's partition.
-output=$(grep '^Path=' "$TRASH_DIR/info/$test_file.trashinfo")
-echo "trashinfo: $output"
-case "$output" in
-  Path=/*)
-    echo "FAIL: Path is absolute, expected relative"
-    exit 1
-    ;;
-  Path=*)
-    echo "PASS: Path is relative"
-    ;;
-  *)
-    echo "FAIL: Path line not found"
-    exit 1
-    ;;
-esac
+# Restore round-trip: the relative Path must resolve back to the original
+# location, and the .trashinfo must be removed.
+"$BIN_DIR"/rmw -u -c "$CONFIG"
+test -f "$MNT/victim"
+test ! -f "$WASTE/info/victim.trashinfo"
 
-# Restore and verify
-"$BIN_DIR"/rmw -uvv -c "$TEST_CONFIG"
-test -f "$test_file_path"
-test ! -f "$TRASH_DIR/info/$test_file.trashinfo"
-
-rm -f "$TEST_CONFIG"
-
+echo "PASS: media_root produced a correct relative Path and restored cleanly"
 exit 0

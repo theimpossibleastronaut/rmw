@@ -169,7 +169,7 @@ Shell integration tests run against the built `rmw` binary using `RMW_FAKE_HOME`
 
 - `test_basic.sh`, `test_purging.sh`, `test_restore.sh` — core flows, no special requirements
 - `test_waste_negation.sh` (iss-525) — the `no-add` WASTE attribute is skipped for removals but listed/restored/purged
-- `test_media_root.sh` — needs `/tmp` to be a top-level mount on its own device; skips otherwise
+- `test_media_root.sh` — a `$topdir` (media_root) waste folder writes a relative `Path` in the `.trashinfo`; uses a spaced mount path (also covers the percent-escape regression) and checks the restore round-trip. Self-contained: runs in an unprivileged mount namespace with a dedicated tmpfs (no sudo, no host `/tmp` assumptions); SKIPs if unprivileged userns is unavailable
 - `test_exdev_fallback.sh` (iss-525) — bind-mount EXDEV regression test; builds a 2 MiB tmpfs ramdisk with a bind mount inside it. Needs passwordless `sudo`; SKIPs otherwise
 - `test_discovery.sh` (iss-525) — discovery's excluded-fs rule, run inside an unprivileged mount namespace (`unshare --mount --map-root-user`, no sudo); SKIPs if unprivileged userns is unavailable
 - `test_discovery_loopback.sh` (iss-525) — discovery of an eligible fs on its own device (candidate listing + fresh-trash auto-create); generates an ext4 loop image at run time. Needs passwordless `sudo` + `mkfs.ext4`; SKIPs otherwise
