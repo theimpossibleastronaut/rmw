@@ -101,48 +101,24 @@ process_mrl(st_waste *waste_head,
     MRL_IS_EMPTY = 10,
   };
   char *contents = NULL;
-  // fprintf(stderr, "mrl_file: %s\n", mrl_file);
   bool backwards_compat_empty_header = false;
-  FILE *fp = fopen(mrl_file, "r");
 
-  if (fp != NULL)
+  GError *error = NULL;
+  if (!g_file_get_contents(mrl_file, &contents, NULL, &error))
   {
-    fseek(fp, 0, SEEK_END);     // move to the end of the file so we can use ftell()
-    const int f_size = ftell(fp);       // Get the size of the file
-    rewind(fp);
-
-    contents = calloc(1, f_size + 1);
-    if (!contents)
-      fatal_malloc();
-
-    int n_items = fread(contents, 1, f_size + 1, fp);
-    if (n_items != f_size)
-      diag(DIAG_WARN, "ftell() returned %d, but fread() returned %d", f_size,
-           n_items);
-    if (feof(fp) == 0)
+    if (g_error_matches(error, G_FILE_ERROR, G_FILE_ERROR_NOENT))
     {
-      diag(DIAG_ERR, "while reading %s\n", mrl_file);
-      clearerr(fp);
-    }
-    close_file(&fp, mrl_file, __func__);
-    contents[f_size] = '\0';
-    if (!strcmp(contents, "[Empty]\n"))
-      backwards_compat_empty_header = true;
-  }
-  else
-  {
-    if (errno == ENOENT)
-    {
-      // fprintf(stderr, "%d %s\n", errno, strerror(ENOENT));
+      g_error_free(error);
       puts(_("There are no items in the list - please check back later.\n"));
       return MRL_IS_EMPTY;
     }
-    else
-    {
-      diag(DIAG_ERR, "open mrl failed: %s\n", strerror(errno));
-      return -1;
-    }
+    diag(DIAG_ERR, "%s\n", error->message);
+    g_error_free(error);
+    return -1;
   }
+
+  if (strcmp(contents, "[Empty]\n") == 0)
+    backwards_compat_empty_header = true;
 
   int res = 0;
 
@@ -168,7 +144,7 @@ process_mrl(st_waste *waste_head,
     }
   }
 
-  free(contents);
+  g_free(contents);
   return res;
 }
 
