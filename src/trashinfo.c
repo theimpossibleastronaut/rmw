@@ -89,8 +89,6 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
     }
 
     char *escaped_path = escape_url(rel);
-    if (escaped_path == NULL)
-      return close_file(&fp, final_info_dest, __func__);
 
     fprintf(fp, "%s\n%s%s\n%s%s\n", trashinfo_template.header,
             trashinfo_template.path_key, escaped_path,
