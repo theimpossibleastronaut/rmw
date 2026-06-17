@@ -49,6 +49,9 @@ endforeach
 # unset mid-script, preventing accidental writes to the real home directory.
 test_env = [
   'MESON_SOURCE_ROOT=' + meson.project_source_root(),
+  # Tests don't isolate the host's real mounts, so keep $topdir discovery off
+  # by default; the namespace tests opt back in per-command with RMW_DISCOVERY=on.
+  'RMW_DISCOVERY=off',
   'RMW_FAKE_HOME=' + RMW_FAKE_HOME,
   'HOME=' + RMW_FAKE_HOME,
   'XDG_DATA_HOME=' + RMW_FAKE_HOME + '/.local/share',

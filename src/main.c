@@ -341,8 +341,6 @@ damage of 5000 hp. You feel satisfied.\n"));
              _("%s resides within a waste folder and has been ignored\n"),
              argv[file_arg]);
         is_protected = 1;
-        if (getenv("RMW_FAKE_HOME"))
-          n_err++;
         break;
       }
       waste_curr = waste_curr->next_node;
@@ -907,12 +905,16 @@ Please check your configuration file and permissions\
   st_config st_config_data;
   init_config_data(&st_config_data);
   parse_config_file(&cli_user_options, &st_config_data, st_location);
-  /* RMW_FAKE_HOME isolates $HOME but not real mount points, so discovery
-   * would pick up host-machine topdir trashes during tests. A test that
-   * specifically exercises discovery sets RMW_CHECK_DISCOVERY to re-enable
-   * it against mounts it controls. */
-  bool run_discovery = getenv(ENV_RMW_FAKE_HOME) == NULL
-    || getenv(ENV_RMW_CHECK_DISCOVERY) != NULL;
+  /* Discovery scans real mount points, so tests suppress it. RMW_DISCOVERY
+   * (on/off) is authoritative when set; otherwise fall back to the deprecated
+   * RMW_FAKE_HOME (implies off) / RMW_CHECK_DISCOVERY (forces on) pair. */
+  bool run_discovery;
+  const char *discovery_env = getenv(ENV_RMW_DISCOVERY);
+  if (discovery_env != NULL)
+    run_discovery = strcmp(discovery_env, "off") != 0;
+  else
+    run_discovery = getenv(ENV_RMW_FAKE_HOME) == NULL
+      || getenv(ENV_RMW_CHECK_DISCOVERY) != NULL;
   if (run_discovery)
     discover_existing_topdir_trashes(&st_config_data, st_location);
 

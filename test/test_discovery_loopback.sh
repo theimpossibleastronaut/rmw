@@ -70,7 +70,7 @@ printf 'WASTE = %s/.Waste\nexpire_age = 30\n' "$RMW_FAKE_HOME" > "$TEST_CONFIG"
 RMW="$BIN_DIR/rmw -c $TEST_CONFIG"
 
 # --- with no trash yet, the eligible mount is offered as a candidate ---
-out=$(RMW_CHECK_DISCOVERY=1 $RMW -l -v 2>&1)
+out=$(RMW_DISCOVERY=on $RMW -l -v 2>&1)
 echo "$out"
 cmp_substr "$out" "$TRASH"
 test ! -e "$TRASH"
@@ -78,13 +78,13 @@ test ! -e "$TRASH"
 # --- a file on the loopback fs has no matching configured WASTE (different
 # device than home), so the fallback creates a trash on its own mount ---
 echo data > "$MNT/victim"
-RMW_CHECK_DISCOVERY=1 $RMW -v "$MNT/victim"
+RMW_DISCOVERY=on $RMW -v "$MNT/victim"
 test ! -e "$MNT/victim"
 test -f "$TRASH/files/victim"
 test -f "$TRASH/info/victim.trashinfo"
 
 # --- now that the trash exists, plain -l discovers and lists it ---
-out=$(RMW_CHECK_DISCOVERY=1 $RMW -l 2>&1)
+out=$(RMW_DISCOVERY=on $RMW -l 2>&1)
 cmp_substr "$out" "$TRASH"
 
 echo "PASS: eligible separate-device mount offered as candidate and auto-created"
