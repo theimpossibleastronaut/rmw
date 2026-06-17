@@ -178,10 +178,7 @@ Duplicate filename at destination - appending time string...\n"));
       {
         if (!rmw_mkdir(parent_dir))
         {
-          if (verbose)
-          {
-            msg_success_mkdir(parent_dir);
-          }
+          msg_success_mkdir(parent_dir);
         }
         else
         {

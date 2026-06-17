@@ -210,7 +210,7 @@ msg_err_mkdir(const char *dir, const char *func)
 void
 msg_success_mkdir(const char *dir)
 {
-  printf(_("Created directory %s\n"), dir);
+  verbose_printf(1, _("Created directory %s\n"), dir);
   return;
 }
 
