@@ -61,10 +61,7 @@ is_ficlone_fs(const char *path)
      probe the path directly, so a mount point resolves to the mounted
      filesystem rather than its parent. Fall back to the parent directory only
      when a direct probe fails (e.g. an unreachable path). */
-  struct stat lst;
-  bool is_link = lstat(path, &lst) == 0 && S_ISLNK(lst.st_mode);
-
-  if (is_link || statfs(path, &buf) == -1)
+  if (is_symlink(path) || statfs(path, &buf) == -1)
   {
     gchar *dir = g_path_get_dirname(path);
     int r = statfs(dir, &buf);
