@@ -6,9 +6,9 @@ This file is the single source for BOTH the rmw(1) man page and the manual
 page on the rmw website. HTML comments like this one are stripped from both
 outputs, so they are safe to use as maintainer notes.
 
-  * Man page: generated into man/rmw.1 with go-md2man. After editing this
+  * Man page: generated into rmw.1 with go-md2man. After editing this
     file, run `ninja -C <builddir> regen-man` and commit MANUAL.md and the
-    regenerated man/rmw.1 together.
+    regenerated rmw.1 together.
   * Website: copied into the rmw-website repo (Jekyll front matter added).
 
 go-md2man formatting rules to keep in mind:
