@@ -2,10 +2,11 @@
 # Discovery of FreeDesktop $topdir trashes, exercised against mounts the test
 # fully controls inside an unprivileged mount namespace (no sudo).
 #
-# RMW_CHECK_DISCOVERY re-enables discovery under RMW_FAKE_HOME so the binary
-# scans the controlled mounts. The namespace inherits a copy of the host's
-# mount table, so assertions are additive: we check our specific planted
-# paths, not a closed list. Mounts vanish when the namespace exits.
+# The suite keeps discovery off by default (RMW_DISCOVERY=off); per command we
+# set RMW_DISCOVERY=on so the binary scans the controlled mounts. The namespace
+# inherits a copy of the host's mount table, so assertions are additive: we
+# check our specific planted paths, not a closed list. Mounts vanish when the
+# namespace exits.
 #
 # Covered: the excluded-filesystem rule (tmpfs is excluded) --
 #   * an existing trash on an excluded fs IS discovered (evidence of intent)
@@ -50,8 +51,8 @@ mkdir -p "$RMW_FAKE_HOME"
 printf 'WASTE = %s/.Waste\nexpire_age = 30\n' "$RMW_FAKE_HOME" > "$TEST_CONFIG"
 RMW="$BIN_DIR/rmw -c $TEST_CONFIG"
 
-# Discovery is on via RMW_CHECK_DISCOVERY even though RMW_FAKE_HOME is set.
-out=$(RMW_CHECK_DISCOVERY=1 $RMW -l 2>&1)
+# Discovery is opted in for this command with RMW_DISCOVERY=on.
+out=$(RMW_DISCOVERY=on $RMW -l 2>&1)
 echo "$out"
 
 # The tmpfs with an existing trash is discovered and listed ...
@@ -62,7 +63,7 @@ if cmp_substr "$out" "$BARE/$TRASH"; then
   exit 1
 fi
 # ... and it's not offered as a candidate either (excluded fs, -l -v).
-outv=$(RMW_CHECK_DISCOVERY=1 $RMW -l -v 2>&1)
+outv=$(RMW_DISCOVERY=on $RMW -l -v 2>&1)
 if cmp_substr "$outv" "$BARE/$TRASH"; then
   echo "FAIL: an excluded fs must not be a candidate trash location"
   exit 1
@@ -70,7 +71,7 @@ fi
 
 # A removal reaches the discovered trash on the excluded fs.
 echo data > "$HAVE/victim"
-RMW_CHECK_DISCOVERY=1 $RMW -v "$HAVE/victim"
+RMW_DISCOVERY=on $RMW -v "$HAVE/victim"
 test ! -e "$HAVE/victim"
 test -f "$HAVE/$TRASH/files/victim"
 test -f "$HAVE/$TRASH/info/victim.trashinfo"

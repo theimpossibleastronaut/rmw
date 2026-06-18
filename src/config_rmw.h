@@ -26,12 +26,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <canfigger.h>
 #include "main.h"
 
+/* Discovery scans real mount points. It is on by default; a test that does
+ * not isolate the host's mounts sets RMW_DISCOVERY=off to suppress it, while
+ * a test that controls its own mounts (e.g. in a private mount namespace)
+ * leaves it on. RMW_DISCOVERY is authoritative whenever it is set.
+ *
+ * Deprecated, honored only when RMW_DISCOVERY is unset: RMW_FAKE_HOME being
+ * set implies discovery off, and RMW_CHECK_DISCOVERY forces it on. Prefer
+ * RMW_DISCOVERY; the old pair will be removed in a future release. */
+#define ENV_RMW_DISCOVERY "RMW_DISCOVERY"
 #define ENV_RMW_FAKE_HOME "RMW_FAKE_HOME"
-
-/* Discovery scans real mount points, so it is suppressed under
- * RMW_FAKE_HOME. Setting RMW_CHECK_DISCOVERY re-enables it so a test can
- * exercise discovery against mounts it controls (e.g. in a private mount
- * namespace). */
 #define ENV_RMW_CHECK_DISCOVERY "RMW_CHECK_DISCOVERY"
 
 extern const char *expire_age_str;

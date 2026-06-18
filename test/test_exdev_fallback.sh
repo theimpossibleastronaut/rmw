@@ -111,19 +111,19 @@ echo "PASS: EXDEV skip reached the configured same-mount WASTE"
 # cross-mount WASTE config, and verify discovery picks the planted trash up:
 # it appears in -l output and a removal lands in it after the EXDEV skip.
 #
-# Discovery is suppressed under RMW_FAKE_HOME (it would see the host's real
-# mounts), so opt in with RMW_CHECK_DISCOVERY. Discovery will list host topdir
+# Discovery is off by default in the suite (it would see the host's real
+# mounts), so opt in with RMW_DISCOVERY=on. Discovery will list host topdir
 # trashes too — the assertions are additive, and a host trash can never
 # device-match a file on this private tmpfs, so removals can't escape it.
 mkdir -p "$BIND_TRASH/files" "$BIND_TRASH/info"
 printf 'WASTE = %s\nexpire_age = 90\n' "$WASTE_DIR" > "$TEST_CONFIG"
 
-out=$(RMW_CHECK_DISCOVERY=1 "$BIN_DIR"/rmw -c "$TEST_CONFIG" -l 2>&1)
+out=$(RMW_DISCOVERY=on "$BIN_DIR"/rmw -c "$TEST_CONFIG" -l 2>&1)
 echo "$out"
 cmp_substr "$out" "$BIND_TRASH"
 
 echo "test data" > "$BIND/foo3"
-RMW_CHECK_DISCOVERY=1 "$BIN_DIR"/rmw -c "$TEST_CONFIG" -v "$BIND/foo3"
+RMW_DISCOVERY=on "$BIN_DIR"/rmw -c "$TEST_CONFIG" -v "$BIND/foo3"
 
 test ! -e "$BIND/foo3"
 test ! -e "$WASTE_DIR/files/foo3"

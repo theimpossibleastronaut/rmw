@@ -165,12 +165,29 @@ expire_age = 45
 rmw will permanently delete files that have been in the waste (or
 trash) for more than 45 days.
 .SH ENVIRONMENT
-These variables are intended only to be used for testing. See the
-code-testing page on the rmw website for more details.
+These variables are set by rmw's meson test suite to run the code in a
+controlled environment. They are not meant for normal use, and setting them
+yourself is strongly discouraged. See the code-testing page on the rmw
+website for more details.
 .TP
-.B RMW_FAKE_HOME
+.B RMW_DISCOVERY
+Set to "off" to stop rmw from scanning real mount points for
+.B $topdir
+trash folders. Any other value (or leaving it unset) keeps discovery on.
 .TP
 .B RMW_FAKE_YEAR
+.TP
+.B RMW_FAKE_HOME
+Deprecated; it will be removed in a future release. To choose a test home,
+set
+.B HOME
+(with
+.B XDG_DATA_HOME
+and
+.BR XDG_CONFIG_HOME )
+yourself; to control mount discovery, use
+.B RMW_DISCOVERY
+instead.
 .SH FILES
 On some systems, $HOME/.config and $HOME/.local/share may be replaced
 with $XDG_CONFIG_HOME and $XDG_DATA_HOME

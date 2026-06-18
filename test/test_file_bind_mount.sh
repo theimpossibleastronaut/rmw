@@ -4,8 +4,8 @@
 # files like /etc/resolv.conf; before the fix, discovery probed "<file>/.Trash"
 # and printed ":error: lstat ...: Not a directory" for each one.
 #
-# Built inside an unprivileged mount namespace (no sudo). RMW_CHECK_DISCOVERY
-# re-enables discovery under RMW_FAKE_HOME so it enumerates our file mount.
+# Built inside an unprivileged mount namespace (no sudo). RMW_DISCOVERY=on
+# opts discovery in for the command so it enumerates our file mount.
 
 set -ve
 
@@ -47,7 +47,7 @@ printf 'expire_age = 30\n' > "$CONFIG"
 cd "$RMW_FAKE_HOME"
 
 # -l forces discovery to enumerate every mount, including the file mount.
-out=$(RMW_CHECK_DISCOVERY=1 "$BIN_DIR"/rmw -c "$CONFIG" -l 2>&1)
+out=$(RMW_DISCOVERY=on "$BIN_DIR"/rmw -c "$CONFIG" -l 2>&1)
 echo "$out"
 
 # The file mount must be skipped silently: no error, and its path must not
@@ -63,7 +63,7 @@ fi
 
 # And normal operation still works with the file mount present.
 echo data > victim
-RMW_CHECK_DISCOVERY=1 "$BIN_DIR"/rmw -c "$CONFIG" victim
+RMW_DISCOVERY=on "$BIN_DIR"/rmw -c "$CONFIG" victim
 test ! -e victim
 test -f "$RMW_FAKE_HOME/.local/share/Trash/files/victim"
 
