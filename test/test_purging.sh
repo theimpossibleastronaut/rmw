@@ -58,6 +58,14 @@ expected=$(echo "purging is disabled ('expire_age' is set to '0')" | cut -b1-20)
 output=$(echo "$output" | cut -b1-20)
 test "${output}" = "${expected}"
 
+echo "$SEPARATOR"
+echo '  == with purging disabled, a normal run must not touch the purge-time file'
+PURGE_TIME_FILE="$XDG_DATA_HOME/rmw/purge-time"
+rm -f "$PURGE_TIME_FILE"
+echo testdata > "${RMW_FAKE_HOME}/pt-probe"
+$RMW_PURGE_DISABLED_CMD "${RMW_FAKE_HOME}/pt-probe"
+test ! -e "$PURGE_TIME_FILE"
+
 # Should not work if '-f' isn't used"
 cmp_substr "$(echo y | $RMW_ALT_TEST_CMD_STRING --purge --empty)" \
   "purge has been skipped"

@@ -932,8 +932,12 @@ Please check your configuration file and permissions\
   init_time_vars(&st_time_var);
 
   int orphan_ctr = 0;
+  /* The automatic time-based purge can't do anything when purging is
+     disabled (expire_age = 0), so don't even read/update the purge-time file
+     then. An explicit -g/--purge/--empty (want_purge) still runs. */
   if (cli_user_options.want_purge
-      || is_time_to_purge(&st_time_var, st_location->purge_time_file))
+      || (st_config_data.expire_age
+          && is_time_to_purge(&st_time_var, st_location->purge_time_file)))
   {
     if (!st_config_data.force_required || cli_user_options.force)
       purge(&st_config_data, &cli_user_options, &st_time_var, &orphan_ctr);
