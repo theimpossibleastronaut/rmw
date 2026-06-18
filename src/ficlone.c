@@ -55,15 +55,23 @@ is_ficlone_fs(const char *path)
 #ifdef HAVE_FICLONE
   struct statfs buf;
 
-  gchar *dir = g_path_get_dirname(path);
-  int r = statfs(dir, &buf);
-  if (r == -1)
+  if (statfs(path, &buf) == -1)
   {
-    diag(DIAG_WARN, "statfs '%s': %s\n", dir, strerror(errno));
+    /* statfs() resolves a mount point to the mounted filesystem, but its
+       parent directory lives on the *parent* mount; taking the dirname of a
+       mount point therefore reports the wrong filesystem. Probe the path
+       directly, and only fall back to the parent directory when the path
+       itself can't be stat'd (e.g. a dangling symlink source). */
+    gchar *dir = g_path_get_dirname(path);
+    int r = statfs(dir, &buf);
+    if (r == -1)
+    {
+      diag(DIAG_WARN, "statfs '%s': %s\n", dir, strerror(errno));
+      g_free(dir);
+      return false;
+    }
     g_free(dir);
-    return false;
   }
-  g_free(dir);
 
   return buf.f_type == BTRFS_SUPER_MAGIC ||
     buf.f_type == BCACHEFS_SUPER_MAGIC;
@@ -75,6 +83,68 @@ is_ficlone_fs(const char *path)
 
 
 #ifdef HAVE_FICLONE
+/* Copy ownership, permissions (including the setuid/setgid/sticky bits),
+   timestamps, and xattrs from an open source fd to an open dest fd. Failures
+   are non-fatal (warn only) -- the data is already in place. fchown runs before
+   fchmod so the high mode bits aren't cleared by the ownership change. For a
+   directory, call this only after its children are in place, since adding
+   entries updates the directory's mtime. */
+static void
+clone_metadata(int src_fd, int dest_fd, const struct stat *src_stat,
+               const char *dest, bool is_dir)
+{
+  if (fchown(dest_fd, src_stat->st_uid, src_stat->st_gid) == -1)
+    diag(DIAG_ERR, "fchown: %s\n", strerror(errno));
+  /* A directory copy in the waste must stay owner-traversable/writable, or
+     rmw could neither purge nor restore it (removing a directory's entries
+     needs write permission on that directory). Files are preserved exactly --
+     a read-only file is still unlinkable via its writable parent. */
+  mode_t mode = src_stat->st_mode & 07777;
+  if (is_dir)
+    mode |= S_IRWXU;
+  if (fchmod(dest_fd, mode) == -1)
+    diag(DIAG_ERR, "fchmod: %s\n", strerror(errno));
+  struct timespec times[2] = { src_stat->st_atim, src_stat->st_mtim };
+  if (futimens(dest_fd, times) == -1)
+    diag(DIAG_ERR, "futimens: %s\n", strerror(errno));
+
+  ssize_t names_len = flistxattr(src_fd, NULL, 0);
+  if (names_len > 0)
+  {
+    char *names = malloc(names_len);
+    if (names == NULL)
+      fatal_malloc();
+    if (flistxattr(src_fd, names, names_len) == names_len)
+    {
+      for (char *name = names; name < names + names_len; name += strlen(name) + 1)
+      {
+        ssize_t val_len = fgetxattr(src_fd, name, NULL, 0);
+        if (val_len < 0)
+          continue;
+        if (val_len == 0)
+        {
+          if (fsetxattr(dest_fd, name, "", 0, 0) == -1)
+            diag(DIAG_WARN, "fsetxattr '%s' on '%s': %s\n",
+                 name, dest, strerror(errno));
+          continue;
+        }
+        char *val = malloc(val_len);
+        if (val == NULL)
+          fatal_malloc();
+        if (fgetxattr(src_fd, name, val, val_len) == val_len)
+        {
+          if (fsetxattr(dest_fd, name, val, val_len, 0) == -1)
+            diag(DIAG_WARN, "fsetxattr '%s' on '%s': %s\n",
+                 name, dest, strerror(errno));
+        }
+        free(val);
+      }
+    }
+    free(names);
+  }
+}
+
+
 /* Clone a single regular file from source to dest, preserving timestamps,
    ownership, and xattrs. Does NOT remove the source. On a clone failure the
    partial dest is removed. Returns 0 on success, -1 on failure (errno set). */
@@ -117,48 +187,7 @@ clone_file(const char *source, const char *dest)
   err = errno;
 
   if (res != -1)
-  {
-    struct timespec times[2] = { src_stat.st_atim, src_stat.st_mtim };
-    if (futimens(dest_fd, times) == -1)
-      diag(DIAG_ERR, "futimens: %s\n", strerror(errno));
-    if (fchown(dest_fd, src_stat.st_uid, src_stat.st_gid) == -1)
-      diag(DIAG_ERR, "fchown: %s\n", strerror(errno));
-
-    ssize_t names_len = flistxattr(src_fd, NULL, 0);
-    if (names_len > 0)
-    {
-      char *names = malloc(names_len);
-      if (names == NULL)
-        fatal_malloc();
-      if (flistxattr(src_fd, names, names_len) == names_len)
-      {
-        for (char *name = names; name < names + names_len; name += strlen(name) + 1)
-        {
-          ssize_t val_len = fgetxattr(src_fd, name, NULL, 0);
-          if (val_len < 0)
-            continue;
-          if (val_len == 0)
-          {
-            if (fsetxattr(dest_fd, name, "", 0, 0) == -1)
-              diag(DIAG_WARN, "fsetxattr '%s' on '%s': %s\n",
-                   name, dest, strerror(errno));
-            continue;
-          }
-          char *val = malloc(val_len);
-          if (val == NULL)
-            fatal_malloc();
-          if (fgetxattr(src_fd, name, val, val_len) == val_len)
-          {
-            if (fsetxattr(dest_fd, name, val, val_len, 0) == -1)
-              diag(DIAG_WARN, "fsetxattr '%s' on '%s': %s\n",
-                   name, dest, strerror(errno));
-          }
-          free(val);
-        }
-      }
-      free(names);
-    }
-  }
+    clone_metadata(src_fd, dest_fd, &src_stat, dest, false);
 
   close(src_fd);
   close(dest_fd);
@@ -279,6 +308,9 @@ clone_tree(const char *src, const char *dst)
     return -1;
   }
 
+  struct stat src_st;
+  bool have_src_st = fstat(dirfd(dir), &src_st) == 0;
+
   int result = 0;
   struct dirent *entry;
   while ((entry = readdir(dir)) != NULL)
@@ -315,6 +347,12 @@ clone_tree(const char *src, const char *dst)
           diag(DIAG_ERR, "readlinkat '%s': %s\n", src_child, strerror(errno));
           result = -1;
         }
+        else if (len == (ssize_t) sizeof(link_target) - 1)
+        {
+          diag(DIAG_ERR, "symlink target too long: '%s'\n", src_child);
+          errno = ENAMETOOLONG;
+          result = -1;
+        }
         else
         {
           link_target[len] = '\0';
@@ -340,6 +378,19 @@ clone_tree(const char *src, const char *dst)
   }
 
   int saved_err = errno;
+
+  if (result == 0 && have_src_st)
+  {
+    /* Apply the source directory's own metadata now that its contents are in
+       place; populating it above reset the mode (umask) and bumped its mtime. */
+    int dst_fd = open(dst, O_RDONLY | O_DIRECTORY);
+    if (dst_fd != -1)
+    {
+      clone_metadata(dirfd(dir), dst_fd, &src_st, dst, true);
+      close(dst_fd);
+    }
+  }
+
   closedir(dir);
   if (result != 0)
   {
@@ -422,6 +473,13 @@ ficlone_move(const char *src, const char *dst)
     {
       g_free(src_name);
       close(src_dir_fd);
+      return -1;
+    }
+    if (len == (ssize_t) sizeof(target) - 1)
+    {
+      g_free(src_name);
+      close(src_dir_fd);
+      errno = ENAMETOOLONG;
       return -1;
     }
     target[len] = '\0';
