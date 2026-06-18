@@ -55,13 +55,17 @@ is_ficlone_fs(const char *path)
 #ifdef HAVE_FICLONE
   struct statfs buf;
 
-  if (statfs(path, &buf) == -1)
+  /* statfs() follows symlinks and resolves a mount point to the mounted
+     filesystem. For a symlink we want the filesystem the link itself lives
+     on, not its target's, so probe the parent directory. For everything else
+     probe the path directly, so a mount point resolves to the mounted
+     filesystem rather than its parent. Fall back to the parent directory only
+     when a direct probe fails (e.g. an unreachable path). */
+  struct stat lst;
+  bool is_link = lstat(path, &lst) == 0 && S_ISLNK(lst.st_mode);
+
+  if (is_link || statfs(path, &buf) == -1)
   {
-    /* statfs() resolves a mount point to the mounted filesystem, but its
-       parent directory lives on the *parent* mount; taking the dirname of a
-       mount point therefore reports the wrong filesystem. Probe the path
-       directly, and only fall back to the parent directory when the path
-       itself can't be stat'd (e.g. a dangling symlink source). */
     gchar *dir = g_path_get_dirname(path);
     int r = statfs(dir, &buf);
     if (r == -1)
@@ -338,16 +342,15 @@ clone_tree(const char *src, const char *dst)
         result = clone_tree(src_child, dst_child);
       else if (S_ISLNK(st.st_mode))
       {
-        char link_target[PATH_MAX];
+        char link_target[PATH_MAX + 1];
         ssize_t len =
-          readlinkat(dirfd(dir), entry->d_name, link_target,
-                     sizeof(link_target) - 1);
+          readlinkat(dirfd(dir), entry->d_name, link_target, PATH_MAX);
         if (len == -1)
         {
           diag(DIAG_ERR, "readlinkat '%s': %s\n", src_child, strerror(errno));
           result = -1;
         }
-        else if (len == (ssize_t) sizeof(link_target) - 1)
+        else if (len == PATH_MAX)
         {
           diag(DIAG_ERR, "symlink target too long: '%s'\n", src_child);
           errno = ENAMETOOLONG;
@@ -467,15 +470,15 @@ ficlone_move(const char *src, const char *dst)
 
     gchar *src_name = g_path_get_basename(src);
 
-    char target[PATH_MAX];
-    ssize_t len = readlinkat(src_dir_fd, src_name, target, sizeof(target) - 1);
+    char target[PATH_MAX + 1];
+    ssize_t len = readlinkat(src_dir_fd, src_name, target, PATH_MAX);
     if (len == -1)
     {
       g_free(src_name);
       close(src_dir_fd);
       return -1;
     }
-    if (len == (ssize_t) sizeof(target) - 1)
+    if (len == PATH_MAX)
     {
       g_free(src_name);
       close(src_dir_fd);
