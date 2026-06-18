@@ -656,7 +656,7 @@ discover_existing_topdir_trashes(st_config *st_config_data,
       tail->next_node = new_node;
     }
 
-    verbose_printf(1, "discovered topdir trash: %s\n", n->trash_dir);
+    verbose_printf(2, "discovered topdir trash: %s\n", n->trash_dir);
   }
 
   free_mount_trash_list(mts);
@@ -736,8 +736,8 @@ get_locations(const char *alt_config_file)
     return NULL;
 
   if (enable_test)
-    verbose_printf(1, "%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
-  verbose_printf(1, "home_dir: %s\n", x.home_dir);
+    verbose_printf(2, "%s:%s\n", ENV_RMW_FAKE_HOME, enable_test);
+  verbose_printf(2, "home_dir: %s\n", x.home_dir);
 
   static char s_data_dir[PATH_MAX];
   char *tmp = canfigger_data_dir(PACKAGE_STRING);
@@ -748,7 +748,7 @@ get_locations(const char *alt_config_file)
   free(tmp);
   x.data_dir = s_data_dir;
 
-  verbose_printf(1, "data_dir: %s\n", x.data_dir);
+  verbose_printf(2, "data_dir: %s\n", x.data_dir);
 
   char *default_config_file = canfigger_config_file("rmwrc");
   if (!default_config_file)
@@ -756,7 +756,7 @@ get_locations(const char *alt_config_file)
 
   gchar *config_dir = g_path_get_dirname(default_config_file);
 
-  verbose_printf(1, "config_dir: %s\n", config_dir);
+  verbose_printf(2, "config_dir: %s\n", config_dir);
 
   int p_state = path_status(config_dir);
   if (p_state == ENOENT)
@@ -788,7 +788,7 @@ get_locations(const char *alt_config_file)
 
   free(default_config_file);
 
-  verbose_printf(1, "config_file: %s\n", x.config_file);
+  verbose_printf(2, "config_file: %s\n", x.config_file);
 
   if ((p_state = path_status(x.config_file)) == ENOENT)
   {
@@ -837,8 +837,8 @@ uses. To keep rmw's files in a separate folder instead, uncomment\n\
   free(m_tmp_str);
   x.purge_time_file = s_purge_time_file;
 
-  verbose_printf(1, "mrl_file: %s\n", x.mrl_file);
-  verbose_printf(1, "purge_time_file: %s\n", x.purge_time_file);
+  verbose_printf(2, "mrl_file: %s\n", x.mrl_file);
+  verbose_printf(2, "purge_time_file: %s\n", x.purge_time_file);
 
   return &x;
 }
@@ -865,9 +865,9 @@ main(const int argc, char *const argv[])
   verbose_printf(2, "PATH_MAX = %d\n", PATH_MAX);
 
 #ifdef HAVE_FICLONE
-  verbose_printf(1, "ficlone support: true\n");
+  verbose_printf(2, "ficlone support: true\n");
 #else
-  verbose_printf(1, "ficlone support: false\n");
+  verbose_printf(2, "ficlone support: false\n");
 #endif
 
   const st_loc *st_location = get_locations(cli_user_options.alt_config_file);

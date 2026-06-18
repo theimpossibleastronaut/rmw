@@ -1,5 +1,8 @@
 
 rmw (in-progress):
+  * verbose: the startup path/diagnostic lines (home_dir, config_file,
+    discovered topdir trashes, ficlone support, etc.) now require -vv; plain
+    -v keeps only the per-file action messages
   * restore: 'rmw -s' now opens at the waste folder closest to the current
     directory (longest path match) instead of the first one listed (#532)
   * config: configuring waste folders is now optional. With nothing
