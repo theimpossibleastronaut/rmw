@@ -2,7 +2,7 @@
 Change version number
   ./meson.build
   README.md
-  man/rmw.1
+  MANUAL.md (man page title line; then regenerate rmw.1 -- see below)
   packaging/Slackbuild/rmw/rmw.info (also change version numbers in download link)
   packaging/Slackbuild/rmw/rmw.Slackbuild
   packaging/file_id.diz (filegate.net)
@@ -32,13 +32,16 @@ Ex:
   * rmw v0.7.07 released
 
 
-Change Month and Year in man/rmw.1
+Change Month, Year, and version in the title line of MANUAL.md, then
+regenerate the man page:
+  `ninja -C <builddir> regen-man`   (writes rmw.1; commit both)
 Check copyright date/year
   packaging/debian/copyright
   packaging/Slackbuild/rmw/rmw.Slackbuild
 
-Generate html version of the manual:
-  `groff -Thtml -mandoc < rmw.1 > rmw_man.html` (mv the output to the website repo)
+Update the website manual (single-sourced from MANUAL.md):
+  in the rmw-website repo, run `./sync-manual.sh` to regenerate rmw_man.md
+  from MANUAL.md, then commit it (Jekyll renders it to rmw_man.html)
 
 commit changes (NOTE: meson dist only packages *committed* changes), push,
 open PR
