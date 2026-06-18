@@ -12,13 +12,13 @@ rmw \- safe-remove utility for the command line
 Move FILE(s) to a WASTE directory listed in configuration file
 
 .PP
-\fBrmw\fP \fB-s\fP
+\fBrmw\fP \fB-s\fR
 
 .PP
-\fBrmw\fP \fB-u\fP
+\fBrmw\fP \fB-u\fR
 
 .PP
-\fBrmw\fP \fB-z\fP \fIFILE\fP\&...
+\fBrmw\fP \fB-z\fR \fIFILE\fP\&...
 
 .PP
 Restore FILE(s) from a WASTE directory
@@ -35,25 +35,25 @@ items from your waste (or trash) directories after x number of days.
 
 .SH OPTIONS
 .TP
-\fB-h\fP, \fB--help\fP
+\fB-h\fR, \fB--help\fR
 show help for command line options
 
 .TP
-\fB-c\fP, \fB--config\fP \fIFILE\fP
+\fB-c\fR, \fB--config\fR \fIFILE\fP
 use an alternate configuration
 
 .TP
-\fB-l\fP, \fB--list\fP
+\fB-l\fR, \fB--list\fR
 list waste directories, one path per line
 
-Add \fB-v\fP to also show each folder's attributes (such as "no-add")
+Add \fB-v\fR to also show each folder's attributes (such as "no-add")
 and a list of candidate trash locations that rmw would create on other
 file systems when needed.
 
 .TP
-\fB-g[N_DAYS]\fP, \fB--purge\fP[=\fIN_DAYS\fP]
+\fB-g[N_DAYS]\fR, \fB--purge\fR[=\fIN_DAYS\fP]
 purge expired files; optional argument 'N_DAYS' overrides 'expire_age'
-value from the configuration file (Examples: \fB-g90\fP, \fB--purge\fP=\fI90\fP)
+value from the configuration file (Examples: \fB-g90\fR, \fB--purge\fR=\fI90\fP)
 
 By default, purging is disabled ('expire_age' is set to '0' in the
 configuration file). To enable, set the 'expire_age' value in your
@@ -78,7 +78,7 @@ See the FAQ for the full example, including log rotation:
 \[la]https://theimpossibleastronaut.github.io/rmw\-website/faq.html#can\-rmw\-be\-run\-as\-a\-scheduled\-job\-to\-purge\-expired\-files\[ra]
 
 .TP
-\fB-o\fP, \fB--orphaned\fP
+\fB-o\fR, \fB--orphaned\fR
 check for orphaned files (maintenance)
 
 An orphan is an item in a waste directory that has no corresponding
@@ -86,49 +86,49 @@ An orphan is an item in a waste directory that has no corresponding
 for developers. Orphans may happen while testing code changes or if rmw
 is unintentionally released with a bug.
 
-A file that has no \fB\&.trashinfo\fP is repaired by \fB-o\fP alone (a new
+A file that has no \fB\&.trashinfo\fP is repaired by \fB-o\fR alone (a new
 \fB\&.trashinfo\fP is created for it). Deleting the opposite kind of orphan, a
 \fB\&.trashinfo\fP with no matching file, is only done during a purge and
-requires force to be given twice, as in \fBrmw -offg\fP (\fB-o -f -f -g\fP).
+requires force to be given twice, as in \fBrmw -offg\fP (\fB-o -f -f -g\fR).
 (see also:
 
 \[la]https://theimpossibleastronaut.github.io/rmw\-website/faq.html#dot_trashinfo\[ra])
 
 .TP
-\fB-f\fP, \fB--force\fP
+\fB-f\fR, \fB--force\fR
 allow purging of expired files
 
 By default, force is not required to enable the purge feature. If you
 would like to require it, add 'force_required' to your config file.
 
 .TP
-\fB--empty\fP
+\fB--empty\fR
 completely empty (purge) all waste directories
 
 .TP
-\fB-r\fP, \fB-R\fP, \fB--recursive\fP
+\fB-r\fR, \fB-R\fR, \fB--recursive\fR
 option used for compatibility with rm (recursive operation is enabled by
 default)
 
 .TP
-\fB--top-level-bypass\fP
+\fB--top-level-bypass\fR
 bypass protection of top-level files (added in v0.9.0)
 
 .TP
-\fB-v\fP, \fB--verbose\fP
+\fB-v\fR, \fB--verbose\fR
 increase output messages
 
 .TP
-\fB-w\fP, \fB--warranty\fP
+\fB-w\fR, \fB--warranty\fR
 display warranty
 
 .TP
-\fB-V\fP, \fB--version\fP
+\fB-V\fR, \fB--version\fR
 display version and license information
 
 .SH RESTORING
 .TP
-\fB-z\fP, \fB--restore\fP \fIFILE(s)\fP
+\fB-z\fR, \fB--restore\fR \fIFILE(s)\fP
 To restore items, specify the path to them in the \fIfiles\fP subdirectory of
 a waste folder (wildcards ok).
 
@@ -138,7 +138,7 @@ time/date string (formatted as "_%H%M%S-%y%m%d") appended to it
 (e.g. 'foo_164353-210508').
 
 .TP
-\fB-s\fP, \fB--select\fP
+\fB-s\fR, \fB--select\fR
 select files from list to restore
 
 Displays a list of items in your waste directories. You can use the
@@ -147,13 +147,13 @@ space bar to select the items you wish to restore, then press enter to
 restore all selected items.
 
 .TP
-\fB-u\fP, \fB--undo-last\fP
+\fB-u\fR, \fB--undo-last\fR
 undo last move
 
 Restores files that were last rmw'ed
 
 .TP
-\fB-m\fP, \fB--most-recent-list\fP
+\fB-m\fR, \fB--most-recent-list\fR
 list most recently rmw'ed files
 
 

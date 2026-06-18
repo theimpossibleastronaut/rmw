@@ -32,11 +32,11 @@ rmw - safe-remove utility for the command line
 Move FILE(s) to a WASTE directory listed in configuration file
 
 <!-- The blank lines between these three forms are intentional line breaks. -->
-**rmw** **-s**
+**rmw** `-s`
 
-**rmw** **-u**
+**rmw** `-u`
 
-**rmw** **-z** *FILE*...
+**rmw** `-z` *FILE*...
 
 Restore FILE(s) from a WASTE directory
 
@@ -51,22 +51,22 @@ items from your waste (or trash) directories after x number of days.
 
 # OPTIONS
 
-**-h**, **--help**
+`-h`, `--help`
 : show help for command line options
 
-**-c**, **--config** *FILE*
+`-c`, `--config` *FILE*
 : use an alternate configuration
 
-**-l**, **--list**
+`-l`, `--list`
 : list waste directories, one path per line
 
-    Add **-v** to also show each folder's attributes (such as "no-add")
+    Add `-v` to also show each folder's attributes (such as "no-add")
     and a list of candidate trash locations that rmw would create on other
     file systems when needed.
 
-**-g[N_DAYS]**, **--purge**[=*N_DAYS*]
+`-g[N_DAYS]`, `--purge`[=*N_DAYS*]
 : purge expired files; optional argument 'N_DAYS' overrides 'expire_age'
-    value from the configuration file (Examples: **-g90**, **--purge**=*90*)
+    value from the configuration file (Examples: `-g90`, `--purge`=*90*)
 
     By default, purging is disabled ('expire_age' is set to '0' in the
     configuration file). To enable, set the 'expire_age' value in your
@@ -87,7 +87,7 @@ items from your waste (or trash) directories after x number of days.
     See the FAQ for the full example, including log rotation:
     <https://theimpossibleastronaut.github.io/rmw-website/faq.html#can-rmw-be-run-as-a-scheduled-job-to-purge-expired-files>
 
-**-o**, **--orphaned**
+`-o`, `--orphaned`
 : check for orphaned files (maintenance)
 
     An orphan is an item in a waste directory that has no corresponding
@@ -95,41 +95,41 @@ items from your waste (or trash) directories after x number of days.
     for developers. Orphans may happen while testing code changes or if rmw
     is unintentionally released with a bug.
 
-    A file that has no **.trashinfo** is repaired by **-o** alone (a new
+    A file that has no **.trashinfo** is repaired by `-o` alone (a new
     **.trashinfo** is created for it). Deleting the opposite kind of orphan, a
     **.trashinfo** with no matching file, is only done during a purge and
-    requires force to be given twice, as in **rmw -offg** (**-o -f -f -g**).
+    requires force to be given twice, as in **rmw -offg** (`-o -f -f -g`).
     (see also:
     <https://theimpossibleastronaut.github.io/rmw-website/faq.html#dot_trashinfo>)
 
-**-f**, **--force**
+`-f`, `--force`
 : allow purging of expired files
 
     By default, force is not required to enable the purge feature. If you
     would like to require it, add 'force_required' to your config file.
 
-**--empty**
+`--empty`
 : completely empty (purge) all waste directories
 
-**-r**, **-R**, **--recursive**
+`-r`, `-R`, `--recursive`
 : option used for compatibility with rm (recursive operation is enabled by
     default)
 
-**--top-level-bypass**
+`--top-level-bypass`
 : bypass protection of top-level files (added in v0.9.0)
 
-**-v**, **--verbose**
+`-v`, `--verbose`
 : increase output messages
 
-**-w**, **--warranty**
+`-w`, `--warranty`
 : display warranty
 
-**-V**, **--version**
+`-V`, `--version`
 : display version and license information
 
 ## RESTORING
 
-**-z**, **--restore** *FILE(s)*
+`-z`, `--restore` *FILE(s)*
 : To restore items, specify the path to them in the *files* subdirectory of
     a waste folder (wildcards ok).
 
@@ -138,7 +138,7 @@ items from your waste (or trash) directories after x number of days.
     time/date string (formatted as "_%H%M%S-%y%m%d") appended to it
     (e.g. 'foo_164353-210508').
 
-**-s**, **--select**
+`-s`, `--select`
 : select files from list to restore
 
     Displays a list of items in your waste directories. You can use the
@@ -146,12 +146,12 @@ items from your waste (or trash) directories after x number of days.
     space bar to select the items you wish to restore, then press enter to
     restore all selected items.
 
-**-u**, **--undo-last**
+`-u`, `--undo-last`
 : undo last move
 
     Restores files that were last rmw'ed
 
-**-m**, **--most-recent-list**
+`-m`, `--most-recent-list`
 : list most recently rmw'ed files
 
 # CONFIGURATION
