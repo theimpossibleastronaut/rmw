@@ -225,7 +225,8 @@ uses the trash for that file system, as described by the FreeDesktop.org
 Trash specification: the home trash (~/.local/share/Trash) for files on the
 home file system, or a trash at the top of the file system (for example,
 "/mnt/disk/.Trash-1000") for other file systems. If one already exists, rmw
-uses it; if not, rmw creates it.
+uses it; if not, rmw creates it. (Moves between btrfs or bcachefs subvolumes
+are the exception; see BTRFS AND BCACHEFS below.)
 
 rmw does not create a trash directory on file systems that are not meant
 to hold one, such as temporary (tmpfs) or network file systems. On those,
