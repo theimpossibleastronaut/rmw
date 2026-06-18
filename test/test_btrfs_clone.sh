@@ -172,6 +172,22 @@ test -L dangling_link
 test ! -f "$BTRFS_WASTE_DIR/info/dangling_link.trashinfo"
 rm dangling_link
 
+# --- Test: symlink whose target lives on another filesystem ---
+# is_ficlone_fs must classify by the link inode's own fs (btrfs), not follow
+# the link to its target's fs; otherwise the link misses the btrfs waste.
+echo "== Test: cross-fs symlink on btrfs goes to btrfs waste (target fs ignored)"
+ln -s /dev/null crossfs_link
+$BTRFS_RMW_CMD crossfs_link
+test ! -L crossfs_link
+test -L "$BTRFS_WASTE_DIR/files/crossfs_link"
+test -f "$BTRFS_WASTE_DIR/info/crossfs_link.trashinfo"
+
+echo "== Test: restore the cross-fs symlink"
+$BTRFS_RMW_CMD -u
+test -L crossfs_link
+test ! -f "$BTRFS_WASTE_DIR/info/crossfs_link.trashinfo"
+rm crossfs_link
+
 # --- Test: xattr preservation across btrfs subvolumes ---
 if command -v setfattr >/dev/null 2>&1 && command -v getfattr >/dev/null 2>&1; then
   echo "== Test: xattr preserved after ficlone move"
