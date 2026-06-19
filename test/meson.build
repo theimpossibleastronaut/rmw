@@ -25,6 +25,7 @@ scripts = [
 if host_sys == 'linux'
   if has_statfs and has_linux_fs_header
     scripts += ['test_btrfs_clone.sh']
+    scripts += ['test_discovery_ficlone.sh']
   endif
   scripts += ['test_bcachefs.sh']
   scripts += ['test_exdev_fallback.sh']

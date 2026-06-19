@@ -98,7 +98,7 @@ meson configure _build-debug
 
 Key build options (`meson_options.txt`):
 - `-Dbuild_tests=false` — skip building tests
-- `-Dwant_ficlone=false` — disable btrfs/bcachefs/xfs reflink support (skips linux-headers requirement)
+- `-Dwant_ficlone=false` — disable btrfs/bcachefs reflink support (skips linux-headers requirement)
 - `-Dnls=false` — English-only, no gettext dependency
 - `-Dwithout-curses=true` — build without ncurses restore menu
 
@@ -141,7 +141,7 @@ Auto-format with: `indent -ci2 -bl -bli0 -nut -npcs`
 - **`trashinfo.c`** — creates and parses `.trashinfo` files (FreeDesktop spec)
 - **`restore.c`** — restores files; includes ncurses selection menu (`restore_select`) and undo-last-rmw
 - **`purging.c`** — deletes files older than `expire_age` days; orphan maintenance (`.trashinfo` with no matching file)
-- **`ficlone.c`** — Linux-only: reflink cloning across btrfs/bcachefs/xfs subvolumes via `FICLONE` ioctl. No plain byte-copy fallback: if reflink isn't possible, the move fails with EXDEV
+- **`ficlone.c`** — Linux-only: reflink cloning across btrfs/bcachefs subvolumes via `FICLONE` ioctl (`is_ficlone_fs` only recognizes those two; xfs has no differing-`st_dev` subvolumes). No plain byte-copy fallback: if reflink isn't possible, the move fails with EXDEV
 - **`topdir_trash.c`** (iss-525 branch) — FreeDesktop `$topdir` trash discovery: enumerates mounts via GLib (`build_mount_trash_list`, with pseudo/network/fuse/readonly filtering in `mount_is_eligible`), and resolves a file's mount for the per-file fallback (`find_topdir_trash`)
 - **`src/bsdutils/`** — vendored BSD `rm` implementation used by the purge path
 - **`strings_rmw.c`**, **`utils.c`**, **`messages.c`**, **`time_rmw.c`**, **`globals.c`** — utilities and shared state
