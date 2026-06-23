@@ -1,1 +1,0 @@
-pod2man -c 'User Commands' -r 'lst 0.9.5' man/lst.pod man/lst.1
