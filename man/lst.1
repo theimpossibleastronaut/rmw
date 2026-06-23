@@ -73,8 +73,9 @@ The \fBlst\fR command lists information about files or directories which
 have been moved to trash folders as defined by the freedesktop.org
 Trash Specification <https://specifications.freedesktop.org/trash/latest>.
 .PP
-The \f(CW\*(C`DIRECTORY\*(C'\fR argument defaults to the current directory. Entries are
-shown in alphabetical order.
+The entries listed are limited by default to the \f(CW\*(C`DIRECTORY\*(C'\fR argument,
+which itself defaults to the current directory. Entries are shown in
+alphabetical order.
 .SH OPTIONS
 .IX Header "OPTIONS"
 .IP "\-\-all, \-a" 4
@@ -98,13 +99,13 @@ This option conflicts with an explicit \f(CW\*(C`DIRECTORY\*(C'\fR argument.
 Group entries by \f(CW\*(C`TYPE\*(C'\fR which is one of:
 .RS 4
 .IP \(bu 4
-directory [default]
+day [default]
 .Sp
-Group entries by directory they were moved from.
+Group entries by the day they were moved.
 .IP \(bu 4
-day
+directory
 .Sp
-Group entries by their day of removal.
+Group entries by the directory they were moved from.
 .RE
 .RS 4
 .RE

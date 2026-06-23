@@ -1,0 +1,91 @@
+=head1 NAME
+
+lst - list entries in trash folders
+
+=head1 SYNOPSIS
+
+    lst [OPTIONS] [DIRECTORY]
+
+=head1 DESCRIPTION
+
+The B<lst> command lists information about files or directories which
+have been moved to trash folders as defined by the freedesktop.org
+L<Trash Specification|https://specifications.freedesktop.org/trash/latest>.
+
+The entries listed are limited by default to the C<DIRECTORY> argument,
+which itself defaults to the current directory. Entries are shown in
+alphabetical order.
+
+=head1 OPTIONS
+
+=over
+
+=item --all, -a
+
+Do not ignore entries starting with a dot. 
+
+=item --every-directory, -e
+
+List trash entries moved from every directory of the current
+filesystem. Equivalent to using C<--recursive> from the mount
+directory. This option conflicts with an explicit C<DIRECTORY> argument.
+
+The C<--all> option is still necessary to include entries starting with
+a dot.
+
+=item --every-trash, -E
+
+List entries from every directory of every filesystem. Equivalent to
+using C<--every> at every filesystem root containing a trash folder.
+This option conflicts with an explicit C<DIRECTORY> argument.
+
+=item --group-by, -G TYPE
+
+Group entries by C<TYPE> which is one of:
+
+=over
+
+=item * day [default]
+
+Group entries by the day they were moved.
+
+=item * directory
+
+Group entries by the directory they were moved from.
+
+=back
+
+=begin comment
+
+=item --interactive, -i
+
+Present the files for restoration using a Terminal User Interface
+(TUI). Implies C<--restore>.
+
+=end comment
+
+=item --trash-dirs, -T
+
+List trash folders instead of trash entries.
+
+=item --recursive, -R
+
+Recursively list entries which were moved from C<DIRECTORY> and
+its subdirectories.
+
+=back
+
+=head1 FILES
+
+Trash folder information may be read from F<$XDG_CONFIG_HOME/rmwrc> or
+F<$HOME/.config/rmwrc>
+
+=head1 SEE ALSO
+
+L<rmw>(1)
+
+=head1 COPYRIGHT
+
+License GPLv3+: GNU GPL version 3 or later L<https://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.  There is NO
+WARRANTY, to the extent permitted by law.
