@@ -39,8 +39,9 @@ Do not ignore entries starting with a dot.
 =item --every-directory, -e
 
 List trash entries moved from every directory of the current
-filesystem. Equivalent to using C<--recursive> from the mount
-directory. This option conflicts with an explicit C<DIRECTORY> argument.
+filesystem. Equivalent to using C<--recursive> (see below) from the
+mount directory. This option conflicts with an explicit C<DIRECTORY>
+argument.
 
 The C<--all> option is still necessary to include entries starting with
 a dot.
