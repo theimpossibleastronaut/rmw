@@ -12,9 +12,18 @@ The B<lst> command lists information about files or directories which
 have been moved to trash folders as defined by the freedesktop.org
 L<Trash Specification|https://specifications.freedesktop.org/trash/latest>.
 
+    $ lst
+    [today]
+    -rw-r--r--  1 409K May 23  2025 'My account info.zip'       [16:35]
+
+    [yesterday]
+    -rw-r--r--  1 411K Apr 16 15:21 'Peek 2026-04-16 15-21.gif' [09:28]
+    drwxrwxr-x  5 4.0K Dec 11  2025  perl5/                     [07:53]
+    -rw-r--r--  1 411K Apr 16 15:19 'Peek 2026-04-16 15-21.gif' [07:19]
+
 The entries listed are limited by default to the C<DIRECTORY> argument,
-which itself defaults to the current directory. Entries are shown in
-alphabetical order.
+which itself defaults to the current directory. Entries are sorted by
+name ascending, followed by deletion timestamp decending.
 
 =head1 OPTIONS
 
