@@ -4,7 +4,7 @@ lst - list entries in trash folders
 
 =head1 SYNOPSIS
 
-    lst [OPTIONS] [DIRECTORY]
+    lst [OPTION...] [DIRECTORY]
 
 =head1 DESCRIPTION
 
