@@ -84,9 +84,12 @@ Trash Specification <https://specifications.freedesktop.org/trash/latest>.
 \&    \-rw\-r\-\-r\-\-  1 411K Apr 16 15:19 \*(AqPeek 2026\-04\-16 15\-21.gif\*(Aq [07:19]
 .Ve
 .PP
-The entries listed are limited by default to the \f(CW\*(C`DIRECTORY\*(C'\fR argument,
-which itself defaults to the current directory. Entries are sorted by
-name ascending, followed by deletion timestamp decending.
+Output is limited by default to entries from the current directory, and also by
+default grouped by the day of deletion. Entries are sorted by name ascending,
+followed by deletion timestamp decending.
+.PP
+The \f(CW\*(C`DIRECTORY\*(C'\fR argument can be used to limit the output to another location,
+which can still exist, or not exist if it was previously moved to the trash.
 .SH OPTIONS
 .IX Header "OPTIONS"
 .IP "\-\-all, \-a" 4
