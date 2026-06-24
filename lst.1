@@ -88,8 +88,8 @@ followed by deletion time (descending).
 \&    drwxrwxr\-x  5 4.0K Dec 11  2025  perl5/                     [07:53]
 .Ve
 .PP
-The \f(CW\*(C`DIRECTORY\*(C'\fR argument can be used to limit the output to a different
-location. This works even if the location itself was moved to the trash.
+The \f(CW\*(C`DIRECTORY\*(C'\fR argument can be used to list items from a different location.
+This works even if the location itself was moved to the trash.
 .PP
 .Vb 3
 \&    $ lst /some/deleted/dir
@@ -126,6 +126,10 @@ Group entries by the directory they were moved from.
 .RE
 .RS 4
 .RE
+.IP "\-\-interactive, \-i" 4
+.IX Item "--interactive, -i"
+Run in Terminal User Interface (TUI) mode, to interactively select and
+restore items from the trash.
 .IP "\-\-trash\-dirs, \-T" 4
 .IX Item "--trash-dirs, -T"
 List trash folders instead of trash entries.

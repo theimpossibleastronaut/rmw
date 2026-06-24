@@ -68,14 +68,10 @@ Group entries by the directory they were moved from.
 
 =back
 
-=begin comment
-
 =item --interactive, -i
 
-Present the files for restoration using a Terminal User Interface
-(TUI). Implies C<--restore>.
-
-=end comment
+Run in Terminal User Interface (TUI) mode, to interactively select and
+restore items from the trash.
 
 =item --trash-dirs, -T
 
