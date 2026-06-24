@@ -55,13 +55,13 @@
 .\" ========================================================================
 .\"
 .IX Title "LST 1"
-.TH LST 1 2026-06-23 "lst 0.9.5" "User Commands"
+.TH LST 1 2026-06-24 "lst 0.9.5" "User Commands"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH NAME
-lst \- list entries in trash folders
+lst \- list items in trash folders
 .SH SYNOPSIS
 .IX Header "SYNOPSIS"
 .Vb 1
@@ -69,9 +69,13 @@ lst \- list entries in trash folders
 .Ve
 .SH DESCRIPTION
 .IX Header "DESCRIPTION"
-The \fBlst\fR command lists information about files or directories which
-have been moved to trash folders as defined by the freedesktop.org
-Trash Specification <https://specifications.freedesktop.org/trash/latest>.
+The \fBlst\fR command lists files and/or directories which have been moved
+to trash folders as defined by the freedesktop.org Trash
+Specification <https://specifications.freedesktop.org/trash/latest>.
+.PP
+By default, output is limited to items removed from the current directory,
+and is grouped by the day of deletion. Items are sorted by name (ascending)
+followed by deletion time (descending).
 .PP
 .Vb 3
 \&    $ lst
@@ -80,35 +84,33 @@ Trash Specification <https://specifications.freedesktop.org/trash/latest>.
 \&
 \&    [yesterday]
 \&    \-rw\-r\-\-r\-\-  1 411K Apr 16 15:21 \*(AqPeek 2026\-04\-16 15\-21.gif\*(Aq [09:28]
-\&    drwxrwxr\-x  5 4.0K Dec 11  2025  perl5/                     [07:53]
 \&    \-rw\-r\-\-r\-\-  1 411K Apr 16 15:19 \*(AqPeek 2026\-04\-16 15\-21.gif\*(Aq [07:19]
+\&    drwxrwxr\-x  5 4.0K Dec 11  2025  perl5/                     [07:53]
 .Ve
 .PP
-Output is limited by default to entries from the current directory, and also by
-default grouped by the day of deletion. Entries are sorted by name ascending,
-followed by deletion timestamp decending.
+The \f(CW\*(C`DIRECTORY\*(C'\fR argument can be used to limit the output to a different
+location. This works even if the location itself was moved to the trash.
 .PP
-The \f(CW\*(C`DIRECTORY\*(C'\fR argument can be used to limit the output to another location,
-which can still exist, or not exist if it was previously moved to the trash.
+.Vb 3
+\&    $ lst /some/deleted/dir
+\&    [yesterday]
+\&    \-rwxrwxr\-x  5 4.0K Dec 11  2025  my\-file                    [15:42]
+.Ve
 .SH OPTIONS
 .IX Header "OPTIONS"
 .IP "\-\-all, \-a" 4
 .IX Item "--all, -a"
-Do not ignore entries starting with a dot.
+Do not ignore items starting with a dot.
 .IP "\-\-every\-directory, \-e" 4
 .IX Item "--every-directory, -e"
-List trash entries moved from every directory of the current
+List trash items moved from every directory of the (\f(CW\*(C`DIRECTORY\*(C'\fR)
 filesystem. Equivalent to using \f(CW\*(C`\-\-recursive\*(C'\fR (see below) from the
-mount directory. This option conflicts with an explicit \f(CW\*(C`DIRECTORY\*(C'\fR
-argument.
-.Sp
-The \f(CW\*(C`\-\-all\*(C'\fR option is still necessary to include entries starting with
-a dot.
-.IP "\-\-every\-trash, \-E" 4
-.IX Item "--every-trash, -E"
-List entries from every directory of every filesystem. Equivalent to
-using \f(CW\*(C`\-\-every\*(C'\fR at every filesystem root containing a trash folder.
-This option conflicts with an explicit \f(CW\*(C`DIRECTORY\*(C'\fR argument.
+mount point.
+.IP "\-\-every\-filesystem, \-E" 4
+.IX Item "--every-filesystem, -E"
+List trash items from every directory of every known trash location. Equivalent
+to using \f(CW\*(C`\-\-every\-directory\*(C'\fR at each filesystem root containing a trash
+folder.  This option conflicts with an explicit \f(CW\*(C`DIRECTORY\*(C'\fR argument.
 .IP "\-\-group\-by, \-G TYPE" 4
 .IX Item "--group-by, -G TYPE"
 Group entries by \f(CW\*(C`TYPE\*(C'\fR which is one of:
