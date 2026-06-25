@@ -1,86 +1,68 @@
 =head1 NAME
 
-lst - list items in trash folders
+lst - list items moved to the trash
 
 =head1 SYNOPSIS
 
-    lst [OPTION...] [DIRECTORY]
+    lst [OPTION...] [PATH]
 
 =head1 DESCRIPTION
 
-The B<lst> command lists files and/or directories which have been moved
-to trash folders as defined by the freedesktop.org L<Trash
-Specification|https://specifications.freedesktop.org/trash/latest>.
+The B<lst> command lists the files and/or directories which have been
+moved to a trash folder. The output format is similar to C<ls
+-g> with the deletion time tacked on the end in brackets.
 
-By default, output is limited to items removed from the current directory,
-and is grouped by the day of deletion. Items are sorted by name (ascending)
-followed by deletion time (descending).
+Items are grouped by their date of deletion and parent directory, and
+then sorted by name (ascending) and time of deletion (descending).
 
     $ lst
-    [today]
+    [today, /home/user]
     -rw-r--r--  1 409K May 23  2025 'My account info.zip'       [16:35]
 
-    [yesterday]
+    [yesterday, /home/user]
     -rw-r--r--  1 411K Apr 16 15:21 'Peek 2026-04-16 15-21.gif' [09:28]
     -rw-r--r--  1 411K Apr 16 15:19 'Peek 2026-04-16 15-21.gif' [07:19]
     drwxrwxr-x  5 4.0K Dec 11  2025  perl5/                     [07:53]
 
-The C<DIRECTORY> argument can be used to list items from a different location.
-This works even if the location itself was moved to the trash.
+The C<PATH> argument filters the list of trash items and defaults to
+the current working directory. It may refer to an item that was itself
+previously moved to the trash.
 
-    $ lst /some/deleted/dir
-    [yesterday]
+    $ lst /some/deleteddir
+    [2026-04-25, /some]
+    drwxrwxr-x  5 4.0K Nov 11  2024  deleteddir                 [19:01]
+
+    [2026-01-11, /some/deleteddir]
     -rwxrwxr-x  5 4.0K Dec 11  2025  my-file                    [15:42]
 
 =head1 OPTIONS
 
 =over
 
-=item --all, -a
+=item --all-items, -a
 
-Do not ignore items starting with a dot.
+List all trash items from the C<PATH>-relevant trash folder. Equivalent
+to using C<--recursive> (see below) from your C<$HOME> directory or a
+filesystem mount point.
 
-=item --every-directory, -e
+=item --all-trash, -A
 
-List trash items moved from every directory of the (C<DIRECTORY>)
-filesystem. Equivalent to using C<--recursive> (see below) from the
-mount point.
-
-=item --every-filesystem, -E
-
-List trash items from every directory of every known trash location. Equivalent
-to using C<--every-directory> at each filesystem root containing a trash
-folder.  This option conflicts with an explicit C<DIRECTORY> argument.
-
-=item --group-by, -G TYPE
-
-Group entries by C<TYPE> which is one of:
-
-=over
-
-=item * day [default]
-
-Group entries by the day they were moved.
-
-=item * directory
-
-Group entries by the directory they were moved from.
-
-=back
+List all trash items from all known trash locations. Equivalent
+to using C<--all-items> at the top of each trash location.
 
 =item --interactive, -i
 
-Run in Terminal User Interface (TUI) mode, to interactively select and
-restore items from the trash.
+Run in Terminal User Interface (TUI) mode to interactively select and
+restore items.
 
-=item --trash-dirs, -T
+=item --trash-paths, -T
 
-List trash folders instead of trash entries.
+List known trash I<locations> instead of trash contents. Raises an
+error if a C<PATH> is provided.
 
 =item --recursive, -R
 
-Recursively list entries which were moved from C<DIRECTORY> and
-its subdirectories.
+Recursively list entries which were moved from C<PATH> and below.
 
 =back
 
@@ -92,6 +74,8 @@ F<$HOME/.config/rmwrc>
 =head1 SEE ALSO
 
 L<rmw>(1)
+
+The freedesktop.org Trash L<Specification|https://specifications.freedesktop.org/trash/latest>.
 
 =head1 COPYRIGHT
 

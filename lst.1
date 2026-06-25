@@ -55,88 +55,72 @@
 .\" ========================================================================
 .\"
 .IX Title "LST 1"
-.TH LST 1 2026-06-24 "lst 0.9.5" "User Commands"
+.TH LST 1 2026-06-25 "lst 0.9.5" "User Commands"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH NAME
-lst \- list items in trash folders
+lst \- list items moved to the trash
 .SH SYNOPSIS
 .IX Header "SYNOPSIS"
 .Vb 1
-\&    lst [OPTION...] [DIRECTORY]
+\&    lst [OPTION...] [PATH]
 .Ve
 .SH DESCRIPTION
 .IX Header "DESCRIPTION"
-The \fBlst\fR command lists files and/or directories which have been moved
-to trash folders as defined by the freedesktop.org Trash
-Specification <https://specifications.freedesktop.org/trash/latest>.
+The \fBlst\fR command lists the files and/or directories which have been
+moved to a trash folder. The output format is similar to \f(CW\*(C`ls
+\&\-g\*(C'\fR with the deletion time tacked on the end in brackets.
 .PP
-By default, output is limited to items removed from the current directory,
-and is grouped by the day of deletion. Items are sorted by name (ascending)
-followed by deletion time (descending).
+Items are grouped by their date of deletion and parent directory, and
+then sorted by name (ascending) and time of deletion (descending).
 .PP
 .Vb 3
 \&    $ lst
-\&    [today]
+\&    [today, /home/user]
 \&    \-rw\-r\-\-r\-\-  1 409K May 23  2025 \*(AqMy account info.zip\*(Aq       [16:35]
 \&
-\&    [yesterday]
+\&    [yesterday, /home/user]
 \&    \-rw\-r\-\-r\-\-  1 411K Apr 16 15:21 \*(AqPeek 2026\-04\-16 15\-21.gif\*(Aq [09:28]
 \&    \-rw\-r\-\-r\-\-  1 411K Apr 16 15:19 \*(AqPeek 2026\-04\-16 15\-21.gif\*(Aq [07:19]
 \&    drwxrwxr\-x  5 4.0K Dec 11  2025  perl5/                     [07:53]
 .Ve
 .PP
-The \f(CW\*(C`DIRECTORY\*(C'\fR argument can be used to list items from a different location.
-This works even if the location itself was moved to the trash.
+The \f(CW\*(C`PATH\*(C'\fR argument filters the list of trash items and defaults to
+the current working directory. It may refer to an item that was itself
+previously moved to the trash.
 .PP
 .Vb 3
-\&    $ lst /some/deleted/dir
-\&    [yesterday]
+\&    $ lst /some/deleteddir
+\&    [2026\-04\-25, /some]
+\&    drwxrwxr\-x  5 4.0K Nov 11  2024  deleteddir                 [19:01]
+\&
+\&    [2026\-01\-11, /some/deleteddir]
 \&    \-rwxrwxr\-x  5 4.0K Dec 11  2025  my\-file                    [15:42]
 .Ve
 .SH OPTIONS
 .IX Header "OPTIONS"
-.IP "\-\-all, \-a" 4
-.IX Item "--all, -a"
-Do not ignore items starting with a dot.
-.IP "\-\-every\-directory, \-e" 4
-.IX Item "--every-directory, -e"
-List trash items moved from every directory of the (\f(CW\*(C`DIRECTORY\*(C'\fR)
-filesystem. Equivalent to using \f(CW\*(C`\-\-recursive\*(C'\fR (see below) from the
-mount point.
-.IP "\-\-every\-filesystem, \-E" 4
-.IX Item "--every-filesystem, -E"
-List trash items from every directory of every known trash location. Equivalent
-to using \f(CW\*(C`\-\-every\-directory\*(C'\fR at each filesystem root containing a trash
-folder.  This option conflicts with an explicit \f(CW\*(C`DIRECTORY\*(C'\fR argument.
-.IP "\-\-group\-by, \-G TYPE" 4
-.IX Item "--group-by, -G TYPE"
-Group entries by \f(CW\*(C`TYPE\*(C'\fR which is one of:
-.RS 4
-.IP \(bu 4
-day [default]
-.Sp
-Group entries by the day they were moved.
-.IP \(bu 4
-directory
-.Sp
-Group entries by the directory they were moved from.
-.RE
-.RS 4
-.RE
+.IP "\-\-all\-items, \-a" 4
+.IX Item "--all-items, -a"
+List all trash items from the \f(CW\*(C`PATH\*(C'\fR\-relevant trash folder. Equivalent
+to using \f(CW\*(C`\-\-recursive\*(C'\fR (see below) from your \f(CW$HOME\fR directory or a
+filesystem mount point.
+.IP "\-\-all\-trash, \-A" 4
+.IX Item "--all-trash, -A"
+List all trash items from all known trash locations. Equivalent
+to using \f(CW\*(C`\-\-all\-items\*(C'\fR at the top of each trash location.
 .IP "\-\-interactive, \-i" 4
 .IX Item "--interactive, -i"
-Run in Terminal User Interface (TUI) mode, to interactively select and
-restore items from the trash.
-.IP "\-\-trash\-dirs, \-T" 4
-.IX Item "--trash-dirs, -T"
-List trash folders instead of trash entries.
+Run in Terminal User Interface (TUI) mode to interactively select and
+restore items.
+.IP "\-\-trash\-paths, \-T" 4
+.IX Item "--trash-paths, -T"
+List known trash \fIlocations\fR instead of trash contents. Raises an
+error if a \f(CW\*(C`PATH\*(C'\fR is provided.
 .IP "\-\-recursive, \-R" 4
 .IX Item "--recursive, -R"
-Recursively list entries which were moved from \f(CW\*(C`DIRECTORY\*(C'\fR and
-its subdirectories.
+Recursively list entries which were moved from \f(CW\*(C`PATH\*(C'\fR and below.
 .SH FILES
 .IX Header "FILES"
 Trash folder information may be read from \fR\f(CI$XDG_CONFIG_HOME\fR\fI/rmwrc\fR or
@@ -144,6 +128,8 @@ Trash folder information may be read from \fR\f(CI$XDG_CONFIG_HOME\fR\fI/rmwrc\f
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 rmw(1)
+.PP
+The freedesktop.org Trash Specification <https://specifications.freedesktop.org/trash/latest>.
 .SH COPYRIGHT
 .IX Header "COPYRIGHT"
 License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
