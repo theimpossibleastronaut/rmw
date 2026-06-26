@@ -38,29 +38,53 @@ static char *trash_path_for_topdir(const char *topdir, const char *uid);
 
 
 /*
- * Filesystem types that should not get a trash directory.
+ * Filesystem types that should not get a NEW trash directory. Two groups,
+ * handled differently during discovery:
  *
- * Pseudo-filesystems (no real on-disk storage): proc, sysfs, devtmpfs,
- * devpts, cgroup*, bpf, securityfs, debugfs, tracefs, pstore, mqueue,
- * hugetlbfs, fusectl, configfs, autofs, binfmt_misc, rpc_pipefs, nsfs.
+ * Pseudo / kernel-virtual (pseudo_fs_list): proc, sysfs, devtmpfs, devpts,
+ * cgroup*, bpf, securityfs, debugfs, tracefs, pstore, mqueue, hugetlbfs,
+ * fusectl, configfs, autofs, binfmt_misc, rpc_pipefs, nsfs, efivarfs. These
+ * can never hold a real file, so discovery skips them entirely -- it does
+ * not even probe them for an existing trash. Probing is pointless and, on
+ * some (e.g. bpf), lstat() of an arbitrary path fails with EPERM, which root
+ * would hit since access() is bypassed for the superuser.
  *
- * Ephemeral or container-style: tmpfs (reboot wipes it), overlay, squashfs.
- *
- * Network shares the spec explicitly leaves undefined (no real numeric uid
- * model): cifs, smbfs, smb3. All "fuse.*" fs types are excluded too
- * (uid-mapping semantics vary too widely between fuse backends).
+ * Excluded but file-capable (extra_exclude_list): tmpfs (reboot wipes it),
+ * overlay, squashfs, and the network shares the spec leaves undefined for
+ * lack of a numeric uid model (cifs, smbfs, smb3). All "fuse.*" types are
+ * excluded too. These never receive a NEW trash, but an existing one is
+ * honoured, so they ARE probed.
  *
  * NFS is NOT excluded: it has a native uid model and the spec permits it.
  */
-static const char *const fs_type_exclude_list[] = {
-  "proc", "sysfs", "devtmpfs", "devpts", "tmpfs",
+static const char *const pseudo_fs_list[] = {
+  "proc", "sysfs", "devtmpfs", "devpts",
   "cgroup", "cgroup2", "bpf", "securityfs", "debugfs", "tracefs",
   "pstore", "mqueue", "hugetlbfs", "fusectl", "configfs", "autofs",
   "binfmt_misc", "rpc_pipefs", "nsfs", "efivarfs",
-  "overlay", "squashfs",
+  NULL,
+};
+
+static const char *const extra_exclude_list[] = {
+  "tmpfs", "overlay", "squashfs",
   "cifs", "smbfs", "smb3",
   NULL,
 };
+
+static bool
+fs_type_in_list(const char *fs_type, const char *const *list)
+{
+  for (const char *const *p = list; *p != NULL; p++)
+    if (g_str_equal(fs_type, *p))
+      return true;
+  return false;
+}
+
+static bool
+fs_type_is_pseudo(const char *fs_type)
+{
+  return fs_type != NULL && fs_type_in_list(fs_type, pseudo_fs_list);
+}
 
 static bool
 fs_type_is_eligible(const char *fs_type)
@@ -69,12 +93,8 @@ fs_type_is_eligible(const char *fs_type)
     return false;
   if (g_str_has_prefix(fs_type, "fuse."))
     return false;
-  for (const char *const *p = fs_type_exclude_list; *p != NULL; p++)
-  {
-    if (g_str_equal(fs_type, *p))
-      return false;
-  }
-  return true;
+  return !fs_type_is_pseudo(fs_type)
+    && !fs_type_in_list(fs_type, extra_exclude_list);
 }
 
 static bool
@@ -203,7 +223,10 @@ trash_path_for_topdir(const char *topdir, const char *uid)
   }
   else if (errno != ENOENT)
   {
-    diag(DIAG_ERR, "lstat %s: %s\n", dot_trash, strerror(errno));
+    /* Any error other than "not found" (e.g. EACCES/EPERM on an unusual
+       mount) just means there is no usable shared trash here. Note it under
+       -vv for debugging, but don't error out during best-effort discovery. */
+    verbose_printf(2, "lstat %s: %s\n", dot_trash, strerror(errno));
     free(dot_trash);
     return NULL;
   }
@@ -314,13 +337,21 @@ build_mount_trash_list(const char *uid,
 
     if (!mount_is_eligible(entry))
     {
+      G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+      const char *fs_type = g_unix_mount_get_fs_type(entry);
+      G_GNUC_END_IGNORE_DEPRECATIONS
+      /* Kernel-virtual filesystems can never hold a trash, so never probe
+       * them -- and probing some (e.g. bpf) makes lstat() fail with EPERM,
+       * which root hits since access() below is bypassed for the superuser. */
+      if (fs_type_is_pseudo(fs_type))
+        continue;
       /* New trash dirs are never created on excluded filesystems, but an
        * existing, writable one is evidence of intent (configured by the
        * user in the past, or created by an older rmw): keep it visible so
        * restore and purge can still reach its contents. access(W_OK)
        * covers existence, writability, and readonly mounts in one call.
-       * Skip mount roots we can't read (/sys/fs/pstore, docker overlays,
-       * ...) before probing, or the probe spams lstat errors. */
+       * Skip mount roots we can't read (docker overlays, ...) before
+       * probing, or the probe spams lstat errors. */
       if (access(mount_path, R_OK | X_OK) != 0)
         continue;
       char *t = trash_path_for_topdir(mount_path, uid);

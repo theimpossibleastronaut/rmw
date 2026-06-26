@@ -120,6 +120,31 @@ test_fs_type_is_eligible(void)
 
 
 static void
+test_fs_type_is_pseudo(void)
+{
+  assert(fs_type_is_pseudo(NULL) == false);
+
+  /* kernel-virtual: never probed for an existing trash */
+  assert(fs_type_is_pseudo("bpf") == true);
+  assert(fs_type_is_pseudo("sysfs") == true);
+  assert(fs_type_is_pseudo("proc") == true);
+  assert(fs_type_is_pseudo("cgroup2") == true);
+  assert(fs_type_is_pseudo("efivarfs") == true);
+
+  /* excluded from new trashes but file-capable, so still probed (not pseudo) */
+  assert(fs_type_is_pseudo("tmpfs") == false);
+  assert(fs_type_is_pseudo("overlay") == false);
+  assert(fs_type_is_pseudo("squashfs") == false);
+  assert(fs_type_is_pseudo("cifs") == false);
+
+  /* real on-disk filesystems are not pseudo */
+  assert(fs_type_is_pseudo("ext4") == false);
+  assert(fs_type_is_pseudo("btrfs") == false);
+  assert(fs_type_is_pseudo("nfs") == false);
+}
+
+
+static void
 test_build_mount_trash_list(const char *tmpdir, const char *uid)
 {
   char home_trash[PATH_MAX];
@@ -174,6 +199,7 @@ main(void)
 
   test_trash_path_for_topdir(tmpdir, "1000");
   test_fs_type_is_eligible();
+  test_fs_type_is_pseudo();
   test_build_mount_trash_list(tmpdir, "1000");
 
   assert(bsdutils_rm(tmpdir, false) == 0);
