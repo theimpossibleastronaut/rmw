@@ -55,13 +55,13 @@
 .\" ========================================================================
 .\"
 .IX Title "LST 1"
-.TH LST 1 2026-06-25 "lst 0.9.5" "User Commands"
+.TH LST 1 2026-06-26 "lst 0.9.5" "User Commands"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH NAME
-lst \- list items moved to the trash
+lst \- list items in the trash folder
 .SH SYNOPSIS
 .IX Header "SYNOPSIS"
 .Vb 1
@@ -69,12 +69,9 @@ lst \- list items moved to the trash
 .Ve
 .SH DESCRIPTION
 .IX Header "DESCRIPTION"
-The \fBlst\fR command lists the files and/or directories which have been
-moved to a trash folder. The output format is similar to \f(CW\*(C`ls
-\&\-g\*(C'\fR with the deletion time tacked on the end in brackets.
-.PP
-Items are grouped by their date of deletion and parent directory, and
-then sorted by name (ascending) and time of deletion (descending).
+The \fBlst\fR command lists files that have been moved to a trash
+location \- i.e. "deleted". The output format is similar to \f(CW\*(C`ls \-g\*(C'\fR
+with the deletion time appended to each line, in square brackets.
 .PP
 .Vb 3
 \&    $ lst
@@ -87,40 +84,52 @@ then sorted by name (ascending) and time of deletion (descending).
 \&    drwxrwxr\-x  5 4.0K Dec 11  2025  perl5/                     [07:53]
 .Ve
 .PP
-The \f(CW\*(C`PATH\*(C'\fR argument filters the list of trash items and defaults to
-the current working directory. It may refer to an item that was itself
-previously moved to the trash.
+Output rows are grouped by (deletion date, parent directory) then
+sorted by (name ascending, deletion time descending).
+.PP
+The \f(CW\*(C`PATH\*(C'\fR argument filters the list and defaults to the current
+working directory. It may refer to an item that was itself previously
+moved to the trash.
 .PP
 .Vb 3
-\&    $ lst /some/deleteddir
-\&    [2026\-04\-25, /some]
+\&    $ lst deleteddir
+\&    [2026\-04\-25, /home/user]
 \&    drwxrwxr\-x  5 4.0K Nov 11  2024  deleteddir                 [19:01]
 \&
-\&    [2026\-01\-11, /some/deleteddir]
+\&    [2026\-01\-11, /home/user/deleteddir]
 \&    \-rwxrwxr\-x  5 4.0K Dec 11  2025  my\-file                    [15:42]
 .Ve
+.PP
+Filesystem specific trash folders may exist in addition to the \f(CW$HOME\fR
+trash folder (which is typically \f(CW\*(C`$XDG_DATA_HOME/Trash\*(C'\fR). They are
+created for performance reasons, to ensure that a "deletion" does not
+require an expensive copy operation. This leads to the concept of the
+\&\fIcurrent trash folder\fR for any given \f(CW\*(C`PATH\*(C'\fR.
 .SH OPTIONS
 .IX Header "OPTIONS"
 .IP "\-\-all\-items, \-a" 4
 .IX Item "--all-items, -a"
-List all trash items from the \f(CW\*(C`PATH\*(C'\fR\-relevant trash folder. Equivalent
-to using \f(CW\*(C`\-\-recursive\*(C'\fR (see below) from your \f(CW$HOME\fR directory or a
-filesystem mount point.
+List all trash items in the current trash folder. Equivalent to
+using \f(CW\*(C`\-\-recursive\*(C'\fR (see below) from a filesystem mount directory.
 .IP "\-\-all\-trash, \-A" 4
 .IX Item "--all-trash, -A"
-List all trash items from all known trash locations. Equivalent
-to using \f(CW\*(C`\-\-all\-items\*(C'\fR at the top of each trash location.
+List all trash items from all known trash locations. Equivalent to
+using \f(CW\*(C`\-\-all\-items\*(C'\fR at the top directory of each filesystem. Note that
+this can be expensive as it requires probing and potientially awakening
+slow external storage.
+.Sp
+Raises an error when \f(CW\*(C`PATH\*(C'\fR is given.
 .IP "\-\-interactive, \-i" 4
 .IX Item "--interactive, -i"
 Run in Terminal User Interface (TUI) mode to interactively select and
 restore items.
-.IP "\-\-trash\-paths, \-T" 4
-.IX Item "--trash-paths, -T"
-List known trash \fIlocations\fR instead of trash contents. Raises an
-error if a \f(CW\*(C`PATH\*(C'\fR is provided.
+.IP "\-\-trash\-dir, \-T" 4
+.IX Item "--trash-dir, -T"
+Print the current trash \fIdirectory\fR instead of its contents. Can be
+combined with \f(CW\*(C`\-\-all\-trash\*(C'\fR to list all trash locations.
 .IP "\-\-recursive, \-R" 4
 .IX Item "--recursive, -R"
-Recursively list entries which were moved from \f(CW\*(C`PATH\*(C'\fR and below.
+Recursively list deletions from \f(CW\*(C`PATH\*(C'\fR and all of its subdirectories.
 .SH FILES
 .IX Header "FILES"
 Trash folder information may be read from \fR\f(CI$XDG_CONFIG_HOME\fR\fI/rmwrc\fR or

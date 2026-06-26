@@ -1,6 +1,6 @@
 =head1 NAME
 
-lst - list items moved to the trash
+lst - list items in the trash folder
 
 =head1 SYNOPSIS
 
@@ -8,12 +8,9 @@ lst - list items moved to the trash
 
 =head1 DESCRIPTION
 
-The B<lst> command lists the files and/or directories which have been
-moved to a trash folder. The output format is similar to C<ls
--g> with the deletion time tacked on the end in brackets.
-
-Items are grouped by their date of deletion and parent directory, and
-then sorted by name (ascending) and time of deletion (descending).
+The B<lst> command lists files that have been moved to a trash
+location - i.e. "deleted". The output format is similar to C<ls -g>
+with the deletion time appended to each line, in square brackets.
 
     $ lst
     [today, /home/user]
@@ -24,16 +21,25 @@ then sorted by name (ascending) and time of deletion (descending).
     -rw-r--r--  1 411K Apr 16 15:19 'Peek 2026-04-16 15-21.gif' [07:19]
     drwxrwxr-x  5 4.0K Dec 11  2025  perl5/                     [07:53]
 
-The C<PATH> argument filters the list of trash items and defaults to
-the current working directory. It may refer to an item that was itself
-previously moved to the trash.
+Output rows are grouped by (deletion date, parent directory) then
+sorted by (name ascending, deletion time descending).
 
-    $ lst /some/deleteddir
-    [2026-04-25, /some]
+The C<PATH> argument filters the list and defaults to the current
+working directory. It may refer to an item that was itself previously
+moved to the trash.
+
+    $ lst deleteddir
+    [2026-04-25, /home/user]
     drwxrwxr-x  5 4.0K Nov 11  2024  deleteddir                 [19:01]
 
-    [2026-01-11, /some/deleteddir]
+    [2026-01-11, /home/user/deleteddir]
     -rwxrwxr-x  5 4.0K Dec 11  2025  my-file                    [15:42]
+
+Filesystem specific trash folders may exist in addition to the C<$HOME>
+trash folder (which is typically C<$XDG_DATA_HOME/Trash>). They are
+created for performance reasons, to ensure that a "deletion" does not
+require an expensive copy operation. This leads to the concept of the
+I<current trash folder> for any given C<PATH>.
 
 =head1 OPTIONS
 
@@ -41,28 +47,31 @@ previously moved to the trash.
 
 =item --all-items, -a
 
-List all trash items from the C<PATH>-relevant trash folder. Equivalent
-to using C<--recursive> (see below) from your C<$HOME> directory or a
-filesystem mount point.
+List all trash items in the current trash folder. Equivalent to
+using C<--recursive> (see below) from a filesystem mount directory.
 
 =item --all-trash, -A
 
-List all trash items from all known trash locations. Equivalent
-to using C<--all-items> at the top of each trash location.
+List all trash items from all known trash locations. Equivalent to
+using C<--all-items> at the top directory of each filesystem. Note that
+this can be expensive as it requires probing and potientially awakening
+slow external storage.
+
+Raises an error when C<PATH> is given.
 
 =item --interactive, -i
 
 Run in Terminal User Interface (TUI) mode to interactively select and
 restore items.
 
-=item --trash-paths, -T
+=item --trash-dir, -T
 
-List known trash I<locations> instead of trash contents. Raises an
-error if a C<PATH> is provided.
+Print the current trash I<directory> instead of its contents. Can be
+combined with C<--all-trash> to list all trash locations.
 
 =item --recursive, -R
 
-Recursively list entries which were moved from C<PATH> and below.
+Recursively list deletions from C<PATH> and all of its subdirectories.
 
 =back
 
