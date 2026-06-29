@@ -125,7 +125,7 @@ jobs:
     steps:
     - uses: actions/checkout@v6
     - name: Cache Homebrew packages
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: ~/Library/Caches/Homebrew
         key: ${{ runner.os }}-${{ matrix.os }}-brew-${{ hashFiles('.github/workflows/c-cpp.yml') }}
@@ -164,7 +164,7 @@ jobs:
     - uses: actions/checkout@v6
 
     - name: Cache btrfs Image
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       id: btrfs-img-cache
       with:
         path: ${{ env.BTRFS_IMG }}
@@ -177,7 +177,7 @@ jobs:
       run: test -f "$BTRFS_IMG"
 
     - name: Cache bcachefs Image
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       id: bcachefs-img-cache
       with:
         path: ${{ env.BCACHEFS_IMG }}
