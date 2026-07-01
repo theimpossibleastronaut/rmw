@@ -915,7 +915,37 @@ Please check your configuration file and permissions\
   else
     run_discovery = getenv(ENV_RMW_FAKE_HOME) == NULL
       || getenv(ENV_RMW_CHECK_DISCOVERY) != NULL;
-  if (run_discovery)
+
+  /* Only commands that act on every trash need the full mount scan; probing
+   * all mounts can stall while an idle USB drive resumes (issue #574). A plain
+   * removal skips it: remove_to_waste()'s per-file fallback probes only the
+   * mount the file lives on (already awake). An explicit --purge scans, but the
+   * automatic time-based purge that piggybacks on a removal deliberately does
+   * not, so removals never wake another drive. */
+  bool command_needs_discovery = cli_user_options.list
+    || cli_user_options.want_restore
+    || cli_user_options.want_selection_menu
+    || cli_user_options.most_recent_list
+    || cli_user_options.want_undo
+    || cli_user_options.want_orphan_chk
+    || cli_user_options.want_purge;
+
+  /* A reflink-capable source can be routed cross-mount into a pre-existing
+     trash on a sibling reflink filesystem, which only the full scan can find.
+     So a plain removal still probes when any file being removed lives on such
+     a filesystem; a removal from a non-reflink fs skips the scan (issue #574
+     -- avoids waking an idle drive for the common home-trash case). */
+  if (run_discovery && !command_needs_discovery)
+  {
+    for (int i = optind; i < argc; i++)
+      if (is_ficlone_fs(argv[i]))
+      {
+        command_needs_discovery = true;
+        break;
+      }
+  }
+
+  if (run_discovery && command_needs_discovery)
     discover_existing_topdir_trashes(&st_config_data, st_location);
 
   if (cli_user_options.list)
