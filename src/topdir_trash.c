@@ -290,14 +290,26 @@ find_topdir_trash(const char *file_path, const char *uid,
 
   /* Never create a trash dir on an excluded filesystem (tmpfs, network
    * shares, ...). Desktop file managers refuse to trash there too; the
-   * caller reports that no suitable waste folder exists. A pre-existing
-   * trash on such a mount is honored via build_mount_trash_list instead. */
+   * caller then reports that no suitable waste folder exists. An existing
+   * trash on such a mount is still honored (see below). */
   char *result = NULL;
-  if (best != NULL && mount_is_eligible(best))
+  if (best != NULL)
   {
-    result = trash_path_for_topdir(topdir, uid);
-    if (result != NULL && mount_path_out != NULL)
-      *mount_path_out = strdup(topdir);
+    char *candidate = trash_path_for_topdir(topdir, uid);
+    /* New trash dirs are only created on eligible mounts. On an excluded
+       mount (tmpfs, network share) rmw never creates one, but an existing,
+       writable trash there is still honored -- the same rule discovery
+       (build_mount_trash_list) applies, scoped here to the file's own mount
+       so no other mount is probed (issue #574). */
+    if (candidate != NULL
+        && (mount_is_eligible(best) || access(candidate, W_OK) == 0))
+    {
+      result = candidate;
+      if (mount_path_out != NULL)
+        *mount_path_out = strdup(topdir);
+    }
+    else
+      free(candidate);
   }
 
   g_list_free_full(mounts, (GDestroyNotify) g_unix_mount_free);
