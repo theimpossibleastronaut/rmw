@@ -58,7 +58,7 @@ jobs:
       - various
     container: ${{ matrix.container }}
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: false
 
@@ -123,7 +123,7 @@ jobs:
     needs:
       - build
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Cache Homebrew packages
       uses: actions/cache@v6
       with:
@@ -161,7 +161,7 @@ jobs:
     name: Test Various Build Configurations
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Cache btrfs Image
       uses: actions/cache@v6
