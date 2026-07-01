@@ -237,6 +237,10 @@ parse_line_waste(st_waste *waste_curr, struct Canfigger *node,
 
   waste_curr->removable = removable ? true : false;
   waste_curr->no_add = no_add;
+  /* Safe default: get_nearest_waste() matches this against the cwd's device,
+     and a real directory never reports device 0, so a node whose lstat below
+     fails can never be mis-selected. */
+  waste_curr->dev_num = 0;
 
   /* make the parent... */
   waste_curr->parent = malloc(strlen(tmp_waste_parent_folder) + 1);
