@@ -360,6 +360,38 @@ get_nearest_waste(st_waste *waste_head, const char *dir, dev_t dir_dev)
 }
 
 
+/*
+ * Non-interactive fallback for restore_select() when stdout is not a terminal
+ * (piped or redirected, e.g. under the test suite). The ncurses menu cannot
+ * run there, so print the active waste's path followed by its entries, sorted,
+ * instead. This makes the "-s starts on the current filesystem's trash"
+ * behavior scriptable and testable. See issue #532.
+ */
+static int
+dump_active_waste(const st_waste *waste)
+{
+  printf("%s\n", waste->parent);
+
+  struct dirent **namelist;
+  int n = scandir(waste->files, &namelist, NULL, alphasort);
+  if (n < 0)
+  {
+    msg_err_open_dir(waste->files, __func__, __LINE__);
+    return errno;
+  }
+
+  for (int i = 0; i < n; i++)
+  {
+    if (!isdotdir(namelist[i]->d_name))
+      printf("%s\n", namelist[i]->d_name);
+    free(namelist[i]);
+  }
+  free(namelist);
+
+  return 0;
+}
+
+
 /*!
  * Displays a list of files that can be restored, user can select multiple
  * files using a curses-bases interface.
@@ -386,6 +418,12 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
     diag(DIAG_ERR, "getcwd: %s\n", strerror(errno));
   if (waste_curr == NULL)
     waste_curr = waste_head;
+
+  /* Not a terminal (piped/redirected): the ncurses menu can't run, so dump
+     the active waste non-interactively instead. */
+  if (!isatty(STDOUT_FILENO))
+    return dump_active_waste(waste_curr);
+
   const int start_line_bottom = 7;
   const int min_lines_required = start_line_bottom + 3;
   int c = 0;
