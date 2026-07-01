@@ -21,7 +21,7 @@ jobs:
         submodules: false
     - id: get_version
       run: |
-        VERSION=$(grep "version:" meson.build | awk -F"'" '{print $2}')
+        VERSION=$(grep -m1 -E '^[[:space:]]*version:' meson.build | awk -F"'" '{print $2}')
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "VERSION=$VERSION" >> $GITHUB_ENV
     - name: Install dependencies
