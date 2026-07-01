@@ -302,21 +302,32 @@ insertion_sort(ITEM **a, const int n)
 
 
 /*
- * Returns the waste node whose parent path is "nearest" to dir: the one
- * sharing the longest path-component prefix with it. A waste nested below
- * dir is not eligible -- such a trash serves a subdirectory, not the
- * location dir is in (this matters now that discovery can add trashes from
- * deep in the tree). Returns NULL if waste_head is NULL or nothing shares a
- * path component with dir.
+ * Returns the waste node on the same filesystem as dir (matched by device
+ * number, dir_dev), best fitting dir. Among the same-device wastes it picks
+ * the one sharing the longest path-component prefix with dir. Returns NULL if
+ * no waste is on dir's filesystem.
+ *
+ * Device matching, not string prefix alone, is what issue #532 asked for
+ * ("the trash of the current filesystem"): a $topdir trash on another mount
+ * has a different st_dev and is excluded even when its path shares a prefix,
+ * and the home trash is chosen from anywhere on the home filesystem even
+ * though its own path sits below the current directory.
+ *
+ * Ties keep the first node in list order, which preserves rmw's "configured
+ * waste preferred over auto-discovered" rule: config entries precede the
+ * discovered nodes, and the discovered home trash precedes discovered topdirs.
  */
 static st_waste *
-get_nearest_waste(st_waste *waste_head, const char *dir)
+get_nearest_waste(st_waste *waste_head, const char *dir, dev_t dir_dev)
 {
   st_waste *best = NULL;
-  size_t best_len = 0;
+  size_t best_score = 0;
 
   for (st_waste * curr = waste_head; curr != NULL; curr = curr->next_node)
   {
+    if (curr->dev_num != dir_dev)
+      continue;
+
     const char *p = curr->parent;
     size_t i = 0;
     size_t last_sep = 0;
@@ -328,18 +339,19 @@ get_nearest_waste(st_waste *waste_head, const char *dir)
       i++;
     }
 
-    /* Skip a waste nested below dir (dir is a path prefix of the waste's
-     * parent): it serves a subdirectory, not where we are. */
-    if (dir[i] == '\0' && p[i] == '/')
-      continue;
-
-    /* The waste's parent is itself a path prefix of dir: count all of it. */
+    /* Full credit only when the waste's directory contains dir (its parent is
+       an ancestor of, or equal to, dir). A waste nested below dir serves a
+       subdirectory, not where we are, so it gets only weak credit (up to the
+       last shared separator) and loses the tie-break to an earlier trash. */
+    size_t score;
     if (p[i] == '\0' && (dir[i] == '/' || dir[i] == '\0'))
-      last_sep = i;
+      score = i;
+    else
+      score = last_sep;
 
-    if (last_sep > best_len)
+    if (best == NULL || score > best_score)
     {
-      best_len = last_sep;
+      best_score = score;
       best = curr;
     }
   }
@@ -363,7 +375,13 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
   char cwdbuf[PATH_MAX];
   st_waste *waste_curr = NULL;
   if (getcwd(cwdbuf, sizeof cwdbuf) != NULL)
-    waste_curr = get_nearest_waste(waste_head, cwdbuf);
+  {
+    struct stat cwd_st;
+    if (stat(cwdbuf, &cwd_st) == 0)
+      waste_curr = get_nearest_waste(waste_head, cwdbuf, cwd_st.st_dev);
+    else
+      diag(DIAG_ERR, "stat: %s: %s\n", cwdbuf, strerror(errno));
+  }
   else
     diag(DIAG_ERR, "getcwd: %s\n", strerror(errno));
   if (waste_curr == NULL)
@@ -640,31 +658,64 @@ test_create_file_details_str(void)
 static void
 test_get_nearest_waste(void)
 {
-  /* Only ->parent and ->next_node are read by get_nearest_waste(). */
+  /* get_nearest_waste() only reads ->parent, ->dev_num, and ->next_node and
+     does no filesystem I/O, so the paths below are pure fixtures -- they need
+     not exist on disk. Devices: HOME = home filesystem, SUB = a separately-
+     mounted subvolume, FLASH = a removable mount. The list is in realistic
+     order: configured wastes first, then the discovered nodes (home trash
+     before topdirs). "cfg" and "work" sit on the home fs; "child" and "flash"
+     are discovered topdirs on their own mounts. "cfg" is a no-add configured
+     trash (still a valid restore start). */
+  enum { DEV_HOME = 1, DEV_SUB = 2, DEV_FLASH = 3, DEV_NONE = 4 };
+  st_waste cfg = { 0 };
+  st_waste work = { 0 };
   st_waste home = { 0 };
   st_waste child = { 0 };
   st_waste flash = { 0 };
-  home.parent = "/home/andy/.local/share/Trash";
-  child.parent = "/home/andy/src/rmw-project/.Trash-1000";
+  cfg.parent = "/home/u/.config-trash";
+  cfg.dev_num = DEV_HOME;
+  cfg.no_add = true;
+  work.parent = "/home/u/work";
+  work.dev_num = DEV_HOME;
+  home.parent = "/home/u/.local/share/Trash";
+  home.dev_num = DEV_HOME;
+  child.parent = "/mnt/sub/.Trash-1000";
+  child.dev_num = DEV_SUB;
   flash.parent = "/mnt/flash/.Trash-1000";
+  flash.dev_num = DEV_FLASH;
 
-  /* List the deep child first -- the order that exposed the bug. */
-  child.next_node = &home;
-  home.next_node = &flash;
-  st_waste *head = &child;
+  cfg.next_node = &work;
+  work.next_node = &home;
+  home.next_node = &child;
+  child.next_node = &flash;
+  st_waste *head = &cfg;
 
-  /* From ~/src the child trash is *below* the cwd, so it must be skipped;
-   * the home trash wins even though the child is listed first. */
-  assert(get_nearest_waste(head, "/home/andy/src") == &home);
+  /* From the home dir: every home-fs waste is nested below cwd, so they tie
+     and list order decides -- the configured trash wins over the discovered
+     home trash (config preferred over auto-discovered). */
+  assert(get_nearest_waste(head, "/home/u", DEV_HOME) == &cfg);
 
-  /* Inside the child's own subtree, the child trash is nearest. */
-  assert(get_nearest_waste(head, "/home/andy/src/rmw-project/sub") == &child);
+  /* Deeper into the home tree: still a home-fs tie, still the earliest one. */
+  assert(get_nearest_waste(head, "/home/u/src", DEV_HOME) == &cfg);
 
-  /* On the flash mount, its trash is nearest. */
-  assert(get_nearest_waste(head, "/mnt/flash/docs") == &flash);
+  /* Device match wins even with no shared path prefix at all: a home-fs cwd
+     outside every waste's path still selects the earliest home-fs waste
+     (the case the old prefix-only code returned NULL for). */
+  assert(get_nearest_waste(head, "/opt/foo", DEV_HOME) == &cfg);
 
-  /* An unrelated directory shares no path component: no match. */
-  assert(get_nearest_waste(head, "/var/tmp") == NULL);
+  /* From inside a WASTE's own directory, that waste's longer path prefix beats
+     the earlier-listed cfg: containment outranks list order. */
+  assert(get_nearest_waste(head, "/home/u/work/proj", DEV_HOME) == &work);
+
+  /* Inside the subvolume mount: the device match selects its topdir trash,
+     even though home-fs wastes are listed first (they're another filesystem). */
+  assert(get_nearest_waste(head, "/mnt/sub/proj", DEV_SUB) == &child);
+
+  /* On the flash mount, its trash is nearest by device. */
+  assert(get_nearest_waste(head, "/mnt/flash/docs", DEV_FLASH) == &flash);
+
+  /* A directory on a filesystem with no waste: no match. */
+  assert(get_nearest_waste(head, "/var/tmp", DEV_NONE) == NULL);
 
   return;
 }
