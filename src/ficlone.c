@@ -492,7 +492,8 @@ ficlone_move(const char *src, const char *dst)
     if (unlinkat(src_dir_fd, src_name, 0) != 0)
     {
       int err = errno;
-      unlink(dst);
+      if (unlink(dst) != 0)
+        diag(DIAG_ERR, "unlink: %s in %s\n", strerror(errno), __func__);
       g_free(src_name);
       close(src_dir_fd);
       errno = err;
