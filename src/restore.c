@@ -313,7 +313,10 @@ insertion_sort(ITEM **a, const int n)
  * and the home trash is chosen from anywhere on the home filesystem even
  * though its own path sits below the current directory.
  *
- * Ties keep the first node in list order, which preserves rmw's "configured
+ * A waste nested below dir serves a subdirectory, not where we are, so any
+ * non-nested same-device waste beats it regardless of score; nested wastes
+ * are chosen only when nothing else is on dir's filesystem. Within a tier,
+ * ties keep the first node in list order, which preserves rmw's "configured
  * waste preferred over auto-discovered" rule: config entries precede the
  * discovered nodes, and the discovered home trash precedes discovered topdirs.
  */
@@ -322,6 +325,7 @@ get_nearest_waste(st_waste *waste_head, const char *dir, dev_t dir_dev)
 {
   st_waste *best = NULL;
   size_t best_score = 0;
+  bool best_nested = true;
 
   for (st_waste * curr = waste_head; curr != NULL; curr = curr->next_node)
   {
@@ -339,19 +343,24 @@ get_nearest_waste(st_waste *waste_head, const char *dir, dev_t dir_dev)
       i++;
     }
 
+    /* Nested: dir is a proper ancestor of the waste's parent. */
+    bool nested = (dir[i] == '\0' && p[i] == '/');
+
     /* Full credit only when the waste's directory contains dir (its parent is
-       an ancestor of, or equal to, dir). A waste nested below dir serves a
-       subdirectory, not where we are, so it gets only weak credit (up to the
-       last shared separator) and loses the tie-break to an earlier trash. */
+       an ancestor of, or equal to, dir); otherwise credit the shared prefix
+       up to the last path separator. */
     size_t score;
     if (p[i] == '\0' && (dir[i] == '/' || dir[i] == '\0'))
       score = i;
     else
       score = last_sep;
 
-    if (best == NULL || score > best_score)
+    if (best == NULL
+        || (!nested && best_nested)
+        || (nested == best_nested && score > best_score))
     {
       best_score = score;
+      best_nested = nested;
       best = curr;
     }
   }
@@ -376,8 +385,10 @@ dump_active_waste(const st_waste *waste)
   int n = scandir(waste->files, &namelist, NULL, alphasort);
   if (n < 0)
   {
+    /* the message call writes to stderr, which may change errno */
+    int err = errno;
     msg_err_open_dir(waste->files, __func__, __LINE__);
-    return errno;
+    return err;
   }
 
   for (int i = 0; i < n; i++)
@@ -418,6 +429,13 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
     diag(DIAG_ERR, "getcwd: %s\n", strerror(errno));
   if (waste_curr == NULL)
     waste_curr = waste_head;
+  /* Possible with an empty config when discovery is off or finds nothing;
+     both the dump and the menu need a waste to browse. */
+  if (waste_curr == NULL)
+  {
+    puts(_("No waste folders are available."));
+    return 0;
+  }
 
   /* Not a terminal (piped/redirected): the ncurses menu can't run, so dump
      the active waste non-interactively instead. */
@@ -754,6 +772,20 @@ test_get_nearest_waste(void)
 
   /* A directory on a filesystem with no waste: no match. */
   assert(get_nearest_waste(head, "/var/tmp", DEV_NONE) == NULL);
+
+  /* A same-device waste nested below the cwd loses to a non-nested one even
+     when listed first: it serves a subdirectory, not where we are. */
+  st_waste below = { 0 };
+  st_waste home2 = { 0 };
+  below.parent = "/home/u/src/proj/.waste";
+  below.dev_num = DEV_HOME;
+  home2.parent = "/home/u/.local/share/Trash";
+  home2.dev_num = DEV_HOME;
+  below.next_node = &home2;
+  assert(get_nearest_waste(&below, "/home/u/src", DEV_HOME) == &home2);
+
+  /* ...but when every same-device waste is nested, the first one wins. */
+  assert(get_nearest_waste(&below, "/home/u", DEV_HOME) == &below);
 
   return;
 }
