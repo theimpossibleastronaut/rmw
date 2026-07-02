@@ -111,17 +111,19 @@ done
 cmp_substr "$(${RMW_TEST_CMD_STRING} -z "${PRIMARY_WASTE_DIR}/files/." && exit 1)" \
   "refusing to process"
 
-# I don't want to force anyone to install Xvfb for this single test
-# so I'll only run it if it's already installed
-if [ -n "$(command -v Xvfb)" ] && ! grep -q "DISABLE_CURSES" "$MESON_BUILD_ROOT/src/config.h"; then
-  # Start Xvfb on display :99
-  Xvfb :99 &
-  XVFB_PID=$!
-
-  # Save the current DISPLAY value and set it to use the virtual display
-  OLD_DISPLAY="$DISPLAY"
-  export DISPLAY=:99
-
+# Exercise the real ncurses menu (issue #464: -s crashed at startup when
+# built with _FORTIFY_SOURCE=3; sanitizers/valgrind also catch leaks here).
+# ncurses needs a terminal, not X, so run -s on a pty via script(1). The
+# keys below switch waste dirs (rebuilding the whole menu, including once
+# for an empty waste), select the first item, and restore it, so the
+# free/rebuild cycle and the menu-driven restore path all run under the
+# sanitizers -- and the clean exit lets LeakSanitizer actually report
+# (killing the process would skip it). The arrows are the SS3 forms
+# (kcuf1/kcub1 in xterm terminfo); CSI forms would read as ESC and quit.
+# The pty starts with no size, so set one first. Needs util-linux
+# script(1) (-qec, exit-code passthrough); skip where it differs.
+if ! grep -q "DISABLE_CURSES" "$MESON_BUILD_ROOT/src/config.h" \
+   && script -qec true /dev/null >/dev/null 2>&1; then
   # This may be needed to prevent a failure on OpenBSD:
   # Error opening terminal: unknown.
   export TERM=xterm
@@ -131,21 +133,16 @@ if [ -n "$(command -v Xvfb)" ] && ! grep -q "DISABLE_CURSES" "$MESON_BUILD_ROOT/
     touch "$file"
     ${RMW_TEST_CMD_STRING} "$file"
   done
-  # No visual test here, but when used with llvm sanitize or valgrind,
-  # the chances of spotting any memory leaks are pretty good.
-  # https://github.com/theimpossibleastronaut/rmw/issues/464
-  # rmw -s in some cases, when built using _FORTIFY=3, results in an immediate crash
-  ${RMW_TEST_CMD_STRING} -s &
-  RMW_PID=$!
-  sleep 1 && kill $RMW_PID # OpenBSD sleep doesn't accept '1s'
-  kill $XVFB_PID
-
-  # Restore the original DISPLAY value if it was set
-  if [ -n "$OLD_DISPLAY" ]; then
-    export DISPLAY="$OLD_DISPLAY"
-  else
-    unset DISPLAY
-  fi
+  TS="$RMW_FAKE_HOME/menu-typescript"
+  printf '\033OC\033OD \n' | script -qec \
+    "stty rows 24 cols 80 && LC_ALL=C ${RMW_TEST_CMD_STRING} -s" "$TS" \
+    >/dev/null
+  # The typescript proves the menu rendered; only the menu prints this
+  # footer. The count is not asserted -- earlier steps may leave entries
+  # in the waste.
+  grep -q "contains [0-9]* file" "$TS"
+  # ...and the selected item was really restored ("+'src' -> 'dest'").
+  grep -q "' -> '" "$TS"
 fi
 
 # Regression test: rmw file/ (trailing slash on regular file) must move it
