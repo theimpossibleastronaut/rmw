@@ -16,13 +16,6 @@ else
   . "${MESON_SOURCE_ROOT}/test/COMMON"
 fi
 
-# The -s dump lives in the ncurses restore-menu code; a build without curses
-# just prints "built without menu support", so there is nothing to check.
-if grep -q "DISABLE_CURSES" "$MESON_BUILD_ROOT/src/config.h" 2>/dev/null; then
-  echo "built without curses; skipping -s dump test."
-  exit "$SKIP"
-fi
-
 # First run creates the waste directories.
 $RMW_TEST_CMD_STRING
 

@@ -25,13 +25,6 @@ else
   . "${MESON_SOURCE_ROOT}/test/COMMON"
 fi
 
-# The -s dump lives in the ncurses restore-menu code; a build without curses
-# just prints "built without menu support", so there is nothing to check.
-if grep -q "DISABLE_CURSES" "$MESON_BUILD_ROOT/src/config.h" 2>/dev/null; then
-  echo "built without curses; skipping -s dump test."
-  exit "$SKIP"
-fi
-
 ROOT="/tmp/rmw-select-multifs"
 A="$ROOT/a"                    # its own tmpfs (distinct device)
 B="$ROOT/b"                    # a second tmpfs (another device)

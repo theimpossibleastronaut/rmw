@@ -299,6 +299,7 @@ insertion_sort(ITEM **a, const int n)
   }
   return;
 }
+#endif
 
 
 /*
@@ -438,10 +439,17 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
   }
 
   /* Not a terminal (piped/redirected): the ncurses menu can't run, so dump
-     the active waste non-interactively instead. */
+     the active waste non-interactively instead. This path works in every
+     build, so -s stays scriptable even without curses. */
   if (!isatty(STDOUT_FILENO))
     return dump_active_waste(waste_curr);
 
+#if defined DISABLE_CURSES
+  (void) st_time_var;
+  (void) cli_user_options;
+  printf("This rmw was built without menu support\n");
+  return 0;
+#else
   const int start_line_bottom = 7;
   const int min_lines_required = start_line_bottom + 3;
   int c = 0;
@@ -644,8 +652,8 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
     endwin();
 
   return restore_err_ctr;
-}
 #endif
+}
 
 /*!
  * Restores files from the mrl
@@ -710,6 +718,7 @@ test_create_file_details_str(void)
 
   return;
 }
+#endif
 
 static void
 test_get_nearest_waste(void)
@@ -789,15 +798,14 @@ test_get_nearest_waste(void)
 
   return;
 }
-#endif
 
 int
 main(void)
 {
 #if !defined DISABLE_CURSES
   test_create_file_details_str();
-  test_get_nearest_waste();
 #endif
+  test_get_nearest_waste();
   return 0;
 }
 #endif
