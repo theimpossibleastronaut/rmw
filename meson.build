@@ -44,23 +44,6 @@ conf.set_quoted(
   'https://github.com/theimpossibleastronaut/rmw/issues',
 )
 
-check_headers = [
-  ['ncursesw/menu.h', 'HAVE_NCURSESW_MENU_H'],
-  ['ncurses/menu.h', 'HAVE_NCURSES_MENU_H'],
-  ['menu.h', 'HAVE_MENU_H'],
-  ['ncursesw/curses.h', 'HAVE_NCURSESW_CURSES_H'],
-  ['ncursesw.h', 'HAVE_NCURSESW_H'],
-  ['ncurses/curses.h', 'HAVE_NCURSES_CURSES_H'],
-  ['ncurses.h', 'HAVE_NCURSES_H'],
-  ['curses.h', 'HAVE_CURSES_H'],
-]
-
-foreach h : check_headers
-  if cc.has_header(h[0])
-    conf.set(h[1], 1)
-  endif
-endforeach
-
 localedir = join_paths(get_option('prefix'), get_option('localedir'))
 subdir('po')
 
