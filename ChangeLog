@@ -1,5 +1,8 @@
 
 rmw (in-progress):
+  * build: pick the curses and menu libraries so they cannot disagree, and
+    probe the curses headers against the library that was found rather than
+    against whatever exists on the system (#579)
   * verbose: the startup path/diagnostic lines (home_dir, config_file,
     discovered topdir trashes, ficlone support, etc.) now require -vv; plain
     -v keeps only the per-file action messages
