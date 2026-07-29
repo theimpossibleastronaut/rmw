@@ -16,6 +16,8 @@ scripts = [
   'test_media_root.sh',
   'test_purging.sh',
   'test_restore.sh',
+  'test_restore_select.sh',
+  'test_restore_select_multifs.sh',
   'test_waste_negation.sh',
   'test_discovery.sh',
   'test_config_optional.sh',

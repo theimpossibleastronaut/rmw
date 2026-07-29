@@ -146,6 +146,14 @@ items from your waste (or trash) directories after x number of days.
     space bar to select the items you wish to restore, then press enter to
     restore all selected items.
 
+    The list opens on the waste directory of your current filesystem. If
+    no waste directory is on that filesystem, it opens on the first one in
+    your list instead.
+
+    When the output is not a terminal (for example, piped to another
+    program), rmw does not open the menu. Instead it prints the path of
+    that waste directory, followed by the names of the items in it.
+
 `-u`, `--undo-last`
 : undo last move
 
