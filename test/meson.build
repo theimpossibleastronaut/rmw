@@ -64,6 +64,10 @@ test_env = [
 strace = find_program('strace', required: false)
 if strace.found()
   test_env += ['STRACE=' + strace.full_path()]
+else
+  message(
+    'strace not found: the shell tests will run their commands without the syscall assertions',
+  )
 endif
 
 exe = executable(
