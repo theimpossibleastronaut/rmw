@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "test.h"
 #include "purging.h"
 
+#include <fcntl.h>
+
 
 static void
 test_trash_path_for_topdir(const char *tmpdir, const char *uid)
@@ -71,7 +73,12 @@ test_trash_path_for_topdir(const char *tmpdir, const char *uid)
   /* .Trash with sticky bit, not a symlink → .Trash/$uid */
   {
     assert(mkdir(dot_trash, 0755) == 0);
-    assert(chmod(dot_trash, 01755) == 0); /* mkdir strips sticky bit on macOS */
+    /* mkdir strips the sticky bit on macOS. Set it through a descriptor so
+       the path is not resolved a second time. */
+    int fd = open(dot_trash, O_RDONLY | O_DIRECTORY);
+    assert(fd >= 0);
+    assert(fchmod(fd, 01755) == 0);
+    assert(close(fd) == 0);
     char *result = trash_path_for_topdir(tmpdir, uid);
     sn_check(snprintf(expected, sizeof expected, "%s/.Trash/%s", tmpdir, uid),
              sizeof expected);
