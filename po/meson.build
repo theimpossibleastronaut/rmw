@@ -1,7 +1,6 @@
 dep_intl = []
 inc_intl_arg = []
 if get_option('nls')
-  inc_args = []
   dep_intl = dependency('intl', required: false)
   if not dep_intl.found()
     if host_sys == 'freebsd' or host_sys == 'openbsd' or host_sys == 'dragonfly'
@@ -31,7 +30,6 @@ if get_option('nls')
     endif
   endif
   if dep_intl.found()
-    add_project_arguments(inc_args, language: 'c')
     conf.set('ENABLE_NLS', 1)
     conf.set_quoted('LOCALEDIR', localedir)
     i18n = import('i18n')

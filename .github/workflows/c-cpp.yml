@@ -161,8 +161,11 @@ jobs:
       run: |
         meson test -v -C builddir
 
-  various:
-    name: Test Various Build Configurations
+  # Populate the image caches once. Without this every leg of the matrix
+  # below would download both images on a cache miss, and all but one would
+  # then fail to save them.
+  images:
+    name: cache-test-images
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
@@ -193,6 +196,55 @@ jobs:
     - name: Test bcachefs image existence
       run: test -f "$BCACHEFS_IMG"
 
+  various:
+    # One configuration per job: each gets a clean runner, so no step can
+    # affect another (removing gettext, for one, is destructive).
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    needs:
+      - images
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        # run_cmd defaults to the test suite; set it only where that differs.
+        - name: default-config
+        - name: without-curses
+          setup_options: -Dwithout-curses=true
+        - name: without-nls
+          setup_options: -Dnls=false
+        - name: with-sanitizers
+          setup_options: -Db_sanitize=address,undefined -Db_lundef=false
+        - name: with-lto-and-fortify
+          setup_options: -Db_sanitize=none -Dc_args=-D_FORTIFY_SOURCE=3 -Dbuildtype=debugoptimized -Db_lto=true
+        - name: epochalypse
+          setup_options: -Db_sanitize=none
+          run_cmd: meson test -v -C builddir --setup=epochalypse --suite=rmw
+        - name: dist
+          run_cmd: meson dist -C builddir --include-subprojects
+        - name: dist-without-gettext
+          pre_cmd: sudo apt remove -y gettext
+          setup_options: -Dnls=false
+          run_cmd: meson dist -C builddir --include-subprojects
+
+    steps:
+    - uses: actions/checkout@v7
+
+    # Restore only: the images job above already populated these.
+    - name: Restore btrfs Image
+      uses: actions/cache/restore@v6
+      with:
+        path: ${{ env.BTRFS_IMG }}
+        key: ${{ hashFiles('test/rmw-btrfs-test.img.sha256sum') }}
+        fail-on-cache-miss: true
+
+    - name: Restore bcachefs Image
+      uses: actions/cache/restore@v6
+      with:
+        path: ${{ env.BCACHEFS_IMG }}
+        key: ${{ hashFiles('test/rmw-bcachefs-test.img.sha256sum') }}
+        fail-on-cache-miss: true
+
     - name: Install Dependencies
       run: |
         sudo apt update
@@ -205,49 +257,15 @@ jobs:
           ninja-build \
           strace
 
-    - name: Configure with nls
-      run: meson setup builddir
+    - name: Prepare
+      if: ${{ matrix.pre_cmd }}
+      run: ${{ matrix.pre_cmd }}
+
+    - name: Configure
+      run: meson setup builddir ${{ matrix.setup_options }}
 
     - name: Build
       run: meson compile -C builddir
 
-    - name: meson dist
-      run: cd builddir && meson dist --include-subprojects
-
-    - name: meson dist without gettext installed
-      run: |
-        sudo apt remove -y gettext
-        cd builddir
-        meson setup --wipe -Dnls=false
-        meson dist --include-subprojects
-
-    - name: Without curses or nls
-      run: |
-        cd builddir
-        meson configure -Dwithout-curses=true -Dnls=false
-        meson test -v
-
-    - name: Epochalypse test
-      run: |
-        rm -rf builddir
-        meson setup builddir -Db_sanitize=none
-        cd builddir
-        meson test -v --setup=epochalypse --suite=rmw
-
-    - name: with sanitizers
-      run: |
-        cd builddir
-        meson setup --wipe \
-          -Db_sanitize=address,undefined \
-          -Db_lundef=false
-        meson test -v
-
-    - name: with lto and FORTIFY
-      run: |
-        cd builddir
-        meson setup --wipe \
-          -Db_sanitize=none \
-          -Dc_args=-D_FORTIFY_SOURCE=3 \
-          -Dbuildtype=debugoptimized \
-          -Db_lto=true
-        meson test -v
+    - name: Run
+      run: ${{ matrix.run_cmd || 'meson test -v -C builddir' }}

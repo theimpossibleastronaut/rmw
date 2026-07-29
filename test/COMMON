@@ -76,6 +76,12 @@ strace_check() {
   _pattern="$1"
   shift
   if [ -z "$STRACE" ] || [ -n "$ASAN_OPTIONS" ]; then
+    # Say so in the test log; a dropped assertion should not be silent.
+    if [ -z "$STRACE" ]; then
+      echo "strace_check: STRACE is unset, syscall assertion skipped"
+    else
+      echo "strace_check: ASAN is active, syscall assertion skipped"
+    fi
     "$@"
     return
   fi
