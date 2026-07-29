@@ -96,13 +96,17 @@ jobs:
           if-no-files-found: error
 
   build-deb:
+    name: ${{ matrix.platform }}-deb
+    # Each leg runs on its own architecture. Emulating arm64 breaks anything
+    # needing ptrace, which the test suite uses.
     strategy:
+      fail-fast: false
       matrix:
-        platform:
-          - amd64
-          - arm64
+        include:
+          - { platform: amd64, runner: ubuntu-22.04 }
+          - { platform: arm64, runner: ubuntu-22.04-arm }
 
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.runner }}
     steps:
     - uses: actions/checkout@v7
 
