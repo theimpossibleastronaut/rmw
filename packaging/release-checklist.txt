@@ -50,7 +50,8 @@ Trigger release builds by using the dispatch event (select the unmerged branch
 as the target)
 
 Make the AppImage
-  Done in the CI using https://github.com/andy5995/linuxdeploy-build-helper-container/
+  Done in the CI by packaging/appimage/build-appimage.sh, which uses
+  quick-sharun from https://github.com/pkgforge-dev/Anylinux-AppImages
 
 Make Debian package
   Done in the CI using https://github.com/andy5995/gh-action-build-deb

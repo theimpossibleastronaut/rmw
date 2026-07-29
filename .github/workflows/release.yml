@@ -48,38 +48,56 @@ jobs:
         path: ${{ github.workspace }}/builddir/meson-dist/*
 
   build-appimage:
-    runs-on: ubuntu-latest
+    name: ${{ matrix.arch }}-appimage
+    runs-on: ${{ matrix.runner }}
     needs: dist
+    # The AnyLinux method (sharun + uruntime + DwarFS) bundles glibc and the
+    # dynamic linker, so the image runs on any distro including musl ones. It
+    # is only supported on an Arch Linux base, hence the container. Each
+    # matrix leg runs natively on its own runner architecture -- no QEMU.
+    container:
+      image: ${{ matrix.container }}
     strategy:
+      fail-fast: false
       matrix:
-        platform:
-          - linux/amd64
-          - linux/arm64
+        include:
+          - arch: x86_64
+            runner: ubuntu-24.04
+            container: archlinux:latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+            container: lopsided/archlinux:latest
 
     steps:
+      # pacman 7's download sandbox (Landlock + the 'alpm' DownloadUser)
+      # cannot be applied inside a CI container: any pacman call that
+      # retrieves packages aborts with "switching to sandbox user 'alpm'
+      # failed". This also covers the pacman calls quick-sharun makes later.
+      - name: Prepare Arch container
+        run: |
+          sed -i '/^\[options\]/a DisableSandbox' /etc/pacman.conf
+          pacman -Syu --noconfirm --needed \
+            base-devel \
+            git \
+            meson \
+            ninja \
+            gettext \
+            glib2 \
+            ncurses \
+            patchelf \
+            wget \
+            zsync
+
       - name: Checkout
         uses: actions/checkout@v7
         with:
           submodules: false
 
-      - if: ${{ ! contains(matrix.platform, 'amd64') }}
-        uses: docker/setup-qemu-action@v4
-
       - name: Set variables
-        run: |
-          VERSION=${{ needs.dist.outputs.rmw_version }}
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+        run: echo "VERSION=${{ needs.dist.outputs.rmw_version }}" >> $GITHUB_ENV
 
       - name: Build AppImage
-        run: |
-          docker run -t \
-            --rm \
-            --platform=${{ matrix.platform }} \
-            -e HOSTUID=$(id -u) \
-            -e VERSION \
-            -v $GITHUB_WORKSPACE:/workspace \
-            -w /workspace \
-            andy5995/linuxdeploy:v3-jammy packaging/appimage/pre-appimage.sh
+        run: packaging/appimage/build-appimage.sh
 
       - name: Create sha256sum
         run: |

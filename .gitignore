@@ -1,4 +1,7 @@
 /builddir/
+/_build_appdir/
+/out/
+/packaging/appimage/quick-sharun
 *~
 /packaging/rpm
 /packaging/PKGBUILD
