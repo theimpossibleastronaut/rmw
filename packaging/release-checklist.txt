@@ -3,19 +3,13 @@ Change version number
   ./meson.build
   README.md
   MANUAL.md (man page title line; then regenerate rmw.1 -- see below)
-  packaging/Slackbuild/rmw/rmw.info (also change version numbers in download link)
-  packaging/Slackbuild/rmw/rmw.Slackbuild
-  packaging/file_id.diz (filegate.net)
-  cd packaging and run 'dch -r' (updates the changelog timestamp in debian/
-
-In meson,build, comment out
-  'b_sanitize=address,undefined',
-  'b_lundef=false'
+  packaging/debian/changelog: add a new entry. 'dch -r' updates the
+  timestamp, but it needs the devscripts package; the entry can also be
+  written by hand in the same format.
 
 ## canfigger.wrap
 
-Make sure the revision points to the last release, or to a revision where
-sanitize is disabled
+Make sure the revision points to a release tag.
 
 For later Debian package creation, check standards version
   https://www.debian.org/doc/debian-policy/upgrading-checklist.html
@@ -24,6 +18,25 @@ For later Debian package creation, check standards version
 update po and pot files
   meson compile rmw-pot
   ninja rmw-update-po
+
+Formatting checks, from the project root:
+
+  meson fmt -eir
+    (-e honours .editorconfig, -i rewrites in place, -r recurses into
+    subprojects)
+
+  Check the C sources against .editorconfig -- no tabs, no CRLF, and a
+  newline at the end of every file. src/bsdutils/ is vendored; skip it:
+
+grep -rlP "\t|\r" --include="*.c" --include="*.h" src test | grep -v bsdutils
+
+    (no output = clean; for the final-newline rule, `tail -c1` on a file
+    should print nothing)
+
+  Do NOT run `indent` over the whole tree. GNU indent does not know the
+  GLib macros or typedefs: it joins G_GNUC_BEGIN/END_IGNORE_DEPRECATIONS
+  onto the following statement and rewrites `GList *x` as `GList * x`. The
+  flags in CONTRIBUTING.md are for hand-checking a single new function.
 
 Add release date to ChangeLog
 Ex:
@@ -36,8 +49,8 @@ Change Month, Year, and version in the title line of MANUAL.md, then
 regenerate the man page:
   `ninja -C <builddir> regen-man`   (writes rmw.1; commit both)
 Check copyright date/year
+  MANUAL.md (COPYRIGHT section)
   packaging/debian/copyright
-  packaging/Slackbuild/rmw/rmw.Slackbuild
 
 Update the website manual (single-sourced from MANUAL.md):
   in the rmw-website repo, run `./sync-manual.sh` to regenerate rmw_man.md
@@ -56,7 +69,12 @@ Make the AppImage
 Make Debian package
   Done in the CI using https://github.com/andy5995/gh-action-build-deb
 
-Test package creation with PKGBUILD and Slackbuild.
+Test package creation with the PKGBUILD.
+
+Test the SlackBuild in the slackbuild-full docker container. The SlackBuild
+is maintained in ~/src/slackbuilds/system/rmw/ (a clone of the
+SlackBuilds.org repo), not in this repo; bind-mount that directory into
+the container.
 
 MERGE PR to master
 
@@ -66,7 +84,7 @@ Publish the release
 
 Close milestone (https://github.com/theimpossibleastronaut/rmw/milestones)
 
-Create Slackbuild tarball and submit to Slackbuilds.org (https://slackbuilds.org/guidelines/)
+Submit the updated SlackBuild to Slackbuilds.org (https://slackbuilds.org/guidelines/)
 Use sbo-maintainer-tools to check for problems.
 https://slackbuilds.org/repository/15.0/system/sbo-maintainer-tools/
 
@@ -85,3 +103,7 @@ sbodl: downloads source URLs, optionally using the SBo source archive.
 Update latest release info on /docker/README.md
 
 Tag latest release with version number and push to docker hub
+
+Post-release version bump: set the version in ./meson.build to the next
+patch level (e.g. 0.10.1). There is no '-dev' suffix; the version between
+releases is just the next version number.

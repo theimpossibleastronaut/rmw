@@ -1,3 +1,10 @@
+rmw (0.10.0) stable; urgency=medium
+
+  [ Andy Alt ]
+  * New upstream release
+
+ -- Andy Alt <arch_stanton5995@proton.me>  Wed, 29 Jul 2026 08:52:58 +0000
+
 rmw (0.9.5-1) stable; urgency=medium
 
   [ Andy Alt ]

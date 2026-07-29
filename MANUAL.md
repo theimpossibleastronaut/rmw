@@ -1,4 +1,4 @@
-RMW 1 "June 2026" "rmw 0.10.0" "User Commands"
+RMW 1 "July 2026" "rmw 0.10.0" "User Commands"
 ==============================================
 
 <!--
@@ -322,7 +322,7 @@ Report bugs to <https://github.com/theimpossibleastronaut/rmw/issues>.
 
 # COPYRIGHT
 
-Copyright © 2012-2025 Andy Alt
+Copyright © 2012-2026 Andy Alt
 
 License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
 This is free software: you are free to change and redistribute it.
