@@ -1,5 +1,4 @@
 subdir('bsdutils')
-disable_curses = ''
 dep_menu = []
 dep_curses = []
 if not get_option('without-curses')
@@ -30,6 +29,9 @@ if not get_option('without-curses')
     dep_menu = dependency('menu', required: false)
   endif
   if not dep_menu.found()
+    warning(
+      'No menu library found: building without the curses restore menu. Pass -Dwithout-curses=true to ask for this build on purpose.',
+    )
     conf.set('DISABLE_CURSES', 1)
   endif
 else
