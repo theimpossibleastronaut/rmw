@@ -100,7 +100,7 @@ jobs:
         zypper --non-interactive update
 
     - name: Configure
-      run: meson setup builddir ${SETUP_OPTIONS:-} ${{ matrix.setup_options }}
+      run: meson setup builddir -Dwerror=true ${SETUP_OPTIONS:-} ${{ matrix.setup_options }}
 
     - name: Build
       run: |

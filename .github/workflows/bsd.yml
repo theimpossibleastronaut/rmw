@@ -49,7 +49,7 @@ jobs:
 
     - name: Meson setup
       shell: cpa.sh {0}
-      run: CFLAGS="-Werror" meson setup _build
+      run: meson setup _build -Dwerror=true
 
     - name: Compile
       shell: cpa.sh {0}
