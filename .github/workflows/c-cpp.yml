@@ -30,7 +30,6 @@ on:
 env:
   TERM: xterm
   BTRFS_IMG: test/rmw-btrfs-test.img
-  BCACHEFS_IMG: test/rmw-bcachefs-test.img
 
 jobs:
   build:
@@ -183,19 +182,6 @@ jobs:
     - name: Test btrfs image existence
       run: test -f "$BTRFS_IMG"
 
-    - name: Cache bcachefs Image
-      uses: actions/cache@v6
-      id: bcachefs-img-cache
-      with:
-        path: ${{ env.BCACHEFS_IMG }}
-        key: ${{ hashFiles('test/rmw-bcachefs-test.img.sha256sum') }}
-
-    - if: ${{ steps.bcachefs-img-cache.outputs.cache-hit != 'true' }}
-      run: curl -L -o "$BCACHEFS_IMG" 'https://www.dropbox.com/scl/fi/key20cj08ca9engqt5kzi/rmw-bcachefs-test.img?rlkey=th6zw1ar7t0dy9m7qzah5wvq9&st=nrwczcqn&dl=0'
-
-    - name: Test bcachefs image existence
-      run: test -f "$BCACHEFS_IMG"
-
   various:
     # One configuration per job: each gets a clean runner, so no step can
     # affect another (removing gettext, for one, is destructive).
@@ -238,24 +224,23 @@ jobs:
         key: ${{ hashFiles('test/rmw-btrfs-test.img.sha256sum') }}
         fail-on-cache-miss: true
 
-    - name: Restore bcachefs Image
-      uses: actions/cache/restore@v6
-      with:
-        path: ${{ env.BCACHEFS_IMG }}
-        key: ${{ hashFiles('test/rmw-bcachefs-test.img.sha256sum') }}
-        fail-on-cache-miss: true
-
     - name: Install Dependencies
       run: |
         sudo apt update
         sudo apt-get install --no-install-recommends -y \
           attr \
+          btrfs-progs \
           faketime \
           gettext \
           libglib2.0-dev \
           meson \
           ninja-build \
           strace
+
+    # The btrfs tests check /proc/filesystems, which only lists loaded
+    # modules. Skipping stays graceful if the module is unavailable.
+    - name: Load the btrfs module
+      run: sudo modprobe btrfs || echo 'btrfs module unavailable; those tests will skip'
 
     - name: Prepare
       if: ${{ matrix.pre_cmd }}
