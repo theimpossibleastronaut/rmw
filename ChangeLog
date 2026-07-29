@@ -1,65 +1,53 @@
 
-rmw (in-progress):
-  * build: pick the curses and menu libraries so they cannot disagree, and
-    probe the curses headers against the library that was found rather than
-    against whatever exists on the system (#579)
-  * verbose: the startup path/diagnostic lines (home_dir, config_file,
-    discovered topdir trashes, ficlone support, etc.) now require -vv; plain
-    -v keeps only the per-file action messages
-  * restore: 'rmw -s' now opens at the waste folder closest to the current
-    directory (longest path match) instead of the first one listed (#532)
+2026-07-29
+
+- rmw 0.10.0:
+  * BREAKING: the meson build option `want_btrfs_clone` has been renamed to
+    `with-reflink`. Update any build scripts that pass `-Dwant_btrfs_clone=`
+    to use `-Dwith-reflink=` instead.
+  * build: add GLib/GIO as a dependency (requires glib2 >= 2.52), used for
+    directory moves across btrfs and bcachefs subvolumes and in place of
+    several internal utility functions
   * config: configuring waste folders is now optional. With nothing
     configured, rmw moves each file to the trash on the file's own
-    filesystem — the desktop trash (~/.local/share/Trash) for files on
-    your home filesystem, and a trash folder on the filesystem itself
-    for files elsewhere, such as on a removable drive
-  * config: add the "no-add" WASTE attribute — the folder never receives
-    removed files but is still listed, restored from, and purged
-  * bugfix: a file on a bind mount (or any separate mount on the same
-    device) no longer fails with "Invalid cross-device link"; on EXDEV rmw
-    falls back to the trash on the file's own mount (#552)
-  * purge: print a progress dot per 100 trashinfo files checked for
-    expiration; show a leading dot immediately so feedback is visible
-    on the first iteration
+    filesystem: the desktop trash (~/.local/share/Trash) for files on your
+    home filesystem, and a trash folder on the filesystem itself for files
+    elsewhere, such as on a removable drive
+  * config: add the "no-add" WASTE attribute. The folder never receives
+    removed files, but it is still listed, restored from, and purged
+  * restore: 'rmw -s' now opens at the waste folder closest to the current
+    directory instead of the first one listed (#532)
+  * bugfix: a file no longer fails with "Invalid cross-device link" when the
+    waste folder is on a separate mount of the same device, such as a bind
+    mount (#552), or on a separate bcachefs subvolume (#526). rmw falls back
+    to the trash on the file's own mount, or tries the next waste directory
+  * ficlone: add bcachefs support and make cross-subvolume moves safer. A
+    directory is copied in full before the source is removed, so a failed
+    clone leaves the source intact. Timestamps, ownership, and extended
+    attributes are preserved. A directory holding special files (FIFOs,
+    sockets, devices) now fails gracefully instead of hanging
   * purge: when purging is disabled (expire_age = 0), a normal run no longer
     reads or rewrites the purge-time file or enters the purge routine; the
     automatic time-based purge runs only when expire_age > 0 (an explicit
     -g/--purge/--empty still works)
-  * ficlone: a failed cross-subvolume directory move now rolls back cleanly --
-    the whole tree is copied before the source is removed, so a clone failure
-    leaves the source intact rather than a partial copy plus a half-removed
-    source
-  * output: "Created directory" notices are now shown only with -v
+  * purge: print a progress dot per 100 trashinfo files checked for expiration
+  * output: the startup path and diagnostic lines (home_dir, config_file,
+    discovered topdir trashes, ficlone support) now require -vv, and "Created
+    directory" notices require -v. Plain -v keeps the per-file action messages
+  * restore: add 'x' to the exit keys on the ncurses screen
   * install: fish completions install to fish's vendor_completions.d so
     they load automatically, and now honor the install_shell_completions
     option; previously they went to docdir and the option was ignored
+  * build: pick the curses and menu libraries so they cannot disagree, and
+    probe the curses headers against the library that was found rather than
+    against whatever exists on the system (#579)
+  * docs: add a BTRFS AND BCACHEFS section to the man page
   * testing: add the RMW_DISCOVERY env var (on/off) to control $topdir
     discovery; deprecate RMW_FAKE_HOME (set HOME/XDG_* and use RMW_DISCOVERY
     instead)
-  * Add GLib/GIO as a dependency; use GLib for directory moves across btrfs
-    and bcachefs subvolumes (requires glib2 >= 2.50); replace several
-    internal utility functions with GLib equivalents
-  * BREAKING: The meson build option `want_btrfs_clone` has been renamed to
-    `with-reflink`. Update any build scripts that pass `-Dwant_btrfs_clone=`
-    to use `-Dwith-reflink=` instead.
-  * ficlone: Add bcachefs filesystem detection; directories containing
-    special files (FIFOs, sockets, devices) now fail gracefully instead
-    of hanging; fix missing errno propagation on early failures; preserve
-    timestamps and ownership after clone; fix is_ficlone_fs() to not follow
-    symlinks and to handle trailing-slash paths correctly
-  * bugfix: Fix "Invalid cross-device link" error on bcachefs when source and
-    waste folder are on separate subvolumes (#526); use generic FICLONE ioctl
-    (linux/fs.h) instead of BTRFS_IOC_CLONE, and fall back to 'mv' when
-    rename() returns EXDEV on a same-device move; cross-device ficlone failure
-    now tries the next waste directory instead of exiting
-  * refactor: Rename btrfs.c/btrfs.h to ficlone.c/ficlone.h; rename
-    do_btrfs_clone() to do_ficlone() and is_btrfs() to is_ficlone_fs();
-    rename HAVE_LINUX_BTRFS macro to HAVE_FICLONE
-  * docs: Add BTRFS AND BCACHEFS section to man page
-  * Add 'x' to exit keys at ncurses screen
-  * ficlone: Preserve extended attributes (xattrs) after a successful FICLONE
-  * ficlone: Log fsetxattr failures so dropped xattrs aren't silent;
-    return false from is_ficlone_fs on statfs error instead of aborting
+  * refactor: rename btrfs.c/btrfs.h to ficlone.c/ficlone.h, and the
+    corresponding functions and macro to do_ficlone(), is_ficlone_fs(),
+    and HAVE_FICLONE
 
 2026-04-07
 
