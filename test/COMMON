@@ -67,7 +67,7 @@ strace_check() {
   # Usage: strace_check [-t trace_filter] pattern cmd [args...]
   # Runs cmd under strace and asserts pattern appears in the syscall trace.
   # -t overrides the default trace filter (%file); use "ioctl" for FICLONE checks.
-  # Skipped when $STRACE is unset or when ASAN is active (LSAN conflicts with ptrace).
+  # $STRACE is set only when strace exists and sanitizers are off; see test/meson.build.
   _trace="%file"
   if [ "$1" = "-t" ]; then
     _trace="$2"
@@ -75,13 +75,9 @@ strace_check() {
   fi
   _pattern="$1"
   shift
-  if [ -z "$STRACE" ] || [ -n "$ASAN_OPTIONS" ]; then
+  if [ -z "$STRACE" ]; then
     # Say so in the test log; a dropped assertion should not be silent.
-    if [ -z "$STRACE" ]; then
-      echo "strace_check: STRACE is unset, syscall assertion skipped"
-    else
-      echo "strace_check: ASAN is active, syscall assertion skipped"
-    fi
+    echo "strace_check: STRACE is unset, syscall assertion skipped"
     "$@"
     return
   fi

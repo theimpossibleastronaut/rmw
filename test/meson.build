@@ -61,13 +61,20 @@ test_env = [
   'MESON_BUILD_ROOT=' + meson.project_build_root(),
 ]
 
+# Setting STRACE turns on the syscall assertions in the shell tests. Meson
+# always puts ASAN_OPTIONS in the test environment, whatever b_sanitize says,
+# so the sanitizer has to be checked here rather than from the scripts.
 strace = find_program('strace', required: false)
-if strace.found()
-  test_env += ['STRACE=' + strace.full_path()]
-else
+if not strace.found()
   message(
     'strace not found: the shell tests will run their commands without the syscall assertions',
   )
+elif get_option('b_sanitize') != 'none'
+  message(
+    'sanitizers are enabled: the shell tests will run their commands without the syscall assertions (LeakSanitizer conflicts with ptrace)',
+  )
+else
+  test_env += ['STRACE=' + strace.full_path()]
 endif
 
 exe = executable(
