@@ -44,8 +44,6 @@ create_trashinfo(rmw_target *st_f_props, st_waste *waste_curr,
   bufchk_len(req_len, PATH_MAX, __func__, __LINE__);
   if (!(tmp_final_info_dest = realloc(tmp_final_info_dest, req_len)))
     fatal_malloc();
-  if (!tmp_final_info_dest)
-    exit(ENOMEM);
   char final_info_dest[req_len];
 
   if (st_f_props->is_duplicate)

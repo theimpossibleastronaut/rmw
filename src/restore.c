@@ -504,6 +504,7 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
     ITEM **my_items = (ITEM **) calloc(n_choices + 1, sizeof(ITEM *));
     if (!my_items)
       fatal_malloc();
+    const int n_counted = n_choices;
 
     rewinddir(waste_dir);
     n_choices = 0;
@@ -512,6 +513,10 @@ restore_select(st_waste *waste_head, st_time *st_time_var,
     {
       if (isdotdir(entry->d_name))
         continue;
+
+      /* the directory can gain entries between the two passes */
+      if (n_choices == n_counted)
+        break;
 
       char *tmp_path = join_paths(waste_curr->files, entry->d_name);
       // this is used to get the size and mode of the file

@@ -632,6 +632,8 @@ discover_existing_topdir_trashes(st_config *st_config_data,
     new_node->parent = strdup(n->trash_dir);
     new_node->files = strdup(n->files_dir);
     new_node->info = strdup(n->info_dir);
+    if (!new_node->parent || !new_node->files || !new_node->info)
+      fatal_malloc();
     new_node->len_files = strlen(new_node->files);
     new_node->len_info = strlen(new_node->info);
     new_node->media_root = (n->mount_path != NULL)
