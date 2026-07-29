@@ -4,37 +4,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-rmw (ReMove to Waste) is a C command-line trashcan/recycle bin utility (version 0.10.0-dev). It implements the [FreeDesktop.org Trash specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html) and adds features like timed auto-purging and a ncurses-based restore menu.
+rmw (ReMove to Waste) is a C command-line trashcan/recycle bin utility. It implements the [FreeDesktop.org Trash specification](https://specifications.freedesktop.org/trash-spec/trashspec-latest.html) and adds features like timed auto-purging and a ncurses-based restore menu.
 
 ## Platform scope
 
-**POSIX only — Windows is no longer a target.** There are no plans for rmw to run on Windows. Over time, existing Windows references should be removed as they're encountered (e.g. the `// TODO: make it compatible with Windows` in `config_rmw.c`, any `$UID`/path-separator hedging that only exists for Windows). Don't add new Windows-portability code or caveats. When touching code that carries a Windows note, removing it is in scope; don't go on a dedicated sweep unless asked.
+**POSIX only — Windows is no longer a target.** There are no plans for rmw to run on Windows. Over time, existing Windows references should be removed as they're encountered (e.g. the `// TODO: make it compatible with Windows systems.` in `config_rmw.c`, any `$UID`/path-separator hedging that only exists for Windows). Don't add new Windows-portability code or caveats. When touching code that carries a Windows note, removing it is in scope; don't go on a dedicated sweep unless asked. The exception is `src/bsdutils/`, which is vendored third-party code: its `compat.h` carries the upstream Windows/MinGW blocks and is left alone.
 
 ## Guidelines for AI-assisted work
 
-These apply to anyone using Claude (or a similar assistant) in this repo —
-maintainer or contributor. (For the maintainer they mirror his user-level
-instructions, which are canonical if the two ever disagree.)
-
-### Conduct and voice
-
-- **No sycophancy.** Don't agree with the user just because they're the user.
-  When you disagree with a proposed course of action, debate it first — offer
-  the contrary view before going along. Capitulating without push-back is
-  unhelpful.
-- Don't oversell. Mark speculation as speculation; state trade-offs plainly.
-- Match response length to the question; one-line questions get one-line answers.
-- Avoid the word "drop" (ambiguous). Use "remove"/"delete" when subtracting,
-  "add"/"create"/"put" when adding.
+These apply to anyone using Claude (or a similar assistant) in this repo.
+They cover what this project expects from a contribution. How you configure
+your own assistant to work with you — when it commits, how it talks to you,
+what it may install on your machine — is your business, not the project's.
 
 ### Posting publicly as an AI (issues, PR/commit bodies, comments)
 
 - Start with a short blockquote preface identifying yourself as Claude, an LLM
   made by Anthropic, with model version, noting the content was posted at the
-  user's direction.
+  contributor's direction.
 - Write from the AI's perspective: first person for what the AI did, the
-  human's handle (e.g. `@andy5995`) for what the human did. Never "we" when it
-  hides who did what.
+  contributor's name for what the human did. Never "we" when it hides who did
+  what. Some contributors prefer their handle not be written as an `@`-mention,
+  since that creates a live notification and the same handle may belong to a
+  different person on another host; plain text is the safe default.
 - Sound like an LLM, not a human: no anthropomorphic phrases ("happy to",
   "excited", "glad to help"), no colloquialisms or slang. Neutral, factual
   wording ("available for follow-up", "the analysis showed").
@@ -43,6 +35,14 @@ instructions, which are canonical if the two ever disagree.)
   trailer attributes them); a commit message **body** does need the preface.
 - Never put a third party's contact info (email, etc.) in any repo artifact —
   even publicly-known addresses. Your own (the contributor's) email is fine.
+
+### Commit messages
+
+- One-line subject by default. Add a body only for a non-obvious *why* that
+  the diff cannot show, and keep it roughly proportional to the change. A long
+  body on a small diff is usually overexplaining, though a one-line fix with a
+  subtle cause can earn one.
+- When a commit resolves an issue, put `Fixes #N` in the body.
 
 ### Code and comments
 
@@ -54,55 +54,41 @@ instructions, which are canonical if the two ever disagree.)
 - No features, refactors, or abstractions beyond the task.
 - Don't change existing code style mid-edit; match the surrounding lines.
 
-### Git discipline
+### Repository policy
 
-- Only commit when the user asks. Stage and commit are separate steps: stage,
-  show what's staged, pause for a clear go-ahead, then commit. A clarification
-  or tweak is not a go-ahead.
-- Map git verbs 1:1 to the user's words: "amend" ≠ push, "push" ≠ amend/rebase.
-  Never push unless explicitly asked; never force-push the main branch.
-- Commit messages: one-line subject by default; body only for a non-obvious
-  *why*; the message must never be longer than the diff. After committing,
-  report the sha and stop — no "want me to push?", no PR instructions.
-- Use `rmw` instead of `rm` for deletions outside git's reach; `git rm` is
-  fine for tracked files (history is the safety net).
-
-### Environment
-
-- Don't install packages on the host (any package manager, any scope); name
-  the package and let the user install it. Throwaway containers are exempt.
-- Wrap long builds in `nice -n 19 ionice -c 3`; background long jobs and tee
-  to `/tmp/<name>.log`, and surface the log path.
+- Never force-push the master branch. Once a commit is published, history is
+  frozen; fix it with a new commit.
 - Run `meson fmt -eir` from the project root after editing any `meson.build`.
 
 ## Build System
 
-rmw uses **Meson + Ninja**. Use **`_build-debug`** as the build directory (not `builddir`).
+rmw uses **Meson + Ninja**. The examples below use `builddir`, the name the
+CI workflows use; any name works.
 
 ```sh
 # First-time setup
-meson setup _build-debug
+meson setup builddir
 
 # Build
-ninja -C _build-debug
+ninja -C builddir
 
 # Run all tests
-meson test -C _build-debug
+meson test -C builddir
 
 # Run a single test by name
-meson test -C _build-debug test_strings_rmw
+meson test -C builddir test_strings_rmw
 
 # View/change build options
-meson configure _build-debug
+meson configure builddir
 ```
 
 Key build options (`meson_options.txt`):
 - `-Dbuild_tests=false` — skip building tests
-- `-Dwant_ficlone=false` — disable btrfs/bcachefs reflink support (skips linux-headers requirement)
+- `-Dwith-reflink=false` — disable btrfs/bcachefs reflink support (skips linux-headers requirement)
 - `-Dnls=false` — English-only, no gettext dependency
 - `-Dwithout-curses=true` — build without ncurses restore menu
 
-Dependencies: `glib-2.0 >= 2.52`, `gio-2.0 >= 2.52`, `gio-unix-2.0`, `ncursesw` + menu lib, `gettext`. The `canfigger` config-parsing library is a subproject (falls back to `subprojects/canfigger/`).
+Dependencies: `glib-2.0 >= 2.52`, `gio-2.0 >= 2.52`, `gio-unix-2.0`; meson's generic `curses` dependency (wide preferred) plus a menu library (`menuw`, falling back to `menu`) — if no menu library is found, the curses menu is compiled out via `DISABLE_CURSES` rather than failing the build. With `-Dnls=true`, `libintl` is optional: a missing libintl disables NLS instead of erroring. `canfigger >= 0.3.2` is used from the system when present; otherwise meson clones the pin in `subprojects/canfigger.wrap` and builds it static.
 
 ## Coding Style
 
@@ -128,12 +114,12 @@ Auto-format with: `indent -ci2 -bl -bli0 -nut -npcs`
 
 | Struct | Defined in | Purpose |
 |--------|-----------|---------|
-| `st_waste` | `trashinfo.h` | Linked list node for a waste directory; holds `parent`, `info`, `files` subdirs, `dev_num`, `removable`, `is_ficlone_fs` |
+| `st_waste` | `trashinfo.h` | Linked list node for a waste directory; holds `parent`, `info`, `files` subdirs, `dev_num`, `media_root`, `removable`, `no_add`, `is_ficlone_fs` |
 | `rmw_target` | `trashinfo.h` | A file being rmw'd: `real_path`, `base_name`, `waste_dest_name`, `is_duplicate` |
 | `st_config` | `config_rmw.h` | Parsed config: `st_waste_folder_props_head` list, `expire_age`, `force_required`, `uid` |
 | `rmw_options` | `parse_cli_options.h` | All CLI flags (restore, purge, list, dry-run, etc.) |
 | `st_time` | `time_rmw.h` | Time state: `now`, `deletion_date`, format strings |
-| `st_mount_trash` | `topdir_trash.h` | Node for a discovered mount + its $topdir trash paths (iss-525 work) |
+| `st_mount_trash` | `topdir_trash.h` | Node for a discovered mount + its $topdir trash paths |
 
 ### Module responsibilities
 
@@ -142,7 +128,7 @@ Auto-format with: `indent -ci2 -bl -bli0 -nut -npcs`
 - **`restore.c`** — restores files; includes ncurses selection menu (`restore_select`) and undo-last-rmw
 - **`purging.c`** — deletes files older than `expire_age` days; orphan maintenance (`.trashinfo` with no matching file)
 - **`ficlone.c`** — Linux-only: reflink cloning across btrfs/bcachefs subvolumes via `FICLONE` ioctl (`is_ficlone_fs` only recognizes those two; xfs has no differing-`st_dev` subvolumes). No plain byte-copy fallback: if reflink isn't possible, the move fails with EXDEV
-- **`topdir_trash.c`** (iss-525 branch) — FreeDesktop `$topdir` trash discovery: enumerates mounts via GLib (`build_mount_trash_list`, with pseudo/network/fuse/readonly filtering in `mount_is_eligible`), and resolves a file's mount for the per-file fallback (`find_topdir_trash`)
+- **`topdir_trash.c`** — FreeDesktop `$topdir` trash discovery: enumerates mounts via GLib (`build_mount_trash_list`; `mount_is_eligible` skips pseudo/network/fuse and read-only mounts, the extra `tmpfs`/`overlay`/`squashfs` list, and any mount the user cannot write to), and resolves a file's mount for the per-file fallback (`find_topdir_trash`)
 - **`src/bsdutils/`** — vendored BSD `rm` implementation used by the purge path
 - **`strings_rmw.c`**, **`utils.c`**, **`messages.c`**, **`time_rmw.c`**, **`globals.c`** — utilities and shared state
 
@@ -163,24 +149,27 @@ Each waste folder has two subdirectories following the FreeDesktop spec:
 
 ### Testing
 
-C unit tests (`test_strings_rmw`, `test_utils`, `test_restore`) are compiled with `-DTEST_LIB`, which exposes internal functions via `#ifdef TEST_LIB` guards in the source files. `test_topdir_trash` (iss-525) includes its translation unit directly to reach static functions.
+C unit tests (`test_strings_rmw`, `test_utils`, `test_restore`) are compiled with `-DTEST_LIB`, which exposes internal functions via `#ifdef TEST_LIB` guards in the source files. `test_topdir_trash` includes its translation unit directly to reach static functions.
 
-Shell integration tests run against the built `rmw` binary using `RMW_FAKE_HOME` (set to `_build-debug/test/rmw-tests-home/`) to avoid touching the real home directory. `RMW_FAKE_HOME` also suppresses topdir discovery (it would scan the host's real mounts); a test that needs discovery sets `RMW_CHECK_DISCOVERY` to re-enable it against mounts the test controls.
+Shell integration tests run against the built `rmw` binary with `HOME` (and `XDG_DATA_HOME`/`XDG_CONFIG_HOME`) pointed at `<builddir>/test/rmw-tests-home/`, so the real home directory is never touched. The suite also sets `RMW_DISCOVERY=off`, because `$topdir` discovery would otherwise scan the host's real mounts; a test that needs discovery sets `RMW_DISCOVERY=on` per command, against mounts it controls. `RMW_FAKE_HOME` is deprecated and honored only when `RMW_DISCOVERY` is unset.
 
-- `test_basic.sh`, `test_purging.sh`, `test_restore.sh` — core flows, no special requirements
-- `test_waste_negation.sh` (iss-525) — the `no-add` WASTE attribute is skipped for removals but listed/restored/purged
+- `test_basic.sh`, `test_purging.sh`, `test_restore.sh`, `test_restore_select.sh`, `test_config_optional.sh` — core flows, no special requirements
+- `test_restore_select_multifs.sh` — the `-s` start waste across two filesystems, in an unprivileged mount namespace (no sudo); SKIPs if unprivileged userns is unavailable
+- `test_file_bind_mount.sh` — a bind-mounted file's discovery path, in an unprivileged mount namespace (no sudo); SKIPs if unprivileged userns is unavailable
+- `test_discovery_ficlone.sh` — discovery of a reflink-capable fs; generates a btrfs loop image at run time. Needs passwordless `sudo` + `mkfs.btrfs` + btrfs kernel support; SKIPs otherwise
+- `test_waste_negation.sh` — the `no-add` WASTE attribute is skipped for removals but listed/restored/purged
 - `test_media_root.sh` — a `$topdir` (media_root) waste folder writes a relative `Path` in the `.trashinfo`; uses a spaced mount path (also covers the percent-escape regression) and checks the restore round-trip. Self-contained: runs in an unprivileged mount namespace with a dedicated tmpfs (no sudo, no host `/tmp` assumptions); SKIPs if unprivileged userns is unavailable
-- `test_exdev_fallback.sh` (iss-525) — bind-mount EXDEV regression test; builds a 2 MiB tmpfs ramdisk with a bind mount inside it. Needs passwordless `sudo`; SKIPs otherwise
-- `test_discovery.sh` (iss-525) — discovery's excluded-fs rule, run inside an unprivileged mount namespace (`unshare --mount --map-root-user`, no sudo); SKIPs if unprivileged userns is unavailable
-- `test_discovery_loopback.sh` (iss-525) — discovery of an eligible fs on its own device (candidate listing + fresh-trash auto-create); generates an ext4 loop image at run time. Needs passwordless `sudo` + `mkfs.ext4`; SKIPs otherwise
+- `test_exdev_fallback.sh` — bind-mount EXDEV regression test; builds a 2 MiB tmpfs ramdisk with a bind mount inside it. Needs passwordless `sudo`; SKIPs otherwise
+- `test_discovery.sh` — discovery's excluded-fs rule, run inside an unprivileged mount namespace (`unshare --mount --map-root-user`, no sudo); SKIPs if unprivileged userns is unavailable
+- `test_discovery_loopback.sh` — discovery of an eligible fs on its own device (candidate listing + fresh-trash auto-create); generates an ext4 loop image at run time. Needs passwordless `sudo` + `mkfs.ext4`; SKIPs otherwise
 - `test_btrfs_clone.sh`, `test_bcachefs.sh` — reflink tests against prebuilt loopback images (`test/*.img`, not in the repo; CI downloads them, sha256sums are committed). Need the image + passwordless `sudo`; SKIP otherwise
 
 To test Year 2038 (epochalypse) behavior when `faketime` is installed:
 ```sh
-meson test -C _build-debug --setup epochalypse
+meson test -C builddir --setup epochalypse
 ```
 
 ## Known deferred items
 
-- `--empty` is currently blocked entirely when `expire_age = 0`; intended behavior is `--empty -f` overrides (task tracked)
+- `--empty` is currently blocked entirely when `expire_age = 0`; intended behavior is `--empty -f` overrides
 - Scattered commented-out debug lines (`main.c`, `config_rmw.c`, `time_rmw.c`) — optional sweep, low priority

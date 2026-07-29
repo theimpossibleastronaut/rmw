@@ -4,6 +4,6 @@ From the build directory:
 
     ninja test
 
-For more information about testing, see the Code Testing
-page<https://theimpossibleastronaut.github.io/rmw-website/code-testing.html> on the rmw
-website.
+For more information about testing, see the Code Testing page
+<https://theimpossibleastronaut.github.io/rmw-website/code-testing.html>
+on the rmw website.
