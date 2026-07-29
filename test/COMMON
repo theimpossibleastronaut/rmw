@@ -63,6 +63,14 @@ RMW_PURGE_DISABLED_CMD="${BIN_DIR}/rmw -c ${PURGE_DISABLED_CONFIG}"
 # shellcheck disable=SC2034
 SEPARATOR="\n\n--- "
 
+# strace needs ptrace, which QEMU user-mode emulation does not implement (the
+# arm64 Debian build runs that way) and which some hardened containers block.
+# meson cannot see that, so probe it here and drop the assertions if it fails.
+if [ -n "$STRACE" ] && ! "$STRACE" -o /dev/null true 2>/dev/null; then
+  echo "COMMON: ptrace unavailable, syscall assertions will be skipped"
+  STRACE=""
+fi
+
 strace_check() {
   # Usage: strace_check [-t trace_filter] pattern cmd [args...]
   # Runs cmd under strace and asserts pattern appears in the syscall trace.
