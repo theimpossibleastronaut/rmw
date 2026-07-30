@@ -382,7 +382,7 @@ dump_active_waste(const st_waste *waste)
 {
   printf("%s\n", waste->parent);
 
-  struct dirent **namelist;
+  struct dirent **namelist = NULL;
   int n = scandir(waste->files, &namelist, NULL, alphasort);
   if (n < 0)
   {
