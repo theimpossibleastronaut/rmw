@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.7.04\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 05:43-0500\n"
+"POT-Creation-Date: 2026-07-31 01:52-0500\n"
 "PO-Revision-Date: 2020-04-18 12:26+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -22,7 +22,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Usage: %s [OPTION]... FILE...\n"
-"Move FILE(s) to a WASTE directory listed in configuration file\n"
+"Move FILE(s) to the trash\n"
 "\n"
 "   or: %s -s\n"
 "   or: %s -u\n"
@@ -30,7 +30,7 @@ msgid ""
 msgstr ""
 
 #: src/parse_cli_options.c:101
-msgid "Restore FILE(s) from a WASTE directory"
+msgid "Restore FILE(s) from the trash"
 msgstr ""
 
 #: src/parse_cli_options.c:104

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rmw 0.4.05-dev\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 05:43-0500\n"
+"POT-Creation-Date: 2026-07-31 01:52-0500\n"
 "PO-Revision-Date: 2022-10-14 23:11+0200\n"
 "Last-Translator: Eric Haberstroh <gpg@erixpage.de>\n"
 "Language-Team: German\n"
@@ -20,10 +20,10 @@ msgstr ""
 "X-Generator: Poedit 3.1.1\n"
 
 #: src/parse_cli_options.c:94
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]... FILE...\n"
-"Move FILE(s) to a WASTE directory listed in configuration file\n"
+"Move FILE(s) to the trash\n"
 "\n"
 "   or: %s -s\n"
 "   or: %s -u\n"
@@ -38,7 +38,8 @@ msgstr ""
 "  oder: %s -z DATEI...\n"
 
 #: src/parse_cli_options.c:101
-msgid "Restore FILE(s) from a WASTE directory"
+#, fuzzy
+msgid "Restore FILE(s) from the trash"
 msgstr "DATEI(en) aus einem Papierkorb wiederherstellen"
 
 #: src/parse_cli_options.c:104
