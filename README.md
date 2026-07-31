@@ -1,12 +1,10 @@
 # rmw-0.10.0
 ## Description
 
-rmw (ReMove to Waste) is a trashcan/recycle bin utility for the command line.
-It can move and restore files to and from directories specified in a
-configuration file, and can also be integrated with your regular desktop trash
-folder (if your desktop environment uses the FreeDesktop.org Trash
-specification). One of the unique features of rmw is the ability to purge
-items from your waste (or trash) directories after x number of days.
+rmw (ReMove to Waste) is a safe-remove and restore utility for the command
+line. By default it uses your desktop's trash (the FreeDesktop.org Trash
+specification) and needs no setup, though you can add your own waste folders.
+It can also purge items after a set number of days.
 
 Web site: <https://theimpossibleastronaut.github.io/rmw-website/>
 

@@ -92,14 +92,14 @@ static void
 print_usage(const char *prog_name)
 {
   printf(_("Usage: %s [OPTION]... FILE...\n\
-Move FILE(s) to a WASTE directory listed in configuration file\n\
+Move FILE(s) to the trash\n\
 \n\
    or: %s -s\n\
    or: %s -u\n\
    or: %s -z FILE...\n\
 "), prog_name, prog_name, prog_name, prog_name);
   puts(_("\
-Restore FILE(s) from a WASTE directory"));
+Restore FILE(s) from the trash"));
   putchar('\n');
   printf(_("\
   -h, --%s                show help for command line options\n\

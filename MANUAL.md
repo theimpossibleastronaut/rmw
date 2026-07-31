@@ -29,7 +29,7 @@ rmw - safe-remove utility for the command line
 
 **rmw** [*OPTION*]... *FILE*...
 
-Move FILE(s) to a WASTE directory listed in configuration file
+Move FILE(s) to the trash
 
 <!-- The blank lines between these three forms are intentional line breaks. -->
 **rmw** `-s`
@@ -38,16 +38,14 @@ Move FILE(s) to a WASTE directory listed in configuration file
 
 **rmw** `-z` *FILE*...
 
-Restore FILE(s) from a WASTE directory
+Restore FILE(s) from the trash
 
 # DESCRIPTION
 
-rmw (ReMove to Waste) is a trashcan/recycle bin utility for the command line.
-It can move and restore files to and from directories specified in a
-configuration file, and can also be integrated with your regular desktop trash
-folder (if your desktop environment uses the FreeDesktop.org Trash
-specification). One of the unique features of rmw is the ability to purge
-items from your waste (or trash) directories after x number of days.
+rmw (ReMove to Waste) is a safe-remove and restore utility for the command
+line. By default it uses your desktop's trash (the FreeDesktop.org Trash
+specification) and needs no setup, though you can add your own waste folders.
+It can also purge items after a set number of days.
 
 # OPTIONS
 
