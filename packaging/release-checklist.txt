@@ -59,8 +59,9 @@ Update the website manual (single-sourced from MANUAL.md):
 commit changes (NOTE: meson dist only packages *committed* changes), push,
 open PR
 
-Trigger release builds by using the dispatch event (select the unmerged branch
-as the target)
+To test the release builds before publishing, run the workflow by hand with
+the dispatch event (any branch). Publishing the release runs it again and
+attaches the assets, so this step is only a dry run.
 
 Make the AppImage
   Done in the CI by packaging/appimage/build-appimage.sh, which uses
@@ -79,8 +80,12 @@ the container.
 MERGE PR to master
 
 Publish the release
-  Download the artifacts from the release workflow
-  paste in the Changelog and attach the artifacts
+  Draft it on the GitHub website, creating the tag (vX.Y.Z) from the draft,
+  and paste the ChangeLog entries in as the body. Publishing it triggers
+  the release workflow, whose "attach-release-assets" job uploads the
+  tarball, both AppImages and both .deb files to that release. The job
+  keeps the title and notes written in the draft, so nothing has to be
+  attached or pasted by hand.
 
 Close milestone (https://github.com/theimpossibleastronaut/rmw/milestones)
 

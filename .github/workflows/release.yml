@@ -5,6 +5,10 @@ concurrency:
 
 on:
   workflow_dispatch:
+  # Drafting a release on the website creates the tag; publishing it fires this
+  # and the built assets are attached to that release.
+  release:
+    types: [published]
   pull_request:
     branches: master
     paths:
@@ -153,3 +157,33 @@ jobs:
           output/*.deb
           *deb.sha256sum
         if-no-files-found: error
+
+  # One job collects everything so the release is updated once, rather than
+  # five jobs racing to patch the same release.
+  publish:
+    name: attach-release-assets
+    if: github.event_name == 'release'
+    needs:
+      - dist
+      - build-appimage
+      - build-deb
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Download the built artifacts
+      uses: actions/download-artifact@v8
+      with:
+        path: assets
+        merge-multiple: true
+
+    - run: ls -l assets
+
+    # 'upload' only adds assets, so the title and notes written in the draft
+    # cannot be touched. The release already exists -- publishing it is what
+    # started this run.
+    - name: Attach them to the release
+      env:
+        GH_TOKEN: ${{ github.token }}
+        TAG: ${{ github.event.release.tag_name }}
+      run: gh release upload "$TAG" assets/* --clobber
