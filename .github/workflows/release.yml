@@ -147,15 +147,13 @@ jobs:
         DEB_FILENAME=$(basename `find output/*deb`)
         echo "DEB_FILENAME=$DEB_FILENAME" >> $GITHUB_ENV
         cd output
-        sha256sum "$DEB_FILENAME" > "../$DEB_FILENAME.sha256sum"
+        sha256sum "$DEB_FILENAME" > "$DEB_FILENAME.sha256sum"
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v7
       with:
         name: ${{ env.DEB_FILENAME }}
-        path: |
-          output/*.deb
-          *deb.sha256sum
+        path: output/*
         if-no-files-found: error
 
   # One job collects everything so the release is updated once, rather than
@@ -185,5 +183,14 @@ jobs:
     - name: Attach them to the release
       env:
         GH_TOKEN: ${{ github.token }}
+        # gh reads the repo from git otherwise, and this job has no checkout
+        GH_REPO: ${{ github.repository }}
         TAG: ${{ github.event.release.tag_name }}
-      run: gh release upload "$TAG" assets/* --clobber
+      run: |
+        # Name the wanted files rather than globbing: the jobs' artifacts are
+        # not all flat, and out/ carries build byproducts that are not assets.
+        mapfile -d '' files < <(find assets -type f \( \
+          -name '*.tar.xz' -o -name '*.AppImage' -o -name '*.deb' \
+          -o -name '*.zsync' -o -name '*.sha256sum' \) -print0)
+        printf '%s\n' "${files[@]}"
+        gh release upload "$TAG" "${files[@]}" --clobber
