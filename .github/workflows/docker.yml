@@ -1,6 +1,6 @@
 name: Docker rmw Image CI
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 on:
@@ -11,6 +11,11 @@ on:
         required: true
         type: string
         default: 'latest'
+  # Publishing a release pushes its version as the image tag. A push filter
+  # cannot do this: paths below would apply to the tag push too, and a tag on
+  # an existing commit has no matching changes, so it would never fire.
+  release:
+    types: [published]
   push:
     branches: [ "master" ]
     paths:
@@ -23,13 +28,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VERSION: ${{ inputs.version }}
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
     steps:
       - name: Set version
         run: |
-          # If this workflow isn't run manually through a dispatch event
-          # the version will be blank
+          # A dispatch supplies the version; a published release gives it
+          # minus the leading 'v'; a push to master refreshes 'latest'.
           if [ -z "$VERSION" ]; then
-            echo "VERSION=latest" >> $GITHUB_ENV
+            if [ -n "$RELEASE_TAG" ]; then
+              VERSION="${RELEASE_TAG#v}"
+            else
+              VERSION=latest
+            fi
+            echo "VERSION=$VERSION" >> $GITHUB_ENV
           fi
 
       - name: Checkout
