@@ -101,6 +101,10 @@ if host_sys == 'linux'
   endif
 endif
 
+if get_option('android-storage')
+  conf.set('ANDROID_STORAGE', 1)
+endif
+
 config_h = configure_file(output: 'config.h', configuration: conf)
 
 gio_unix_dep = dependency('gio-unix-2.0')
