@@ -196,6 +196,107 @@ test_build_mount_trash_list(const char *tmpdir, const char *uid)
 }
 
 
+#ifdef ANDROID_STORAGE
+static void
+test_is_android_emulated(void)
+{
+  assert(is_android_emulated("/storage/emulated", "fuse") == true);
+
+  /* the per-user directory is not the mount, and only bare "fuse" is the
+     Android shared-storage mount; "fuse.*" types are excluded elsewhere */
+  assert(is_android_emulated("/storage/emulated/0", "fuse") == false);
+  assert(is_android_emulated("/storage", "fuse") == false);
+  assert(is_android_emulated("/storage/emulated", "fuse.sshfs") == false);
+  assert(is_android_emulated("/storage/emulated", "ext4") == false);
+  assert(is_android_emulated(NULL, "fuse") == false);
+  assert(is_android_emulated("/storage/emulated", NULL) == false);
+}
+
+
+static void
+test_android_user_dir_for(void)
+{
+  const char mount[] = "/storage/emulated";
+  char *result;
+
+  result = android_user_dir_for(mount, "/storage/emulated/0/Download/a.txt");
+  assert(result != NULL);
+  assert(strcmp(result, "/storage/emulated/0") == 0);
+  free(result);
+
+  /* the per-user directory itself */
+  result = android_user_dir_for(mount, "/storage/emulated/0");
+  assert(result != NULL);
+  assert(strcmp(result, "/storage/emulated/0") == 0);
+  free(result);
+
+  /* a secondary profile is read from the path, never assumed to be 0 */
+  result = android_user_dir_for(mount, "/storage/emulated/10/x");
+  assert(result != NULL);
+  assert(strcmp(result, "/storage/emulated/10") == 0);
+  free(result);
+
+  /* the mount itself has no per-user component */
+  assert(android_user_dir_for(mount, "/storage/emulated") == NULL);
+}
+
+
+static void
+test_android_primary_topdir(const char *tmpdir)
+{
+  char mount[PATH_MAX], user_dir[PATH_MAX], link[PATH_MAX];
+  sn_check(snprintf(mount, sizeof mount, "%s/emulated", tmpdir),
+           sizeof mount);
+  sn_check(snprintf(user_dir, sizeof user_dir, "%s/0", mount),
+           sizeof user_dir);
+  sn_check(snprintf(link, sizeof link, "%s/primary", tmpdir), sizeof link);
+  assert(rmw_mkdir(mount) == 0);
+  assert(rmw_mkdir(user_dir) == 0);
+  unlink(link);
+  assert(symlink(user_dir, link) == 0);
+
+  dev_t dev = 0;
+  char *result = android_primary_topdir(link, mount, &dev);
+  assert(result != NULL);
+  assert(strcmp(result, user_dir) == 0);
+  assert(dev != 0);
+  free(result);
+
+  /* a link pointing outside the mount is rejected */
+  char outside[PATH_MAX], link_outside[PATH_MAX];
+  sn_check(snprintf(outside, sizeof outside, "%s/elsewhere", tmpdir),
+           sizeof outside);
+  sn_check(snprintf(link_outside, sizeof link_outside, "%s/primary-outside",
+                    tmpdir), sizeof link_outside);
+  assert(rmw_mkdir(outside) == 0);
+  unlink(link_outside);
+  assert(symlink(outside, link_outside) == 0);
+  assert(android_primary_topdir(link_outside, mount, &dev) == NULL);
+
+  /* a dangling link is rejected */
+  char dangling[PATH_MAX];
+  sn_check(snprintf(dangling, sizeof dangling, "%s/primary-dangling", tmpdir),
+           sizeof dangling);
+  unlink(dangling);
+  assert(symlink("/nonexistent-rmw-test-target", dangling) == 0);
+  assert(android_primary_topdir(dangling, mount, &dev) == NULL);
+
+  /* a file where a directory is expected is rejected */
+  char regular[PATH_MAX], link_regular[PATH_MAX];
+  sn_check(snprintf(regular, sizeof regular, "%s/notadir", mount),
+           sizeof regular);
+  sn_check(snprintf(link_regular, sizeof link_regular, "%s/primary-regular",
+                    tmpdir), sizeof link_regular);
+  int fd = open(regular, O_WRONLY | O_CREAT, 0644);
+  assert(fd >= 0);
+  close(fd);
+  unlink(link_regular);
+  assert(symlink(regular, link_regular) == 0);
+  assert(android_primary_topdir(link_regular, mount, &dev) == NULL);
+}
+#endif
+
+
 int
 main(void)
 {
@@ -208,6 +309,11 @@ main(void)
   test_fs_type_is_eligible();
   test_fs_type_is_pseudo();
   test_build_mount_trash_list(tmpdir, "1000");
+#ifdef ANDROID_STORAGE
+  test_is_android_emulated();
+  test_android_user_dir_for();
+  test_android_primary_topdir(tmpdir);
+#endif
 
   assert(bsdutils_rm(tmpdir, false) == 0);
   return 0;

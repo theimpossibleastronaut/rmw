@@ -301,6 +301,24 @@ subvolume in your configuration file. If your waste directory is on
 a different subvolume than the files you want to remove, rmw will
 handle the move transparently.
 
+## ANDROID
+
+On Android the shared storage seen as `/storage/emulated/0` is not a
+mount point; the mount is its parent, `/storage/emulated`, which the
+media daemon owns and no app can write to. Trash discovery follows the
+FreeDesktop spec and looks for a `$topdir` at the mount point, so it
+finds nowhere to put a trash and removed files on shared storage have
+no waste folder.
+
+Either add the per-user directory to your configuration file:
+
+    WASTE = /storage/emulated/0/.Trash-$UID
+
+or build rmw with `-Dandroid-storage=true`, which makes discovery use
+the current user's directory under such a mount, as named by
+`/storage/self/primary`. That deviates from the spec, so it is off by
+default.
+
 # EXAMPLES
 
 ## RESTORING

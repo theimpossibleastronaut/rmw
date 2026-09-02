@@ -51,6 +51,11 @@ jobs:
         - name: OpenSuse-Tumbleweed
           os: ubuntu-latest
           container: andy5995/rmw:build-env-tumbleweed
+        # The Android topdir code is behind a build option, so its unit tests
+        # are only compiled when the option is on.
+        - name: android-storage
+          os: ubuntu-latest
+          setup_options: -Dandroid-storage=true
 
     runs-on: ${{ matrix.os }}
     needs:

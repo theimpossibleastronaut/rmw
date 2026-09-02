@@ -116,6 +116,33 @@ mount_is_eligible(GUnixMountEntry *entry)
   return true;
 }
 
+#ifdef ANDROID_STORAGE
+/* Android mounts shared storage at /storage/emulated, but only the per-user
+ * directories below it are writable, so the spec rule of using the mount point
+ * as $topdir finds nowhere to put a trash. */
+static bool
+is_android_emulated(const char *mount_path, const char *fs_type)
+{
+  return mount_path != NULL && fs_type != NULL
+    && g_str_equal(mount_path, "/storage/emulated")
+    && g_str_equal(fs_type, "fuse");
+}
+
+/* The per-user directory containing real_path: mount_path plus the next path
+ * component. NULL when real_path names the mount itself. Caller frees. */
+static char *
+android_user_dir_for(const char *mount_path, const char *real_path)
+{
+  const char *user_dir = real_path + strlen(mount_path);
+  if (*user_dir != '/')
+    return NULL;
+
+  const char *end = strchr(user_dir + 1, '/');
+  size_t len = (end != NULL) ? (size_t) (end - user_dir) : strlen(user_dir);
+  return g_strdup_printf("%s%.*s", mount_path, (int) len, user_dir);
+}
+#endif
+
 static st_mount_trash *
 alloc_mount_trash_node(void)
 {
@@ -288,6 +315,22 @@ find_topdir_trash(const char *file_path, const char *uid,
     }
   }
 
+  char *emulated_topdir = NULL;
+#ifdef ANDROID_STORAGE
+  if (best != NULL
+      && is_android_emulated(topdir, g_unix_mount_get_fs_type(best)))
+  {
+    emulated_topdir = android_user_dir_for(topdir, real);
+    if (emulated_topdir != NULL && access(emulated_topdir, W_OK) == 0)
+      topdir = emulated_topdir;
+    else
+    {
+      free(emulated_topdir);
+      emulated_topdir = NULL;
+    }
+  }
+#endif
+
   /* Never create a trash dir on an excluded filesystem (tmpfs, network
    * shares, ...). Desktop file managers refuse to trash there too; the
    * caller then reports that no suitable waste folder exists. An existing
@@ -302,7 +345,8 @@ find_topdir_trash(const char *file_path, const char *uid,
        (build_mount_trash_list) applies, scoped here to the file's own mount
        so no other mount is probed (issue #574). */
     if (candidate != NULL
-        && (mount_is_eligible(best) || access(candidate, W_OK) == 0))
+        && (mount_is_eligible(best) || emulated_topdir != NULL
+            || access(candidate, W_OK) == 0))
     {
       result = candidate;
       if (mount_path_out != NULL)
@@ -315,9 +359,40 @@ find_topdir_trash(const char *file_path, const char *uid,
   g_list_free_full(mounts, (GDestroyNotify) g_unix_mount_free);
   G_GNUC_END_IGNORE_DEPRECATIONS
   free(real);
+  free(emulated_topdir);
 
   return result;
 }
+
+
+#ifdef ANDROID_STORAGE
+/* Android points /storage/self/primary at the current user's directory under
+ * the /storage/emulated mount. The mount itself is owned by the media daemon,
+ * so that directory is the only topdir below it this process can write to.
+ * Returns NULL unless link_path resolves to a writable directory on the mount;
+ * the caller frees the result. link_path is a parameter so tests can point it
+ * at a temporary tree. */
+static char *
+android_primary_topdir(const char *link_path, const char *mount_path,
+                       dev_t *dev_out)
+{
+  char *primary = realpath(link_path, NULL);
+  if (primary == NULL)
+    return NULL;
+
+  struct stat st;
+  if (mount_path_prefixes(mount_path, strlen(mount_path), primary)
+      && lstat(primary, &st) == 0 && S_ISDIR(st.st_mode)
+      && access(primary, W_OK) == 0)
+  {
+    *dev_out = st.st_dev;
+    return primary;
+  }
+
+  free(primary);
+  return NULL;
+}
+#endif
 
 
 st_mount_trash *
@@ -346,6 +421,29 @@ build_mount_trash_list(const char *uid,
     struct stat mp_st;
     if (lstat(mount_path, &mp_st) != 0 || !S_ISDIR(mp_st.st_mode))
       continue;
+
+#ifdef ANDROID_STORAGE
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    const char *mp_fs_type = g_unix_mount_get_fs_type(entry);
+    G_GNUC_END_IGNORE_DEPRECATIONS
+    if (is_android_emulated(mount_path, mp_fs_type))
+    {
+      dev_t primary_dev = 0;
+      char *primary = android_primary_topdir("/storage/self/primary",
+                                             mount_path, &primary_dev);
+      if (primary != NULL)
+      {
+        st_mount_trash *node = new_topdir_node(primary, uid, primary_dev);
+        if (node != NULL)
+        {
+          tail->next = node;
+          tail = node;
+        }
+        free(primary);
+      }
+      continue;
+    }
+#endif
 
     if (!mount_is_eligible(entry))
     {

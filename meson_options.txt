@@ -15,3 +15,6 @@ option('without-curses', type: 'boolean', value: false,
 
 option('install_shell_completions', type: 'boolean', value: true,
        description: 'Install shell completions')
+
+option('android-storage', type: 'boolean', value: false,
+       description: 'Discover the current per-user directory under an Android /storage/emulated mount (deviates from the FreeDesktop Trash spec)')
